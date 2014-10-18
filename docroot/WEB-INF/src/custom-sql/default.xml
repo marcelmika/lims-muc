@@ -11,12 +11,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			WHERE
 				User_.userId != ?
 				[$DEFAULT_USER$]
@@ -37,12 +37,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			WHERE
 				User_.userId != ?
 				[$DEFAULT_USER$]
@@ -72,12 +72,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				Users_Groups ON (Users_Groups.userId = User_.userId)
 			INNER JOIN
@@ -112,12 +112,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				Users_Groups ON (Users_Groups.userId = User_.userId)
 			INNER JOIN
@@ -161,12 +161,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				SocialRelation ON (SocialRelation.userId2 = User_.userId)
 			WHERE
@@ -191,12 +191,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				SocialRelation ON (SocialRelation.userId2 = User_.userId)
 			WHERE
@@ -230,12 +230,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				Users_UserGroups ON (Users_UserGroups.userId = User_.userId)
 			INNER JOIN
@@ -270,12 +270,12 @@
 				User_.firstName AS firstName,
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
-				Lims_Settings.presence AS presence,
-				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
 			FROM
-				Lims_Settings
+				Limsmuc_Settings
 			INNER JOIN
-				User_ ON (User_.userId = Lims_Settings.userId)
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
 			INNER JOIN
 				Users_UserGroups ON (Users_UserGroups.userId = User_.userId)
 			INNER JOIN

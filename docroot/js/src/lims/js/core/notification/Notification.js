@@ -34,8 +34,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
     embedSoundTemplate: Y.one('#lims-notification-embed-template').get('innerHTML'),
 
     // Locations of the sound files
-    mp3SoundFile: '/lims-portlet/audio/notification.mp3',
-    wavSoundFile: '/lims-portlet/audio/notification.wav',
+    mp3SoundFile: '/lims-muc-portlet/audio/notification.mp3',
+    wavSoundFile: '/lims-muc-portlet/audio/notification.wav',
 
     /**
      * Notifies user about new messages by showing this in the title of the page.

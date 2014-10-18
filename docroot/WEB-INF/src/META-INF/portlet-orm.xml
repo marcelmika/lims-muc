@@ -74,23 +74,23 @@
 		</attributes>
 	</mapped-superclass>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" name="Conversation">
-		<table name="Lims_Conversation" />
+		<table name="Limsmuc_Conversation" />
 		<attributes />
 	</entity>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" name="Message">
-		<table name="Lims_Message" />
+		<table name="Limsmuc_Message" />
 		<attributes />
 	</entity>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.PanelImpl" name="Panel">
-		<table name="Lims_Panel" />
+		<table name="Limsmuc_Panel" />
 		<attributes />
 	</entity>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl" name="Participant">
-		<table name="Lims_Participant" />
+		<table name="Limsmuc_Participant" />
 		<attributes />
 	</entity>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" name="Settings">
-		<table name="Lims_Settings" />
+		<table name="Limsmuc_Settings" />
 		<attributes />
 	</entity>
 </entity-mappings>

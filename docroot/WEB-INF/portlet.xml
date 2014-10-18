@@ -8,7 +8,7 @@
 
     <portlet>
         <portlet-name>1</portlet-name>
-        <display-name>LIMS</display-name>
+        <display-name>LIMS MUC</display-name>
         <portlet-class>com.marcelmika.lims.portal.portlet.LIMSPortlet</portlet-class>
         <init-param>
             <name>view-jsp</name>
@@ -22,8 +22,8 @@
         <portlet-info>
             <!-- Title needs to be empty otherwise it will be visible on the screen -->
             <title></title>
-            <short-title>LIMS</short-title>
-            <keywords>LIMS</keywords>
+            <short-title>LIMS MUC</short-title>
+            <keywords>LIMS MUC</keywords>
         </portlet-info>
     </portlet>
 

@@ -202,7 +202,7 @@ Y.LIMS.View.SliderElementView = Y.Base.create('sliderElementView', Y.View, [], {
                     max: max,
                     value: value,
                     length: '313px',
-                    thumbUrl: '/lims-portlet/images/slider-thumb@2x.png'
+                    thumbUrl: '/lims-muc-portlet/images/slider-thumb@2x.png'
                 });
             }
         },

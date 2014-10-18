@@ -1,11 +1,11 @@
-create table Lims_Conversation (
+create table Limsmuc_Conversation (
 	cid LONG not null primary key,
 	conversationId VARCHAR(256) null,
 	conversationType VARCHAR(75) null,
 	updatedAt DATE null
 );
 
-create table Lims_Message (
+create table Limsmuc_Message (
 	mid LONG not null primary key,
 	cid LONG,
 	creatorId LONG,
@@ -13,13 +13,13 @@ create table Lims_Message (
 	body TEXT null
 );
 
-create table Lims_Panel (
+create table Limsmuc_Panel (
 	pid LONG not null primary key,
 	userId LONG,
 	activePanelId VARCHAR(256) null
 );
 
-create table Lims_Participant (
+create table Limsmuc_Participant (
 	pid LONG not null primary key,
 	cid LONG,
 	participantId LONG,
@@ -28,7 +28,7 @@ create table Lims_Participant (
 	openedAt LONG
 );
 
-create table Lims_Settings (
+create table Limsmuc_Settings (
 	sid LONG not null primary key,
 	userId LONG,
 	presence VARCHAR(75) null,
