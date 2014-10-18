@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<beans default-destroy-method="destroy"
+       default-init-method="afterPropertiesSet"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- Controllers -->
+    <bean id="com.marcelmika.lims.portal.controller.BuddyController"
+          class="com.marcelmika.lims.portal.controller.BuddyController">
+        <constructor-arg index="0" ref="com.marcelmika.lims.core.service.BuddyCoreService"/>
+        <constructor-arg index="1" ref="com.marcelmika.lims.core.service.SettingsCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.portal.controller.ConversationController"
+          class="com.marcelmika.lims.portal.controller.ConversationController">
+        <constructor-arg index="0" ref="com.marcelmika.lims.core.service.ConversationCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.portal.controller.GroupController"
+          class="com.marcelmika.lims.portal.controller.GroupController">
+        <constructor-arg index="0" ref="com.marcelmika.lims.core.service.GroupCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.portal.controller.SettingsController"
+          class="com.marcelmika.lims.portal.controller.SettingsController">
+        <constructor-arg index="0" ref="com.marcelmika.lims.core.service.SettingsCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.portal.controller.ServerController"
+          class="com.marcelmika.lims.portal.controller.ServerController">
+    </bean>
+
+    <!-- Portlet Processor -->
+
+    <bean id="com.marcelmika.lims.portal.processor.PortletProcessor"
+          class="com.marcelmika.lims.portal.processor.PortletProcessorImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.portal.controller.BuddyController"/>
+        <constructor-arg index="1" ref="com.marcelmika.lims.portal.controller.ConversationController"/>
+        <constructor-arg index="2" ref="com.marcelmika.lims.portal.controller.GroupController"/>
+        <constructor-arg index="3" ref="com.marcelmika.lims.portal.controller.SettingsController"/>
+        <constructor-arg index="4" ref="com.marcelmika.lims.portal.controller.ServerController"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.portal.processor.PortletProcessorUtil"
+          class="com.marcelmika.lims.portal.processor.PortletProcessorUtil">
+        <property name="portletProcessor" ref="com.marcelmika.lims.portal.processor.PortletProcessor"/>
+    </bean>
+
+
+    <!-- Settings Core Service -->
+
+    <bean id="com.marcelmika.lims.core.service.SettingsCoreService"
+          class="com.marcelmika.lims.core.service.SettingsCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.persistence.service.SettingsPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.core.service.SettingsCoreServiceUtil"
+          class="com.marcelmika.lims.core.service.SettingsCoreServiceUtil">
+        <property name="settingsCoreService" ref="com.marcelmika.lims.core.service.SettingsCoreService"/>
+    </bean>
+
+    <!-- Settings Persistence Service -->
+
+    <bean id="com.marcelmika.lims.persistence.service.SettingsPersistenceService"
+          class="com.marcelmika.lims.persistence.service.SettingsPersistenceServiceImpl">
+
+    </bean>
+
+    <!-- Conversation Core Service -->
+
+    <bean id="com.marcelmika.lims.core.service.ConversationCoreService"
+          class="com.marcelmika.lims.core.service.ConversationCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.service.ConversationJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.lims.persistence.service.ConversationPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.core.service.ConversationCoreServiceUtil"
+          class="com.marcelmika.lims.core.service.ConversationCoreServiceUtil">
+        <property name="conversationCoreService" ref="com.marcelmika.lims.core.service.ConversationCoreService"/>
+    </bean>
+
+    <!-- Conversation Jabber Service -->
+
+    <bean id="com.marcelmika.lims.jabber.service.ConversationJabberService"
+          class="com.marcelmika.lims.jabber.service.ConversationJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.session.UserSessionStore"/>
+    </bean>
+
+
+    <!-- Buddy Core Service -->
+
+    <bean id="com.marcelmika.lims.core.service.BuddyCoreService"
+          class="com.marcelmika.lims.core.service.BuddyCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.service.BuddyJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.lims.persistence.service.BuddyPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.core.service.BuddyCoreServiceUtil"
+          class="com.marcelmika.lims.core.service.BuddyCoreServiceUtil">
+        <property name="buddyCoreService" ref="com.marcelmika.lims.core.service.BuddyCoreService"/>
+    </bean>
+
+
+    <!-- Buddy Jabber Service -->
+
+    <bean id="com.marcelmika.lims.jabber.service.BuddyJabberService"
+          class="com.marcelmika.lims.jabber.service.BuddyJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.session.UserSessionStore"/>
+    </bean>
+
+
+    <!-- User Session Store -->
+    <bean id="com.marcelmika.lims.jabber.session.UserSessionStore"
+          class="com.marcelmika.lims.jabber.session.store.UserSessionStoreImpl"/>
+
+
+    <!-- Buddy Persistence Service -->
+    <bean id="com.marcelmika.lims.persistence.service.BuddyPersistenceService"
+          class="com.marcelmika.lims.persistence.service.BuddyPersistenceServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.persistence.group.SearchManager"/>
+    </bean>
+
+    <!-- Buddy Search Service -->
+    <bean id="com.marcelmika.lims.persistence.group.SearchManager"
+          class="com.marcelmika.lims.persistence.manager.SearchManagerImpl"/>
+
+
+    <!-- Conversation Persistence Service -->
+    <bean id="com.marcelmika.lims.persistence.service.ConversationPersistenceService"
+          class="com.marcelmika.lims.persistence.service.ConversationPersistenceServiceImpl"/>
+
+
+    <!-- Group Core Service -->
+
+    <bean id="com.marcelmika.lims.core.service.GroupCoreService"
+          class="com.marcelmika.lims.core.service.GroupCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.service.GroupJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.lims.persistence.service.GroupPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.core.service.GroupCoreServiceUtil"
+          class="com.marcelmika.lims.core.service.GroupCoreServiceUtil">
+        <property name="groupCoreService" ref="com.marcelmika.lims.core.service.GroupCoreService"/>
+    </bean>
+
+
+    <!-- Group Jabber Service -->
+
+    <bean id="com.marcelmika.lims.jabber.service.GroupJabberService"
+          class="com.marcelmika.lims.jabber.service.GroupJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.jabber.session.UserSessionStore"/>
+    </bean>
+
+    <!-- Group Persistence Service -->
+
+    <bean id="com.marcelmika.lims.persistence.group.GroupManager"
+          class="com.marcelmika.lims.persistence.manager.GroupManagerImpl"/>
+
+    <!-- Group Persistence Manager -->
+
+    <bean id="com.marcelmika.lims.persistence.service.GroupPersistenceService"
+          class="com.marcelmika.lims.persistence.service.GroupPersistenceServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.persistence.group.GroupManager"/>
+    </bean>
+
+</beans>

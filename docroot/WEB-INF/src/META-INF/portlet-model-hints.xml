@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.marcelmika.lims.persistence.generated.model.Conversation">
+		<field name="cid" type="long" />
+		<field name="conversationId" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="conversationType" type="String" />
+		<field name="updatedAt" type="Date" />
+	</model>
+	<model name="com.marcelmika.lims.persistence.generated.model.Message">
+		<field name="mid" type="long" />
+		<field name="cid" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="createdAt" type="Date" />
+		<field name="body" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
+	</model>
+	<model name="com.marcelmika.lims.persistence.generated.model.Panel">
+		<field name="pid" type="long" />
+		<field name="userId" type="long" />
+		<field name="activePanelId" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+	</model>
+	<model name="com.marcelmika.lims.persistence.generated.model.Participant">
+		<field name="pid" type="long" />
+		<field name="cid" type="long" />
+		<field name="participantId" type="long" />
+		<field name="unreadMessagesCount" type="int" />
+		<field name="isOpened" type="boolean" />
+		<field name="openedAt" type="long" />
+	</model>
+	<model name="com.marcelmika.lims.persistence.generated.model.Settings">
+		<field name="sid" type="long" />
+		<field name="userId" type="long" />
+		<field name="presence" type="String" />
+		<field name="presenceUpdatedAt" type="long" />
+		<field name="mute" type="boolean" />
+		<field name="chatEnabled" type="boolean" />
+	</model>
+</model-hints>

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.ConversationModelImpl">
+		<attributes>
+			<id name="cid" />
+			<basic name="conversationId" />
+			<basic name="conversationType" />
+			<basic name="updatedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.MessageModelImpl">
+		<attributes>
+			<id name="mid" />
+			<basic name="cid" />
+			<basic name="creatorId" />
+			<basic name="createdAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="body" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.PanelModelImpl">
+		<attributes>
+			<id name="pid" />
+			<basic name="userId" />
+			<basic name="activePanelId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.ParticipantModelImpl">
+		<attributes>
+			<id name="pid" />
+			<basic name="cid" />
+			<basic name="participantId" />
+			<basic name="unreadMessagesCount" />
+			<basic name="isOpened" />
+			<basic name="openedAt" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.SettingsModelImpl">
+		<attributes>
+			<id name="sid" />
+			<basic name="userId" />
+			<basic name="presence" />
+			<basic name="presenceUpdatedAt" />
+			<basic name="mute" />
+			<basic name="chatEnabled" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" name="Conversation">
+		<table name="Lims_Conversation" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" name="Message">
+		<table name="Lims_Message" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.PanelImpl" name="Panel">
+		<table name="Lims_Panel" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl" name="Participant">
+		<table name="Lims_Participant" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" name="Settings">
+		<table name="Lims_Settings" />
+		<attributes />
+	</entity>
+</entity-mappings>
