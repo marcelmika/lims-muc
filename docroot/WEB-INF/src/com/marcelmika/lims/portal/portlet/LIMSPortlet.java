@@ -40,10 +40,13 @@ import com.marcelmika.lims.core.service.SettingsCoreService;
 import com.marcelmika.lims.core.service.SettingsCoreServiceUtil;
 import com.marcelmika.lims.portal.domain.Buddy;
 import com.marcelmika.lims.portal.domain.Conversation;
+import com.marcelmika.lims.portal.domain.Properties;
 import com.marcelmika.lims.portal.domain.Settings;
 import com.marcelmika.lims.portal.http.HttpStatus;
 import com.marcelmika.lims.portal.processor.PortletProcessor;
 import com.marcelmika.lims.portal.processor.PortletProcessorUtil;
+import com.marcelmika.lims.portal.properties.PropertiesManager;
+import com.marcelmika.lims.portal.properties.PropertiesManagerUtil;
 
 import javax.portlet.*;
 import java.io.IOException;
@@ -66,10 +69,15 @@ public class LIMSPortlet extends MVCPortlet {
     SettingsCoreService settingsCoreService = SettingsCoreServiceUtil.getSettingsCoreService();
     ConversationCoreService conversationCoreService = ConversationCoreServiceUtil.getConversationCoreService();
 
+    // Properties Dependencies
+    PropertiesManager propertiesManager = PropertiesManagerUtil.getPropertiesManager();
+
     // Constants
     private static final String VIEW_JSP_PATH = "/view.jsp"; // Path to the view.jsp
 
     // Variables
+    private static final String VARIABLE_IS_ADMIN = "isAdmin";
+    private static final String VARIABLE_PROPERTIES = "properties";
     private static final String VARIABLE_IS_SUPPORTED_BROWSER = "isSupportedBrowser";
     private static final String VARIABLE_NEEDS_IE_SUPPORT = "needsIESupport";
     private static final String VARIABLE_SETTINGS = "settings";
@@ -97,6 +105,9 @@ public class LIMSPortlet extends MVCPortlet {
     @Override
     public void doView(RenderRequest renderRequest,
                        RenderResponse renderResponse) throws PortletException, IOException {
+
+        // Environment needs to be set up at the beginning of the request
+        propertiesManager.setup(renderRequest.getPreferences());
 
         // Check the availability of browser
         boolean isSupportedBrowser = BrowserDetector.isSupportedBrowser(renderRequest);
@@ -135,8 +146,13 @@ public class LIMSPortlet extends MVCPortlet {
             response.setProperty(ResourceResponse.HTTP_STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
             return;
         }
+
+        // Environment needs to be set up at the beginning of the request
+        propertiesManager.setup(request.getPreferences());
+
         // Response content type is JSON
         response.setContentType(ContentTypes.APPLICATION_JSON);
+
         // This is an entry point to the whole app. Processor will do all the necessary work and fill the response.
         processor.processRequest(request, response);
     }
@@ -212,6 +228,10 @@ public class LIMSPortlet extends MVCPortlet {
     private void renderAdditions(RenderRequest renderRequest) {
         // Get buddy from request
         Buddy buddy = Buddy.fromRenderRequest(renderRequest);
+        // Check if the user is admin
+        renderRequest.setAttribute(VARIABLE_IS_ADMIN, PermissionDetector.isAdmin(renderRequest));
+        // Render properties
+        renderRequest.setAttribute(VARIABLE_PROPERTIES, Properties.fromEnvironment());
         // Check if lims is enabled and pass it to jsp as a parameter
         renderRequest.setAttribute(VARIABLE_IS_ENABLED, isCorrectAttempt(renderRequest));
         // Check if the browser is supported
@@ -226,13 +246,15 @@ public class LIMSPortlet extends MVCPortlet {
     /**
      * Checks if the server request attempt is correct. In other words checks if the user is signed in.
      *
-     * @param request Request
+     * @param request PortletRequest
      * @return true if the request attempt is correct
      */
     private boolean isCorrectAttempt(PortletRequest request) {
         // Check if the user is signed in
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
+        // Returns true if the user is signed in
         return themeDisplay.isSignedIn();
     }
+
 }
