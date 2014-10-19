@@ -36,6 +36,7 @@ import java.util.Date;
  */
 public class Message {
 
+    private Long messageId;
     private Buddy from;
     private Date createdAt;
     private String body;
@@ -43,16 +44,17 @@ public class Message {
     /**
      * Creates new Message and maps data from Message details
      *
-     * @param messageDetails MessageDetails
+     * @param details MessageDetails
      * @return Message
      */
-    public static Message fromMessageDetails(MessageDetails messageDetails) {
+    public static Message fromMessageDetails(MessageDetails details) {
         // Create new Message
         Message message = new Message();
         // Map data to message details
-        message.setFrom(Buddy.fromBuddyDetails(messageDetails.getFrom()));
-        message.setCreatedAt(messageDetails.getCreatedAt());
-        message.setBody(message.getBody());
+        message.messageId = details.getMessageId();
+        message.from = Buddy.fromBuddyDetails(details.getFrom());
+        message.createdAt = details.getCreatedAt();
+        message.body = message.getBody();
 
         return message;
     }
@@ -66,6 +68,7 @@ public class Message {
         // Create message details
         MessageDetails details = new MessageDetails();
         // Map data from message
+        details.setMessageId(messageId);
         details.setFrom(from.toBuddyDetails());
         details.setCreatedAt(createdAt);
         details.setBody(body);

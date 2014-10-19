@@ -140,15 +140,14 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // TODO: Check if participant in event is really in the conversation
 
             // Get messages from persistence
-            List<com.marcelmika.lims.persistence.generated.model.Message> messageModels =
-                    MessageLocalServiceUtil.readMessages(
-                            conversationModel.getCid(), 0, Environment.getConversationListMaxMessages());
+            List<Object[]> messageObjects = MessageLocalServiceUtil.readMessages(
+                    conversationModel.getCid(),
+                    Environment.getConversationListMaxMessages(),
+                    (long) 31314
+            );
 
-            // Map to persistence
-            List<Message> messages = new LinkedList<Message>();
-            for (com.marcelmika.lims.persistence.generated.model.Message messageModel : messageModels) {
-                messages.add(Message.fromMessageModel(messageModel));
-            }
+            // Map to persistence domain
+            List<Message> messages = Message.toMessageList(messageObjects, 0);
             // Add to conversation
             conversation.setMessages(messages);
 

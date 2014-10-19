@@ -310,4 +310,22 @@
     </sql>
 
 
+    <!-- Search all messages in the database related to the conversation and stopper -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.findAllMessages">
+        <![CDATA[
+			SELECT
+				Limsmuc_Message.mid AS mid,
+				Limsmuc_Message.creatorId AS creatorId,
+				Limsmuc_Message.createdAt AS createdAd,
+				Limsmuc_Message.body AS body
+			FROM
+				Limsmuc_Message
+			WHERE
+				Limsmuc_Message.cid = ?
+                [$STOPPER$]
+			ORDER BY
+			    Limsmuc_Message.createdAt DESC
+		]]>
+    </sql>
+
 </custom-sql>

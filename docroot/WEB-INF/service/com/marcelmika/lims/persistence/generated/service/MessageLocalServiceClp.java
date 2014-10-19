@@ -122,7 +122,9 @@ public class MessageLocalServiceClp implements MessageLocalService {
 
 		_methodName20 = "readMessages";
 
-		_methodParameterTypes20 = new String[] { "long", "int", "int" };
+		_methodParameterTypes20 = new String[] {
+				"java.lang.Long", "java.lang.Integer", "java.lang.Long"
+			};
 	}
 
 	@Override
@@ -713,20 +715,27 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	}
 
 	@Override
-	public java.util.List<com.marcelmika.lims.persistence.generated.model.Message> readMessages(
-		long cid, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
+		java.lang.Integer pageSize, java.lang.Long stopperId)
+		throws java.lang.Exception {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20, new Object[] { cid, start, end });
+					_methodParameterTypes20,
+					new Object[] {
+						ClpSerializer.translateInput(cid),
+						
+					ClpSerializer.translateInput(pageSize),
+						
+					ClpSerializer.translateInput(stopperId)
+					});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -738,7 +747,7 @@ public class MessageLocalServiceClp implements MessageLocalService {
 			}
 		}
 
-		return (java.util.List<com.marcelmika.lims.persistence.generated.model.Message>)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	private InvokableLocalService _invokableLocalService;

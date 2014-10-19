@@ -40,6 +40,7 @@ import java.util.List;
  */
 public class Message {
 
+    private Long messageId;
     private Buddy to;
     private Buddy from;
     private Date createdAt;
@@ -67,6 +68,7 @@ public class Message {
         // Create new message
         Message message = new Message();
         // Map properties
+        message.messageId = details.getMessageId();
         message.body = details.getBody();
         message.createdAt = details.getCreatedAt();
 
@@ -131,6 +133,7 @@ public class Message {
         // Create new message details
         MessageDetails details = new MessageDetails();
         // Properties
+        details.setMessageId(messageId);
         details.setBody(body);
         details.setCreatedAt(createdAt);
 
@@ -150,6 +153,15 @@ public class Message {
     // -------------------------------------------------------------------------------------------
     // Getters/Setters
     // -------------------------------------------------------------------------------------------
+
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
 
     public Buddy getFrom() {
         return from;
@@ -186,7 +198,8 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "to=" + to +
+                "messageId=" + messageId +
+                ", to=" + to +
                 ", from=" + from +
                 ", createdAt=" + createdAt +
                 ", body='" + body + '\'' +

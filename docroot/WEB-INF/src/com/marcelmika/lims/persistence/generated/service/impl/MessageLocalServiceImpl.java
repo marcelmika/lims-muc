@@ -14,21 +14,19 @@
 
 package com.marcelmika.lims.persistence.generated.service.impl;
 
-import com.liferay.portal.kernel.exception.SystemException;
 import com.marcelmika.lims.persistence.generated.model.Message;
 import com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.MessageLocalServiceBaseImpl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 /**
  * The implementation of the message local service.
- *
+ * <p/>
  * <p>
  * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.MessageLocalService} interface.
- *
+ * <p/>
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
@@ -40,7 +38,7 @@ import java.util.List;
 public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 
 	/*
-	 * NOTE FOR DEVELOPERS:
+     * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil} to access the message local service.
 	 */
@@ -64,17 +62,17 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
         return messageModel;
     }
 
-    public List<Message> readMessages(long cid, int start, int end) throws SystemException {
-
-        // Get the total count of messages
-        int count = messagePersistence.countByCid(cid);
-        // Count the beginning
-        int begin = count - end;
-        // Beginning cannot be less than zero
-        if (begin < 0) {
-            begin = 0;
-        }
-        // Find messages related to the conversation
-        return messagePersistence.findByCid(cid, begin, count);
+    /**
+     * Returns a list of messages related to the conversation
+     *
+     * @param cid       id of the conversation
+     * @param pageSize  size of the list
+     * @param stopperId id of the stopper messages
+     * @return a list of messages
+     * @throws Exception
+     */
+    public List<Object[]> readMessages(Long cid, Integer pageSize, Long stopperId) throws Exception {
+        // Find via message finder
+        return messageFinder.findAllMessages(cid, pageSize, stopperId);
     }
 }

@@ -252,7 +252,16 @@ public interface MessageLocalService extends BaseLocalService,
 		long cid, long creatorId, java.lang.String body,
 		java.util.Date createdAt) throws java.lang.Exception;
 
-	public java.util.List<com.marcelmika.lims.persistence.generated.model.Message> readMessages(
-		long cid, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	/**
+	* Returns a list of messages related to the conversation
+	*
+	* @param cid       id of the conversation
+	* @param pageSize  size of the list
+	* @param stopperId id of the stopper messages
+	* @return a list of messages
+	* @throws Exception
+	*/
+	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
+		java.lang.Integer pageSize, java.lang.Long stopperId)
+		throws java.lang.Exception;
 }

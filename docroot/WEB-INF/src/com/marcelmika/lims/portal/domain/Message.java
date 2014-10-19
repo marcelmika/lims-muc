@@ -39,6 +39,7 @@ import java.util.List;
 public class Message {
 
     // Properties
+    private Long messageId;
     private Buddy from;
     private String conversationId;
     private String body;
@@ -71,6 +72,7 @@ public class Message {
         // Crate new message
         Message message = new Message();
         // Map values
+        message.messageId = details.getMessageId();
         message.createdAt = details.getCreatedAt();
         message.body = details.getBody();
 
@@ -91,6 +93,7 @@ public class Message {
         // Create message details
         MessageDetails details = new MessageDetails();
         // Map data from message
+        details.setMessageId(messageId);
         details.setCreatedAt(createdAt);
         details.setBody(body);
 
@@ -102,6 +105,13 @@ public class Message {
         return details;
     }
 
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
 
     public Buddy getFrom() {
         return from;
@@ -138,7 +148,9 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "from=" + from +
+                "messageId=" + messageId +
+                ", from=" + from +
+                ", conversationId='" + conversationId + '\'' +
                 ", body='" + body + '\'' +
                 ", createdAt=" + createdAt +
                 '}';

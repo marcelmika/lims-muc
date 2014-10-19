@@ -106,49 +106,49 @@ public class ParticipantLocalServiceClpInvoker {
 				"com.marcelmika.lims.persistence.generated.model.Participant"
 			};
 
-		_methodName50 = "getBeanIdentifier";
+		_methodName52 = "getBeanIdentifier";
 
-		_methodParameterTypes50 = new String[] {  };
+		_methodParameterTypes52 = new String[] {  };
 
-		_methodName51 = "setBeanIdentifier";
+		_methodName53 = "setBeanIdentifier";
 
-		_methodParameterTypes51 = new String[] { "java.lang.String" };
+		_methodParameterTypes53 = new String[] { "java.lang.String" };
 
-		_methodName56 = "addParticipant";
-
-		_methodParameterTypes56 = new String[] {
-				"java.lang.Long", "java.lang.Long"
-			};
-
-		_methodName57 = "updateParticipants";
-
-		_methodParameterTypes57 = new String[] {
-				"java.lang.Long", "java.lang.Long"
-			};
-
-		_methodName58 = "closeConversation";
+		_methodName58 = "addParticipant";
 
 		_methodParameterTypes58 = new String[] {
-				"java.lang.String", "java.lang.Long"
+				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName59 = "resetUnreadMessagesCounter";
+		_methodName59 = "updateParticipants";
 
 		_methodParameterTypes59 = new String[] {
+				"java.lang.Long", "java.lang.Long"
+			};
+
+		_methodName60 = "closeConversation";
+
+		_methodParameterTypes60 = new String[] {
 				"java.lang.String", "java.lang.Long"
 			};
 
-		_methodName60 = "getOpenedConversations";
+		_methodName61 = "resetUnreadMessagesCounter";
 
-		_methodParameterTypes60 = new String[] { "java.lang.Long" };
+		_methodParameterTypes61 = new String[] {
+				"java.lang.String", "java.lang.Long"
+			};
 
-		_methodName61 = "getConversationParticipants";
+		_methodName62 = "getOpenedConversations";
 
-		_methodParameterTypes61 = new String[] { "java.lang.Long" };
+		_methodParameterTypes62 = new String[] { "java.lang.Long" };
 
-		_methodName62 = "getParticipant";
+		_methodName63 = "getConversationParticipants";
 
-		_methodParameterTypes62 = new String[] {
+		_methodParameterTypes63 = new String[] { "java.lang.Long" };
+
+		_methodName64 = "getParticipant";
+
+		_methodParameterTypes64 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
 	}
@@ -242,43 +242,27 @@ public class ParticipantLocalServiceClpInvoker {
 			return ParticipantLocalServiceUtil.updateParticipant((com.marcelmika.lims.persistence.generated.model.Participant)arguments[0]);
 		}
 
-		if (_methodName50.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
+		if (_methodName52.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
 			return ParticipantLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName51.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
 			ParticipantLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
-
-			return null;
-		}
-
-		if (_methodName56.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
-			return ParticipantLocalServiceUtil.addParticipant((java.lang.Long)arguments[0],
-				(java.lang.Long)arguments[1]);
-		}
-
-		if (_methodName57.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
-			ParticipantLocalServiceUtil.updateParticipants((java.lang.Long)arguments[0],
-				(java.lang.Long)arguments[1]);
 
 			return null;
 		}
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			ParticipantLocalServiceUtil.closeConversation((java.lang.String)arguments[0],
+			return ParticipantLocalServiceUtil.addParticipant((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1]);
-
-			return null;
 		}
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
-			ParticipantLocalServiceUtil.resetUnreadMessagesCounter((java.lang.String)arguments[0],
+			ParticipantLocalServiceUtil.updateParticipants((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1]);
 
 			return null;
@@ -286,16 +270,32 @@ public class ParticipantLocalServiceClpInvoker {
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return ParticipantLocalServiceUtil.getOpenedConversations((java.lang.Long)arguments[0]);
+			ParticipantLocalServiceUtil.closeConversation((java.lang.String)arguments[0],
+				(java.lang.Long)arguments[1]);
+
+			return null;
 		}
 
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			return ParticipantLocalServiceUtil.getConversationParticipants((java.lang.Long)arguments[0]);
+			ParticipantLocalServiceUtil.resetUnreadMessagesCounter((java.lang.String)arguments[0],
+				(java.lang.Long)arguments[1]);
+
+			return null;
 		}
 
 		if (_methodName62.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+			return ParticipantLocalServiceUtil.getOpenedConversations((java.lang.Long)arguments[0]);
+		}
+
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+			return ParticipantLocalServiceUtil.getConversationParticipants((java.lang.Long)arguments[0]);
+		}
+
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
 			return ParticipantLocalServiceUtil.getParticipant((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1]);
 		}
@@ -335,14 +335,10 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName50;
-	private String[] _methodParameterTypes50;
-	private String _methodName51;
-	private String[] _methodParameterTypes51;
-	private String _methodName56;
-	private String[] _methodParameterTypes56;
-	private String _methodName57;
-	private String[] _methodParameterTypes57;
+	private String _methodName52;
+	private String[] _methodParameterTypes52;
+	private String _methodName53;
+	private String[] _methodParameterTypes53;
 	private String _methodName58;
 	private String[] _methodParameterTypes58;
 	private String _methodName59;
@@ -353,4 +349,8 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes61;
 	private String _methodName62;
 	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
 }

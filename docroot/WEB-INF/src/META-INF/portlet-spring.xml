@@ -5,6 +5,7 @@
 	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.ConversationPersistence" class="com.marcelmika.lims.persistence.generated.service.persistence.ConversationPersistenceImpl" parent="basePersistence" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.MessageLocalService" class="com.marcelmika.lims.persistence.generated.service.impl.MessageLocalServiceImpl" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.MessagePersistence" class="com.marcelmika.lims.persistence.generated.service.persistence.MessagePersistenceImpl" parent="basePersistence" />
+	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder" class="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinderImpl" parent="basePersistence" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.PanelLocalService" class="com.marcelmika.lims.persistence.generated.service.impl.PanelLocalServiceImpl" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.PanelPersistence" class="com.marcelmika.lims.persistence.generated.service.persistence.PanelPersistenceImpl" parent="basePersistence" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.ParticipantLocalService" class="com.marcelmika.lims.persistence.generated.service.impl.ParticipantLocalServiceImpl" />

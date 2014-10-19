@@ -114,6 +114,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     _attachEvents: function () {
         // Vars
         var messageTextField = this.get('messageTextField'),
+            panelContent = this.get('panelContent'),
             model = this.get('model');
 
         // Attach events to text field
@@ -127,6 +128,9 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         model.after('messageAdded', this._onMessageAdded, this);
         model.after('messageError', this._onMessageError, this);
         model.after('messagesUpdated', this._onMessagesUpdated, this);
+
+        // Attach events to panel content
+        panelContent.on('scroll', this._onPanelContentScroll, this);
     },
 
     /**
@@ -218,6 +222,21 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     _onMessageError: function () {
         // Scroll to bottom otherwise the error wouldn't be visible
         this.scrollToBottom();
+    },
+
+    /**
+     * Called when the user scrolls the panel content
+     *
+     * @private
+     */
+    _onPanelContentScroll: function () {
+        // Vars
+        var scrollPosition = this.get('panelContent').get('scrollTop');
+
+        // User has reached the top
+        if (scrollPosition === 0) {
+            console.log('Reached the top!');
+        }
     },
 
     /**

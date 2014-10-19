@@ -34,6 +34,7 @@ import com.liferay.portal.service.persistence.UserPersistence;
 import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalService;
 import com.marcelmika.lims.persistence.generated.service.persistence.ConversationPersistence;
+import com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder;
 import com.marcelmika.lims.persistence.generated.service.persistence.MessagePersistence;
 import com.marcelmika.lims.persistence.generated.service.persistence.PanelPersistence;
 import com.marcelmika.lims.persistence.generated.service.persistence.ParticipantPersistence;
@@ -351,6 +352,24 @@ public abstract class PanelLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the message finder.
+	 *
+	 * @return the message finder
+	 */
+	public MessageFinder getMessageFinder() {
+		return messageFinder;
+	}
+
+	/**
+	 * Sets the message finder.
+	 *
+	 * @param messageFinder the message finder
+	 */
+	public void setMessageFinder(MessageFinder messageFinder) {
+		this.messageFinder = messageFinder;
+	}
+
+	/**
 	 * Returns the panel local service.
 	 *
 	 * @return the panel local service
@@ -664,6 +683,8 @@ public abstract class PanelLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.marcelmika.lims.persistence.generated.service.MessageLocalService messageLocalService;
 	@BeanReference(type = MessagePersistence.class)
 	protected MessagePersistence messagePersistence;
+	@BeanReference(type = MessageFinder.class)
+	protected MessageFinder messageFinder;
 	@BeanReference(type = com.marcelmika.lims.persistence.generated.service.PanelLocalService.class)
 	protected com.marcelmika.lims.persistence.generated.service.PanelLocalService panelLocalService;
 	@BeanReference(type = PanelPersistence.class)

@@ -34,11 +34,19 @@ import java.util.Date;
  */
 public class MessageDetails {
 
+    private Long messageId;
     private BuddyDetails to;
     private BuddyDetails from;
     private String body;
     private Date createdAt;
 
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
 
     public BuddyDetails getTo() {
         return to;
@@ -75,7 +83,8 @@ public class MessageDetails {
     @Override
     public String toString() {
         return "MessageDetails{" +
-                "to=" + to +
+                "messageId=" + messageId +
+                ", to=" + to +
                 ", from=" + from +
                 ", body='" + body + '\'' +
                 ", createdAt=" + createdAt +
