@@ -49,6 +49,8 @@ public class Conversation {
     private List<Buddy> participants;
     private List<Message> messages;
     private Date updatedAt;
+    private Message firstMessage;
+    private Message lastMessage;
 
 
     // -------------------------------------------------------------------------------------------
@@ -85,6 +87,14 @@ public class Conversation {
 
         if (details.getBuddy() != null) {
             conversation.buddy = Buddy.fromBuddyDetails(details.getBuddy());
+        }
+
+        if (details.getFirstMessage() != null) {
+            conversation.firstMessage = Message.fromMessageDetails(details.getFirstMessage());
+        }
+
+        if (details.getLastMessage() != null) {
+            conversation.lastMessage = Message.fromMessageDetails(details.getLastMessage());
         }
 
         return conversation;
@@ -135,6 +145,14 @@ public class Conversation {
 
         if (buddy != null) {
             details.setBuddy(buddy.toBuddyDetails());
+        }
+
+        if (firstMessage != null) {
+            details.setFirstMessage(firstMessage.toMessageDetails());
+        }
+
+        if (lastMessage != null) {
+            details.setLastMessage(lastMessage.toMessageDetails());
         }
 
         return details;
@@ -236,14 +254,34 @@ public class Conversation {
         this.updatedAt = updatedAt;
     }
 
+    public Message getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(Message firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
     @Override
     public String toString() {
         return "Conversation{" +
-                "conversationId='" + conversationId + '\'' +
-                ", conversationType=" + conversationType +
-                ", participants=" + participants +
-                ", title='" + getTitle() + '\'' +
+                "lastMessage=" + lastMessage +
+                ", firstMessage=" + firstMessage +
+                ", updatedAt=" + updatedAt +
                 ", messages=" + messages +
+                ", participants=" + participants +
+                ", buddy=" + buddy +
+                ", unreadMessagesCount=" + unreadMessagesCount +
+                ", conversationType=" + conversationType +
+                ", conversationId='" + conversationId + '\'' +
                 '}';
     }
 }

@@ -109,4 +109,26 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
         // Return found message
         return messageFinder.findAllMessages(cid, extendedPageSize);
     }
+
+    /**
+     * Returns the first message in the conversation
+     *
+     * @param cid id of the conversation related to the messages
+     * @return first message in the conversation
+     * @throws Exception
+     */
+    public Object[] firstMessage(Long cid) throws Exception {
+        return messageFinder.firstMessage(cid);
+    }
+
+    /**
+     * Returns the last message in the conversation
+     *
+     * @param cid id of the conversation related to the messages
+     * @return last message in the conversation
+     * @throws Exception
+     */
+    public Object[] lastMessage(Long cid) throws Exception {
+        return messageFinder.lastMessage(cid);
+    }
 }

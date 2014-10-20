@@ -141,11 +141,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // TODO: Check if participant in event is really in the conversation
 
-            // Read messages
-            List<Message> messages = readMessages(conversationModel.getCid(), pagination);
 
-            // Add to conversation
-            conversation.setMessages(messages);
+            // Read messages
+            conversation.setMessages(readMessages(conversationModel.getCid(), pagination));
+            // Read first message
+            conversation.setFirstMessage(getFirstMessage(conversationModel.getCid()));
+            // Read last message
+            conversation.setLastMessage(getLastMessage(conversationModel.getCid()));
 
             // Get participant
             com.marcelmika.lims.persistence.generated.model.Participant participant =
@@ -154,6 +156,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                     );
             // Add to conversation
             conversation.setUnreadMessagesCount(participant.getUnreadMessagesCount());
+
 
             // Call Success
             return ReadSingleUserConversationResponseEvent.readConversationSuccess(
@@ -436,7 +439,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         Long stopperId = pagination.getStopperId();
         Boolean readMore = pagination.getReadMore();
 
-
         // Get messages from persistence
         List<Object[]> messageObjects = MessageLocalServiceUtil.readMessages(
                 cid, pageSize, stopperId, readMore
@@ -446,4 +448,43 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         return Message.toMessageList(messageObjects, 0);
     }
 
+    /**
+     * Returns first message in the conversation
+     *
+     * @param cid id of the conversation
+     * @return first message, null if no message was found
+     * @throws Exception
+     */
+    private Message getFirstMessage(Long cid) throws Exception {
+
+        // Read the first message from persistence
+        Object[] messageObject = MessageLocalServiceUtil.firstMessage(cid);
+
+        // No message found
+        if (messageObject == null) {
+            return null;
+        }
+
+        return Message.fromPlainObject(messageObject, 0);
+    }
+
+    /**
+     * Returns last message in the conversation
+     *
+     * @param cid id of the conversation
+     * @return last message, null if no message was found
+     * @throws Exception
+     */
+    private Message getLastMessage(Long cid) throws Exception {
+
+        // Read the first message from persistence
+        Object[] messageObject = MessageLocalServiceUtil.lastMessage(cid);
+
+        // No message found
+        if (messageObject == null) {
+            return null;
+        }
+
+        return Message.fromPlainObject(messageObject, 0);
+    }
 }

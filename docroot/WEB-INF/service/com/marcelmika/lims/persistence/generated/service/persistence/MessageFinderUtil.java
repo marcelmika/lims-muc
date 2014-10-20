@@ -32,6 +32,16 @@ public class MessageFinderUtil {
 		return getFinder().countAllMessages(cid, stopperId);
 	}
 
+	public static java.lang.Object[] firstMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return getFinder().firstMessage(cid);
+	}
+
+	public static java.lang.Object[] lastMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return getFinder().lastMessage(cid);
+	}
+
 	public static MessageFinder getFinder() {
 		if (_finder == null) {
 			_finder = (MessageFinder)PortletBeanLocatorUtil.locate(com.marcelmika.lims.persistence.generated.service.ClpSerializer.getServletContextName(),

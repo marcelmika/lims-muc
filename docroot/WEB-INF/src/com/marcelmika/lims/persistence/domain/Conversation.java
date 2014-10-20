@@ -48,6 +48,8 @@ public class Conversation {
     private List<Buddy> participants = new ArrayList<Buddy>();
     private List<Message> messages = new ArrayList<Message>();
     private Date updatedAt;
+    private Message firstMessage;
+    private Message lastMessage;
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -106,6 +108,14 @@ public class Conversation {
             conversation.conversationType = ConversationType.fromConversationTypeDetails(details.getConversationType());
         }
 
+        if (details.getFirstMessage() != null) {
+            conversation.firstMessage = Message.fromMessageDetails(details.getFirstMessage());
+        }
+
+        if (details.getLastMessage() != null) {
+            conversation.lastMessage = Message.fromMessageDetails(details.getLastMessage());
+        }
+
         return conversation;
     }
 
@@ -158,6 +168,14 @@ public class Conversation {
                 messageDetails.add(message.toMessageDetails());
             }
             details.setMessages(messageDetails);
+        }
+
+        if (firstMessage != null) {
+            details.setFirstMessage(firstMessage.toMessageDetails());
+        }
+
+        if (lastMessage != null) {
+            details.setLastMessage(lastMessage.toMessageDetails());
         }
 
         return details;
@@ -222,5 +240,36 @@ public class Conversation {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Message getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(Message firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "conversationId='" + conversationId + '\'' +
+                ", conversationType=" + conversationType +
+                ", unreadMessagesCount=" + unreadMessagesCount +
+                ", buddy=" + buddy +
+                ", participants=" + participants +
+                ", messages=" + messages +
+                ", updatedAt=" + updatedAt +
+                ", firstMessage=" + firstMessage +
+                ", lastMessage=" + lastMessage +
+                '}';
     }
 }

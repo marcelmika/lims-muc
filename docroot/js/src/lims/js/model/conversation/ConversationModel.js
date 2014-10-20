@@ -262,6 +262,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             // Deserialize response
                             response = Y.JSON.parse(o.responseText);
 
+                            console.log(response);
+
                             // Update message list
                             instance.updateConversation(response, readMore);
 
@@ -313,13 +315,14 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             message,                                      // Deserialized message
             postStopperId,                                // New stopper id
             preStopperId = this.get('stopperId'),         // Previous stopper id
-            index,                                        // Used for iteration
-            instance = this; // TODO: DEBUG
+            index;                                        // Used for iteration
 
         // Update from response
         this.setAttrs({
             etag: conversation.etag,
-            unreadMessagesCount: conversation.unreadMessagesCount
+            unreadMessagesCount: conversation.unreadMessagesCount,
+            firstMessage: conversation.firstMessage,
+            lastMessage: conversation.lastMessage
         });
 
         // Keep a copy of messages that haven't been sent to server yet
@@ -349,79 +352,161 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         // Rewrite old models with the new ones
         messageList.reset(messageModels);
 
-        // Save the stopper id
+        // Save the stopper id. In other words we need to remember the first message
+        // in the current feed. Thanks to that whenever the user scrolls to the top
+        // we can send a request with the stopper id thus retrieve more messages.
         if (messageList.item(0)) {
             postStopperId = messageList.item(0).get('messageId');
             this.set('stopperId', postStopperId);
         }
 
-        console.log('PRE: ' + preStopperId);
-        console.log('POST: ' + postStopperId);
-
-
-        // TODO: DEBUG
-        if (readMore) {
-
-
-            setTimeout(function () {
-                // Notify about the event
-                instance.fire('messagesUpdated', {
-                    messageList: messageList,
-                    readMore: readMore,
-                    postStopperId: postStopperId,
-                    preStopperId: preStopperId
-                });
-            }, 1000);
-        }
-        else {
-            // Notify about the event
-            this.fire('messagesUpdated', {
-                messageList: messageList,
-                readMore: readMore,
-                postStopperId: postStopperId,
-                preStopperId: preStopperId
-            });
+        // Check if we have already reached the top
+        if (this.get('firstMessage')) {
+            if (this.get('firstMessage').get('messageId') === postStopperId) {
+                this.set('reachedTop', true);
+            }
         }
 
+        // Notify about the event
+        this.fire('messagesUpdated', {
+            messageList: messageList,
+            readMore: readMore,
+            postStopperId: postStopperId,
+            preStopperId: preStopperId
+        });
     }
 
 }, {
     ATTRS: {
+
         // Add custom model attributes here. These attributes will contain your
         // model's data. See the docs for Y.Attribute to learn more about defining
         // attributes.
 
+        /**
+         * Id of the conversation
+         *
+         * {string}
+         */
         conversationId: {
             value: null
         },
 
+        /**
+         * Title of the conversation
+         *
+         * {string}
+         */
         title: {
             value: ""
         },
 
+        /**
+         * Creator of the conversation
+         */
         creator: {
             value: null // to be set
         },
 
+        /**
+         * Participants in the conversation
+         */
         participants: {
             value: "" // default value
         },
 
+        /**
+         * ETag related to the conversation
+         *
+         * {string}
+         */
         etag: {
             value: null
         },
 
+        /**
+         * Number of unread messages
+         *
+         * {number}
+         */
         unreadMessagesCount: {
             value: 0 // default value
         },
 
+        /**
+         * Server time offset between the server and client
+         *
+         * {number}
+         */
         serverTimeOffset: {
             value: null // to be set
         },
 
+        /**
+         * List of message related to the conversation
+         *
+         * {Y.LIMS.Model.MessageListModel}
+         */
         messageList: {
             valueFn: function () {
                 return new Y.LIMS.Model.MessageListModel();
+            }
+        },
+
+        /**
+         * First message in the conversation
+         *
+         * {Y.LIMS.Model.MessageItemModel}
+         */
+        firstMessage: {
+            /**
+             * Setter
+             *
+             * @param object
+             * @return {Y.LIMS.Model.MessageItemModel|null}
+             */
+            setter: function (object) {
+
+                // No first message was set
+                if (!object) {
+                    return null;
+                }
+
+                // Create a model instance from value object
+                if (object.name !== "messageItemModel") {
+                    return new Y.LIMS.Model.MessageItemModel(object);
+                }
+
+                // Value is already an instance of Y.LIMS.Model.MessageItemModel
+                return object;
+            }
+        },
+
+        /**
+         * Last message in the conversation
+         *
+         * {Y.LIMS.Model.MessageItemModel}
+         */
+        lastMessage: {
+            /**
+             * Setter
+             *
+             * @param object
+             * @return {Y.LIMS.Model.MessageItemModel|null}
+             */
+            setter: function (object) {
+                // No last message was set
+                if (!object) {
+                    return null;
+                }
+
+                // Create a model instance from value object
+                if (object.name !== "messageItemModel") {
+                    return new Y.LIMS.Model.MessageItemModel(object);
+                }
+
+                // Value is already an instance of Y.LIMS.Model.MessageItemModel
+                return object;
             }
         },
 
@@ -432,6 +517,16 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
          */
         stopperId: {
             value: null // to be set
+        },
+
+        /**
+         * True if the list is already full. In other words true if the user has already
+         * reached the top by going up and reading more
+         *
+         * {boolean}
+         */
+        reachedTop: {
+            value: false // default value
         }
     }
 });

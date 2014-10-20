@@ -126,6 +126,14 @@ public class MessageLocalServiceClpInvoker {
 				"java.lang.Long", "java.lang.Integer", "java.lang.Long",
 				"java.lang.Boolean"
 			};
+
+		_methodName60 = "firstMessage";
+
+		_methodParameterTypes60 = new String[] { "java.lang.Long" };
+
+		_methodName61 = "lastMessage";
+
+		_methodParameterTypes61 = new String[] { "java.lang.Long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -243,6 +251,16 @@ public class MessageLocalServiceClpInvoker {
 				(java.lang.Boolean)arguments[3]);
 		}
 
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return MessageLocalServiceUtil.firstMessage((java.lang.Long)arguments[0]);
+		}
+
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+			return MessageLocalServiceUtil.lastMessage((java.lang.Long)arguments[0]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -286,4 +304,8 @@ public class MessageLocalServiceClpInvoker {
 	private String[] _methodParameterTypes58;
 	private String _methodName59;
 	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
 }

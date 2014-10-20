@@ -265,4 +265,24 @@ public interface MessageLocalService extends BaseLocalService,
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
 		java.lang.Integer pageSize, java.lang.Long stopperId,
 		java.lang.Boolean readMore) throws java.lang.Exception;
+
+	/**
+	* Returns the first message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return first message in the conversation
+	* @throws Exception
+	*/
+	public java.lang.Object[] firstMessage(java.lang.Long cid)
+		throws java.lang.Exception;
+
+	/**
+	* Returns the last message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return last message in the conversation
+	* @throws Exception
+	*/
+	public java.lang.Object[] lastMessage(java.lang.Long cid)
+		throws java.lang.Exception;
 }

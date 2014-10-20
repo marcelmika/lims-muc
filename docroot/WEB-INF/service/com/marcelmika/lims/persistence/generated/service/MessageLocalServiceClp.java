@@ -126,6 +126,14 @@ public class MessageLocalServiceClp implements MessageLocalService {
 				"java.lang.Long", "java.lang.Integer", "java.lang.Long",
 				"java.lang.Boolean"
 			};
+
+		_methodName21 = "firstMessage";
+
+		_methodParameterTypes21 = new String[] { "java.lang.Long" };
+
+		_methodName22 = "lastMessage";
+
+		_methodParameterTypes22 = new String[] { "java.lang.Long" };
 	}
 
 	@Override
@@ -753,6 +761,64 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public java.lang.Object[] firstMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21,
+					new Object[] { ClpSerializer.translateInput(cid) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.Object[])ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.lang.Object[] lastMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
+					new Object[] { ClpSerializer.translateInput(cid) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.Object[])ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -794,4 +860,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+	private String _methodName21;
+	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

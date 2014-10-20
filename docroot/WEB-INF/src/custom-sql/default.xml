@@ -339,4 +339,48 @@
 		]]>
     </sql>
 
+    <!-- Returns the oldest message in the conversation -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.firstMessage">
+        <![CDATA[
+			SELECT
+                Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.creatorId AS creatorId,
+                Limsmuc_Message.createdAt AS createdAd,
+                Limsmuc_Message.body AS body
+            FROM
+                Limsmuc_Message
+            WHERE
+                Limsmuc_Message.mid = (
+                    SELECT
+                        MIN(Limsmuc_Message.mid) AS firstMessage
+                    FROM
+                        Limsmuc_Message
+                    WHERE
+                        Limsmuc_Message.cid = ?
+                )
+		]]>
+    </sql>
+
+    <!-- Returns the oldest message in the conversation -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.lastMessage">
+        <![CDATA[
+			SELECT
+                Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.creatorId AS creatorId,
+                Limsmuc_Message.createdAt AS createdAd,
+                Limsmuc_Message.body AS body
+            FROM
+                Limsmuc_Message
+            WHERE
+                Limsmuc_Message.mid = (
+                    SELECT
+                        MAX(Limsmuc_Message.mid) AS lastMessage
+                    FROM
+                        Limsmuc_Message
+                    WHERE
+                        Limsmuc_Message.cid = ?
+                )
+		]]>
+    </sql>
+
 </custom-sql>

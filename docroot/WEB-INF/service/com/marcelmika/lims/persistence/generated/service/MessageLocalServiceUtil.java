@@ -297,6 +297,30 @@ public class MessageLocalServiceUtil {
 		return getService().readMessages(cid, pageSize, stopperId, readMore);
 	}
 
+	/**
+	* Returns the first message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return first message in the conversation
+	* @throws Exception
+	*/
+	public static java.lang.Object[] firstMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return getService().firstMessage(cid);
+	}
+
+	/**
+	* Returns the last message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return last message in the conversation
+	* @throws Exception
+	*/
+	public static java.lang.Object[] lastMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return getService().lastMessage(cid);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

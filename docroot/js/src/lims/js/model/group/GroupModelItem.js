@@ -76,7 +76,7 @@ Y.LIMS.Model.GroupModelItem = Y.Base.create('groupModelItem', Y.Model, [], {
              * Setter
              *
              * @param object
-             * @returns {Y.LIMS.Model.GroupSocialRelationType}
+             * @returns {Y.LIMS.Model.GroupSocialRelationType|null}
              */
             setter: function (object) {
                 // No social relation was set

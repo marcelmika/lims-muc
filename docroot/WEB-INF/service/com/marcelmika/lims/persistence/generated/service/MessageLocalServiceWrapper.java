@@ -309,6 +309,32 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	}
 
 	/**
+	* Returns the first message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return first message in the conversation
+	* @throws Exception
+	*/
+	@Override
+	public java.lang.Object[] firstMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return _messageLocalService.firstMessage(cid);
+	}
+
+	/**
+	* Returns the last message in the conversation
+	*
+	* @param cid id of the conversation related to the messages
+	* @return last message in the conversation
+	* @throws Exception
+	*/
+	@Override
+	public java.lang.Object[] lastMessage(java.lang.Long cid)
+		throws java.lang.Exception {
+		return _messageLocalService.lastMessage(cid);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public MessageLocalService getWrappedMessageLocalService() {

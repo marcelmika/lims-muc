@@ -49,6 +49,8 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     // Find messages SQL
     private static final String FIND_ALL_MESSAGES = MessageFinder.class.getName() + ".findAllMessages";
     private static final String COUNT_ALL_MESSAGES = MessageFinder.class.getName() + ".countAllMessages";
+    private static final String FIRST_MESSAGE = MessageFinder.class.getName() + ".firstMessage";
+    private static final String LAST_MESSAGE = MessageFinder.class.getName() + ".lastMessage";
 
     // Placeholders
     private static final String PLACEHOLDER_STOPPER = "[$STOPPER$]";
@@ -109,7 +111,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * @throws Exception
      */
     @Override
-    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
     public Integer countAllMessages(Long cid, Long stopperId) throws Exception {
 
         Session session = null;
@@ -143,13 +145,100 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     }
 
     /**
+     * Returns the first message in the conversation
+     *
+     * @param cid id of the conversation related to the messages
+     * @return first message in the conversation
+     * @throws Exception
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public Object[] firstMessage(Long cid) throws Exception {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getFirstMessageSQL();
+
+            // Create query form SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("mid", Type.LONG);
+            query.addScalar("creatorId", Type.LONG);
+            query.addScalar("createdAd", Type.LONG);
+            query.addScalar("body", Type.STRING);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(cid);
+
+            // Get the result
+            List<Object[]> result = (List<Object[]>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the message object
+            return result.size() != 0 ? result.get(0) : null;
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
+    /**
+     * Returns the last message in the conversation
+     *
+     * @param cid id of the conversation related to the messages
+     * @return last message in the conversation
+     * @throws Exception
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public Object[] lastMessage(Long cid) throws Exception {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getLastMessageSQL();
+
+            // Create query form SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("mid", Type.LONG);
+            query.addScalar("creatorId", Type.LONG);
+            query.addScalar("createdAd", Type.LONG);
+            query.addScalar("body", Type.STRING);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(cid);
+
+            // Get the result
+            List<Object[]> result = (List<Object[]>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the message object
+            return result.size() != 0 ? result.get(0) : null;
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
+    /**
      * Prepares SQL for the find all messages query
      *
      * @return SQL string
      * @throws Exception
      */
     private String getFindAllMessagesSQL() throws Exception {
-
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(FIND_ALL_MESSAGES);
     }
@@ -175,5 +264,27 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
         }
 
         return sql;
+    }
+
+    /**
+     * Prepares SQL for the first message query
+     *
+     * @return SQL string
+     * @throws Exception
+     */
+    private String getFirstMessageSQL() throws Exception {
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        return CustomSQLUtil.get(FIRST_MESSAGE);
+    }
+
+    /**
+     * Prepares SQL for the last message query
+     *
+     * @return SQL string
+     * @throws Exception
+     */
+    private String getLastMessageSQL() throws Exception {
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        return CustomSQLUtil.get(LAST_MESSAGE);
     }
 }

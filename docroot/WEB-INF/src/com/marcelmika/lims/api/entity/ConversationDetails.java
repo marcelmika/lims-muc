@@ -43,6 +43,8 @@ public class ConversationDetails {
     private List<MessageDetails> messages;
     private List<BuddyDetails> participants;
     private Date updatedAt;
+    private MessageDetails firstMessage;
+    private MessageDetails lastMessage;
 
 
     // -------------------------------------------------------------------------------------------
@@ -104,5 +106,21 @@ public class ConversationDetails {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public MessageDetails getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(MessageDetails firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public MessageDetails getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(MessageDetails lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

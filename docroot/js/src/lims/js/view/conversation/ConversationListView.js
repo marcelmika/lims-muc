@@ -548,9 +548,9 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         var scrollPosition = this.get('panelContent').get('scrollTop'),
             model = this.get('model');
 
-        // User has reached the top
-        if (scrollPosition === 0) {
-            console.log('Reached the top!');
+        // User has reached the top by scrolling and there is still something
+        // we can read from the model
+        if (scrollPosition === 0 && !model.get('reachedTop')) {
             // Show the preloader
             this._showReadMoreActivityIndicator();
             // Load the model
