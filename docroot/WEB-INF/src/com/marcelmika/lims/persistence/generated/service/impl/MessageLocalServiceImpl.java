@@ -82,31 +82,36 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
                                        Long stopperId,
                                        Boolean readMore) throws Exception {
 
-        // We are at the beginning of the list
+        // The beginning of the list. No stopper yet. Return message list that
+        // starts from the beginning and has a default page size.
         if (stopperId == null) {
             // Find via message finder
             return messageFinder.findAllMessages(cid, pageSize, null);
         }
 
-        // We are at the middle of the list
-        if (readMore) {
-            // Get the size of the possible list
-            Integer messagesCount = messageFinder.countAllMessages(cid, stopperId);
+        int extendedPageSize;
+        // Get the size of the possible list
+        Integer messagesCount = messageFinder.countAllMessages(cid, stopperId);
 
+        // User is at the middle of the list and has requested more messages. Extend the
+        // message list beyond the stopper message.
+        if (readMore) {
             // We need to extend the size of the returned list since the client
             // provided the stopper id and want to read more. We will simply take
             // the size of the current list and increase it by another page.
-            int extendedPageSize = messagesCount + pageSize;
-
-            log.info("Messages size: " + messagesCount);
-            log.info("Page size: " + pageSize);
-            log.info("Extended size: " + extendedPageSize);
-
-            return messageFinder.findAllMessages(cid, extendedPageSize, null);
+            extendedPageSize = messagesCount + pageSize;
+        }
+        // User didn't request more messages. However the page size needs to remain.
+        else {
+            extendedPageSize = messagesCount;
         }
 
+        log.info("Messages size: " + messagesCount);
+        log.info("Page size: " + pageSize);
+        log.info("Extended size: " + extendedPageSize);
+
         // TODO: Maybe there is no need for the stopperId in the findAllMessages at all
-        // Find via message finder
-        return messageFinder.findAllMessages(cid, pageSize, null);
+
+        return messageFinder.findAllMessages(cid, extendedPageSize, null);
     }
 }
