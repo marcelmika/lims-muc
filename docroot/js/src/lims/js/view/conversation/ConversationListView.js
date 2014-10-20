@@ -67,13 +67,37 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
     /**
      * Scrolls to the last message
+     *
      * @private
      */
     scrollToBottom: function () {
-        var panelContent = this.get('panelContent');
-        setTimeout(function () {
-            panelContent.set('scrollTop', panelContent.get('scrollHeight'));
-        }, 1);
+        // Vars
+        var position = this.get('panelContent').get('scrollHeight'); // Scroll to bottom
+
+        // Scroll to given position
+        this._scrollToPosition(position);
+    },
+
+    /**
+     * Scrolls the list the particular message
+     *
+     * @param messageView
+     */
+    scrollToMessage: function (messageView) {
+        // Vars
+        var position;
+
+        if (messageView) {
+            // Position is the offset of the message from the top
+            position = messageView.getTopOffset();
+            // Scroll to the position
+            this._scrollToPosition(position);
+
+            console.log('y:' + messageView.getTopOffset());
+            console.log(messageView.get('messageTextNode').get('innerHTML'));
+
+        }
+
     },
 
     /**
@@ -131,6 +155,22 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Attach events to panel content
         panelContent.on('scroll', this._onPanelContentScroll, this);
+    },
+
+    /**
+     * Scrolls list to a particular position
+     *
+     * @param position
+     * @private
+     */
+    _scrollToPosition: function (position) {
+        // Vars
+        var panelContent = this.get('panelContent');
+
+        // Wait a second before we scroll to avoid blinking effect
+        setTimeout(function () {
+            panelContent.set('scrollTop', position);
+        }, 0);
     },
 
     /**
@@ -205,13 +245,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @private
      */
     _onMessagesUpdated: function (event) {
-        // Var
-        var autoScroll = !event.readMore; // Scroll to bottom only if the messages wasn't loaded via read more func
-
         // Hide indicator if it wasn't already hidden
         this.get('activityIndicator').hide();
         // Render the list
-        this._renderMessagesList(autoScroll);
+        this._renderMessagesList(event.readMore, event.preStopperId);
         // Since the list is already rendered there is no need to
         // animate any other addition to the list
         this.set('shouldAnimateList', false);
@@ -251,21 +288,24 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      *
      * @param message
      * @private
+     * @return {Y.LIMS.View.ConversationItemView} newly created view
      */
     _addMessage: function (message) {
 
         // Vars
-        var conversation,                                           // Newly created conversation
+        var conversationItemView,                                           // Newly created conversation
             panelContentList = this.get('panelContentList'),        // The place where are messages will be rendered to
             conversationList = this.get('conversationItemViews');   // List of conversation views
 
         // New conversation item
-        conversation = new Y.LIMS.View.ConversationItemView({model: message});
-        conversationList.push(conversation);
+        conversationItemView = new Y.LIMS.View.ConversationItemView({model: message});
+        conversationList.push(conversationItemView);
         // Render it
-        conversation.render();
+        conversationItemView.render();
         // Append to list
-        panelContentList.append(conversation.get('container'));
+        panelContentList.append(conversationItemView.get('container'));
+
+        return conversationItemView;
     },
 
     /**
@@ -273,11 +313,12 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      *
      * @private
      */
-    _renderMessagesList: function (autoScroll) {
+    _renderMessagesList: function (readMore, stopperId) {
 
         // Vars
         var instance = this,
             messageList = this.get('model').get('messageList'),
+            messageView,
             animate = this.get('shouldAnimateList');
 
         // Hide the view and show it after it's rendered
@@ -287,12 +328,22 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Create view for each message
         messageList.each(function (message) {
-            instance._addMessage(message, false);
-        });
+
+            messageView = instance._addMessage(message, false);
+
+            if (readMore) {
+                if (message.get('messageId') === stopperId) {
+                    instance.set('stopperView', messageView);
+                }
+            }
+        }, this);
 
         // Show it again and animate it if needed
         this._showListView(animate);
-        if (autoScroll) {
+
+        if (readMore) {
+            this.scrollToMessage(instance.get('stopperView'));
+        } else {
             // Scroll to bottom so the user sees the message
             this.scrollToBottom();
         }
@@ -551,6 +602,15 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
          */
         conversationItemViews: {
             value: []
+        },
+
+        /**
+         * View that contains stopper message
+         *
+         * {Y.LIMS.View.ConversationItemView}
+         */
+        stopperView: {
+            value: null // to be set
         },
 
         /**

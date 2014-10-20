@@ -307,6 +307,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             messageModels = [],                           // Holds message models
             notAcknowledgedModels,                        // Message models from list that are not yet acknowledged
             message,                                      // Deserialized message
+            postStopperId,                                // New stopper id
+            preStopperId = this.get('stopperId'),         // Previous stopper id
             index;                                        // Used for iteration
 
         // Update from response
@@ -344,14 +346,22 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
 
         // Save the stopper id
         if (messageList.item(0)) {
-            this.set('stopperId', messageList.item(0).get('messageId'));
+            postStopperId = messageList.item(0).get('messageId');
+            this.set('stopperId', postStopperId);
         }
+
+        console.log('PRE: ' + preStopperId);
+        console.log('POST: ' + postStopperId);
 
         // Notify about the event
         this.fire('messagesUpdated', {
             messageList: messageList,
-            readMore: readMore
+            readMore: readMore,
+            postStopperId: postStopperId,
+            preStopperId: preStopperId
         });
+
+
     }
 
 }, {

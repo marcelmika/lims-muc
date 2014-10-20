@@ -90,6 +90,15 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     },
 
     /**
+     * Returns an offset of the message from the top
+     *
+     * @return {Number}
+     */
+    getTopOffset: function () {
+        return this.get('container').getDOM().offsetTop;
+    },
+
+    /**
      * Adds additional subviews like error message to the already rendered view
      *
      * @private
@@ -340,7 +349,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
         },
 
         /**
-         * Return message text note from container
+         * Return message text node from container
          *
          * {Node}
          */
