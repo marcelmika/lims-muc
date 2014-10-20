@@ -105,6 +105,13 @@
     font-weight: normal;
   }
 
+  .preloader.read-more-preloader {
+    position: relative;
+    margin-top: 8px;
+    background-size: 20px;
+    height: 20px;
+  }
+
   .chat-height-monitor {
     white-space: pre;
     white-space: pre-wrap;

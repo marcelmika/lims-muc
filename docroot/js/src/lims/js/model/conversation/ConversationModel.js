@@ -168,9 +168,13 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             instance = this,    // Save the instance so we can call its methods in diff context
             response,           // Response from the server
             stopperId = this.get('stopperId'),
-            readMore = options.readMore || true,// TODO: DEBUG, change to false
+            readMore = options.readMore || false,
             etag = this.get('etag');
 
+        // We need to reset the etag if we want to read more. It is quite possible
+        // that the conversation hasn't changed yet. So the etag is the same. As
+        // a result nothing would be returned. However we need to return larger
+        // list. This could be easily done by resetting the etag property.
         if (readMore) {
             etag = -1;
         }
@@ -309,7 +313,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             message,                                      // Deserialized message
             postStopperId,                                // New stopper id
             preStopperId = this.get('stopperId'),         // Previous stopper id
-            index;                                        // Used for iteration
+            index,                                        // Used for iteration
+            instance = this; // TODO: DEBUG
 
         // Update from response
         this.setAttrs({
@@ -353,14 +358,30 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         console.log('PRE: ' + preStopperId);
         console.log('POST: ' + postStopperId);
 
-        // Notify about the event
-        this.fire('messagesUpdated', {
-            messageList: messageList,
-            readMore: readMore,
-            postStopperId: postStopperId,
-            preStopperId: preStopperId
-        });
 
+        // TODO: DEBUG
+        if (readMore) {
+
+
+            setTimeout(function () {
+                // Notify about the event
+                instance.fire('messagesUpdated', {
+                    messageList: messageList,
+                    readMore: readMore,
+                    postStopperId: postStopperId,
+                    preStopperId: preStopperId
+                });
+            }, 1000);
+        }
+        else {
+            // Notify about the event
+            this.fire('messagesUpdated', {
+                messageList: messageList,
+                readMore: readMore,
+                postStopperId: postStopperId,
+                preStopperId: preStopperId
+            });
+        }
 
     }
 

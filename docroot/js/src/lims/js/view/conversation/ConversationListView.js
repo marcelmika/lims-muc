@@ -37,6 +37,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     // Template used to define height monitor
     heightMonitorTemplate: '<pre class="chat-height-monitor"/>',
 
+    // Template for the activity indicator
+    readMoreActivityIndicator: '<div class="preloader read-more-preloader" />',
+
+
     /**
      * Initializer
      *
@@ -92,12 +96,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             position = messageView.getTopOffset();
             // Scroll to the position
             this._scrollToPosition(position);
-
-            console.log('y:' + messageView.getTopOffset());
-            console.log(messageView.get('messageTextNode').get('innerHTML'));
-
         }
-
     },
 
     /**
@@ -155,132 +154,6 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Attach events to panel content
         panelContent.on('scroll', this._onPanelContentScroll, this);
-    },
-
-    /**
-     * Scrolls list to a particular position
-     *
-     * @param position
-     * @private
-     */
-    _scrollToPosition: function (position) {
-        // Vars
-        var panelContent = this.get('panelContent');
-
-        // Wait a second before we scroll to avoid blinking effect
-        setTimeout(function () {
-            panelContent.set('scrollTop', position);
-        }, 0);
-    },
-
-    /**
-     * Called when the message text field gains focus
-     *
-     * @param event
-     * @private
-     */
-    _onMessageTextFieldFocus: function (event) {
-        // Vars
-        var hasMessageTextFieldFocus = this.get('hasMessageTextFieldFocus');
-
-        // We don't want to fire it more than once. Thus there is no
-        // need to call a body of the if statement again
-        if (hasMessageTextFieldFocus === false) {
-            // Set the focus flag
-            this.set('hasMessageTextFieldFocus', true);
-            // Fire an event
-            this.fire('messageTextFieldFocus');
-        }
-
-        // Message text field was also updated
-        this._onMessageTextFieldUpdated(event);
-    },
-
-    /**
-     * Called when the message text field loses its focus
-     *
-     * @private
-     */
-    _onMessageTextFieldBlur: function () {
-        // Vars
-        var hasMessageTextFieldFocus = this.get('hasMessageTextFieldFocus');
-
-        // We don't want to fire it more than once. Thus there is  no
-        // need to call a body of the if statement again
-        if (hasMessageTextFieldFocus === true) {
-            // Set the focus flag
-            this.set('hasMessageTextFieldFocus', false);
-            // Fire an event
-            this.fire('messageTextFieldBlur');
-        }
-    },
-
-    /**
-     * Called when the users presses any key while there is a focus on message text field
-     *
-     * @param event
-     * @private
-     */
-    _onMessageTextFieldKeyUp: function (event) {
-        // Message text field was also updated
-        this._onMessageTextFieldUpdated(event);
-    },
-
-    /**
-     * Called when a single message is added to the model
-     *
-     * @param event
-     * @private
-     */
-    _onMessageAdded: function (event) {
-        // Add a single message to the list
-        this._addMessage(event.message);
-        // Scroll to bottom so the user sees the message
-        this.scrollToBottom();
-    },
-
-    /**
-     * Called when the whole message list is updated
-     *
-     * @private
-     */
-    _onMessagesUpdated: function (event) {
-        // Hide indicator if it wasn't already hidden
-        this.get('activityIndicator').hide();
-        // Render the list
-        this._renderMessagesList(event.readMore, event.preStopperId);
-        // Since the list is already rendered there is no need to
-        // animate any other addition to the list
-        this.set('shouldAnimateList', false);
-    },
-
-    /**
-     * Called when there is an error during message delivery
-     *
-     * @private
-     */
-    _onMessageError: function () {
-        // Scroll to bottom otherwise the error wouldn't be visible
-        this.scrollToBottom();
-    },
-
-    /**
-     * Called when the user scrolls the panel content
-     *
-     * @private
-     */
-    _onPanelContentScroll: function () {
-        // Vars
-        var scrollPosition = this.get('panelContent').get('scrollTop'),
-            model = this.get('model');
-
-        // User has reached the top
-        if (scrollPosition === 0) {
-            console.log('Reached the top!');
-            model.load({
-                readMore: true
-            });
-        }
     },
 
     /**
@@ -476,33 +349,34 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
-     * Called whenever the message field is updated
+     * Shows read more activity indicator
      *
-     * @param event
      * @private
      */
-    _onMessageTextFieldUpdated: function (event) {
-        var textField = this.get('messageTextField'),
-            value;
+    _showReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator'),
+            panelContentList = this.get('panelContentList');
 
-        // Get rid of new line characters
-        value = textField.get('value').replace(/\n|\r/gim, '');
-        // Get rid of empty spaces
-        value = Y.Lang.trim(value);
-
-        // Send message on enter
-        if (event.keyCode === 13 && !event.shiftKey && value.length) {
-            event.preventDefault();
-            // Empty text field
-            textField.set('value', '');
-            // Fire an event that message was submitted
-            this.fire('messageSubmitted', {
-                message: value
-            });
+        if (!indicator.inDoc()) {
+            panelContentList.prepend(indicator);
         }
+    },
 
-        // Resize
-        this._resizeMessageTextField();
+    /**
+     * Scrolls list to a particular position
+     *
+     * @param position
+     * @private
+     */
+    _scrollToPosition: function (position) {
+        // Vars
+        var panelContent = this.get('panelContent');
+
+        // Wait a second before we scroll to avoid blinking effect
+        setTimeout(function () {
+            panelContent.set('scrollTop', position);
+        }, 1);
     },
 
     /**
@@ -571,7 +445,151 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             // Scroll the list to bottom
             this.scrollToBottom();
         }
+    },
+
+    /**
+     * Called when the message text field gains focus
+     *
+     * @param event
+     * @private
+     */
+    _onMessageTextFieldFocus: function (event) {
+        // Vars
+        var hasMessageTextFieldFocus = this.get('hasMessageTextFieldFocus');
+
+        // We don't want to fire it more than once. Thus there is no
+        // need to call a body of the if statement again
+        if (hasMessageTextFieldFocus === false) {
+            // Set the focus flag
+            this.set('hasMessageTextFieldFocus', true);
+            // Fire an event
+            this.fire('messageTextFieldFocus');
+        }
+
+        // Message text field was also updated
+        this._onMessageTextFieldUpdated(event);
+    },
+
+    /**
+     * Called when the message text field loses its focus
+     *
+     * @private
+     */
+    _onMessageTextFieldBlur: function () {
+        // Vars
+        var hasMessageTextFieldFocus = this.get('hasMessageTextFieldFocus');
+
+        // We don't want to fire it more than once. Thus there is  no
+        // need to call a body of the if statement again
+        if (hasMessageTextFieldFocus === true) {
+            // Set the focus flag
+            this.set('hasMessageTextFieldFocus', false);
+            // Fire an event
+            this.fire('messageTextFieldBlur');
+        }
+    },
+
+    /**
+     * Called when the users presses any key while there is a focus on message text field
+     *
+     * @param event
+     * @private
+     */
+    _onMessageTextFieldKeyUp: function (event) {
+        // Message text field was also updated
+        this._onMessageTextFieldUpdated(event);
+    },
+
+    /**
+     * Called when a single message is added to the model
+     *
+     * @param event
+     * @private
+     */
+    _onMessageAdded: function (event) {
+        // Add a single message to the list
+        this._addMessage(event.message);
+        // Scroll to bottom so the user sees the message
+        this.scrollToBottom();
+    },
+
+    /**
+     * Called when the whole message list is updated
+     *
+     * @private
+     */
+    _onMessagesUpdated: function (event) {
+        // Hide indicator if it wasn't already hidden
+        this.get('activityIndicator').hide();
+        // Render the list
+        this._renderMessagesList(event.readMore, event.preStopperId);
+        // Since the list is already rendered there is no need to
+        // animate any other addition to the list
+        this.set('shouldAnimateList', false);
+    },
+
+    /**
+     * Called when there is an error during message delivery
+     *
+     * @private
+     */
+    _onMessageError: function () {
+        // Scroll to bottom otherwise the error wouldn't be visible
+        this.scrollToBottom();
+    },
+
+    /**
+     * Called when the user scrolls the panel content
+     *
+     * @private
+     */
+    _onPanelContentScroll: function () {
+        // Vars
+        var scrollPosition = this.get('panelContent').get('scrollTop'),
+            model = this.get('model');
+
+        // User has reached the top
+        if (scrollPosition === 0) {
+            console.log('Reached the top!');
+            // Show the preloader
+            this._showReadMoreActivityIndicator();
+            // Load the model
+            model.load({
+                readMore: true
+            });
+        }
+    },
+
+    /**
+     * Called whenever the message field is updated
+     *
+     * @param event
+     * @private
+     */
+    _onMessageTextFieldUpdated: function (event) {
+        var textField = this.get('messageTextField'),
+            value;
+
+        // Get rid of new line characters
+        value = textField.get('value').replace(/\n|\r/gim, '');
+        // Get rid of empty spaces
+        value = Y.Lang.trim(value);
+
+        // Send message on enter
+        if (event.keyCode === 13 && !event.shiftKey && value.length) {
+            event.preventDefault();
+            // Empty text field
+            textField.set('value', '');
+            // Fire an event that message was submitted
+            this.fire('messageSubmitted', {
+                message: value
+            });
+        }
+
+        // Resize
+        this._resizeMessageTextField();
     }
+
 }, {
 
     // Specify attributes and static properties for your View here.
@@ -652,6 +670,17 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         activityIndicator: {
             valueFn: function () {
                 return this.get('container').one('.preloader');
+            }
+        },
+
+        /**
+         * Read more activity indicator node
+         *
+         * {Node}
+         */
+        readMoreActivityIndicator: {
+            valueFn: function () {
+                return Y.Node.create(this.readMoreActivityIndicator);
             }
         },
 
