@@ -204,11 +204,14 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      *
      * @private
      */
-    _onMessagesUpdated: function () {
+    _onMessagesUpdated: function (event) {
+        // Var
+        var autoScroll = !event.readMore; // Scroll to bottom only if the messages wasn't loaded via read more func
+
         // Hide indicator if it wasn't already hidden
         this.get('activityIndicator').hide();
         // Render the list
-        this._renderMessagesList();
+        this._renderMessagesList(autoScroll);
         // Since the list is already rendered there is no need to
         // animate any other addition to the list
         this.set('shouldAnimateList', false);
@@ -231,11 +234,15 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      */
     _onPanelContentScroll: function () {
         // Vars
-        var scrollPosition = this.get('panelContent').get('scrollTop');
+        var scrollPosition = this.get('panelContent').get('scrollTop'),
+            model = this.get('model');
 
         // User has reached the top
         if (scrollPosition === 0) {
             console.log('Reached the top!');
+            model.load({
+                readMore: true
+            });
         }
     },
 
@@ -266,7 +273,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      *
      * @private
      */
-    _renderMessagesList: function () {
+    _renderMessagesList: function (autoScroll) {
 
         // Vars
         var instance = this,
@@ -285,8 +292,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Show it again and animate it if needed
         this._showListView(animate);
-        // Scroll to bottom so the user sees the message
-        this.scrollToBottom();
+        if (autoScroll) {
+            // Scroll to bottom so the user sees the message
+            this.scrollToBottom();
+        }
     },
 
     /**

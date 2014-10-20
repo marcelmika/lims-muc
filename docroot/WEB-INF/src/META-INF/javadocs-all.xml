@@ -483,7 +483,7 @@
 	</javadoc>
 	<javadoc>
 		<name>PaginationDetails</name>
-		<type>com.marcelmika.lims.api.entity.PaginationDetails</type>
+		<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getFirstMessageId</name>
@@ -523,7 +523,7 @@
 			<name>setAction</name>
 			<param>
 				<name>action</name>
-				<type>com.marcelmika.lims.api.entity.PaginationDetails.ActionDetails</type>
+				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails.ActionDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1871,7 +1871,7 @@
 			</param>
 			<param>
 				<name>pagination</name>
-				<type>com.marcelmika.lims.api.entity.PaginationDetails</type>
+				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -7985,13 +7985,13 @@
 	</javadoc>
 	<javadoc>
 		<name>Pagination</name>
-		<type>com.marcelmika.lims.persistence.domain.Pagination</type>
+		<type>com.marcelmika.lims.persistence.domain.MessagePagination</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromPaginationDetails</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.PaginationDetails</type>
+				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -8036,7 +8036,7 @@
 			<name>setAction</name>
 			<param>
 				<name>action</name>
-				<type>com.marcelmika.lims.persistence.domain.Pagination.Action</type>
+				<type>com.marcelmika.lims.persistence.domain.MessagePagination.Action</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -10750,7 +10750,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Pagination</name>
-		<type>com.marcelmika.lims.portal.domain.Pagination</type>
+		<type>com.marcelmika.lims.portal.domain.MessagePagination</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>toPaginationDetails</name>
@@ -12053,7 +12053,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<name>setPagination</name>
 			<param>
 				<name>pagination</name>
-				<type>com.marcelmika.lims.portal.domain.Pagination</type>
+				<type>com.marcelmika.lims.portal.domain.MessagePagination</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>

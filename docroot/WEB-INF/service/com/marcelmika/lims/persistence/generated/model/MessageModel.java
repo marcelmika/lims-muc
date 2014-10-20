@@ -23,8 +23,6 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
-import java.util.Date;
-
 /**
  * The base model interface for the Message service. Represents a row in the &quot;Limsmuc_Message&quot; database table, with each column mapped to a property of this class.
  *
@@ -106,14 +104,14 @@ public interface MessageModel extends BaseModel<Message> {
 	 *
 	 * @return the created at of this message
 	 */
-	public Date getCreatedAt();
+	public long getCreatedAt();
 
 	/**
 	 * Sets the created at of this message.
 	 *
 	 * @param createdAt the created at of this message
 	 */
-	public void setCreatedAt(Date createdAt);
+	public void setCreatedAt(long createdAt);
 
 	/**
 	 * Returns the body of this message.

@@ -22,42 +22,60 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.api.events.conversation;
+package com.marcelmika.lims.persistence.domain;
 
-import com.marcelmika.lims.api.entity.BuddyDetails;
-import com.marcelmika.lims.api.entity.ConversationDetails;
 import com.marcelmika.lims.api.entity.MessagePaginationDetails;
-import com.marcelmika.lims.api.events.RequestEvent;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
  * Date: 7/13/14
- * Time: 7:58 PM
+ * Time: 8:15 PM
  */
-public class ReadSingleUserConversationRequestEvent extends RequestEvent {
+public class MessagePagination {
 
-    private final BuddyDetails participant;
-    private final ConversationDetails conversation;
-    private final MessagePaginationDetails pagination;
+    private Boolean readMore;
+    private Long stopperId;
 
-    public ReadSingleUserConversationRequestEvent(final BuddyDetails participant,
-                                                  final ConversationDetails conversation,
-                                                  final MessagePaginationDetails pagination) {
-        this.participant = participant;
-        this.conversation = conversation;
-        this.pagination = pagination;
+    public MessagePaginationDetails toMessagePaginationDetails() {
+        MessagePaginationDetails details = new MessagePaginationDetails();
+
+        details.setReadMore(readMore);
+        details.setStopperId(stopperId);
+
+        return details;
     }
 
-    public BuddyDetails getParticipant() {
-        return participant;
+    public static MessagePagination fromMessagePaginationDetails(MessagePaginationDetails details) {
+        MessagePagination messagePagination = new MessagePagination();
+
+        messagePagination.readMore = details.getReadMore();
+        messagePagination.stopperId = details.getStopperId();
+
+        return messagePagination;
     }
 
-    public ConversationDetails getConversation() {
-        return conversation;
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public MessagePaginationDetails getPagination() {
-        return pagination;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
+    }
+
+    public Long getStopperId() {
+        return stopperId;
+    }
+
+    public void setStopperId(Long stopperId) {
+        this.stopperId = stopperId;
+    }
+
+    @Override
+    public String toString() {
+        return "MessagePagination{" +
+                "readMore=" + readMore +
+                ", stopperId=" + stopperId +
+                '}';
     }
 }

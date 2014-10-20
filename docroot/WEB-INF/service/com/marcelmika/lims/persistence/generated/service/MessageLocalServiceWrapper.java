@@ -296,14 +296,16 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	* @param cid       id of the conversation
 	* @param pageSize  size of the list
 	* @param stopperId id of the stopper messages
+	* @param readMore  true if the list should be extended
 	* @return a list of messages
 	* @throws Exception
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
-		java.lang.Integer pageSize, java.lang.Long stopperId)
-		throws java.lang.Exception {
-		return _messageLocalService.readMessages(cid, pageSize, stopperId);
+		java.lang.Integer pageSize, java.lang.Long stopperId,
+		java.lang.Boolean readMore) throws java.lang.Exception {
+		return _messageLocalService.readMessages(cid, pageSize, stopperId,
+			readMore);
 	}
 
 	/**

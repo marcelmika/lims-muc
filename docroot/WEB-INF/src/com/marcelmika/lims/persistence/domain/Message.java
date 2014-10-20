@@ -82,7 +82,7 @@ public class Message {
         // Properties:
         message.messageId = messageModel.getMid();
         message.body = messageModel.getBody();
-        message.createdAt = messageModel.getCreatedAt();
+        message.createdAt = new Date(messageModel.getCreatedAt());
 
         Buddy creator = new Buddy();
         creator.setBuddyId(messageModel.getCreatorId());
@@ -108,7 +108,7 @@ public class Message {
         creator.setBuddyId((Long) object[firstElement++]);
         message.from = creator;
 
-        message.createdAt = (Date) object[firstElement++];
+        message.createdAt = new Date((Long) object[firstElement++]);
         message.body = (String) object[firstElement];
 
         return message;

@@ -24,7 +24,7 @@
 
 package com.marcelmika.lims.portal.domain;
 
-import com.marcelmika.lims.api.entity.PaginationDetails;
+import com.marcelmika.lims.api.entity.MessagePaginationDetails;
 
 /**
  * @author Ing. Marcel Mika
@@ -32,58 +32,41 @@ import com.marcelmika.lims.api.entity.PaginationDetails;
  * Date: 7/13/14
  * Time: 7:26 PM
  */
-public class Pagination {
+public class MessagePagination {
 
-    private Integer firstMessageId;
-    private Integer lastMessageId;
-    private String action;
+    private Boolean readMore;
+    private Long stopperId;
 
+    public MessagePaginationDetails toMessagePaginationDetails() {
+        MessagePaginationDetails details = new MessagePaginationDetails();
 
-    public PaginationDetails toPaginationDetails() {
-        PaginationDetails details = new PaginationDetails();
-
-        details.setFirstMessageId(firstMessageId);
-        details.setLastMessageId(lastMessageId);
-
-        if (action.equals("next")) {
-            details.setAction(PaginationDetails.ActionDetails.NEXT);
-        } else if (action.equals("prev")) {
-            details.setAction(PaginationDetails.ActionDetails.PREV);
-        }
+        details.setReadMore(readMore);
+        details.setStopperId(stopperId);
 
         return details;
     }
 
-    public Integer getFirstMessageId() {
-        return firstMessageId;
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public void setFirstMessageId(Integer firstMessageId) {
-        this.firstMessageId = firstMessageId;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
     }
 
-    public Integer getLastMessageId() {
-        return lastMessageId;
+    public Long getStopperId() {
+        return stopperId;
     }
 
-    public void setLastMessageId(Integer lastMessageId) {
-        this.lastMessageId = lastMessageId;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
+    public void setStopperId(Long stopperId) {
+        this.stopperId = stopperId;
     }
 
     @Override
     public String toString() {
-        return "Pagination{" +
-                "firstMessageId='" + firstMessageId + '\'' +
-                ", lastMessageId='" + lastMessageId + '\'' +
-                ", action='" + action + '\'' +
+        return "MessagePagination{" +
+                "readMore=" + readMore +
+                ", stopperId=" + stopperId +
                 '}';
     }
 }

@@ -35,7 +35,7 @@ import com.marcelmika.lims.api.events.conversation.*;
 import com.marcelmika.lims.persistence.domain.Buddy;
 import com.marcelmika.lims.persistence.domain.Conversation;
 import com.marcelmika.lims.persistence.domain.Message;
-import com.marcelmika.lims.persistence.domain.Pagination;
+import com.marcelmika.lims.persistence.domain.MessagePagination;
 import com.marcelmika.lims.persistence.generated.NoSuchConversationException;
 import com.marcelmika.lims.persistence.generated.NoSuchParticipantException;
 import com.marcelmika.lims.persistence.generated.model.Participant;
@@ -117,7 +117,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     public ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event) {
         // Map to persistence objects
         Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
-        Pagination pagination = Pagination.fromPaginationDetails(event.getPagination());
+        MessagePagination pagination = MessagePagination.fromMessagePaginationDetails(event.getPagination());
+
+        log.info(pagination);
 
         // Read from persistence
         try {
@@ -134,20 +136,14 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 );
             }
 
+            // Map conversation from the persistence conversation model
             conversation = Conversation.fromConversationModel(conversationModel);
 
-            // TODO: Add pagination
             // TODO: Check if participant in event is really in the conversation
 
-            // Get messages from persistence
-            List<Object[]> messageObjects = MessageLocalServiceUtil.readMessages(
-                    conversationModel.getCid(),
-                    Environment.getConversationListMaxMessages(),
-                    (long) 31314
-            );
+            // Read messages
+            List<Message> messages = readMessages(conversationModel.getCid(), pagination);
 
-            // Map to persistence domain
-            List<Message> messages = Message.toMessageList(messageObjects, 0);
             // Add to conversation
             conversation.setMessages(messages);
 
@@ -424,5 +420,30 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         }
     }
 
+
+    /**
+     * Reads the message related to the conversation. The size of list is determined
+     * by an instance of pagination received as a parameter
+     *
+     * @param cid        id of the conversation
+     * @param pagination determines size of the returned list
+     * @return a list of messages
+     * @throws Exception
+     */
+    private List<Message> readMessages(Long cid, MessagePagination pagination) throws Exception {
+
+        Integer pageSize = Environment.getConversationListMaxMessages();
+        Long stopperId = pagination.getStopperId();
+        Boolean readMore = pagination.getReadMore();
+
+
+        // Get messages from persistence
+        List<Object[]> messageObjects = MessageLocalServiceUtil.readMessages(
+                cid, pageSize, stopperId, readMore
+        );
+
+        // Map to persistence domain
+        return Message.toMessageList(messageObjects, 0);
+    }
 
 }

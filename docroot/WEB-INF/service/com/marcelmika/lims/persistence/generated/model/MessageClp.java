@@ -16,7 +16,6 @@ package com.marcelmika.lims.persistence.generated.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
@@ -29,7 +28,6 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,7 +101,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 			setCreatorId(creatorId);
 		}
 
-		Date createdAt = (Date)attributes.get("createdAt");
+		Long createdAt = (Long)attributes.get("createdAt");
 
 		if (createdAt != null) {
 			setCreatedAt(createdAt);
@@ -186,19 +184,19 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 	}
 
 	@Override
-	public Date getCreatedAt() {
+	public long getCreatedAt() {
 		return _createdAt;
 	}
 
 	@Override
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(long createdAt) {
 		_createdAt = createdAt;
 
 		if (_messageRemoteModel != null) {
 			try {
 				Class<?> clazz = _messageRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setCreatedAt", Date.class);
+				Method method = clazz.getMethod("setCreatedAt", long.class);
 
 				method.invoke(_messageRemoteModel, createdAt);
 			}
@@ -313,7 +311,15 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 	public int compareTo(Message message) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getCreatedAt(), message.getCreatedAt());
+		if (getCreatedAt() < message.getCreatedAt()) {
+			value = -1;
+		}
+		else if (getCreatedAt() > message.getCreatedAt()) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
 
 		if (value != 0) {
 			return value;
@@ -405,7 +411,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 	private long _mid;
 	private long _cid;
 	private long _creatorId;
-	private Date _createdAt;
+	private long _createdAt;
 	private String _body;
 	private BaseModel<?> _messageRemoteModel;
 }

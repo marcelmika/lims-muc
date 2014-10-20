@@ -258,10 +258,11 @@ public interface MessageLocalService extends BaseLocalService,
 	* @param cid       id of the conversation
 	* @param pageSize  size of the list
 	* @param stopperId id of the stopper messages
+	* @param readMore  true if the list should be extended
 	* @return a list of messages
 	* @throws Exception
 	*/
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
-		java.lang.Integer pageSize, java.lang.Long stopperId)
-		throws java.lang.Exception;
+		java.lang.Integer pageSize, java.lang.Long stopperId,
+		java.lang.Boolean readMore) throws java.lang.Exception;
 }

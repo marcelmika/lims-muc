@@ -123,7 +123,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		_methodName20 = "readMessages";
 
 		_methodParameterTypes20 = new String[] {
-				"java.lang.Long", "java.lang.Integer", "java.lang.Long"
+				"java.lang.Long", "java.lang.Integer", "java.lang.Long",
+				"java.lang.Boolean"
 			};
 	}
 
@@ -716,8 +717,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 
 	@Override
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
-		java.lang.Integer pageSize, java.lang.Long stopperId)
-		throws java.lang.Exception {
+		java.lang.Integer pageSize, java.lang.Long stopperId,
+		java.lang.Boolean readMore) throws java.lang.Exception {
 		Object returnObj = null;
 
 		try {
@@ -728,7 +729,9 @@ public class MessageLocalServiceClp implements MessageLocalService {
 						
 					ClpSerializer.translateInput(pageSize),
 						
-					ClpSerializer.translateInput(stopperId)
+					ClpSerializer.translateInput(stopperId),
+						
+					ClpSerializer.translateInput(readMore)
 					});
 		}
 		catch (Throwable t) {

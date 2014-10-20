@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import java.util.Date;
-
 /**
  * The cache model class for representing Message in entity cache.
  *
@@ -61,13 +59,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		messageImpl.setMid(mid);
 		messageImpl.setCid(cid);
 		messageImpl.setCreatorId(creatorId);
-
-		if (createdAt == Long.MIN_VALUE) {
-			messageImpl.setCreatedAt(null);
-		}
-		else {
-			messageImpl.setCreatedAt(new Date(createdAt));
-		}
+		messageImpl.setCreatedAt(createdAt);
 
 		if (body == null) {
 			messageImpl.setBody(StringPool.BLANK);

@@ -17,7 +17,6 @@ package com.marcelmika.lims.persistence.generated.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -111,11 +110,11 @@ public class MessageSoap implements Serializable {
 		_creatorId = creatorId;
 	}
 
-	public Date getCreatedAt() {
+	public long getCreatedAt() {
 		return _createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(long createdAt) {
 		_createdAt = createdAt;
 	}
 
@@ -130,6 +129,6 @@ public class MessageSoap implements Serializable {
 	private long _mid;
 	private long _cid;
 	private long _creatorId;
-	private Date _createdAt;
+	private long _createdAt;
 	private String _body;
 }

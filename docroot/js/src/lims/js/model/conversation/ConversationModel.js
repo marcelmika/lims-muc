@@ -118,8 +118,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         // Vars
         var instance = this,
             parameters = Y.JSON.stringify({
-            conversationId: this.get('conversationId')
-        });
+                conversationId: this.get('conversationId')
+            });
 
         // Send the request
         Y.io(this.getServerRequestUrl(), {
@@ -167,7 +167,13 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             parameters,         // Request parameters
             instance = this,    // Save the instance so we can call its methods in diff context
             response,           // Response from the server
+            stopperId = this.get('stopperId'),
+            readMore = options.readMore || true,// TODO: DEBUG, change to false
             etag = this.get('etag');
+
+        if (readMore) {
+            etag = -1;
+        }
 
         switch (action) {
 
@@ -229,9 +235,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                     conversationId: this.get('conversationId'),
                     etag: etag,
                     pagination: {
-                        firstMessageId: null,
-                        lastMessageId: null,
-                        action: "next"
+                        readMore: readMore,
+                        stopperId: stopperId
                     }
                 });
 
@@ -252,8 +257,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             }
                             // Deserialize response
                             response = Y.JSON.parse(o.responseText);
+
                             // Update message list
-                            instance.updateConversation(response);
+                            instance.updateConversation(response, readMore);
 
                             // Fire success event
                             instance.fire('readSuccess');
@@ -290,8 +296,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
      * of messages.
      *
      * @param conversation
+     * @param readMore {boolean}
      */
-    updateConversation: function (conversation) {
+    updateConversation: function (conversation, readMore) {
 
         // Vars
         var messageList = this.get('messageList'),        // List of messages
@@ -332,12 +339,18 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             messageModels.push(notAcknowledgedModels[index]);
         }
 
-        // Replay old models with the new ones
+        // Rewrite old models with the new ones
         messageList.reset(messageModels);
+
+        // Save the stopper id
+        if (messageList.item(0)) {
+            this.set('stopperId', messageList.item(0).get('messageId'));
+        }
 
         // Notify about the event
         this.fire('messagesUpdated', {
-            messageList: messageList
+            messageList: messageList,
+            readMore: readMore
         });
     }
 
@@ -379,6 +392,15 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             valueFn: function () {
                 return new Y.LIMS.Model.MessageListModel();
             }
+        },
+
+        /**
+         * Id of the last visible message
+         *
+         * {Number}
+         */
+        stopperId: {
+            value: null // to be set
         }
     }
 });

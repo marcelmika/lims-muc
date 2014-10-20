@@ -17,7 +17,6 @@ package com.marcelmika.lims.persistence.generated.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +77,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 			setCreatorId(creatorId);
 		}
 
-		Date createdAt = (Date)attributes.get("createdAt");
+		Long createdAt = (Long)attributes.get("createdAt");
 
 		if (createdAt != null) {
 			setCreatedAt(createdAt);
@@ -177,7 +176,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	* @return the created at of this message
 	*/
 	@Override
-	public java.util.Date getCreatedAt() {
+	public long getCreatedAt() {
 		return _message.getCreatedAt();
 	}
 
@@ -187,7 +186,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	* @param createdAt the created at of this message
 	*/
 	@Override
-	public void setCreatedAt(java.util.Date createdAt) {
+	public void setCreatedAt(long createdAt) {
 		_message.setCreatedAt(createdAt);
 	}
 

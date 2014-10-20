@@ -48,6 +48,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
 
     // Find messages SQL
     private static final String FIND_ALL_MESSAGES = MessageFinder.class.getName() + ".findAllMessages";
+    private static final String COUNT_ALL_MESSAGES = MessageFinder.class.getName() + ".countAllMessages";
 
     // Placeholders
     private static final String PLACEHOLDER_STOPPER = "[$STOPPER$]";
@@ -83,7 +84,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Now we need to map types to columns
             query.addScalar("mid", Type.LONG);
             query.addScalar("creatorId", Type.LONG);
-            query.addScalar("createdAd", Type.DATE);
+            query.addScalar("createdAd", Type.LONG);
             query.addScalar("body", Type.STRING);
 
             // Add parameters to query
@@ -99,9 +100,53 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
         }
     }
 
+    /**
+     * Counts number of messages related to the given conversation.
+     * If stopper id is set the result will not contain messages that are
+     * before the stopper message
+     *
+     * @param cid       id of the conversation related to the messages
+     * @param stopperId id of the message that server as a stopper
+     * @return number of messages
+     * @throws Exception
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public Integer countAllMessages(Long cid, Long stopperId) throws Exception {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getCountAllMessagesSQL(stopperId);
+
+            // Create query from SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("messageCount", Type.INTEGER);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(cid);
+
+            // Get the result
+            List<Integer> result = (List<Integer>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the count
+            return result.get(0);
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
 
     /**
-     * Prepares SQL for the find all message query
+     * Prepares SQL for the find all messages query
      *
      * @param stopperId id of the message stopper
      * @return SQL string
@@ -111,6 +156,29 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
 
         // Get custom query sql (check /src/custom-sql/default.xml)
         String sql = CustomSQLUtil.get(FIND_ALL_MESSAGES);
+
+        // Replace stopper id
+        if (stopperId != null) {
+            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
+                    String.format("AND Limsmuc_Message.mid >= %d", stopperId));
+        } else {
+            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
+        }
+
+        return sql;
+    }
+
+    /**
+     * Prepares SQL for the count all messages query
+     *
+     * @param stopperId id of the message stopper
+     * @return SQL string
+     * @throws Exception
+     */
+    private String getCountAllMessagesSQL(Long stopperId) throws Exception {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        String sql = CustomSQLUtil.get(COUNT_ALL_MESSAGES);
 
         // Replace stopper id
         if (stopperId != null) {

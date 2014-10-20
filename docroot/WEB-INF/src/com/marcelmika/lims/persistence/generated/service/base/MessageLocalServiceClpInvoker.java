@@ -123,7 +123,8 @@ public class MessageLocalServiceClpInvoker {
 		_methodName59 = "readMessages";
 
 		_methodParameterTypes59 = new String[] {
-				"java.lang.Long", "java.lang.Integer", "java.lang.Long"
+				"java.lang.Long", "java.lang.Integer", "java.lang.Long",
+				"java.lang.Boolean"
 			};
 	}
 
@@ -238,7 +239,8 @@ public class MessageLocalServiceClpInvoker {
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			return MessageLocalServiceUtil.readMessages((java.lang.Long)arguments[0],
-				(java.lang.Integer)arguments[1], (java.lang.Long)arguments[2]);
+				(java.lang.Integer)arguments[1], (java.lang.Long)arguments[2],
+				(java.lang.Boolean)arguments[3]);
 		}
 
 		throw new UnsupportedOperationException();

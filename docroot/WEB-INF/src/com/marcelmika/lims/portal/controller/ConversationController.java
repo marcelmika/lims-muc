@@ -170,14 +170,14 @@ public class ConversationController {
         // Create objects from parameters
         Conversation conversation = new Conversation();
         conversation.setConversationId(parameters.getConversationId());
-        Pagination pagination = parameters.getPagination();
+        MessagePagination pagination = parameters.getPagination();
 
         // Read conversations
         ReadSingleUserConversationResponseEvent responseEvent = conversationCoreService.readConversation(
                 new ReadSingleUserConversationRequestEvent(
-                        buddy.toBuddyDetails(),                 // Buddy is participant
-                        conversation.toConversationDetails(),   // Read proper conversation
-                        pagination.toPaginationDetails())       // Pagination request
+                        buddy.toBuddyDetails(),                  // Buddy is participant
+                        conversation.toConversationDetails(),    // Read proper conversation
+                        pagination.toMessagePaginationDetails()) // Pagination request
         );
 
         // Success
@@ -192,6 +192,8 @@ public class ConversationController {
 
             // Serialize
             String serialized = JSONFactoryUtil.looseSerialize(conversation, "messages", "messages.from");
+
+            log.info(serialized);
 
             // Write success to response
             ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);

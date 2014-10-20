@@ -30,48 +30,32 @@ package com.marcelmika.lims.api.entity;
  * Date: 7/13/14
  * Time: 7:52 PM
  */
-public class PaginationDetails {
+public class MessagePaginationDetails {
 
-    private Integer firstMessageId;
-    private Integer lastMessageId;
-    private ActionDetails action;
+    private Boolean readMore;
+    private Long stopperId;
 
-    public enum ActionDetails {
-        NEXT("next"),
-        PREV("prev");
-
-        private String action;
-
-        private ActionDetails(String action) {
-            this.action = action;
-        }
-
-        public String getAction() {
-            return action;
-        }
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public Integer getFirstMessageId() {
-        return firstMessageId;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
     }
 
-    public void setFirstMessageId(Integer firstMessageId) {
-        this.firstMessageId = firstMessageId;
+    public Long getStopperId() {
+        return stopperId;
     }
 
-    public Integer getLastMessageId() {
-        return lastMessageId;
+    public void setStopperId(Long stopperId) {
+        this.stopperId = stopperId;
     }
 
-    public void setLastMessageId(Integer lastMessageId) {
-        this.lastMessageId = lastMessageId;
-    }
-
-    public ActionDetails getAction() {
-        return action;
-    }
-
-    public void setAction(ActionDetails action) {
-        this.action = action;
+    @Override
+    public String toString() {
+        return "MessagePaginationDetails{" +
+                "readMore=" + readMore +
+                ", stopperId=" + stopperId +
+                '}';
     }
 }

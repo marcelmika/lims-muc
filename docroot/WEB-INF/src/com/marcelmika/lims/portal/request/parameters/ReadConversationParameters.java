@@ -24,7 +24,7 @@
 
 package com.marcelmika.lims.portal.request.parameters;
 
-import com.marcelmika.lims.portal.domain.Pagination;
+import com.marcelmika.lims.portal.domain.MessagePagination;
 
 /**
  * @author Ing. Marcel Mika
@@ -35,7 +35,7 @@ import com.marcelmika.lims.portal.domain.Pagination;
 public class ReadConversationParameters {
 
     private String conversationId;
-    private Pagination pagination;
+    private MessagePagination pagination;
     private Integer etag;
 
     public String getConversationId() {
@@ -46,11 +46,11 @@ public class ReadConversationParameters {
         this.conversationId = conversationId;
     }
 
-    public Pagination getPagination() {
+    public MessagePagination getPagination() {
         return pagination;
     }
 
-    public void setPagination(Pagination pagination) {
+    public void setPagination(MessagePagination pagination) {
         this.pagination = pagination;
     }
 

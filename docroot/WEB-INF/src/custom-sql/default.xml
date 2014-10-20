@@ -309,8 +309,7 @@
 		]]>
     </sql>
 
-
-    <!-- Search all messages in the database related to the conversation and stopper -->
+    <!-- Finds all messages in the database related to the conversation and stopper -->
     <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.findAllMessages">
         <![CDATA[
 			SELECT
@@ -325,6 +324,19 @@
                 [$STOPPER$]
 			ORDER BY
 			    Limsmuc_Message.createdAt DESC
+		]]>
+    </sql>
+
+    <!-- Counts all messages in the database related to the conversation and stopper -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.countAllMessages">
+        <![CDATA[
+			SELECT
+			    COUNT(Limsmuc_Message.mid) AS messageCount
+			FROM
+				Limsmuc_Message
+			WHERE
+				Limsmuc_Message.cid = ?
+                [$STOPPER$]
 		]]>
     </sql>
 

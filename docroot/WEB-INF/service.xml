@@ -52,7 +52,7 @@
         <column name='mid' type='long' primary='true'/>
         <column name='cid' type='long'/>
         <column name='creatorId' type='long'/>
-        <column name='createdAt' type='Date'/>
+        <column name='createdAt' type='long'/>
         <column name='body' type='String'/>
         <order>
             <order-column name="createdAt" order-by="asc"/>

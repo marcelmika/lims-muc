@@ -14,6 +14,8 @@
 
 package com.marcelmika.lims.persistence.generated.service.impl;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.generated.model.Message;
 import com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.MessageLocalServiceBaseImpl;
@@ -37,6 +39,9 @@ import java.util.List;
  */
 public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 
+    // Log
+    private static Log log = LogFactoryUtil.getLog(MessageLocalServiceImpl.class);
+
 	/*
      * NOTE FOR DEVELOPERS:
 	 *
@@ -51,7 +56,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
         messageModel.setCid(cid);
         messageModel.setCreatorId(creatorId);
         messageModel.setBody(body);
-        messageModel.setCreatedAt(createdAt);
+        messageModel.setCreatedAt(createdAt.getTime());
 
         // Update model
         messageModel = messagePersistence.update(messageModel, false);
@@ -68,11 +73,40 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      * @param cid       id of the conversation
      * @param pageSize  size of the list
      * @param stopperId id of the stopper messages
+     * @param readMore  true if the list should be extended
      * @return a list of messages
      * @throws Exception
      */
-    public List<Object[]> readMessages(Long cid, Integer pageSize, Long stopperId) throws Exception {
+    public List<Object[]> readMessages(Long cid,
+                                       Integer pageSize,
+                                       Long stopperId,
+                                       Boolean readMore) throws Exception {
+
+        // We are at the beginning of the list
+        if (stopperId == null) {
+            // Find via message finder
+            return messageFinder.findAllMessages(cid, pageSize, null);
+        }
+
+        // We are at the middle of the list
+        if (readMore) {
+            // Get the size of the possible list
+            Integer messagesCount = messageFinder.countAllMessages(cid, stopperId);
+
+            // We need to extend the size of the returned list since the client
+            // provided the stopper id and want to read more. We will simply take
+            // the size of the current list and increase it by another page.
+            int extendedPageSize = messagesCount + pageSize;
+
+            log.info("Messages size: " + messagesCount);
+            log.info("Page size: " + pageSize);
+            log.info("Extended size: " + extendedPageSize);
+
+            return messageFinder.findAllMessages(cid, extendedPageSize, null);
+        }
+
+        // TODO: Maybe there is no need for the stopperId in the findAllMessages at all
         // Find via message finder
-        return messageFinder.findAllMessages(cid, pageSize, stopperId);
+        return messageFinder.findAllMessages(cid, pageSize, null);
     }
 }
