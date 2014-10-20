@@ -22,9 +22,9 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  */
 public class MessageFinderUtil {
 	public static java.util.List<java.lang.Object[]> findAllMessages(
-		java.lang.Long cid, java.lang.Integer pageSize, java.lang.Long stopperId)
+		java.lang.Long cid, java.lang.Integer pageSize)
 		throws java.lang.Exception {
-		return getFinder().findAllMessages(cid, pageSize, stopperId);
+		return getFinder().findAllMessages(cid, pageSize);
 	}
 
 	public static java.lang.Integer countAllMessages(java.lang.Long cid,

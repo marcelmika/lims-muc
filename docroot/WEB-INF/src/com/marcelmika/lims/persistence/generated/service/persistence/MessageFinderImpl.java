@@ -58,17 +58,15 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * If stopper id is set the result will not contain messages that are
      * before the stopper message
      *
-     * @param cid       id of the conversation related to the messages
-     * @param pageSize  size of the returned list
-     * @param stopperId id of the message that server as a stopper
+     * @param cid      id of the conversation related to the messages
+     * @param pageSize size of the returned list
      * @return List of objects where each objects contains a message info
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
     public List<Object[]> findAllMessages(Long cid,
-                                          Integer pageSize,
-                                          Long stopperId) throws Exception {
+                                          Integer pageSize) throws Exception {
 
         Session session = null;
 
@@ -76,7 +74,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Open the database session
             session = openSession();
             // Generate SQL
-            String sql = getFindAllMessagesSQL(stopperId);
+            String sql = getFindAllMessagesSQL();
 
             // Create query from SQL
             SQLQuery query = session.createSQLQuery(sql);
@@ -144,28 +142,16 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
         }
     }
 
-
     /**
      * Prepares SQL for the find all messages query
      *
-     * @param stopperId id of the message stopper
      * @return SQL string
      * @throws Exception
      */
-    private String getFindAllMessagesSQL(Long stopperId) throws Exception {
+    private String getFindAllMessagesSQL() throws Exception {
 
         // Get custom query sql (check /src/custom-sql/default.xml)
-        String sql = CustomSQLUtil.get(FIND_ALL_MESSAGES);
-
-        // Replace stopper id
-        if (stopperId != null) {
-            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
-                    String.format("AND Limsmuc_Message.mid >= %d", stopperId));
-        } else {
-            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
-        }
-
-        return sql;
+        return CustomSQLUtil.get(FIND_ALL_MESSAGES);
     }
 
     /**

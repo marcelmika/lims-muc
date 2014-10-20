@@ -86,7 +86,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
         // starts from the beginning and has a default page size.
         if (stopperId == null) {
             // Find via message finder
-            return messageFinder.findAllMessages(cid, pageSize, null);
+            return messageFinder.findAllMessages(cid, pageSize);
         }
 
         int extendedPageSize;
@@ -106,12 +106,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
             extendedPageSize = messagesCount;
         }
 
-        log.info("Messages size: " + messagesCount);
-        log.info("Page size: " + pageSize);
-        log.info("Extended size: " + extendedPageSize);
-
-        // TODO: Maybe there is no need for the stopperId in the findAllMessages at all
-
-        return messageFinder.findAllMessages(cid, extendedPageSize, null);
+        // Return found message
+        return messageFinder.findAllMessages(cid, extendedPageSize);
     }
 }

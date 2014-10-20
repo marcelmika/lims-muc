@@ -321,7 +321,6 @@
 				Limsmuc_Message
 			WHERE
 				Limsmuc_Message.cid = ?
-                [$STOPPER$]
 			ORDER BY
 			    Limsmuc_Message.createdAt DESC
 		]]>

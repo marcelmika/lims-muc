@@ -19,7 +19,7 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
  */
 public interface MessageFinder {
 	public java.util.List<java.lang.Object[]> findAllMessages(
-		java.lang.Long cid, java.lang.Integer pageSize, java.lang.Long stopperId)
+		java.lang.Long cid, java.lang.Integer pageSize)
 		throws java.lang.Exception;
 
 	public java.lang.Integer countAllMessages(java.lang.Long cid,
