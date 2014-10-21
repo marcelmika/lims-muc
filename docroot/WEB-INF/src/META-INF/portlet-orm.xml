@@ -25,7 +25,9 @@
 			<id name="mid" />
 			<basic name="cid" />
 			<basic name="creatorId" />
-			<basic name="createdAt" />
+			<basic name="createdAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<basic name="body" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

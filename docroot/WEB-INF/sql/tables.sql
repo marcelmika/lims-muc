@@ -9,7 +9,7 @@ create table Limsmuc_Message (
 	mid LONG not null primary key,
 	cid LONG,
 	creatorId LONG,
-	createdAt LONG,
+	createdAt DATE null,
 	body TEXT null
 );
 

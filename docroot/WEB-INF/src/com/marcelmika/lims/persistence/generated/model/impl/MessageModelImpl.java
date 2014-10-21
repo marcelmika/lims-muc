@@ -15,6 +15,7 @@
 package com.marcelmika.lims.persistence.generated.model.impl;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,6 +34,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,10 +63,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			{ "mid", Types.BIGINT },
 			{ "cid", Types.BIGINT },
 			{ "creatorId", Types.BIGINT },
-			{ "createdAt", Types.BIGINT },
+			{ "createdAt", Types.TIMESTAMP },
 			{ "body", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,creatorId LONG,createdAt LONG,body TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,creatorId LONG,createdAt DATE null,body TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Message";
 	public static final String ORDER_BY_JPQL = " ORDER BY message.createdAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Message.createdAt ASC";
@@ -152,7 +154,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			setCreatorId(creatorId);
 		}
 
-		Long createdAt = (Long)attributes.get("createdAt");
+		Date createdAt = (Date)attributes.get("createdAt");
 
 		if (createdAt != null) {
 			setCreatedAt(createdAt);
@@ -220,12 +222,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	}
 
 	@Override
-	public long getCreatedAt() {
+	public Date getCreatedAt() {
 		return _createdAt;
 	}
 
 	@Override
-	public void setCreatedAt(long createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		_columnBitmask = -1L;
 
 		_createdAt = createdAt;
@@ -292,15 +294,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	public int compareTo(Message message) {
 		int value = 0;
 
-		if (getCreatedAt() < message.getCreatedAt()) {
-			value = -1;
-		}
-		else if (getCreatedAt() > message.getCreatedAt()) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = DateUtil.compareTo(getCreatedAt(), message.getCreatedAt());
 
 		if (value != 0) {
 			return value;
@@ -361,7 +355,14 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageCacheModel.creatorId = getCreatorId();
 
-		messageCacheModel.createdAt = getCreatedAt();
+		Date createdAt = getCreatedAt();
+
+		if (createdAt != null) {
+			messageCacheModel.createdAt = createdAt.getTime();
+		}
+		else {
+			messageCacheModel.createdAt = Long.MIN_VALUE;
+		}
 
 		messageCacheModel.body = getBody();
 
@@ -438,7 +439,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private long _creatorId;
 	private long _originalCreatorId;
 	private boolean _setOriginalCreatorId;
-	private long _createdAt;
+	private Date _createdAt;
 	private String _body;
 	private long _columnBitmask;
 	private Message _escapedModel;

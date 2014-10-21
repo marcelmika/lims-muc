@@ -56,7 +56,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
         messageModel.setCid(cid);
         messageModel.setCreatorId(creatorId);
         messageModel.setBody(body);
-        messageModel.setCreatedAt(createdAt.getTime());
+        messageModel.setCreatedAt(createdAt);
 
         // Update model
         messageModel = messagePersistence.update(messageModel, false);

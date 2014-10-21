@@ -84,7 +84,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Now we need to map types to columns
             query.addScalar("mid", Type.LONG);
             query.addScalar("creatorId", Type.LONG);
-            query.addScalar("createdAd", Type.LONG);
+            query.addScalar("createdAd", Type.CALENDAR);
             query.addScalar("body", Type.STRING);
 
             // Add parameters to query
@@ -169,7 +169,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Now we need to map types to columns
             query.addScalar("mid", Type.LONG);
             query.addScalar("creatorId", Type.LONG);
-            query.addScalar("createdAd", Type.LONG);
+            query.addScalar("createdAd", Type.CALENDAR);
             query.addScalar("body", Type.STRING);
 
             // Add parameters to query
@@ -213,7 +213,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Now we need to map types to columns
             query.addScalar("mid", Type.LONG);
             query.addScalar("creatorId", Type.LONG);
-            query.addScalar("createdAd", Type.LONG);
+            query.addScalar("createdAd", Type.CALENDAR);
             query.addScalar("body", Type.STRING);
 
             // Add parameters to query

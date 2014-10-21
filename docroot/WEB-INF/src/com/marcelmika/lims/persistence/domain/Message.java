@@ -26,10 +26,7 @@ package com.marcelmika.lims.persistence.domain;
 
 import com.marcelmika.lims.api.entity.MessageDetails;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Ing. Marcel Mika
@@ -82,7 +79,7 @@ public class Message {
         // Properties:
         message.messageId = messageModel.getMid();
         message.body = messageModel.getBody();
-        message.createdAt = new Date(messageModel.getCreatedAt());
+        message.createdAt = messageModel.getCreatedAt();
 
         Buddy creator = new Buddy();
         creator.setBuddyId(messageModel.getCreatorId());
@@ -108,7 +105,9 @@ public class Message {
         creator.setBuddyId((Long) object[firstElement++]);
         message.from = creator;
 
-        message.createdAt = new Date((Long) object[firstElement++]);
+        Calendar createdAt = (Calendar) object[firstElement++];
+        message.createdAt = createdAt.getTime();
+
         message.body = (String) object[firstElement];
 
         return message;
@@ -118,7 +117,7 @@ public class Message {
         // Create new list
         List<Message> messages = new LinkedList<Message>();
         // Map
-        for (Object[] object: objects) {
+        for (Object[] object : objects) {
             messages.add(Message.fromPlainObject(object, firstElement));
         }
 
