@@ -364,6 +364,20 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Hide read more activity indicator
+     *
+     * @private
+     */
+    _hideReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator');
+
+        if (indicator.inDoc()) {
+            indicator.remove();
+        }
+    },
+
+    /**
      * Scrolls list to a particular position
      *
      * @param position
@@ -546,7 +560,8 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     _onPanelContentScroll: function () {
         // Vars
         var scrollPosition = this.get('panelContent').get('scrollTop'),
-            model = this.get('model');
+            model = this.get('model'),
+            instance = this;
 
         // User has reached the top by scrolling and there is still something
         // we can read from the model
@@ -554,8 +569,8 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             // Show the preloader
             this._showReadMoreActivityIndicator();
             // Load the model
-            model.load({
-                readMore: true
+            model.load({readMore: true}, function() {
+                instance._hideReadMoreActivityIndicator();
             });
         }
     },

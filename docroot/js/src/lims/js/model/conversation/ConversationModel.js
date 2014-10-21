@@ -257,12 +257,12 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {
                                 callback(null, instance);
+                                // Fire success event
+                                instance.fire('readSuccess');
                                 return;
                             }
                             // Deserialize response
                             response = Y.JSON.parse(o.responseText);
-
-                            console.log(response);
 
                             // Update message list
                             instance.updateConversation(response, readMore);
@@ -364,6 +364,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         if (this.get('firstMessage')) {
             if (this.get('firstMessage').get('messageId') === postStopperId) {
                 this.set('reachedTop', true);
+            } else {
+                this.set('reachedTop', false);
             }
         }
 
