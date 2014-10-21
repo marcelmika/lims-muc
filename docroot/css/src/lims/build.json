@@ -12,6 +12,7 @@
                 "css/panel.scss",
                 "css/panel-contacts.scss",
                 "css/panel-conversation.scss",
+                "css/panel-conversation-feed.scss",
                 "css/panel-presence.scss",
                 "css/panel-settings.scss",
                 "css/panel-status.scss",

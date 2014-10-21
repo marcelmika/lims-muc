@@ -1,0 +1,40 @@
+
+/********************************************************************************
+/ CONVERSATION FEED PANEL
+/********************************************************************************/
+
+.liferay-ims .conversation-feed {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-feed.png) no-repeat center center;
+    @include image-2x('/images/icon-conversation-feed@2x.png', auto, 16px);
+    width: 40px;
+    height: 24px;
+  }
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-feed-selected.png) no-repeat center center;
+    @include image-2x('/images/icon-conversation-feed-selected@2x.png', auto, 16px);
+    width: 40px;
+    height: 24px;
+  }
+
+
+
+
+
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    list-style-type: none;
+    margin: 0;
+    height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2px 0;
+  }
+}
