@@ -91,4 +91,12 @@ public interface ConversationPersistenceService {
      */
     public GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event);
 
+    /**
+     * Get all conversations related to the particular buddy
+     *
+     * @param event request event for method
+     * @return response event for  method
+     */
+    public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
+
 }

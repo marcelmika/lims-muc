@@ -41,7 +41,6 @@ public interface ConversationCoreService {
      *
      * @param event request event for method
      * @return response event for  method
-     * @deprecated
      */
     public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
 

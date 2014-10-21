@@ -396,6 +396,68 @@ public class ConversationController {
     }
 
     /**
+     * Reads all conversations of the given user
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void readConversations(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;        // Authorized user
+
+        // Deserialize
+        try {
+            // Create buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+            // TODO: Deserialize pagination
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            log.debug(exception);
+            // End here
+            return;
+        }
+
+        // Read all conversations
+        GetConversationsResponseEvent responseEvent = conversationCoreService.getConversations(
+                new GetConversationsRequestEvent(buddy.toBuddyDetails())
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Map conversation from details
+            List<Conversation> conversationList = Conversation.fromConversationDetailsList(
+                    responseEvent.getConversationDetails()
+            );
+            // Serialize
+            String serialized = JSONFactoryUtil.looseSerialize(conversationList, "lastMessage", "lastMessage.from");
+            // Write success to response
+            ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+        }
+        // Failure
+        else {
+            GetConversationsResponseEvent.Status status = responseEvent.getStatus();
+            // Unauthorized
+            if (status == GetConversationsResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+            }
+            // Bad Request
+            else if (status == GetConversationsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Everything else is server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                log.error(responseEvent.getException());
+            }
+        }
+    }
+
+    /**
      * Create new message in conversation
      *
      * @param request  ResourceRequest

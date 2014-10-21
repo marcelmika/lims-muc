@@ -30,6 +30,7 @@
                 "js/model/buddy/BuddyModelList.js",
                 "js/model/buddy/BuddySearchListModel.js",
                 "js/model/conversation/ConversationModel.js",
+                "js/model/conversation/ConversationFeedList.js",
                 "js/model/conversation/ConversationListModel.js",
                 "js/model/message/MessageItemModel.js",
                 "js/model/message/MessageListModel.js",
@@ -54,6 +55,8 @@
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/view/ViewExtension.js",
+                "js/view/conversation/ConversationFeedItem.js",
+                "js/view/conversation/ConversationFeedList.js",
                 "js/view/conversation/ConversationItemView.js",
                 "js/view/conversation/ConversationListView.js",
                 "js/view/elements/ChoiceElementView.js",

@@ -367,6 +367,13 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 		return _participantLocalService.getOpenedConversations(participantId);
 	}
 
+	@Override
+	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _participantLocalService.getConversations(participantId);
+	}
+
 	/**
 	* Returns a list of users who participates in conversation
 	*

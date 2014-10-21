@@ -85,7 +85,9 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             });
             // Conversation Feed
             new Y.LIMS.Controller.ConversationFeedViewController({
-                container: rootNode.one('.conversation-feed')
+                container: rootNode.one('.conversation-feed'),
+                properties: properties,
+                poller: poller
             });
         });
     },

@@ -27,6 +27,14 @@
     <div class="group-name">{name}</div>
 </script>
 
+<%-- This template HTML will be used to render each group item. --%>
+<script type="text/x-template" id="lims-conversation-feed-item-template">
+    <div class="item-portrait">{portrait}</div>
+    <div class="title">{title}</div>
+    <div class="last-message">{lastMessage}</div>
+    <div class="timestamp" title="{timestamp}">{timestampPrettified}</div>
+</script>
+
 <%-- This template HTML will be used to render each group buddy item. --%>
 <script type="text/x-template" id="lims-group-buddy-item-template">
     <div class="group-buddy-item-portrait">{portrait}</div>

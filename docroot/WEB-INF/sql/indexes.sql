@@ -7,6 +7,7 @@ create index IX_90E2497D on Limsmuc_Panel (userId);
 
 create index IX_E6C333BC on Limsmuc_Participant (cid);
 create index IX_6AEA59A2 on Limsmuc_Participant (cid, participantId);
+create index IX_8D897FAC on Limsmuc_Participant (participantId);
 create index IX_8A3FED13 on Limsmuc_Participant (participantId, isOpened);
 
 create index IX_A8B4EE3F on Limsmuc_Settings (presence);

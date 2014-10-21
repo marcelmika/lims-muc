@@ -22,7 +22,57 @@
   }
 
 
+  .conversation-feed-item {
+    padding: 7px;
+    cursor: pointer;
+    clear: both;
+    line-height: 15px;
+    border-bottom: 1px solid #efefef;
 
+    &:hover {
+      background: #f8f8f8;
+    }
+
+    .title {
+      margin-top: 2px;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+
+    .timestamp {
+      font-size: 9px;
+      color: #aaa;
+      margin-top: 6px;
+    }
+
+    .last-message {
+      margin-top: 2px;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .item-portrait {
+      height: 36px;
+      width: 36px;
+      margin: 0 6px 2px 0;
+      float: left;
+    }
+
+    .item-portrait .portrait {
+      display: block;
+      height: 36px;
+      width: 36px;
+      background: #fff;
+      // Circled image
+      @include border-radius(18px);
+    }
+
+  }
 
 
 

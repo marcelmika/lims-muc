@@ -47,12 +47,74 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         },
 
         /**
+         * Panel Did Appear is called when the panel did appear on the screen
+         */
+        onPanelDidAppear: function () {
+            // Start poller
+            this._startPolling();
+        },
+
+        /**
+         * Panel Did Disappear is called when the panel disappeared from the screen
+         */
+        onPanelDidDisappear: function () {
+            // Stop poller
+            this._stopPolling();
+        },
+
+        /**
+         * Session Expired is called whenever the user session has expired. Provide all necessary cleaning like
+         * invalidation of timer, etc. At the end of the method the controller will be automatically hidden from
+         * the screen.
+         */
+        onSessionExpired: function () {
+            this._stopPolling();
+        },
+
+        /**
          * Attaches events to DOM elements from container
          *
          * @private
          */
         _attachEvents: function () {
+            // Vars
+//            var model = this.get('model');
 
+        },
+
+        /**
+         * Starts poller that periodically refreshes the group list
+         *
+         * @private
+         */
+        _startPolling: function () {
+
+            // Vars
+            var model = this.get('model'),
+                poller = this.get('poller'),
+                properties = this.get('properties');
+
+            // Start only if the chat is enabled
+            if (properties.isChatEnabled()) {
+
+                // Register model to the poller
+                poller.register('conversationFeedViewController:model', new Y.LIMS.Core.PollerEntry({
+                    model: model,       // Model that will be periodically refreshed
+                    interval: 10000     // 10 seconds period
+                }));
+            }
+        },
+
+        /**
+         * Stops poller that periodically refreshes the group list
+         *
+         * @private
+         */
+        _stopPolling: function () {
+            // Vars
+            var poller = this.get('poller');
+            // Pause
+            poller.unregister('conversationFeedViewController:model');
         }
 
     }, {
@@ -67,6 +129,65 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
 
             // Container Node
             container: {
+                value: null // to be set
+            },
+
+            /**
+             * Controller model
+             *
+             * {Y.LIMS.Model.ConversationFeedList}
+             */
+            model: {
+                valueFn: function () {
+                    return new Y.LIMS.Model.ConversationFeedList();
+                }
+            },
+
+            /**
+             * Panel content node
+             *
+             * {Node}
+             */
+            panelContent: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-content');
+                }
+            },
+
+            /**
+             * View that holds the list of conversations
+             *
+             * {Y.LIMS.View.ConversationFeedList}
+             */
+            listView: {
+                valueFn: function () {
+                    // Vars
+                    var container = this.get('panelContent'),
+                        model = this.get('model');
+
+                    // Create view
+                    return new Y.LIMS.View.ConversationFeedList({
+                        container: container,
+                        model: model
+                    });
+                }
+            },
+
+            /**
+             * Properties object
+             *
+             * {Y.LIMS.Core.Properties}
+             */
+            properties: {
+                value: null // to be set
+            },
+
+            /**
+             * An instance of poller that periodically refreshes models that are subscribed
+             *
+             * {Y.LIMS.Core.Poller}
+             */
+            poller: {
                 value: null // to be set
             }
         }

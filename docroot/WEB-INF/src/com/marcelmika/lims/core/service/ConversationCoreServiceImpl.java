@@ -75,7 +75,8 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      */
     @Override
     public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event) {
-        throw new NotImplementedException();
+        // Read from persistence
+        return conversationPersistenceService.getConversations(event);
     }
 
     /**

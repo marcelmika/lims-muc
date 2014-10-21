@@ -365,46 +365,29 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
         try {
 
-            // Prepare conversations container
-            List<Conversation> conversations = new LinkedList<Conversation>();
 
-            // Find participants
+            // Get a list of conversations where the user participates
             List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getOpenedConversations(
                     buddy.getBuddyId()
             );
 
+            // Prepare conversations container
+            List<Conversation> conversations = new LinkedList<Conversation>();
+
             // Find conversations where the user participates
             for (Participant participates : buddyParticipates) {
 
-                // Find by cid
-                com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                        ConversationLocalServiceUtil.getConversation(participates.getCid());
+                Conversation conversation = readConversation(participates.getCid());
 
-                // No need to map anything else
-                if (conversationModel == null) {
-                    break;
+                if (conversation != null) {
+                    conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
+                    conversation.setBuddy(buddy);
+
+                    // Add to container
+                    conversations.add(conversation);
                 }
-
-                // Get participants
-                List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(
-                        conversationModel.getCid()
-                );
-
-                // Map to persistence
-                List<Buddy> participants = new LinkedList<Buddy>();
-                for (Participant participantModel : participantModels) {
-                    participants.add(Buddy.fromParticipantModel(participantModel));
-                }
-
-                // Finally, we have everything we needed
-                Conversation conversation = Conversation.fromConversationModel(conversationModel);
-                conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
-                conversation.setParticipants(participants);
-                conversation.setBuddy(buddy);
-
-                // Add to container
-                conversations.add(conversation);
             }
+
 
             // Create details from persistence object
             List<ConversationDetails> conversationDetails = new LinkedList<ConversationDetails>();
@@ -423,6 +406,92 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         }
     }
 
+    /**
+     * Get all conversations related to the particular buddy
+     *
+     * @param event request event for method
+     * @return response event for  method
+     */
+    @Override
+    public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event) {
+        // Map to persistence objects
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
+
+        try {
+
+            // Get a list of conversations where the user participates
+            List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getConversations(buddy.getBuddyId());
+
+            // Prepare conversations container
+            List<Conversation> conversations = new LinkedList<Conversation>();
+
+            // Find conversations where the user participates
+            for (Participant participates : buddyParticipates) {
+
+                Conversation conversation = readConversation(participates.getCid());
+
+                if (conversation != null) {
+                    conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
+                    conversation.setBuddy(buddy);
+                    conversation.setLastMessage(getLastMessage(participates.getCid()));
+
+                    // Add to container
+                    conversations.add(conversation);
+                }
+            }
+
+            // Create details from persistence object
+            List<ConversationDetails> conversationDetails = new LinkedList<ConversationDetails>();
+            for (Conversation conversation : conversations) {
+                conversationDetails.add(conversation.toConversationDetails());
+            }
+
+            // Call success
+            return GetConversationsResponseEvent.success(conversationDetails);
+
+        } catch (Exception exception) {
+            // Call Failure
+            return GetConversationsResponseEvent.failure(
+                    GetConversationsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Returns a mapped conversation from the model cid
+     *
+     * @param cid id of the conversation
+     * @return mapped conversation
+     * @throws Exception
+     */
+    private Conversation readConversation(Long cid) throws Exception {
+
+        // Find by cid
+        com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
+                ConversationLocalServiceUtil.getConversation(cid);
+
+        // No need to map anything else
+        if (conversationModel == null) {
+            return null;
+        }
+
+        // Get participants
+        List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(
+                conversationModel.getCid()
+        );
+
+        // Map to persistence
+        List<Buddy> participants = new LinkedList<Buddy>();
+        for (Participant participantModel : participantModels) {
+            participants.add(Buddy.fromParticipantModel(participantModel));
+        }
+
+        // Finally, we have everything we needed
+        Conversation conversation = Conversation.fromConversationModel(conversationModel);
+        conversation.setParticipants(participants);
+
+        return conversation;
+    }
 
     /**
      * Reads the message related to the conversation. The size of list is determined

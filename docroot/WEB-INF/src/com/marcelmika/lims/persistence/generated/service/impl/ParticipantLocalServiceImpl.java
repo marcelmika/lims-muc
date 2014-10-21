@@ -221,4 +221,15 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
     public Participant getParticipant(Long cid, Long participantId) throws NoSuchParticipantException, SystemException {
         return participantPersistence.findByCidParticipantId(cid, participantId);
     }
+
+    /**
+     * Returns a list of conversations where the user participates
+     *
+     * @param participantId User Id of the participant
+     * @return List of conversation
+     * @throws SystemException
+     */
+    public List<Participant> getConversations(Long participantId) throws SystemException {
+        return participantPersistence.findByParticipantId(participantId);
+    }
 }
