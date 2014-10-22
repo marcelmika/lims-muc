@@ -64,6 +64,13 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             })
         );
 
+        // Check if the conversation is unread
+        if (model.get('unreadMessagesCount') > 0) {
+            container.addClass('unread');
+        } else {
+            container.removeClass('unread');
+        }
+
         // Attach events to newly created container
         this._attachEvents();
 
@@ -83,6 +90,10 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         // Attach click on panel's item
         container.on('click', function (event) {
             event.preventDefault();
+
+            // The message is read
+            container.removeClass('unread');
+
             // Fire event
             Y.fire('conversationSelected', {
                 conversation: model

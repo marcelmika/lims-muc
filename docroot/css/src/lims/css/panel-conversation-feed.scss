@@ -1,4 +1,3 @@
-
 /********************************************************************************
 / CONVERSATION FEED PANEL
 /********************************************************************************/
@@ -20,7 +19,6 @@
     width: 40px;
     height: 24px;
   }
-
 
   .conversation-feed-item {
     padding: 4px 7px 3px;
@@ -78,7 +76,9 @@
     border-bottom: none;
   }
 
-
+  .conversation-feed-item.unread {
+    background: #EEF7FD;
+  }
 
   ////////////////////////////////////////////
   // PANEL CONTENT                          //
@@ -89,6 +89,6 @@
     height: 284px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 2px 0;
+    padding: 0;
   }
 }
