@@ -24,10 +24,8 @@
 
 package com.marcelmika.lims.api.events.conversation;
 
+import com.marcelmika.lims.api.entity.ConversationCollectionDetails;
 import com.marcelmika.lims.api.events.ResponseEvent;
-import com.marcelmika.lims.api.entity.ConversationDetails;
-
-import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -39,7 +37,7 @@ public class GetConversationsResponseEvent extends ResponseEvent {
 
 
     private Status status;
-    private List<ConversationDetails> conversationDetails;
+    private ConversationCollectionDetails conversationCollection;
 
     public enum Status {
         SUCCESS, // Event was successful
@@ -60,12 +58,12 @@ public class GetConversationsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static GetConversationsResponseEvent success(final List<ConversationDetails> conversations) {
+    public static GetConversationsResponseEvent success(final ConversationCollectionDetails conversationCollection) {
         GetConversationsResponseEvent event = new GetConversationsResponseEvent();
 
         event.status = Status.SUCCESS;
         event.success = true;
-        event.conversationDetails = conversations;
+        event.conversationCollection = conversationCollection;
 
         return event;
     }
@@ -93,7 +91,7 @@ public class GetConversationsResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static GetConversationsResponseEvent failure(final Status status,
-                                                              final Throwable exception) {
+                                                        final Throwable exception) {
 
         GetConversationsResponseEvent event = new GetConversationsResponseEvent();
 
@@ -104,11 +102,12 @@ public class GetConversationsResponseEvent extends ResponseEvent {
         return event;
     }
 
+
     public Status getStatus() {
         return status;
     }
 
-    public List<ConversationDetails> getConversationDetails() {
-        return conversationDetails;
+    public ConversationCollectionDetails getConversationCollection() {
+        return conversationCollection;
     }
 }

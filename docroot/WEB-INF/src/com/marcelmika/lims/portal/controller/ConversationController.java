@@ -32,10 +32,7 @@ import com.marcelmika.lims.core.service.ConversationCoreService;
 import com.marcelmika.lims.portal.domain.*;
 import com.marcelmika.lims.portal.http.HttpStatus;
 import com.marcelmika.lims.portal.request.RequestParameterKeys;
-import com.marcelmika.lims.portal.request.parameters.CloseConversationParameters;
-import com.marcelmika.lims.portal.request.parameters.CreateMessageParameters;
-import com.marcelmika.lims.portal.request.parameters.ReadConversationParameters;
-import com.marcelmika.lims.portal.request.parameters.ResetUnreadMessagesCounterParameters;
+import com.marcelmika.lims.portal.request.parameters.*;
 import com.marcelmika.lims.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
@@ -403,13 +400,18 @@ public class ConversationController {
      */
     public void readConversations(ResourceRequest request, ResourceResponse response) {
 
-        Buddy buddy;        // Authorized user
+        Buddy buddy;                            // Authorized user
+        ReadConversationsParameters parameters; // Parameters for the request
 
         // Deserialize
         try {
+            // Parameters
+            parameters = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS), ReadConversationsParameters.class
+            );
+
             // Create buddy from request
             buddy = Buddy.fromResourceRequest(request);
-            // TODO: Deserialize pagination
         }
         // Failure
         catch (Exception exception) {
@@ -428,14 +430,28 @@ public class ConversationController {
 
         // Success
         if (responseEvent.isSuccess()) {
-            // Map conversation from details
-            List<Conversation> conversationList = Conversation.fromConversationDetailsList(
-                    responseEvent.getConversationDetails()
+            // Map conversation collection
+            ConversationCollection conversationCollection = ConversationCollection.fromConversationCollectionDetails(
+                    responseEvent.getConversationCollection()
             );
-            // Serialize
-            String serialized = JSONFactoryUtil.looseSerialize(conversationList, "lastMessage", "lastMessage.from");
-            // Write success to response
-            ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+
+            // ... and compare it with group collection etag
+            // Cached
+            if (parameters.getEtag().equals(conversationCollection.getEtag())) {
+                // Etags equal which means that nothing has changed
+                ResponseUtil.writeResponse(HttpStatus.NOT_MODIFIED, response);
+            }
+            // Not cached
+            else {
+                // Serialize
+                String serialized = JSONFactoryUtil.looseSerialize(conversationCollection,
+                        "conversations",
+                        "conversations.lastMessage",
+                        "conversations.lastMessage.from"
+                );
+                // Write success to response
+                ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+            }
         }
         // Failure
         else {

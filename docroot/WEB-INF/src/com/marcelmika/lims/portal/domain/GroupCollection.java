@@ -46,13 +46,10 @@ public class GroupCollection {
     private BuddyListStrategy listStrategy;
     private int etag;
 
-    // -------------------------------------------------------------------------------------------
-    // Factory Methods
-    // -------------------------------------------------------------------------------------------
-
     /**
-     * Create new group and maps data from group details
+     * Factory method that creates group collection from group collection details
      *
+     * @param details GroupCollectionDetails
      * @return GroupCollection
      */
     public static GroupCollection fromGroupCollectionDetails(GroupCollectionDetails details) {
@@ -99,15 +96,15 @@ public class GroupCollection {
         return lastModified;
     }
 
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
     public BuddyListStrategy getListStrategy() {
         return listStrategy;
     }
 
     public void setListStrategy(BuddyListStrategy listStrategy) {
         this.listStrategy = listStrategy;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
     }
 }

@@ -32,10 +32,7 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.lims.api.entity.ConversationDetails;
 import com.marcelmika.lims.api.environment.Environment;
 import com.marcelmika.lims.api.events.conversation.*;
-import com.marcelmika.lims.persistence.domain.Buddy;
-import com.marcelmika.lims.persistence.domain.Conversation;
-import com.marcelmika.lims.persistence.domain.Message;
-import com.marcelmika.lims.persistence.domain.MessagePagination;
+import com.marcelmika.lims.persistence.domain.*;
 import com.marcelmika.lims.persistence.generated.NoSuchConversationException;
 import com.marcelmika.lims.persistence.generated.NoSuchParticipantException;
 import com.marcelmika.lims.persistence.generated.model.Participant;
@@ -43,6 +40,7 @@ import com.marcelmika.lims.persistence.generated.service.ConversationLocalServic
 import com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.ParticipantLocalServiceUtil;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -428,26 +426,42 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Find conversations where the user participates
             for (Participant participates : buddyParticipates) {
 
+                // Read conversation from persistence
                 Conversation conversation = readConversation(participates.getCid());
 
                 if (conversation != null) {
-                    conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
-                    conversation.setBuddy(buddy);
-                    conversation.setLastMessage(getLastMessage(participates.getCid()));
+                    // Get the last message
+                    Message lastMessage = getLastMessage(participates.getCid());
 
-                    // Add to container
-                    conversations.add(conversation);
+                    // Don't include conversation that have no messages
+                    if (lastMessage != null) {
+                        conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
+                        conversation.setBuddy(buddy);
+                        conversation.setLastMessage(lastMessage);
+
+                        // Add to container
+                        conversations.add(conversation);
+                    }
                 }
             }
 
-            // Create details from persistence object
-            List<ConversationDetails> conversationDetails = new LinkedList<ConversationDetails>();
-            for (Conversation conversation : conversations) {
-                conversationDetails.add(conversation.toConversationDetails());
+            // Create conversation collection
+            ConversationCollection conversationCollection = new ConversationCollection();
+
+            // Check the last modification
+            Date lastModification = null;
+            if (conversations.size() > 0) {
+                // Last modification is whenever the top most conversation is updated
+                // by e.g. sending a new message to it
+                lastModification = conversations.get(0).getUpdatedAt();
             }
 
+            // Set data to conversation collection
+            conversationCollection.setConversations(conversations);
+            conversationCollection.setLastModified(lastModification);
+
             // Call success
-            return GetConversationsResponseEvent.success(conversationDetails);
+            return GetConversationsResponseEvent.success(conversationCollection.toConversationCollectionDetails());
 
         } catch (Exception exception) {
             // Call Failure

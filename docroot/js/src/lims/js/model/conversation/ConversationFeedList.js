@@ -45,8 +45,10 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
     sync: function (action, options, callback) {
 
         // Vars
-        var instance = this,    // Remember the instance
-            response;           // Response from the server
+        var instance = this,            // Remember the instance
+            etag = this.get('etag'),    // Etag
+            parameters,                 // Parameters of the request
+            response;                   // Response from the server
 
         switch (action) {
 
@@ -54,17 +56,38 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             // to server which loads a list of opened conversations
             case 'read':
 
+                // Let the listeners know that we have began
                 instance.fire('readBegin');
+
+                // Set parameters
+                parameters = Y.JSON.stringify({
+                    // Send etag to server so it knows if it should send groups again or we should keep
+                    // the old cached values
+                    etag: etag
+                });
 
                 // Send the request
                 Y.io(this.getServerRequestUrl(), {
                     method: "GET",
                     data: {
-                        query: "ReadConversations"
+                        query: "ReadConversations",
+                        parameters: parameters
                     },
                     timeout: 30000, // 30 seconds
                     on: {
                         success: function (id, o) {
+
+                            // If nothing has change the server returns 304 (not modified)
+                            // As a result we don't need to refresh anything
+                            if (o.status === 304) {
+                                // Call the success
+                                instance.fire('readSuccess');
+                                // Return callback
+                                callback(null);
+                                // End here
+                                return;
+                            }
+
                             // Deserialize response
                             response = Y.JSON.parse(o.responseText);
 
@@ -84,6 +107,10 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                                 // Notify everybody else
                                 Y.fire('userSessionExpired');
                             }
+
+                            // Clear etag otherwise when we load the data again it
+                            // might still be cached
+                            instance.set('etag', -1);
 
                             instance.fire('readError');
 
@@ -112,28 +139,44 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
     _updateConversationList: function (response) {
 
         // Vars
-        var index, conversation, model, conversationModels = [];
+        var conversations = response.conversations,
+            etag = this.get('etag'),
+            index,
+            conversation,
+            conversationModels = [];
 
-        // Create model instance from response
-        for (index = 0; index < response.length; index++) {
-            conversation = response[index];
-            // Map model from the json response
-            model = new Y.LIMS.Model.ConversationModel(conversation);
-            // Include only those conversations that have last message
-            if (model.get('lastMessage')) {
+        // Update conversation list only if the etag has changed
+        if (response.etag !== null && etag.toString() !== response.etag.toString()) {
+
+            // Save new etag
+            this.set('etag', response.etag);
+
+            // Create model instance from response
+            for (index = 0; index < conversations.length; index++) {
+                conversation = conversations[index];
+                // Map model from the json response
                 conversationModels.push(new Y.LIMS.Model.ConversationModel(conversation));
             }
+
+            // Repopulate the list
+            this.reset(conversationModels);
+
+            // Fire the event
+            this.fire('conversationFeedUpdated', this);
         }
-
-        // Repopulate the list
-        this.reset(conversationModels);
-
-        // Fire the event
-        this.fire('conversationFeedUpdated', this);
     }
 
 }, {
     ATTRS: {
+
+        /**
+         * Etag of the conversation feed. This is used for caching. If the requested etag
+         * is the same like the one currently cached there is no need to send
+         * the data.
+         */
+        etag: {
+            value: -1 // default value
+        }
 
     }
 });

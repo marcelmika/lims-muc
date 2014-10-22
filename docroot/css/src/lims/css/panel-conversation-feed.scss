@@ -23,7 +23,7 @@
 
 
   .conversation-feed-item {
-    padding: 7px;
+    padding: 4px 7px 3px;
     cursor: pointer;
     clear: both;
     line-height: 15px;
@@ -45,11 +45,11 @@
     .timestamp {
       font-size: 9px;
       color: #aaa;
-      margin-top: 6px;
+      margin-top: 0px;
     }
 
     .last-message {
-      margin-top: 2px;
+      margin-top: 0px;
       max-width: 195px;
       overflow: hidden;
       white-space: nowrap;
@@ -57,19 +57,19 @@
     }
 
     .item-portrait {
-      height: 36px;
-      width: 36px;
+      height: 46px;
+      width: 46px;
       margin: 0 6px 2px 0;
       float: left;
     }
 
     .item-portrait .portrait {
       display: block;
-      height: 36px;
-      width: 36px;
+      height: 46px;
+      width: 46px;
       background: #fff;
       // Circled image
-      @include border-radius(18px);
+      @include border-radius(23px);
     }
 
   }

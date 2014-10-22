@@ -101,7 +101,7 @@ public class GroupController {
 
         // Success
         if (responseEvent.isSuccess()) {
-            // Map groups from group details
+            // Map group collection
             GroupCollection groupCollection = GroupCollection.fromGroupCollectionDetails(
                     responseEvent.getGroupCollection()
             );
@@ -109,8 +109,7 @@ public class GroupController {
             // ... and compare it with group collection etag
             // Cached
             if (parameters.getEtag().equals(groupCollection.getEtag())) {
-                // Etags equal which means that nothing has changed.
-                // Write only the group collection without groups and buddies (no extra traffic needed)
+                // Etags equal which means that nothing has changed
                 ResponseUtil.writeResponse(HttpStatus.NOT_MODIFIED, response);
             }
             // Not cached

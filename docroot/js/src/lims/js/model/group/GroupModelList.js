@@ -66,10 +66,12 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                     on: {
                         success: function (id, o) {
 
-                            // If nothing has change the server return 304 (not modified)
+                            // If nothing has change the server returns 304 (not modified)
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {
+                                // Return callback
                                 callback(null);
+                                // End here
                                 return;
                             }
 
