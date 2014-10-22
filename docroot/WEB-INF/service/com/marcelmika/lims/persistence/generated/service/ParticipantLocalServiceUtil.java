@@ -350,12 +350,6 @@ public class ParticipantLocalServiceUtil {
 		return getService().getOpenedConversations(participantId);
 	}
 
-	public static java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getConversations(participantId);
-	}
-
 	/**
 	* Returns a list of users who participates in conversation
 	*
@@ -384,6 +378,18 @@ public class ParticipantLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.marcelmika.lims.persistence.generated.NoSuchParticipantException {
 		return getService().getParticipant(cid, participantId);
+	}
+
+	/**
+	* Returns a list of conversations where the user participates
+	*
+	* @param participantId User Id of the participant
+	* @return List of conversation
+	* @throws SystemException
+	*/
+	public static java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
+		java.lang.Long participantId) throws java.lang.Exception {
+		return getService().getConversations(participantId);
 	}
 
 	public static void clearService() {

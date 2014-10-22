@@ -37,6 +37,7 @@ import com.marcelmika.lims.persistence.generated.service.persistence.Conversatio
 import com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder;
 import com.marcelmika.lims.persistence.generated.service.persistence.MessagePersistence;
 import com.marcelmika.lims.persistence.generated.service.persistence.PanelPersistence;
+import com.marcelmika.lims.persistence.generated.service.persistence.ParticipantFinder;
 import com.marcelmika.lims.persistence.generated.service.persistence.ParticipantPersistence;
 import com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder;
 import com.marcelmika.lims.persistence.generated.service.persistence.SettingsPersistence;
@@ -445,6 +446,24 @@ public abstract class PanelLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the participant finder.
+	 *
+	 * @return the participant finder
+	 */
+	public ParticipantFinder getParticipantFinder() {
+		return participantFinder;
+	}
+
+	/**
+	 * Sets the participant finder.
+	 *
+	 * @param participantFinder the participant finder
+	 */
+	public void setParticipantFinder(ParticipantFinder participantFinder) {
+		this.participantFinder = participantFinder;
+	}
+
+	/**
 	 * Returns the settings local service.
 	 *
 	 * @return the settings local service
@@ -693,6 +712,8 @@ public abstract class PanelLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.marcelmika.lims.persistence.generated.service.ParticipantLocalService participantLocalService;
 	@BeanReference(type = ParticipantPersistence.class)
 	protected ParticipantPersistence participantPersistence;
+	@BeanReference(type = ParticipantFinder.class)
+	protected ParticipantFinder participantFinder;
 	@BeanReference(type = com.marcelmika.lims.persistence.generated.service.SettingsLocalService.class)
 	protected com.marcelmika.lims.persistence.generated.service.SettingsLocalService settingsLocalService;
 	@BeanReference(type = SettingsPersistence.class)

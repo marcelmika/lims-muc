@@ -143,19 +143,19 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 		_methodParameterTypes23 = new String[] { "java.lang.Long" };
 
-		_methodName24 = "getConversations";
+		_methodName24 = "getConversationParticipants";
 
 		_methodParameterTypes24 = new String[] { "java.lang.Long" };
 
-		_methodName25 = "getConversationParticipants";
+		_methodName25 = "getParticipant";
 
-		_methodParameterTypes25 = new String[] { "java.lang.Long" };
-
-		_methodName26 = "getParticipant";
-
-		_methodParameterTypes26 = new String[] {
+		_methodParameterTypes25 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
+
+		_methodName26 = "getConversations";
+
+		_methodParameterTypes26 = new String[] { "java.lang.Long" };
 	}
 
 	@Override
@@ -886,36 +886,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	}
 
 	@Override
-	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24,
-					new Object[] { ClpSerializer.translateInput(participantId) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<com.marcelmika.lims.persistence.generated.model.Participant>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversationParticipants(
 		java.lang.Long cid)
 		throws com.liferay.portal.kernel.exception.SystemException,
@@ -923,8 +893,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName25,
-					_methodParameterTypes25,
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24,
 					new Object[] { ClpSerializer.translateInput(cid) });
 		}
 		catch (Throwable t) {
@@ -958,8 +928,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName26,
-					_methodParameterTypes26,
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25,
 					new Object[] {
 						ClpSerializer.translateInput(cid),
 						
@@ -987,6 +957,35 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		}
 
 		return (com.marcelmika.lims.persistence.generated.model.Participant)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
+		java.lang.Long participantId) throws java.lang.Exception {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26,
+					new Object[] { ClpSerializer.translateInput(participantId) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.marcelmika.lims.persistence.generated.model.Participant>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	private InvokableLocalService _invokableLocalService;

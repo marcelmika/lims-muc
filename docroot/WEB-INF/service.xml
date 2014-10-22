@@ -42,6 +42,9 @@
         <column name='conversationId' type='String'/>
         <column name='conversationType' type='String'/>
         <column name='updatedAt' type='Date'/>
+        <order>
+            <order-column name="updatedAt" order-by="desc"/>
+        </order>
         <finder name='ConversationId' return-type='Conversation'>
             <finder-column name='conversationId'/>
         </finder>

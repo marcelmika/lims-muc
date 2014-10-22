@@ -46,6 +46,22 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
+     * Shows view
+     */
+    showView: function () {
+        // Show list view again
+        this._showListView();
+    },
+
+    /**
+     * Hides view
+     */
+    hideView: function () {
+        // Hide list view too
+        this._hideListView();
+    },
+
+    /**
      * Attaches listeners to events
      *
      * @private
@@ -64,13 +80,61 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
-     * Called when the conversation feed is updated
+     * Shows list view
+     *
+     * @param animated true if the action should be animated
      * @private
      */
-    _onConversationFeedUpdated: function () {
+    _showListView: function (animated) {
+        // Vars
+        var conversationFeedList = this.get('conversationFeedList'),
+            animation = new Y.Anim({
+                node: conversationFeedList,
+                duration: 0.5,
+                from: {
+                    opacity: 0
+                },
+                to: {
+                    opacity: 1
+                }
+            });
+
+        // Opacity needs to be set to zero otherwise there will
+        // be a weird blink effect
+        if (animated) {
+            conversationFeedList.setStyle('opacity', 0);
+        }
+
+        conversationFeedList.show();
+
+        // Run the effect animation
+        if (animated) {
+            animation.run();
+        }
+    },
+
+    /**
+     * Hides list view
+     *
+     * @private
+     */
+    _hideListView: function () {
+        // Vars
+        var conversationFeedList = this.get('conversationFeedList');
+        // Hide list view
+        conversationFeedList.hide();
+    },
+
+    /**
+     * Renders conversation list
+     *
+     * @private
+     */
+    _renderConversationList: function () {
         // Vars
         var model = this.get('model'),
-            conversationFeedList = this.get('conversationFeedList');
+            conversationFeedList = this.get('conversationFeedList'),
+            animate = this.get('shouldAnimateList');
 
         // Reset the previously rendered conversations
         conversationFeedList.set('innerHTML', '');
@@ -78,15 +142,33 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         // Create conversation feed items
         model.each(function (conversation) {
 
-            // Read
+            // Create new conversation feed item view
             var view = new Y.LIMS.View.ConversationFeedItem({
                 model: conversation
             });
+            // Render the view
             view.render();
-
+            // Append it to the list
             conversationFeedList.append(view.get('container'));
 
         }, this);
+
+        // Show it again and animate it if needed
+        this._showListView(animate);
+    },
+
+    /**
+     * Called when the conversation feed is updated
+     * @private
+     */
+    _onConversationFeedUpdated: function () {
+        // Hide indicator if it wasn't already hidden
+        this.get('activityIndicator').hide();
+        // Render the list
+        this._renderConversationList();
+        // Since the list is already rendered there is no need to
+        // animate any other addition to the list
+        this.set('shouldAnimateList', false);
     }
 
 
@@ -125,7 +207,28 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
             valueFn: function () {
                 return this.get('container').one('.conversation-feed-list');
             }
+        },
+
+        /**
+         * Activity indicator node
+         *
+         * {Y.Node}
+         */
+        activityIndicator: {
+            valueFn: function () {
+                return this.get('container').one('.preloader');
+            }
+        },
+
+        /**
+         * Set to true if the appearance of elements in the list should be animated
+         *
+         * {boolean}
+         */
+        shouldAnimateList: {
+            value: true
         }
+
     }
 
 });

@@ -15,6 +15,7 @@
 package com.marcelmika.lims.persistence.generated.model.impl;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,8 +67,8 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 		};
 	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Conversation (cid LONG not null primary key,conversationId VARCHAR(256) null,conversationType VARCHAR(75) null,updatedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Conversation";
-	public static final String ORDER_BY_JPQL = " ORDER BY conversation.cid ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Conversation.cid ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY conversation.updatedAt DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Conversation.updatedAt DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -81,7 +82,7 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 				"value.object.column.bitmask.enabled.com.marcelmika.lims.persistence.generated.model.Conversation"),
 			true);
 	public static long CONVERSATIONID_COLUMN_BITMASK = 1L;
-	public static long CID_COLUMN_BITMASK = 2L;
+	public static long UPDATEDAT_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.marcelmika.lims.persistence.generated.model.Conversation"));
 
@@ -214,6 +215,8 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 
 	@Override
 	public void setUpdatedAt(Date updatedAt) {
+		_columnBitmask = -1L;
+
 		_updatedAt = updatedAt;
 	}
 
@@ -260,17 +263,17 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 
 	@Override
 	public int compareTo(Conversation conversation) {
-		long primaryKey = conversation.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getUpdatedAt(), conversation.getUpdatedAt());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override

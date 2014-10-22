@@ -23,6 +23,7 @@ import com.marcelmika.lims.persistence.generated.NoSuchParticipantException;
 import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.model.Participant;
+import com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.ParticipantLocalServiceBaseImpl;
 
@@ -229,7 +230,12 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return List of conversation
      * @throws SystemException
      */
-    public List<Participant> getConversations(Long participantId) throws SystemException {
-        return participantPersistence.findByParticipantId(participantId);
+    public List<Participant> getConversations(Long participantId) throws Exception {
+
+        // TODO: Implement pagination
+        List<Object[]> participantObjects = participantFinder.findParticipatedConversations(participantId, 0, 100);
+
+        // Map to participants and return
+        return ParticipantImpl.fromPlainObjectList(participantObjects, 0);
     }
 }

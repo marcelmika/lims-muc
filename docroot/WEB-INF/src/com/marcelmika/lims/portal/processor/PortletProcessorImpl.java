@@ -247,6 +247,11 @@ public class PortletProcessorImpl implements PortletProcessor {
                 return true;
             }
 
+            if (query.equals(QUERY_READ_CONVERSATIONS) && number > 5) {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                return true;
+            }
+
             if (query.equals(QUERY_GET_GROUP_LIST) && number > 8) {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 return true;

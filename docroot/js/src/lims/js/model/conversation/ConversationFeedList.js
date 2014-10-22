@@ -54,6 +54,8 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             // to server which loads a list of opened conversations
             case 'read':
 
+                instance.fire('readBegin');
+
                 // Send the request
                 Y.io(this.getServerRequestUrl(), {
                     method: "GET",
@@ -71,6 +73,8 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                             // Update conversation list
                             instance._updateConversationList(response);
 
+                            instance.fire('readSuccess');
+
                             // Call success
                             callback(null);
                         },
@@ -80,6 +84,9 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                                 // Notify everybody else
                                 Y.fire('userSessionExpired');
                             }
+
+                            instance.fire('readError');
+
                             // Call failure
                             callback("Cannot read conversations", o);
                         }

@@ -46,7 +46,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     // Log
     private static Log log = LogFactoryUtil.getLog(MessageFinderImpl.class);
 
-    // Find messages SQL
+    // SQL routes
     private static final String FIND_ALL_MESSAGES = MessageFinder.class.getName() + ".findAllMessages";
     private static final String COUNT_ALL_MESSAGES = MessageFinder.class.getName() + ".countAllMessages";
     private static final String FIRST_MESSAGE = MessageFinder.class.getName() + ".firstMessage";

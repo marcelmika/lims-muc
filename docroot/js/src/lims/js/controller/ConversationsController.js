@@ -66,9 +66,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         conversationList.on('conversationsUpdated', this._onConversationsUpdated, this);
 
         // Buddy selected in group
-        Y.on('buddySelected', function (buddy) {
-            this._onBuddySelected(buddy);
-        }, this);
+        Y.on('buddySelected', this._onBuddySelected, this);
+        Y.on('conversationSelected', this._onConversationSelected, this);
         // Session expired
         Y.on('userSessionExpired', this._onSessionExpired, this);
 
@@ -99,6 +98,76 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
         // Return new conversation Id
         return screenNames[0] + "_" + screenNames[1];
+    },
+
+    /**
+     * Opens new conversation
+     *
+     * @param conversationId {string} id of the conversation
+     * @param title {string} title of the conversation
+     * @param participants [] an array of participants
+     * @return {Y.LIMS.Controller.SingleUserConversationViewController}
+     * @private
+     */
+    _openConversation: function (conversationId, title, participants) {
+        // Vars
+        var map = this.get('conversationMap'),                  // Map that holds all conversation controllers
+            buddyDetails = this.get('buddyDetails'),            // Currently logged user
+            conversationModel,                                  // Model passed to controller
+            conversationContainer,                              // Container node passed to controller
+            conversationList = this.get('conversationList'),    // Holds all conversation models
+            settings = this.get('settings'),                    // Settings of logged user
+            properties = this.get('properties'),                // Portlet properties
+            notification = this.get('notification'),            // Notification handler
+            controller;                                         // Controller (selected or newly created)
+
+        // Create new model
+        conversationModel = new Y.LIMS.Model.ConversationModel({
+            conversationId: conversationId,
+            creator: buddyDetails,
+            participants: participants,
+            title: title,
+            serverTimeOffset: properties.getServerTimeOffset()
+        });
+        // Add model to list
+        conversationList.add(conversationModel);
+
+        // Create new container node
+        conversationContainer = Y.Node.create(this.containerTemplate);
+        // Set from template
+        conversationContainer.set('innerHTML',
+            Y.Lang.sub(this.template, {
+                conversationTitle: conversationModel.get('title'),
+                triggerTitle: conversationModel.get('title'),
+                unreadMessages: conversationModel.get('unreadMessagesCount')
+            })
+        );
+        // Add panel container to parent container
+        this.get('container').append(conversationContainer);
+
+        // Create new single user conversation controller
+        controller = new Y.LIMS.Controller.SingleUserConversationViewController({
+            buddyDetails: buddyDetails,
+            container: conversationContainer,
+            controllerId: conversationId,
+            model: conversationModel,
+            settings: settings,
+            properties: properties,
+            notification: notification
+        });
+
+        // Save the model, thanks to that the conversation will be created on server too.
+        conversationModel.save();
+
+        // Remove controller from map if it's unloaded from the screen
+        controller.on('panelDidUnload', function (event) {
+            delete map[event.controllerId];
+        });
+
+        // Add controller to map
+        map[conversationId] = controller;
+
+        return controller;
     },
 
     /**
@@ -169,26 +238,52 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
     },
 
     /**
+     * Called when the user selects conversation from the conversation feed list.
+     *
+     * @param event
+     * @private
+     */
+    _onConversationSelected: function (event) {
+
+        // Vars
+        var conversation = event.conversation,                  // Take conversation from the event
+            map = this.get('conversationMap'),                  // Map that holds all conversation controllers
+            conversationId,                                     // Id of the conversation passed to controller
+            controller;                                         // Controller (selected or newly created)
+
+        // Generate conversation id
+        conversationId = conversation.get('conversationId');
+
+        // Such conversation is already in the map
+        if (map.hasOwnProperty(conversationId)) {
+            // Find it, later on we will present it to the user
+            controller = map[conversationId];
+        }
+        // No such conversation
+        else {
+            controller = this._openConversation(conversationId, conversation.get('title'), []);
+        }
+
+        // At the end show the controller to the user
+        controller.presentViewController();
+    },
+
+    /**
      * Called whenever the buddy is selected from conversations.
      * If a conversation with the particular buddy already exists we
      * just open the conversation for the user. If not, we first create
      * new conversation and then present it to the user.
      *
-     * @param buddy
+     * @param event
      * @private
      */
-    _onBuddySelected: function (buddy) {
+    _onBuddySelected: function (event) {
 
         // Vars
-        var map = this.get('conversationMap'),                  // Map that holds all conversation controllers
+        var buddy = event.buddy,                                // Take buddy from the event
+            map = this.get('conversationMap'),                  // Map that holds all conversation controllers
             buddyDetails = this.get('buddyDetails'),            // Currently logged user
             conversationId,                                     // Id of the conversation passed to controller
-            conversationModel,                                  // Model passed to controller
-            conversationContainer,                              // Container node passed to controller
-            conversationList = this.get('conversationList'),    // Holds all conversation models
-            settings = this.get('settings'),                    // Settings of logged user
-            properties = this.get('properties'),                // Portlet properties
-            notification = this.get('notification'),            // Notification handler
             controller;                                         // Controller (selected or newly created)
 
         // Generate conversation id
@@ -201,51 +296,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         }
         // No such conversation
         else {
-            // Create new model
-            conversationModel = new Y.LIMS.Model.ConversationModel({
-                conversationId: conversationId,
-                creator: buddyDetails,
-                participants: [buddy],
-                title: buddy.get('fullName'),
-                serverTimeOffset: properties.getServerTimeOffset()
-            });
-            // Add model to list
-            conversationList.add(conversationModel);
-
-            // Create new container node
-            conversationContainer = Y.Node.create(this.containerTemplate);
-            // Set from template
-            conversationContainer.set('innerHTML',
-                Y.Lang.sub(this.template, {
-                    conversationTitle: conversationModel.get('title'),
-                    triggerTitle: conversationModel.get('title'),
-                    unreadMessages: conversationModel.get('unreadMessagesCount')
-                })
-            );
-            // Add panel container to parent container
-            this.get('container').append(conversationContainer);
-
-            // Create new single user conversation controller
-            controller = new Y.LIMS.Controller.SingleUserConversationViewController({
-                buddyDetails: buddyDetails,
-                container: conversationContainer,
-                controllerId: conversationId,
-                model: conversationModel,
-                settings: settings,
-                properties: properties,
-                notification: notification
-            });
-
-            // Save the model, thanks to that the conversation will be created on server too.
-            conversationModel.save();
-
-            // Remove controller from map if it's unloaded from the screen
-            controller.on('panelDidUnload', function (event) {
-                delete map[event.controllerId];
-            });
-
-            // Add controller to map
-            map[conversationId] = controller;
+            controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy]);
         }
 
         // At the end show the controller to the user

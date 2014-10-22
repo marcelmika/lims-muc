@@ -383,4 +383,25 @@
 		]]>
     </sql>
 
+    <!-- Returns the oldest message in the conversation -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.ParticipantFinder.participatedConversations">
+        <![CDATA[
+            SELECT
+                Limsmuc_Participant.pid pid,
+                Limsmuc_Participant.cid cid,
+                Limsmuc_Participant.participantId participantId,
+                Limsmuc_Participant.unreadMessagesCount unreadMessagesCount,
+                Limsmuc_Participant.isOpened isOpened,
+                Limsmuc_Participant.openedAt openedAt
+            FROM
+                Limsmuc_Participant
+            INNER JOIN
+                Limsmuc_Conversation ON (Limsmuc_Conversation.cid = Limsmuc_Participant.cid)
+            WHERE
+                Limsmuc_Participant.participantId = ?
+            ORDER BY
+                Limsmuc_conversation.updatedAt DESC
+		]]>
+    </sql>
+
 </custom-sql>

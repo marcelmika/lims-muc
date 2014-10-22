@@ -64,8 +64,32 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             })
         );
 
+        // Attach events to newly created container
+        this._attachEvents();
+
         return this;
     },
+
+    /**
+     * Attach events to container content
+     *
+     * @private
+     */
+    _attachEvents: function () {
+        // Vars
+        var model = this.get('model'),
+            container = this.get('container');
+
+        // Attach click on panel's item
+        container.on('click', function (event) {
+            event.preventDefault();
+            // Fire event
+            Y.fire('conversationSelected', {
+                conversation: model
+            });
+        });
+    },
+
 
     /**
      * Renders portrait based on screenName and returns the rendered HTML
@@ -85,9 +109,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
 
 }, {
 
-    // Specify attributes and static properties for your View here.
     ATTRS: {
-        // Override the default container attribute.
 
         /**
          * Container node

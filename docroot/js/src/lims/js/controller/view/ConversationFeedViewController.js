@@ -78,8 +78,17 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
          */
         _attachEvents: function () {
             // Vars
-//            var model = this.get('model');
+            var model = this.get('model'),
+                errorView = this.get('conversationFeedErrorView');
 
+            // Local events
+            model.on('readSuccess', this._onConversationFeedReadSuccess, this);
+            model.on('readError', this._onConversationFeedReadError, this);
+            errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
+
+            // Remote events
+            Y.on('connectionError', this._onConnectionError, this);
+            Y.on('connectionOK', this._onConnectionOK, this);
         },
 
         /**
@@ -115,6 +124,95 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             var poller = this.get('poller');
             // Pause
             poller.unregister('conversationFeedViewController:model');
+        },
+
+        /**
+         * Shows activity indicator
+         *
+         * @private
+         */
+        _showActivityIndicator: function () {
+            // Vars
+            var activityIndicator = this.get('activityIndicator');
+            // Show preloader
+            activityIndicator.show();
+        },
+
+        /**
+         * Hides activity indicator
+         *
+         * @private
+         */
+        _hideActivityIndicator: function () {
+            // Vars
+            var activityIndicator = this.get('activityIndicator');
+            // Hide preloader
+            activityIndicator.hide();
+        },
+
+        /**
+         * Called when the conversation feed is successfully read
+         *
+         * @private
+         */
+        _onConversationFeedReadSuccess: function () {
+            // Vars
+            var errorView = this.get('conversationFeedErrorView'),
+                listView = this.get('listView');
+
+            // Hide error messages if there were any
+            errorView.hideErrorMessage(false);
+            // Show the panel input so the user can post messages
+            listView.showView();
+        },
+
+        /**
+         * Called when the conversation feed read fails
+         * @private
+         */
+        _onConversationFeedReadError: function () {
+            // Vars
+            var errorView = this.get('conversationFeedErrorView'),
+                listView = this.get('listView');
+
+            // Hide preloader
+            this._hideActivityIndicator();
+            // Hide create error message if there is any
+            errorView.showErrorMessage(true);
+            // Hide the panel input. We don't want users to post any messages now
+            listView.hideView();
+        },
+
+
+        /**
+         * Called when the user click on the retry button within the read error view
+         *
+         * @private
+         */
+        _onConversationFeedReadRetry: function () {
+            // Vars
+            var model = this.get('model');
+
+            // Reload model
+            model.load();
+        },
+
+        /**
+         * Called whenever an error with connection occurred
+         *
+         * @private
+         */
+        _onConnectionError: function () {
+            this.showError(Y.LIMS.Core.i18n.values.connectionErrorMessage);
+        },
+
+        /**
+         * Called when there are no more connection errors
+         *
+         * @private
+         */
+        _onConnectionOK: function () {
+            this.hideError();
         }
 
     }, {
@@ -172,6 +270,35 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                     });
                 }
             },
+
+            /**
+             * Conversation read error view
+             *
+             * {Y.LIMS.View.ErrorNotificationView}
+             */
+            conversationFeedErrorView: {
+                valueFn: function () {
+                    // Vars
+                    var container = this.get('panelContent');
+                    // Create view
+                    return new Y.LIMS.View.ErrorNotificationView({
+                        container: container,
+                        errorMessage: Y.LIMS.Core.i18n.values.conversationFeedReadErrorMessage
+                    });
+                }
+            },
+
+            /**
+             * Activity indicator node
+             *
+             * {Node}
+             */
+            activityIndicator: {
+                valueFn: function () {
+                    return this.get('container').one('.preloader');
+                }
+            },
+
 
             /**
              * Properties object

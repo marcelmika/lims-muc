@@ -314,11 +314,6 @@ public interface ParticipantLocalService extends BaseLocalService,
 		java.lang.Long participantId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
 	/**
 	* Returns a list of users who participates in conversation
 	*
@@ -346,4 +341,15 @@ public interface ParticipantLocalService extends BaseLocalService,
 		java.lang.Long cid, java.lang.Long participantId)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.marcelmika.lims.persistence.generated.NoSuchParticipantException;
+
+	/**
+	* Returns a list of conversations where the user participates
+	*
+	* @param participantId User Id of the participant
+	* @return List of conversation
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
+		java.lang.Long participantId) throws java.lang.Exception;
 }

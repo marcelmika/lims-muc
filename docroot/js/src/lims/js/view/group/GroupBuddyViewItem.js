@@ -41,10 +41,15 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
     // element, which will be used as the HTML template for each group item.
     template: Y.one('#lims-group-buddy-item-template').get('innerHTML'),
 
-    // Renders view
+    /**
+     * Renders the view
+     *
+     * @return {Y.LIMS.View.GroupBuddyViewItem}
+     */
     render: function () {
         // Vars
         var container, model;
+
         // Container and model
         container = this.get("container");
         model = this.get("model");
@@ -66,46 +71,80 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
 
     /**
      * Attach events to container content
+     *
      * @private
      */
     _attachEvents: function () {
+        // Vars
         var model = this.get('model'),
             container = this.get('container');
+
         // Attach click on panel's item
         container.on('click', function (event) {
             event.preventDefault();
-                // Fire event, add current model (buddy)
-                Y.fire('buddySelected', model);
+            // Fire event, add current model (buddy)
+            Y.fire('buddySelected', {
+                buddy: model
+            });
         });
     },
 
-    // Returns user portrait URL
+    /**
+     * Renders portrait based on screenName and returns the rendered HTML
+     *
+     * @param screenName of the user whose portrait should be rendered
+     * @returns HTML of the rendered portrait
+     * @private
+     */
     _getPortrait: function (screenName) {
+        // Vars
         var portraitView = new Y.LIMS.View.PortraitView({screenName: screenName});
+        // Render the portrait
         portraitView.render();
+        // Return the HTML
         return portraitView.get('container').get('outerHTML');
     },
 
     // Returns presence view
+    /**
+     * Renders presence based on the presence type
+     *
+     * @param presenceType
+     * @return HTML of the rendered presence
+     * @private
+     */
     _getPresence: function (presenceType) {
+        // Vars
         var presenceView = new Y.LIMS.View.PresenceView({presenceType: presenceType});
+        // Render presence
         presenceView.render();
+        // Return the HTML
         return presenceView.get('container').get('outerHTML');
     }
 
 }, {
 
-    // Specify attributes and static properties for your View here.
     ATTRS: {
-        // Override the default container attribute.
+
+        /**
+         * Container attached to view
+         *
+         * {Node}
+         */
         container: {
             valueFn: function () {
+                // Create from template
                 return Y.Node.create(this.containerTemplate);
             }
         },
-        // Instance of model attached to view
+
+        /**
+         * Model attached to view
+         *
+         * {Y.LIMS.Model.BuddyModelItem}
+         */
         model: {
-            value: null
+            value: null // to be set
         }
     }
 
