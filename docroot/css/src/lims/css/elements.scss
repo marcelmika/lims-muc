@@ -537,5 +537,83 @@
     font-size: 12px;
     text-align: justify;
   }
+}
+
+/************************************************************************************
+/  Portrait
+/************************************************************************************/
+
+.liferay-ims .portrait-container {
+
+  .portrait {
+    display: block;
+    height: 46px;
+    width: 46px;
+    background: #fff;
+    // Circled image
+    @include border-radius(23px);
+  }
+
+  .default-portrait {
+    display: block;
+    height: 46px;
+    width: 46px;
+    background: #c0c0c0;
+    @include border-radius(23px);
+    text-align: center;
+
+    &.red {
+      background: #C06868;
+    }
+
+    &.green {
+      background: #68C0AF;
+    }
+
+    &.blue {
+      background: #689FC0;
+    }
+
+    &.purple {
+      background: #A668C0;
+    }
+
+    &.yellow {
+      background: #C0BF48;
+    }
+
+    .initials {
+      text-align: center;
+      position: relative;
+      text-transform: uppercase;
+      color: white;
+      top: 16px;
+      font-size: 17px;
+      font-weight: 200;
+    }
+  }
+
+  &.small {
+
+    .portrait {
+      display: block;
+      height: 32px;
+      width: 32px;
+      // Circled image
+      @include border-radius(16px);
+    }
+
+    .default-portrait {
+      height: 32px;
+      width: 32px;
+      @include border-radius(16px);
+
+      .initials {
+        top: 9px;
+        font-size: 12px;
+        font-weight: normal;
+      }
+    }
+  }
 
 }

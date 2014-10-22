@@ -105,7 +105,23 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
             value: "" // default value
         },
 
+        portraitId: {
+            value: 0 // default value
+        },
+
         fullName: {
+            value: "" // default value
+        },
+
+        firstName: {
+            value: "" // default value
+        },
+
+        middleName: {
+            value: "" // default value
+        },
+
+        lastName: {
             value: "" // default value
         },
 

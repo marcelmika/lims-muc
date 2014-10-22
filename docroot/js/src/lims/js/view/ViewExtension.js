@@ -37,15 +37,14 @@ Y.LIMS.View.ViewExtension.prototype = {
     rootNode: '#lims-container',
 
     /**
-     * Returns url of the portrait of buddy based on the screenName
-     * @param screenName
+     * Returns url of the portrait of buddy based on the portrait id
+     * @param portraitId
      * @returns {string}
      */
-    getPortraitUrl: function (screenName) {
-        var companyId = Y.LIMS.Core.Properties.companyId,
-            pathImage = Y.LIMS.Core.Properties.pathImage;
+    getPortraitUrl: function (portraitId) {
+        var pathImage = Y.LIMS.Core.Properties.pathImage;
 
-        return pathImage + '/user_portrait?screenName=' + screenName + '&' + 'companyId=' + companyId;
+        return pathImage + '/user_portrait?img_id=' + portraitId;
     },
 
     /**

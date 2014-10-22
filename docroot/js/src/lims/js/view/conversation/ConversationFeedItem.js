@@ -58,7 +58,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.Lang.sub(this.template, {
                 title: model.get('title'),
                 lastMessage: Y.Escape.html(lastMessage.get('body')),
-                portrait: this._renderPortrait(lastMessage.get('from').get('screenName')),
+                portrait: this._renderPortrait(lastMessage.get('from')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
@@ -105,13 +105,13 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     /**
      * Renders portrait based on screenName and returns the rendered HTML
      *
-     * @param screenName of the user whose portrait should be rendered
+     * @param user whose portrait should be rendered
      * @returns HTML of the rendered portrait
      * @private
      */
-    _renderPortrait: function (screenName) {
+    _renderPortrait: function (user) {
         // Vars
-        var portraitView = new Y.LIMS.View.PortraitView({screenName: screenName});
+        var portraitView = new Y.LIMS.View.PortraitView({user: user});
         // Render
         portraitView.render();
 

@@ -23,16 +23,19 @@
   .group-list .group-item {
     clear: both;
     list-style-type: none;
-    border: 1px solid #fff;
     line-height: 27px;
   }
 
   .group-buddy-item {
-    padding: 7px;
+    padding: 3px 7px;
     cursor: pointer;
     height: 35px;
     clear: both;
     line-height: 15px;
+  }
+
+  .group-buddy-item:last-of-type {
+    padding-bottom: 7px;
   }
 
   .group-buddy-item .group-buddy-item-name {
@@ -53,17 +56,8 @@
   .group-buddy-item-portrait {
     height: 36px;
     width: 36px;
-    margin: 0 6px 2px 0;
+    margin: 2px 6px 2px 0;
     float: left;
-  }
-
-  .group-buddy-item-portrait .portrait {
-    display: block;
-    height: 36px;
-    width: 36px;
-    background: #fff;
-    // Circled image
-    @include border-radius(18px);
   }
 
   .group-buddy-item-divider {
@@ -77,7 +71,6 @@
   .group-list .group-item .group-name {
     height: 25px;
     background: #f8f8f8;
-    margin: -6px 0 0 0;
     padding-left: 5px;
     padding-top: 6px;
     text-transform: uppercase;
@@ -95,10 +88,10 @@
   .panel-content {
     list-style-type: none;
     margin: 0;
+    padding: 0;
     height: 284px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 2px 0;
   }
 
 }

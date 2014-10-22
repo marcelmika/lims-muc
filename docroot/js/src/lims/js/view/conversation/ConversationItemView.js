@@ -75,7 +75,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
                 created: formatter.formatDate(new Date(model.get('createdAt'))),
                 fullName: from.get('fullName'),
                 content: Y.Escape.html(model.get('body')),
-                portrait: this._renderPortrait(from.get('screenName'))
+                portrait: this._renderPortrait(from)
             })
         );
 
@@ -181,13 +181,16 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     /**
      * Renders portrait based on screenName and returns the rendered HTML
      *
-     * @param screenName of the user whose portrait should be rendered
+     * @param user whose portrait should be rendered
      * @returns HTML of the rendered portrait
      * @private
      */
-    _renderPortrait: function (screenName) {
+    _renderPortrait: function (user) {
         // Vars
-        var portraitView = new Y.LIMS.View.PortraitView({screenName: screenName});
+        var portraitView = new Y.LIMS.View.PortraitView({
+            user: user,
+            small: true
+        });
         // Render
         portraitView.render();
 

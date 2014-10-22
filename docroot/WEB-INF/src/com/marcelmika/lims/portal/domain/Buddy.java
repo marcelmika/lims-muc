@@ -64,8 +64,12 @@ public class Buddy {
     // Properties
     private Long buddyId;
     private Long companyId;
+    private Long portraitId;
     private String fullName;
     private String screenName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String password;
     private Presence presence;
     private Settings settings;
@@ -212,6 +216,11 @@ public class Buddy {
                     buddy.fullName = user.getFullName();
                 }
 
+                buddy.portraitId = user.getPortraitId();
+                buddy.firstName = user.getFirstName();
+                buddy.middleName = user.getMiddleName();
+                buddy.lastName = user.getLastName();
+
             } catch (Exception e) {
                 // Do nothing
                 log.error(e);
@@ -291,6 +300,14 @@ public class Buddy {
         this.companyId = companyId;
     }
 
+    public Long getPortraitId() {
+        return portraitId;
+    }
+
+    public void setPortraitId(Long portraitId) {
+        this.portraitId = portraitId;
+    }
+
     public String getScreenName() {
         return screenName;
     }
@@ -316,6 +333,29 @@ public class Buddy {
         this.fullName = fullName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public Presence getPresence() {
         return presence;
@@ -338,8 +378,12 @@ public class Buddy {
         return "Buddy{" +
                 "buddyId=" + buddyId +
                 ", companyId=" + companyId +
+                ", portraitId=" + portraitId +
                 ", fullName='" + fullName + '\'' +
                 ", screenName='" + screenName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", presence=" + presence +
                 ", settings=" + settings +

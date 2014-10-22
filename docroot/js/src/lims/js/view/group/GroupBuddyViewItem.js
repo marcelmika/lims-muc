@@ -58,7 +58,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         container.set('innerHTML',
             Y.Lang.sub(this.template, {
                 name: model.get('fullName'),
-                portrait: this._getPortrait(model.get('screenName')),
+                portrait: this._getPortrait(model),
                 presence: this._getPresence(model.get('presence'))
             })
         );
@@ -92,13 +92,16 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
     /**
      * Renders portrait based on screenName and returns the rendered HTML
      *
-     * @param screenName of the user whose portrait should be rendered
+     * @param user whose portrait should be rendered
      * @returns HTML of the rendered portrait
      * @private
      */
-    _getPortrait: function (screenName) {
+    _getPortrait: function (user) {
         // Vars
-        var portraitView = new Y.LIMS.View.PortraitView({screenName: screenName});
+        var portraitView = new Y.LIMS.View.PortraitView({
+            user: user,
+            small: true
+        });
         // Render the portrait
         portraitView.render();
         // Return the HTML
