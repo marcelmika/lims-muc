@@ -31,10 +31,16 @@ Y.namespace('LIMS.Core');
 
 Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
 
-    userId: null,      // This is set in main.js, to access it use Y.LIMS.Core.Properties.userId
-    companyId: null,   // This is set in main.js, to access it use Y.LIMS.Core.Properties.companyId
     pathImage: null,   // This is set in main.js, to access it use Y.LIMS.Core.Properties.pathImage
     isIE: false,       // This is set in main.js, to access it use Y.LIMS.Core.Properties.isIE
+
+    /**
+     * Values are parsed from HTML in main.js.
+     * Check the properties.jspf for the list of all possible properties.
+     *
+     * {}
+     */
+    values: null,
 
     /**
      * Called when the object is created
@@ -47,10 +53,28 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     /**
      * Returns userId of the currently connected user
      *
-     * @returns {int}
+     * @returns {number}
      */
     getCurrentUserId: function () {
         return this.get('userId');
+    },
+
+    /**
+     * Returns companyId of the currently connected user
+     *
+     * @return {number}
+     */
+    getCurrentUserCompanyId: function () {
+        return this.get('companyId');
+    },
+
+    /**
+     * Returns portraitId of the currently connected user
+     *
+     * @return {number}
+     */
+    getCurrentUserPortraitId: function () {
+        return this.get('portraitId');
     },
 
     /**
@@ -71,6 +95,32 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         return this.get('fullName');
     },
 
+    /**
+     * Returns a first name of the currently connected user
+     *
+     * @return {string}
+     */
+    getCurrentUserFirstName: function () {
+        return this.get('firstName');
+    },
+
+    /**
+     * Returns a middle name of the currently connected user
+     *
+     * @return {string}
+     */
+    getCurrentUserMiddleName: function () {
+        return this.get('middleName');
+    },
+
+    /**
+     * Returns a last name of the currently connected user
+     *
+     * @return {string}
+     */
+    getCurrentUserLastName: function () {
+        return this.get('lastName');
+    },
 
     /**
      * Returns server time offset compared to client time
@@ -125,56 +175,109 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
 
         /**
          * User Id of the currently logged user
+         *
+         * {integer}
          */
         userId: {
             valueFn: function () {
-                return Y.LIMS.Core.Properties.userId;
+                return Y.LIMS.Core.Properties.values.userId;
             }
         },
 
         /**
          * Company Id of the currently logged user
+         *
+         * {integer}
          */
         companyId: {
             valueFn: function () {
-                return Y.LIMS.Core.Properties.companyId;
+                return Y.LIMS.Core.Properties.values.companyId;
+            }
+        },
+
+        /**
+         * Portrait id of the currently logged user
+         *
+         * {integer}
+         */
+        portraitId: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.portraitId;
             }
         },
 
         /**
          * Screen name of the currently logged user
+         *
+         * {string}
          */
         screenName: {
             valueFn: function () {
-                // Since it cannot be accessed via Liferay.ThemeDisplay we need to
-                // take it manually via value in HTML
-                return Y.one('#limsCurrentUserScreenName').get('value');
+                return Y.LIMS.Core.Properties.values.screenName;
             }
         },
 
 
         /**
-         * Screen name of the currently logged user
+         * Full name of the currently logged user
+         *
+         * {string}
          */
         fullName: {
             valueFn: function () {
-                // Since it cannot be accessed via Liferay.ThemeDisplay we need to
-                // take it manually via value in HTML
-                return Y.one('#limsCurrentUserFullName').get('value');
+                return Y.LIMS.Core.Properties.values.fullName;
+            }
+        },
+
+        /**
+         * First name of the currently logged user
+         *
+         * {string}
+         */
+        firstName: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.firstName;
+            }
+        },
+
+
+        /**
+         * Middle name of the currently logged user
+         *
+         * {string}
+         */
+        middleName: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.middleName;
+            }
+        },
+
+        /**
+         * Last name of the currently logged user
+         *
+         * {string}
+         */
+        lastName: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.lastName;
             }
         },
 
         /**
          * Holds current server time
+         *
+         * {number}
          */
         serverTime: {
             valueFn: function () {
-                return Y.one('#limsCurrentServerTime').get('value');
+                return Y.LIMS.Core.Properties.values.currentServerTime;
             }
         },
 
         /**
          * Holds delta between current server time and client time
+         *
+         * {number}
          */
         offset: {
             valueFn: function () {
@@ -187,6 +290,8 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
 
         /**
          * Path to images
+         *
+         * {string}
          */
         pathImage: {
             valueFn: function () {
@@ -196,12 +301,12 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
 
         /**
          * Set to true if chat is enabled
+         *
+         * {boolean}
          */
         isChatEnabled: {
             valueFn: function () {
-                // Take the default value from HTML. However, if the chat is e.g. disabled
-                // in the future this value will be overridden.
-                return Y.one('#limsPortletEnabled').get('value') === 'true';
+                return Y.LIMS.Core.Properties.values.portletEnabled;
             }
         }
     }

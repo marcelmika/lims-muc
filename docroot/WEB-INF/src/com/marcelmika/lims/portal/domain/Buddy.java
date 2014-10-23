@@ -86,8 +86,12 @@ public class Buddy {
         Buddy buddy = new Buddy();
         buddy.buddyId = themeDisplay.getUserId();
         buddy.companyId = themeDisplay.getCompanyId();
+        buddy.portraitId = themeDisplay.getUser().getPortraitId();
         buddy.screenName = themeDisplay.getUser().getScreenName();
         buddy.fullName = themeDisplay.getUser().getFullName();
+        buddy.firstName = themeDisplay.getUser().getFirstName();
+        buddy.middleName = themeDisplay.getUser().getMiddleName();
+        buddy.lastName = themeDisplay.getUser().getLastName();
 
         return buddy;
     }

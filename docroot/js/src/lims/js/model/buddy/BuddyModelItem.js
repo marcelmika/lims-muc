@@ -74,21 +74,6 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
                 }
             }
         });
-    },
-
-    // Custom sync layer.
-    sync: function (action, options, callback) {
-
-        switch (action) {
-            case 'create':
-            case 'update':
-            case 'read':
-            case 'delete':
-                return;
-
-            default:
-                callback('Invalid action');
-        }
     }
 
 }, {
@@ -97,34 +82,83 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
         // model's data. See the docs for Y.Attribute to learn more about defining
         // attributes.
 
+        /**
+         * Id of the buddy
+         *
+         * {integer|null}
+         */
         buddyId: {
             value: null // default value
         },
 
+        /**
+         * Id of the company where the user belongs
+         *
+         * {integer|null}
+         */
+        companyId: {
+            value: null // default value
+        },
+
+        /**
+         * Screen name of the buddy
+         *
+         * {string}
+         */
         screenName: {
             value: "" // default value
         },
 
+        /**
+         * Portrait id of the buddy
+         *
+         * {integer}
+         */
         portraitId: {
             value: 0 // default value
         },
 
+        /**
+         * Full name of the buddy
+         *
+         * {string}
+         */
         fullName: {
             value: "" // default value
         },
 
+        /**
+         * First name of the buddy
+         *
+         * {string}
+         */
         firstName: {
             value: "" // default value
         },
 
+        /**
+         * Middle name of the buddy
+         *
+         * {string}
+         */
         middleName: {
             value: "" // default value
         },
 
+        /**
+         * Last name of the buddy
+         *
+         * {string}
+         */
         lastName: {
             value: "" // default value
         },
 
+        /**
+         * Presence of the buddy
+         *
+         * {string}
+         */
         presence: {
             value: null // default value
         }

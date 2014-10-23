@@ -2,8 +2,6 @@
 <%--@elvariable id="isEnabled" type="boolean"--%>
 <%--@elvariable id="isSupportedBrowser" type="boolean"--%>
 <%--@elvariable id="needsIESupport" type="boolean"--%>
-<%--@elvariable id="screenName" type="String"--%>
-<%--@elvariable id="fullName" type="String"--%>
 
 <%-- Taglib --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -28,15 +26,14 @@
 
 <c:if test="${isEnabled}">
 
-    <%-- Resource URL --%>
-    <portlet:resourceURL var="limsPortletURL" id="view.jsp" escapeXml="false"/>
 
     <%-- LIMS bar --%>
     <div id="lims-container" class="${ieSupportClass}">
 
-            <%-- Render portlet content only if the browser is supported --%>
+            <%-- Browser is supported --%>
         <c:if test="${isSupportedBrowser}">
 
+            <%-- Portlet content --%>
             <div class="lims-bar">
                 <div class="lims-sound"></div>
                 <div class="lims-tabs-container">
@@ -53,40 +50,8 @@
             <%-- Javascript Templates --%>
             <%@ include file="/WEB-INF/jspf/templates.jspf" %>
 
-            <%-- Portlet Enabled Flag --%>
-            <aui:input type="hidden"
-                       id="limsPortletEnabled"
-                       name="limsPortletEnabled"
-                       useNamespace="false"
-                       value="${settings.chatEnabled}"/>
-
-            <%-- Portlet URL --%>
-            <aui:input type="hidden"
-                       id="limsPortletURL"
-                       name="limsPortletURL"
-                       useNamespace="false"
-                       value="<%= renderResponse.encodeURL(limsPortletURL.toString()) %>"/>
-
-            <%-- Server Time --%>
-            <aui:input type="hidden"
-                       id="limsCurrentServerTime"
-                       name="limsCurrentServerTime"
-                       useNamespace="false"
-                       value="<%= System.currentTimeMillis() %>"/>
-
-            <%-- Logged user screen name --%>
-            <aui:input type="hidden"
-                       id="limsCurrentUserScreenName"
-                       name="limsCurrentUserScreenName"
-                       useNamespace="false"
-                       value="${screenName}"/>
-
-            <%-- Logged user full name --%>
-            <aui:input type="hidden"
-                       id="limsCurrentUserFullName"
-                       name="limsCurrentUserFullName"
-                       useNamespace="false"
-                       value="${fullName}"/>
+            <%-- Rendered properties passed to client --%>
+            <%@ include file="/WEB-INF/jspf/properties.jspf" %>
 
         </c:if>
 
@@ -98,8 +63,6 @@
                 </a>
             </div>
         </c:if>
-
-
     </div>
 
     <%-- Preloaded Images --%>
