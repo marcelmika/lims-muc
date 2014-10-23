@@ -421,14 +421,15 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // No unread messages
             if (value === 0) {
                 this._hideBadge();
-            } else {
+            }
+            // At least one unread message
+            else {
+                // Update value
+                if (badge) {
+                    badge.set('innerHTML', value);
+                }
                 // Show badge
                 this._showBadge();
-            }
-
-            // Update value
-            if (badge) {
-                badge.set('innerHTML', value);
             }
         },
 
@@ -439,11 +440,17 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         _showBadge: function () {
             // Vars
-            var badge = this.get('badge');
+            var badge = this.get('badge'),
+                badgeAnimation = this.get('badgeAnimation');
 
             // Show badge
             if (badge) {
+                // Move the badge outside of the visible area
+                badge.setStyle('top', 15);
+                // Show the badge
                 badge.show();
+                // Run the animation
+                badgeAnimation.run();
             }
         },
 
@@ -558,6 +565,27 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                     var container = this.get('container');
                     // Find badge
                     return container.one('.unread');
+                }
+            },
+
+
+            /**
+             * Animation of the updated badge
+             *
+             * {Y.Anim}
+             */
+            badgeAnimation: {
+                valueFn: function () {
+                    // Vars
+                    var badge = this.get('badge');
+
+                    return new Y.Anim({
+                        node: badge,
+                        duration: 0.3,
+                        from: {top: 15},
+                        to: {top: 4},
+                        easing: 'backOut'
+                    });
                 }
             },
 
