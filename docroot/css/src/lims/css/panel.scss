@@ -119,6 +119,13 @@
     background: url(/images/list-button.png) center center no-repeat;
     @include image-2x('/images/list-button@2x.png', auto, 11px);
   }
+
+  &.new-conversation {
+    background: url(/images/button-new-conversation.png) center center no-repeat;
+    @include image-2x('/images/button-new-conversation@2x.png', auto, 17px);
+    height: 17px;
+    margin-top: 3px;
+  }
 }
 
 /********************************************************************************

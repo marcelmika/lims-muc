@@ -51,6 +51,7 @@
         <div class="panel-window">
             <div class="panel-title">
                 <button class="panel-button minimize"></button>
+                <button class="panel-button new-conversation"></button>
                 <div class="panel-title-text">
                     <liferay-ui:message key="panel-conversation-feed-title"/>
                 </div>
