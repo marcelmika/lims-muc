@@ -29,7 +29,7 @@
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [], {
+Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.ViewExtension], {
 
     // Specify a model to associate with the view.
     model: Y.LIMS.Model.GroupModelList,
@@ -54,7 +54,8 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [], {
      */
     _attachEvents: function () {
         var model = this.get('model'),
-            errorView = this.get('errorView');
+            errorView = this.get('errorView'),
+            container = this.get('container');
 
         // Local events
         model.after('add', this._onGroupAdd, this);
@@ -62,8 +63,73 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [], {
         model.after('groupsReadSuccess', this._onGroupsReadSuccess, this);
         model.after('groupsReadError', this._onGroupsReadError, this);
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
+        container.on('mousewheel', this._onContainerMouseWheel, this);
     },
 
+    /**
+     * Shows group list
+     *
+     * @private
+     */
+    _showGroups: function () {
+        // Vars
+        var groupList = this.get('groupList'),
+            container = this.get('container'),
+            animation;
+
+        // If the group list is already in the document don't animate it
+        if (!groupList.inDoc()) {
+
+            // Create an instance of animation
+            animation = new Y.Anim({
+                node: groupList,
+                duration: 0.5,
+                from: {opacity: 0},
+                to: {opacity: 1}
+            });
+
+            // Opacity needs to be set to zero otherwise there will
+            // be a weird blink effect
+            groupList.setStyle('opacity', 0);
+
+            // Add group list to the container
+            container.append(groupList);
+
+            // Run the effect animation
+            animation.run();
+        }
+    },
+
+    /**
+     * Hides group list
+     *
+     * @private
+     */
+    _hideGroups: function () {
+        // Vars
+        var groupList = this.get('groupList'),
+            animation;
+
+        // Run the animation only if the group list is in DOM
+        if (groupList.inDoc()) {
+
+            // Create the animation instance
+            animation = new Y.Anim({
+                node: groupList,
+                duration: 0.5,
+                from: {opacity: 1},
+                to: {opacity: 0}
+            });
+
+            // Listen to the end of the animation
+            animation.on('end', function () {
+                animation.get('node').remove();
+            });
+
+            // Run!
+            animation.run();
+        }
+    },
 
     /**
      * Called when the groups model is read
@@ -163,68 +229,17 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [], {
     },
 
     /**
-     * Shows group list
+     * Called when the user scrolls with mouse wheel over the container
      *
+     * @param event
+     * @return {*}
      * @private
      */
-    _showGroups: function () {
+    _onContainerMouseWheel: function (event) {
         // Vars
-        var groupList = this.get('groupList'),
-            container = this.get('container'),
-            animation;
-
-        // If the group list is already in the document don't animate it
-        if (!groupList.inDoc()) {
-
-            // Create an instance of animation
-            animation = new Y.Anim({
-                node: groupList,
-                duration: 0.5,
-                from: {opacity: 0},
-                to: {opacity: 1}
-            });
-
-            // Opacity needs to be set to zero otherwise there will
-            // be a weird blink effect
-            groupList.setStyle('opacity', 0);
-
-            // Add group list to the container
-            container.append(groupList);
-
-            // Run the effect animation
-            animation.run();
-        }
-    },
-
-    /**
-     * Hides group list
-     *
-     * @private
-     */
-    _hideGroups: function () {
-        // Vars
-        var groupList = this.get('groupList'),
-            animation;
-
-        // Run the animation only if the group list is in DOM
-        if (groupList.inDoc()) {
-
-            // Create the animation instance
-            animation = new Y.Anim({
-                node: groupList,
-                duration: 0.5,
-                from: {opacity: 1},
-                to: {opacity: 0}
-            });
-
-            // Listen to the end of the animation
-            animation.on('end', function () {
-                animation.get('node').remove();
-            });
-
-            // Run!
-            animation.run();
-        }
+        var container = this.get('container');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, container);
     }
 
 }, {

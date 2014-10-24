@@ -27,7 +27,7 @@
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View, [], {
+Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View, [Y.LIMS.View.ViewExtension], {
 
     // Specify a model to associate with the view.
     model: Y.LIMS.Model.ConversationFeedList,
@@ -79,6 +79,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      */
     _attachEvents: function () {
         var model = this.get('model'),
+            container = this.get('container'),
             errorView = this.get('errorView');
 
         // Local events
@@ -86,6 +87,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         model.on('readSuccess', this._onConversationFeedReadSuccess, this);
         model.on('readError', this._onConversationFeedReadError, this);
         errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
+        container.on('mousewheel', this._onContainerMouseWheel, this);
     },
 
     /**
@@ -274,6 +276,20 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
 
         // Reload model
         model.load();
+    },
+
+    /**
+     * Called when the user scrolls with mouse wheel over the container
+     *
+     * @param event
+     * @return {*}
+     * @private
+     */
+    _onContainerMouseWheel: function (event) {
+        // Vars
+        var container = this.get('container');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, container);
     }
 
 }, {

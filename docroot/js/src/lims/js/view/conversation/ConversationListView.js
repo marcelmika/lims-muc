@@ -29,7 +29,7 @@
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View, [], {
+Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View, [Y.LIMS.View.ViewExtension], {
 
     // Specify an optional model to associate with the view.
     model: Y.LIMS.Model.MessageListModel,
@@ -154,6 +154,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Attach events to panel content
         panelContent.on('scroll', this._onPanelContentScroll, this);
+        panelContent.on('mousewheel', this._onPanelContentMouseWheel, this);
     },
 
     /**
@@ -569,10 +570,24 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             // Show the preloader
             this._showReadMoreActivityIndicator();
             // Load the model
-            model.load({readMore: true}, function() {
+            model.load({readMore: true}, function () {
                 instance._hideReadMoreActivityIndicator();
             });
         }
+    },
+
+    /**
+     * Called when the user scrolls with mouse wheel over the panel content
+     *
+     * @param event
+     * @return {*}
+     * @private
+     */
+    _onPanelContentMouseWheel: function (event) {
+        // Vars
+        var panelContent = this.get('panelContent');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, panelContent);
     },
 
     /**

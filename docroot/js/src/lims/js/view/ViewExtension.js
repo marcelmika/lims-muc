@@ -63,6 +63,51 @@ Y.LIMS.View.ViewExtension.prototype = {
      */
     hasIESupport: function () {
         return Y.one(this.rootNode).hasClass('ie-support');
+    },
+
+    /**
+     * Prevents scrolling of descendant nodes
+     *
+     * @param event {Y.EventFacade} mouse wheel event
+     * @param node {Y.Node}
+     * @return {boolean}
+     */
+    preventScroll: function (event, node) {
+        // Vars
+        var target = event.currentTarget,
+            scrollTop = target.get('scrollTop'),
+            scrollHeight = target.get('scrollHeight'),
+            height = node.get('clientHeight'),
+            delta = event.wheelDelta,
+            up = delta > 0,
+            preventScrollFunction;
+
+        // Function which stops the propagation of the scrolling event.
+        // Thanks to that no precedents divs will scroll
+        preventScrollFunction = function () {
+            event.stopPropagation();
+            event.preventDefault();
+            event.returnValue = false;
+            return false;
+        };
+
+        // Scroll down
+        if (!up && -delta > scrollHeight - height - scrollTop) {
+            // Scrolling down, but this will take us past the bottom.
+            target.set('scrollTop', scrollHeight);
+
+            // Prevent scrolling of precedents
+            return preventScrollFunction();
+        }
+        // Scroll up
+        else if (up && delta > scrollTop) {
+            // Scrolling up, but this will take us past the top.
+            target.set('scrollTop', 0);
+            // Prevent scrolling of precedents
+            return preventScrollFunction();
+        }
+
+        return true;
     }
 };
 
