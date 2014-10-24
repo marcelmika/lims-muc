@@ -83,7 +83,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [], {
 
         // No groups found
         if (model.isEmpty()) {
-            // Hide info message
+            // Show info message
             infoView.showInfoMessage(true);
             // Hide groups
             this._hideGroups();

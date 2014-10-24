@@ -54,7 +54,8 @@
     "dateFormat":"<liferay-ui:message key="date-format"/>",
     "adminAreaOpen": "<liferay-ui:message key="panel-settings-admin-area-open"/>",
     "adminAreaClose": "<liferay-ui:message key="panel-settings-admin-area-close"/>",
-    "conversationFeedReadErrorMessage" : "<liferay-ui:message key="panel-conversation-feed-read-error-text"/>"
+    "conversationFeedReadErrorMessage" : "<liferay-ui:message key="panel-conversation-feed-read-error-text"/>",
+    "conversationFeedEmptyInfoMessage" : "<liferay-ui:message key="panel-conversation-feed-empty-info-text"/>"
     }
 </script>
 

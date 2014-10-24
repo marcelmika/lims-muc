@@ -78,10 +78,14 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      * @private
      */
     _attachEvents: function () {
-        var model = this.get('model');
+        var model = this.get('model'),
+            errorView = this.get('errorView');
 
         // Local events
         model.on('conversationFeedUpdated', this._onConversationFeedUpdated, this);
+        model.on('readSuccess', this._onConversationFeedReadSuccess, this);
+        model.on('readError', this._onConversationFeedReadError, this);
+        errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
     },
 
     /**
@@ -184,7 +188,69 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
+     * Called when the conversation feed was successfully read
+     *
+     * @private
+     */
+    _onConversationFeedReadSuccess: function () {
+        // Vars
+        var model = this.get('model'),
+            errorView = this.get('errorView'),
+            infoView = this.get('infoView'),
+            activityIndicator = this.get('activityIndicator'),
+            shouldAnimateList = this.get('shouldAnimateList');
+
+        // If there was any error, hide it
+        errorView.hideErrorMessage(true);
+
+        // No conversations found
+        if (model.isEmpty()) {
+            // Show info message
+            infoView.showInfoMessage(true);
+            // Hide list view
+            this._hideListView();
+        } else {
+            // Show the list view
+            this._showListView(shouldAnimateList);
+            // Hide info message
+            infoView.hideInfoMessage(true);
+        }
+
+        // Since the list is already rendered there is no need to
+        // animate any other addition to the list
+        this.set('shouldAnimateList', false);
+
+        // Hide indicator
+        activityIndicator.hide();
+    },
+
+    /**
+     * Called when there was an error during the conversation feed list reading
+     *
+     * @private
+     */
+    _onConversationFeedReadError: function () {
+        // Vars
+        var activityIndicator = this.get('activityIndicator'),
+            infoView = this.get('infoView'),
+            errorView = this.get('errorView');
+
+        // Hide indicator
+        activityIndicator.hide();
+        // Hide conversations
+        this._hideListView();
+        // Hide info about no conversations
+        infoView.hideInfoMessage(true);
+        // Show error
+        errorView.showErrorMessage(true);
+
+        // Since there was an error and list was hidden, animate it next time
+        this.set('shouldAnimateList', true);
+    },
+
+    /**
      * Called when the conversation feed is updated
+     *
      * @private
      */
     _onConversationFeedUpdated: function () {
@@ -195,8 +261,20 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         // Since the list is already rendered there is no need to
         // animate any other addition to the list
         this.set('shouldAnimateList', false);
-    }
+    },
 
+    /**
+     * Called when the user click on the retry button within the read error view
+     *
+     * @private
+     */
+    _onConversationFeedReadRetry: function () {
+        // Vars
+        var model = this.get('model');
+
+        // Reload model
+        model.load();
+    }
 
 }, {
 
@@ -225,6 +303,15 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         },
 
         /**
+         * Activity indicator node
+         *
+         * {Y.Node}
+         */
+        activityIndicator: {
+            value: null // to be set
+        },
+
+        /**
          * Conversation list node
          *
          * {Node}
@@ -245,25 +332,46 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         },
 
         /**
-         * Activity indicator node
-         *
-         * {Y.Node}
-         */
-        activityIndicator: {
-            valueFn: function () {
-                return this.get('container').one('.preloader');
-            }
-        },
-
-        /**
          * Set to true if the appearance of elements in the list should be animated
          *
          * {boolean}
          */
         shouldAnimateList: {
             value: true
+        },
+
+        /**
+         * Info view with info message
+         *
+         * {Y.LIMS.View.InfoNotificationView}
+         */
+        infoView: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container');
+                // Create view
+                return new Y.LIMS.View.InfoNotificationView({
+                    container: container,
+                    infoMessage: Y.LIMS.Core.i18n.values.conversationFeedEmptyInfoMessage
+                });
+            }
+        },
+
+        /**
+         * Conversation read error view
+         *
+         * {Y.LIMS.View.ErrorNotificationView}
+         */
+        errorView: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container');
+                // Create view
+                return new Y.LIMS.View.ErrorNotificationView({
+                    container: container,
+                    errorMessage: Y.LIMS.Core.i18n.values.conversationFeedReadErrorMessage
+                });
+            }
         }
-
     }
-
 });

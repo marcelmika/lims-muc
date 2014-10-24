@@ -48,7 +48,8 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
         var instance = this,            // Remember the instance
             etag = this.get('etag'),    // Etag
             parameters,                 // Parameters of the request
-            response;                   // Response from the server
+            response,                   // Response from the server
+            cachedItems = this.get('cachedItems');
 
         switch (action) {
 
@@ -80,10 +81,10 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                             // If nothing has change the server returns 304 (not modified)
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {
+                                // Return callback
+                                callback(null, cachedItems);
                                 // Call the success
                                 instance.fire('readSuccess');
-                                // Return callback
-                                callback(null);
                                 // End here
                                 return;
                             }
@@ -160,6 +161,8 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
 
             // Repopulate the list
             this.reset(conversationModels);
+            // Cache items
+            this.set('cachedItems', conversationModels);
 
             // Fire the event
             this.fire('conversationFeedUpdated', this);
@@ -176,6 +179,14 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
          */
         etag: {
             value: -1 // default value
+        },
+
+        /**
+         * Cached items that should be returned if server responses
+         * with the not modified status
+         */
+        cachedItems: {
+            value: [] // default value
         }
 
     }
