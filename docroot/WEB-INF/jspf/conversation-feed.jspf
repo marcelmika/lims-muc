@@ -1,4 +1,3 @@
-
 <%--
   ~ The MIT License (MIT)
   ~
@@ -49,17 +48,24 @@
     </div>
     <div class="panel">
         <div class="panel-window">
+
+            <%-- Title --%>
             <div class="panel-title">
-                <button class="panel-button minimize"></button>
-                <button class="panel-button new-conversation"></button>
+                <button title="<liferay-ui:message key="panel-button-minimize-title" />"
+                        class="panel-button minimize"></button>
+                <button title="<liferay-ui:message key="panel-button-new-conversation-title" />"
+                        class="panel-button new-conversation"></button>
                 <div class="panel-title-text">
                     <liferay-ui:message key="panel-conversation-feed-title"/>
                 </div>
             </div>
+
+            <%-- Content --%>
             <div class="panel-content">
                 <div class="preloader"></div>
                 <ul class="conversation-feed-list"></ul>
             </div>
+
             <div class="clear"></div>
         </div>
     </div>

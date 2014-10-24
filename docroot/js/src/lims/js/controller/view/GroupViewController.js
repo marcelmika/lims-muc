@@ -29,8 +29,9 @@ Y.namespace('LIMS.Controller');
 
 Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.LIMS.Core.ViewController, [], {
 
-    // Template for list button
-    listButtonTemplate: '<button class="panel-button list">',
+    // The template property holds the contents of the #lims-panel-button-list
+    // element, which will be used as the HTML template for the list panel button
+    listButtonTemplate: Y.one('#lims-panel-button-list').get('innerHTML'),
 
     /**
      *  The initializer runs when a Group View Controller instance is created.
