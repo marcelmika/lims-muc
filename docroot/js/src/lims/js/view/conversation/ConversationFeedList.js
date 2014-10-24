@@ -39,10 +39,6 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     initializer: function () {
         // Attach events
         this._attachEvents();
-
-//        // Group list needs to be removed from the DOM since we don't know if there
-//        // are any groups yet
-//        this.get('groupList').remove();
     },
 
     /**
@@ -62,21 +58,30 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
+     * Updates timestamp in each conversations
+     */
+    updateTimestamps: function () {
+        // Vars
+        var index,
+            conversationItemViews = this.get('conversationItemViews'),
+            conversationItem;
+
+        for (index = 0; index < conversationItemViews.length; index++) {
+            conversationItem = conversationItemViews[index];
+            conversationItem.updateTimestamp();
+        }
+    },
+
+    /**
      * Attaches listeners to events
      *
      * @private
      */
     _attachEvents: function () {
         var model = this.get('model');
-//            errorView = this.get('errorView');
 
         // Local events
         model.on('conversationFeedUpdated', this._onConversationFeedUpdated, this);
-//        model.after('add', this._onGroupAdd, this);
-//        model.on('groupReset', this._onGroupReset, this);
-//        model.after('groupsReadSuccess', this._onGroupsReadSuccess, this);
-//        model.after('groupsReadError', this._onGroupsReadError, this);
-//        errorView.on('resendButtonClick', this._onResendButtonClick, this);
     },
 
     /**
@@ -134,10 +139,11 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         // Vars
         var model = this.get('model'),
             conversationFeedList = this.get('conversationFeedList'),
+            conversationItemViews = this.get('conversationItemViews'),
             animate = this.get('shouldAnimateList');
 
         // Reset the previously rendered conversations
-        conversationFeedList.set('innerHTML', '');
+        this._resetListView();
 
         // Create conversation feed items
         model.each(function (conversation) {
@@ -148,13 +154,33 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
             });
             // Render the view
             view.render();
+
+            // Remember the view
+            conversationItemViews.push(view);
             // Append it to the list
             conversationFeedList.append(view.get('container'));
 
         }, this);
 
+        // Set the updated conversation item views list
+        this.set('conversationItemViews', conversationItemViews);
+
         // Show it again and animate it if needed
         this._showListView(animate);
+    },
+
+    /**
+     * Removes the whole content from  list view
+     *
+     * @private
+     */
+    _resetListView: function () {
+        // Vars
+        var conversationFeedList = this.get('conversationFeedList');
+        // This will reset the content of the conversation feed list view
+        conversationFeedList.set('innerHTML', '');
+        // Reset the list of views too
+        this.set('conversationItemViews', []);
     },
 
     /**
@@ -207,6 +233,15 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
             valueFn: function () {
                 return this.get('container').one('.conversation-feed-list');
             }
+        },
+
+        /**
+         * An array that holds all conversations
+         *
+         * [Y.LIMS.View.ConversationFeedItem]
+         */
+        conversationItemViews: {
+            value: []
         },
 
         /**

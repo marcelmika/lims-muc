@@ -64,6 +64,9 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             })
         );
 
+        // Set date node
+        this.set('dateNode', container.one('.timestamp'));
+
         // Check if the conversation is unread
         if (model.get('unreadMessagesCount') > 0) {
             container.addClass('unread');
@@ -75,6 +78,19 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         this._attachEvents();
 
         return this;
+    },
+
+    /**
+     * Updates node that holds the creation time of message
+     */
+    updateTimestamp: function () {
+        // Vars
+        var dateNode = this.get('dateNode'),                // Node that holds date
+            formatter = this.get('dateFormatter'),          // Prettify date formatter
+            model = this.get('model').get('lastMessage');   // Message model
+
+        // Update time
+        dateNode.set('innerHTML', formatter.prettyDate(new Date(model.get('createdAt'))));
     },
 
     /**
@@ -139,6 +155,15 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
          * {Y.LIMS.Model.ConversationModel}
          */
         model: {
+            value: null // to be set
+        },
+
+        /**
+         * Node that contains date
+         *
+         * {Node}
+         */
+        dateNode: {
             value: null // to be set
         },
 

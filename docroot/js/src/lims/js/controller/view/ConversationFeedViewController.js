@@ -52,6 +52,8 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         onPanelDidAppear: function () {
             // Start poller
             this._startPolling();
+            // Start timer that periodically updates timestamps of messages
+            this._startTimer();
         },
 
         /**
@@ -60,6 +62,10 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         onPanelDidDisappear: function () {
             // Stop poller
             this._stopPolling();
+
+            // No need to updated message timestamps since they will be updated whenever
+            // the panel appears again
+            this._pauseTimer();
         },
 
         /**
@@ -124,6 +130,42 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             var poller = this.get('poller');
             // Pause
             poller.unregister('conversationFeedViewController:model');
+        },
+
+        /**
+         * Starts timer which periodically refreshes conversation list
+         *
+         * @private
+         */
+        _startTimer: function () {
+            // Vars
+            var properties = this.get('properties'),
+                listView = this.get('listView'),
+                timerInterval = this.get('timerInterval');
+
+            // Start only if the chat is enabled
+            if (properties.isChatEnabled()) {
+
+                // Update all timestamps
+                listView.updateTimestamps();
+                // Start periodical update
+                this.set('timer', setInterval(function () {
+                    // Load model
+                    listView.updateTimestamps();
+                }, timerInterval));
+            }
+        },
+
+        /**
+         * Pauses timer which periodically refreshes group list
+         *
+         * @private
+         */
+        _pauseTimer: function () {
+            // Vars
+            var timer = this.get('timer');
+            // Pause
+            clearTimeout(timer);
         },
 
         /**
@@ -316,6 +358,24 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
              */
             poller: {
                 value: null // to be set
+            },
+
+            /**
+             * Timer that is used to refresh date nodes periodically
+             *
+             * {timer}
+             */
+            timer: {
+                value: null // to be set
+            },
+
+            /**
+             * Length of the timer period that is used to refresh date nodes periodically
+             *
+             * {integer}
+             */
+            timerInterval: {
+                value: 60000 // one minute
             }
         }
     });
