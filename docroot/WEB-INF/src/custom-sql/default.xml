@@ -383,7 +383,7 @@
 		]]>
     </sql>
 
-    <!-- Returns the oldest message in the conversation -->
+    <!-- Returns conversations where the user participates -->
     <sql id="com.marcelmika.lims.persistence.generated.service.persistence.ParticipantFinder.participatedConversations">
         <![CDATA[
             SELECT

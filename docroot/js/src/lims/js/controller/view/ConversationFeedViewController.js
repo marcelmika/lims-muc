@@ -85,6 +85,7 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         _attachEvents: function () {
 
             // Remote events
+            Y.on('conversationPanelOpened', this._onConversationPanelOpened, this);
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
         },

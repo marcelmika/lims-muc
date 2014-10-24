@@ -78,6 +78,11 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             this._startTimer();
             // Make the badge less noticeable
             this._dimBadge();
+
+            // Fire a global event that the conversation was opened
+            Y.fire('conversationPanelOpened', {
+                conversation: model
+            });
         },
 
         /**

@@ -103,6 +103,9 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         var model = this.get('model'),
             container = this.get('container');
 
+        // Remote events
+        Y.on('conversationPanelOpened', this._onConversationPanelOpened, this);
+
         // Attach click on panel's item
         container.on('click', function (event) {
             event.preventDefault();
@@ -114,9 +117,9 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.fire('conversationSelected', {
                 conversation: model
             });
+
         });
     },
-
 
     /**
      * Renders portrait based on screenName and returns the rendered HTML
@@ -132,6 +135,24 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         portraitView.render();
 
         return portraitView.get('container').get('outerHTML');
+    },
+
+    /**
+     * Called when the user opens any of the conversations panel
+     *
+     * @private
+     */
+    _onConversationPanelOpened: function (event) {
+        // Vars
+        var model = this.get('model'),
+            container = this.get('container'),
+            conversation = event.conversation;
+
+        // Our conversation was opened
+        if (conversation.get('conversationId') === model.get('conversationId')) {
+            // Remove the unread class
+            container.removeClass('unread');
+        }
     }
 
 }, {
