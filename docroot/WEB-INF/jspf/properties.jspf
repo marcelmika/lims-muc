@@ -1,4 +1,3 @@
-<%--@elvariable id="currentUser" type="com.marcelmika.lims.portal.domain.Buddy"--%>
 <%--
   ~ The MIT License (MIT)
   ~
@@ -22,6 +21,13 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   ~ SOFTWARE.
   --%>
+
+
+<%-- Variables --%>
+<%--@elvariable id="currentUser" type="com.marcelmika.lims.portal.domain.Buddy"--%>
+
+<%-- Libraries --%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%-- Resource URL --%>
 <portlet:resourceURL var="limsPortletURL" id="view.jsp" escapeXml="false"/>
@@ -59,18 +65,17 @@
     }
 </script>
 
-
 <%-- This template HTML will be used to render localization messages --%>
 <script type="text/x-template" id="lims-properties">
     {
     "userId":${currentUser.buddyId},
     "companyId":${currentUser.companyId},
     "portraitId":${currentUser.portraitId},
-    "screenName":"${currentUser.screenName}",
-    "fullName":"${currentUser.fullName}",
-    "firstName":"${currentUser.firstName}",
-    "middleName":"${currentUser.middleName}",
-    "lastName":"${currentUser.lastName}",
+    "screenName":"${fn:escapeXml(currentUser.screenName)}",
+    "fullName":"${fn:escapeXml(currentUser.fullName)}",
+    "firstName":"${fn:escapeXml(currentUser.firstName)}",
+    "middleName":"${fn:escapeXml(currentUser.middleName)}",
+    "lastName":"${fn:escapeXml(currentUser.lastName)}",
     "portletEnabled": ${settings.chatEnabled},
     "portletResourceURL":"<%= renderResponse.encodeURL(limsPortletURL.toString()) %>",
     "currentServerTime":<%= System.currentTimeMillis() %>

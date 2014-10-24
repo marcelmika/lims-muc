@@ -89,13 +89,13 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
 
             // If no first name was set take the screen name
             if (user.get('firstName') === '' && user.get('screenName') !== '') {
-                initialText = user.get('screenName').charAt(0);
+                initialText = Y.LIMS.Core.Util.firstCharacter(user.get('screenName'));
             } else {
-                initialText = user.get('fullName').charAt(0);
+                initialText = Y.LIMS.Core.Util.firstCharacter(user.get('fullName'));
             }
             // Add last name if set
             if (user.get('lastName') !== '') {
-                initialText = initialText + user.get('lastName').charAt(0);
+                initialText = initialText.concat(Y.LIMS.Core.Util.firstCharacter(user.get('lastName')));
             }
 
             // Set initials
