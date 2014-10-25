@@ -116,9 +116,13 @@ public class PortletProcessorImpl implements PortletProcessor {
      */
     public void processRequest(ResourceRequest request, ResourceResponse response) {
 
+        // This is for time profiling purposes
+        long start = 0;
+
         // Log request
         if (log.isDebugEnabled()) {
             logRequest(request);
+            start = System.currentTimeMillis();
         }
 
         // If the error mode is on and a random error was added to the response
@@ -138,6 +142,15 @@ public class PortletProcessorImpl implements PortletProcessor {
 
         // Decide which method should be called
         dispatchRequest(request, response, query);
+
+        // Debug time
+        if (log.isDebugEnabled()) {
+            long end = System.currentTimeMillis();
+            log.debug(String.format("[%s] TIME: %dms",
+                    request.getParameter(RequestParameterKeys.KEY_QUERY),
+                    (end - start)
+            ));
+        }
     }
 
     /**
@@ -278,23 +291,20 @@ public class PortletProcessorImpl implements PortletProcessor {
      */
     private void logRequest(ResourceRequest request) {
 
-        // Log query
-        if (request.getParameter(RequestParameterKeys.KEY_QUERY) != null) {
-            log.debug(String.format("REQUEST QUERY: %s",
-                            request.getParameter(RequestParameterKeys.KEY_QUERY))
-            );
-        }
         // Log request params
         if (request.getParameter(RequestParameterKeys.KEY_PARAMETERS) != null) {
-            log.debug(String.format("REQUEST PARAMETERS: %s",
-                            request.getParameter(RequestParameterKeys.KEY_PARAMETERS))
+            log.debug(String.format("[%s] PARAMS: %s",
+                            request.getParameter(RequestParameterKeys.KEY_QUERY),
+                            request.getParameter(RequestParameterKeys.KEY_PARAMETERS)
+                    )
             );
         }
         // Log request content
         if (request.getParameter(RequestParameterKeys.KEY_CONTENT) != null) {
-            log.debug(String.format("REQUEST CONTENT: %s",
-                            request.getParameter(RequestParameterKeys.KEY_CONTENT))
-            );
+            log.debug(String.format("[%s] CONTENT: %s",
+                    request.getParameter(RequestParameterKeys.KEY_QUERY),
+                    request.getParameter(RequestParameterKeys.KEY_CONTENT)
+            ));
         }
     }
 }
