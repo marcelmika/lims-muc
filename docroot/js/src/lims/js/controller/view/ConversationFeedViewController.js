@@ -30,6 +30,7 @@ Y.namespace('LIMS.Controller');
 Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFeedViewController',
     Y.LIMS.Core.ViewController, [], {
 
+
         /**
          *  The initializer runs when the view controller instance is created.
          */
@@ -83,6 +84,11 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
          * @private
          */
         _attachEvents: function () {
+            // Vars
+            var newConversationButton = this.get('newConversationButton');
+
+            // Local events
+            newConversationButton.on('click', this._onNewConversationClick, this);
 
             // Remote events
             Y.on('conversationPanelOpened', this._onConversationPanelOpened, this);
@@ -161,6 +167,19 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             clearTimeout(timer);
         },
 
+
+        /**
+         * Called when the user click on the new conversation button
+         *
+         * @private
+         */
+        _onNewConversationClick: function () {
+            // Vars
+            var newConversationView = this.get('newConversationView');
+
+            newConversationView.toggleView();
+        },
+
         /**
          * Called whenever an error with connection occurred
          *
@@ -215,6 +234,17 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             },
 
             /**
+             * Panel node
+             *
+             * {Node}
+             */
+            panel: {
+                valueFn: function () {
+                    return this.get('container').one('.panel');
+                }
+            },
+
+            /**
              * Panel content node
              *
              * {Node}
@@ -224,6 +254,7 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                     return this.get('container').one('.panel-content');
                 }
             },
+
 
             /**
              * View that holds the list of conversations
@@ -248,6 +279,25 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                 }
             },
 
+            /**
+             * New conversation view
+             *
+             * {Y.LIMS.View.NewConversationView}
+             */
+            newConversationView: {
+                valueFn: function () {
+                    // Vars
+                    var container = this.get('panel'),
+                        view = new Y.LIMS.View.NewConversationView();
+
+                    // Render the view
+                    view.render();
+                    // Add it to the container
+                    container.append(view.get('container'));
+
+                    return view;
+                }
+            },
 
             /**
              * Activity indicator node
@@ -257,6 +307,17 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             activityIndicator: {
                 valueFn: function () {
                     return this.get('container').one('.preloader');
+                }
+            },
+
+            /**
+             * Node with the new conversation button
+             *
+             * {Node}
+             */
+            newConversationButton: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-button.new-conversation');
                 }
             },
 

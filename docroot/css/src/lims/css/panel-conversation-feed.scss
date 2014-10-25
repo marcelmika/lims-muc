@@ -98,4 +98,19 @@
     overflow-x: hidden;
     padding: 0;
   }
+
+  ////////////////////////////////////////////
+  // PANEL NEW CONVERSATION                 //
+  ////////////////////////////////////////////
+  .panel-new-conversation {
+    min-height: 0px;
+    width: 250px;
+    left: 1px;
+    position: absolute;
+    top: 27px;
+    background: white;
+    border-bottom: 1px solid #dddad8;
+    opacity: 0.9;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+  }
 }
