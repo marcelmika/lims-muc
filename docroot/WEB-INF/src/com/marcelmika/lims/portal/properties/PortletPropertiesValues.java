@@ -90,6 +90,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES
     );
 
+    // Conversation Feed - Max conversations count
+    public static final int CONVERSATION_FEED_MAX_CONVERSATIONS = getInteger(
+            PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS
+    );
+
     // Jabber (Disabled by default)
     public static final Boolean JABBER_ENABLED = getBoolean(
             PortletPropertiesKeys.JABBER_ENABLED

@@ -24,8 +24,9 @@
 
 package com.marcelmika.lims.api.events.conversation;
 
-import com.marcelmika.lims.api.events.RequestEvent;
 import com.marcelmika.lims.api.entity.BuddyDetails;
+import com.marcelmika.lims.api.entity.ConversationPaginationDetails;
+import com.marcelmika.lims.api.events.RequestEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -36,12 +37,18 @@ import com.marcelmika.lims.api.entity.BuddyDetails;
 public class GetConversationsRequestEvent extends RequestEvent {
 
     private BuddyDetails buddyDetails;
+    private ConversationPaginationDetails pagination;
 
-    public GetConversationsRequestEvent(BuddyDetails buddyDetails) {
+    public GetConversationsRequestEvent(BuddyDetails buddyDetails, ConversationPaginationDetails pagination) {
         this.buddyDetails = buddyDetails;
+        this.pagination = pagination;
     }
 
     public BuddyDetails getBuddyDetails() {
         return buddyDetails;
+    }
+
+    public ConversationPaginationDetails getPagination() {
+        return pagination;
     }
 }

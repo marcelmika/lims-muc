@@ -49,7 +49,18 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             etag = this.get('etag'),    // Etag
             parameters,                 // Parameters of the request
             response,                   // Response from the server
+            readMore = options.readMore || false,
+            currentSize = this.get('currentSize'),
             cachedItems = this.get('cachedItems');
+
+        // We need to reset the etag if we want to read more. It is quite possible
+        // that the conversation feed hasn't changed yet. So the etag is the same. As
+        // a result nothing would be returned. However we need to return larger
+        // list. This could be easily done by resetting the etag property.
+        if (readMore) {
+            this.set('etag', -1);
+            etag = -1;
+        }
 
         switch (action) {
 
@@ -64,7 +75,11 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                 parameters = Y.JSON.stringify({
                     // Send etag to server so it knows if it should send groups again or we should keep
                     // the old cached values
-                    etag: etag
+                    etag: etag,
+                    pagination: {
+                        readMore: readMore,
+                        currentSize: currentSize
+                    }
                 });
 
                 // Send the request
@@ -92,15 +107,14 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                             // Deserialize response
                             response = Y.JSON.parse(o.responseText);
 
-                            console.log(response);
-
                             // Update conversation list
-                            instance._updateConversationList(response);
-
+                            instance._updateConversationList(response, readMore);
+                            // Call success
                             instance.fire('readSuccess');
 
                             // Call success
-                            callback(null);
+                            callback(null, instance);
+
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -136,8 +150,9 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
      * Updates list of conversations from the response
      *
      * @param response
+     * @param readMore true if the request was of a read more type
      */
-    _updateConversationList: function (response) {
+    _updateConversationList: function (response, readMore) {
 
         // Vars
         var conversations = response.conversations,
@@ -145,6 +160,11 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             index,
             conversation,
             conversationModels = [];
+
+
+        // Set current size
+        this.set('currentSize', response.currentSize || null);
+        this.set('maxSize', response.maxSize || null);
 
         // Update conversation list only if the etag has changed
         if (response.etag !== null && etag.toString() !== response.etag.toString()) {
@@ -165,8 +185,11 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             this.set('cachedItems', conversationModels);
 
             // Fire the event
-            this.fire('conversationFeedUpdated', this);
+            this.fire('conversationFeedUpdated', {
+                readMore: readMore
+            });
         }
+
     }
 
 }, {
@@ -179,6 +202,35 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
          */
         etag: {
             value: -1 // default value
+        },
+
+        /**
+         * Current size of the list
+         *
+         * {number}
+         */
+        currentSize: {
+            value: null // to be set
+        },
+
+        /**
+         * Maximal size of the list
+         *
+         * {number}
+         */
+        maxSize: {
+            value: null // to be set
+        },
+
+        /**
+         * Returns true if the list has the full size already
+         *
+         * {boolean}
+         */
+        reachedTop: {
+            getter: function () {
+                return this.get('currentSize') === this.get('maxSize');
+            }
         },
 
         /**

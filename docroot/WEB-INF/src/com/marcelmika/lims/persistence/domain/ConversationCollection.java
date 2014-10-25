@@ -41,6 +41,8 @@ import java.util.List;
 public class ConversationCollection {
 
     private List<Conversation> conversations = Collections.synchronizedList(new LinkedList<Conversation>());
+    private Integer currentSize;
+    private Integer maxSize;
     private Date lastModified;
 
     /**
@@ -52,6 +54,8 @@ public class ConversationCollection {
         // Create new collection
         ConversationCollectionDetails details = new ConversationCollectionDetails();
         // Map data
+        details.setCurrentSize(currentSize);
+        details.setMaxSize(maxSize);
         details.setLastModified(lastModified);
 
         // Relations
@@ -70,6 +74,22 @@ public class ConversationCollection {
 
     public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
+    }
+
+    public Integer getCurrentSize() {
+        return currentSize;
+    }
+
+    public void setCurrentSize(Integer currentSize) {
+        this.currentSize = currentSize;
+    }
+
+    public Integer getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(Integer maxSize) {
+        this.maxSize = maxSize;
     }
 
     public Date getLastModified() {

@@ -230,12 +230,46 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return List of conversation
      * @throws SystemException
      */
-    public List<Participant> getConversations(Long participantId) throws Exception {
+    public List<Participant> getConversations(Long participantId,
+                                              Integer defaultPageSize,
+                                              Integer currentPageSize,
+                                              Integer maxPageSize,
+                                              Boolean readMore) throws Exception {
 
-        // TODO: Implement pagination
-        List<Object[]> participantObjects = participantFinder.findParticipatedConversations(participantId, 0, 100);
+        // This is a first request, no current page size is set
+        if (currentPageSize == null) {
+            // Set it to default page size
+            currentPageSize = defaultPageSize;
+        }
+
+        // User wants to read history
+        if (readMore != null && readMore) {
+            // Increase the size of page by a default page size
+            currentPageSize += defaultPageSize;
+
+            // We can be over the actual maximal size of the page, so just stop here
+            if (currentPageSize > maxPageSize) {
+                currentPageSize = maxPageSize;
+            }
+        }
+
+        // Get the participant objects from database
+        List<Object[]> participantObjects = participantFinder.findParticipatedConversations(
+                participantId, 0, currentPageSize
+        );
 
         // Map to participants and return
         return ParticipantImpl.fromPlainObjectList(participantObjects, 0);
+    }
+
+    /**
+     * Returns a number of all conversations where the user participates
+     *
+     * @param participantId Long
+     * @return summed number of conversations where the user participates
+     * @throws Exception
+     */
+    public Integer getConversationsCount(Long participantId) throws Exception {
+        return participantPersistence.countByParticipantId(participantId);
     }
 }

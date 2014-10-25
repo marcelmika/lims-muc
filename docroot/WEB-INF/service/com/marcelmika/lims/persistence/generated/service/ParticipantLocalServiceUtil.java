@@ -388,8 +388,24 @@ public class ParticipantLocalServiceUtil {
 	* @throws SystemException
 	*/
 	public static java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
+		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
+		java.lang.Boolean readMore) throws java.lang.Exception {
+		return getService()
+				   .getConversations(participantId, pageSize, currentPageSize,
+			maxPageSize, readMore);
+	}
+
+	/**
+	* Returns a number of all conversations where the user participates
+	*
+	* @param participantId Long
+	* @return summed number of conversations where the user participates
+	* @throws Exception
+	*/
+	public static java.lang.Integer getConversationsCount(
 		java.lang.Long participantId) throws java.lang.Exception {
-		return getService().getConversations(participantId);
+		return getService().getConversationsCount(participantId);
 	}
 
 	public static void clearService() {

@@ -351,5 +351,18 @@ public interface ParticipantLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId) throws java.lang.Exception;
+		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
+		java.lang.Boolean readMore) throws java.lang.Exception;
+
+	/**
+	* Returns a number of all conversations where the user participates
+	*
+	* @param participantId Long
+	* @return summed number of conversations where the user participates
+	* @throws Exception
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Integer getConversationsCount(java.lang.Long participantId)
+		throws java.lang.Exception;
 }

@@ -22,53 +22,29 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.api.entity;
-
-import java.util.Date;
-import java.util.List;
+package com.marcelmika.lims.portal.request.parameters;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 22/10/14
- * Time: 15:44
+ * Date: 25/10/14
+ * Time: 16:26
  */
-public class ConversationCollectionDetails {
+public class ParameterException extends Exception {
 
-    private List<ConversationDetails> conversations;
-    private Integer currentSize;
-    private Integer maxSize;
-    private Date lastModified;
-
-    public List<ConversationDetails> getConversations() {
-        return conversations;
+    public ParameterException() {
+        super();
     }
 
-    public void setConversations(List<ConversationDetails> conversations) {
-        this.conversations = conversations;
+    public ParameterException(String s) {
+        super(s);
     }
 
-    public Integer getCurrentSize() {
-        return currentSize;
+    public ParameterException(String s, Throwable throwable) {
+        super(s, throwable);
     }
 
-    public void setCurrentSize(Integer currentSize) {
-        this.currentSize = currentSize;
-    }
-
-    public Integer getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(Integer maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    public ParameterException(Throwable throwable) {
+        super(throwable);
     }
 }

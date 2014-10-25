@@ -20,6 +20,13 @@
     height: 24px;
   }
 
+  .preloader.read-more-preloader {
+    position: relative;
+    margin: 8px 0;
+    background-size: 20px;
+    height: 20px;
+  }
+
   .conversation-feed-item {
     padding: 4px 7px 3px;
     cursor: pointer;

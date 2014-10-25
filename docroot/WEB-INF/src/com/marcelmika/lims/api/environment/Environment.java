@@ -44,6 +44,7 @@ public class Environment {
     private static Integer buddyListMaxBuddies = 0;
     private static Integer buddyListMaxSearch = 0;
     private static Integer conversationListMaxMessages = 0;
+    private static Integer conversationFeedMaxConversations = 0;
     private static String[] buddyListSiteExcludes = new String[]{};
     private static String[] buddyListGroupExcludes = new String[]{};
     private static Boolean jabberEnabled = false;
@@ -432,6 +433,24 @@ public class Environment {
      */
     public static void setConversationListMaxMessages(Integer conversationListMaxMessages) {
         Environment.conversationListMaxMessages = conversationListMaxMessages;
+    }
+
+    /**
+     * Maximal count of conversations
+     *
+     * @return int
+     */
+    public static int getConversationFeedMaxConversations() {
+        return conversationFeedMaxConversations;
+    }
+
+    /**
+     * Sets the conversation feed max conversations property
+     *
+     * @param conversationFeedMaxConversations Integer
+     */
+    public static void setConversationFeedMaxConversations(Integer conversationFeedMaxConversations) {
+        Environment.conversationFeedMaxConversations = conversationFeedMaxConversations;
     }
 
     /**

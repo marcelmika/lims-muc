@@ -49,6 +49,9 @@ public interface PortletPropertiesKeys {
     // Conversation
     public static final String CONVERSATION_LIST_MAX_MESSAGES = "conversation.list.max.messages";
 
+    // Conversation Feed
+    public static final String CONVERSATION_FEED_MAX_CONVERSATIONS = "conversation.feed.max.conversations";
+
     // Jabber
     public static final String JABBER_ENABLED = "jabber.enabled";
     public static final String JABBER_HOST = "jabber.host";

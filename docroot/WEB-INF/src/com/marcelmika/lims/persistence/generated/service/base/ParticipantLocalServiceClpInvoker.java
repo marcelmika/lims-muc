@@ -154,7 +154,14 @@ public class ParticipantLocalServiceClpInvoker {
 
 		_methodName67 = "getConversations";
 
-		_methodParameterTypes67 = new String[] { "java.lang.Long" };
+		_methodParameterTypes67 = new String[] {
+				"java.lang.Long", "java.lang.Integer", "java.lang.Integer",
+				"java.lang.Integer", "java.lang.Boolean"
+			};
+
+		_methodName68 = "getConversationsCount";
+
+		_methodParameterTypes68 = new String[] { "java.lang.Long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -306,7 +313,15 @@ public class ParticipantLocalServiceClpInvoker {
 
 		if (_methodName67.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
-			return ParticipantLocalServiceUtil.getConversations((java.lang.Long)arguments[0]);
+			return ParticipantLocalServiceUtil.getConversations((java.lang.Long)arguments[0],
+				(java.lang.Integer)arguments[1],
+				(java.lang.Integer)arguments[2],
+				(java.lang.Integer)arguments[3], (java.lang.Boolean)arguments[4]);
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return ParticipantLocalServiceUtil.getConversationsCount((java.lang.Long)arguments[0]);
 		}
 
 		throw new UnsupportedOperationException();
@@ -364,4 +379,6 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes66;
 	private String _methodName67;
 	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
 }

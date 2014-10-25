@@ -32,6 +32,9 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     // Specify a model to associate with the view.
     model: Y.LIMS.Model.ConversationFeedList,
 
+    // Template for the activity indicator
+    readMoreActivityIndicator: '<div class="preloader read-more-preloader" />',
+
     /**
      * The initializer runs when the instance is created, and gives
      * us an opportunity to set up the view.
@@ -87,7 +90,9 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         model.on('readSuccess', this._onConversationFeedReadSuccess, this);
         model.on('readError', this._onConversationFeedReadError, this);
         errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
+
         container.on('mousewheel', this._onContainerMouseWheel, this);
+        container.on('scroll', this._onContainerContentScroll, this);
     },
 
     /**
@@ -190,6 +195,50 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
+     * Shows read more activity indicator
+     *
+     * @private
+     */
+    _showReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator'),
+            conversationFeedList = this.get('conversationFeedList');
+
+        if (!indicator.inDoc()) {
+            conversationFeedList.append(indicator);
+        }
+    },
+
+    /**
+     * Hide read more activity indicator
+     *
+     * @private
+     */
+    _hideReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator');
+
+        if (indicator.inDoc()) {
+            indicator.remove();
+        }
+    },
+
+    /**
+     * Scrolls the whole list to top
+     *
+     * @private
+     */
+    _scrollToTop: function () {
+        // Vars
+        var panelContent = this.get('container');
+
+        // Wait a second before we scroll to avoid blinking effect
+        setTimeout(function () {
+            panelContent.set('scrollTop', 0);
+        }, 1);
+    },
+
+    /**
      * Called when the conversation feed was successfully read
      *
      * @private
@@ -255,11 +304,17 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      *
      * @private
      */
-    _onConversationFeedUpdated: function () {
+    _onConversationFeedUpdated: function (event) {
         // Hide indicator if it wasn't already hidden
         this.get('activityIndicator').hide();
         // Render the list
         this._renderConversationList();
+
+        // If a new conversation was added to top scroll there
+        if (!event.readMore) {
+            this._scrollToTop();
+        }
+
         // Since the list is already rendered there is no need to
         // animate any other addition to the list
         this.set('shouldAnimateList', false);
@@ -276,6 +331,34 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
 
         // Reload model
         model.load();
+    },
+
+    /**
+     * Called when the user scrolls the panel content
+     *
+     * @private
+     */
+    _onContainerContentScroll: function () {
+        // Vars
+        var scrollPosition = this.get('container').get('scrollTop'),
+            clientHeight = this.get('container').get('clientHeight'),
+            scrollHeight = this.get('container').get('scrollHeight'),
+            model = this.get('model'),
+            instance = this,
+            hasReachedBottom = function () {
+                return scrollPosition + clientHeight === scrollHeight;
+            };
+
+        // User has reached the bottom by scrolling and there is still something
+        // we can read from the model
+        if (hasReachedBottom() && !model.get('reachedTop')) {
+            // Show the preloader
+            this._showReadMoreActivityIndicator();
+            // Load the model
+            model.load({readMore: true}, function () {
+                instance._hideReadMoreActivityIndicator();
+            });
+        }
     },
 
     /**
@@ -335,6 +418,17 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         conversationFeedList: {
             valueFn: function () {
                 return this.get('container').one('.conversation-feed-list');
+            }
+        },
+
+        /**
+         * Read more activity indicator node
+         *
+         * {Node}
+         */
+        readMoreActivityIndicator: {
+            valueFn: function () {
+                return Y.Node.create(this.readMoreActivityIndicator);
             }
         },
 

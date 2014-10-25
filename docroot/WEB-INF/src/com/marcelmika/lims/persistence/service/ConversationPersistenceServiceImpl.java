@@ -117,8 +117,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
         MessagePagination pagination = MessagePagination.fromMessagePaginationDetails(event.getPagination());
 
-        log.info(pagination);
-
         // Read from persistence
         try {
             // Find conversation
@@ -412,13 +410,25 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      */
     @Override
     public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event) {
+
         // Map to persistence objects
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
+        ConversationPagination pagination = ConversationPagination.fromConversationPaginationDetails(
+                event.getPagination()
+        );
 
         try {
 
+            // Get a count of all conversations where the user participates
+            Integer maxPageSize = ParticipantLocalServiceUtil.getConversationsCount(buddy.getBuddyId());
+            Integer pageSize = Environment.getConversationFeedMaxConversations();
+            Integer currentPageSize = pagination.getPageSize();
+            Boolean readMore = pagination.getReadMore();
+
             // Get a list of conversations where the user participates
-            List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getConversations(buddy.getBuddyId());
+            List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getConversations(
+                    buddy.getBuddyId(), pageSize, currentPageSize, maxPageSize, readMore
+            );
 
             // Prepare conversations container
             List<Conversation> conversations = new LinkedList<Conversation>();
@@ -459,6 +469,8 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Set data to conversation collection
             conversationCollection.setConversations(conversations);
             conversationCollection.setLastModified(lastModification);
+            conversationCollection.setCurrentSize(conversations.size());
+            conversationCollection.setMaxSize(maxPageSize);
 
             // Call success
             return GetConversationsResponseEvent.success(conversationCollection.toConversationCollectionDetails());

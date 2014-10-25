@@ -24,51 +24,38 @@
 
 package com.marcelmika.lims.api.entity;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 22/10/14
- * Time: 15:44
+ * Date: 25/10/14
+ * Time: 15:07
  */
-public class ConversationCollectionDetails {
+public class ConversationPaginationDetails {
 
-    private List<ConversationDetails> conversations;
-    private Integer currentSize;
-    private Integer maxSize;
-    private Date lastModified;
+    private Boolean readMore;
+    private Integer pageSize;
 
-    public List<ConversationDetails> getConversations() {
-        return conversations;
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public void setConversations(List<ConversationDetails> conversations) {
-        this.conversations = conversations;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
     }
 
-    public Integer getCurrentSize() {
-        return currentSize;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setCurrentSize(Integer currentSize) {
-        this.currentSize = currentSize;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public Integer getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(Integer maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    @Override
+    public String toString() {
+        return "ConversationPaginationDetails{" +
+                "readMore=" + readMore +
+                ", pageSize=" + pageSize +
+                '}';
     }
 }

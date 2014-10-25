@@ -22,53 +22,51 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.api.entity;
+package com.marcelmika.lims.portal.domain;
 
-import java.util.Date;
-import java.util.List;
+import com.marcelmika.lims.api.entity.ConversationPaginationDetails;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 22/10/14
- * Time: 15:44
+ * Date: 25/10/14
+ * Time: 15:05
  */
-public class ConversationCollectionDetails {
+public class ConversationPagination {
 
-    private List<ConversationDetails> conversations;
-    private Integer currentSize;
-    private Integer maxSize;
-    private Date lastModified;
+    private Boolean readMore;
+    private Integer pageSize;
 
-    public List<ConversationDetails> getConversations() {
-        return conversations;
+    public ConversationPaginationDetails toConversationPaginationDetails() {
+        ConversationPaginationDetails details = new ConversationPaginationDetails();
+
+        details.setReadMore(readMore);
+        details.setPageSize(pageSize);
+
+        return details;
     }
 
-    public void setConversations(List<ConversationDetails> conversations) {
-        this.conversations = conversations;
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public Integer getCurrentSize() {
-        return currentSize;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
     }
 
-    public void setCurrentSize(Integer currentSize) {
-        this.currentSize = currentSize;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public Integer getMaxSize() {
-        return maxSize;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public void setMaxSize(Integer maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    @Override
+    public String toString() {
+        return "ConversationPagination{" +
+                "readMore=" + readMore +
+                ", pageSize=" + pageSize +
+                '}';
     }
 }

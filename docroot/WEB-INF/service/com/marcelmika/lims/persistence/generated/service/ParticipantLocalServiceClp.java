@@ -155,7 +155,14 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 		_methodName26 = "getConversations";
 
-		_methodParameterTypes26 = new String[] { "java.lang.Long" };
+		_methodParameterTypes26 = new String[] {
+				"java.lang.Long", "java.lang.Integer", "java.lang.Integer",
+				"java.lang.Integer", "java.lang.Boolean"
+			};
+
+		_methodName27 = "getConversationsCount";
+
+		_methodParameterTypes27 = new String[] { "java.lang.Long" };
 	}
 
 	@Override
@@ -961,13 +968,25 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 	@Override
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId) throws java.lang.Exception {
+		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
+		java.lang.Boolean readMore) throws java.lang.Exception {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName26,
 					_methodParameterTypes26,
-					new Object[] { ClpSerializer.translateInput(participantId) });
+					new Object[] {
+						ClpSerializer.translateInput(participantId),
+						
+					ClpSerializer.translateInput(pageSize),
+						
+					ClpSerializer.translateInput(currentPageSize),
+						
+					ClpSerializer.translateInput(maxPageSize),
+						
+					ClpSerializer.translateInput(readMore)
+					});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -986,6 +1005,35 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		}
 
 		return (java.util.List<com.marcelmika.lims.persistence.generated.model.Participant>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.lang.Integer getConversationsCount(java.lang.Long participantId)
+		throws java.lang.Exception {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27,
+					new Object[] { ClpSerializer.translateInput(participantId) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.Integer)ClpSerializer.translateOutput(returnObj);
 	}
 
 	private InvokableLocalService _invokableLocalService;
@@ -1041,4 +1089,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	private String[] _methodParameterTypes25;
 	private String _methodName26;
 	private String[] _methodParameterTypes26;
+	private String _methodName27;
+	private String[] _methodParameterTypes27;
 }

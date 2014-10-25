@@ -31,7 +31,6 @@ import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.lims.persistence.generated.model.Participant;
 
-import javax.management.Query;
 import java.util.List;
 
 /**
@@ -46,7 +45,8 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
     private static Log log = LogFactoryUtil.getLog(ParticipantFinderImpl.class);
 
     // SQL routes
-    private static final String PARTICIPATED_CONVERSATIONS = ParticipantFinder.class.getName() + ".participatedConversations";
+    private static final String FIND_PARTICIPATED_CONVERSATIONS =
+            ParticipantFinder.class.getName() + ".findParticipatedConversations";
 
     /**
      * Finds all participant objects where the user participates
@@ -101,6 +101,6 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      */
     private String getParticipatedConversationsSQL() throws Exception {
         // Get custom query sql (check /src/custom-sql/default.xml)
-        return CustomSQLUtil.get(PARTICIPATED_CONVERSATIONS);
+        return CustomSQLUtil.get(FIND_PARTICIPATED_CONVERSATIONS);
     }
 }

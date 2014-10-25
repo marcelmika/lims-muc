@@ -22,46 +22,58 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.portal.request.parameters;
+package com.marcelmika.lims.persistence.domain;
 
-import com.marcelmika.lims.portal.domain.ConversationPagination;
+import com.marcelmika.lims.api.entity.ConversationPaginationDetails;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 22/10/14
- * Time: 14:55
+ * Date: 25/10/14
+ * Time: 15:36
  */
-public class ReadConversationsParameters {
+public class ConversationPagination {
 
-    private ConversationPagination pagination;
-    private Integer etag;
+    private Boolean readMore;
+    private Integer pageSize;
 
-    public ConversationPagination getPagination() {
-        // Don't let the pagination be null
-        if (pagination == null) {
-            pagination = new ConversationPagination();
-        }
+    /**
+     * Factory method creates conversation pagination from details
+     *
+     * @param details ConversationPaginationDetails
+     * @return ConversationPagination
+     */
+    public static ConversationPagination fromConversationPaginationDetails(ConversationPaginationDetails details) {
+        // Create new instance
+        ConversationPagination pagination = new ConversationPagination();
+        // Map values
+        pagination.setReadMore(details.getReadMore());
+        pagination.setPageSize(details.getPageSize());
+
         return pagination;
     }
 
-    public void setPagination(ConversationPagination pagination) {
-        this.pagination = pagination;
+    public Boolean getReadMore() {
+        return readMore;
     }
 
-    public Integer getEtag() {
-        return etag;
+    public void setReadMore(Boolean readMore) {
+        this.readMore = readMore;
     }
 
-    public void setEtag(Integer etag) {
-        this.etag = etag;
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     @Override
     public String toString() {
-        return "ReadConversationsParameters{" +
-                "pagination=" + pagination +
-                ", etag=" + etag +
+        return "ConversationPagination{" +
+                "pageSize=" + pageSize +
+                ", readMore=" + readMore +
                 '}';
     }
 }

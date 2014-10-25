@@ -425,8 +425,9 @@ public class ConversationController {
 
         // Read all conversations
         GetConversationsResponseEvent responseEvent = conversationCoreService.getConversations(
-                new GetConversationsRequestEvent(buddy.toBuddyDetails())
-        );
+                new GetConversationsRequestEvent(
+                        buddy.toBuddyDetails(), parameters.getPagination().toConversationPaginationDetails()
+                ));
 
         // Success
         if (responseEvent.isSuccess()) {
