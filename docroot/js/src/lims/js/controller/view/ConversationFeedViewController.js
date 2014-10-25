@@ -235,13 +235,15 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                     // Vars
                     var container = this.get('panelContent'),
                         model = this.get('model'),
-                        activityIndicator = this.get('activityIndicator');
+                        activityIndicator = this.get('activityIndicator'),
+                        buddyDetails = this.get('buddyDetails');
 
                     // Create view
                     return new Y.LIMS.View.ConversationFeedList({
                         container: container,
                         model: model,
-                        activityIndicator: activityIndicator
+                        activityIndicator: activityIndicator,
+                        buddyDetails: buddyDetails
                     });
                 }
             },
@@ -258,6 +260,14 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                 }
             },
 
+            /**
+             * Currently logged user
+             *
+             * {Y.LIMS.ModelBuddyModelItem}
+             */
+            buddyDetails: {
+                value: null // to be set
+            },
 
             /**
              * Properties object

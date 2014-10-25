@@ -58,7 +58,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.Lang.sub(this.template, {
                 title: model.get('title'),
                 lastMessage: Y.Escape.html(lastMessage.get('body')),
-                portrait: this._renderPortrait(lastMessage.get('from')),
+                portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
@@ -124,17 +124,34 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     /**
      * Renders portrait based on screenName and returns the rendered HTML
      *
-     * @param user whose portrait should be rendered
-     * @returns HTML of the rendered portrait
+     * @param participants whose portraits should be rendered
+     * @returns HTML of the rendered portrait or null if no correct participant was found
      * @private
      */
-    _renderPortrait: function (user) {
+    _renderPortrait: function (participants) {
         // Vars
-        var portraitView = new Y.LIMS.View.PortraitView({user: user});
-        // Render
-        portraitView.render();
+        var portraitView,
+            portraitUser,
+            buddyDetails = this.get('buddyDetails');
 
-        return portraitView.get('container').get('outerHTML');
+        // Participants contain the currently logged user as well.
+        // Thus we need to filter him first.
+        participants.filter(function (participant) {
+            if (buddyDetails.get('buddyId') !== participant.get('buddyId')) {
+                portraitUser = participant;
+            }
+        });
+
+        // Only if such user was found. In reality portrait user should always be
+        // different from null. Thus this is just a defensive programming check.
+        if (portraitUser) {
+            // Create portrait view
+            portraitView = new Y.LIMS.View.PortraitView({user: portraitUser});
+            // Render
+            portraitView.render();
+            // Return the HTML
+            return portraitView.get('container').get('outerHTML');
+        }
     },
 
     /**
@@ -176,6 +193,16 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
          * {Y.LIMS.Model.ConversationModel}
          */
         model: {
+            value: null // to be set
+        },
+
+
+        /**
+         * Currently logged user
+         *
+         * {Y.LIMS.ModelBuddyModelItem}
+         */
+        buddyDetails: {
             value: null // to be set
         },
 

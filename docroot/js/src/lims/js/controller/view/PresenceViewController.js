@@ -135,26 +135,42 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
     // Specify attributes and static properties for your View here.
     ATTRS: {
 
-        // Id of the controller
+        /**
+         * Id of the controller
+         *
+         * {string}
+         */
         controllerId: {
             value: "presence"
         },
 
-        // Container Node
+        /**
+         * Container node attached to the controller
+         *
+         * {Node}
+         */
         container: {
             value: null // to be set
         },
 
-        // Currently logged user
-        buddyDetails: {
-            value: null // Y.LIMS.Model.BuddyModelItem
-        },
-
-        // Container for status indicator
+        /**
+         * Container for the status indicator
+         *
+         * {Node}
+         */
         statusIndicator: {
             valueFn: function () {
                 return this.get('container').one('.status-indicator');
             }
+        },
+
+        /**
+         * Currently logged user
+         *
+         * {Y.LIMS.ModelBuddyModelItem}
+         */
+        buddyDetails: {
+            value: null // to be set
         }
     }
 });

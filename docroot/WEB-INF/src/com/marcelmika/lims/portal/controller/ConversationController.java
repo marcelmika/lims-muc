@@ -448,7 +448,8 @@ public class ConversationController {
                 String serialized = JSONFactoryUtil.looseSerialize(conversationCollection,
                         "conversations",
                         "conversations.lastMessage",
-                        "conversations.lastMessage.from"
+                        "conversations.lastMessage.from",
+                        "conversations.participants"
                 );
                 // Write success to response
                 ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);

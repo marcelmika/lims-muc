@@ -151,6 +151,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         var model = this.get('model'),
             conversationFeedList = this.get('conversationFeedList'),
             conversationItemViews = this.get('conversationItemViews'),
+            buddyDetails = this.get('buddyDetails'),
             animate = this.get('shouldAnimateList');
 
         // Reset the previously rendered conversations
@@ -161,7 +162,8 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
 
             // Create new conversation feed item view
             var view = new Y.LIMS.View.ConversationFeedItem({
-                model: conversation
+                model: conversation,
+                buddyDetails: buddyDetails
             });
             // Render the view
             view.render();
@@ -407,6 +409,15 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
          * {Y.Node}
          */
         activityIndicator: {
+            value: null // to be set
+        },
+
+        /**
+         * Currently logged user
+         *
+         * {Y.LIMS.ModelBuddyModelItem}
+         */
+        buddyDetails: {
             value: null // to be set
         },
 

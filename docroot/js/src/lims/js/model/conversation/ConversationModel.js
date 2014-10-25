@@ -414,7 +414,38 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
          * Participants in the conversation
          */
         participants: {
-            value: "" // default value
+            /**
+             * Setter
+             *
+             * @param objects
+             * @return {[]}
+             */
+            setter: function (objects) {
+
+                // Nothing was passed
+                if (!objects) {
+                    return null;
+                }
+
+                // Empty array was passed
+                if (objects.length === 0) {
+                    return [];
+                }
+
+                var index, models = [objects.length];
+
+                // Map all objects to instances of buddy model item
+                for (index = 0; index < objects.length; index++) {
+                    // Create a model instance from value object
+                    if (objects[index] !== "buddyModelItem") {
+                        models[index] = new Y.LIMS.Model.BuddyModelItem(objects[index]);
+                    } else {
+                        models[index] = objects[index];
+                    }
+                }
+
+                return models;
+            }
         },
 
         /**
