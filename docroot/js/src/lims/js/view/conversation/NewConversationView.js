@@ -125,8 +125,9 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 // Vars
                 var container = this.get('container').one('.token-input');
 
-                return new Y.LIMS.View.TokenInputElementView({
-                    container: container
+                return new Y.LIMS.View.BuddySearchTokenInput({
+                    container: container,
+                    autocomplete: true
                 });
             }
         },
@@ -198,6 +199,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 var container = this.get('container'),
                     containerMinHeight = this.get('containerMinHeight'),
                     contentAnimation = this.get('contentAnimation'),
+                    participants = this.get('participants'),
                     animation;
 
                 // Create animation
@@ -213,7 +215,8 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 animation.on('end', function () {
                     // Hide the container
                     container.hide();
-
+                    // Clear all tokens in participants input view
+                    participants.clear();
                     // Set the hidden flag
                     this.set('isHidden', true);
                 }, this);

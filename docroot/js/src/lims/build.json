@@ -56,6 +56,7 @@
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/view/ViewExtension.js",
+                "js/view/buddy/BuddySearchTokenInput.js",
                 "js/view/conversation/ConversationFeedItem.js",
                 "js/view/conversation/ConversationFeedList.js",
                 "js/view/conversation/ConversationItemView.js",
@@ -80,6 +81,7 @@
             ],
             "config": {
                 "requires": [
+                    "autocomplete",
                     "view",
                     "node",
                     "anim",

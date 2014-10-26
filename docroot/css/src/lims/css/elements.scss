@@ -48,13 +48,11 @@
     border-color: #cccccc;
   }
 
-
   .button-secondary {
     color: #333333;
     background: #ffffff;
     border-color: #ddd;
   }
-
 
   .button-default {
     color: #333333;
@@ -69,7 +67,6 @@
     border-color: #629CCE;
   }
 
-
   .button-primary:hover {
     color: #333333;
     background-color: rgba(178, 217, 241, 0.62);
@@ -81,7 +78,6 @@
     border-color: #629CCE;
     background: #74B3EB;
   }
-
 
   .button-default:hover,
   .button-default.active {
@@ -173,6 +169,33 @@
     background-image: url(/images/rail-x.png);
   }
 
+}
+
+/********************************************************************************
+/ AUTOCOMPLETE LIST
+/********************************************************************************/
+
+.liferay-ims .yui3-aclist {
+
+  .yui3-aclist-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    @include box-shadow(1px 1px 1px rgba(0, 0, 0, 0.13));
+  }
+
+  .yui3-aclist-item {
+    padding: 0 5px;
+  }
+
+  .yui3-aclist-item-active {
+    background: #81ABD5;
+  }
+
+  .yui3-aclist-item {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 /************************************************************************************

@@ -149,8 +149,12 @@
       }
 
       .token-input-plugin-content {
-        max-height: 193px;
+        max-height: 77px;
         overflow-y: scroll;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
       }
     }
   }
