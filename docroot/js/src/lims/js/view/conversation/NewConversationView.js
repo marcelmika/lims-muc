@@ -82,11 +82,27 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
         container: {
             valueFn: function () {
                 // Vars
-                var node = Y.Node.create(this.template);
+                var container = Y.Node.create(this.template);
                 // Hide the node from the beginning
-                node.hide();
+                container.hide();
 
-                return node;
+                return container;
+            }
+        },
+
+        /**
+         * Contains node with the container content
+         *
+         * {Node}
+         */
+        content: {
+            valueFn: function () {
+                // Vars
+                var content = this.get('container').one('.content');
+                // Hide the content at the beginning
+                content.hide();
+
+                return content;
             }
         },
 
@@ -108,6 +124,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
             valueFn: function () {
                 // Vars
                 var container = this.get('container'),
+                    contentAnimation = this.get('contentAnimation'),
                     animation;
 
                 // Create animation
@@ -123,12 +140,21 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 animation.on('end', function () {
                     // Set the hidden flag
                     this.set('isHidden', false);
+
                 }, this);
 
-                // Before animation starts
+                // Before the animation starts
                 animation.before('start', function () {
                     // Show the container
                     container.show();
+
+                }, this);
+
+                // Before the animation ends
+                animation.before('end', function () {
+                    // Show the content
+                    contentAnimation.set('reverse', false);
+                    contentAnimation.run();
                 }, this);
 
                 return animation;
@@ -144,6 +170,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
             valueFn: function () {
                 // Vars
                 var container = this.get('container'),
+                    contentAnimation = this.get('contentAnimation'),
                     animation;
 
                 // Create animation
@@ -159,8 +186,64 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 animation.on('end', function () {
                     // Hide the container
                     container.hide();
+
                     // Set the hidden flag
                     this.set('isHidden', true);
+                }, this);
+
+                // Before the animation starts
+                animation.before('start', function () {
+                    // Hide the content
+                    contentAnimation.set('reverse', true);
+                    contentAnimation.run();
+                });
+
+                return animation;
+            }
+        },
+
+        /**
+         * Animation of content within the container
+         *
+         * {Y.Anim}
+         */
+        contentAnimation: {
+            valueFn: function () {
+                // Vars
+                var content = this.get('content'),
+                    animation;
+
+                // Create animation
+                animation = new Y.Anim({
+                    node: content,
+                    duration: 0.3,
+                    from: {opacity: 0},
+                    to: {opacity: 1}
+                });
+
+                // Before the animation starts
+                animation.before('start', function () {
+                    // Closing
+                    if (animation.get('reverse')) {
+                        // Set opacity to 1
+                        content.setStyle('opacity', 1);
+                    }
+                    // Opening
+                    else {
+                        // Show the content node
+                        content.show();
+                        // Set opacity to 0
+                        content.setStyle('opacity', 0);
+                    }
+                }, this);
+
+                // On animation end
+                animation.on('end', function () {
+                    // Closing
+                    if (animation.get('reverse')) {
+                        // Hide the node
+                        content.hide();
+                    }
                 }, this);
 
                 return animation;

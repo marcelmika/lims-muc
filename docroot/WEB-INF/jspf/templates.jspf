@@ -79,7 +79,10 @@
 <%-- This template HTML will be used to render new conversation --%>
 <script type="text/x-template" id="lims-panel-new-conversation-template">
     <div class="panel-new-conversation">
-
+        <div class="content">
+            <input class="participants" type="text" placeholder=""/>
+            <button class="button button-primary">Done</button>
+        </div>
     </div>
 </script>
 
