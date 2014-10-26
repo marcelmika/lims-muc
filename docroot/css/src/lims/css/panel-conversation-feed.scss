@@ -104,6 +104,8 @@
   ////////////////////////////////////////////
   .panel-new-conversation {
     min-height: 0px;
+    max-height: 250px;
+    padding-bottom: 5px;
     width: 250px;
     left: 1px;
     position: absolute;
@@ -115,15 +117,41 @@
     .participants {
       margin: 10px 0px 5px 10px;
       background: white;
-      width: 215px;
+      width: 227px;
     }
 
     .button {
       float: right;
       margin: 5px 11px;
-      background: white;
       border-radius: 0;
+      font-size: 12px;
+      padding: 4px 10px;
     }
 
+    .token-input {
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 193px;
+        overflow-y: scroll;
+      }
+    }
   }
 }

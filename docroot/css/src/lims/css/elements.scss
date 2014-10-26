@@ -48,6 +48,14 @@
     border-color: #cccccc;
   }
 
+
+  .button-secondary {
+    color: #333333;
+    background: #ffffff;
+    border-color: #ddd;
+  }
+
+
   .button-default {
     color: #333333;
     background-color: white;
@@ -61,11 +69,19 @@
     border-color: #629CCE;
   }
 
+
   .button-primary:hover {
     color: #333333;
     background-color: rgba(178, 217, 241, 0.62);
     border-color: rgba(178, 217, 241, 0.62);
   }
+
+  .button-secondary:hover {
+    color: #fff;
+    border-color: #629CCE;
+    background: #74B3EB;
+  }
+
 
   .button-default:hover,
   .button-default.active {

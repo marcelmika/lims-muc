@@ -80,8 +80,10 @@
 <script type="text/x-template" id="lims-panel-new-conversation-template">
     <div class="panel-new-conversation">
         <div class="content">
-            <input class="participants" type="text" placeholder=""/>
-            <button class="button button-primary">Done</button>
+            <div class="token-input">
+                <input class="participants" type="text" placeholder=""/>
+            </div>
+            <button class="button button-secondary">Done</button>
         </div>
     </div>
 </script>

@@ -116,6 +116,31 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
         },
 
         /**
+         * View for participants input
+         *
+         * {Y.LIMS.View.TokenInputElementView}
+         */
+        participants: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.token-input');
+
+                return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * Minimal height of the container
+         *
+         * {number}
+         */
+        containerMinHeight: {
+            value: 85 // default value
+        },
+
+        /**
          * Show/Hide animation
          *
          * {Y.Anim}
@@ -124,6 +149,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
             valueFn: function () {
                 // Vars
                 var container = this.get('container'),
+                    containerMinHeight = this.get('containerMinHeight'),
                     contentAnimation = this.get('contentAnimation'),
                     animation;
 
@@ -132,7 +158,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                     node: container,
                     duration: 0.5,
                     from: { "min-height": 0},
-                    to: {"min-height": 100},
+                    to: {"min-height": containerMinHeight},
                     easing: 'bounceOut'
                 });
 
@@ -170,6 +196,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
             valueFn: function () {
                 // Vars
                 var container = this.get('container'),
+                    containerMinHeight = this.get('containerMinHeight'),
                     contentAnimation = this.get('contentAnimation'),
                     animation;
 
@@ -177,7 +204,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 animation = new Y.Anim({
                     node: container,
                     duration: 0.5,
-                    from: { "min-height": 100},
+                    from: { "min-height": containerMinHeight},
                     to: {"min-height": 0},
                     easing: 'backIn'
                 });
@@ -211,6 +238,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
             valueFn: function () {
                 // Vars
                 var content = this.get('content'),
+                    participants = this.get('participants'),
                     animation;
 
                 // Create animation
@@ -243,6 +271,11 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                     if (animation.get('reverse')) {
                         // Hide the node
                         content.hide();
+                        // Remove focus from participants input
+                        participants.blur();
+                    } else {
+                        // Add focus to participants input
+                        participants.focus();
                     }
                 }, this);
 
