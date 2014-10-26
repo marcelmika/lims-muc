@@ -70,6 +70,8 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         this.get('inputTokenPlugin').clear();
         // Clear selected buddies
         this.set('selectedBuddies', []);
+        // Clear the token input
+        this.get('tokenInputNode').set('value', '');
     },
 
     /**

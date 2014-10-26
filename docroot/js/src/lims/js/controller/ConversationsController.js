@@ -67,6 +67,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
         // Buddy selected in group
         Y.on('buddySelected', this._onBuddySelected, this);
+        Y.on('buddiesSelected', this._onBuddiesSelected, this);
         Y.on('conversationSelected', this._onConversationSelected, this);
         // Session expired
         Y.on('userSessionExpired', this._onSessionExpired, this);
@@ -301,6 +302,18 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
         // At the end show the controller to the user
         controller.presentViewController();
+    },
+
+    /**
+     * Called whenever a list of buddies is selected from conversations.
+     * A new multi user conversation should thus be created
+     *
+     * @param event
+     * @private
+     */
+    _onBuddiesSelected: function (event) {
+        // TODO: Create multi user chat conversation
+        console.log('CREATE MUC', event.buddies);
     },
 
     /**

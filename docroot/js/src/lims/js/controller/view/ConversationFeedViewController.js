@@ -85,10 +85,12 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
          */
         _attachEvents: function () {
             // Vars
-            var newConversationButton = this.get('newConversationButton');
+            var newConversationButton = this.get('newConversationButton'),
+                newConversationView = this.get('newConversationView');
 
             // Local events
             newConversationButton.on('click', this._onNewConversationClick, this);
+            newConversationView.on('selectedBuddies', this._onNewConversationSelectedBuddies, this);
 
             // Remote events
             Y.on('conversationPanelOpened', this._onConversationPanelOpened, this);
@@ -178,6 +180,35 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             var newConversationView = this.get('newConversationView');
 
             newConversationView.toggleView();
+        },
+
+        /**
+         * Called when user selects buddies via the new conversation view
+         *
+         * @private
+         */
+        _onNewConversationSelectedBuddies: function (event) {
+            // Vars
+            var newConversationView = this.get('newConversationView'),
+                buddies = event.buddies || [];
+
+            // Hide the new conversation view
+            newConversationView.hideView();
+
+            // Exactly one buddy was selected
+            if (buddies.length === 1) {
+                // Create single user chat conversation
+                Y.fire('buddySelected', {
+                    buddy: buddies[0]
+                });
+            }
+            // More than one buddy was selected
+            else if (buddies.length > 1) {
+                // Create multi user chat conversation
+                Y.fire('buddiesSelected', {
+                    buddies: buddies
+                });
+            }
         },
 
         /**

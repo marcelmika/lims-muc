@@ -36,6 +36,26 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
     // Check the templates.jspf to see all templates
     template: Y.one('#lims-panel-new-conversation-template').get('innerHTML'),
 
+    /**
+     * Called on initialization
+     */
+    initializer: function () {
+        // Attach events
+        this._attachEvents();
+    },
+
+    /**
+     * Attach events to elements
+     *
+     * @private
+     */
+    _attachEvents: function () {
+        // Vars
+        var doneButton = this.get('doneButton');
+
+        // Local events
+        doneButton.on('click', this._onDoneButtonClick, this);
+    },
 
     /**
      * Shows the view
@@ -69,6 +89,21 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
         } else {
             this.hideView();
         }
+    },
+
+    /**
+     * Called when user click on done button
+     *
+     * @private
+     */
+    _onDoneButtonClick: function () {
+        // Vars
+        var participants = this.get('participants');
+
+        // Fire event
+        this.fire('selectedBuddies', {
+            buddies: participants.get('selectedBuddies')
+        });
     }
 
 }, {
@@ -103,6 +138,17 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 content.hide();
 
                 return content;
+            }
+        },
+
+        /**
+         * Done button
+         *
+         * {Node}
+         */
+        doneButton: {
+            valueFn: function () {
+                return this.get('container').one('.button');
             }
         },
 
