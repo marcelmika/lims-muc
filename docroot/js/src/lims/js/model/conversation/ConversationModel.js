@@ -437,7 +437,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                 // Map all objects to instances of buddy model item
                 for (index = 0; index < objects.length; index++) {
                     // Create a model instance from value object
-                    if (objects[index] !== "buddyModelItem") {
+                    if (objects[index].name !== "buddyModelItem") {
                         models[index] = new Y.LIMS.Model.BuddyModelItem(objects[index]);
                     } else {
                         models[index] = objects[index];
