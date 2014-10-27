@@ -400,7 +400,8 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	}
 
 	/**
-	* Returns a list of conversations where the user participates
+	* Returns a list of conversations where the user participates.
+	* Conversations that contain no messages are not included in the list.
 	*
 	* @param participantId User Id of the participant
 	* @return List of conversation
@@ -408,11 +409,11 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	*/
 	@Override
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
 		java.lang.Boolean readMore) throws java.lang.Exception {
 		return _participantLocalService.getConversations(participantId,
-			pageSize, currentPageSize, maxPageSize, readMore);
+			defaultPageSize, currentPageSize, maxPageSize, readMore);
 	}
 
 	/**

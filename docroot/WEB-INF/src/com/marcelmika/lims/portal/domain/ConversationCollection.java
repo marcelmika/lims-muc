@@ -41,7 +41,7 @@ public class ConversationCollection {
 
     private List<Conversation> conversations = Collections.synchronizedList(new LinkedList<Conversation>());
     private Date lastModified;
-    private Integer currentSize;
+    private Integer pageSize;
     private Integer maxSize;
     private int etag;
 
@@ -55,7 +55,7 @@ public class ConversationCollection {
         // Create new collection
         ConversationCollection conversationCollection = new ConversationCollection();
         // Map data
-        conversationCollection.currentSize = details.getCurrentSize();
+        conversationCollection.pageSize = details.getPageSize();
         conversationCollection.maxSize = details.getMaxSize();
         conversationCollection.lastModified = details.getLastModified();
 
@@ -97,12 +97,12 @@ public class ConversationCollection {
         this.maxSize = maxSize;
     }
 
-    public Integer getCurrentSize() {
-        return currentSize;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setCurrentSize(Integer currentSize) {
-        this.currentSize = currentSize;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public Date getLastModified() {

@@ -28,6 +28,11 @@ public class ParticipantFinderUtil {
 				   .findParticipatedConversations(participantId, start, end);
 	}
 
+	public static java.lang.Integer countParticipatedConversations(
+		java.lang.Long participantId) throws java.lang.Exception {
+		return getFinder().countParticipatedConversations(participantId);
+	}
+
 	public static ParticipantFinder getFinder() {
 		if (_finder == null) {
 			_finder = (ParticipantFinder)PortletBeanLocatorUtil.locate(com.marcelmika.lims.persistence.generated.service.ClpSerializer.getServletContextName(),

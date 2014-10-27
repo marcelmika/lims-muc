@@ -399,8 +399,34 @@
                 Limsmuc_Conversation ON (Limsmuc_Conversation.cid = Limsmuc_Participant.cid)
             WHERE
                 Limsmuc_Participant.participantId = ?
+                AND (Limsmuc_Conversation.cid IN
+                    (
+                        SELECT
+                            DISTINCT Limsmuc_Message.cid
+                        FROM
+                            Limsmuc_Participant
+                        INNER JOIN
+                            Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
+                        WHERE
+                            Limsmuc_Participant.participantId = ?
+                    )
+                )
             ORDER BY
                 Limsmuc_conversation.updatedAt DESC
+		]]>
+    </sql>
+
+    <!-- Counts conversations where the user participates. Doesn't include conversation where ther's no message -->
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.ParticipantFinder.countParticipatedConversations">
+        <![CDATA[
+            SELECT
+                COUNT(DISTINCT Limsmuc_Message.cid) as participatedCount
+            FROM
+                Limsmuc_Participant
+            INNER JOIN
+                Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
+            WHERE
+                Limsmuc_Participant.participantId = ?
 		]]>
     </sql>
 

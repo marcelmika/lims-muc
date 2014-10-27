@@ -469,7 +469,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Set data to conversation collection
             conversationCollection.setConversations(conversations);
             conversationCollection.setLastModified(lastModification);
-            conversationCollection.setCurrentSize(conversations.size());
+            conversationCollection.setPageSize(conversations.size());
             conversationCollection.setMaxSize(maxPageSize);
 
             // Call success

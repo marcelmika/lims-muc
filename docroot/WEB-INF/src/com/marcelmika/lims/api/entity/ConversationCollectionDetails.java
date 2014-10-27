@@ -36,7 +36,7 @@ import java.util.List;
 public class ConversationCollectionDetails {
 
     private List<ConversationDetails> conversations;
-    private Integer currentSize;
+    private Integer pageSize;
     private Integer maxSize;
     private Date lastModified;
 
@@ -48,12 +48,12 @@ public class ConversationCollectionDetails {
         this.conversations = conversations;
     }
 
-    public Integer getCurrentSize() {
-        return currentSize;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setCurrentSize(Integer currentSize) {
-        this.currentSize = currentSize;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public Integer getMaxSize() {

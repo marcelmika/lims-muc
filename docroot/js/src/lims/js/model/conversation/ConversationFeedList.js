@@ -50,7 +50,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
             parameters,                 // Parameters of the request
             response,                   // Response from the server
             readMore = options.readMore || false,
-            currentSize = this.get('currentSize'),
+            pageSize = this.get('pageSize'),
             cachedItems = this.get('cachedItems');
 
         // We need to reset the etag if we want to read more. It is quite possible
@@ -78,7 +78,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                     etag: etag,
                     pagination: {
                         readMore: readMore,
-                        currentSize: currentSize
+                        pageSize: pageSize
                     }
                 });
 
@@ -163,7 +163,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
 
 
         // Set current size
-        this.set('currentSize', response.currentSize || null);
+        this.set('pageSize', response.pageSize || null);
         this.set('maxSize', response.maxSize || null);
 
         // Update conversation list only if the etag has changed
@@ -209,7 +209,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
          *
          * {number}
          */
-        currentSize: {
+        pageSize: {
             value: null // to be set
         },
 
@@ -229,7 +229,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
          */
         reachedTop: {
             getter: function () {
-                return this.get('currentSize') === this.get('maxSize');
+                return this.get('pageSize') === this.get('maxSize');
             }
         },
 

@@ -224,7 +224,8 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
     }
 
     /**
-     * Returns a list of conversations where the user participates
+     * Returns a list of conversations where the user participates.
+     * Conversations that contain no messages are not included in the list.
      *
      * @param participantId User Id of the participant
      * @return List of conversation
@@ -237,7 +238,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
                                               Boolean readMore) throws Exception {
 
         // This is a first request, no current page size is set
-        if (currentPageSize == null) {
+        if (currentPageSize == null || currentPageSize < defaultPageSize) {
             // Set it to default page size
             currentPageSize = defaultPageSize;
         }
@@ -270,6 +271,6 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @throws Exception
      */
     public Integer getConversationsCount(Long participantId) throws Exception {
-        return participantPersistence.countByParticipantId(participantId);
+        return participantFinder.countParticipatedConversations(participantId);
     }
 }

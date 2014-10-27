@@ -968,7 +968,7 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 	@Override
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
 		java.lang.Boolean readMore) throws java.lang.Exception {
 		Object returnObj = null;
@@ -979,7 +979,7 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 					new Object[] {
 						ClpSerializer.translateInput(participantId),
 						
-					ClpSerializer.translateInput(pageSize),
+					ClpSerializer.translateInput(defaultPageSize),
 						
 					ClpSerializer.translateInput(currentPageSize),
 						

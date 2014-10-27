@@ -381,19 +381,20 @@ public class ParticipantLocalServiceUtil {
 	}
 
 	/**
-	* Returns a list of conversations where the user participates
+	* Returns a list of conversations where the user participates.
+	* Conversations that contain no messages are not included in the list.
 	*
 	* @param participantId User Id of the participant
 	* @return List of conversation
 	* @throws SystemException
 	*/
 	public static java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
-		java.lang.Long participantId, java.lang.Integer pageSize,
+		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
 		java.lang.Boolean readMore) throws java.lang.Exception {
 		return getService()
-				   .getConversations(participantId, pageSize, currentPageSize,
-			maxPageSize, readMore);
+				   .getConversations(participantId, defaultPageSize,
+			currentPageSize, maxPageSize, readMore);
 	}
 
 	/**

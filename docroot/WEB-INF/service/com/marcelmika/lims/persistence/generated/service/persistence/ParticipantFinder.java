@@ -21,4 +21,7 @@ public interface ParticipantFinder {
 	public java.util.List<java.lang.Object[]> findParticipatedConversations(
 		java.lang.Long participantId, int start, int end)
 		throws java.lang.Exception;
+
+	public java.lang.Integer countParticipatedConversations(
+		java.lang.Long participantId) throws java.lang.Exception;
 }
