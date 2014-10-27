@@ -63,6 +63,28 @@ public enum ConversationType {
     }
 
     /**
+     * Factory method returns conversation type based on the passed string
+     *
+     * @param string conversation type string
+     * @return ConversationType
+     */
+    public static ConversationType fromString(String string) {
+
+        // Single user chat
+        if (string.equals("SINGLE_USER")) {
+            return ConversationType.SINGLE_USER;
+        }
+        // Multi user chat
+        else if (string.equals("MULTI_USER")) {
+            return ConversationType.MULTI_USER;
+        }
+        // Unrecognized
+        else {
+            return ConversationType.UNRECOGNIZED;
+        }
+    }
+
+    /**
      * Maps Presence to PresenceDetails
      *
      * @return PresenceDetails

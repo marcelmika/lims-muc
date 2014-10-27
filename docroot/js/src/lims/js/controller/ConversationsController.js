@@ -77,29 +77,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         Y.on('chatDisabled', this._onChatDisabled, this);
     },
 
-    /**
-     * This is quite important method. Each conversation is represented by an unique string ID.
-     * Such ID is composed by participants screenNames separated by "_" sign. First, we need to sort
-     * both participants names alphabetically and then separate them with "_". If we don't do that we
-     * will have two conversations e.g. A_B and B_A, however both conversations are between the same people.
-     * So if we first sort by the screenName we will always have A_B id for conversation even though B created
-     * the conversation.
-     *
-     * @param firstScreenName
-     * @param secondScreenName
-     * @returns {string} Conversation ID
-     * @private
-     */
-    _generateConversationId: function (firstScreenName, secondScreenName) {
-        // Vars
-        var screenNames = [firstScreenName, secondScreenName];
-
-        // Sort screen names alphabetically
-        screenNames.sort();
-
-        // Return new conversation Id
-        return screenNames[0] + "_" + screenNames[1];
-    },
 
     /**
      * Opens new conversation
@@ -288,7 +265,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             controller;                                         // Controller (selected or newly created)
 
         // Generate conversation id
-        conversationId = this._generateConversationId(buddyDetails.get('screenName'), buddy.get('screenName'));
+        conversationId = Y.LIMS.Model.ConversationModelUtil.generateSUCConversationId(
+            buddyDetails.get('screenName'), buddy.get('screenName')
+        );
 
         // Such conversation is already in the map
         if (map.hasOwnProperty(conversationId)) {
@@ -312,9 +291,28 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
      * @private
      */
     _onBuddiesSelected: function (event) {
-        // TODO: Create multi user chat conversation
-        console.log('CREATE MUC', event.buddies);
+        // Vars
+        var conversationId,
+            buddies = event.buddies || false,
+            controller,
+            buddyDetails = this.get('buddyDetails');
+
+        // Only if the required parameter was set
+        if (buddies) {
+
+            // Generate conversation ID
+            conversationId = Y.LIMS.Model.ConversationModelUtil.generateMUCConversationId(buddies, buddyDetails);
+
+            // Create controller
+            controller = this._openConversation(
+                conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies
+            );
+
+            // Open the controller
+            controller.presentViewController();
+        }
     },
+
 
     /**
      * Called whenever we receive a notification from long pooling that conversations have been updated

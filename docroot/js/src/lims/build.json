@@ -31,6 +31,7 @@
                 "js/model/buddy/BuddyModelList.js",
                 "js/model/buddy/BuddySearchListModel.js",
                 "js/model/conversation/ConversationModel.js",
+                "js/model/conversation/ConversationModelUtil.js",
                 "js/model/conversation/ConversationFeedList.js",
                 "js/model/conversation/ConversationListModel.js",
                 "js/model/message/MessageItemModel.js",

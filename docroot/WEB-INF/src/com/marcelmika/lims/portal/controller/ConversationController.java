@@ -96,9 +96,16 @@ public class ConversationController {
         }
 
 
-        // This is a single user chat conversation
-        conversation.setConversationType(ConversationType.SINGLE_USER);
+        // Multi user chat conversation
+        if (conversation.getParticipants().size() > 1) {
+            conversation.setConversationType(ConversationType.MULTI_USER);
+        }
+        // Single user chat conversation
+        else {
+            conversation.setConversationType(ConversationType.SINGLE_USER);
+        }
 
+        // Add conversation to system
         CreateConversationResponseEvent responseEvent = conversationCoreService.createConversation(
                 new CreateConversationRequestEvent(buddy.toBuddyDetails(), conversation.toConversationDetails(), null)
         );

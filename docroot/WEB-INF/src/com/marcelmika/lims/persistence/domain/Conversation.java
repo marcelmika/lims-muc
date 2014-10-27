@@ -124,9 +124,7 @@ public class Conversation {
         Conversation conversation = new Conversation();
         // Map parameters
         conversation.conversationId = conversationModel.getConversationId();
-        // TODO: Implement multiuser
-//        conversation.conversationType = conversationModel.getConversationType();
-        conversation.conversationType = ConversationType.SINGLE_USER;
+        conversation.conversationType = ConversationType.fromString(conversationModel.getConversationType());
         conversation.updatedAt = conversationModel.getUpdatedAt();
 
         return conversation;

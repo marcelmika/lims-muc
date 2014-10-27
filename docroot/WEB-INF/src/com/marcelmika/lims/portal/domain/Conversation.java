@@ -25,7 +25,6 @@
 package com.marcelmika.lims.portal.domain;
 
 import com.liferay.portal.kernel.json.JSON;
-import com.liferay.portal.util.PortalUtil;
 import com.marcelmika.lims.api.entity.BuddyDetails;
 import com.marcelmika.lims.api.entity.ConversationDetails;
 
@@ -51,6 +50,9 @@ public class Conversation {
     private Date updatedAt;
     private Message firstMessage;
     private Message lastMessage;
+
+    // Maximal size of the buddy's name the title
+    private static final int BUDDY_TITLE_MAX_SIZE = 10;
 
 
     // -------------------------------------------------------------------------------------------
@@ -170,18 +172,20 @@ public class Conversation {
      */
     @JSON
     public String getTitle() {
-        String title = ""; // Default
+
+        String title = "-"; // Default
+
+        // Current user needs to be filtered of the list of participants
+        List<Buddy> filteredParticipants = filterParticipants(participants, buddy);
 
         // Single user conversation title
         if (conversationType == ConversationType.SINGLE_USER) {
-            for (Buddy participant : participants) {
-                // Single user conversation has two participants. Title is "the other" participant than myself.
-                if (!participant.getBuddyId().equals(buddy.getBuddyId())) {
-                    title = PortalUtil.getUserName(participant.getBuddyId(), title);
-                }
-            }
+            title = generateSUCTitle(filteredParticipants);
         }
-        // TODO: Implement MULTI_USER
+        // Multi user conversation title
+        else if (conversationType == ConversationType.MULTI_USER) {
+            title = generateMUCTitle(filteredParticipants);
+        }
 
         return title;
     }
@@ -193,6 +197,7 @@ public class Conversation {
         }
         return 0;
     }
+
 
     // -------------------------------------------------------------------------------------------
     // Getters/Setters
@@ -283,5 +288,106 @@ public class Conversation {
                 ", conversationType=" + conversationType +
                 ", conversationId='" + conversationId + '\'' +
                 '}';
+    }
+
+
+    /**
+     * Generates single user chat title from the list of participants
+     *
+     * @param participants a list of participants
+     * @return SUC title or "-" if an empty participants list was passed
+     */
+    private String generateSUCTitle(List<Buddy> participants) {
+        if (participants.size() == 0) {
+            return "-";
+        }
+
+        return participants.get(0).getFullName();
+    }
+
+    /**
+     * Generates multi user chat title from the list of participants
+     *
+     * @param participants a list of participants
+     * @return MUC title of "-" if an empty list of participants was passed
+     */
+    private String generateMUCTitle(List<Buddy> participants) {
+
+        String title = "-"; // Default
+
+        if (participants.size() < 2) {
+            title = "-";
+        }
+
+        // We have exactly two participants
+        else if (participants.size() == 2) {
+            // TODO: i18n
+            title = String.format("%s and %s",
+                    generateBuddyTitleName(participants.get(0)),
+                    generateBuddyTitleName(participants.get(1))
+            );
+        }
+        // We have have more than two participants
+        else {
+            // TODO: i18n
+            title = String.format("%s and %d others",
+                    generateBuddyTitleName(participants.get(0)),
+                    participants.size()
+            );
+        }
+
+        return title;
+    }
+
+
+    /**
+     * Filter buddy given in parameter
+     *
+     * @param participants a list of participants
+     * @param buddy        that will be filtered out
+     * @return list of participants
+     */
+    private List<Buddy> filterParticipants(List<Buddy> participants, Buddy buddy) {
+
+        List<Buddy> filteredParticipants = new LinkedList<Buddy>();
+
+        for (Buddy participant : participants) {
+            // Single user conversation has two participants. Title is "the other" participant than myself.
+            if (!participant.getBuddyId().equals(buddy.getBuddyId())) {
+                filteredParticipants.add(participant);
+            }
+        }
+
+        return filteredParticipants;
+    }
+
+    /**
+     * Generates title from buddy
+     *
+     * @param buddy Buddy
+     * @return title
+     */
+    private String generateBuddyTitleName(Buddy buddy) {
+        String name = "";
+
+        // If the user has first name, use that
+        if (buddy.getFirstName() != null) {
+            name = buddy.getFirstName();
+        }
+        // If not use the last name
+        else if (buddy.getLastName() != null) {
+            name = buddy.getLastName();
+        }
+        // If none of those were set, use the full name
+        else {
+            name = buddy.getFullName();
+        }
+
+        // Limit the maximal size of the message to 10
+        if (name.length() > BUDDY_TITLE_MAX_SIZE) {
+            name = name.substring(BUDDY_TITLE_MAX_SIZE);
+        }
+
+        return name;
     }
 }
