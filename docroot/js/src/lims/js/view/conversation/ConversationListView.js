@@ -584,10 +584,13 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @private
      */
     _onPanelContentMouseWheel: function (event) {
-        // Vars
-        var panelContent = this.get('panelContent');
-        // Prevent scrolling of the whole window
-        return this.preventScroll(event, panelContent);
+        // FIXME: This is s hack that prevents issue #37 to happen
+        if (this.name === "conversationListView") {
+            // Vars
+            var panelContent = this.get('panelContent');
+            // Prevent scrolling of the whole window
+            return this.preventScroll(event, panelContent);
+        }
     },
 
     /**
