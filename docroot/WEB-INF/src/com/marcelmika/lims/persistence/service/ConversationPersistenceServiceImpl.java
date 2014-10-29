@@ -116,6 +116,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         // Map to persistence objects
         Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
         MessagePagination pagination = MessagePagination.fromMessagePaginationDetails(event.getPagination());
+        Buddy buddy = Buddy.fromBuddyDetails(event.getParticipant());
 
         // Read from persistence
         try {
@@ -136,8 +137,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             conversation = Conversation.fromConversationModel(conversationModel);
 
             // TODO: Check if participant in event is really in the conversation
-
-
             // Read messages
             conversation.setMessages(readMessages(conversationModel.getCid(), pagination));
             // Read first message
@@ -152,7 +151,10 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                     );
             // Add to conversation
             conversation.setUnreadMessagesCount(participant.getUnreadMessagesCount());
-
+            // Read participants
+            conversation.setParticipants(readParticipants(conversationModel.getCid()));
+            // Set buddy
+            conversation.setBuddy(buddy);
 
             // Call Success
             return ReadSingleUserConversationResponseEvent.readConversationSuccess(
@@ -501,16 +503,8 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             return null;
         }
 
-        // Get participants
-        List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(
-                conversationModel.getCid()
-        );
-
         // Map to persistence
-        List<Buddy> participants = new LinkedList<Buddy>();
-        for (Participant participantModel : participantModels) {
-            participants.add(Buddy.fromParticipantModel(participantModel));
-        }
+        List<Buddy> participants = readParticipants(conversationModel.getCid());
 
         // Finally, we have everything we needed
         Conversation conversation = Conversation.fromConversationModel(conversationModel);
@@ -518,6 +512,30 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
         return conversation;
     }
+
+    /**
+     * Reads participants from the model
+     *
+     * @param cid id of the conversation
+     * @return list of participants
+     * @throws Exception
+     */
+    private List<Buddy> readParticipants(Long cid) throws Exception {
+        // Get participants
+        List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(
+                cid
+        );
+
+        // Map to persistence
+        List<Buddy> participants = new LinkedList<Buddy>();
+        for (Participant participantModel : participantModels) {
+            Buddy buddy = Buddy.fromParticipantModel(participantModel);
+            participants.add(buddy);
+        }
+
+        return participants;
+    }
+
 
     /**
      * Reads the message related to the conversation. The size of list is determined

@@ -195,7 +195,11 @@ public class ConversationController {
             }
 
             // Serialize
-            String serialized = JSONFactoryUtil.looseSerialize(conversation, "messages", "messages.from");
+            String serialized = JSONFactoryUtil.looseSerialize(conversation,
+                    "messages",
+                    "messages.from",
+                    "participants"
+            );
 
             // Write success to response
             ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);

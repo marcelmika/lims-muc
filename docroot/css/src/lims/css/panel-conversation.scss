@@ -19,6 +19,22 @@
     position: relative;
   }
 
+  .participants-list {
+    position: absolute;
+    top: 29px;
+    left: 5px;
+    z-index: 3;
+    margin-right: 5px;
+    background: rgba(0, 0, 0, 0.77);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    line-height: 14px;
+    font-size: 11px;
+    max-height: 225px;
+    overflow-y: scroll;
+  }
+
   .conversation-item {
     padding: 5px 7px;
   }

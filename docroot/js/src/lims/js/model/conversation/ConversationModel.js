@@ -322,7 +322,8 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             etag: conversation.etag,
             unreadMessagesCount: conversation.unreadMessagesCount,
             firstMessage: conversation.firstMessage,
-            lastMessage: conversation.lastMessage
+            lastMessage: conversation.lastMessage,
+            participants: conversation.participants
         });
 
         // Keep a copy of messages that haven't been sent to server yet

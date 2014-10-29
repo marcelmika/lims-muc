@@ -40,6 +40,8 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     // Template for the activity indicator
     readMoreActivityIndicator: '<div class="preloader read-more-preloader" />',
 
+    // Template for participants list template
+    participantsListTemplate: '<div class="participants-list" />',
 
     /**
      * Initializer
@@ -130,6 +132,30 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Shows participants list
+     */
+    showParticipantsList: function () {
+        // Vars
+        var participantsList = this.get('participantsList');
+
+        if (participantsList.inDoc()) {
+            participantsList.show();
+        }
+    },
+
+    /**
+     * Hides participants list
+     */
+    hideParticipantsList: function () {
+        // Vars
+        var participantsList = this.get('participantsList');
+
+        if (participantsList.inDoc()) {
+            participantsList.hide();
+        }
+    },
+
+    /**
      * Attaches listener to elements
      *
      * @private
@@ -180,6 +206,44 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelContentList.append(conversationItemView.get('container'));
 
         return conversationItemView;
+    },
+
+    /**
+     * Renders participants list
+     *
+     * @private
+     */
+    _renderParticipantsList: function () {
+        // Vars
+        var participantsList = this.get('participantsList'),
+            container = this.get('container'),
+            model = this.get('model'),
+            participants,
+            innerHTML = '',
+            index;
+
+        // If the list is not yet rendered, add it to the container
+        if (!participantsList.inDoc()) {
+            // Hide the list, it's going to be shown whenever the user hovers over the title
+            participantsList.hide();
+            // Add list to container
+            container.prepend(participantsList);
+        }
+
+        // Get participants of the conversation
+        participants = model.get('participants');
+
+        for (index = 0; index < participants.length; index++) {
+            // Compose all participants names
+            innerHTML += participants[index].get('fullName');
+            // Add new line at the end of each participant except for the last one
+            if (index < participants.length - 1) {
+                innerHTML += '<br/>';
+            }
+        }
+
+        // Set the HTML to the list
+        participantsList.set('innerHTML', innerHTML);
     },
 
     /**
@@ -538,6 +602,8 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         this.get('activityIndicator').hide();
         // Render the list
         this._renderMessagesList(event.readMore, event.preStopperId);
+        // Render participants
+        this._renderParticipantsList();
         // Since the list is already rendered there is no need to
         // animate any other addition to the list
         this.set('shouldAnimateList', false);
@@ -682,6 +748,17 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
          */
         panelContentHeightCached: {
             value: 250
+        },
+
+        /**
+         * Participants list node
+         *
+         * {Node}
+         */
+        participantsList: {
+            valueFn: function () {
+                return Y.Node.create(this.participantsListTemplate);
+            }
         },
 
         /**

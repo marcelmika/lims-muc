@@ -171,7 +171,9 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             var listView = this.get('listView'),
                 model = this.get('model'),
                 createErrorView = this.get('conversationCreateErrorView'),
-                readErrorView = this.get('conversationReadErrorView');
+                readErrorView = this.get('conversationReadErrorView'),
+                container = this.get('container'),
+                panelTitleText = this.get('panelTitleText');
 
             // Local events
             listView.on('messageSubmitted', this._onMessageSubmitted, this);
@@ -183,6 +185,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             model.on('readError', this._onConversationReadError, this);
             createErrorView.on('resendButtonClick', this._onConversationCreateRetry, this);
             readErrorView.on('resendButtonClick', this._onConversationReadRetry, this);
+            panelTitleText.on('mouseenter', this._onPanelTitleTextMouseEnter, this);
+            container.on('mouseleave', this._onContainerMouseLeave, this);
 
             // Remote events
             Y.on('connectionError', this._onConnectionError, this);
@@ -325,6 +329,32 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Reload model
             model.load();
+        },
+
+        /**
+         * Called when the user hovers over the panel title text
+         *
+         * @private
+         */
+        _onPanelTitleTextMouseEnter: function () {
+            // Vars
+            var listView = this.get('listView');
+
+            // Show a list of participants
+            listView.showParticipantsList();
+        },
+
+        /**
+         * Called when the user leaves the container with his mouse
+         *
+         * @private
+         */
+        _onContainerMouseLeave: function () {
+           // Vars
+            var listView = this.get('listView');
+
+            // Hide a list of participants
+            listView.hideParticipantsList();
         },
 
         /**
@@ -620,6 +650,17 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelContent: {
                 valueFn: function () {
                     return this.get('container').one('.panel-content');
+                }
+            },
+
+            /**
+             * Text of the panel node
+             *
+             * {Node}
+             */
+            panelTitleText: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-title-text');
                 }
             },
 
