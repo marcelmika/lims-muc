@@ -188,7 +188,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     _renderPortrait: function (user) {
         // Vars
         var portraitView = new Y.LIMS.View.PortraitView({
-            user: user,
+            users: [user],
             small: true
         });
         // Render

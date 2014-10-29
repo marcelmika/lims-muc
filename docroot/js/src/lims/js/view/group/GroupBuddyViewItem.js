@@ -99,7 +99,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
     _getPortrait: function (user) {
         // Vars
         var portraitView = new Y.LIMS.View.PortraitView({
-            user: user,
+            users: [user],
             small: true
         });
         // Render the portrait

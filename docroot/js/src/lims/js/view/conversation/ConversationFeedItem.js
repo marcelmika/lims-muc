@@ -131,22 +131,20 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     _renderPortrait: function (participants) {
         // Vars
         var portraitView,
-            portraitUser,
+            renderedUsers,
             buddyDetails = this.get('buddyDetails');
 
         // Participants contain the currently logged user as well.
         // Thus we need to filter him first.
-        participants.filter(function (participant) {
-            if (buddyDetails.get('buddyId') !== participant.get('buddyId')) {
-                portraitUser = participant;
-            }
+        renderedUsers = participants.filter(function (participant) {
+            return buddyDetails.get('buddyId') !== participant.get('buddyId');
         });
 
         // Only if such user was found. In reality portrait user should always be
         // different from null. Thus this is just a defensive programming check.
-        if (portraitUser) {
+        if (renderedUsers.length > 0) {
             // Create portrait view
-            portraitView = new Y.LIMS.View.PortraitView({user: portraitUser});
+            portraitView = new Y.LIMS.View.PortraitView({users: renderedUsers});
             // Render
             portraitView.render();
             // Return the HTML

@@ -62,19 +62,8 @@
     }
 
     .item-portrait {
-      height: 46px;
-      width: 46px;
       margin: 0 6px 2px 0;
       float: left;
-    }
-
-    .item-portrait .portrait {
-      display: block;
-      height: 46px;
-      width: 46px;
-      background: #fff;
-      // Circled image
-      @include border-radius(23px);
     }
 
   }

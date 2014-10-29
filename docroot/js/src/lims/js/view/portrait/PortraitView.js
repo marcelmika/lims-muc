@@ -51,16 +51,21 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
     render: function () {
         // Vars
         var container = this.get('container'),
-            user = this.get('user'),
+            users = this.get('users'),
             small = this.get('small');
 
-        // No portrait id was set, render default portrait
-        if (user && user.get('portraitId') === 0) {
-            this._renderDefaultPortrait();
+        // Do not render the view if no users were set
+        if (!users) {
+            return this;
         }
-        // Render user portrait
-        else {
-            this._renderImagePortrait();
+
+        // If there is exactly one user to be rendered
+        if (users.length === 1) {
+            this._renderSingleUser(users[0]);
+        }
+        // Multiple users to be rendered
+        else if (users.length > 1) {
+            this._renderMultipleUsers(users);
         }
 
         // Check if the portrait view should be small
@@ -72,44 +77,123 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
     },
 
     /**
+     * Renders single user
+     *
+     * @param user
+     * @private
+     */
+    _renderSingleUser: function (user) {
+        // Vars
+        var container = this.get('container'),
+            portrait;
+
+        // No portrait id was set, render default portrait
+        if (user && user.get('portraitId') === 0) {
+            portrait = this._renderDefaultPortrait(user);
+        }
+        // Render user portrait
+        else {
+            portrait = this._renderImagePortrait(user);
+        }
+
+        // Append rendered portrait to container
+        container.append(portrait);
+
+        return portrait;
+    },
+
+    /**
+     * Renders multiple users
+     *
+     * @param users
+     * @private
+     */
+    _renderMultipleUsers: function (users) {
+        // Vars
+        var container = this.get('container'),
+            portrait,
+            user,
+            index,
+            shiftIndex = 0,
+            shift = 3;
+
+        // We have more than 3 users, thus we will have 3 layered portrait view
+        if (users.length >= 3) {
+            index = 2;
+        }
+        // There are 2 users, thus we will have 2 layered portrait view
+        else if (users.length === 2) {
+            index = 1;
+        }
+        // Multiple users portrait view must have more than 2 users
+        else {
+            return null;
+        }
+
+        // Create multi layer portrait view
+        for (index; index >= 0; index--) {
+
+            // Get the user from array
+            user = users[index];
+
+            // No portrait id was set, render default portrait
+            if (user && user.get('portraitId') === 0) {
+                portrait = this._renderDefaultPortrait(user);
+            }
+            // Render user portrait
+            else {
+                portrait = this._renderImagePortrait(user);
+            }
+
+            // Shift views
+            portrait.setStyle('top', shift * shiftIndex);
+            portrait.setStyle('left', shift * shiftIndex);
+
+            // Move the shift index up
+            shiftIndex++;
+
+            // Append rendered portrait to container
+            container.append(portrait);
+        }
+
+        // Add multiple users class to container
+        container.addClass('multiple');
+    },
+
+    /**
      * Renders default portrait
      *
      * @private
      */
-    _renderDefaultPortrait: function () {
+    _renderDefaultPortrait: function (user) {
         // Vars
-        var container = this.get('container'),
-            defaultPortrait = this.get('defaultPortrait'),
-            initials = this.get('initials'),
-            user = this.get('user'),
+        var defaultPortrait = Y.Node.create(this.defaultTemplate),
+            initials = Y.Node.create(this.initialsTemplate),
             initialText = '';
 
-        // Portrait cannot be rendered without user data
-        if (user) {
-
-            // If no first name was set take the screen name
-            if (user.get('firstName') === '' && user.get('screenName') !== '') {
-                initialText = Y.LIMS.Core.Util.firstCharacter(user.get('screenName'));
-            } else {
-                initialText = Y.LIMS.Core.Util.firstCharacter(user.get('fullName'));
-            }
-            // Add last name if set
-            if (user.get('lastName') !== '') {
-                initialText = initialText.concat(Y.LIMS.Core.Util.firstCharacter(user.get('lastName')));
-            }
-
-            // Set initials
-            initials.set('innerHTML', initialText);
-
-            // Set color
-            defaultPortrait.addClass(this._getUserColor());
-
-            // Add it do default portrait
-            defaultPortrait.append(initials);
-
-            // Append it to the container
-            container.append(defaultPortrait);
+        // If no first name was set take the screen name
+        if (user.get('firstName') === '' && user.get('screenName') !== '') {
+            initialText = Y.LIMS.Core.Util.firstCharacter(user.get('screenName'));
         }
+        // If no first name of screen name was set take full name
+        else {
+            initialText = Y.LIMS.Core.Util.firstCharacter(user.get('fullName'));
+        }
+        // Add last name if set
+        if (user.get('lastName') !== '') {
+            initialText = initialText.concat(Y.LIMS.Core.Util.firstCharacter(user.get('lastName')));
+        }
+
+        // Set initials
+        initials.set('innerHTML', initialText);
+
+        // Set color
+        defaultPortrait.addClass(this._getUserColor(user));
+
+        // Add it do default portrait
+        defaultPortrait.append(initials);
+
+        return defaultPortrait;
     },
 
     /**
@@ -117,31 +201,23 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
      *
      * @private
      */
-    _renderImagePortrait: function () {
+    _renderImagePortrait: function (user) {
         // Vars
-        var container = this.get('container'),
-            imagePortrait = this.get('imagePortrait'),
-            user = this.get('user');
+        var imagePortrait = Y.Node.create(this.imageTemplate);
 
-        // Portrait cannot be rendered without user data
-        if (user) {
+        // Set portrait image src attribute based on the screen name
+        imagePortrait.set('src', this.getPortraitUrl(user.get('portraitId')));
 
-            // Set portrait image src attribute based on the screen name
-            imagePortrait.set('src', this.getPortraitUrl(user.get('portraitId')));
-
-            // Append it to the container
-            container.append(imagePortrait);
-        }
+        return imagePortrait;
     },
 
     /**
      * Returns a color related to the user
      * @private
      */
-    _getUserColor: function () {
+    _getUserColor: function (user) {
         // Vars
-        var colors = this.get('colors'),
-            user = this.get('user');
+        var colors = this.get('colors');
 
         if (user && user.get('buddyId')) {
             return colors[user.get('buddyId') % colors.length];
@@ -167,44 +243,11 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
         },
 
         /**
-         * Default portrait node
+         * A list of users that should be rendered
          *
-         * {Node}
+         * [Y.LIMS.Model.BuddyModelItem]
          */
-        defaultPortrait: {
-            valueFn: function () {
-                return Y.Node.create(this.defaultTemplate);
-            }
-        },
-
-        /**
-         * Image portrait node
-         *
-         * {Node}
-         */
-        imagePortrait: {
-            valueFn: function () {
-                return Y.Node.create(this.imageTemplate);
-            }
-        },
-
-        /**
-         * Initials node
-         *
-         * {Node}
-         */
-        initials: {
-            valueFn: function () {
-                return Y.Node.create(this.initialsTemplate);
-            }
-        },
-
-        /**
-         * Portrait id
-         *
-         * {Y.LIMS.Model.BuddyModelItem}
-         */
-        user: {
+        users: {
             value: null
         },
 

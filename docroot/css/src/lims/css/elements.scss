@@ -583,9 +583,15 @@
 /************************************************************************************/
 
 .liferay-ims .portrait-container {
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.9;
 
   .portrait {
     display: block;
+    position: absolute;
     height: 46px;
     width: 46px;
     background: #fff;
@@ -595,6 +601,7 @@
 
   .default-portrait {
     display: block;
+    position: absolute;
     height: 46px;
     width: 46px;
     background: #c0c0c0;
@@ -653,6 +660,29 @@
         font-weight: normal;
       }
     }
+  }
+
+  &.multiple {
+
+    .portrait {
+      width: 40px;
+      height: 40px;
+      @include box-shadow(#FFFFFF 0px -1px 2px);
+    }
+
+    .default-portrait {
+      width: 40px;
+      height: 40px;
+      @include border-radius(20px);
+      @include box-shadow(#FFFFFF 0px -1px 2px);
+
+      .initials {
+        font-size: 14px;
+        top: 13px;
+        @include border-radius(20px);
+      }
+    }
+
   }
 
 }
