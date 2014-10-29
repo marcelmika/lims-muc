@@ -62,7 +62,9 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
         // No preloader is needed at the beginning
         this._hideActivityIndicator();
         // Show info message
-        this._showInfoMessage();
+        this._hideNoResultsMessage();
+        // View is not fully expanded yet
+        this.set('fullyExpanded', false);
         // Hide errors
         errorView.hideErrorMessage(false);
     },
@@ -99,10 +101,140 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
             this._showNoResultsMessage();
         } else {
             this._hideNoResultsMessage();
-            this._hideInfoMessage();
         }
 
         return this;
+    },
+
+
+    /**
+     * Shows the search panel
+     *
+     * @param callback that is called whenever the show animation is finished
+     */
+    showView: function (callback) {
+
+        // Vars
+        var model = this.get('model'),
+            container = this.get('container'),
+            contentAnimation = this.get('contentAnimation'),
+            partiallyExpandedHeight = this.get('partiallyExpandedHeight'),
+            animation;
+
+        // Set the visibility flag
+        this.set('isVisible', true);
+
+        // Create an instance of animation
+        animation = new Y.Anim({
+            node: container,
+            duration: 0.5,
+            from: { "min-height": 0},
+            to: {"min-height": partiallyExpandedHeight},
+            easing: 'bounceOut'
+        });
+
+        // Search button will no longer be needed so hide it at the end of the animation
+        animation.on('end', function () {
+            callback();
+        }, this);
+
+        // Before the animation ends
+        animation.before('end', function () {
+            // Show the content
+            contentAnimation.set('reverse', false);
+            contentAnimation.run();
+        }, this);
+
+        // Opacity needs to be set to zero otherwise there will
+        // be a weird blink effect
+        container.setStyle('min-height', 0);
+
+        // Reset the previous search
+        model.reset();
+        // Reset the view
+        this.reset();
+
+        // Run the animation
+        animation.run();
+    },
+
+    showFullView: function (callback) {
+        // Vars
+        var animation,
+            instance = this,
+            fullyExpanded = this.get('fullyExpanded'),
+            partiallyExpandedHeight = this.get('partiallyExpandedHeight'),
+            fullyExpandedHeight = this.get('fullyExpandedHeight'),
+            container = this.get('container');
+
+        // View is already fully expanded, do nothing
+        if (fullyExpanded) {
+            callback();
+        }
+        // View is not expanded yet, animate it
+        else {
+            animation = new Y.Anim({
+                node: container,
+                duration: 0.5,
+                from: { "min-height": partiallyExpandedHeight },
+                to: { "min-height": fullyExpandedHeight },
+                easing: "bounceOut"
+            });
+
+            animation.on('end', function () {
+                instance.set('fullyExpanded', true);
+                callback();
+            }, this);
+
+            animation.run();
+        }
+    },
+
+    /**
+     * Hides the search panel
+     *
+     * @param callback that is called whenever the hide animation is finished
+     */
+    hideView: function (callback) {
+
+        // Vars
+        var container = this.get('container'),
+            contentAnimation = this.get('contentAnimation'),
+            fullyExpanded = this.get('fullyExpanded'),
+            partiallyExpandedHeight = this.get('partiallyExpandedHeight'),
+            fullyExpandedHeight = this.get('fullyExpandedHeight'),
+            height = fullyExpanded ? fullyExpandedHeight : partiallyExpandedHeight,
+            instance = this,
+            animation;
+
+        this.set('isVisible', false);
+
+        // Create an instance of animation
+        animation = new Y.Anim({
+            node: container,
+            duration: 0.5,
+            from: { "min-height": height},
+            to: {"min-height": 0},
+            easing: 'backIn'
+        });
+
+        // Listen to the end of the animation
+        animation.on('end', function () {
+            instance.set('fullyExpanded', false);
+            // Reset the view
+            instance.reset();
+            callback();
+        }, this);
+
+        // Before the animation starts
+        animation.before('start', function () {
+            // Hide the content
+            contentAnimation.set('reverse', true);
+            contentAnimation.run();
+        });
+
+        // Run the animation
+        animation.run();
     },
 
     /**
@@ -192,43 +324,15 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
     },
 
     /**
-     * Shows the info message
-     *
-     * @private
-     */
-    _showInfoMessage: function () {
-        // Vars
-        var infoView = this.get('infoView'),
-            infoNoResultsView = this.get('infoNoResultsView');
-        // Show info view
-        infoView.showInfoMessage(false);
-        infoNoResultsView.hideInfoMessage(false);
-    },
-
-    /**
-     * Hides the info message
-     *
-     * @private
-     */
-    _hideInfoMessage: function () {
-        // Vars
-        var infoView = this.get('infoView');
-        // Hide info view
-        infoView.hideInfoMessage(false);
-    },
-
-    /**
      * Shows no results info message
      *
      * @private
      */
     _showNoResultsMessage: function () {
         // Vars
-        var infoNoResultsView = this.get('infoNoResultsView'),
-            infoView = this.get('infoView');
+        var infoNoResultsView = this.get('infoNoResultsView');
         // Show info view
         infoNoResultsView.showInfoMessage(false);
-        infoView.hideInfoMessage(false);
     },
 
     /**
@@ -270,16 +374,25 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
      */
     _onSearchSuccess: function () {
         // Vars
-        var errorView = this.get('errorView');
+        var errorView = this.get('errorView'),
+            isVisible = this.get('isVisible'),
+            instance = this;
 
-        // Hide the preloader
-        this._hideActivityIndicator();
-        // Hide info message
-        this._hideNoResultsMessage();
-        // Render incoming data
-        this.render();
-        // Hide error
-        errorView.hideErrorMessage(false);
+        // Do something only if the view is visible to the user
+        if (isVisible) {
+
+            // Fully expand the view
+            this.showFullView(function () {
+                // Hide the preloader
+                instance._hideActivityIndicator();
+                // Hide info message
+                instance._hideNoResultsMessage();
+                // Render incoming data
+                instance.render();
+                // Hide error
+                errorView.hideErrorMessage(false);
+            });
+        }
     },
 
     /**
@@ -289,16 +402,25 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
      */
     _onSearchError: function () {
         // Vars
-        var errorView = this.get('errorView');
+        var instance = this,
+            isVisible = this.get('isVisible'),
+            errorView = this.get('errorView');
 
-        // Hide the preloader
-        this._hideActivityIndicator();
-        // Render
-        this.render();
-        // Hide info message
-        this._hideNoResultsMessage();
-        // Show error
-        errorView.showErrorMessage(true);
+        // Do something only if the view is visible to the user
+        if (isVisible) {
+
+            // Fully expand the view
+            this.showFullView(function () {
+                // Hide the preloader
+                instance._hideActivityIndicator();
+                // Render
+                instance.render();
+                // Hide info message
+                instance._hideNoResultsMessage();
+                // Show error
+                errorView.showErrorMessage(true);
+            });
+        }
     },
 
     /**
@@ -360,6 +482,111 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
         },
 
         /**
+         * Contains node with the container content
+         *
+         * {Node}
+         */
+        content: {
+            valueFn: function () {
+                // Vars
+                var content = this.get('container').one('.content');
+                // Hide the content at the beginning
+                content.hide();
+
+                return content;
+            }
+        },
+
+        /**
+         * Animation of content within the container
+         *
+         * {Y.Anim}
+         */
+        contentAnimation: {
+            valueFn: function () {
+                // Vars
+                var content = this.get('content'),
+                    searchInput = this.get('searchInput'),
+                    animation;
+
+                // Create animation
+                animation = new Y.Anim({
+                    node: content,
+                    duration: 0.3,
+                    from: {opacity: 0},
+                    to: {opacity: 1}
+                });
+
+                // Before the animation starts
+                animation.before('start', function () {
+                    // Closing
+                    if (animation.get('reverse')) {
+                        // Set opacity to 1
+                        content.setStyle('opacity', 1);
+                    }
+                    // Opening
+                    else {
+                        // Show the content node
+                        content.show();
+                        // Add focus to search input
+                        searchInput.focus();
+                        // Set opacity to 0
+                        content.setStyle('opacity', 0);
+                    }
+                }, this);
+
+                // On animation end
+                animation.on('end', function () {
+                    // Closing
+                    if (animation.get('reverse')) {
+                        // Hide the node
+                        content.hide();
+                        // Remove focus from search input
+                        searchInput.blur();
+                    }
+                }, this);
+
+                return animation;
+            }
+        },
+
+        /**
+         * True if the search content view is fully expanded
+         *
+         * {boolean}
+         */
+        fullyExpanded: {
+            value: false // default value
+        },
+
+        /**
+         * True if the view is visible to the user
+         *
+         * {boolean}
+         */
+        isVisible: {
+            value: false // default value
+        },
+
+        /**
+         * Height of the panel when partially expanded
+         *
+         * {number}
+         */
+        partiallyExpandedHeight: {
+            value: 40 // default value
+        },
+
+        /**
+         * Height of the panel when fully expanded
+         *
+         * {number}
+         */
+        fullyExpandedHeight: {
+            value: 248 // default value
+        },
+
+        /**
          * Error view with error message and resend button
          *
          * {Y.LIMS.View.ErrorNotificationView}
@@ -372,23 +599,6 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
                 return new Y.LIMS.View.ErrorNotificationView({
                     container: container,
                     errorMessage: Y.LIMS.Core.i18n.values.searchErrorMessage
-                });
-            }
-        },
-
-        /**
-         * Info view with info message
-         *
-         * {Y.LIMS.View.InfoNotificationView}
-         */
-        infoView: {
-            valueFn: function () {
-                // Vars
-                var container = this.get('searchContent');
-                // Create view
-                return new Y.LIMS.View.InfoNotificationView({
-                    container: container,
-                    infoMessage: Y.LIMS.Core.i18n.values.searchInfoMessage
                 });
             }
         },
@@ -443,8 +653,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
 
         /**
          * Delayed key up interval. Model is refreshed after the delay.
-         * This is useful because we don't want to overwhelm the server with many
-         * request.
+         * This is useful because we don't want to overwhelm the server with to many requests.
          *
          * {integer}
          */

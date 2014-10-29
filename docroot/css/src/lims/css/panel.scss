@@ -201,10 +201,12 @@
 
 .liferay-ims .panel-search {
   position: absolute;
+  width: 100%;
   top: 26px;
   z-index: 2;
-  background: #ffffff;
-  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid #dddad8;
+  @include box-shadow(#bcbcbc 0px 0px 1px);
 
   .search-input-field-label {
     padding: 0;
@@ -233,17 +235,18 @@
 
   .search-input-field:hover,
   .search-input-field:focus {
-    background: #ffffff url(/images/search-button.png) 7px center no-repeat;
     border: 1px solid #d4d4d4;
     outline: none;
     background-size: 13px;
+    padding: 2px 27px 2px 27px;
+    background: #ffffff url(/images/search-button.png) 7px center no-repeat;
     @include image-2x('/images/search-button@2x.png', auto, 13px);
     // No shadow
     @include box-shadow(none);
   }
 
   .search-content {
-    height: 248px;
+    background: #fff;
     overflow-y: auto;
     overflow-x: hidden;
   }

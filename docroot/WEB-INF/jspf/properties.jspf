@@ -36,7 +36,6 @@
 <script type="text/x-template" id="lims-i18n">
     {
     "connectionErrorMessage":"<liferay-ui:message key="connection-error"/>",
-    "searchInfoMessage":"<liferay-ui:message key="panel-search-info-text"/>",
     "searchNoResultsMessage":"<liferay-ui:message key="panel-search-no-results-text"/>",
     "searchErrorMessage":"<liferay-ui:message key="panel-search-error-text"/>",
     "groupListEmptyInfoMessage":"<liferay-ui:message key="panel-group-list-empty-info-text"/>",

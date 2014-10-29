@@ -164,46 +164,25 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      * @private
      */
     _showSearchPanel: function () {
-
         // Vars
         var panelTitle = this.get('panelTitle'),
             searchPanelView = this.get('searchPanelView'),
-            searchPanelModel = this.get('searchPanelModel'),
             searchPanelContainer = searchPanelView.get('container'),
-            animation,
             instance = this;
 
         // Only show the search panel if not in document already
         if (!searchPanelContainer.inDoc()) {
-
-            // Create an instance of animation
-            animation = new Y.Anim({
-                node: searchPanelContainer,
-                duration: 0.5,
-                from: {opacity: 0},
-                to: {opacity: 1}
-            });
-
-            // Search button will no longer be needed so hide it at the end of the animation
-            animation.on('end', function () {
-                instance._hideSearchButton();
-                instance._showListButton();
-            }, this);
-
-            // Opacity needs to be set to zero otherwise there will
-            // be a weird blink effect
-            searchPanelContainer.setStyle('opacity', 0);
-
             // Add search panel to the container
             panelTitle.insert(searchPanelContainer, 'after');
-
-            // Reset the previous search
-            searchPanelModel.reset();
-            searchPanelView.reset();
-
-            // Run the animation
-            animation.run();
         }
+
+        // Show search panel view
+        searchPanelView.showView(function () {
+            // Toggle search/list button
+            instance._hideSearchButton();
+            instance._showListButton();
+        });
+
     },
 
     /**
@@ -216,31 +195,18 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         // Vars
         var searchPanelView = this.get('searchPanelView'),
             searchPanelContainer = searchPanelView.get('container'),
-            animation,
             instance = this;
 
         // Only hide the search panel if it's in the document
         if (searchPanelContainer.inDoc()) {
-
-            // Create an instance of animation
-            animation = new Y.Anim({
-                node: searchPanelContainer,
-                duration: 0.5,
-                from: {opacity: 1},
-                to: {opacity: 0}
-            });
-
-            // Listen to the end of the animation
-            animation.on('end', function () {
+            // Hide search panel
+            searchPanelView.hideView(function () {
                 // Remove the search panel from DOM
-                animation.get('node').remove();
+                searchPanelContainer.remove();
+                // Toggle search/list button
                 instance._hideListButton();
-                // We will need the search button in the panel title again
                 instance._showSearchButton();
-            }, this);
-
-            // Run the animation
-            animation.run();
+            });
         }
     },
 
