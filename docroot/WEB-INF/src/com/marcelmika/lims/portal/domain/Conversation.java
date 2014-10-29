@@ -332,7 +332,7 @@ public class Conversation {
             // TODO: i18n
             title = String.format("%s and %d others",
                     generateBuddyTitleName(participants.get(0)),
-                    participants.size()
+                    participants.size() - 1 // Minus you
             );
         }
 
