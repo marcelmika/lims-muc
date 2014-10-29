@@ -371,10 +371,13 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      * @private
      */
     _onContainerMouseWheel: function (event) {
-        // Vars
-        var container = this.get('container');
-        // Prevent scrolling of the whole window
-        return this.preventScroll(event, container);
+        // FIXME: This is s hack that prevents issue #37 to happen
+        if (this.name === "conversationFeedList") {
+            // Vars
+            var container = this.get('container');
+            // Prevent scrolling of the whole window
+            return this.preventScroll(event, container);
+        }
     }
 
 }, {
