@@ -23,17 +23,23 @@
  */
 
 /**
- * Conversation Options View
+ * Leave Conversation View
  *
  * The class extends Y.View
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y.View, [], {
+Y.LIMS.View.LeaveConversationOption = Y.Base.create('leaveConversationOption', Y.View, [], {
 
-    // The template property holds the contents of the #lims-conversation-options-template
-    // element, which will be used as the HTML template for the conversation options view
-    template: Y.one('#lims-conversation-options-template').get('innerHTML'),
+    // The template property holds the contents of the #lims-conversation-option-leave-conversation-template
+    // element, which will be used as the HTML template for the leave conversation option view
+    template: Y.one('#lims-conversation-option-leave-conversation-template').get('innerHTML'),
+
+    // Template for the error message
+    errorMessageTemplate: '<div class="error-message" />',
+
+    // Template for the activity indicator
+    activityIndicatorTemplate: '<div class="preloader" />',
 
     /**
      * Called after the initialization of the instance
@@ -46,19 +52,9 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
     /**
      * Shows the view
      */
-    showView: function (callback) {
+    showView: function () {
         // Vars
-        var animation = this.get('openAnimation'),
-            event;
-
-        // Call back when animation ends
-        event = animation.after('end', function () {
-            if (callback) {
-                callback();
-            }
-            // Detach from event since we don't want to call it multiple times
-            event.detach();
-        }, this);
+        var animation = this.get('openAnimation');
 
         animation.run();
     },
@@ -66,19 +62,12 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
     /**
      * Hides the view
      */
-    hideView: function (callback) {
+    hideView: function () {
         // Vars
-        var animation = this.get('closeAnimation'),
-            event;
+        var animation = this.get('closeAnimation');
 
-        // Call back when animation ends
-        event = animation.after('end', function () {
-            if (callback) {
-                callback();
-            }
-            // Detach from event since we don't want to call it multiple times
-            event.detach();
-        }, this);
+        // Hide the error message if it was rendered
+        this._hideErrorMessage();
 
         animation.run();
     },
@@ -104,35 +93,156 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
      */
     _attachEvents: function () {
         // Vars
-        var optionAddMore = this.get('optionAddMore'),
-            optionLeaveConversation = this.get('optionLeaveConversation');
+        var cancelButton = this.get('cancelButton'),
+            leaveButton = this.get('leaveButton');
 
-        // Local events
-        if (optionAddMore) {
-            optionAddMore.on('click', this._onOptionAddMoreClick, this);
-        }
+        // Local event
+        cancelButton.on('click', this._onCancelButtonClick, this);
+        leaveButton.on('click', this._onLeaveButtonClick, this);
+    },
 
-        if (optionLeaveConversation) {
-            optionLeaveConversation.on('click', this._onOptionLeaveConversationClick, this);
+    /**
+     * Adds action buttons to the buttons node
+     *
+     * @private
+     */
+    _addButtons: function () {
+        // Vars
+        var cancelButton = this.get('cancelButton'),
+            leaveButton = this.get('leaveButton'),
+            buttons = this.get('buttons');
+
+        buttons.append(cancelButton);
+        buttons.append('&nbsp;');
+        buttons.append(leaveButton);
+    },
+
+    /**
+     * Removes action buttons
+     *
+     * @private
+     */
+    _removeButtons: function () {
+        // Vars
+        var cancelButton = this.get('cancelButton'),
+            leaveButton = this.get('leaveButton');
+
+        // Remove buttons
+        cancelButton.remove();
+        leaveButton.remove();
+    },
+
+    /**
+     * Shows activity indicator
+     *
+     * @private
+     */
+    _showActivityIndicator: function () {
+        // Vars
+        var activityIndicator = this.get('activityIndicator'),
+            buttons = this.get('buttons');
+
+        // Add activity indicator to the buttons node if it's not already there
+        if (!activityIndicator.inDoc()) {
+            buttons.append(activityIndicator);
         }
     },
 
     /**
-     * Called when the user clicks on the add more option
+     * Hides activity indicator
      *
      * @private
      */
-    _onOptionAddMoreClick: function () {
-        this.fire('optionAddMoreClick', this);
+    _hideActivityIndicator: function () {
+        // Vars
+        var activityIndicator = this.get('activityIndicator');
+
+        // Remove the activity indicator only if it's in the doc
+        if (activityIndicator.inDoc()) {
+            activityIndicator.remove();
+        }
     },
 
     /**
-     * Called when the user clicks on the leave conversation option
+     * Shows the error message
      *
      * @private
      */
-    _onOptionLeaveConversationClick: function () {
-        this.fire('optionLeaveConversationClick', this);
+    _showErrorMessage: function () {
+        // Vars
+        var errorMessage = this.get('errorMessage'),
+            buttons = this.get('buttons');
+
+        // Add the error message only if it's not already in the doc
+        if (!errorMessage.inDoc()) {
+            buttons.append(errorMessage);
+        }
+    },
+
+    /**
+     * Hides the error message
+     *
+     * @private
+     */
+    _hideErrorMessage: function () {
+        // Vars
+        var errorMessage = this.get('errorMessage');
+
+        // Remove the error message from the dom if it's already rendered
+        if (errorMessage.inDoc()) {
+            errorMessage.remove();
+        }
+    },
+
+
+    /**
+     * Called when the user click on the cancel button
+     *
+     * @private
+     */
+    _onCancelButtonClick: function () {
+        // Hide the view
+        this.hideView();
+        // Fire the event
+        this.fire('cancelButtonClick', this);
+    },
+
+    /**
+     * Called when the user clicks on the leave button
+     *
+     * @private
+     */
+    _onLeaveButtonClick: function () {
+        // Vars
+        var model = this.get('model'),
+            instance = this;
+
+        // Hide buttons
+        this._removeButtons();
+        // Show preloader
+        this._showActivityIndicator();
+        // Update the model
+        model.leaveConversation(function (err) {
+            // Success
+            if (!err) {
+                // Fire an event
+                instance.fire('leaveConversationSuccess', instance);
+            }
+            // Error
+            else {
+                // Hide the activity indicator
+                instance._hideActivityIndicator();
+                // Show error message
+                instance._showErrorMessage();
+                // Show the buttons again so the user can retry
+                instance._addButtons();
+                // Fire an event
+                instance.fire('leaveConversationError', instance);
+            }
+        });
+
+        // Fire the event
+        this.fire('leaveButtonClick', this);
     }
 
 }, {
@@ -147,22 +257,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
         container: {
             valueFn: function () {
                 // Vars
-                var container = Y.Node.create(this.template),
-                    model = this.get('model'),
-                    bottomPadding = 7, // Padding added to the bottom of the container
-                    height;
-
-                // This is a options related to the single user conversation
-                if (model.get('conversationType') === 'SINGLE_USER') {
-                    // SUC doesn't have the leave conversation option
-                    container.one('.leave-conversation').remove();
-                }
-
-                // Calculate container's height
-                height = Y.LIMS.Core.Util.calculateHeight(container) + bottomPadding;
-
-                // Remember the height
-                this.set('containerHeight', height);
+                var container = Y.Node.create(this.template);
 
                 // Hide the node since it's going to be set visible
                 // whenever the user clicks on the option button
@@ -200,28 +295,6 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
         },
 
         /**
-         * Add more option node
-         *
-         * {Node}
-         */
-        optionAddMore: {
-            valueFn: function () {
-                return this.get('container').one('.add-more');
-            }
-        },
-
-        /**
-         * Leave conversation option node
-         *
-         * {Node}
-         */
-        optionLeaveConversation: {
-            valueFn: function () {
-                return this.get('container').one('.leave-conversation');
-            }
-        },
-
-        /**
          * True if the view is hidden
          *
          * {boolean}
@@ -230,14 +303,76 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
             value: true // default value
         },
 
-
         /**
          * Minimal height of the container
          *
          * {number}
          */
         containerHeight: {
-            value: 60 // default value
+            value: 112 // default value
+        },
+
+        /**
+         * Buttons node
+         *
+         * {Node}
+         */
+        buttons: {
+            valueFn: function () {
+                return this.get('container').one('.buttons');
+            }
+        },
+
+        /**
+         * Cancel button node
+         *
+         * {Node}
+         */
+        cancelButton: {
+            valueFn: function () {
+                return this.get('container').one('.cancel');
+            }
+        },
+
+        /**
+         * Leave button node
+         *
+         * {Node}
+         */
+        leaveButton: {
+            valueFn: function () {
+                return this.get('container').one('.leave');
+            }
+        },
+
+        /**
+         * Activity indicator node
+         *
+         * {Node}
+         */
+        activityIndicator: {
+            valueFn: function () {
+                return Y.Node.create(this.activityIndicatorTemplate);
+            }
+        },
+
+        /**
+         * Error message node
+         *
+         * {Node}
+         */
+        errorMessage: {
+            valueFn: function () {
+                // Vars
+                var errorMessage = Y.Node.create(this.errorMessageTemplate);
+
+                // Set the error message content
+                errorMessage.set('innerHTML',
+                    Y.LIMS.Core.i18n.values.conversationConversationOptionsLeaveError
+                );
+
+                return errorMessage;
+            }
         },
 
         /**

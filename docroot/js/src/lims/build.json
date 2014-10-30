@@ -63,6 +63,7 @@
                 "js/view/conversation/ConversationItemView.js",
                 "js/view/conversation/ConversationListView.js",
                 "js/view/conversation/ConversationOptionsView.js",
+                "js/view/conversation/LeaveConversationOption.js",
                 "js/view/conversation/NewConversationView.js",
                 "js/view/elements/ChoiceElementView.js",
                 "js/view/elements/SwitchElementView.js",

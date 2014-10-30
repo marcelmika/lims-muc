@@ -298,11 +298,14 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Vars
             var createErrorView = this.get('conversationCreateErrorView'),
                 readErrorView = this.get('conversationReadErrorView'),
+                optionsButton = this.get('optionsButton'),
                 listView = this.get('listView');
 
             // Hide error messages if there were any
             createErrorView.hideErrorMessage(false);
             readErrorView.hideErrorMessage(false);
+            // Show the options button
+            optionsButton.show();
             // Show the panel input so the user can post messages
             listView.showView();
         },
@@ -315,6 +318,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Vars
             var createErrorView = this.get('conversationCreateErrorView'),
                 readErrorView = this.get('conversationReadErrorView'),
+                optionsButton = this.get('optionsButton'),
                 listView = this.get('listView');
 
             // Hide preloader
@@ -323,6 +327,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             createErrorView.hideErrorMessage(true);
             // Show read error message
             readErrorView.showErrorMessage(true);
+            // Hide the options button
+            optionsButton.hide();
             // Hide the panel input. We don't want users to post any messages now
             listView.hideView();
         },
@@ -360,9 +366,13 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         _onOptionsButtonClick: function () {
             // Vars
-            var optionsView = this.get('optionsView');
+            var optionsView = this.get('optionsView'),
+                leaveConversationView = this.get('leaveConversationView');
 
-            optionsView.toggleView();
+            // Do nothing if the other options views are presented to the user
+            if (leaveConversationView.get('isHidden')) {
+                optionsView.toggleView();
+            }
         },
 
         /**
@@ -380,7 +390,15 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onOptionLeaveConversationClick: function () {
-            console.log('leave conversation');
+            // Vars
+            var optionsView = this.get('optionsView'),
+                leaveConversationView = this.get('leaveConversationView');
+
+            // Hide the options view
+            optionsView.hideView(function () {
+                // Show the leave conversation option view
+                leaveConversationView.showView();
+            });
         },
 
         /**
@@ -694,6 +712,29 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsButton: {
                 valueFn: function () {
                     return this.get('panelTitle').one('.panel-button.options');
+                }
+            },
+
+            /**
+             * Leave conversation option view
+             *
+             * {Y.LIMS.View.LeaveConversationOption}
+             */
+            leaveConversationView: {
+                valueFn: function () {
+                    // Vars
+                    var panelWindow = this.get('panelWindow'),
+                        model = this.get('model'),
+                        view = new Y.LIMS.View.LeaveConversationOption({
+                            model: model
+                        });
+
+                    // Render the view
+                    view.render();
+                    // Add it to panel window
+                    panelWindow.prepend(view.get('container'));
+
+                    return view;
                 }
             },
 

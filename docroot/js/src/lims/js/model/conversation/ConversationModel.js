@@ -154,6 +154,45 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
     },
 
     /**
+     * Leaves multi user chat conversation
+     *
+     * @param callback
+     */
+    leaveConversation: function (callback) {
+
+        // Vars
+        var instance = this,
+            parameters = Y.JSON.stringify({
+                conversationId: this.get('conversationId')
+            });
+
+        // Send the request
+        Y.io(this.getServerRequestUrl(), {
+            method: "POST",
+            data: {
+                query: "LeaveConversation",
+                parameters: parameters
+            },
+            on: {
+                success: function () {
+                    // Call the success
+                    callback(null, instance);
+                },
+                failure: function (x, o) {
+                    // If the attempt is unauthorized session has expired
+                    if (o.status === 401) {
+                        // Notify everybody else
+                        Y.fire('userSessionExpired');
+                    }
+
+                    // Call error
+                    callback('cannot leave conversation', instance);
+                }
+            }
+        });
+    },
+
+    /**
      * Custom sync layer
      *
      * @param action

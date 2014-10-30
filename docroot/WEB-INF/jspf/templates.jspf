@@ -64,7 +64,7 @@
                 <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
                         class="panel-button minimize"></button>
                 <button title="<liferay-ui:message key="panel-button-options-title"/>"
-                        class="panel-button options"></button>
+                        class="panel-button options aui-helper-hidden hide"></button>
                 <div class="panel-title-text">{conversationTitle}</div>
             </div>
             <div class="panel-content">
@@ -90,6 +90,26 @@
                     <liferay-ui:message key="panel-conversation-options-leave-conversation"/>
                 </li>
             </ul>
+        </div>
+    </div>
+</script>
+
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="lims-conversation-option-leave-conversation-template">
+    <div class="leave-conversation-option">
+        <div class="content">
+            <div class="text">
+                <liferay-ui:message key="panel-conversation-options-leave-conversation-text"/>
+            </div>
+            <div class="buttons">
+                <button class="cancel button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-leave-conversation-cancel"/>
+                </button>
+                <button class="leave button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-leave-conversation-leave"/>
+                </button>
+            </div>
         </div>
     </div>
 </script>
