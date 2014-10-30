@@ -89,9 +89,13 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * Panel Did Disappear is called when the panel disappeared from the screen
          */
         onPanelDidDisappear: function () {
+            // Vars
+            var optionsView = this.get('optionsView');
 
             // Make the badge noticeable again
             this._brightBadge();
+            // Hide the options view
+            optionsView.hideView();
 
             // No need to updated message timestamps since they will be updated whenever
             // the panel appears again
@@ -173,7 +177,9 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 createErrorView = this.get('conversationCreateErrorView'),
                 readErrorView = this.get('conversationReadErrorView'),
                 container = this.get('container'),
-                panelTitleText = this.get('panelTitleText');
+                panelTitleText = this.get('panelTitleText'),
+                optionsButton = this.get('optionsButton'),
+                optionsView = this.get('optionsView');
 
             // Local events
             listView.on('messageSubmitted', this._onMessageSubmitted, this);
@@ -187,6 +193,9 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             readErrorView.on('resendButtonClick', this._onConversationReadRetry, this);
             panelTitleText.on('mouseenter', this._onPanelTitleTextMouseEnter, this);
             container.on('mouseleave', this._onContainerMouseLeave, this);
+            optionsButton.on('click', this._onOptionsButtonClick, this);
+            optionsView.on('optionAddMoreClick', this._onOptionAddMoreClick, this);
+            optionsView.on('optionLeaveConversationClick', this._onOptionLeaveConversationClick, this);
 
             // Remote events
             Y.on('connectionError', this._onConnectionError, this);
@@ -345,12 +354,42 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Called when the user click on the options button
+         *
+         * @private
+         */
+        _onOptionsButtonClick: function () {
+            // Vars
+            var optionsView = this.get('optionsView');
+
+            optionsView.toggleView();
+        },
+
+        /**
+         * Called when the user clicks on the add more option
+         *
+         * @private
+         */
+        _onOptionAddMoreClick: function () {
+            console.log('add more');
+        },
+
+        /**
+         * Called when the user clicks on the leave conversation option
+         *
+         * @private
+         */
+        _onOptionLeaveConversationClick: function () {
+            console.log('leave conversation');
+        },
+
+        /**
          * Called when the user leaves the container with his mouse
          *
          * @private
          */
         _onContainerMouseLeave: function () {
-           // Vars
+            // Vars
             var listView = this.get('listView');
 
             // Hide a list of participants
@@ -625,6 +664,40 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             },
 
             /**
+             * Options view
+             *
+             * {Y.LIMS.View.ConversationOptionsView}
+             */
+            optionsView: {
+                valueFn: function () {
+                    // Vars
+                    var panelWindow = this.get('panelWindow'),
+                        model = this.get('model'),
+                        view = new Y.LIMS.View.ConversationOptionsView({
+                            model: model
+                        });
+
+                    // Render the view
+                    view.render();
+                    // Add it to panel window
+                    panelWindow.prepend(view.get('container'));
+
+                    return view;
+                }
+            },
+
+            /**
+             * Options button node
+             *
+             * {Node}
+             */
+            optionsButton: {
+                valueFn: function () {
+                    return this.get('panelTitle').one('.panel-button.options');
+                }
+            },
+
+            /**
              * List view node that holds all message views
              *
              * {Node}
@@ -632,15 +705,27 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             listView: {
                 valueFn: function () {
                     // Vars
-                    var container = this.get('container'),
+                    var panelWindow = this.get('panelWindow'),
                         model = this.get('model');
                     // Create new view
                     return new Y.LIMS.View.ConversationListView({
-                        container: container.one('.panel-window'),
+                        container: panelWindow,
                         model: model
                     });
                 }
             },
+
+            /**
+             * Panel window node
+             *
+             * {Node}
+             */
+            panelWindow: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-window');
+                }
+            },
+
 
             /**
              * Panel content node that holds nodes like activity indicator, list view, error message, etc.
@@ -654,13 +739,24 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             },
 
             /**
+             * Panel title node
+             *
+             * {Node}
+             */
+            panelTitle: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-title');
+                }
+            },
+
+            /**
              * Text of the panel node
              *
              * {Node}
              */
             panelTitleText: {
                 valueFn: function () {
-                    return this.get('container').one('.panel-title-text');
+                    return this.get('panelTitle').one('.panel-title-text');
                 }
             },
 

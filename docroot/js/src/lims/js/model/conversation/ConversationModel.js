@@ -319,6 +319,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
 
         // Update from response
         this.setAttrs({
+            conversationType: conversation.conversationType,
             etag: conversation.etag,
             unreadMessagesCount: conversation.unreadMessagesCount,
             firstMessage: conversation.firstMessage,
@@ -393,6 +394,15 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
          */
         conversationId: {
             value: null
+        },
+
+        /**
+         * Type of the conversation
+         *
+         * {SINGLE_USER|MULTI_USER}
+         */
+        conversationType: {
+            value: null // to be set
         },
 
         /**

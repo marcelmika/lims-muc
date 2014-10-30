@@ -126,6 +126,13 @@
     height: 17px;
     margin-top: 3px;
   }
+
+  &.options {
+    background: url(/images/button-options.png) center center no-repeat;
+    @include image-2x('/images/button-options@2x.png', auto, 16px);
+    height: 16px;
+    margin-top: 4px;
+  }
 }
 
 /********************************************************************************
@@ -149,7 +156,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 190px;
+      max-width: 178px;
       text-indent: 5px;
     }
   }

@@ -62,6 +62,43 @@ var Util = {
     },
 
     /**
+     * Calculates height of the node that can have absolute position and
+     * can be hidden. If you count the height directly it will return zero.
+     * Thus it first needs to be added to DOM, visibility needs to be set to hidden.
+     * We can then calculate the actual height. After the calculation the element is removed
+     * from DOM.
+     *
+     * @param node
+     */
+    calculateHeight: function (node) {
+        // Vars
+        var height,
+            isInDoc = node.inDoc();
+
+        // Cover it (set visibility to hidden) so it's not going to be visible to the user
+        node.addClass('covered');
+
+        // It is possible that the node it's not yet in DOM
+        if (!isInDoc) {
+            // Add it to the body so we can calculate the height
+            Y.one('body').append(node);
+        }
+
+        // Count the height
+        height = node.get('offsetHeight');
+        // Uncover the node
+        node.removeClass('covered');
+
+        // If the node wasn't in the DOM
+        if (!isInDoc) {
+            // Remove it from the DOM
+            node.remove();
+        }
+
+        return height;
+    },
+
+    /**
      * Creates has code from the input
      *
      * @see https://github.com/garycourt/murmurhash-js

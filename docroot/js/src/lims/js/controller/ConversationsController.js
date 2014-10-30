@@ -160,6 +160,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             map = this.get('conversationMap'),                  // Map that holds all conversation controllers
             buddyDetails = this.get('buddyDetails'),            // Currently logged user
             conversationId,                                     // Id of the conversation
+            conversationType,                                   // Type of the conversation
             unreadMessagesCount,                                // Unread messages count
             settings = this.get('settings'),                    // Settings of logged user
             properties = this.get('properties'),                // Portlet properties
@@ -173,6 +174,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Since the conversation was already rendered it contains a conversation ID which we need get
             // from the attribute on conversation node
             conversationId = conversationNode.attr('data-conversationId');
+            conversationType = conversationNode.attr('data-conversationType');
             unreadMessagesCount = conversationNode.attr('data-unreadMessagesCount');
 
             // Bind controller only if it's not in the map
@@ -181,6 +183,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // Create new conversation model
                 conversationModel = new Y.LIMS.Model.ConversationModel({
                     conversationId: conversationId,
+                    conversationType: conversationType,
                     creator: buddyDetails,
                     unreadMessagesCount: unreadMessagesCount,
                     serverTimeOffset: properties.getServerTimeOffset()
