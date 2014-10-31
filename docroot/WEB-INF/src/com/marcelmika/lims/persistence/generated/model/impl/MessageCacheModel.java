@@ -37,12 +37,14 @@ import java.util.Date;
 public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{mid=");
 		sb.append(mid);
 		sb.append(", cid=");
 		sb.append(cid);
+		sb.append(", messageType=");
+		sb.append(messageType);
 		sb.append(", creatorId=");
 		sb.append(creatorId);
 		sb.append(", createdAt=");
@@ -60,6 +62,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 		messageImpl.setMid(mid);
 		messageImpl.setCid(cid);
+		messageImpl.setMessageType(messageType);
 		messageImpl.setCreatorId(creatorId);
 
 		if (createdAt == Long.MIN_VALUE) {
@@ -85,6 +88,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mid = objectInput.readLong();
 		cid = objectInput.readLong();
+		messageType = objectInput.readInt();
 		creatorId = objectInput.readLong();
 		createdAt = objectInput.readLong();
 		body = objectInput.readUTF();
@@ -95,6 +99,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		throws IOException {
 		objectOutput.writeLong(mid);
 		objectOutput.writeLong(cid);
+		objectOutput.writeInt(messageType);
 		objectOutput.writeLong(creatorId);
 		objectOutput.writeLong(createdAt);
 
@@ -108,6 +113,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 	public long mid;
 	public long cid;
+	public int messageType;
 	public long creatorId;
 	public long createdAt;
 	public String body;

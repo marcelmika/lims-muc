@@ -27,10 +27,12 @@ package com.marcelmika.lims.api.entity;
 import java.util.Date;
 
 /**
+ * Enum for conversation message type
+ *
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 2/7/14
- * Time: 11:35 PM
+ * Date: 31/10/14
+ * Time: 22:30
  */
 public class MessageDetails {
 
@@ -39,6 +41,15 @@ public class MessageDetails {
     private BuddyDetails from;
     private String body;
     private Date createdAt;
+    private MessageTypeDetails messageType;
+
+    public MessageTypeDetails getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageTypeDetails messageType) {
+        this.messageType = messageType;
+    }
 
     public Long getMessageId() {
         return messageId;
@@ -88,6 +99,7 @@ public class MessageDetails {
                 ", from=" + from +
                 ", body='" + body + '\'' +
                 ", createdAt=" + createdAt +
+                ", messageType=" + messageType.getDescription() +
                 '}';
     }
 }

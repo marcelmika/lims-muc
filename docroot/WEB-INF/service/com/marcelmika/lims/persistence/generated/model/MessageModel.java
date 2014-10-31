@@ -88,6 +88,20 @@ public interface MessageModel extends BaseModel<Message> {
 	public void setCid(long cid);
 
 	/**
+	 * Returns the message type of this message.
+	 *
+	 * @return the message type of this message
+	 */
+	public int getMessageType();
+
+	/**
+	 * Sets the message type of this message.
+	 *
+	 * @param messageType the message type of this message
+	 */
+	public void setMessageType(int messageType);
+
+	/**
 	 * Returns the creator ID of this message.
 	 *
 	 * @return the creator ID of this message

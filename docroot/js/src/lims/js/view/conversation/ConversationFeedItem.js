@@ -37,9 +37,9 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     // Specify an optional model to associate with the view.
     model: Y.LIMS.Model.ConversationModel,
 
-    // The template property holds the contents of the #lims-group-item-template
-    // element, which will be used as the HTML template for each group item.
-    template: Y.one('#lims-conversation-feed-item-template').get('innerHTML'),
+    // Check the templates.jspf to see all templates
+    regularTemplate: Y.one('#lims-conversation-feed-item-regular-template').get('innerHTML'),
+    leftTemplate: Y.one('#lims-conversation-feed-item-left-template').get('innerHTML'),
 
     /**
      * Renders the view
@@ -53,19 +53,37 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             lastMessage = model.get('lastMessage'),
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
-        // Fill data from model to template and set it to container
-        container.set('innerHTML',
-            Y.Lang.sub(this.template, {
-                title: model.get('title'),
-                lastMessage: Y.Escape.html(lastMessage.get('body')),
-                portrait: this._renderPortrait(model.get('participants')),
-                timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
-                timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
-            })
-        );
+        // Regular type of the message
+        if (lastMessage.get('messageType') === 'REGULAR') {
 
-        // Set date node
-        this.set('dateNode', container.one('.timestamp'));
+            // Fill data from model to template and set it to container
+            container.set('innerHTML',
+                Y.Lang.sub(this.regularTemplate, {
+                    title: model.get('title'),
+                    lastMessage: Y.Escape.html(lastMessage.get('body')),
+                    portrait: this._renderPortrait(model.get('participants')),
+                    timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
+                    timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
+                })
+            );
+
+            // Set date node
+            this.set('dateNode', container.one('.timestamp'));
+        }
+        // Left type of the message
+        else if (lastMessage.get('messageType') === 'LEFT') {
+
+            // Fill data from model to template and set it to container
+            container.set('innerHTML',
+                Y.Lang.sub(this.leftTemplate, {
+                    title: model.get('title'),
+                    fullName: lastMessage.get('from').get('fullName') || '',
+                    portrait: this._renderPortrait(model.get('participants')),
+                    timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
+                    timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
+                })
+            );
+        }
 
         // Check if the conversation is unread
         if (model.get('unreadMessagesCount') > 0) {
@@ -89,8 +107,11 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             formatter = this.get('dateFormatter'),          // Prettify date formatter
             model = this.get('model').get('lastMessage');   // Message model
 
-        // Update time
-        dateNode.set('innerHTML', formatter.prettyDate(new Date(model.get('createdAt'))));
+        // It is possible that the view doesn't have the date node (for example the left or add message)
+        if (dateNode) {
+            // Update time
+            dateNode.set('innerHTML', formatter.prettyDate(new Date(model.get('createdAt'))));
+        }
     },
 
     /**

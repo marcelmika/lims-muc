@@ -146,6 +146,15 @@ Y.LIMS.Model.MessageItemModel = Y.Base.create('messageItemModel', Y.Model, [Y.LI
         },
 
         /**
+         * Message type
+         *
+         * {REGULAR|LEFT|ADDED|UNKNOWN}
+         */
+        messageType: {
+            value: null // to be set
+        },
+
+        /**
          * Sender of the message
          *
          * {BuddyModelItem}

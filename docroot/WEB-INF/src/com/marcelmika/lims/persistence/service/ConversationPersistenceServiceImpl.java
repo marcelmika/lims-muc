@@ -40,6 +40,7 @@ import com.marcelmika.lims.persistence.generated.service.ConversationLocalServic
 import com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.ParticipantLocalServiceUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -339,6 +340,18 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Leave the conversation
             ParticipantLocalServiceUtil.leaveConversation(conversationModel.getCid(), buddy.getBuddyId());
 
+            // Create new user has left message
+            MessageLocalServiceUtil.addMessage(
+                    conversationModel.getCid(),             // Message is related to the conversation
+                    buddy.getBuddyId(),                     // Message is created by buddy
+                    MessageType.LEFT.getCode(),             // Message type
+                    null,                                   // Body of message
+                    Calendar.getInstance().getTime()        // Date of creation
+            );
+
+            // Update conversation timestamp
+            ConversationLocalServiceUtil.updateConversationTimestamp(conversationModel.getCid());
+
             // Return success
             return LeaveConversationResponseEvent.success();
         }
@@ -379,10 +392,11 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Create new message
             com.marcelmika.lims.persistence.generated.model.Message messageModel = MessageLocalServiceUtil.addMessage(
-                    conversationModel.getCid(), // Message is related to the conversation
-                    buddy.getBuddyId(),         // Message is created by buddy
-                    message.getBody(),          // Body of message
-                    message.getCreatedAt()      // Date of creation
+                    conversationModel.getCid(),             // Message is related to the conversation
+                    buddy.getBuddyId(),                     // Message is created by buddy
+                    message.getMessageType().getCode(),     // Message type
+                    message.getBody(),                      // Body of message
+                    message.getCreatedAt()                  // Date of creation
             );
 
             // Notify participants about newly created messages. This will basically update message counters,
@@ -393,6 +407,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             Message successMessage = Message.fromMessageModel(messageModel);
             // Don't forget to add the buddy as the creator
             successMessage.setFrom(buddy);
+
+            // Update conversation timestamp
+            ConversationLocalServiceUtil.updateConversationTimestamp(conversationModel.getCid());
 
             // Call Success
             return SendMessageResponseEvent.sendMessageSuccess(successMessage.toMessageDetails());

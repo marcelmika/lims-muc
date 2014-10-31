@@ -40,6 +40,7 @@ public class Message {
     private Buddy from;
     private String body;
     private Date createdAt;
+    private MessageType messageType;
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -54,10 +55,13 @@ public class Message {
         message.body = details.getBody();
         message.createdAt = details.getCreatedAt();
 
-        // Relations:
-        // From
+        // Relations
         if (details.getFrom() != null) {
             message.from = Buddy.fromBuddyDetails(details.getFrom());
+        }
+
+        if (details.getMessageType() != null) {
+            message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
         }
 
         return message;
@@ -76,14 +80,16 @@ public class Message {
     public static Message fromMessageModel(com.marcelmika.lims.persistence.generated.model.Message messageModel) {
         // Create new message
         Message message = new Message();
-        // Properties:
+        // Properties
         message.messageId = messageModel.getMid();
+        message.messageType = MessageType.fromCode(messageModel.getMessageType());
         message.body = messageModel.getBody();
         message.createdAt = messageModel.getCreatedAt();
 
         Buddy creator = new Buddy();
         creator.setBuddyId(messageModel.getCreatorId());
         message.from = creator;
+
 
         return message;
     }
@@ -100,6 +106,7 @@ public class Message {
         Message message = new Message();
         // Map data from object
         message.messageId = (Long) object[firstElement++];
+        message.messageType = MessageType.fromCode((Integer) object[firstElement++]);
 
         Buddy creator = new Buddy();
         creator.setBuddyId((Long) object[firstElement++]);
@@ -147,6 +154,10 @@ public class Message {
             details.setFrom(from.toBuddyDetails());
         }
 
+        if (messageType != null) {
+            details.setMessageType(messageType.toMessageTypeDetails());
+        }
+
         return details;
     }
 
@@ -155,6 +166,14 @@ public class Message {
     // Getters/Setters
     // -------------------------------------------------------------------------------------------
 
+
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
+    }
 
     public Long getMessageId() {
         return messageId;

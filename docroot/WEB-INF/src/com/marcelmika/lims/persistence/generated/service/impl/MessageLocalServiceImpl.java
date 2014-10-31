@@ -48,21 +48,35 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil} to access the message local service.
 	 */
 
-    public Message addMessage(long cid, long creatorId, String body, Date createdAt) throws Exception {
-        // Fetch possible existing conversation
+    /**
+     * Adds a message to the persistence
+     *
+     * @param cid         conversation id
+     * @param creatorId   user id of the creator of the message
+     * @param messageType type of the message code
+     * @param body        text of the message
+     * @param createdAt   timestamp of creation
+     * @return newly created message
+     * @throws Exception
+     */
+    public Message addMessage(long cid,
+                              long creatorId,
+                              int messageType,
+                              String body,
+                              Date createdAt) throws Exception {
+
+        // Create new conversation object
         Message messageModel = messagePersistence.create(counterLocalService.increment());
 
         // Map properties
         messageModel.setCid(cid);
         messageModel.setCreatorId(creatorId);
+        messageModel.setMessageType(messageType);
         messageModel.setBody(body);
         messageModel.setCreatedAt(createdAt);
 
         // Update model
         messageModel = messagePersistence.update(messageModel, false);
-
-        // Update conversation timestamp
-        ConversationLocalServiceUtil.updateConversationTimestamp(cid);
 
         return messageModel;
     }

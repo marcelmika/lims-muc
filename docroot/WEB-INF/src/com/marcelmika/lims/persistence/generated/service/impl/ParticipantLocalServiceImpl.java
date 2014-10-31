@@ -293,9 +293,6 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
 
             // Save
             participantPersistence.update(participantModel, false);
-
-            // Update conversation timestamp
-            ConversationLocalServiceUtil.updateConversationTimestamp(cid);
         }
     }
 }

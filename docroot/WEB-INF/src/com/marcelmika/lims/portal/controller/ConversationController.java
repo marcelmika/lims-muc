@@ -592,9 +592,11 @@ public class ConversationController {
 
         // Create new conversation that will be passed to the system
         Conversation conversation = new Conversation();
-        conversation.setConversationType(ConversationType.SINGLE_USER);
         conversation.setConversationId(parameters.getConversationId());
         conversation.setBuddy(buddy);
+
+        // This is a regular type of the message
+        message.setMessageType(MessageType.REGULAR);
 
         // Add to system
         SendMessageResponseEvent responseEvent = conversationCoreService.sendMessage(

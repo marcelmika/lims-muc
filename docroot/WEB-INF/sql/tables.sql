@@ -8,6 +8,7 @@ create table Limsmuc_Conversation (
 create table Limsmuc_Message (
 	mid LONG not null primary key,
 	cid LONG,
+	messageType INTEGER,
 	creatorId LONG,
 	createdAt DATE null,
 	body TEXT null

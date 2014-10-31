@@ -32,6 +32,7 @@ public class MessageSoap implements Serializable {
 
 		soapModel.setMid(model.getMid());
 		soapModel.setCid(model.getCid());
+		soapModel.setMessageType(model.getMessageType());
 		soapModel.setCreatorId(model.getCreatorId());
 		soapModel.setCreatedAt(model.getCreatedAt());
 		soapModel.setBody(model.getBody());
@@ -103,6 +104,14 @@ public class MessageSoap implements Serializable {
 		_cid = cid;
 	}
 
+	public int getMessageType() {
+		return _messageType;
+	}
+
+	public void setMessageType(int messageType) {
+		_messageType = messageType;
+	}
+
 	public long getCreatorId() {
 		return _creatorId;
 	}
@@ -129,6 +138,7 @@ public class MessageSoap implements Serializable {
 
 	private long _mid;
 	private long _cid;
+	private int _messageType;
 	private long _creatorId;
 	private Date _createdAt;
 	private String _body;

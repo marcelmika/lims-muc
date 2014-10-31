@@ -283,11 +283,23 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* Adds a message to the persistence
+	*
+	* @param cid         conversation id
+	* @param creatorId   user id of the creator of the message
+	* @param messageType type of the message code
+	* @param body        text of the message
+	* @param createdAt   timestamp of creation
+	* @return newly created message
+	* @throws Exception
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Message addMessage(
-		long cid, long creatorId, java.lang.String body,
+		long cid, long creatorId, int messageType, java.lang.String body,
 		java.util.Date createdAt) throws java.lang.Exception {
-		return _messageLocalService.addMessage(cid, creatorId, body, createdAt);
+		return _messageLocalService.addMessage(cid, creatorId, messageType,
+			body, createdAt);
 	}
 
 	/**

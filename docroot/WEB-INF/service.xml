@@ -24,7 +24,7 @@
         <column name='sid' type='long' primary='true'/>
         <column name='userId' type='long'/>
         <column name='presence' type='String'/>
-        <column name="presenceUpdatedAt" type="long" />
+        <column name="presenceUpdatedAt" type="long"/>
         <column name='mute' type='boolean'/>
         <column name='chatEnabled' type='boolean'/>
         <column name='adminAreaOpened' type='boolean'/>
@@ -54,6 +54,7 @@
     <entity name='Message' local-service='true' remote-service='false'>
         <column name='mid' type='long' primary='true'/>
         <column name='cid' type='long'/>
+        <column name='messageType' type='int'/>
         <column name='creatorId' type='long'/>
         <column name='createdAt' type='Date'/>
         <column name='body' type='String'/>

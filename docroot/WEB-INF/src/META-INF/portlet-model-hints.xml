@@ -12,6 +12,7 @@
 	<model name="com.marcelmika.lims.persistence.generated.model.Message">
 		<field name="mid" type="long" />
 		<field name="cid" type="long" />
+		<field name="messageType" type="int" />
 		<field name="creatorId" type="long" />
 		<field name="createdAt" type="Date" />
 		<field name="body" type="String">

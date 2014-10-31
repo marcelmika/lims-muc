@@ -274,10 +274,22 @@ public class MessageLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* Adds a message to the persistence
+	*
+	* @param cid         conversation id
+	* @param creatorId   user id of the creator of the message
+	* @param messageType type of the message code
+	* @param body        text of the message
+	* @param createdAt   timestamp of creation
+	* @return newly created message
+	* @throws Exception
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Message addMessage(
-		long cid, long creatorId, java.lang.String body,
+		long cid, long creatorId, int messageType, java.lang.String body,
 		java.util.Date createdAt) throws java.lang.Exception {
-		return getService().addMessage(cid, creatorId, body, createdAt);
+		return getService()
+				   .addMessage(cid, creatorId, messageType, body, createdAt);
 	}
 
 	/**

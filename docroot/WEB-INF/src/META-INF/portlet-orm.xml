@@ -24,6 +24,7 @@
 		<attributes>
 			<id name="mid" />
 			<basic name="cid" />
+			<basic name="messageType" />
 			<basic name="creatorId" />
 			<basic name="createdAt">
 				<temporal>TIMESTAMP</temporal>

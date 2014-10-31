@@ -314,6 +314,7 @@
         <![CDATA[
 			SELECT
 				Limsmuc_Message.mid AS mid,
+				Limsmuc_Message.messageType AS messageType,
 				Limsmuc_Message.creatorId AS creatorId,
 				Limsmuc_Message.createdAt AS createdAd,
 				Limsmuc_Message.body AS body
@@ -344,6 +345,7 @@
         <![CDATA[
 			SELECT
                 Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.messageType AS messageType,
                 Limsmuc_Message.creatorId AS creatorId,
                 Limsmuc_Message.createdAt AS createdAd,
                 Limsmuc_Message.body AS body
@@ -366,6 +368,7 @@
         <![CDATA[
 			SELECT
                 Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.messageType AS messageType,
                 Limsmuc_Message.creatorId AS creatorId,
                 Limsmuc_Message.createdAt AS createdAd,
                 Limsmuc_Message.body AS body
@@ -418,7 +421,7 @@
 		]]>
     </sql>
 
-    <!-- Counts conversations where the user participates. Doesn't include conversation where ther's no message -->
+    <!-- Counts conversations where the user participates. Doesn't include conversation where there's no message -->
     <sql id="com.marcelmika.lims.persistence.generated.service.persistence.ParticipantFinder.countParticipatedConversations">
         <![CDATA[
             SELECT

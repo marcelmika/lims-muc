@@ -44,6 +44,7 @@ public class Message {
     private String conversationId;
     private String body;
     private Date createdAt;
+    private MessageType messageType;
 
     /**
      * Factory method which creates a list of Messages from a list of MessageDetails
@@ -81,6 +82,10 @@ public class Message {
             message.from = Buddy.fromBuddyDetails(details.getFrom());
         }
 
+        if (details.getMessageType() != null) {
+            message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
+        }
+
         return message;
     }
 
@@ -102,7 +107,19 @@ public class Message {
             details.setFrom(from.toBuddyDetails());
         }
 
+        if (messageType != null) {
+            details.setMessageType(messageType.toMessageTypeDetails());
+        }
+
         return details;
+    }
+
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     public Long getMessageId() {
@@ -153,6 +170,7 @@ public class Message {
                 ", conversationId='" + conversationId + '\'' +
                 ", body='" + body + '\'' +
                 ", createdAt=" + createdAt +
+                ", messageType=" + messageType.getDescription() +
                 '}';
     }
 }

@@ -62,11 +62,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "mid", Types.BIGINT },
 			{ "cid", Types.BIGINT },
+			{ "messageType", Types.INTEGER },
 			{ "creatorId", Types.BIGINT },
 			{ "createdAt", Types.TIMESTAMP },
 			{ "body", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,creatorId LONG,createdAt DATE null,body TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,messageType INTEGER,creatorId LONG,createdAt DATE null,body TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Message";
 	public static final String ORDER_BY_JPQL = " ORDER BY message.createdAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Message.createdAt ASC";
@@ -127,6 +128,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		attributes.put("mid", getMid());
 		attributes.put("cid", getCid());
+		attributes.put("messageType", getMessageType());
 		attributes.put("creatorId", getCreatorId());
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
@@ -146,6 +148,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		if (cid != null) {
 			setCid(cid);
+		}
+
+		Integer messageType = (Integer)attributes.get("messageType");
+
+		if (messageType != null) {
+			setMessageType(messageType);
 		}
 
 		Long creatorId = (Long)attributes.get("creatorId");
@@ -197,6 +205,16 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	public long getOriginalCid() {
 		return _originalCid;
+	}
+
+	@Override
+	public int getMessageType() {
+		return _messageType;
+	}
+
+	@Override
+	public void setMessageType(int messageType) {
+		_messageType = messageType;
 	}
 
 	@Override
@@ -281,6 +299,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageImpl.setMid(getMid());
 		messageImpl.setCid(getCid());
+		messageImpl.setMessageType(getMessageType());
 		messageImpl.setCreatorId(getCreatorId());
 		messageImpl.setCreatedAt(getCreatedAt());
 		messageImpl.setBody(getBody());
@@ -353,6 +372,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageCacheModel.cid = getCid();
 
+		messageCacheModel.messageType = getMessageType();
+
 		messageCacheModel.creatorId = getCreatorId();
 
 		Date createdAt = getCreatedAt();
@@ -377,12 +398,14 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{mid=");
 		sb.append(getMid());
 		sb.append(", cid=");
 		sb.append(getCid());
+		sb.append(", messageType=");
+		sb.append(getMessageType());
 		sb.append(", creatorId=");
 		sb.append(getCreatorId());
 		sb.append(", createdAt=");
@@ -396,7 +419,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Message");
@@ -409,6 +432,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		sb.append(
 			"<column><column-name>cid</column-name><column-value><![CDATA[");
 		sb.append(getCid());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>messageType</column-name><column-value><![CDATA[");
+		sb.append(getMessageType());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>creatorId</column-name><column-value><![CDATA[");
@@ -436,6 +463,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private long _cid;
 	private long _originalCid;
 	private boolean _setOriginalCid;
+	private int _messageType;
 	private long _creatorId;
 	private long _originalCreatorId;
 	private boolean _setOriginalCreatorId;

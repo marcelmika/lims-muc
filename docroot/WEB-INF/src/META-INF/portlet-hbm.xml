@@ -22,6 +22,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="cid" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="messageType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="creatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createdAt" type="org.hibernate.type.TimestampType" />
 		<property name="body" type="com.liferay.portal.dao.orm.hibernate.StringType" />

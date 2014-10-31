@@ -51,6 +51,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		attributes.put("mid", getMid());
 		attributes.put("cid", getCid());
+		attributes.put("messageType", getMessageType());
 		attributes.put("creatorId", getCreatorId());
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
@@ -70,6 +71,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		if (cid != null) {
 			setCid(cid);
+		}
+
+		Integer messageType = (Integer)attributes.get("messageType");
+
+		if (messageType != null) {
+			setMessageType(messageType);
 		}
 
 		Long creatorId = (Long)attributes.get("creatorId");
@@ -149,6 +156,26 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public void setCid(long cid) {
 		_message.setCid(cid);
+	}
+
+	/**
+	* Returns the message type of this message.
+	*
+	* @return the message type of this message
+	*/
+	@Override
+	public int getMessageType() {
+		return _message.getMessageType();
+	}
+
+	/**
+	* Sets the message type of this message.
+	*
+	* @param messageType the message type of this message
+	*/
+	@Override
+	public void setMessageType(int messageType) {
+		_message.setMessageType(messageType);
 	}
 
 	/**

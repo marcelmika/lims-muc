@@ -497,6 +497,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Add new message to the conversation
             model.addMessage(new Y.LIMS.Model.MessageItemModel({
+                messageType: 'REGULAR',
                 from: buddyDetails,
                 body: message,
                 createdAt: createdAt
