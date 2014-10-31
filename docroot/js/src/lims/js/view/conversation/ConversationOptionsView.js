@@ -49,7 +49,13 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
     showView: function (callback) {
         // Vars
         var animation = this.get('openAnimation'),
+            containerHeight = this.get('containerHeight'),
             event;
+
+        // Update the height
+        animation.setAttrs({
+            to: { height: containerHeight}
+        });
 
         // Call back when animation ends
         event = animation.after('end', function () {
@@ -69,7 +75,13 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
     hideView: function (callback) {
         // Vars
         var animation = this.get('closeAnimation'),
+            containerHeight = this.get('containerHeight'),
             event;
+
+        // Update the height
+        animation.setAttrs({
+            from: { height: containerHeight}
+        });
 
         // Call back when animation ends
         event = animation.after('end', function () {
@@ -104,7 +116,8 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
      */
     _attachEvents: function () {
         // Vars
-        var optionAddMore = this.get('optionAddMore'),
+        var model = this.get('model'),
+            optionAddMore = this.get('optionAddMore'),
             optionLeaveConversation = this.get('optionLeaveConversation');
 
         // Local events
@@ -115,6 +128,39 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
         if (optionLeaveConversation) {
             optionLeaveConversation.on('click', this._onOptionLeaveConversationClick, this);
         }
+
+        model.on('readSuccess', this._onModelReadSuccess, this);
+    },
+
+    /**
+     * Decides with options should be displayed and layouts subviews
+     *
+     * @private
+     */
+    _layoutSubviews: function () {
+        // Vars
+        var optionLeaveConversation = this.get('optionLeaveConversation'),
+            model = this.get('model'),
+            optionsCount,
+            optionsSize = 30,
+            container = this.get('container'),
+            bottomPadding = 2, // Padding added to the bottom of the container
+            height;
+
+        // This is a options related to the single user conversation
+        if (model.get('conversationType') === 'SINGLE_USER') {
+            // SUC doesn't have the leave conversation option
+            optionLeaveConversation.remove();
+        }
+
+        // Get the number of all options
+        optionsCount = container.all('li').size();
+
+        // Calculate container's height
+        height = optionsSize * optionsCount + bottomPadding;
+
+        // Remember the height
+        this.set('containerHeight', height);
     },
 
     /**
@@ -133,6 +179,15 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
      */
     _onOptionLeaveConversationClick: function () {
         this.fire('optionLeaveConversationClick', this);
+    },
+
+    /**
+     * Called when the model is successfully read
+     *
+     * @private
+     */
+    _onModelReadSuccess: function () {
+        this._layoutSubviews();
     }
 
 }, {
@@ -147,22 +202,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
         container: {
             valueFn: function () {
                 // Vars
-                var container = Y.Node.create(this.template),
-                    model = this.get('model'),
-                    bottomPadding = 7, // Padding added to the bottom of the container
-                    height;
-
-                // This is a options related to the single user conversation
-                if (model.get('conversationType') === 'SINGLE_USER') {
-                    // SUC doesn't have the leave conversation option
-                    container.one('.leave-conversation').remove();
-                }
-
-                // Calculate container's height
-                height = Y.LIMS.Core.Util.calculateHeight(container) + bottomPadding;
-
-                // Remember the height
-                this.set('containerHeight', height);
+                var container = Y.Node.create(this.template);
 
                 // Hide the node since it's going to be set visible
                 // whenever the user clicks on the option button
