@@ -134,6 +134,27 @@ public interface ParticipantModel extends BaseModel<Participant> {
 	public void setIsOpened(boolean isOpened);
 
 	/**
+	 * Returns the has left of this participant.
+	 *
+	 * @return the has left of this participant
+	 */
+	public boolean getHasLeft();
+
+	/**
+	 * Returns <code>true</code> if this participant is has left.
+	 *
+	 * @return <code>true</code> if this participant is has left; <code>false</code> otherwise
+	 */
+	public boolean isHasLeft();
+
+	/**
+	 * Sets whether this participant is has left.
+	 *
+	 * @param hasLeft the has left of this participant
+	 */
+	public void setHasLeft(boolean hasLeft);
+
+	/**
 	 * Returns the opened at of this participant.
 	 *
 	 * @return the opened at of this participant

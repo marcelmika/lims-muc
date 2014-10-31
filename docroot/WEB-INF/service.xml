@@ -75,6 +75,7 @@
         <column name='participantId' type='long'/>
         <column name='unreadMessagesCount' type='int'/>
         <column name='isOpened' type='boolean'/>
+        <column name='hasLeft' type='boolean'/>
         <column name='openedAt' type='long'/>
         <order>
             <order-column name="openedAt" order-by="asc"/>

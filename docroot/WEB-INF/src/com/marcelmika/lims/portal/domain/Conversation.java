@@ -184,7 +184,7 @@ public class Conversation {
         }
         // Multi user conversation title
         else if (conversationType == ConversationType.MULTI_USER) {
-            title = generateMUCTitle(filteredParticipants);
+            title = generateMUCTitle(filteredParticipants, buddy);
         }
 
         return title;
@@ -309,14 +309,22 @@ public class Conversation {
      * Generates multi user chat title from the list of participants
      *
      * @param participants a list of participants
+     * @param buddy used when no participants are in the conversation
      * @return MUC title of "-" if an empty list of participants was passed
      */
-    private String generateMUCTitle(List<Buddy> participants) {
+    private String generateMUCTitle(List<Buddy> participants, Buddy buddy) {
 
-        String title = "-"; // Default
+        String title;
 
-        if (participants.size() < 2) {
-            title = "-";
+        // No participants means that the user is left alone in the conversation
+        if (participants.size() == 0) {
+            title = buddy.getFullName();
+        }
+
+        // One participants in the MUC conversation means that
+        // the other participants have left
+        else if (participants.size() == 1) {
+            title = participants.get(0).getFullName();
         }
 
         // We have exactly two participants

@@ -177,6 +177,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                 success: function () {
                     // Call the success
                     callback(null, instance);
+
+                    // Fire an event
+                    instance.fire('leaveConversationSuccess', instance);
                 },
                 failure: function (x, o) {
                     // If the attempt is unauthorized session has expired
@@ -184,6 +187,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                         // Notify everybody else
                         Y.fire('userSessionExpired');
                     }
+
+                    // Fire an event
+                    instance.fire('leaveConversationError', instance);
 
                     // Call error
                     callback('cannot leave conversation', instance);

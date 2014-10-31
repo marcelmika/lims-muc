@@ -78,6 +78,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 		attributes.put("participantId", getParticipantId());
 		attributes.put("unreadMessagesCount", getUnreadMessagesCount());
 		attributes.put("isOpened", getIsOpened());
+		attributes.put("hasLeft", getHasLeft());
 		attributes.put("openedAt", getOpenedAt());
 
 		return attributes;
@@ -114,6 +115,12 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 
 		if (isOpened != null) {
 			setIsOpened(isOpened);
+		}
+
+		Boolean hasLeft = (Boolean)attributes.get("hasLeft");
+
+		if (hasLeft != null) {
+			setHasLeft(hasLeft);
 		}
 
 		Long openedAt = (Long)attributes.get("openedAt");
@@ -245,6 +252,34 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 	}
 
 	@Override
+	public boolean getHasLeft() {
+		return _hasLeft;
+	}
+
+	@Override
+	public boolean isHasLeft() {
+		return _hasLeft;
+	}
+
+	@Override
+	public void setHasLeft(boolean hasLeft) {
+		_hasLeft = hasLeft;
+
+		if (_participantRemoteModel != null) {
+			try {
+				Class<?> clazz = _participantRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setHasLeft", boolean.class);
+
+				method.invoke(_participantRemoteModel, hasLeft);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getOpenedAt() {
 		return _openedAt;
 	}
@@ -341,6 +376,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 		clone.setParticipantId(getParticipantId());
 		clone.setUnreadMessagesCount(getUnreadMessagesCount());
 		clone.setIsOpened(getIsOpened());
+		clone.setHasLeft(getHasLeft());
 		clone.setOpenedAt(getOpenedAt());
 
 		return clone;
@@ -396,7 +432,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{pid=");
 		sb.append(getPid());
@@ -408,6 +444,8 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 		sb.append(getUnreadMessagesCount());
 		sb.append(", isOpened=");
 		sb.append(getIsOpened());
+		sb.append(", hasLeft=");
+		sb.append(getHasLeft());
 		sb.append(", openedAt=");
 		sb.append(getOpenedAt());
 		sb.append("}");
@@ -417,7 +455,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Participant");
@@ -444,6 +482,10 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 		sb.append(getIsOpened());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>hasLeft</column-name><column-value><![CDATA[");
+		sb.append(getHasLeft());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>openedAt</column-name><column-value><![CDATA[");
 		sb.append(getOpenedAt());
 		sb.append("]]></column-value></column>");
@@ -458,6 +500,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 	private long _participantId;
 	private int _unreadMessagesCount;
 	private boolean _isOpened;
+	private boolean _hasLeft;
 	private long _openedAt;
 	private BaseModel<?> _participantRemoteModel;
 }

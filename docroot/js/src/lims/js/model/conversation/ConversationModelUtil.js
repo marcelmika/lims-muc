@@ -101,8 +101,8 @@ var ConversationModelUtil = {
         var title;
 
         // This is a MUC title, there needs to be at leas two participants
-        if (participants.length < 2) {
-            title = '-';
+        if (participants.length === 1) {
+            title = participants[0].get('fullName');
         }
         // We have exactly two participants
         else if (participants.length === 2) {

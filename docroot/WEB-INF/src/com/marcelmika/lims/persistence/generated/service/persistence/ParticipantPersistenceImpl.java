@@ -2219,6 +2219,7 @@ public class ParticipantPersistenceImpl extends BasePersistenceImpl<Participant>
 		participantImpl.setParticipantId(participant.getParticipantId());
 		participantImpl.setUnreadMessagesCount(participant.getUnreadMessagesCount());
 		participantImpl.setIsOpened(participant.isIsOpened());
+		participantImpl.setHasLeft(participant.isHasLeft());
 		participantImpl.setOpenedAt(participant.getOpenedAt());
 
 		return participantImpl;

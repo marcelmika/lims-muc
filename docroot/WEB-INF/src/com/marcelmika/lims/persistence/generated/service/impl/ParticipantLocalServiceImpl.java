@@ -24,6 +24,7 @@ import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.model.Participant;
 import com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl;
+import com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.ParticipantLocalServiceBaseImpl;
 
@@ -272,5 +273,29 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      */
     public Integer getConversationsCount(Long participantId) throws Exception {
         return participantFinder.countParticipatedConversations(participantId);
+    }
+
+    /**
+     * Leaves the conversation for the given participant
+     *
+     * @param cid           id of the conversation
+     * @param participantId id of the participant
+     * @throws Exception
+     */
+    public void leaveConversation(Long cid, Long participantId) throws Exception {
+        // Try to find participant
+        Participant participantModel = participantPersistence.findByCidParticipantId(cid, participantId);
+
+        if (participantModel != null) {
+
+            // Set the has left flag to true
+            participantModel.setHasLeft(true);
+
+            // Save
+            participantPersistence.update(participantModel, false);
+
+            // Update conversation timestamp
+            ConversationLocalServiceUtil.updateConversationTimestamp(cid);
+        }
     }
 }

@@ -189,6 +189,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             model.on('createError', this._onConversationCreateError, this);
             model.on('readSuccess', this._onConversationReadSuccess, this);
             model.on('readError', this._onConversationReadError, this);
+            model.on('leaveConversationSuccess', this._onConversationLeaveSuccess, this);
             createErrorView.on('resendButtonClick', this._onConversationCreateRetry, this);
             readErrorView.on('resendButtonClick', this._onConversationReadRetry, this);
             panelTitleText.on('mouseenter', this._onPanelTitleTextMouseEnter, this);
@@ -235,6 +236,42 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             var timer = this.get('timer');
             // Pause
             clearTimeout(timer);
+        },
+
+        /**
+         * Updates title of the panel
+         *
+         * @private
+         */
+        _updatePanelTitle: function () {
+            // Vars
+            var model = this.get('model'),
+                buddyDetails = this.get('buddyDetails'),
+                participants = model.get('participants'),
+                filteredParticipants,
+                conversationTitle,
+                panelTitleText = this.get('panelTitleText'),
+                panelTriggerText = this.get('panelTriggerText');
+
+
+            // Participants contain the currently logged user as well.
+            // Thus we need to filter him first.
+            filteredParticipants = participants.filter(function (participant) {
+                return buddyDetails.get('buddyId') !== participant.get('buddyId');
+            });
+
+            // The logged user is the only remaining participant
+            if (filteredParticipants.length === 0) {
+                conversationTitle = buddyDetails.get('fullName');
+            }
+            // There some participants
+            else {
+                conversationTitle = Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(filteredParticipants);
+            }
+
+            // Re-render
+            panelTitleText.set('innerHTML', conversationTitle);
+            panelTriggerText.set('innerHTML', conversationTitle);
         },
 
         /**
@@ -308,6 +345,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsButton.show();
             // Show the panel input so the user can post messages
             listView.showView();
+            // Update title
+            this._updatePanelTitle();
         },
 
         /**
@@ -331,6 +370,16 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsButton.hide();
             // Hide the panel input. We don't want users to post any messages now
             listView.hideView();
+        },
+
+        /**
+         * Called when the user leaves the conversation
+         *
+         * @private
+         */
+        _onConversationLeaveSuccess: function () {
+            // Close the panel
+            this.getPanel().close();
         },
 
         /**
@@ -798,6 +847,28 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTitleText: {
                 valueFn: function () {
                     return this.get('panelTitle').one('.panel-title-text');
+                }
+            },
+
+            /**
+             * Panel trigger node
+             *
+             * {Node}
+             */
+            panelTrigger: {
+                valueFn: function () {
+                    return this.get('container').one('.panel-trigger');
+                }
+            },
+
+            /**
+             * Panel trigger node
+             *
+             * {Node}
+             */
+            panelTriggerText: {
+                valueFn: function () {
+                    return this.get('panelTrigger').one('.trigger-name');
                 }
             },
 

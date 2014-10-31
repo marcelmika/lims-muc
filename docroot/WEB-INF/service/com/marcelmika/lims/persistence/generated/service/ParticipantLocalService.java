@@ -366,4 +366,14 @@ public interface ParticipantLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.lang.Integer getConversationsCount(java.lang.Long participantId)
 		throws java.lang.Exception;
+
+	/**
+	* Leaves the conversation for the given participant
+	*
+	* @param cid           id of the conversation
+	* @param participantId id of the participant
+	* @throws Exception
+	*/
+	public void leaveConversation(java.lang.Long cid,
+		java.lang.Long participantId) throws java.lang.Exception;
 }

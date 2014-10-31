@@ -54,6 +54,7 @@ public class ParticipantWrapper implements Participant,
 		attributes.put("participantId", getParticipantId());
 		attributes.put("unreadMessagesCount", getUnreadMessagesCount());
 		attributes.put("isOpened", getIsOpened());
+		attributes.put("hasLeft", getHasLeft());
 		attributes.put("openedAt", getOpenedAt());
 
 		return attributes;
@@ -90,6 +91,12 @@ public class ParticipantWrapper implements Participant,
 
 		if (isOpened != null) {
 			setIsOpened(isOpened);
+		}
+
+		Boolean hasLeft = (Boolean)attributes.get("hasLeft");
+
+		if (hasLeft != null) {
+			setHasLeft(hasLeft);
 		}
 
 		Long openedAt = (Long)attributes.get("openedAt");
@@ -227,6 +234,36 @@ public class ParticipantWrapper implements Participant,
 	@Override
 	public void setIsOpened(boolean isOpened) {
 		_participant.setIsOpened(isOpened);
+	}
+
+	/**
+	* Returns the has left of this participant.
+	*
+	* @return the has left of this participant
+	*/
+	@Override
+	public boolean getHasLeft() {
+		return _participant.getHasLeft();
+	}
+
+	/**
+	* Returns <code>true</code> if this participant is has left.
+	*
+	* @return <code>true</code> if this participant is has left; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isHasLeft() {
+		return _participant.isHasLeft();
+	}
+
+	/**
+	* Sets whether this participant is has left.
+	*
+	* @param hasLeft the has left of this participant
+	*/
+	@Override
+	public void setHasLeft(boolean hasLeft) {
+		_participant.setHasLeft(hasLeft);
 	}
 
 	/**

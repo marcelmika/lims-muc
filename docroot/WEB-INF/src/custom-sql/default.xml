@@ -399,6 +399,7 @@
                 Limsmuc_Conversation ON (Limsmuc_Conversation.cid = Limsmuc_Participant.cid)
             WHERE
                 Limsmuc_Participant.participantId = ?
+                AND Limsmuc_Participant.hasLeft = [$FALSE$]
                 AND (Limsmuc_Conversation.cid IN
                     (
                         SELECT
@@ -409,6 +410,7 @@
                             Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
                         WHERE
                             Limsmuc_Participant.participantId = ?
+                            AND Limsmuc_Participant.hasLeft = [$FALSE$]
                     )
                 )
             ORDER BY
@@ -427,6 +429,7 @@
                 Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
             WHERE
                 Limsmuc_Participant.participantId = ?
+                AND Limsmuc_Participant.hasLeft = [$FALSE$]
 		]]>
     </sql>
 

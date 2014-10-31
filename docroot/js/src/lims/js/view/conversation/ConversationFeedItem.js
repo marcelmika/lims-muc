@@ -140,16 +140,22 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             return buddyDetails.get('buddyId') !== participant.get('buddyId');
         });
 
-        // Only if such user was found. In reality portrait user should always be
-        // different from null. Thus this is just a defensive programming check.
+        // If there are any participants in the conversation render them
         if (renderedUsers.length > 0) {
             // Create portrait view
             portraitView = new Y.LIMS.View.PortraitView({users: renderedUsers});
-            // Render
-            portraitView.render();
-            // Return the HTML
-            return portraitView.get('container').get('outerHTML');
         }
+        // If there is no participants, it means that the only participants left is
+        // the logged buddy himself
+        else {
+            // Create portrait view
+            portraitView = new Y.LIMS.View.PortraitView({users: [buddyDetails]});
+        }
+
+        // Render
+        portraitView.render();
+        // Return the HTML
+        return portraitView.get('container').get('outerHTML');
     },
 
     /**

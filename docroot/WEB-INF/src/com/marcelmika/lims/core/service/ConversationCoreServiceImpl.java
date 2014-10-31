@@ -173,7 +173,8 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      */
     @Override
     public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event) {
-        throw new NotImplementedException();
+        // Save to persistence
+        return conversationPersistenceService.leaveConversation(event);
     }
 
     /**

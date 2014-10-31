@@ -62,9 +62,10 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 			{ "participantId", Types.BIGINT },
 			{ "unreadMessagesCount", Types.INTEGER },
 			{ "isOpened", Types.BOOLEAN },
+			{ "hasLeft", Types.BOOLEAN },
 			{ "openedAt", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,openedAt LONG)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,hasLeft BOOLEAN,openedAt LONG)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Participant";
 	public static final String ORDER_BY_JPQL = " ORDER BY participant.openedAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Participant.openedAt ASC";
@@ -129,6 +130,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		attributes.put("participantId", getParticipantId());
 		attributes.put("unreadMessagesCount", getUnreadMessagesCount());
 		attributes.put("isOpened", getIsOpened());
+		attributes.put("hasLeft", getHasLeft());
 		attributes.put("openedAt", getOpenedAt());
 
 		return attributes;
@@ -165,6 +167,12 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 		if (isOpened != null) {
 			setIsOpened(isOpened);
+		}
+
+		Boolean hasLeft = (Boolean)attributes.get("hasLeft");
+
+		if (hasLeft != null) {
+			setHasLeft(hasLeft);
 		}
 
 		Long openedAt = (Long)attributes.get("openedAt");
@@ -266,6 +274,21 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	}
 
 	@Override
+	public boolean getHasLeft() {
+		return _hasLeft;
+	}
+
+	@Override
+	public boolean isHasLeft() {
+		return _hasLeft;
+	}
+
+	@Override
+	public void setHasLeft(boolean hasLeft) {
+		_hasLeft = hasLeft;
+	}
+
+	@Override
 	public long getOpenedAt() {
 		return _openedAt;
 	}
@@ -313,6 +336,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		participantImpl.setParticipantId(getParticipantId());
 		participantImpl.setUnreadMessagesCount(getUnreadMessagesCount());
 		participantImpl.setIsOpened(getIsOpened());
+		participantImpl.setHasLeft(getHasLeft());
 		participantImpl.setOpenedAt(getOpenedAt());
 
 		participantImpl.resetOriginalValues();
@@ -401,6 +425,8 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 		participantCacheModel.isOpened = getIsOpened();
 
+		participantCacheModel.hasLeft = getHasLeft();
+
 		participantCacheModel.openedAt = getOpenedAt();
 
 		return participantCacheModel;
@@ -408,7 +434,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{pid=");
 		sb.append(getPid());
@@ -420,6 +446,8 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		sb.append(getUnreadMessagesCount());
 		sb.append(", isOpened=");
 		sb.append(getIsOpened());
+		sb.append(", hasLeft=");
+		sb.append(getHasLeft());
 		sb.append(", openedAt=");
 		sb.append(getOpenedAt());
 		sb.append("}");
@@ -429,7 +457,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Participant");
@@ -456,6 +484,10 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		sb.append(getIsOpened());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>hasLeft</column-name><column-value><![CDATA[");
+		sb.append(getHasLeft());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>openedAt</column-name><column-value><![CDATA[");
 		sb.append(getOpenedAt());
 		sb.append("]]></column-value></column>");
@@ -480,6 +512,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	private boolean _isOpened;
 	private boolean _originalIsOpened;
 	private boolean _setOriginalIsOpened;
+	private boolean _hasLeft;
 	private long _openedAt;
 	private long _columnBitmask;
 	private Participant _escapedModel;

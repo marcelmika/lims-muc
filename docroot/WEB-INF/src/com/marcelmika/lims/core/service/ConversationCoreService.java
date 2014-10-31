@@ -99,10 +99,8 @@ public interface ConversationCoreService {
      *
      * @param event request event for method
      * @return response event for method
-     * @deprecated
      */
     public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
-
 
     /**
      * Adds buddies to the conversation

@@ -34,22 +34,74 @@ import com.marcelmika.lims.api.events.ResponseEvent;
  */
 public class LeaveConversationResponseEvent extends ResponseEvent {
 
-    public static LeaveConversationResponseEvent leaveConversationSuccess(String result) {
+    private Status status;
+
+    public enum Status {
+        SUCCESS, // Event was successful
+        ERROR_NOT_FOUND, // Such conversation was not found
+        ERROR_NOT_MUC, // Conversation is not of the multi user chat type
+        ERROR_WRONG_PARAMETERS, // Wrong input parameters
+        ERROR_NO_SESSION, // User does not have a session
+        ERROR_PERSISTENCE, // Error with persistence occurred
+    }
+
+    /**
+     * Constructor is private. Use factory methods to create new success or failure instances
+     */
+    private LeaveConversationResponseEvent() {
+        // No params
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @return ResponseEvent
+     */
+    public static LeaveConversationResponseEvent success() {
         LeaveConversationResponseEvent event = new LeaveConversationResponseEvent();
-        event.result = result;
+
+        event.status = Status.SUCCESS;
         event.success = true;
 
         return event;
     }
 
-    public static LeaveConversationResponseEvent leaveConversationFailure(String result, Throwable exception) {
+    /**
+     * Factory method for failure status
+     *
+     * @param status Status
+     * @return ResponseEvent
+     */
+    public static LeaveConversationResponseEvent failure(final Status status) {
         LeaveConversationResponseEvent event = new LeaveConversationResponseEvent();
-        event.result = result;
+
         event.success = false;
+        event.status = status;
+
+        return event;
+    }
+
+    /**
+     * Factory method for failure status
+     *
+     * @param status    Status
+     * @param exception Exception
+     * @return ResponseEvent
+     */
+    public static LeaveConversationResponseEvent failure(final Status status,
+                                                         final Throwable exception) {
+
+        LeaveConversationResponseEvent event = new LeaveConversationResponseEvent();
+
+        event.success = false;
+        event.status = status;
         event.exception = exception;
 
         return event;
     }
 
+    public Status getStatus() {
+        return status;
+    }
 
 }

@@ -35,11 +35,24 @@ import com.marcelmika.lims.api.entity.ConversationTypeDetails;
 public enum ConversationType {
 
     // Possible Values
-    SINGLE_USER(0),
-    MULTI_USER(1),
-    UNRECOGNIZED(2);
+    SINGLE_USER(0, "SINGLE_USER"),
+    MULTI_USER(1, "MULTI_USER"),
+    UNRECOGNIZED(2, "UNRECOGNIZED");
     // Current value
     private int code;
+    private String description;
+
+
+    /**
+     * Private constructor
+     *
+     * @param code        int
+     * @param description String
+     */
+    private ConversationType(final int code, final String description) {
+        this.code = code;
+        this.description = description;
+    }
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -71,11 +84,11 @@ public enum ConversationType {
     public static ConversationType fromString(String string) {
 
         // Single user chat
-        if (string.equals("SINGLE_USER")) {
+        if (string.equals(ConversationType.SINGLE_USER.getDescription())) {
             return ConversationType.SINGLE_USER;
         }
         // Multi user chat
-        else if (string.equals("MULTI_USER")) {
+        else if (string.equals(ConversationType.MULTI_USER.getDescription())) {
             return ConversationType.MULTI_USER;
         }
         // Unrecognized
@@ -104,11 +117,13 @@ public enum ConversationType {
     // Getters/Setters
     // -------------------------------------------------------------------------------------------
 
-    private ConversationType(int code) {
-        this.code = code;
+
+    public String getDescription() {
+        return description;
     }
 
     public int getCode() {
         return code;
     }
+
 }

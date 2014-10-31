@@ -487,6 +487,74 @@ public class ConversationController {
     }
 
     /**
+     * Leave conversation
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void leaveConversation(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;                                // Authorized user
+        LeaveConversationParameters parameters;     // Request parameters
+
+        // Deserialize
+        try {
+            // Buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+
+            // Deserialize Parameters
+            parameters = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS), LeaveConversationParameters.class
+            );
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            log.debug(exception);
+            // End here
+            return;
+        }
+
+        // Add to system
+        LeaveConversationResponseEvent responseEvent = conversationCoreService.leaveConversation(
+                new LeaveConversationRequestEvent(buddy.toBuddyDetails(), parameters.getConversationId())
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Write success to response
+            ResponseUtil.writeResponse(HttpStatus.OK, response);
+        }
+        // Failure
+        else {
+            LeaveConversationResponseEvent.Status status = responseEvent.getStatus();
+            // Unauthorized
+            if (status == LeaveConversationResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+            }
+            // Not found
+            else if (status == LeaveConversationResponseEvent.Status.ERROR_NOT_FOUND) {
+                ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            }
+            // Bad Request
+            else if (status == LeaveConversationResponseEvent.Status.ERROR_NOT_MUC ||
+                    status == LeaveConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Everything else is a server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getException());
+                }
+            }
+        }
+    }
+
+    /**
      * Create new message in conversation
      *
      * @param request  ResourceRequest

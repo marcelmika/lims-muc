@@ -409,6 +409,18 @@ public class ParticipantLocalServiceUtil {
 		return getService().getConversationsCount(participantId);
 	}
 
+	/**
+	* Leaves the conversation for the given participant
+	*
+	* @param cid           id of the conversation
+	* @param participantId id of the participant
+	* @throws Exception
+	*/
+	public static void leaveConversation(java.lang.Long cid,
+		java.lang.Long participantId) throws java.lang.Exception {
+		getService().leaveConversation(cid, participantId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

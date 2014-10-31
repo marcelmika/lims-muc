@@ -430,6 +430,19 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	}
 
 	/**
+	* Leaves the conversation for the given participant
+	*
+	* @param cid           id of the conversation
+	* @param participantId id of the participant
+	* @throws Exception
+	*/
+	@Override
+	public void leaveConversation(java.lang.Long cid,
+		java.lang.Long participantId) throws java.lang.Exception {
+		_participantLocalService.leaveConversation(cid, participantId);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public ParticipantLocalService getWrappedParticipantLocalService() {

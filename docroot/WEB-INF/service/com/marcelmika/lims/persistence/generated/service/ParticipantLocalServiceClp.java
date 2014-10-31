@@ -163,6 +163,12 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		_methodName27 = "getConversationsCount";
 
 		_methodParameterTypes27 = new String[] { "java.lang.Long" };
+
+		_methodName28 = "leaveConversation";
+
+		_methodParameterTypes28 = new String[] {
+				"java.lang.Long", "java.lang.Long"
+			};
 	}
 
 	@Override
@@ -1036,6 +1042,35 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		return (java.lang.Integer)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public void leaveConversation(java.lang.Long cid,
+		java.lang.Long participantId) throws java.lang.Exception {
+		try {
+			_invokableLocalService.invokeMethod(_methodName28,
+				_methodParameterTypes28,
+				new Object[] {
+					ClpSerializer.translateInput(cid),
+					
+				ClpSerializer.translateInput(participantId)
+				});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -1091,4 +1126,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	private String[] _methodParameterTypes26;
 	private String _methodName27;
 	private String[] _methodParameterTypes27;
+	private String _methodName28;
+	private String[] _methodParameterTypes28;
 }

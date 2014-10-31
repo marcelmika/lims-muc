@@ -193,6 +193,12 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Map participants to buddies
             List<Buddy> buddies = new LinkedList<Buddy>();
             for (Participant participant : participants) {
+
+                // Do not include participants that have left
+                if (participant.getHasLeft()) {
+                    continue;
+                }
+
                 // Find user in Liferay
                 User user = UserLocalServiceUtil.getUser(participant.getParticipantId());
                 // Map Liferay user to buddy
@@ -297,6 +303,55 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     }
 
     /**
+     * Removes buddy from the conversation
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    @Override
+    public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event) {
+        // Map to persistence objects
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+
+        // Save to persistence
+        try {
+            // Find conversation. Since each message is related to the conversation we need to find it first
+            com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
+                    ConversationLocalServiceUtil.getConversation(event.getConversationId());
+
+            // No such conversation was found
+            if (conversationModel == null) {
+                return LeaveConversationResponseEvent.failure(
+                        LeaveConversationResponseEvent.Status.ERROR_NOT_FOUND
+                );
+            }
+
+
+            // Check if the conversation is of the multi user type
+            if (ConversationType.fromString(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
+                return LeaveConversationResponseEvent.failure(
+                        LeaveConversationResponseEvent.Status.ERROR_NOT_MUC
+                );
+            }
+
+            // TODO: Check if the user is in the conversation
+
+            // Leave the conversation
+            ParticipantLocalServiceUtil.leaveConversation(conversationModel.getCid(), buddy.getBuddyId());
+
+            // Return success
+            return LeaveConversationResponseEvent.success();
+        }
+        // Failure
+        catch (Exception exception) {
+            // Return failure
+            return LeaveConversationResponseEvent.failure(
+                    LeaveConversationResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
      * Creates message within the conversation
      *
      * @param event request event for method
@@ -342,7 +397,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Call Success
             return SendMessageResponseEvent.sendMessageSuccess(successMessage.toMessageDetails());
 
-        } catch (Exception exception) {
+        }
+        // Failure
+        catch (Exception exception) {
             // Call Failure
             return SendMessageResponseEvent.sendMessageFailure(
                     SendMessageResponseEvent.Status.ERROR_PERSISTENCE, exception
@@ -375,9 +432,17 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Find conversations where the user participates
             for (Participant participates : buddyParticipates) {
 
+                // Do not count participants that has left the conversation
+                if (participates.getHasLeft()) {
+                    continue;
+                }
+
                 Conversation conversation = readConversation(participates.getCid());
 
                 if (conversation != null) {
+
+                    // Add properties to conversation
+                    conversation.setParticipants(readParticipants(participates.getCid()));
                     conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
                     conversation.setBuddy(buddy);
 
@@ -385,7 +450,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                     conversations.add(conversation);
                 }
             }
-
 
             // Create details from persistence object
             List<ConversationDetails> conversationDetails = new LinkedList<ConversationDetails>();
@@ -447,6 +511,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
                     // Don't include conversation that have no messages
                     if (lastMessage != null) {
+
+                        // Add properties to the conversation
+                        conversation.setParticipants(readParticipants(participates.getCid()));
                         conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
                         conversation.setBuddy(buddy);
                         conversation.setLastMessage(lastMessage);
@@ -503,14 +570,8 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             return null;
         }
 
-        // Map to persistence
-        List<Buddy> participants = readParticipants(conversationModel.getCid());
-
         // Finally, we have everything we needed
-        Conversation conversation = Conversation.fromConversationModel(conversationModel);
-        conversation.setParticipants(participants);
-
-        return conversation;
+        return Conversation.fromConversationModel(conversationModel);
     }
 
     /**
@@ -529,6 +590,12 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         // Map to persistence
         List<Buddy> participants = new LinkedList<Buddy>();
         for (Participant participantModel : participantModels) {
+
+            // Do not include participants that have left
+            if (participantModel.getHasLeft()) {
+                continue;
+            }
+
             Buddy buddy = Buddy.fromParticipantModel(participantModel);
             participants.add(buddy);
         }
