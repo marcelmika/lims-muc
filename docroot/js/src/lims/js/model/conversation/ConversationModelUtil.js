@@ -87,6 +87,17 @@ var ConversationModelUtil = {
         return creator.get('screenName') + "_" + hash;
     },
 
+    /**
+     * Filters given buddy from the list of buddies
+     *
+     * @param buddies [Y.LIMS.Model.BuddyItemModel]
+     * @param buddy {Y.LIMS.Model.BuddyItemModel}
+     */
+    filterBuddy: function (buddies, buddy) {
+        return Y.Array.filter(buddies, function (result) {
+            return result.get('buddyId') !== buddy.get('buddyId');
+        });
+    },
 
     /**
 

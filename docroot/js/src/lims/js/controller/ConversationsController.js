@@ -300,6 +300,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             controller,
             buddyDetails = this.get('buddyDetails');
 
+        // Filter out the currently logged user
+        buddies = Y.LIMS.Model.ConversationModelUtil.filterBuddy(buddies, buddyDetails);
+
         // Only if the required parameter was set
         if (buddies) {
 

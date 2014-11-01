@@ -242,6 +242,85 @@
   }
 
   ////////////////////////////////////////////////////////////
+  // ADD MORE PARTICIPANTS OPTION                           //
+  ////////////////////////////////////////////////////////////
+
+  .add-more-option {
+    position: absolute;
+    width: 249px;
+    z-index: 3;
+    top: 26px;
+    padding: 10px 10px 0;
+    line-height: 17px;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .token-input {
+
+      .token-input-plugin {
+        width: 247px;
+      }
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 77px;
+        overflow-y: scroll;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
+      }
+    }
+
+    .buttons {
+      text-align: right;
+      margin: 10px 0;
+      position: relative;
+
+      .button {
+        border-radius: 0;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-left: 5px;
+      }
+
+      .preloader {
+        margin: 0;
+        top: 5px;
+        right: 10px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+
+      .error-message {
+        float: left;
+        max-width: 100px;
+        color: #DF6D6D;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////
   // CONVERSATION ITEM ERROR                                //
   ////////////////////////////////////////////////////////////
 

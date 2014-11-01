@@ -100,7 +100,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
      * @return {*} filtered result
      * @private
      */
-    _filterDuplicates: function (results, selectedBuddies) {
+    _filterResults: function (results, selectedBuddies) {
 
         // Iterate over result, filter those that have been already selected
         return Y.Array.filter(results, function (result) {
@@ -254,7 +254,15 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                         source: this.getServerRequestUrl(),
                         render: true,
                         resultFilters: function (query, results) {
-                            return instance._filterDuplicates(results, instance.get('selectedBuddies'));
+
+                            // Vars
+                            var filteredResults;
+                            // First, filter duplicates
+                            filteredResults = instance._filterResults(results, instance.get('selectedBuddies'));
+                            // Than filter excluded buddies
+                            filteredResults = instance._filterResults(filteredResults, instance.get('excludedBuddies'));
+
+                            return filteredResults;
                         }
                     });
 
@@ -276,7 +284,16 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
          * [Y.LIMS.Model.BuddyModelItem]
          */
         selectedBuddies: {
-            value: []
+            value: [] // default value
+        },
+
+        /**
+         * A list of buddies that shouldn't be included in the autocomplete list
+         *
+         * [Y.LIMS.Model.BuddyModelItem]
+         */
+        excludedBuddies: {
+            value: [] // default value
         },
 
         /**

@@ -124,6 +124,26 @@
     </div>
 </script>
 
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="lims-conversation-option-add-more-template">
+    <div class="add-more-option">
+        <div class="content">
+            <div class="token-input">
+                <input class="participants" type="text" placeholder=""/>
+            </div>
+            <div class="buttons">
+                <button class="cancel button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-add-more-cancel"/>
+                </button>
+                <button class="add button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-add-more-add"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+
 <%-- This template HTML will be used to render new conversation --%>
 <script type="text/x-template" id="lims-panel-new-conversation-template">
     <div class="panel-new-conversation">

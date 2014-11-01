@@ -416,10 +416,11 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         _onOptionsButtonClick: function () {
             // Vars
             var optionsView = this.get('optionsView'),
-                leaveConversationView = this.get('leaveConversationView');
+                leaveConversationView = this.get('leaveConversationView'),
+                addMoreView = this.get('addMoreView');
 
             // Do nothing if the other options views are presented to the user
-            if (leaveConversationView.get('isHidden')) {
+            if (leaveConversationView.get('isHidden') && addMoreView.get('isHidden')) {
                 optionsView.toggleView();
             }
         },
@@ -430,7 +431,15 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onOptionAddMoreClick: function () {
-            console.log('add more');
+            // Vars
+            var optionsView = this.get('optionsView'),
+                addMoreView = this.get('addMoreView');
+
+            // Hide the options view
+            optionsView.hideView(function () {
+                // Show the add more option view
+                addMoreView.showView();
+            });
         },
 
         /**
@@ -762,6 +771,28 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsButton: {
                 valueFn: function () {
                     return this.get('panelTitle').one('.panel-button.options');
+                }
+            },
+
+            /**
+             * Add more option view
+             *
+             * {Y.LIMS.View.AddMoreOption}
+             */
+            addMoreView: {
+                valueFn: function () {
+                    // Vars
+                    var panelWindow = this.get('panelWindow'),
+                        model = this.get('model'),
+                        view = new Y.LIMS.View.AddMoreOption({
+                            model: model
+                        });
+                    // Render the view
+                    view.render();
+                    // Add it to panel window
+                    panelWindow.prepend(view.get('container'));
+
+                    return view;
                 }
             },
 

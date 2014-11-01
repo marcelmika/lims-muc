@@ -154,6 +154,54 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
     },
 
     /**
+     * Adds more participants to the conversation
+     *
+     * @param participants [Y.LIMS.Model.BuddyItemModel]
+     * @param callback
+     */
+    addMoreParticipants: function (participants, callback) {
+
+        // Vars
+        var instance = this,
+            parameters = Y.JSON.stringify({
+                conversationId: this.get('conversationId')
+            }),
+            content = Y.JSON.stringify(participants);
+
+        // Send the request
+        Y.io(this.getServerRequestUrl(), {
+            method: "POST",
+            data: {
+                query: "AddMoreParticipants",
+                parameters: parameters,
+                content: content
+            },
+            on: {
+                success: function () {
+                    // Call the success
+                    callback(null, instance);
+
+                    // Fire an event
+                    instance.fire('addParticipantsSuccess', instance);
+                },
+                failure: function (x, o) {
+                    // If the attempt is unauthorized session has expired
+                    if (o.status === 401) {
+                        // Notify everybody else
+                        Y.fire('userSessionExpired');
+                    }
+
+                    // Fire an event
+                    instance.fire('addParticipantsError', instance);
+
+                    // Call error
+                    callback('cannot add participants', instance);
+                }
+            }
+        });
+    },
+
+    /**
      * Leaves multi user chat conversation
      *
      * @param callback
