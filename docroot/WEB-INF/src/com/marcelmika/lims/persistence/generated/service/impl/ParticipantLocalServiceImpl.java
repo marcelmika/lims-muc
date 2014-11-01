@@ -75,7 +75,6 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
             participantModel = participantPersistence.create(counterLocalService.increment());
             participantModel.setCid(cid);
             participantModel.setParticipantId(participantId);
-            participantModel.setUnreadMessagesCount(0);
         }
 
         // Only if the conversation isn't opened for the participant already
@@ -85,6 +84,10 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
             // Open conversation for participant
             participantModel.setIsOpened(true);
         }
+
+        // Since we are adding the user again, even though he might left we will ignore that
+        participantModel.setHasLeft(false);
+        participantModel.setUnreadMessagesCount(0);
 
         // Save
         participantPersistence.update(participantModel, false);

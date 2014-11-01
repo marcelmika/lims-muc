@@ -172,7 +172,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         Y.io(this.getServerRequestUrl(), {
             method: "POST",
             data: {
-                query: "AddMoreParticipants",
+                query: "AddParticipants",
                 parameters: parameters,
                 content: content
             },

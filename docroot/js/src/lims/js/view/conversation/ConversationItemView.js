@@ -40,6 +40,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     // Check the templates.jspf to see all templates
     regularTemplate: Y.one('#lims-conversation-item-regular-template').get('innerHTML'),
     leftTemplate: Y.one('#lims-conversation-item-left-template').get('innerHTML'),
+    addedTemplate: Y.one('#lims-conversation-item-added-template').get('innerHTML'),
     errorTemplate: Y.one('#lims-conversation-item-error-template').get('innerHTML'),
 
     /**
@@ -51,59 +52,117 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     },
 
     /**
-     * Renders view
-     *
-     * @returns {ConversationItemView}
-     */
-    render: function () {
-
-        // Vars
-        var container = this.get('container'),      // Container that holds the view
-            model = this.get('model'),              // Message model
-            from = model.get('from'),               // Creator of the message
-            formatter = this.get('dateFormatter');  // Prettify date formatter
-
-        // Regular type of the message
-        if (model.get('messageType') === 'REGULAR') {
-
-            // Fill data from model to template and set it to container
-            container.set('innerHTML', Y.Lang.sub(this.regularTemplate, {
-                    createdPrettified: formatter.prettyDate(model.get('createdAt')),
-                    created: formatter.formatDate(new Date(model.get('createdAt'))),
-                    fullName: from.get('fullName'),
-                    content: Y.Escape.html(model.get('body')),
-                    portrait: this._renderPortrait(from)
-                })
-            );
-
-            // Set date node
-            this.set('dateNode', container.one('.conversation-item-date'));
-            this.set('messageTextNode', container.one('.conversation-item-text'));
-
-            // Add subviews to the view
-            this._addSubviews();
-        }
-        // Left type of the message
-        else if (model.get('messageType') === 'LEFT') {
-
-            // Fill data from model to template and set it to container
-            container.set('innerHTML', Y.Lang.sub(this.leftTemplate, {
-                    fullName: from.get('fullName')
-                })
-            );
-        }
-
-
-        return this;
-    },
-
-    /**
      * Returns an offset of the message from the top
      *
      * @return {Number}
      */
     getTopOffset: function () {
         return this.get('container').getDOM().offsetTop;
+    },
+
+    /**
+     * Updates node that holds the creation time of message
+     */
+    updateTimestamp: function () {
+        // Vars
+        var dateNode = this.get('dateNode'),        // Node that holds date
+            formatter = this.get('dateFormatter'),  // Prettify date formatter
+            model = this.get('model');              // Message model
+
+        // It is possible that the view doesn't have the date node (for example the left or add message)
+        if (dateNode) {
+            // Update time
+            dateNode.set('innerHTML', formatter.prettyDate(model.get('createdAt')));
+        }
+    },
+
+    /**
+     * Renders view
+     *
+     * @returns {ConversationItemView}
+     */
+    render: function () {
+        // Vars
+        var model = this.get('model');
+
+        // Regular type of the message
+        if (model.get('messageType') === 'REGULAR') {
+            this._renderRegularMessage();
+        }
+        // Left type of the message
+        else if (model.get('messageType') === 'LEFT') {
+            this._renderLeftMessage();
+        }
+        // Added type of the message
+        else if (model.get('messageType') === 'ADDED') {
+            this._renderAddedMessage();
+        }
+
+        return this;
+    },
+
+    /**
+     * Renders regular type of the message
+     *
+     * @private
+     */
+    _renderRegularMessage: function () {
+        // Vars
+        var container = this.get('container'),      // Container that holds the view
+            model = this.get('model'),              // Message model
+            from = model.get('from'),               // Creator of the message
+            formatter = this.get('dateFormatter');  // Prettify date formatter
+
+        // Fill data from model to template and set it to container
+        container.set('innerHTML', Y.Lang.sub(this.regularTemplate, {
+                createdPrettified: formatter.prettyDate(model.get('createdAt')),
+                created: formatter.formatDate(new Date(model.get('createdAt'))),
+                fullName: from.get('fullName'),
+                content: Y.Escape.html(model.get('body')),
+                portrait: this._renderPortrait(from)
+            })
+        );
+
+        // Set date node
+        this.set('dateNode', container.one('.conversation-item-date'));
+        this.set('messageTextNode', container.one('.conversation-item-text'));
+
+        // Add subviews to the view
+        this._addSubviews();
+    },
+
+    /**
+     * Renders left type of message
+     *
+     * @private
+     */
+    _renderLeftMessage: function () {
+        // Vars
+        var container = this.get('container'),      // Container that holds the view
+            from = this.get('model').get('from');   // User that left
+
+        // Fill data from model to template and set it to container
+        container.set('innerHTML', Y.Lang.sub(this.leftTemplate, {
+                fullName: from.get('fullName')
+            })
+        );
+    },
+
+    /**
+     * Renders added type of message
+     *
+     * @private
+     */
+    _renderAddedMessage: function () {
+        // Vars
+        var container = this.get('container'),      // Container that holds the view
+            from = this.get('model').get('from');   // User who was added
+
+        // Fill data from model to template and set ti to container
+        container.set('innerHTML', Y.Lang.sub(this.addedTemplate, {
+                fullName: from.get('fullName')
+            })
+        );
     },
 
     /**
@@ -154,22 +213,6 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
         // need to remove it
         if (model.get('error') === false && errorContainer !== null) {
             errorContainer.remove();
-        }
-    },
-
-    /**
-     * Updates node that holds the creation time of message
-     */
-    updateTimestamp: function () {
-        // Vars
-        var dateNode = this.get('dateNode'),        // Node that holds date
-            formatter = this.get('dateFormatter'),  // Prettify date formatter
-            model = this.get('model');              // Message model
-
-        // It is possible that the view doesn't have the date node (for example the left or add message)
-        if (dateNode) {
-            // Update time
-            dateNode.set('innerHTML', formatter.prettyDate(model.get('createdAt')));
         }
     },
 

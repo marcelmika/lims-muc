@@ -73,6 +73,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_RESET_UNREAD_MESSAGES_COUNTER = "ResetUnreadMessagesCounter";
     private static final String QUERY_READ_OPENED_CONVERSATIONS = "ReadOpenedConversations";
     private static final String QUERY_READ_CONVERSATIONS = "ReadConversations";
+    private static final String QUERY_ADD_PARTICIPANTS = "AddParticipants";
     private static final String QUERY_LEAVE_CONVERSATION = "LeaveConversation";
     private static final String QUERY_GET_GROUP_LIST = "GetGroupList";
     private static final String QUERY_CREATE_MESSAGE = "CreateMessage";
@@ -187,6 +188,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Read Conversations
         else if (query.equals(QUERY_READ_CONVERSATIONS)) {
             conversationController.readConversations(request, response);
+        }
+        // Add Participants
+        else if (query.equals(QUERY_ADD_PARTICIPANTS)) {
+            conversationController.addParticipants(request, response);
         }
         // LeaveConversation
         else if (query.equals(QUERY_LEAVE_CONVERSATION)) {

@@ -107,9 +107,8 @@ public interface ConversationCoreService {
      *
      * @param event request event for method
      * @return response event for method
-     * @deprecated
      */
-    public AddBuddiesResponseEvent addBuddies(AddBuddiesRequestEvent event);
+    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
 
     /**
      * Sends message to conversation

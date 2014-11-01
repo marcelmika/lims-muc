@@ -190,6 +190,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             model.on('readSuccess', this._onConversationReadSuccess, this);
             model.on('readError', this._onConversationReadError, this);
             model.on('leaveConversationSuccess', this._onConversationLeaveSuccess, this);
+            model.on('addParticipantsSuccess', this._onConversationAddParticipantsSuccess, this);
             createErrorView.on('resendButtonClick', this._onConversationCreateRetry, this);
             readErrorView.on('resendButtonClick', this._onConversationReadRetry, this);
             panelTitleText.on('mouseenter', this._onPanelTitleTextMouseEnter, this);
@@ -380,6 +381,22 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         _onConversationLeaveSuccess: function () {
             // Close the panel
             this.getPanel().close();
+        },
+
+        /**
+         * Called when the participants are successfully added to the conversation
+         *
+         * @private
+         */
+        _onConversationAddParticipantsSuccess: function () {
+            // Vars
+            var addMoreView = this.get('addMoreView'),
+                model = this.get('model');
+
+            // Hide the view since it's not needed anymore
+            addMoreView.hideView();
+            // Reload model since we want the changes to show immediately
+            model.load();
         },
 
         /**

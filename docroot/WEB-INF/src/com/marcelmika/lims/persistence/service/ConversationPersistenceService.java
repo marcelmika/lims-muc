@@ -76,6 +76,14 @@ public interface ConversationPersistenceService {
                                                                                       event);
 
     /**
+     * Adds buddies to the conversation
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
+
+    /**
      * Removes buddy from the conversation
      *
      * @param event request event for method

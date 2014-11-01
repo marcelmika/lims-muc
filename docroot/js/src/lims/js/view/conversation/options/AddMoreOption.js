@@ -233,6 +233,11 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
         this._showActivityIndicator();
         // Update the model
         model.addMoreParticipants(participants, function (err) {
+            // Hide the activity indicator
+            instance._hideActivityIndicator();
+            // Show the buttons again so the user can retry
+            instance._addButtons();
+            
             // Success
             if (!err) {
                 // Fire an event
@@ -240,12 +245,8 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
             }
             // Error
             else {
-                // Hide the activity indicator
-                instance._hideActivityIndicator();
                 // Show error message
                 instance._showErrorMessage();
-                // Show the buttons again so the user can retry
-                instance._addButtons();
                 // Fire an event
                 instance.fire('addMoreError', instance);
             }

@@ -303,6 +303,67 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         }
     }
 
+    @Override
+    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event) {
+        // Map to persistence objects
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+        String conversationId = event.getConversationId();
+        BuddyCollection buddyCollection = BuddyCollection.fromBuddyCollectionDetails(event.getBuddyCollectionDetails());
+
+        // Save to persistence
+        try {
+
+            // Find conversation. Since each message is related to the conversation we need to find it first
+            com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
+                    ConversationLocalServiceUtil.getConversation(conversationId);
+
+            // No such conversation was found
+            if (conversationModel == null) {
+                return AddParticipantsResponseEvent.failure(
+                        AddParticipantsResponseEvent.Status.ERROR_NOT_FOUND
+                );
+            }
+
+            // Check if the conversation is of the multi user type
+            if (ConversationType.fromString(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
+                return AddParticipantsResponseEvent.failure(
+                        AddParticipantsResponseEvent.Status.ERROR_NOT_MUC
+                );
+            }
+
+            // TODO: Check if the user is in the conversation
+
+            // Add participants to conversation
+            for (Buddy participant : buddyCollection.getBuddies()) {
+                // Save to persistence
+                ParticipantLocalServiceUtil.addParticipant(conversationModel.getCid(), participant.getBuddyId());
+
+                // Create new user added message
+                MessageLocalServiceUtil.addMessage(
+                        conversationModel.getCid(),         // Message is related to the conversation
+                        participant.getBuddyId(),           // Message is created by buddy
+                        MessageType.ADDED.getCode(),        // Message type
+                        null,                               // Body of message
+                        Calendar.getInstance().getTime()    // Date of creation
+                );
+            }
+
+            // Update conversation timestamp
+            ConversationLocalServiceUtil.updateConversationTimestamp(conversationModel.getCid());
+
+            // Return success
+            return AddParticipantsResponseEvent.success();
+        }
+        // Failure
+        catch (Exception exception) {
+            // Return failure
+            return AddParticipantsResponseEvent.failure(
+                    AddParticipantsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+
+    }
+
     /**
      * Removes buddy from the conversation
      *
@@ -313,12 +374,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event) {
         // Map to persistence objects
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+        String conversationId = event.getConversationId();
 
         // Save to persistence
         try {
             // Find conversation. Since each message is related to the conversation we need to find it first
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(event.getConversationId());
+                    ConversationLocalServiceUtil.getConversation(conversationId);
 
             // No such conversation was found
             if (conversationModel == null) {
@@ -436,8 +498,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
 
         try {
-
-
             // Get a list of conversations where the user participates
             List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getOpenedConversations(
                     buddy.getBuddyId()

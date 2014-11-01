@@ -40,6 +40,24 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     // Check the templates.jspf to see all templates
     regularTemplate: Y.one('#lims-conversation-feed-item-regular-template').get('innerHTML'),
     leftTemplate: Y.one('#lims-conversation-feed-item-left-template').get('innerHTML'),
+    addedTemplate: Y.one('#lims-conversation-feed-item-added-template').get('innerHTML'),
+
+
+    /**
+     * Updates node that holds the creation time of message
+     */
+    updateTimestamp: function () {
+        // Vars
+        var dateNode = this.get('dateNode'),                // Node that holds date
+            formatter = this.get('dateFormatter'),          // Prettify date formatter
+            model = this.get('model').get('lastMessage');   // Message model
+
+        // It is possible that the view doesn't have the date node (for example the left or add message)
+        if (dateNode) {
+            // Update time
+            dateNode.set('innerHTML', formatter.prettyDate(new Date(model.get('createdAt'))));
+        }
+    },
 
     /**
      * Renders the view
@@ -50,39 +68,19 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         // Vars
         var container = this.get('container'),
             model = this.get('model'),
-            lastMessage = model.get('lastMessage'),
-            formatter = this.get('dateFormatter');  // Prettify date formatter
+            lastMessage = model.get('lastMessage');
 
         // Regular type of the message
         if (lastMessage.get('messageType') === 'REGULAR') {
-
-            // Fill data from model to template and set it to container
-            container.set('innerHTML',
-                Y.Lang.sub(this.regularTemplate, {
-                    title: model.get('title'),
-                    lastMessage: Y.Escape.html(lastMessage.get('body')),
-                    portrait: this._renderPortrait(model.get('participants')),
-                    timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
-                    timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
-                })
-            );
-
-            // Set date node
-            this.set('dateNode', container.one('.timestamp'));
+            this._renderRegularMessage();
         }
         // Left type of the message
         else if (lastMessage.get('messageType') === 'LEFT') {
-
-            // Fill data from model to template and set it to container
-            container.set('innerHTML',
-                Y.Lang.sub(this.leftTemplate, {
-                    title: model.get('title'),
-                    fullName: lastMessage.get('from').get('fullName') || '',
-                    portrait: this._renderPortrait(model.get('participants')),
-                    timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
-                    timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
-                })
-            );
+            this._renderLeftMessage();
+        }
+        // Added type of the message
+        else if (lastMessage.get('messageType') === 'ADDED') {
+            this._renderAddedMessage();
         }
 
         // Check if the conversation is unread
@@ -99,19 +97,77 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     },
 
     /**
-     * Updates node that holds the creation time of message
+     * Renders regular type of message
+     * @private
      */
-    updateTimestamp: function () {
+    _renderRegularMessage: function () {
         // Vars
-        var dateNode = this.get('dateNode'),                // Node that holds date
-            formatter = this.get('dateFormatter'),          // Prettify date formatter
-            model = this.get('model').get('lastMessage');   // Message model
+        var container = this.get('container'),
+            model = this.get('model'),
+            lastMessage = model.get('lastMessage'),
+            formatter = this.get('dateFormatter');  // Prettify date formatter
 
-        // It is possible that the view doesn't have the date node (for example the left or add message)
-        if (dateNode) {
-            // Update time
-            dateNode.set('innerHTML', formatter.prettyDate(new Date(model.get('createdAt'))));
-        }
+        // Fill data from model to template and set it to container
+        container.set('innerHTML',
+            Y.Lang.sub(this.regularTemplate, {
+                title: model.get('title'),
+                lastMessage: Y.Escape.html(lastMessage.get('body')),
+                portrait: this._renderPortrait(model.get('participants')),
+                timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
+                timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
+            })
+        );
+
+        // Set date node
+        this.set('dateNode', container.one('.timestamp'));
+    },
+
+    /**
+     * Renders left type of message
+     *
+     * @private
+     */
+    _renderLeftMessage: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            lastMessage = model.get('lastMessage'),
+            formatter = this.get('dateFormatter');  // Prettify date formatter
+
+        // Fill data from model to template and set it to container
+        container.set('innerHTML',
+            Y.Lang.sub(this.leftTemplate, {
+                title: model.get('title'),
+                fullName: lastMessage.get('from').get('fullName') || '',
+                portrait: this._renderPortrait(model.get('participants')),
+                timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
+                timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
+            })
+        );
+    },
+
+    /**
+     * Renders added type of message
+     *
+     * @private
+     */
+    _renderAddedMessage: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            lastMessage = model.get('lastMessage'),
+            formatter = this.get('dateFormatter');  // Prettify date formatter
+
+        // Fill data from model to template and set it to container
+        container.set('innerHTML',
+            Y.Lang.sub(this.addedTemplate, {
+                title: model.get('title'),
+                fullName: lastMessage.get('from').get('fullName') || '',
+                portrait: this._renderPortrait(model.get('participants')),
+                timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
+                timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
+            })
+        );
     },
 
     /**

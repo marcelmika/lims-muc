@@ -37,6 +37,7 @@ import com.marcelmika.lims.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -487,6 +488,91 @@ public class ConversationController {
     }
 
     /**
+     * Adds participants to the existing MUC conversation
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void addParticipants(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;                            // Authorized user
+        AddParticipantsParameters parameters;   // Request parameters
+        List participants;                      // List of participants
+        BuddyCollection buddyCollection;        // Collection of participants
+
+        // Deserialize
+        try {
+            // Buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+
+            // Deserialize parameters
+            parameters = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS), AddParticipantsParameters.class
+            );
+
+            // Deserizalize content
+            participants = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_CONTENT), LinkedList.class
+            );
+
+            // Create buddy collection from the list
+            buddyCollection = BuddyCollection.fromBuddyList(participants);
+
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Add to system
+        AddParticipantsResponseEvent responseEvent = conversationCoreService.addParticipants(
+                new AddParticipantsRequestEvent(
+                        buddy.toBuddyDetails(),
+                        parameters.getConversationId(),
+                        buddyCollection.toBuddyCollectionDetails()
+                ));
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Write success to response
+            ResponseUtil.writeResponse(HttpStatus.OK, response);
+        }
+        // Failure
+        else {
+            AddParticipantsResponseEvent.Status status = responseEvent.getStatus();
+            // Unauthorized
+            if (status == AddParticipantsResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+            }
+            // Not found
+            else if (status == AddParticipantsResponseEvent.Status.ERROR_NOT_FOUND) {
+                ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            }
+            // Bad Request
+            else if (status == AddParticipantsResponseEvent.Status.ERROR_NOT_MUC ||
+                    status == AddParticipantsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Everything else is a server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getException());
+                }
+            }
+        }
+
+    }
+
+    /**
      * Leave conversation
      *
      * @param request  ResourceRequest
@@ -512,7 +598,9 @@ public class ConversationController {
             // Bad request
             ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             // Log
-            log.debug(exception);
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
             // End here
             return;
         }

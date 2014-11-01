@@ -22,11 +22,15 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.portal.domain;
+package com.marcelmika.lims.persistence.domain;
 
 import com.marcelmika.lims.api.entity.BuddyCollectionDetails;
+import com.marcelmika.lims.api.entity.BuddyDetails;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Container which holds a collection of buddies
@@ -42,17 +46,17 @@ public class BuddyCollection {
     private Map<Long, Buddy> buddiesMap = new HashMap<Long, Buddy>();
 
     /**
-     * Factory method that create a collection of buddies from the list of buddies
+     * Factory method that creates a buddy collection from buddy collection details
      *
-     * @param buddyList list of buddies
+     * @param details BuddyCollectionDetails
      * @return BuddyCollection
      */
-    public static BuddyCollection fromBuddyList(List<Buddy> buddyList) {
+    public static BuddyCollection fromBuddyCollectionDetails(BuddyCollectionDetails details) {
         // Create new instance
         BuddyCollection buddyCollection = new BuddyCollection();
 
-        for (Buddy buddy : buddyList) {
-            buddyCollection.addBuddy(buddy);
+        for (BuddyDetails buddyDetails : details.getBuddies()) {
+            buddyCollection.addBuddy(Buddy.fromBuddyDetails(buddyDetails));
         }
 
         return buddyCollection;
@@ -72,7 +76,6 @@ public class BuddyCollection {
 
         return buddyCollectionDetails;
     }
-
 
     /**
      * Get the collection of buddies

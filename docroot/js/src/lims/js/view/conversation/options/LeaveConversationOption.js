@@ -223,6 +223,11 @@ Y.LIMS.View.LeaveConversationOption = Y.Base.create('leaveConversationOption', Y
         this._showActivityIndicator();
         // Update the model
         model.leaveConversation(function (err) {
+            // Hide the activity indicator
+            instance._hideActivityIndicator();
+            // Show the buttons again so the user can retry
+            instance._addButtons();
+
             // Success
             if (!err) {
                 // Fire an event
@@ -230,12 +235,8 @@ Y.LIMS.View.LeaveConversationOption = Y.Base.create('leaveConversationOption', Y
             }
             // Error
             else {
-                // Hide the activity indicator
-                instance._hideActivityIndicator();
                 // Show error message
                 instance._showErrorMessage();
-                // Show the buttons again so the user can retry
-                instance._addButtons();
                 // Fire an event
                 instance.fire('leaveConversationError', instance);
             }

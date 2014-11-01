@@ -184,8 +184,9 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      * @return response event for method
      */
     @Override
-    public AddBuddiesResponseEvent addBuddies(AddBuddiesRequestEvent event) {
-        throw new NotImplementedException();
+    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event) {
+        // Save to persistence
+        return conversationPersistenceService.addParticipants(event);
     }
 
     /**

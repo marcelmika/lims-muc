@@ -1249,7 +1249,7 @@
 	</javadoc>
 	<javadoc>
 		<name>AddBuddiesRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.AddBuddiesRequestEvent</type>
+		<type>com.marcelmika.lims.api.events.conversation.AddParticipantsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>AddBuddiesRequestEvent</name>
@@ -1285,7 +1285,7 @@
 	</javadoc>
 	<javadoc>
 		<name>AddBuddiesResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.AddBuddiesResponseEvent</type>
+		<type>com.marcelmika.lims.api.events.conversation.AddParticipantsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>addBuddiesSuccess</name>

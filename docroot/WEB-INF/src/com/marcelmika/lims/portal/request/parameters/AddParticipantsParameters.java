@@ -22,34 +22,30 @@
  * SOFTWARE.
  */
 
-package com.marcelmika.lims.api.events.conversation;
-
-import com.marcelmika.lims.api.events.RequestEvent;
-import com.marcelmika.lims.api.entity.BuddyCollectionDetails;
-import com.marcelmika.lims.api.entity.ConversationDetails;
-
+package com.marcelmika.lims.portal.request.parameters;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 2/22/14
- * Time: 2:41 PM
+ * Date: 01/11/14
+ * Time: 14:01
  */
-public class AddBuddiesRequestEvent extends RequestEvent {
+public class AddParticipantsParameters {
 
-    private BuddyCollectionDetails buddyCollectionDetails;
-    private ConversationDetails conversationDetails;
+    private String conversationId;
 
-    public AddBuddiesRequestEvent(BuddyCollectionDetails buddyCollectionDetails, ConversationDetails conversationDetails) {
-        this.buddyCollectionDetails = buddyCollectionDetails;
-        this.conversationDetails = conversationDetails;
+    public String getConversationId() {
+        return conversationId;
     }
 
-    public BuddyCollectionDetails getBuddyCollectionDetails() {
-        return buddyCollectionDetails;
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
     }
 
-    public ConversationDetails getConversationDetails() {
-        return conversationDetails;
+    @Override
+    public String toString() {
+        return "AddParticipantsParameters{" +
+                "conversationId='" + conversationId + '\'' +
+                '}';
     }
 }
