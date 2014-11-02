@@ -143,7 +143,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
 
         // Fill data from model to template and set it to container
         container.set('innerHTML', Y.Lang.sub(this.leftTemplate, {
-                fullName: from.get('fullName')
+                fullName: '<span class="name">' + from.get('fullName') + '</span>'
             })
         );
     },
@@ -160,7 +160,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
 
         // Fill data from model to template and set ti to container
         container.set('innerHTML', Y.Lang.sub(this.addedTemplate, {
-                fullName: from.get('fullName')
+                fullName: '<span class="name">' + from.get('fullName') + '</span>'
             })
         );
     },

@@ -132,13 +132,14 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         var container = this.get('container'),
             model = this.get('model'),
             lastMessage = model.get('lastMessage'),
+            from = lastMessage.get('from'),
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.leftTemplate, {
                 title: model.get('title'),
-                fullName: lastMessage.get('from').get('fullName') || '',
+                fullName: '<span class="name">' + from.get('fullName') + '</span>',
                 portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
@@ -156,13 +157,14 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         var container = this.get('container'),
             model = this.get('model'),
             lastMessage = model.get('lastMessage'),
+            from = lastMessage.get('from'),
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.addedTemplate, {
                 title: model.get('title'),
-                fullName: lastMessage.get('from').get('fullName') || '',
+                fullName: '<span class="name">' + from.get('fullName') + '</span>',
                 portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
