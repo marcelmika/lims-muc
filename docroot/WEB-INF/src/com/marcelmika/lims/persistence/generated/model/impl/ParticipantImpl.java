@@ -16,6 +16,7 @@ package com.marcelmika.lims.persistence.generated.model.impl;
 
 import com.marcelmika.lims.persistence.generated.model.Participant;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,7 +54,10 @@ public class ParticipantImpl extends ParticipantBaseImpl {
         participant.setParticipantId((Long) object[firstElement++]);
         participant.setUnreadMessagesCount((Integer) object[firstElement++]);
         participant.setIsOpened((Boolean) object[firstElement++]);
-        participant.setOpenedAt((Long) object[firstElement]); // TODO: Change to calendar
+        Calendar createdAt = (Calendar) object[firstElement];
+        if (createdAt != null) {
+            participant.setOpenedAt(createdAt.getTime());
+        }
 
         return participant;
     }

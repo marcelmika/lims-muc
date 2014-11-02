@@ -15,6 +15,7 @@
 package com.marcelmika.lims.persistence.generated.model.impl;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -32,6 +33,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +65,9 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 			{ "unreadMessagesCount", Types.INTEGER },
 			{ "isOpened", Types.BOOLEAN },
 			{ "hasLeft", Types.BOOLEAN },
-			{ "openedAt", Types.BIGINT }
+			{ "openedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,hasLeft BOOLEAN,openedAt LONG)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,hasLeft BOOLEAN,openedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Participant";
 	public static final String ORDER_BY_JPQL = " ORDER BY participant.openedAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Participant.openedAt ASC";
@@ -175,7 +177,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 			setHasLeft(hasLeft);
 		}
 
-		Long openedAt = (Long)attributes.get("openedAt");
+		Date openedAt = (Date)attributes.get("openedAt");
 
 		if (openedAt != null) {
 			setOpenedAt(openedAt);
@@ -289,12 +291,12 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	}
 
 	@Override
-	public long getOpenedAt() {
+	public Date getOpenedAt() {
 		return _openedAt;
 	}
 
 	@Override
-	public void setOpenedAt(long openedAt) {
+	public void setOpenedAt(Date openedAt) {
 		_columnBitmask = -1L;
 
 		_openedAt = openedAt;
@@ -348,15 +350,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	public int compareTo(Participant participant) {
 		int value = 0;
 
-		if (getOpenedAt() < participant.getOpenedAt()) {
-			value = -1;
-		}
-		else if (getOpenedAt() > participant.getOpenedAt()) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = DateUtil.compareTo(getOpenedAt(), participant.getOpenedAt());
 
 		if (value != 0) {
 			return value;
@@ -427,7 +421,14 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 		participantCacheModel.hasLeft = getHasLeft();
 
-		participantCacheModel.openedAt = getOpenedAt();
+		Date openedAt = getOpenedAt();
+
+		if (openedAt != null) {
+			participantCacheModel.openedAt = openedAt.getTime();
+		}
+		else {
+			participantCacheModel.openedAt = Long.MIN_VALUE;
+		}
 
 		return participantCacheModel;
 	}
@@ -513,7 +514,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	private boolean _originalIsOpened;
 	private boolean _setOriginalIsOpened;
 	private boolean _hasLeft;
-	private long _openedAt;
+	private Date _openedAt;
 	private long _columnBitmask;
 	private Participant _escapedModel;
 }

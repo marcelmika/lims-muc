@@ -47,6 +47,7 @@ import java.util.List;
 public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(ParticipantLocalServiceImpl.class);
 
 	/*
@@ -79,7 +80,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
         // Only if the conversation isn't opened for the participant already
         if (!participantModel.getIsOpened()) {
             // Set the time when the conversation was opened
-            participantModel.setOpenedAt(Calendar.getInstance().getTimeInMillis());
+            participantModel.setOpenedAt(Calendar.getInstance().getTime());
             // Open conversation for participant
             participantModel.setIsOpened(true);
         }
@@ -127,7 +128,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
                 // opened.
                 participant.setIsOpened(true);
                 // Set the time when the conversation was opened
-                participant.setOpenedAt(Calendar.getInstance().getTimeInMillis());
+                participant.setOpenedAt(Calendar.getInstance().getTime());
             }
 
             // Save the participant

@@ -33,7 +33,7 @@
 		<field name="unreadMessagesCount" type="int" />
 		<field name="isOpened" type="boolean" />
 		<field name="hasLeft" type="boolean" />
-		<field name="openedAt" type="long" />
+		<field name="openedAt" type="Date" />
 	</model>
 	<model name="com.marcelmika.lims.persistence.generated.model.Settings">
 		<field name="sid" type="long" />

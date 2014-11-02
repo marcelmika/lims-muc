@@ -22,6 +22,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the Participant service. Represents a row in the &quot;Limsmuc_Participant&quot; database table, with each column mapped to a property of this class.
  *
@@ -159,14 +161,14 @@ public interface ParticipantModel extends BaseModel<Participant> {
 	 *
 	 * @return the opened at of this participant
 	 */
-	public long getOpenedAt();
+	public Date getOpenedAt();
 
 	/**
 	 * Sets the opened at of this participant.
 	 *
 	 * @param openedAt the opened at of this participant
 	 */
-	public void setOpenedAt(long openedAt);
+	public void setOpenedAt(Date openedAt);
 
 	@Override
 	public boolean isNew();

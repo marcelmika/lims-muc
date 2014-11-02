@@ -45,7 +45,7 @@
 		<property name="unreadMessagesCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="isOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="hasLeft" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="openedAt" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="openedAt" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" table="Limsmuc_Settings">
 		<cache usage="read-write" />

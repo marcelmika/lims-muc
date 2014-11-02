@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Participant in entity cache.
  *
@@ -66,7 +68,13 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 		participantImpl.setUnreadMessagesCount(unreadMessagesCount);
 		participantImpl.setIsOpened(isOpened);
 		participantImpl.setHasLeft(hasLeft);
-		participantImpl.setOpenedAt(openedAt);
+
+		if (openedAt == Long.MIN_VALUE) {
+			participantImpl.setOpenedAt(null);
+		}
+		else {
+			participantImpl.setOpenedAt(new Date(openedAt));
+		}
 
 		participantImpl.resetOriginalValues();
 

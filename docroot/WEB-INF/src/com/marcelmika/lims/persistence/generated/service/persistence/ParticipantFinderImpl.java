@@ -27,6 +27,7 @@ import java.util.List;
 public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> implements ParticipantFinder {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(ParticipantFinderImpl.class);
 
     // SQL routes
@@ -67,7 +68,7 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
             query.addScalar("participantId", Type.LONG);
             query.addScalar("unreadMessagesCount", Type.INTEGER);
             query.addScalar("isOpened", Type.BOOLEAN);
-            query.addScalar("openedAt", Type.LONG); // TODO: Rewrite to date
+            query.addScalar("openedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);

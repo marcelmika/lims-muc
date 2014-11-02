@@ -17,6 +17,7 @@ package com.marcelmika.lims.persistence.generated.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -144,11 +145,11 @@ public class ParticipantSoap implements Serializable {
 		_hasLeft = hasLeft;
 	}
 
-	public long getOpenedAt() {
+	public Date getOpenedAt() {
 		return _openedAt;
 	}
 
-	public void setOpenedAt(long openedAt) {
+	public void setOpenedAt(Date openedAt) {
 		_openedAt = openedAt;
 	}
 
@@ -158,5 +159,5 @@ public class ParticipantSoap implements Serializable {
 	private int _unreadMessagesCount;
 	private boolean _isOpened;
 	private boolean _hasLeft;
-	private long _openedAt;
+	private Date _openedAt;
 }

@@ -29,6 +29,7 @@ import java.util.List;
 public class MessageFinderImpl extends BasePersistenceImpl<Message> implements MessageFinder {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(MessageFinderImpl.class);
 
     // SQL routes

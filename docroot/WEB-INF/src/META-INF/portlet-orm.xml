@@ -54,7 +54,9 @@
 			<basic name="unreadMessagesCount" />
 			<basic name="isOpened" />
 			<basic name="hasLeft" />
-			<basic name="openedAt" />
+			<basic name="openedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

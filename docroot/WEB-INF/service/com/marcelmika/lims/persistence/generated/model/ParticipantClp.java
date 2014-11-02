@@ -16,6 +16,7 @@ package com.marcelmika.lims.persistence.generated.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
@@ -28,6 +29,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,7 +125,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 			setHasLeft(hasLeft);
 		}
 
-		Long openedAt = (Long)attributes.get("openedAt");
+		Date openedAt = (Date)attributes.get("openedAt");
 
 		if (openedAt != null) {
 			setOpenedAt(openedAt);
@@ -280,19 +282,19 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 	}
 
 	@Override
-	public long getOpenedAt() {
+	public Date getOpenedAt() {
 		return _openedAt;
 	}
 
 	@Override
-	public void setOpenedAt(long openedAt) {
+	public void setOpenedAt(Date openedAt) {
 		_openedAt = openedAt;
 
 		if (_participantRemoteModel != null) {
 			try {
 				Class<?> clazz = _participantRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setOpenedAt", long.class);
+				Method method = clazz.getMethod("setOpenedAt", Date.class);
 
 				method.invoke(_participantRemoteModel, openedAt);
 			}
@@ -386,15 +388,7 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 	public int compareTo(Participant participant) {
 		int value = 0;
 
-		if (getOpenedAt() < participant.getOpenedAt()) {
-			value = -1;
-		}
-		else if (getOpenedAt() > participant.getOpenedAt()) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = DateUtil.compareTo(getOpenedAt(), participant.getOpenedAt());
 
 		if (value != 0) {
 			return value;
@@ -501,6 +495,6 @@ public class ParticipantClp extends BaseModelImpl<Participant>
 	private int _unreadMessagesCount;
 	private boolean _isOpened;
 	private boolean _hasLeft;
-	private long _openedAt;
+	private Date _openedAt;
 	private BaseModel<?> _participantRemoteModel;
 }

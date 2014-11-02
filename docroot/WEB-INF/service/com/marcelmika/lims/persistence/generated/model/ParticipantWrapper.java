@@ -17,6 +17,7 @@ package com.marcelmika.lims.persistence.generated.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public class ParticipantWrapper implements Participant,
 			setHasLeft(hasLeft);
 		}
 
-		Long openedAt = (Long)attributes.get("openedAt");
+		Date openedAt = (Date)attributes.get("openedAt");
 
 		if (openedAt != null) {
 			setOpenedAt(openedAt);
@@ -272,7 +273,7 @@ public class ParticipantWrapper implements Participant,
 	* @return the opened at of this participant
 	*/
 	@Override
-	public long getOpenedAt() {
+	public java.util.Date getOpenedAt() {
 		return _participant.getOpenedAt();
 	}
 
@@ -282,7 +283,7 @@ public class ParticipantWrapper implements Participant,
 	* @param openedAt the opened at of this participant
 	*/
 	@Override
-	public void setOpenedAt(long openedAt) {
+	public void setOpenedAt(java.util.Date openedAt) {
 		_participant.setOpenedAt(openedAt);
 	}
 
