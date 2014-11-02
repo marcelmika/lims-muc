@@ -42,6 +42,7 @@ public class LeaveConversationResponseEvent extends ResponseEvent {
         ERROR_NOT_MUC, // Conversation is not of the multi user chat type
         ERROR_WRONG_PARAMETERS, // Wrong input parameters
         ERROR_NO_SESSION, // User does not have a session
+        ERROR_FORBIDDEN, // User is not allowed to leave the conversation
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 

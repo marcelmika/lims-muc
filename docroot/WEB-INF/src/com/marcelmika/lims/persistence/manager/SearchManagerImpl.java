@@ -46,6 +46,7 @@ import java.util.Set;
 public class SearchManagerImpl implements SearchManager {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SearchManagerImpl.class);
 
     /**

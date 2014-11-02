@@ -387,15 +387,13 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	* Returns particular participant based on the id
 	*
 	* @param participantId Id of the participant
-	* @return participant
-	* @throws NoSuchParticipantException
+	* @return participant or null if no participant was found
 	* @throws SystemException
 	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Participant getParticipant(
 		java.lang.Long cid, java.lang.Long participantId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.marcelmika.lims.persistence.generated.NoSuchParticipantException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _participantLocalService.getParticipant(cid, participantId);
 	}
 

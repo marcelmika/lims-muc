@@ -24,7 +24,6 @@ import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.model.Participant;
 import com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl;
-import com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.ParticipantLocalServiceBaseImpl;
 
@@ -219,12 +218,15 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * Returns particular participant based on the id
      *
      * @param participantId Id of the participant
-     * @return participant
-     * @throws NoSuchParticipantException
+     * @return participant or null if no participant was found
      * @throws SystemException
      */
-    public Participant getParticipant(Long cid, Long participantId) throws NoSuchParticipantException, SystemException {
-        return participantPersistence.findByCidParticipantId(cid, participantId);
+    public Participant getParticipant(Long cid, Long participantId) throws SystemException {
+        try {
+            return participantPersistence.findByCidParticipantId(cid, participantId);
+        } catch (NoSuchParticipantException e) {
+            return null;
+        }
     }
 
     /**

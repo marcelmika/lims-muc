@@ -42,6 +42,7 @@ import com.marcelmika.lims.persistence.manager.GroupManager;
 public class GroupPersistenceServiceImpl implements GroupPersistenceService {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(GroupPersistenceServiceImpl.class);
 
     // Dependencies

@@ -42,6 +42,7 @@ public class AddParticipantsResponseEvent extends ResponseEvent {
         ERROR_NOT_MUC, // Conversation is not of the multi user chat type
         ERROR_WRONG_PARAMETERS, // Wrong input parameters
         ERROR_NO_SESSION, // User does not have a session
+        ERROR_FORBIDDEN, // User does not have an access to the conversation
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 
@@ -89,7 +90,7 @@ public class AddParticipantsResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static AddParticipantsResponseEvent failure(final Status status,
-                                                         final Throwable exception) {
+                                                       final Throwable exception) {
 
         AddParticipantsResponseEvent event = new AddParticipantsResponseEvent();
 

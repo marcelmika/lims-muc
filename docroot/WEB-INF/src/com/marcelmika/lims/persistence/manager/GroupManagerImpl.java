@@ -45,6 +45,7 @@ import java.util.*;
 public class GroupManagerImpl implements GroupManager {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(GroupManagerImpl.class);
 
     /**

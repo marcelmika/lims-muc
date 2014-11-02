@@ -54,6 +54,7 @@ import java.util.List;
 public class ConversationPersistenceServiceImpl implements ConversationPersistenceService {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(ConversationPersistenceServiceImpl.class);
 
     /**
@@ -85,8 +86,10 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Creator is also participant
-            com.marcelmika.lims.persistence.generated.model.Participant participantModel =
-                    ParticipantLocalServiceUtil.addParticipant(conversationModel.getCid(), creator.getBuddyId());
+            Participant participantModel = ParticipantLocalServiceUtil.addParticipant(
+                    conversationModel.getCid(), creator.getBuddyId()
+            );
+
             participants.add(creator);
 
             // Create updated conversation
@@ -114,12 +117,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      */
     @Override
     public ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event) {
+
         // Map to persistence objects
         Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
         MessagePagination pagination = MessagePagination.fromMessagePaginationDetails(event.getPagination());
         Buddy buddy = Buddy.fromBuddyDetails(event.getParticipant());
 
-        // Read from persistence
+        // Read data from persistence
         try {
             // Find conversation
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
@@ -134,27 +138,32 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 );
             }
 
+            // Get user's participant model for the given conversation
+            Participant participant = ParticipantLocalServiceUtil.getParticipant(
+                    conversationModel.getCid(), buddy.getBuddyId()
+            );
+
+            // User is not in the conversation thus he can't read it
+            if (participant == null) {
+                return ReadSingleUserConversationResponseEvent.readConversationFailure(
+                        ReadSingleUserConversationResponseEvent.Status.ERROR_FORBIDDEN
+                );
+            }
+
             // Map conversation from the persistence conversation model
             conversation = Conversation.fromConversationModel(conversationModel);
 
-            // TODO: Check if participant in event is really in the conversation
-            // Read messages
+            // Add messages
             conversation.setMessages(readMessages(conversationModel.getCid(), pagination));
-            // Read first message
+            // Add first message
             conversation.setFirstMessage(getFirstMessage(conversationModel.getCid()));
-            // Read last message
+            // Add last message
             conversation.setLastMessage(getLastMessage(conversationModel.getCid()));
-
-            // Get participant
-            com.marcelmika.lims.persistence.generated.model.Participant participant =
-                    ParticipantLocalServiceUtil.getParticipant(
-                            conversationModel.getCid(), event.getParticipant().getBuddyId()
-                    );
-            // Add to conversation
+            // Add unread messages count
             conversation.setUnreadMessagesCount(participant.getUnreadMessagesCount());
-            // Read participants
+            // Add participants
             conversation.setParticipants(readParticipants(conversationModel.getCid()));
-            // Set buddy
+            // Add buddy
             conversation.setBuddy(buddy);
 
             // Call Success
@@ -303,8 +312,15 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         }
     }
 
+    /**
+     * Adds buddies to the conversation
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
     @Override
     public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event) {
+
         // Map to persistence objects
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
         String conversationId = event.getConversationId();
@@ -319,32 +335,40 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // No such conversation was found
             if (conversationModel == null) {
-                return AddParticipantsResponseEvent.failure(
-                        AddParticipantsResponseEvent.Status.ERROR_NOT_FOUND
-                );
+                // Failure
+                return AddParticipantsResponseEvent.failure(AddParticipantsResponseEvent.Status.ERROR_NOT_FOUND);
             }
 
             // Check if the conversation is of the multi user type
             if (ConversationType.fromCode(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
-                return AddParticipantsResponseEvent.failure(
-                        AddParticipantsResponseEvent.Status.ERROR_NOT_MUC
-                );
+                // Failure
+                return AddParticipantsResponseEvent.failure(AddParticipantsResponseEvent.Status.ERROR_NOT_MUC);
             }
 
-            // TODO: Check if the user is in the conversation
+            // Check if the user is in the conversation
+            Participant participant = ParticipantLocalServiceUtil.getParticipant(
+                    conversationModel.getCid(), buddy.getBuddyId()
+            );
+
+            // User is not in the conversation thus he can't add participants
+            if (participant == null) {
+                // Failure
+                return AddParticipantsResponseEvent.failure(AddParticipantsResponseEvent.Status.ERROR_FORBIDDEN);
+            }
 
             // Add participants to conversation
-            for (Buddy participant : buddyCollection.getBuddies()) {
+            for (Buddy addedParticipant : buddyCollection.getBuddies()) {
+
                 // Save to persistence
-                ParticipantLocalServiceUtil.addParticipant(conversationModel.getCid(), participant.getBuddyId());
+                ParticipantLocalServiceUtil.addParticipant(conversationModel.getCid(), addedParticipant.getBuddyId());
 
                 // Create new user added message
                 MessageLocalServiceUtil.addMessage(
                         conversationModel.getCid(),         // Message is related to the conversation
-                        participant.getBuddyId(),           // Message is created by buddy
+                        addedParticipant.getBuddyId(),      // Save the added buddy's id
                         MessageType.ADDED.getCode(),        // Message type
-                        null,                               // Body of message
-                        Calendar.getInstance().getTime()    // Date of creation
+                        null,                               // Body of message is empty
+                        Calendar.getInstance().getTime()    // Date of creation is now
                 );
             }
 
@@ -389,7 +413,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 );
             }
 
-
             // Check if the conversation is of the multi user type
             if (ConversationType.fromCode(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
                 return LeaveConversationResponseEvent.failure(
@@ -397,7 +420,16 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 );
             }
 
-            // TODO: Check if the user is in the conversation
+            // Check if the user is in the conversation
+            Participant participant = ParticipantLocalServiceUtil.getParticipant(
+                    conversationModel.getCid(), buddy.getBuddyId()
+            );
+
+            // User is not in the conversation thus he can't leave it
+            if (participant == null) {
+                // Failure
+                return LeaveConversationResponseEvent.failure(LeaveConversationResponseEvent.Status.ERROR_FORBIDDEN);
+            }
 
             // Leave the conversation
             ParticipantLocalServiceUtil.leaveConversation(conversationModel.getCid(), buddy.getBuddyId());
@@ -450,6 +482,17 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 return SendMessageResponseEvent.sendMessageFailure(
                         SendMessageResponseEvent.Status.ERROR_NOT_FOUND
                 );
+            }
+
+            // Check if the user is in the conversation
+            Participant participant = ParticipantLocalServiceUtil.getParticipant(
+                    conversationModel.getCid(), buddy.getBuddyId()
+            );
+
+            // User is not in the conversation thus he can't leave it
+            if (participant == null) {
+                // Failure
+                return SendMessageResponseEvent.sendMessageFailure(SendMessageResponseEvent.Status.ERROR_FORBIDDEN);
             }
 
             // Create new message
