@@ -888,7 +888,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
              */
             panelTitleText: {
                 valueFn: function () {
-                    return this.get('panelTitle').one('.panel-title-text');
+                    return this.get('panelTitle').one('.panel-title-text span');
                 }
             },
 

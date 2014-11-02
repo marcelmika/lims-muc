@@ -56,7 +56,7 @@
                 <button title="<liferay-ui:message key="panel-button-search-title"/>"
                         class="panel-button search"></button>
                 <div class="panel-title-text">
-                    <liferay-ui:message key="panel-contacts-title"/>
+                    <span><liferay-ui:message key="panel-contacts-title"/></span>
                 </div>
             </div>
 

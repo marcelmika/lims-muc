@@ -76,7 +76,7 @@
                 <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
                         class="panel-button minimize"></button>
                 <div class="panel-title-text">
-                    <liferay-ui:message key="panel-status-title"/>
+                    <span><liferay-ui:message key="panel-status-title"/></span>
                 </div>
             </div>
 
