@@ -56,7 +56,7 @@ public class GetConversationParticipantsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static GetConversationParticipantsResponseEvent getParticipantsSuccess(ConversationDetails conversation) {
+    public static GetConversationParticipantsResponseEvent success(ConversationDetails conversation) {
         GetConversationParticipantsResponseEvent event = new GetConversationParticipantsResponseEvent();
 
         event.status = Status.SUCCESS;
@@ -72,7 +72,7 @@ public class GetConversationParticipantsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static GetConversationParticipantsResponseEvent getParticipantsFailure(final Status status) {
+    public static GetConversationParticipantsResponseEvent failure(final Status status) {
         GetConversationParticipantsResponseEvent event = new GetConversationParticipantsResponseEvent();
 
         event.success = false;
@@ -88,8 +88,8 @@ public class GetConversationParticipantsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static GetConversationParticipantsResponseEvent getParticipantsFailure(final Status status,
-                                                                                  final Throwable exception) {
+    public static GetConversationParticipantsResponseEvent failure(final Status status,
+                                                                   final Throwable exception) {
 
         GetConversationParticipantsResponseEvent event = new GetConversationParticipantsResponseEvent();
 

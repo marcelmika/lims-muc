@@ -70,7 +70,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
 
         // buddyId and companyId cannot be null
         if (buddyId == null || companyId == null) {
-            return ConnectBuddyResponseEvent.connectFailure(
+            return ConnectBuddyResponseEvent.failure(
                     "Cannot connect buddy without buddy id or company id", event.getDetails()
             );
         }
@@ -83,7 +83,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
             connectionManager.createConnection();
         } catch (JabberException e) {
             // Failure
-            return ConnectBuddyResponseEvent.connectFailure(e.getMessage(), buddy.toBuddyDetails());
+            return ConnectBuddyResponseEvent.failure(e.getMessage(), buddy.toBuddyDetails());
         }
 
         // Connection with jabber server was successfully created. Consequently, we should
@@ -94,7 +94,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
 
 
         // Success
-        return ConnectBuddyResponseEvent.connectSuccess(
+        return ConnectBuddyResponseEvent.success(
                 "User " + buddy.getBuddyId() + " successfully created connection to jabber server.",
                 buddy.toBuddyDetails()
         );
@@ -116,7 +116,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         UserSession userSession = userSessionStore.getUserSession(buddyId);
         // No session
         if (userSession == null) {
-            return LoginBuddyResponseEvent.loginFailure(
+            return LoginBuddyResponseEvent.failure(
                     LoginBuddyResponseEvent.Status.ERROR_JABBER,
                     new JabberException(String.format("Cannot find session for buddy %s",
                             event.getDetails().getScreenName()))
@@ -130,12 +130,12 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
             connectionManager.login(buddy);
         } catch (JabberException exception) {
             // Failure
-            return LoginBuddyResponseEvent.loginFailure(
+            return LoginBuddyResponseEvent.failure(
                     LoginBuddyResponseEvent.Status.ERROR_JABBER, exception);
         }
 
         // Success
-        return LoginBuddyResponseEvent.loginSuccess(buddy.toBuddyDetails());
+        return LoginBuddyResponseEvent.success(buddy.toBuddyDetails());
     }
 
     /**
@@ -154,7 +154,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         UserSession userSession = userSessionStore.getUserSession(buddyId);
         // No session
         if (userSession == null) {
-            return LogoutBuddyResponseEvent.logoutFailure(
+            return LogoutBuddyResponseEvent.failure(
                     "Cannot find session for buddy.", event.getDetails()
             );
         }
@@ -166,7 +166,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         userSessionStore.removeUserSession(buddyId);
 
         // Success
-        return LogoutBuddyResponseEvent.logoutSuccess(
+        return LogoutBuddyResponseEvent.success(
                 "User " + buddy.getBuddyId() + " successfully signed out",
                 buddy.toBuddyDetails()
         );
@@ -186,7 +186,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         UserSession userSession = userSessionStore.getUserSession(buddyId);
         // No session
         if (userSession == null) {
-            return UpdatePresenceBuddyResponseEvent.updatePresenceFailure(
+            return UpdatePresenceBuddyResponseEvent.failure(
                     UpdatePresenceBuddyResponseEvent.Status.ERROR_NO_SESSION
             );
         }
@@ -199,10 +199,10 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
             // Set presence on server
             connectionManager.setPresence(presence.toSmackPresence());
             // Success
-            return UpdatePresenceBuddyResponseEvent.updatePresenceSuccess();
+            return UpdatePresenceBuddyResponseEvent.success();
         } catch (Exception exception) {
             // Failure
-            return UpdatePresenceBuddyResponseEvent.updatePresenceFailure(
+            return UpdatePresenceBuddyResponseEvent.failure(
                     UpdatePresenceBuddyResponseEvent.Status.ERROR_JABBER, exception
             );
         }

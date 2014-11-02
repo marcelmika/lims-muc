@@ -99,11 +99,11 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             conversation.setParticipants(participants);
 
             // Call Success
-            return CreateConversationResponseEvent.createConversationSuccess(conversation.toConversationDetails());
+            return CreateConversationResponseEvent.success(conversation.toConversationDetails());
         }
         // Failure
         catch (Exception exception) {
-            return CreateConversationResponseEvent.createConversationFailure(
+            return CreateConversationResponseEvent.failure(
                     CreateConversationResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -133,7 +133,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // No such conversation was found
             if (conversationModel == null) {
-                return ReadSingleUserConversationResponseEvent.readConversationFailure(
+                return ReadSingleUserConversationResponseEvent.failure(
                         ReadSingleUserConversationResponseEvent.Status.ERROR_NOT_FOUND
                 );
             }
@@ -145,7 +145,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // User is not in the conversation thus he can't read it
             if (participant == null) {
-                return ReadSingleUserConversationResponseEvent.readConversationFailure(
+                return ReadSingleUserConversationResponseEvent.failure(
                         ReadSingleUserConversationResponseEvent.Status.ERROR_FORBIDDEN
                 );
             }
@@ -167,13 +167,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             conversation.setBuddy(buddy);
 
             // Call Success
-            return ReadSingleUserConversationResponseEvent.readConversationSuccess(
+            return ReadSingleUserConversationResponseEvent.success(
                     conversation.toConversationDetails()
             );
 
         } catch (Exception exception) {
             // Call Failure
-            return ReadSingleUserConversationResponseEvent.readConversationFailure(
+            return ReadSingleUserConversationResponseEvent.failure(
                     ReadSingleUserConversationResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -221,13 +221,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             conversation.setParticipants(buddies);
 
             // Success
-            return GetConversationParticipantsResponseEvent.getParticipantsSuccess(
+            return GetConversationParticipantsResponseEvent.success(
                     conversation.toConversationDetails()
             );
         }
         // Failure
         catch (Exception exception) {
-            return GetConversationParticipantsResponseEvent.getParticipantsFailure(
+            return GetConversationParticipantsResponseEvent.failure(
                     GetConversationParticipantsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -479,7 +479,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // No such conversation was found
             if (conversationModel == null) {
-                return SendMessageResponseEvent.sendMessageFailure(
+                return SendMessageResponseEvent.failure(
                         SendMessageResponseEvent.Status.ERROR_NOT_FOUND
                 );
             }
@@ -492,7 +492,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // User is not in the conversation thus he can't leave it
             if (participant == null) {
                 // Failure
-                return SendMessageResponseEvent.sendMessageFailure(SendMessageResponseEvent.Status.ERROR_FORBIDDEN);
+                return SendMessageResponseEvent.failure(SendMessageResponseEvent.Status.ERROR_FORBIDDEN);
             }
 
             // Create new message
@@ -517,13 +517,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             ConversationLocalServiceUtil.updateConversationTimestamp(conversationModel.getCid());
 
             // Call Success
-            return SendMessageResponseEvent.sendMessageSuccess(successMessage.toMessageDetails());
+            return SendMessageResponseEvent.success(successMessage.toMessageDetails());
 
         }
         // Failure
         catch (Exception exception) {
             // Call Failure
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }

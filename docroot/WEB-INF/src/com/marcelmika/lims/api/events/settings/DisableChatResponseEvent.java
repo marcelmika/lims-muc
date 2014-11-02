@@ -34,7 +34,7 @@ import com.marcelmika.lims.api.events.ResponseEvent;
  */
 public class DisableChatResponseEvent extends ResponseEvent {
 
-    public static DisableChatResponseEvent disableChatSuccess(String result) {
+    public static DisableChatResponseEvent success(String result) {
         DisableChatResponseEvent event = new DisableChatResponseEvent();
         event.result = result;
         event.success = true;
@@ -42,7 +42,7 @@ public class DisableChatResponseEvent extends ResponseEvent {
         return event;
     }
 
-    public static DisableChatResponseEvent disableChatFailure(String result, Throwable exception) {
+    public static DisableChatResponseEvent failure(String result, Throwable exception) {
         DisableChatResponseEvent event = new DisableChatResponseEvent();
         event.result = result;
         event.success = false;

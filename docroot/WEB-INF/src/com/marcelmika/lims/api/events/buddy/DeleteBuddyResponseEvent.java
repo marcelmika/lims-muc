@@ -37,7 +37,7 @@ public class DeleteBuddyResponseEvent extends ResponseEvent {
 
     private BuddyDetails details;
 
-    public static DeleteBuddyResponseEvent removeFailure(String result, BuddyDetails details) {
+    public static DeleteBuddyResponseEvent failure(String result, BuddyDetails details) {
         DeleteBuddyResponseEvent event = new DeleteBuddyResponseEvent();
         event.result = result;
         event.details = details;
@@ -46,7 +46,7 @@ public class DeleteBuddyResponseEvent extends ResponseEvent {
         return event;
     }
 
-    public static DeleteBuddyResponseEvent removeSuccess(String result, BuddyDetails details) {
+    public static DeleteBuddyResponseEvent success(String result, BuddyDetails details) {
         DeleteBuddyResponseEvent event = new DeleteBuddyResponseEvent();
         event.result = result;
         event.details = details;

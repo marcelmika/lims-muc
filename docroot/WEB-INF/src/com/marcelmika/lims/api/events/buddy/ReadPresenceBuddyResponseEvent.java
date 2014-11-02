@@ -37,7 +37,7 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
 
     private PresenceDetails presenceDetails;
 
-    public static ReadPresenceBuddyResponseEvent readPresenceSuccess(String result, PresenceDetails presenceDetails) {
+    public static ReadPresenceBuddyResponseEvent success(String result, PresenceDetails presenceDetails) {
         ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
         event.result = result;
         event.success = true;
@@ -46,7 +46,7 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
         return event;
     }
 
-    public static ReadPresenceBuddyResponseEvent readPresenceFailure(Throwable exception) {
+    public static ReadPresenceBuddyResponseEvent failure(Throwable exception) {
         ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
         event.result = exception.getMessage();
         event.success = false;

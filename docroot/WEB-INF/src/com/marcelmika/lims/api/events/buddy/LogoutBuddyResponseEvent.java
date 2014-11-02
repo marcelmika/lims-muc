@@ -37,7 +37,7 @@ public class LogoutBuddyResponseEvent extends ResponseEvent {
 
     private BuddyDetails details;
 
-    public static LogoutBuddyResponseEvent logoutFailure(String result, BuddyDetails details) {
+    public static LogoutBuddyResponseEvent failure(String result, BuddyDetails details) {
         LogoutBuddyResponseEvent event = new LogoutBuddyResponseEvent();
         event.result = result;
         event.details = details;
@@ -46,7 +46,7 @@ public class LogoutBuddyResponseEvent extends ResponseEvent {
         return event;
     }
 
-    public static LogoutBuddyResponseEvent logoutSuccess(String result, BuddyDetails details) {
+    public static LogoutBuddyResponseEvent success(String result, BuddyDetails details) {
         LogoutBuddyResponseEvent event = new LogoutBuddyResponseEvent();
         event.result = result;
         event.details = details;

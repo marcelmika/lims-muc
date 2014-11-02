@@ -59,7 +59,7 @@ public class SearchBuddiesResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static SearchBuddiesResponseEvent searchSuccess(final List<BuddyDetails> searchResults) {
+    public static SearchBuddiesResponseEvent success(final List<BuddyDetails> searchResults) {
         SearchBuddiesResponseEvent event = new SearchBuddiesResponseEvent();
 
         event.success = true;
@@ -75,7 +75,7 @@ public class SearchBuddiesResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static SearchBuddiesResponseEvent searchFailure(final Status status) {
+    public static SearchBuddiesResponseEvent failure(final Status status) {
         SearchBuddiesResponseEvent event = new SearchBuddiesResponseEvent();
 
         event.success = false;
@@ -91,8 +91,8 @@ public class SearchBuddiesResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static SearchBuddiesResponseEvent searchFailure(final Status status,
-                                                          final Throwable exception) {
+    public static SearchBuddiesResponseEvent failure(final Status status,
+                                                     final Throwable exception) {
 
         SearchBuddiesResponseEvent event = new SearchBuddiesResponseEvent();
 

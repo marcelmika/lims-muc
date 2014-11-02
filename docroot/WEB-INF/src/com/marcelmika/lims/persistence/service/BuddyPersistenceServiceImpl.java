@@ -78,11 +78,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             }
 
             // Call success
-            return LoginBuddyResponseEvent.loginSuccess(buddy.toBuddyDetails());
+            return LoginBuddyResponseEvent.success(buddy.toBuddyDetails());
 
         } catch (Exception exception) {
             // Call failure
-            return LoginBuddyResponseEvent.loginFailure(
+            return LoginBuddyResponseEvent.failure(
                     LoginBuddyResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -104,11 +104,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             SettingsLocalServiceUtil.changePresence(buddy.getBuddyId(), Presence.OFFLINE.getDescription());
 
             // Call success
-            return LogoutBuddyResponseEvent.logoutSuccess("User successfully logged out", buddy.toBuddyDetails());
+            return LogoutBuddyResponseEvent.success("User successfully logged out", buddy.toBuddyDetails());
 
         } catch (Exception e) {
             // Call failure
-            return LogoutBuddyResponseEvent.logoutFailure(e.getLocalizedMessage(), buddy.toBuddyDetails());
+            return LogoutBuddyResponseEvent.failure(e.getLocalizedMessage(), buddy.toBuddyDetails());
         }
     }
 
@@ -131,11 +131,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 SettingsLocalServiceUtil.deleteSettings(settings);
             }
             // Success
-            return DeleteBuddyResponseEvent.removeSuccess("Buddy " + buddy.getBuddyId() + " has been successfully " +
+            return DeleteBuddyResponseEvent.success("Buddy " + buddy.getBuddyId() + " has been successfully " +
                     "removed from the persistence layer", buddy.toBuddyDetails());
         } catch (Exception e) {
             // Failure
-            return DeleteBuddyResponseEvent.removeFailure(
+            return DeleteBuddyResponseEvent.failure(
                     "Cannot remove buddy from persistence layer.",
                     buddy.toBuddyDetails()
             );
@@ -161,19 +161,19 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 // Create Presence from string
                 Presence presence = Presence.fromDescription(settings.getPresence());
                 // Success
-                return ReadPresenceBuddyResponseEvent.readPresenceSuccess(
+                return ReadPresenceBuddyResponseEvent.success(
                         "Presence successfully read", presence.toPresenceDetails()
                 );
             } else {
                 // Failure
-                return ReadPresenceBuddyResponseEvent.readPresenceFailure(
+                return ReadPresenceBuddyResponseEvent.failure(
                         new Exception(String.format("Cannot find settings for buddy with ID: %s", buddy.getBuddyId()))
                 );
             }
 
         } catch (Exception e) {
             // Failure
-            return ReadPresenceBuddyResponseEvent.readPresenceFailure(e);
+            return ReadPresenceBuddyResponseEvent.failure(e);
         }
     }
 
@@ -192,11 +192,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             // Save to settings
             SettingsLocalServiceUtil.changePresence(event.getBuddyId(), presence.getDescription());
             // Success
-            return UpdatePresenceBuddyResponseEvent.updatePresenceSuccess();
+            return UpdatePresenceBuddyResponseEvent.success();
 
         } catch (Exception exception) {
             // Failure
-            return UpdatePresenceBuddyResponseEvent.updatePresenceFailure(
+            return UpdatePresenceBuddyResponseEvent.failure(
                     UpdatePresenceBuddyResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -215,7 +215,7 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
 
         // Check params
         if (buddy.getBuddyId() == null) {
-            return SearchBuddiesResponseEvent.searchFailure(SearchBuddiesResponseEvent.Status.ERROR_WRONG_PARAMETERS);
+            return SearchBuddiesResponseEvent.failure(SearchBuddiesResponseEvent.Status.ERROR_WRONG_PARAMETERS);
         }
 
         try {
@@ -233,11 +233,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             }
 
             // Call success
-            return SearchBuddiesResponseEvent.searchSuccess(buddyDetails);
+            return SearchBuddiesResponseEvent.success(buddyDetails);
         }
         // Failure
         catch (Exception exception) {
-            return SearchBuddiesResponseEvent.searchFailure(
+            return SearchBuddiesResponseEvent.failure(
                     SearchBuddiesResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }

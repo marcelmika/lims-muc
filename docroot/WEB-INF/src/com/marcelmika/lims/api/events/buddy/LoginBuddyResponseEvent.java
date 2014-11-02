@@ -57,7 +57,7 @@ public class LoginBuddyResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static LoginBuddyResponseEvent loginSuccess(final BuddyDetails buddyDetails) {
+    public static LoginBuddyResponseEvent success(final BuddyDetails buddyDetails) {
         LoginBuddyResponseEvent event = new LoginBuddyResponseEvent();
 
         event.success = true;
@@ -73,7 +73,7 @@ public class LoginBuddyResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static LoginBuddyResponseEvent loginFailure(final Status status) {
+    public static LoginBuddyResponseEvent failure(final Status status) {
         LoginBuddyResponseEvent event = new LoginBuddyResponseEvent();
 
         event.success = false;
@@ -89,8 +89,8 @@ public class LoginBuddyResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static LoginBuddyResponseEvent loginFailure(final Status status,
-                                                       final Throwable exception) {
+    public static LoginBuddyResponseEvent failure(final Status status,
+                                                  final Throwable exception) {
 
         LoginBuddyResponseEvent event = new LoginBuddyResponseEvent();
 

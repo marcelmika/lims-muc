@@ -62,7 +62,7 @@ public class SendMessageResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static SendMessageResponseEvent sendMessageSuccess(MessageDetails message) {
+    public static SendMessageResponseEvent success(MessageDetails message) {
         SendMessageResponseEvent event = new SendMessageResponseEvent();
 
         event.status = Status.SUCCESS;
@@ -78,7 +78,7 @@ public class SendMessageResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static SendMessageResponseEvent sendMessageFailure(final Status status) {
+    public static SendMessageResponseEvent failure(final Status status) {
         SendMessageResponseEvent event = new SendMessageResponseEvent();
 
         event.success = false;
@@ -94,8 +94,8 @@ public class SendMessageResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static SendMessageResponseEvent sendMessageFailure(final Status status,
-                                                              final Throwable exception) {
+    public static SendMessageResponseEvent failure(final Status status,
+                                                   final Throwable exception) {
 
         SendMessageResponseEvent event = new SendMessageResponseEvent();
 

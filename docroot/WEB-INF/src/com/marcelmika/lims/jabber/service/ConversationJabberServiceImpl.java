@@ -96,7 +96,7 @@ public class ConversationJabberServiceImpl
     public CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event) {
         // Check preconditions
         if (event.getConversation() == null) {
-            return CreateConversationResponseEvent.createConversationFailure(
+            return CreateConversationResponseEvent.failure(
                     CreateConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS
             );
         }
@@ -108,7 +108,7 @@ public class ConversationJabberServiceImpl
         UserSession userSession = userSessionStore.getUserSession(creator.getBuddyId());
         // No session
         if (userSession == null) {
-            return CreateConversationResponseEvent.createConversationFailure(
+            return CreateConversationResponseEvent.failure(
                     CreateConversationResponseEvent.Status.ERROR_NO_SESSION
             );
         }
@@ -124,17 +124,17 @@ public class ConversationJabberServiceImpl
             // There is no need to create a conversation if we are dealing with the single user chat.
             // Each time the message is set a new chat object is created. Thus we don't need to
             // explicitly trigger any create conversation action. Consequently, return success.
-            return CreateConversationResponseEvent.createConversationSuccess(event.getConversation());
+            return CreateConversationResponseEvent.success(event.getConversation());
         }
         // Multi user conversation
         else if (conversationType == ConversationType.MULTI_USER) {
-            return CreateConversationResponseEvent.createConversationFailure(
+            return CreateConversationResponseEvent.failure(
                     CreateConversationResponseEvent.Status.ERROR_NOT_IMPLEMENTED
             );
         }
         // Unrecognized type
         else {
-            return CreateConversationResponseEvent.createConversationFailure(
+            return CreateConversationResponseEvent.failure(
                     CreateConversationResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE
             );
         }
@@ -153,7 +153,7 @@ public class ConversationJabberServiceImpl
                 event.getMessageDetails() == null ||
                 event.getConversationDetails() == null ||
                 event.getConversationDetails().getBuddy() == null) {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_WRONG_PARAMETERS
             );
         }
@@ -168,7 +168,7 @@ public class ConversationJabberServiceImpl
         UserSession userSession = userSessionStore.getUserSession(buddyId);
         // No session
         if (userSession == null) {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_NO_SESSION
             );
         }
@@ -190,13 +190,13 @@ public class ConversationJabberServiceImpl
         }
         // Multi user conversation
         else if (conversationType == ConversationType.MULTI_USER) {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_NOT_IMPLEMENTED
             );
         }
         // Unrecognized type
         else {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE
             );
         }
@@ -242,12 +242,12 @@ public class ConversationJabberServiceImpl
         }
         // Failure
         catch (JabberException exception) {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_JABBER, exception);
         }
 
         // Success
-        return SendMessageResponseEvent.sendMessageSuccess(message.toMessageDetails());
+        return SendMessageResponseEvent.success(message.toMessageDetails());
     }
 
 

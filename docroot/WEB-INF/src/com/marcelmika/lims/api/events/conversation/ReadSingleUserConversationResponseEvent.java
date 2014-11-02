@@ -59,7 +59,7 @@ public class ReadSingleUserConversationResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadSingleUserConversationResponseEvent readConversationSuccess(ConversationDetails conversation) {
+    public static ReadSingleUserConversationResponseEvent success(ConversationDetails conversation) {
         ReadSingleUserConversationResponseEvent event = new ReadSingleUserConversationResponseEvent();
 
         event.status = Status.SUCCESS;
@@ -75,7 +75,7 @@ public class ReadSingleUserConversationResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadSingleUserConversationResponseEvent readConversationFailure(final Status status) {
+    public static ReadSingleUserConversationResponseEvent failure(final Status status) {
         ReadSingleUserConversationResponseEvent event = new ReadSingleUserConversationResponseEvent();
 
         event.success = false;
@@ -91,8 +91,8 @@ public class ReadSingleUserConversationResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadSingleUserConversationResponseEvent readConversationFailure(final Status status,
-                                                                                  final Throwable exception) {
+    public static ReadSingleUserConversationResponseEvent failure(final Status status,
+                                                                  final Throwable exception) {
 
         ReadSingleUserConversationResponseEvent event = new ReadSingleUserConversationResponseEvent();
 

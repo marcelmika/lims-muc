@@ -57,7 +57,7 @@ public class GetGroupsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static GetGroupsResponseEvent getGroupsSuccess(final GroupCollectionDetails groupCollection) {
+    public static GetGroupsResponseEvent success(final GroupCollectionDetails groupCollection) {
         GetGroupsResponseEvent event = new GetGroupsResponseEvent();
 
         event.success = true;
@@ -73,7 +73,7 @@ public class GetGroupsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static GetGroupsResponseEvent getGroupsFailure(final Status status) {
+    public static GetGroupsResponseEvent failure(final Status status) {
         GetGroupsResponseEvent event = new GetGroupsResponseEvent();
 
         event.success = false;
@@ -89,8 +89,8 @@ public class GetGroupsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static GetGroupsResponseEvent getGroupsFailure(final Status status,
-                                                          final Throwable exception) {
+    public static GetGroupsResponseEvent failure(final Status status,
+                                                 final Throwable exception) {
 
         GetGroupsResponseEvent event = new GetGroupsResponseEvent();
 

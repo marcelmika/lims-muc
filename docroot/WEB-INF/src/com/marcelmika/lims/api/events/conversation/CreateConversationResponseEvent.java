@@ -60,7 +60,7 @@ public class CreateConversationResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static CreateConversationResponseEvent createConversationSuccess(ConversationDetails conversation) {
+    public static CreateConversationResponseEvent success(ConversationDetails conversation) {
         CreateConversationResponseEvent event = new CreateConversationResponseEvent();
 
         event.conversation = conversation;
@@ -76,7 +76,7 @@ public class CreateConversationResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static CreateConversationResponseEvent createConversationFailure(final Status status) {
+    public static CreateConversationResponseEvent failure(final Status status) {
         CreateConversationResponseEvent event = new CreateConversationResponseEvent();
 
         event.success = false;
@@ -92,8 +92,8 @@ public class CreateConversationResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static CreateConversationResponseEvent createConversationFailure(final Status status,
-                                                                            final Throwable exception) {
+    public static CreateConversationResponseEvent failure(final Status status,
+                                                          final Throwable exception) {
         CreateConversationResponseEvent event = new CreateConversationResponseEvent();
 
         event.success = false;

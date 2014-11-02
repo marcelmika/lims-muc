@@ -64,11 +64,11 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             );
 
             // Success
-            return ReadSettingsResponseEvent.readSettingsSuccess(settings.toSettingsDetails());
+            return ReadSettingsResponseEvent.success(settings.toSettingsDetails());
 
         } catch (Exception exception) {
             // Failure
-            return ReadSettingsResponseEvent.readSettingsFailure(
+            return ReadSettingsResponseEvent.failure(
                     ReadSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -85,7 +85,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         // Check params
         if (event.getBuddyId() == null) {
-            return UpdateActivePanelResponseEvent.updateActivePanelFailure(
+            return UpdateActivePanelResponseEvent.failure(
                     UpdateActivePanelResponseEvent.Status.ERROR_WRONG_PARAMETERS
             );
         }
@@ -95,11 +95,11 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             PanelLocalServiceUtil.updateActivePanel(event.getBuddyId(), event.getActivePanel());
 
             // Success
-            return UpdateActivePanelResponseEvent.updateActivePanelSuccess(event.getActivePanel());
+            return UpdateActivePanelResponseEvent.success(event.getActivePanel());
 
         } catch (Exception exception) {
             // Failure
-            return UpdateActivePanelResponseEvent.updateActivePanelFailure(
+            return UpdateActivePanelResponseEvent.failure(
                     UpdateActivePanelResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -117,7 +117,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         // Check params
         if (event.getBuddyId() == null) {
-            return UpdateSettingsResponseEvent.updateSettingsFailure(
+            return UpdateSettingsResponseEvent.failure(
                     UpdateSettingsResponseEvent.Status.ERROR_WRONG_PARAMETERS
             );
         }
@@ -134,11 +134,11 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             SettingsLocalServiceUtil.saveSettings(settings);
 
             // Success
-            return UpdateSettingsResponseEvent.updateSettingsSuccess(details);
+            return UpdateSettingsResponseEvent.success(details);
 
         } catch (Exception exception) {
             // Failure
-            return UpdateSettingsResponseEvent.updateSettingsFailure(
+            return UpdateSettingsResponseEvent.failure(
                     UpdateSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
@@ -159,11 +159,11 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), true);
             // Success
-            return EnableChatResponseEvent.enableChatSuccess("User chat enabled");
+            return EnableChatResponseEvent.success("User chat enabled");
 
         } catch (Exception e) {
             // Failure
-            return EnableChatResponseEvent.enableChatFailure("Cannot enable chat", e);
+            return EnableChatResponseEvent.failure("Cannot enable chat", e);
         }
     }
 
@@ -182,11 +182,11 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), false);
             // Success
-            return DisableChatResponseEvent.disableChatSuccess("Chat disabled");
+            return DisableChatResponseEvent.success("Chat disabled");
 
         } catch (Exception e) {
             // Failure
-            return DisableChatResponseEvent.disableChatFailure("Cannot disable chat", e);
+            return DisableChatResponseEvent.failure("Cannot disable chat", e);
         }
     }
 }

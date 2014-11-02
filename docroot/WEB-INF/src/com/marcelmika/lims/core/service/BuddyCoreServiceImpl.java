@@ -82,7 +82,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             );
             // [1.1] Return error on failure
             if (!connectResponseEvent.isSuccess()) {
-                return LoginBuddyResponseEvent.loginFailure(
+                return LoginBuddyResponseEvent.failure(
                         LoginBuddyResponseEvent.Status.ERROR_JABBER,
                         connectResponseEvent.getException()
                 );

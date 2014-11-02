@@ -44,7 +44,7 @@ public class ConnectBuddyResponseEvent extends ResponseEvent {
      * @param details  related to the event
      * @return ConnectBuddyResponseEvent
      */
-    public static ConnectBuddyResponseEvent connectFailure(String result, BuddyDetails details) {
+    public static ConnectBuddyResponseEvent failure(String result, BuddyDetails details) {
         ConnectBuddyResponseEvent event = new ConnectBuddyResponseEvent();
         event.result = result;
         event.details = details;
@@ -60,7 +60,7 @@ public class ConnectBuddyResponseEvent extends ResponseEvent {
      * @param details related to the event
      * @return ConnectBuddyResponseEvent
      */
-    public static ConnectBuddyResponseEvent connectSuccess(String result, BuddyDetails details) {
+    public static ConnectBuddyResponseEvent success(String result, BuddyDetails details) {
         ConnectBuddyResponseEvent event = new ConnectBuddyResponseEvent();
         event.result = result;
         event.details = details;

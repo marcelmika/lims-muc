@@ -94,7 +94,7 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         // Chat is enabled
         ResponseEvent responseEvent = settingsPersistenceService.enableChat(event);
         if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.enableChatFailure("Cannot enable chat", responseEvent.getException());
+            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
         }
 
         // No active panel
@@ -102,10 +102,10 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
         if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.enableChatFailure("Cannot enable chat", responseEvent.getException());
+            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
         }
 
-        return EnableChatResponseEvent.enableChatSuccess("Chat was successfully enabled");
+        return EnableChatResponseEvent.success("Chat was successfully enabled");
     }
 
     /**
@@ -119,7 +119,7 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         // Chat is disabled
         ResponseEvent responseEvent = settingsPersistenceService.disableChat(event);
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.disableChatFailure("Cannot disable chat", responseEvent.getException());
+            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
         }
 
         // No active panel
@@ -127,9 +127,9 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.disableChatFailure("Cannot disable chat", responseEvent.getException());
+            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
         }
 
-        return DisableChatResponseEvent.disableChatSuccess("Chat was successfully disabled");
+        return DisableChatResponseEvent.success("Chat was successfully disabled");
     }
 }

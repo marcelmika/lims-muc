@@ -56,7 +56,7 @@ public class UpdatePresenceBuddyResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static UpdatePresenceBuddyResponseEvent updatePresenceSuccess() {
+    public static UpdatePresenceBuddyResponseEvent success() {
         UpdatePresenceBuddyResponseEvent event = new UpdatePresenceBuddyResponseEvent();
 
         event.success = true;
@@ -71,7 +71,7 @@ public class UpdatePresenceBuddyResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static UpdatePresenceBuddyResponseEvent updatePresenceFailure(final Status status) {
+    public static UpdatePresenceBuddyResponseEvent failure(final Status status) {
         UpdatePresenceBuddyResponseEvent event = new UpdatePresenceBuddyResponseEvent();
 
         event.success = false;
@@ -87,8 +87,8 @@ public class UpdatePresenceBuddyResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static UpdatePresenceBuddyResponseEvent updatePresenceFailure(final Status status,
-                                                                         final Throwable exception) {
+    public static UpdatePresenceBuddyResponseEvent failure(final Status status,
+                                                           final Throwable exception) {
 
         UpdatePresenceBuddyResponseEvent event = new UpdatePresenceBuddyResponseEvent();
 

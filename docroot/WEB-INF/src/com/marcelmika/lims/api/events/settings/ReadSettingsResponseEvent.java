@@ -55,7 +55,7 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent readSettingsSuccess(SettingsDetails settingsDetails) {
+    public static ReadSettingsResponseEvent success(SettingsDetails settingsDetails) {
         ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
 
         event.success = true;
@@ -71,7 +71,7 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent readSettingsFailure(final Status status) {
+    public static ReadSettingsResponseEvent failure(final Status status) {
         ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
 
         event.success = false;
@@ -87,8 +87,8 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent readSettingsFailure(final Status status,
-                                                                final Throwable exception) {
+    public static ReadSettingsResponseEvent failure(final Status status,
+                                                    final Throwable exception) {
         ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
 
         event.success = false;

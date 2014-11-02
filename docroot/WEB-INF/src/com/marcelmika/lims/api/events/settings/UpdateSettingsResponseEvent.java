@@ -56,7 +56,7 @@ public class UpdateSettingsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static UpdateSettingsResponseEvent updateSettingsSuccess(final SettingsDetails settingsDetails) {
+    public static UpdateSettingsResponseEvent success(final SettingsDetails settingsDetails) {
         UpdateSettingsResponseEvent event = new UpdateSettingsResponseEvent();
 
         event.success = true;
@@ -72,7 +72,7 @@ public class UpdateSettingsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static UpdateSettingsResponseEvent updateSettingsFailure(final Status status) {
+    public static UpdateSettingsResponseEvent failure(final Status status) {
         UpdateSettingsResponseEvent event = new UpdateSettingsResponseEvent();
 
         event.success = false;
@@ -88,8 +88,8 @@ public class UpdateSettingsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static UpdateSettingsResponseEvent updateSettingsFailure(final Status status,
-                                                                    final Throwable exception) {
+    public static UpdateSettingsResponseEvent failure(final Status status,
+                                                      final Throwable exception) {
 
         UpdateSettingsResponseEvent event = new UpdateSettingsResponseEvent();
 

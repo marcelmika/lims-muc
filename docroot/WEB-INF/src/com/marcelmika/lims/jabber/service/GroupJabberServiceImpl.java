@@ -69,7 +69,7 @@ public class GroupJabberServiceImpl implements GroupJabberService {
         UserSession userSession = userSessionStore.getUserSession(buddyId);
         // No session
         if (userSession == null) {
-            return GetGroupsResponseEvent.getGroupsFailure(
+            return GetGroupsResponseEvent.failure(
                     GetGroupsResponseEvent.Status.ERROR_JABBER,
                     new JabberException(String.format("No session for user %d found", buddyId))
             );
@@ -80,6 +80,6 @@ public class GroupJabberServiceImpl implements GroupJabberService {
         // Get a list of groups
         GroupCollection groupCollection = groupManager.getGroupCollection();
         // Return success
-        return GetGroupsResponseEvent.getGroupsSuccess(groupCollection.toGroupCollectionDetails());
+        return GetGroupsResponseEvent.success(groupCollection.toGroupCollectionDetails());
     }
 }

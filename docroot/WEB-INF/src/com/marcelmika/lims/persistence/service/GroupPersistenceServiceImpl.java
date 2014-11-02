@@ -70,7 +70,7 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
 
         // Check params
         if (buddy.getBuddyId() == null) {
-            return GetGroupsResponseEvent.getGroupsFailure(GetGroupsResponseEvent.Status.ERROR_WRONG_PARAMETERS);
+            return GetGroupsResponseEvent.failure(GetGroupsResponseEvent.Status.ERROR_WRONG_PARAMETERS);
         }
 
         try {
@@ -82,12 +82,12 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
             GroupCollection groupCollection = groupManager.getGroups(buddy.getBuddyId(), start, end);
 
             // Call success
-            return GetGroupsResponseEvent.getGroupsSuccess(groupCollection.toGroupCollectionDetails());
+            return GetGroupsResponseEvent.success(groupCollection.toGroupCollectionDetails());
         }
         // Something went wrong
         catch (Exception exception) {
             // Failure
-            return GetGroupsResponseEvent.getGroupsFailure(
+            return GetGroupsResponseEvent.failure(
                     GetGroupsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }

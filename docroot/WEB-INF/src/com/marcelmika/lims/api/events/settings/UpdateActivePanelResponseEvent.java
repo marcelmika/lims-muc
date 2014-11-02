@@ -55,7 +55,7 @@ public class UpdateActivePanelResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static UpdateActivePanelResponseEvent updateActivePanelSuccess(final String activePanelId) {
+    public static UpdateActivePanelResponseEvent success(final String activePanelId) {
         UpdateActivePanelResponseEvent event = new UpdateActivePanelResponseEvent();
 
         event.success = true;
@@ -71,7 +71,7 @@ public class UpdateActivePanelResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static UpdateActivePanelResponseEvent updateActivePanelFailure(final Status status) {
+    public static UpdateActivePanelResponseEvent failure(final Status status) {
         UpdateActivePanelResponseEvent event = new UpdateActivePanelResponseEvent();
 
         event.success = false;
@@ -87,8 +87,8 @@ public class UpdateActivePanelResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static UpdateActivePanelResponseEvent updateActivePanelFailure(final Status status,
-                                                                          final Throwable exception) {
+    public static UpdateActivePanelResponseEvent failure(final Status status,
+                                                         final Throwable exception) {
 
         UpdateActivePanelResponseEvent event = new UpdateActivePanelResponseEvent();
 

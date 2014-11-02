@@ -205,7 +205,7 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
         );
         // Failure
         if (!participantListEvent.isSuccess()) {
-            return SendMessageResponseEvent.sendMessageFailure(
+            return SendMessageResponseEvent.failure(
                     SendMessageResponseEvent.Status.ERROR_PERSISTENCE, participantListEvent.getException()
             );
         }
@@ -233,14 +233,14 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             );
             // Failure
             if (!jabberResponseEvent.isSuccess()) {
-                return SendMessageResponseEvent.sendMessageFailure(
+                return SendMessageResponseEvent.failure(
                         SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
                 );
             }
         }
 
         // Return persistence event
-        return SendMessageResponseEvent.sendMessageSuccess(
+        return SendMessageResponseEvent.success(
                 persistenceResponseEvent.getMessage()
         );
     }
