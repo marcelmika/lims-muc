@@ -115,6 +115,15 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
      */
     resetUnreadMessagesCounter: function (callback) {
 
+        // There is no need to send anything to server if the counter is already set to zero
+        if (this.get('unreadMessagesCount') === 0) {
+            if (callback) {
+                callback(null, this);
+            }
+            // End here
+            return;
+        }
+
         // Vars
         var instance = this,
             parameters = Y.JSON.stringify({
