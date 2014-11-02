@@ -86,6 +86,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
 
         // Local events
         inputTokenPlugin.on('removeToken', this._onTokenRemove, this);
+        inputTokenPlugin.on('tokensChange', this._onTokensChange, this);
 
         if (autoCompleteNode) {
             autoCompleteNode.after('select', this._onAutoCompleteSelected, this);
@@ -122,6 +123,24 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         });
     },
 
+
+    /**
+     * Scrolls the content to bottom
+     *
+     * @private
+     */
+    _scrollToBottom: function () {
+        // Vars
+        var contentNode = this.get('contentNode'),
+            scrollHeight = contentNode.get('scrollHeight');
+
+        // Wait a second before we scroll to avoid blinking effect
+        setTimeout(function () {
+            contentNode.set('scrollTop', scrollHeight);
+        }, 1);
+
+    },
+
     /**
      * Called when a token is removed
      *
@@ -136,6 +155,21 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         this.set('selectedBuddies', Y.Array.filter(this.get('selectedBuddies'), function (buddy) {
             return buddy.get('fullName') !== fullName;
         }));
+    },
+
+    /**
+     * Called when the tokens change
+     *
+     * @private
+     */
+    _onTokensChange: function (event) {
+        // Vars
+        var tokensAdded = event.newVal.length > event.prevVal.length; // True if new values were added
+
+        if (tokensAdded) {
+            // Scroll the content to bottom
+            this._scrollToBottom();
+        }
     },
 
     /**
@@ -315,6 +349,17 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         tokenListNode: {
             valueFn: function () {
                 return this.get('inputTokenPlugin').get('listNode');
+            }
+        },
+
+        /**
+         * Token input content node
+         *
+         * {Node}
+         */
+        contentNode: {
+            valueFn: function () {
+                return this.get('inputTokenPlugin').get('contentBox');
             }
         },
 
