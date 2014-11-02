@@ -93,15 +93,14 @@ public interface ConversationModel extends BaseModel<Conversation> {
 	 *
 	 * @return the conversation type of this conversation
 	 */
-	@AutoEscape
-	public String getConversationType();
+	public int getConversationType();
 
 	/**
 	 * Sets the conversation type of this conversation.
 	 *
 	 * @param conversationType the conversation type of this conversation
 	 */
-	public void setConversationType(String conversationType);
+	public void setConversationType(int conversationType);
 
 	/**
 	 * Returns the updated at of this conversation.

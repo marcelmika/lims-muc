@@ -6,7 +6,7 @@
 		<field name="conversationId" type="String">
 			<hint name="max-length">256</hint>
 		</field>
-		<field name="conversationType" type="String" />
+		<field name="conversationType" type="int" />
 		<field name="updatedAt" type="Date" />
 	</model>
 	<model name="com.marcelmika.lims.persistence.generated.model.Message">

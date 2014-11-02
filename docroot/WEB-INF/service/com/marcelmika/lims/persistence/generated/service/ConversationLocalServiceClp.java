@@ -117,9 +117,7 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 
 		_methodName19 = "addConversation";
 
-		_methodParameterTypes19 = new String[] {
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes19 = new String[] { "java.lang.String", "int" };
 
 		_methodName20 = "getConversation";
 
@@ -681,7 +679,7 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation addConversation(
-		java.lang.String conversationId, java.lang.String conversationType)
+		java.lang.String conversationId, int conversationTypeCode)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -691,7 +689,7 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 					new Object[] {
 						ClpSerializer.translateInput(conversationId),
 						
-					ClpSerializer.translateInput(conversationType)
+					conversationTypeCode
 					});
 		}
 		catch (Throwable t) {

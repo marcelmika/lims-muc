@@ -124,7 +124,7 @@ public class Conversation {
         Conversation conversation = new Conversation();
         // Map parameters
         conversation.conversationId = conversationModel.getConversationId();
-        conversation.conversationType = ConversationType.fromString(conversationModel.getConversationType());
+        conversation.conversationType = ConversationType.fromCode(conversationModel.getConversationType());
         conversation.updatedAt = conversationModel.getUpdatedAt();
 
         return conversation;

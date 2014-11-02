@@ -73,7 +73,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Save conversation
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.addConversation(
-                            conversation.getConversationId(), conversation.getConversationType().toString()
+                            conversation.getConversationId(), conversation.getConversationType().getCode()
                     );
 
             // Add participants to response
@@ -325,7 +325,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Check if the conversation is of the multi user type
-            if (ConversationType.fromString(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
+            if (ConversationType.fromCode(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
                 return AddParticipantsResponseEvent.failure(
                         AddParticipantsResponseEvent.Status.ERROR_NOT_MUC
                 );
@@ -391,7 +391,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
 
             // Check if the conversation is of the multi user type
-            if (ConversationType.fromString(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
+            if (ConversationType.fromCode(conversationModel.getConversationType()) != ConversationType.MULTI_USER) {
                 return LeaveConversationResponseEvent.failure(
                         LeaveConversationResponseEvent.Status.ERROR_NOT_MUC
                 );

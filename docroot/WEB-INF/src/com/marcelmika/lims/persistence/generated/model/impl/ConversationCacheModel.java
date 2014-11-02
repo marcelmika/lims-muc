@@ -66,12 +66,7 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 			conversationImpl.setConversationId(conversationId);
 		}
 
-		if (conversationType == null) {
-			conversationImpl.setConversationType(StringPool.BLANK);
-		}
-		else {
-			conversationImpl.setConversationType(conversationType);
-		}
+		conversationImpl.setConversationType(conversationType);
 
 		if (updatedAt == Long.MIN_VALUE) {
 			conversationImpl.setUpdatedAt(null);
@@ -89,7 +84,7 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		cid = objectInput.readLong();
 		conversationId = objectInput.readUTF();
-		conversationType = objectInput.readUTF();
+		conversationType = objectInput.readInt();
 		updatedAt = objectInput.readLong();
 	}
 
@@ -105,18 +100,12 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 			objectOutput.writeUTF(conversationId);
 		}
 
-		if (conversationType == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(conversationType);
-		}
-
+		objectOutput.writeInt(conversationType);
 		objectOutput.writeLong(updatedAt);
 	}
 
 	public long cid;
 	public String conversationId;
-	public String conversationType;
+	public int conversationType;
 	public long updatedAt;
 }

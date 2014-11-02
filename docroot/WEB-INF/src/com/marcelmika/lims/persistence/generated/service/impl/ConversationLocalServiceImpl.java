@@ -43,14 +43,14 @@ public class ConversationLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil} to access the conversation local service.
 	 */
 
-    public Conversation addConversation(String conversationId, String conversationType) throws SystemException {
+    public Conversation addConversation(String conversationId, int conversationTypeCode) throws SystemException {
         // Fetch possible existing conversation
         Conversation conversationModel = conversationPersistence.fetchByConversationId(conversationId);
 
         if (conversationModel == null) {
             conversationModel = conversationPersistence.create(counterLocalService.increment());
             conversationModel.setConversationId(conversationId);
-            conversationModel.setConversationType(conversationType);
+            conversationModel.setConversationType(conversationTypeCode);
 
             // Update calendar time
             Calendar calendar = Calendar.getInstance();

@@ -288,10 +288,10 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation addConversation(
-		java.lang.String conversationId, java.lang.String conversationType)
+		java.lang.String conversationId, int conversationTypeCode)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _conversationLocalService.addConversation(conversationId,
-			conversationType);
+			conversationTypeCode);
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 			setConversationId(conversationId);
 		}
 
-		String conversationType = (String)attributes.get("conversationType");
+		Integer conversationType = (Integer)attributes.get("conversationType");
 
 		if (conversationType != null) {
 			setConversationType(conversationType);
@@ -158,20 +158,19 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 	}
 
 	@Override
-	public String getConversationType() {
+	public int getConversationType() {
 		return _conversationType;
 	}
 
 	@Override
-	public void setConversationType(String conversationType) {
+	public void setConversationType(int conversationType) {
 		_conversationType = conversationType;
 
 		if (_conversationRemoteModel != null) {
 			try {
 				Class<?> clazz = _conversationRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setConversationType",
-						String.class);
+				Method method = clazz.getMethod("setConversationType", int.class);
 
 				method.invoke(_conversationRemoteModel, conversationType);
 			}
@@ -373,7 +372,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 
 	private long _cid;
 	private String _conversationId;
-	private String _conversationType;
+	private int _conversationType;
 	private Date _updatedAt;
 	private BaseModel<?> _conversationRemoteModel;
 }

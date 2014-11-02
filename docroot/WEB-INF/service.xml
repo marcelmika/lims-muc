@@ -40,7 +40,7 @@
     <entity name='Conversation' local-service='true' remote-service='false'>
         <column name='cid' type='long' primary='true'/>
         <column name='conversationId' type='String'/>
-        <column name='conversationType' type='String'/>
+        <column name='conversationType' type='int'/>
         <column name='updatedAt' type='Date'/>
         <order>
             <order-column name="updatedAt" order-by="desc"/>

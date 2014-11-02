@@ -116,9 +116,7 @@ public class ConversationLocalServiceClpInvoker {
 
 		_methodName60 = "addConversation";
 
-		_methodParameterTypes60 = new String[] {
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes60 = new String[] { "java.lang.String", "int" };
 
 		_methodName61 = "getConversation";
 
@@ -233,7 +231,7 @@ public class ConversationLocalServiceClpInvoker {
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
 			return ConversationLocalServiceUtil.addConversation((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1]);
+				((Integer)arguments[1]).intValue());
 		}
 
 		if (_methodName61.equals(name) &&

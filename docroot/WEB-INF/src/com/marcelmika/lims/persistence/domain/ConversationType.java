@@ -34,10 +34,21 @@ import com.marcelmika.lims.api.entity.ConversationTypeDetails;
  */
 public enum ConversationType {
 
-    // Possible Values
-    SINGLE_USER(0, "SINGLE_USER"),
-    MULTI_USER(1, "MULTI_USER"),
-    UNRECOGNIZED(2, "UNRECOGNIZED");
+    /**
+     * Unrecognized type of conversation
+     */
+    UNRECOGNIZED(0, "UNRECOGNIZED"),
+
+    /**
+     * Single user conversation
+     */
+    SINGLE_USER(1, "SINGLE_USER"),
+
+    /**
+     * Multi user conversation
+     */
+    MULTI_USER(2, "MULTI_USER");
+
     // Current value
     private int code;
     private String description;
@@ -66,12 +77,17 @@ public enum ConversationType {
      */
     public static ConversationType fromConversationTypeDetails(ConversationTypeDetails details) {
 
+        // Single user chat
         if (details == ConversationTypeDetails.SINGLE_USER) {
-            return ConversationType.SINGLE_USER;
-        } else if (details == ConversationTypeDetails.MULTI_USER) {
-            return ConversationType.MULTI_USER;
-        } else {
-            return ConversationType.UNRECOGNIZED;
+            return SINGLE_USER;
+        }
+        // Multi user chat
+        else if (details == ConversationTypeDetails.MULTI_USER) {
+            return MULTI_USER;
+        }
+        // Unrecognized
+        else {
+            return UNRECOGNIZED;
         }
     }
 
@@ -80,20 +96,43 @@ public enum ConversationType {
      *
      * @param string conversation type string
      * @return ConversationType
+     * @deprecated
      */
     public static ConversationType fromString(String string) {
 
         // Single user chat
-        if (string.equals(ConversationType.SINGLE_USER.getDescription())) {
-            return ConversationType.SINGLE_USER;
+        if (string.equals(SINGLE_USER.getDescription())) {
+            return SINGLE_USER;
         }
         // Multi user chat
-        else if (string.equals(ConversationType.MULTI_USER.getDescription())) {
-            return ConversationType.MULTI_USER;
+        else if (string.equals(MULTI_USER.getDescription())) {
+            return MULTI_USER;
         }
         // Unrecognized
         else {
-            return ConversationType.UNRECOGNIZED;
+            return UNRECOGNIZED;
+        }
+    }
+
+    /**
+     * Factory method that create conversation type enum from the code
+     *
+     * @param code that uniquely represents conversation type
+     * @return ConversationType
+     */
+    public static ConversationType fromCode(int code) {
+
+        // Single user chat
+        if (code == SINGLE_USER.getCode()) {
+            return SINGLE_USER;
+        }
+        // Multi user chat
+        else if (code == MULTI_USER.getCode()) {
+            return MULTI_USER;
+        }
+        // Unrecognized
+        else {
+            return UNRECOGNIZED;
         }
     }
 
@@ -103,11 +142,17 @@ public enum ConversationType {
      * @return PresenceDetails
      */
     public ConversationTypeDetails toConversationTypeDetails() {
-        if (this == ConversationType.SINGLE_USER) {
+
+        // Single user chat
+        if (this == SINGLE_USER) {
             return ConversationTypeDetails.SINGLE_USER;
-        } else if (this == ConversationType.MULTI_USER) {
+        }
+        // Multi user chat
+        else if (this == ConversationType.MULTI_USER) {
             return ConversationTypeDetails.MULTI_USER;
-        } else {
+        }
+        // Unrecognized
+        else {
             return ConversationTypeDetails.UNRECOGNIZED;
         }
     }

@@ -102,11 +102,11 @@ public class ConversationSoap implements Serializable {
 		_conversationId = conversationId;
 	}
 
-	public String getConversationType() {
+	public int getConversationType() {
 		return _conversationType;
 	}
 
-	public void setConversationType(String conversationType) {
+	public void setConversationType(int conversationType) {
 		_conversationType = conversationType;
 	}
 
@@ -120,6 +120,6 @@ public class ConversationSoap implements Serializable {
 
 	private long _cid;
 	private String _conversationId;
-	private String _conversationType;
+	private int _conversationType;
 	private Date _updatedAt;
 }

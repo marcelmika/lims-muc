@@ -275,9 +275,9 @@ public class ConversationLocalServiceUtil {
 	}
 
 	public static com.marcelmika.lims.persistence.generated.model.Conversation addConversation(
-		java.lang.String conversationId, java.lang.String conversationType)
+		java.lang.String conversationId, int conversationTypeCode)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().addConversation(conversationId, conversationType);
+		return getService().addConversation(conversationId, conversationTypeCode);
 	}
 
 	public static com.marcelmika.lims.persistence.generated.model.Conversation getConversation(

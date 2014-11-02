@@ -13,7 +13,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="conversationId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="conversationType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="conversationType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="updatedAt" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" table="Limsmuc_Message">

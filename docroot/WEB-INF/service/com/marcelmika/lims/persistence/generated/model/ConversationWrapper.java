@@ -72,7 +72,7 @@ public class ConversationWrapper implements Conversation,
 			setConversationId(conversationId);
 		}
 
-		String conversationType = (String)attributes.get("conversationType");
+		Integer conversationType = (Integer)attributes.get("conversationType");
 
 		if (conversationType != null) {
 			setConversationType(conversationType);
@@ -151,7 +151,7 @@ public class ConversationWrapper implements Conversation,
 	* @return the conversation type of this conversation
 	*/
 	@Override
-	public java.lang.String getConversationType() {
+	public int getConversationType() {
 		return _conversation.getConversationType();
 	}
 
@@ -161,7 +161,7 @@ public class ConversationWrapper implements Conversation,
 	* @param conversationType the conversation type of this conversation
 	*/
 	@Override
-	public void setConversationType(java.lang.String conversationType) {
+	public void setConversationType(int conversationType) {
 		_conversation.setConversationType(conversationType);
 	}
 

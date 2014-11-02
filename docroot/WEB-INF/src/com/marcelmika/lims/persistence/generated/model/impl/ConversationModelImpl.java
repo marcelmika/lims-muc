@@ -62,10 +62,10 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "cid", Types.BIGINT },
 			{ "conversationId", Types.VARCHAR },
-			{ "conversationType", Types.VARCHAR },
+			{ "conversationType", Types.INTEGER },
 			{ "updatedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Conversation (cid LONG not null primary key,conversationId VARCHAR(256) null,conversationType VARCHAR(75) null,updatedAt DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Conversation (cid LONG not null primary key,conversationId VARCHAR(256) null,conversationType INTEGER,updatedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Conversation";
 	public static final String ORDER_BY_JPQL = " ORDER BY conversation.updatedAt DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Conversation.updatedAt DESC";
@@ -145,7 +145,7 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 			setConversationId(conversationId);
 		}
 
-		String conversationType = (String)attributes.get("conversationType");
+		Integer conversationType = (Integer)attributes.get("conversationType");
 
 		if (conversationType != null) {
 			setConversationType(conversationType);
@@ -194,17 +194,12 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 	}
 
 	@Override
-	public String getConversationType() {
-		if (_conversationType == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _conversationType;
-		}
+	public int getConversationType() {
+		return _conversationType;
 	}
 
 	@Override
-	public void setConversationType(String conversationType) {
+	public void setConversationType(int conversationType) {
 		_conversationType = conversationType;
 	}
 
@@ -328,12 +323,6 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 
 		conversationCacheModel.conversationType = getConversationType();
 
-		String conversationType = conversationCacheModel.conversationType;
-
-		if ((conversationType != null) && (conversationType.length() == 0)) {
-			conversationCacheModel.conversationType = null;
-		}
-
 		Date updatedAt = getUpdatedAt();
 
 		if (updatedAt != null) {
@@ -401,7 +390,7 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 	private long _cid;
 	private String _conversationId;
 	private String _originalConversationId;
-	private String _conversationType;
+	private int _conversationType;
 	private Date _updatedAt;
 	private long _columnBitmask;
 	private Conversation _escapedModel;
