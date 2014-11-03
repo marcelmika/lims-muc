@@ -641,8 +641,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 return new Y.LIMS.View.SliderElementView({
                     container: container,
                     valueContainer: valueContainer,
-                    min: 5,
-                    max: 50,
+                    min: 7,
+                    max: 30,
                     value: valueContainer.get('innerHTML')
                 });
             }
@@ -663,7 +663,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                     container: container,
                     valueContainer: valueContainer,
                     min: 10,
-                    max: 200,
+                    max: 50,
                     value: valueContainer.get('innerHTML')
                 });
             }

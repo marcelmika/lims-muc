@@ -36,21 +36,21 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
 
     // Constants
-    private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 200;
     private static final int BUDDY_LIST_MAX_BUDDIES_MIN = 10;
     private static final int BUDDY_LIST_MAX_BUDDIES_MAX = 500;
+    private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 200;
 
+    private static final int BUDDY_LIST_MAX_SEARCH_MIN = 7;
+    private static final int BUDDY_LIST_MAX_SEARCH_MAX = 30;
     private static final int BUDDY_LIST_MAX_SEARCH_DEFAULT = 10;
-    private static final int BUDDY_LIST_MAX_SEARCH_MIN = 5;
-    private static final int BUDDY_LIST_MAX_SEARCH_MAX = 50;
 
-    private static final int CONVERSATION_LIST_MAX_MESSAGES_DEFAULT = 100;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MIN = 10;
-    private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 200;
+    private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 50;
+    private static final int CONVERSATION_LIST_MAX_MESSAGES_DEFAULT = 10;
 
-    private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT = 7;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MIN = 6;
-    private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MAX = 10;
+    private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MAX = 20;
+    private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT = 7;
 
     // Set to true if the environment was already set up
     private boolean isSetup = false;
