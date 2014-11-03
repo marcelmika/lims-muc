@@ -56,6 +56,10 @@
     font-size: 11px;
   }
 
+  .settings.closed .version {
+    visibility: hidden;
+  }
+
   .settings > input[type="text"] {
     width: 300px;
   }
