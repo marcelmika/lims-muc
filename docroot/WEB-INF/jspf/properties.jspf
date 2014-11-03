@@ -46,8 +46,11 @@
     "adminAreaClose": "<liferay-ui:message key="panel-settings-admin-area-close"/>",
     "conversationFeedReadErrorMessage" : "<liferay-ui:message key="panel-conversation-feed-read-error-text"/>",
     "conversationFeedEmptyInfoMessage" : "<liferay-ui:message key="panel-conversation-feed-empty-info-text"/>",
-    "conversationConversationOptionsLeaveError" : "<liferay-ui:message key="panel-conversation-options-leave-conversation-error"/>",
-    "incomingMessageTitleText" : "<liferay-ui:message key="incoming-message-title-text"/>"
+    "conversationConversationOptionsLeaveError" : "<liferay-ui:message
+            key="panel-conversation-options-leave-conversation-error"/>",
+    "incomingMessageTitleText" : "<liferay-ui:message key="incoming-message-title-text"/>",
+    "mucTitleTwoParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-two-participants"/>",
+    "mucTitleOthersParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-others-participants"/>"
     }
 </script>
 

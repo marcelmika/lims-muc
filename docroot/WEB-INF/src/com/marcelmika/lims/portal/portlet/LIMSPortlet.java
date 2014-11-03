@@ -28,6 +28,7 @@ import com.marcelmika.lims.portal.domain.Conversation;
 import com.marcelmika.lims.portal.domain.Properties;
 import com.marcelmika.lims.portal.domain.Settings;
 import com.marcelmika.lims.portal.http.HttpStatus;
+import com.marcelmika.lims.portal.localization.ConversationLocalizationUtil;
 import com.marcelmika.lims.portal.processor.PortletProcessor;
 import com.marcelmika.lims.portal.processor.PortletProcessorUtil;
 import com.marcelmika.lims.portal.properties.PortletPropertiesValues;
@@ -196,6 +197,9 @@ public class LIMSPortlet extends MVCPortlet {
             List<Conversation> conversationList = Conversation.fromConversationDetailsList(
                     responseEvent.getConversationDetails()
             );
+
+            // Localize conversation list
+            conversationList = ConversationLocalizationUtil.localizeConversationList(conversationList, renderRequest);
 
             // Pass to jsp
             renderRequest.setAttribute(VARIABLE_CONVERSATIONS, conversationList);

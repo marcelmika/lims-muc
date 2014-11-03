@@ -92,7 +92,7 @@ Y.LIMS.Core.DateFormatter = Y.Base.create('dateFormatter', Y.Base, [], {
         // Minutes ago
         else if (seconds < 3600) {
             return Y.Lang.sub(ranges.minutesAgo, {
-                x: Math.floor(seconds / 60)
+                0: Math.floor(seconds / 60)
             });
         }
         // An hour ago
@@ -102,7 +102,7 @@ Y.LIMS.Core.DateFormatter = Y.Base.create('dateFormatter', Y.Base, [], {
         // Hours ago
         else {
             return Y.Lang.sub(ranges.hoursAgo, {
-                x: Math.floor(seconds / 3600)
+                0: Math.floor(seconds / 3600)
             });
         }
     },
@@ -136,7 +136,7 @@ Y.LIMS.Core.DateFormatter = Y.Base.create('dateFormatter', Y.Base, [], {
 
         // Substitute number of days in a range
         return Y.Lang.sub(ranges.daysAgo, {
-            x: days
+            0: days
         });
     },
 
@@ -154,7 +154,7 @@ Y.LIMS.Core.DateFormatter = Y.Base.create('dateFormatter', Y.Base, [], {
 
         // Substitute number of days in a range
         return Y.Lang.sub(ranges.weeksAgo, {
-            x: Math.ceil(days / 7)
+            0: Math.ceil(days / 7)
         });
     },
 

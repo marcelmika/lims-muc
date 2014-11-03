@@ -49,8 +49,8 @@ Y.extend(TokenInputPlugin, Y.Plugin.Base, {
     CONTENT_TEMPLATE: '<div/>',
     INPUT_TEMPLATE: '<input type="text" autocomplete="off">',
     ITEM_TEMPLATE: '<li/>',
-    LIST_TEMPLATE: '<ul/>', // TODO: i18n
-    REMOVE_TEMPLATE: '<a href="#" title="Remove"><span role="img">\u00D7</span></a>',
+    LIST_TEMPLATE: '<ul/>',
+    REMOVE_TEMPLATE: '<a href="#"><span role="img">\u00D7</span></a>',
 
     // -- Lifecycle Methods ----------------------------------------------------
     initializer: function () {
@@ -356,8 +356,6 @@ Y.extend(TokenInputPlugin, Y.Plugin.Base, {
      * @protected
      */
     _getSelection: function (node) {
-        // TODO: this should probably be a Node extension named node-selection
-        // or something.
         var el = Y.Node.getDOMNode(node),
             selection = {end: 0, start: 0},
             length, value, range;
@@ -796,7 +794,6 @@ Y.extend(TokenInputPlugin, Y.Plugin.Base, {
 
         if (!e.target.ancestor(this._selectors.item, true)) {
             setTimeout(function () {
-                // FIXME: this doesn't display the keyboard in iOS.
                 that._inputNode.focus();
             }, 1);
         }

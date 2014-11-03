@@ -28,6 +28,7 @@ public class Conversation {
     // Properties
     private String conversationId;
     private ConversationType conversationType;
+    private String title;
     private Integer unreadMessagesCount;
     private Buddy buddy;
     private List<Buddy> participants;
@@ -35,9 +36,6 @@ public class Conversation {
     private Date updatedAt;
     private Message firstMessage;
     private Message lastMessage;
-
-    // Maximal size of the buddy's name the title
-    private static final int BUDDY_TITLE_MAX_SIZE = 10;
 
 
     // -------------------------------------------------------------------------------------------
@@ -150,31 +148,6 @@ public class Conversation {
     // Computed values
     // -------------------------------------------------------------------------------------------
 
-    /**
-     * Returns conversation title
-     *
-     * @return String title
-     */
-    @JSON
-    public String getTitle() {
-
-        String title = "-"; // Default
-
-        // Current user needs to be filtered of the list of participants
-        List<Buddy> filteredParticipants = filterParticipants(participants, buddy);
-
-        // Single user conversation title
-        if (conversationType == ConversationType.SINGLE_USER) {
-            title = generateSUCTitle(filteredParticipants);
-        }
-        // Multi user conversation title
-        else if (conversationType == ConversationType.MULTI_USER) {
-            title = generateMUCTitle(filteredParticipants, buddy);
-        }
-
-        return title;
-    }
-
     @JSON
     public Integer getEtag() {
         if (updatedAt != null) {
@@ -202,6 +175,14 @@ public class Conversation {
 
     public void setConversationType(ConversationType conversationType) {
         this.conversationType = conversationType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<Buddy> getParticipants() {
@@ -263,124 +244,16 @@ public class Conversation {
     @Override
     public String toString() {
         return "Conversation{" +
-                "lastMessage=" + lastMessage +
-                ", firstMessage=" + firstMessage +
-                ", updatedAt=" + updatedAt +
-                ", messages=" + messages +
-                ", participants=" + participants +
-                ", buddy=" + buddy +
-                ", unreadMessagesCount=" + unreadMessagesCount +
+                "conversationId='" + conversationId + '\'' +
                 ", conversationType=" + conversationType +
-                ", conversationId='" + conversationId + '\'' +
+                ", title='" + title + '\'' +
+                ", unreadMessagesCount=" + unreadMessagesCount +
+                ", buddy=" + buddy +
+                ", participants=" + participants +
+                ", messages=" + messages +
+                ", updatedAt=" + updatedAt +
+                ", firstMessage=" + firstMessage +
+                ", lastMessage=" + lastMessage +
                 '}';
-    }
-
-
-    /**
-     * Generates single user chat title from the list of participants
-     *
-     * @param participants a list of participants
-     * @return SUC title or "-" if an empty participants list was passed
-     */
-    private String generateSUCTitle(List<Buddy> participants) {
-        if (participants.size() == 0) {
-            return "-";
-        }
-
-        return participants.get(0).getFullName();
-    }
-
-    /**
-     * Generates multi user chat title from the list of participants
-     *
-     * @param participants a list of participants
-     * @param buddy used when no participants are in the conversation
-     * @return MUC title of "-" if an empty list of participants was passed
-     */
-    private String generateMUCTitle(List<Buddy> participants, Buddy buddy) {
-
-        String title;
-
-        // No participants means that the user is left alone in the conversation
-        if (participants.size() == 0) {
-            title = buddy.getFullName();
-        }
-
-        // One participants in the MUC conversation means that
-        // the other participants have left
-        else if (participants.size() == 1) {
-            title = participants.get(0).getFullName();
-        }
-
-        // We have exactly two participants
-        else if (participants.size() == 2) {
-            // TODO: i18n
-            title = String.format("%s and %s",
-                    generateBuddyTitleName(participants.get(0)),
-                    generateBuddyTitleName(participants.get(1))
-            );
-        }
-        // We have have more than two participants
-        else {
-            // TODO: i18n
-            title = String.format("%s and %d others",
-                    generateBuddyTitleName(participants.get(0)),
-                    participants.size() - 1 // Minus you
-            );
-        }
-
-        return title;
-    }
-
-
-    /**
-     * Filter buddy given in parameter
-     *
-     * @param participants a list of participants
-     * @param buddy        that will be filtered out
-     * @return list of participants
-     */
-    private List<Buddy> filterParticipants(List<Buddy> participants, Buddy buddy) {
-
-        List<Buddy> filteredParticipants = new LinkedList<Buddy>();
-
-        for (Buddy participant : participants) {
-            // Single user conversation has two participants. Title is "the other" participant than myself.
-            if (!participant.getBuddyId().equals(buddy.getBuddyId())) {
-                filteredParticipants.add(participant);
-            }
-        }
-
-        return filteredParticipants;
-    }
-
-    /**
-     * Generates title from buddy
-     *
-     * @param buddy Buddy
-     * @return title
-     */
-    private String generateBuddyTitleName(Buddy buddy) {
-        String name = "";
-
-        // If the user has first name, use that
-        if (buddy.getFirstName() != null) {
-            name = buddy.getFirstName();
-        }
-        // If not use the last name
-        else if (buddy.getLastName() != null) {
-            name = buddy.getLastName();
-        }
-        // If none of those were set, use the full name
-        else {
-            name = buddy.getFullName();
-        }
-
-        // Limit the maximal size of the message to 10
-        if (name.length() > BUDDY_TITLE_MAX_SIZE) {
-            name = name.substring(BUDDY_TITLE_MAX_SIZE);
-        }
-
-        return name;
     }
 }

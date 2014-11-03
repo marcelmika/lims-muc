@@ -16,6 +16,7 @@ import com.marcelmika.lims.api.events.conversation.*;
 import com.marcelmika.lims.core.service.ConversationCoreService;
 import com.marcelmika.lims.portal.domain.*;
 import com.marcelmika.lims.portal.http.HttpStatus;
+import com.marcelmika.lims.portal.localization.ConversationLocalizationUtil;
 import com.marcelmika.lims.portal.request.RequestParameterKeys;
 import com.marcelmika.lims.portal.request.parameters.*;
 import com.marcelmika.lims.portal.response.ResponseUtil;
@@ -100,6 +101,8 @@ public class ConversationController {
         if (responseEvent.isSuccess()) {
             // Map conversation from response
             Conversation conversationResponse = Conversation.fromConversationDetails(responseEvent.getConversation());
+            // Localize conversation
+            conversationResponse = ConversationLocalizationUtil.localizeConversation(conversationResponse, request);
             // Serialize
             String serialized = JSONFactoryUtil.looseSerialize(conversationResponse);
             // Write success to response
@@ -179,6 +182,9 @@ public class ConversationController {
                 ResponseUtil.writeResponse(HttpStatus.NOT_MODIFIED, response);
                 return;
             }
+
+            // Localize conversation
+            conversation = ConversationLocalizationUtil.localizeConversation(conversation, request);
 
             // Serialize
             String serialized = JSONFactoryUtil.looseSerialize(conversation,
@@ -445,6 +451,10 @@ public class ConversationController {
             }
             // Not cached
             else {
+                // Localize conversations
+                conversationCollection.setConversations(ConversationLocalizationUtil.localizeConversationList(
+                        conversationCollection.getConversations(), request
+                ));
                 // Serialize
                 String serialized = JSONFactoryUtil.looseSerialize(conversationCollection,
                         "conversations",
@@ -531,7 +541,7 @@ public class ConversationController {
         // Success
         if (responseEvent.isSuccess()) {
             // Write success to response
-            ResponseUtil.writeResponse(HttpStatus.OK, response);
+            ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
         }
         // Failure
         else {
@@ -606,7 +616,7 @@ public class ConversationController {
         // Success
         if (responseEvent.isSuccess()) {
             // Write success to response
-            ResponseUtil.writeResponse(HttpStatus.OK, response);
+            ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
         }
         // Failure
         else {
@@ -728,6 +738,5 @@ public class ConversationController {
             }
         }
     }
-
 
 }

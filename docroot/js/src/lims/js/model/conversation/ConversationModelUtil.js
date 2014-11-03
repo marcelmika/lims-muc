@@ -88,8 +88,8 @@ var ConversationModelUtil = {
 
      /**
      * Generates title of the conversation
+     *
      * @param participants [Y.LIMS.Model.BuddyItemModel]
-     * // TODO: i18n
      * @private
      */
     generateMUCTitle: function (participants) {
@@ -102,14 +102,19 @@ var ConversationModelUtil = {
         }
         // We have exactly two participants
         else if (participants.length === 2) {
-
-            title = this.generateBuddyTitleName(participants[0]) + " and " +
-                this.generateBuddyTitleName(participants[1]);
-
+            // Compose title
+            title = Y.Lang.sub(Y.LIMS.Core.i18n.values.mucTitleTwoParticipants, {
+                0: this.generateBuddyTitleName(participants[0]),
+                1: this.generateBuddyTitleName(participants[1])
+            });
         }
         // We have more than two participants
         else {
-            title = this.generateBuddyTitleName(participants[0]) + " and " + (participants.length - 1) + " others";
+            // Compose title
+            title = Y.Lang.sub(Y.LIMS.Core.i18n.values.mucTitleOthersParticipants, {
+                0: this.generateBuddyTitleName(participants[0]),
+                1: (participants.length - 1)
+            });
         }
 
         return title;
