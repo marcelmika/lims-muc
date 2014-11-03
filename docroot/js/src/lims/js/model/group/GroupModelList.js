@@ -26,6 +26,7 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
 
         // Vars
         var parameters,
+            response,
             etag = this.get('etag'),
             instance = this;
 
@@ -60,17 +61,33 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                                 return;
                             }
 
-                            var i, groupCollection, groups, group, buddies;
-                            // Parse groups
-                            groupCollection = Y.JSON.parse(o.responseText);
-                            groups = groupCollection.groups;
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // Clear etag otherwise when we load the data again it
+                                // might still be cached
+                                instance.set('etag', -1);
+                                // Fire error event
+                                instance.fire('groupsReadError');
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
 
-                            if (groupCollection.etag && etag.toString() !== groupCollection.etag.toString()) {
+                            var i, groups, group, buddies;
+                            // Parse groups
+                            groups = response.groups;
+
+                            if (response.etag && etag.toString() !== response.etag.toString()) {
 
                                 // Empty the list
                                 instance.fire('groupReset');
 
-                                instance.set('etag', groupCollection.etag);
+                                instance.set('etag', response.etag);
 
                                 // Add groups to list
                                 for (i = 0; i < groups.length; i++) {

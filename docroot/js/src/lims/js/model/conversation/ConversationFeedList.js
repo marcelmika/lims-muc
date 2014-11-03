@@ -89,8 +89,23 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                                 return;
                             }
 
-                            // Deserialize response
-                            response = Y.JSON.parse(o.responseText);
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // Clear etag otherwise when we load the data again it
+                                // might still be cached
+                                instance.set('etag', -1);
+                                // Call error
+                                instance.fire('readError');
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
+
 
                             // Update conversation list
                             instance._updateConversationList(response, readMore);
@@ -112,6 +127,7 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
                             // might still be cached
                             instance.set('etag', -1);
 
+                            // Call error
                             instance.fire('readError');
 
                             // Call failure

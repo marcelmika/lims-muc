@@ -51,8 +51,18 @@ Y.LIMS.Model.ServerTimeModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.M
                             // Count the delay offset
                             networkDelayOffset = timeAfterResponse - timeBeforeRequest;
 
-                            // Deserialize response
-                            response = Y.JSON.parse(o.responseText);
+
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
 
                             // Update attributes
                             instance.setAttrs(response);

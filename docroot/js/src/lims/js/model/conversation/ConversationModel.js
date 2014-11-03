@@ -288,8 +288,20 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                     },
                     on: {
                         success: function (id, o) {
-                            // Deserialize response
-                            response = Y.JSON.parse(o.responseText);
+
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // Fire failure event
+                                instance.fire('createError');
+                                // End here
+                                return;
+                            }
 
                             // Fire success event
                             instance.fire('createSuccess');
@@ -348,8 +360,20 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                                 instance.fire('readSuccess');
                                 return;
                             }
-                            // Deserialize response
-                            response = Y.JSON.parse(o.responseText);
+
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // Fire failure event
+                                instance.fire('readError');
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
 
                             // Update message list
                             instance.updateConversation(response, readMore);

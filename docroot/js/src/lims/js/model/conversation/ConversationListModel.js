@@ -107,8 +107,19 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
                     timeout: 30000, // 30 seconds
                     on: {
                         success: function (id, o) {
-                            // Deserialize response
-                            response = Y.JSON.parse(o.responseText);
+
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
+
                             // Update conversation list
                             instance.updateConversationList(response);
                             // Call success

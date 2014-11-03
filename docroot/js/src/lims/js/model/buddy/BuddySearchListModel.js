@@ -36,6 +36,7 @@ Y.LIMS.Model.BuddySearchListModel = Y.Base.create('buddySearchListModel', Y.Mode
     sync: function (action, options, callback) {
 
         var parameters,
+            response,
             instance = this,
             searchQuery = this.get('searchQuery');
 
@@ -62,19 +63,30 @@ Y.LIMS.Model.BuddySearchListModel = Y.Base.create('buddySearchListModel', Y.Mode
                         success: function (id, o) {
 
                             // Vars
-                            var buddies,
-                                index;
-
-                            // Parse buddies from response
-                            buddies = Y.JSON.parse(o.responseText);
+                            var index;
 
                             // Empty the list
                             instance.reset();
 
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // Fire error event
+                                instance.fire('searchError');
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
+
+
                             // Deserialize buddies
-                            for (index = 0; index < buddies.length; index++) {
+                            for (index = 0; index < response.length; index++) {
                                 // Add buddy to the list
-                                instance.add(new Y.LIMS.Model.BuddyModelItem(buddies[index]));
+                                instance.add(new Y.LIMS.Model.BuddyModelItem(response[index]));
                             }
 
                             // Fire success event
