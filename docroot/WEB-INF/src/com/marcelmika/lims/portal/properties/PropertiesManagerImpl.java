@@ -97,7 +97,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupBuddyListMaxBuddies(preferences);
             setupBuddyListMaxSearch(preferences);
             setupConversationListMaxMessages(preferences);
-            setupConversationFeedMaxConversations();
+            setupConversationFeedMaxConversations(preferences);
             setupBuddyListSiteExcludes(preferences);
             setupBuddyListGroupExcludes(preferences);
             setupErrorMode();
@@ -155,6 +155,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Conversation list max messages
         if (properties.getConversationListMaxMessages() != null) {
             updateConversationListMaxMessages(preferences, properties);
+        }
+
+        // conversation feed max conversations
+        if (properties.getConversationFeedMaxConversations() != null) {
+            updateConversationFeedMaxConversations(preferences, properties);
         }
 
         // Buddy list site excludes
@@ -757,6 +762,75 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Updates conversation feed max conversations property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateConversationFeedMaxConversations(PortletPreferences preferences,
+                                                        Properties properties) throws Exception {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                properties.getConversationFeedMaxConversations(),
+                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
+        );
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                String.valueOf(value)
+        );
+
+        // Persist
+        preferences.store();
+
+        // Save in Environment
+        setupConversationFeedMaxConversations(preferences);
+    }
+
+    /**
+     * Sets the conversation list max conversations property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupConversationFeedMaxConversations(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
+        );
+
+        // Prepare the value that will be returned
+        Integer conversationFeedMaxConversations;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            conversationFeedMaxConversations = Integer.parseInt(preferences.getValue(
+                    PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                    String.valueOf(value)
+            ));
+        }
+        // Properties
+        else {
+            conversationFeedMaxConversations = value;
+        }
+
+        Environment.setConversationFeedMaxConversations(conversationFeedMaxConversations);
+    }
+
+    /**
      * Updates buddy list site excludes property
      *
      * @param preferences PortletPreferences
@@ -776,23 +850,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save in Environment
         setupBuddyListSiteExcludes(preferences);
-    }
-
-    /**
-     * Sets the conversation list max conversations property
-     */
-    private void setupConversationFeedMaxConversations() {
-        // TODO: Implement portlet preferences source
-        // Get the value from properties
-        Integer value = validateValueScope(
-                PortletPropertiesValues.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
-        );
-
-        Environment.setConversationFeedMaxConversations(value);
     }
 
     /**

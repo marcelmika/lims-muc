@@ -11,8 +11,8 @@ package com.marcelmika.lims.portal.domain;
 
 import com.liferay.compat.portal.kernel.util.StringUtil;
 import com.marcelmika.lims.api.environment.Environment;
-import com.marcelmika.lims.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.lims.api.environment.Environment.BuddyListSocialRelation;
+import com.marcelmika.lims.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.lims.api.environment.Environment.PropertiesSource;
 
 import java.util.Arrays;
@@ -33,6 +33,7 @@ public class Properties {
     private Integer buddyListMaxBuddies;
     private Integer buddyListMaxSearch;
     private Integer conversationListMaxMessages;
+    private Integer conversationFeedMaxConversations;
     private String[] buddyListSiteExcludes;
     private String[] buddyListGroupExcludes;
     private String urlHelp;
@@ -56,6 +57,7 @@ public class Properties {
         properties.buddyListMaxBuddies = Environment.getBuddyListMaxBuddies();
         properties.buddyListMaxSearch = Environment.getBuddyListMaxSearch();
         properties.conversationListMaxMessages = Environment.getConversationListMaxMessages();
+        properties.conversationFeedMaxConversations = Environment.getConversationFeedMaxConversations();
         properties.buddyListSiteExcludes = Environment.getBuddyListSiteExcludes();
         properties.buddyListGroupExcludes = Environment.getBuddyListGroupExcludes();
         properties.urlHelp = Environment.getUrlHelp();
@@ -128,28 +130,36 @@ public class Properties {
         this.conversationListMaxMessages = conversationListMaxMessages;
     }
 
-    public String[] getBuddyListSiteExcludes() {
-        return buddyListSiteExcludes;
+    public Integer getConversationFeedMaxConversations() {
+        return conversationFeedMaxConversations;
     }
 
-    public String getBuddyListSiteExcludesFlatten() {
-        return StringUtil.merge(buddyListSiteExcludes, ",");
+    public void setConversationFeedMaxConversations(Integer conversationFeedMaxConversations) {
+        this.conversationFeedMaxConversations = conversationFeedMaxConversations;
+    }
+
+    public String[] getBuddyListSiteExcludes() {
+        return buddyListSiteExcludes;
     }
 
     public void setBuddyListSiteExcludes(String[] buddyListSiteExcludes) {
         this.buddyListSiteExcludes = buddyListSiteExcludes;
     }
 
+    public String getBuddyListSiteExcludesFlatten() {
+        return StringUtil.merge(buddyListSiteExcludes, ",");
+    }
+
     public String[] getBuddyListGroupExcludes() {
         return buddyListGroupExcludes;
     }
 
-    public String getBuddyListGroupExcludesFlatten() {
-        return StringUtil.merge(buddyListGroupExcludes, ",");
-    }
-
     public void setBuddyListGroupExcludes(String[] buddyListGroupExcludes) {
         this.buddyListGroupExcludes = buddyListGroupExcludes;
+    }
+
+    public String getBuddyListGroupExcludesFlatten() {
+        return StringUtil.merge(buddyListGroupExcludes, ",");
     }
 
     public String getUrlHelp() {
@@ -179,6 +189,7 @@ public class Properties {
                 ", buddyListMaxBuddies=" + buddyListMaxBuddies +
                 ", buddyListMaxSearch=" + buddyListMaxSearch +
                 ", conversationListMaxMessages=" + conversationListMaxMessages +
+                ", conversationFeedMaxConversations=" + conversationFeedMaxConversations +
                 ", buddyListSiteExcludes=" + Arrays.toString(buddyListSiteExcludes) +
                 ", buddyListGroupExcludes=" + Arrays.toString(buddyListGroupExcludes) +
                 ", urlHelp='" + urlHelp + '\'' +

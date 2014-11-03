@@ -59,6 +59,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             buddyListMaxBuddies = this.get('buddyListMaxBuddies'),
             buddyListMaxSearch = this.get('buddyListMaxSearch'),
             conversationListMaxMessages = this.get('conversationListMaxMessages'),
+            conversationFeedMaxConversations = this.get('conversationFeedMaxConversations'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes');
 
@@ -71,6 +72,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListMaxBuddies.on('sliderUpdate', this._onBuddyListMaxBuddiesUpdate, this);
         buddyListMaxSearch.on('sliderUpdate', this._onBuddyListMaxSearchUpdate, this);
         conversationListMaxMessages.on('sliderUpdate', this._onConversationListMaxMessagesUpdate, this);
+        conversationFeedMaxConversations.on('sliderUpdate', this._onConversationFeedMaxConversationsUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
     },
@@ -312,6 +314,38 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             }
             // Re-enable the view so the user can interact with it again
             conversationListMaxMessages.enable();
+        });
+    },
+
+    /**
+     * Called when the user updates conversation feed max conversations property
+     *
+     * @param event
+     * @private
+     */
+    _onConversationFeedMaxConversationsUpdate: function (event) {
+        // Vars
+        var conversationFeedMaxConversations = this.get('conversationFeedMaxConversations'),
+            preValue = event.preValue,      // Previously selected value
+            postValue = event.postValue,    // Current value
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            conversationFeedMaxConversations: postValue
+        });
+
+        // Disable view
+        conversationFeedMaxConversations.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                conversationFeedMaxConversations.setValue(preValue);
+            }
+            // Re-enable the view so the user can interact with it again
+            conversationFeedMaxConversations.enable();
         });
     },
 
@@ -664,6 +698,27 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                     valueContainer: valueContainer,
                     min: 10,
                     max: 50,
+                    value: valueContainer.get('innerHTML')
+                });
+            }
+        },
+
+        /**
+         * View for conversation feed max conversations
+         *
+         * {Y.LIMS.View.SliderElementView}
+         */
+        conversationFeedMaxConversations: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.conversation-feed-max-conversations .slider'),
+                    valueContainer = this.get('container').one('.conversation-feed-max-conversations .value');
+
+                return new Y.LIMS.View.SliderElementView({
+                    container: container,
+                    valueContainer: valueContainer,
+                    min: 6,
+                    max: 20,
                     value: valueContainer.get('innerHTML')
                 });
             }
