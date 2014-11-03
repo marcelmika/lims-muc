@@ -40,6 +40,8 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             this._startPolling();
             // Start timer that periodically updates timestamps of messages
             this._startTimer();
+            // Subscribe to key up event
+            this._subscribeKeyUp();
         },
 
         /**
@@ -48,10 +50,11 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         onPanelDidDisappear: function () {
             // Stop poller
             this._stopPolling();
-
             // No need to updated message timestamps since they will be updated whenever
             // the panel appears again
             this._pauseTimer();
+            // Detach the key up event
+            this._detachKeyUp();
         },
 
         /**
@@ -81,6 +84,32 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
             Y.on('conversationPanelOpened', this._onConversationPanelOpened, this);
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
+        },
+
+        /**
+         * Subscribes to the global key up event
+         *
+         * @private
+         */
+        _subscribeKeyUp: function () {
+            if (Y.one('doc')) {
+                // Save the subscription to the key up event
+                this.set('keyUpSubscription', Y.one('doc').on('keyup', this._onKeyPress, this));
+            }
+        },
+
+        /**
+         * Detaches the subscription to the global key up event
+         *
+         * @private
+         */
+        _detachKeyUp: function () {
+            // Vars
+            var keyUpSubscription = this.get('keyUpSubscription');
+
+            if (keyUpSubscription) {
+                keyUpSubscription.detach();
+            }
         },
 
         /**
@@ -193,6 +222,24 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                 Y.fire('buddiesSelected', {
                     buddies: buddies
                 });
+            }
+        },
+
+
+        /**
+         * Called whenever the user presses any kay in the browser
+         *
+         * @param event
+         * @private
+         */
+        _onKeyPress: function (event) {
+            // Vars
+            var newConversationView = this.get('newConversationView');
+
+            // User pressed ESC key
+            if (event.keyCode === 27) {
+                // Hide the new conversation view
+                newConversationView.hideView();
             }
         },
 
@@ -335,6 +382,15 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
                 valueFn: function () {
                     return this.get('container').one('.panel-button.new-conversation');
                 }
+            },
+
+            /**
+             * Cached global key up subscription
+             *
+             * {event}
+             */
+            keyUpSubscription: {
+                value: null // to be set
             },
 
             /**

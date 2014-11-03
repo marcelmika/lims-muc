@@ -32,6 +32,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Events
             this._attachEvents();
+            // Subscribe to key up event
+            this._subscribeKeyUp();
 
             // Hide the panel input. We don't want users to post any messages until the message feed is ready
             listView.hideView();
@@ -85,6 +87,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // No need to updated message timestamps since they will be updated whenever
             // the panel appears again
             this._pauseTimer();
+            // Detach the key up event
+            this._detachKeyUp();
         },
 
         /**
@@ -187,6 +191,32 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Subscribes to the global key up event
+         *
+         * @private
+         */
+        _subscribeKeyUp: function () {
+            if (Y.one('doc')) {
+                // Save the subscription to the key up event
+                this.set('keyUpSubscription', Y.one('doc').on('keyup', this._onKeyPress, this));
+            }
+        },
+
+        /**
+         * Detaches the subscription to the global key up event
+         *
+         * @private
+         */
+        _detachKeyUp: function () {
+            // Vars
+            var keyUpSubscription = this.get('keyUpSubscription');
+
+            if (keyUpSubscription) {
+                keyUpSubscription.detach();
+            }
+        },
+
+        /**
          * Starts timer which periodically refreshes group list
          *
          * @private
@@ -255,6 +285,118 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Re-render
             panelTitleText.set('innerHTML', conversationTitle);
             panelTriggerText.set('innerHTML', conversationTitle);
+        },
+
+
+        /**
+         * Updates badge value
+         *
+         * @param value
+         * @private
+         */
+        _updateBadge: function (value) {
+            // Vars
+            var badge = this.get('badge');
+
+            // No unread messages
+            if (value === 0) {
+                this._hideBadge();
+            }
+            // At least one unread message
+            else {
+                // Update value
+                if (badge) {
+                    badge.set('innerHTML', value);
+                }
+                // Show badge
+                this._showBadge();
+            }
+        },
+
+        /**
+         * Shows badge
+         *
+         * @private
+         */
+        _showBadge: function () {
+            // Vars
+            var badge = this.get('badge'),
+                badgeAnimation = this.get('badgeAnimation');
+
+            // Show badge
+            if (badge) {
+                // Move the badge outside of the visible area
+                badge.setStyle('top', 15);
+                // Show the badge
+                badge.show();
+                // Run the animation
+                badgeAnimation.run();
+            }
+        },
+
+        /**
+         * Hides badge
+         *
+         * @private
+         */
+        _hideBadge: function () {
+            // Vars
+            var badge = this.get('badge');
+
+            // Hide badge
+            if (badge) {
+                badge.hide();
+            }
+        },
+
+        /**
+         * Makes the badge brighter
+         *
+         * @private
+         */
+        _brightBadge: function () {
+            // Vars
+            var badge = this.get('badge');
+
+            badge.removeClass('dimmed');
+        },
+
+        /**
+         * Makes the badge less noticeable
+         *
+         * @private
+         */
+        _dimBadge: function () {
+            // Vars
+            var badge = this.get('badge');
+
+            badge.addClass('dimmed');
+        },
+
+        /**
+         * Shows activity indicator
+         *
+         * @private
+         */
+        _showActivityIndicator: function () {
+            // Vars
+            var activityIndicator = this.get('activityIndicator');
+
+            // Show preloader
+            activityIndicator.show();
+        },
+
+        /**
+         * Hides activity indicator
+         *
+         * @private
+         */
+        _hideActivityIndicator: function () {
+            // Vars
+            var activityIndicator = this.get('activityIndicator');
+
+            // Hide preloader
+            activityIndicator.hide();
         },
 
         /**
@@ -537,6 +679,27 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Called whenever the user presses any kay in the browser
+         *
+         * @param event
+         * @private
+         */
+        _onKeyPress: function (event) {
+            // Vars
+            var optionsView = this.get('optionsView'),
+                addMoreView = this.get('addMoreView'),
+                leaveConversationView = this.get('leaveConversationView');
+
+            // User pressed ESC key
+            if (event.keyCode === 27) {
+                // Hide all the options views
+                optionsView.hideView();
+                addMoreView.hideView();
+                leaveConversationView.hideView();
+            }
+        },
+
+        /**
          * Called whenever an error with connection occurred
          *
          * @private
@@ -552,117 +715,6 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         _onConnectionOK: function () {
             this.hideError();
-        },
-
-        /**
-         * Updates badge value
-         *
-         * @param value
-         * @private
-         */
-        _updateBadge: function (value) {
-            // Vars
-            var badge = this.get('badge');
-
-            // No unread messages
-            if (value === 0) {
-                this._hideBadge();
-            }
-            // At least one unread message
-            else {
-                // Update value
-                if (badge) {
-                    badge.set('innerHTML', value);
-                }
-                // Show badge
-                this._showBadge();
-            }
-        },
-
-        /**
-         * Shows badge
-         *
-         * @private
-         */
-        _showBadge: function () {
-            // Vars
-            var badge = this.get('badge'),
-                badgeAnimation = this.get('badgeAnimation');
-
-            // Show badge
-            if (badge) {
-                // Move the badge outside of the visible area
-                badge.setStyle('top', 15);
-                // Show the badge
-                badge.show();
-                // Run the animation
-                badgeAnimation.run();
-            }
-        },
-
-        /**
-         * Hides badge
-         *
-         * @private
-         */
-        _hideBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            // Hide badge
-            if (badge) {
-                badge.hide();
-            }
-        },
-
-        /**
-         * Makes the badge brighter
-         *
-         * @private
-         */
-        _brightBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            badge.removeClass('dimmed');
-        },
-
-        /**
-         * Makes the badge less noticeable
-         *
-         * @private
-         */
-        _dimBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            badge.addClass('dimmed');
-        },
-
-        /**
-         * Shows activity indicator
-         *
-         * @private
-         */
-        _showActivityIndicator: function () {
-            // Vars
-            var activityIndicator = this.get('activityIndicator');
-
-            // Show preloader
-            activityIndicator.show();
-        },
-
-        /**
-         * Hides activity indicator
-         *
-         * @private
-         */
-        _hideActivityIndicator: function () {
-            // Vars
-            var activityIndicator = this.get('activityIndicator');
-
-            // Hide preloader
-            activityIndicator.hide();
         }
 
     }, {
