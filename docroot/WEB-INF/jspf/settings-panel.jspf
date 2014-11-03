@@ -1,4 +1,3 @@
-<%@ page import="com.marcelmika.lims.api.environment.Environment" %>
 <%--
   ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
   ~
@@ -8,12 +7,17 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
+<%-- Imports --%>
+<%@ page import="com.marcelmika.lims.api.environment.Environment" %>
+
 <%-- Variables --%>
 <%--@elvariable id="isAdmin" type="boolean"--%>
+<%--@elvariable id="version" type="String"--%>
 
 <%-- Constants --%>
 <c:set var="PREFERENCES" value="<%= Environment.PropertiesSource.PREFERENCES %>"/>
 
+<%-- Rendered --%>
 <% { %>
 
 <c:choose>
@@ -84,18 +88,21 @@
                         <div class="clear"></div>
                     </div>
 
-                    <ul class="lfr-component settings ${adminAreaClass}">
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-buddies.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-search.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/conversation-list-max-messages.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/conversation-feed-max-conversations.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
-                    </ul>
+                    <div class="settings ${adminAreaClass}">
+                        <div class="version">${version}</div>
+                        <ul class="lfr-component">
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-buddies.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-search.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/conversation-list-max-messages.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/conversation-feed-max-conversations.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                        </ul>
+                    </div>
                     <div class="clear"></div>
                 </div>
             </c:if>

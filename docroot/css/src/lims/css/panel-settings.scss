@@ -49,6 +49,13 @@
     line-height: 26px;
   }
 
+  .settings .version {
+    position: absolute;
+    right: 10px;
+    z-index: 2;
+    font-size: 11px;
+  }
+
   .settings > input[type="text"] {
     width: 300px;
   }
