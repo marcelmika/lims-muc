@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,7 +105,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 			setPresence(presence);
 		}
 
-		Long presenceUpdatedAt = (Long)attributes.get("presenceUpdatedAt");
+		Date presenceUpdatedAt = (Date)attributes.get("presenceUpdatedAt");
 
 		if (presenceUpdatedAt != null) {
 			setPresenceUpdatedAt(presenceUpdatedAt);
@@ -209,12 +210,12 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	}
 
 	@Override
-	public long getPresenceUpdatedAt() {
+	public Date getPresenceUpdatedAt() {
 		return _presenceUpdatedAt;
 	}
 
 	@Override
-	public void setPresenceUpdatedAt(long presenceUpdatedAt) {
+	public void setPresenceUpdatedAt(Date presenceUpdatedAt) {
 		_presenceUpdatedAt = presenceUpdatedAt;
 
 		if (_settingsRemoteModel != null) {
@@ -222,7 +223,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 				Class<?> clazz = _settingsRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setPresenceUpdatedAt",
-						long.class);
+						Date.class);
 
 				method.invoke(_settingsRemoteModel, presenceUpdatedAt);
 			}
@@ -508,7 +509,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	private long _userId;
 	private String _userUuid;
 	private String _presence;
-	private long _presenceUpdatedAt;
+	private Date _presenceUpdatedAt;
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;

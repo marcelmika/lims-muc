@@ -24,6 +24,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the Settings service. Represents a row in the &quot;Limsmuc_Settings&quot; database table, with each column mapped to a property of this class.
  *
@@ -121,14 +123,14 @@ public interface SettingsModel extends BaseModel<Settings> {
 	 *
 	 * @return the presence updated at of this settings
 	 */
-	public long getPresenceUpdatedAt();
+	public Date getPresenceUpdatedAt();
 
 	/**
 	 * Sets the presence updated at of this settings.
 	 *
 	 * @param presenceUpdatedAt the presence updated at of this settings
 	 */
-	public void setPresenceUpdatedAt(long presenceUpdatedAt);
+	public void setPresenceUpdatedAt(Date presenceUpdatedAt);
 
 	/**
 	 * Returns the mute of this settings.

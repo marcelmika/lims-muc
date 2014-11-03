@@ -17,6 +17,7 @@ package com.marcelmika.lims.persistence.generated.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,11 +113,11 @@ public class SettingsSoap implements Serializable {
 		_presence = presence;
 	}
 
-	public long getPresenceUpdatedAt() {
+	public Date getPresenceUpdatedAt() {
 		return _presenceUpdatedAt;
 	}
 
-	public void setPresenceUpdatedAt(long presenceUpdatedAt) {
+	public void setPresenceUpdatedAt(Date presenceUpdatedAt) {
 		_presenceUpdatedAt = presenceUpdatedAt;
 	}
 
@@ -159,7 +160,7 @@ public class SettingsSoap implements Serializable {
 	private long _sid;
 	private long _userId;
 	private String _presence;
-	private long _presenceUpdatedAt;
+	private Date _presenceUpdatedAt;
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;

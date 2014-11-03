@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Settings in entity cache.
  *
@@ -70,7 +72,13 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 			settingsImpl.setPresence(presence);
 		}
 
-		settingsImpl.setPresenceUpdatedAt(presenceUpdatedAt);
+		if (presenceUpdatedAt == Long.MIN_VALUE) {
+			settingsImpl.setPresenceUpdatedAt(null);
+		}
+		else {
+			settingsImpl.setPresenceUpdatedAt(new Date(presenceUpdatedAt));
+		}
+
 		settingsImpl.setMute(mute);
 		settingsImpl.setChatEnabled(chatEnabled);
 		settingsImpl.setAdminAreaOpened(adminAreaOpened);

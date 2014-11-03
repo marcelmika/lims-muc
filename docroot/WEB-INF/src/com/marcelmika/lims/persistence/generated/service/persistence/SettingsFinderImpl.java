@@ -30,6 +30,7 @@ import java.util.List;
 public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements SettingsFinder {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SettingsFinderImpl.class);
 
     // Find users SQL
@@ -90,7 +91,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -144,7 +145,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -203,7 +204,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -261,7 +262,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -320,7 +321,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -390,7 +391,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -461,7 +462,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -537,7 +538,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("middleName", Type.STRING);
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
+            query.addScalar("presenceUpdatedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);

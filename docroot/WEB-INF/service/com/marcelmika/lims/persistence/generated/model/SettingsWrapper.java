@@ -17,6 +17,7 @@ package com.marcelmika.lims.persistence.generated.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 			setPresence(presence);
 		}
 
-		Long presenceUpdatedAt = (Long)attributes.get("presenceUpdatedAt");
+		Date presenceUpdatedAt = (Date)attributes.get("presenceUpdatedAt");
 
 		if (presenceUpdatedAt != null) {
 			setPresenceUpdatedAt(presenceUpdatedAt);
@@ -212,7 +213,7 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	* @return the presence updated at of this settings
 	*/
 	@Override
-	public long getPresenceUpdatedAt() {
+	public java.util.Date getPresenceUpdatedAt() {
 		return _settings.getPresenceUpdatedAt();
 	}
 
@@ -222,7 +223,7 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	* @param presenceUpdatedAt the presence updated at of this settings
 	*/
 	@Override
-	public void setPresenceUpdatedAt(long presenceUpdatedAt) {
+	public void setPresenceUpdatedAt(java.util.Date presenceUpdatedAt) {
 		_settings.setPresenceUpdatedAt(presenceUpdatedAt);
 	}
 

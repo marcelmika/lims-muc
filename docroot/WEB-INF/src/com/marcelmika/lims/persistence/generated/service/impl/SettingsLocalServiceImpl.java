@@ -98,8 +98,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
             settings.setPresence(presence);
             // Save the time of change
             Calendar calendar = Calendar.getInstance();
-            Date now = calendar.getTime();
-            settings.setPresenceUpdatedAt(now.getTime());
+            settings.setPresenceUpdatedAt(calendar.getTime());
 
             settingsPersistence.update(settings, true);
         }

@@ -14,6 +14,7 @@ import com.marcelmika.lims.api.entity.BuddyDetails;
 import com.marcelmika.lims.persistence.generated.model.Participant;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -116,8 +117,10 @@ public class Buddy {
             buddy.presence = Presence.fromDescription(presence);
         }
 
-        Long presenceUpdatedAtTimestamp = (Long) object[firstElement];
-        buddy.presenceUpdatedAt = new Date(presenceUpdatedAtTimestamp);
+        Calendar presenceUpdatedAt = (Calendar) object[firstElement];
+        if (presenceUpdatedAt != null) {
+            buddy.presenceUpdatedAt = presenceUpdatedAt.getTime();
+        }
 
         return buddy;
     }
@@ -214,14 +217,8 @@ public class Buddy {
     }
 
     @Override
-    public String toString() {
-        return "Buddy{" +
-                "buddyId=" + buddyId +
-                ", fullName='" + fullName + '\'' +
-                ", screenName='" + screenName + '\'' +
-                ", password='" + password + '\'' +
-                ", presence=" + presence +
-                '}';
+    public int hashCode() {
+        return buddyId != null ? buddyId.hashCode() : 0;
     }
 
     @Override
@@ -235,7 +232,13 @@ public class Buddy {
     }
 
     @Override
-    public int hashCode() {
-        return buddyId != null ? buddyId.hashCode() : 0;
+    public String toString() {
+        return "Buddy{" +
+                "buddyId=" + buddyId +
+                ", fullName='" + fullName + '\'' +
+                ", screenName='" + screenName + '\'' +
+                ", password='" + password + '\'' +
+                ", presence=" + presence +
+                '}';
     }
 }

@@ -34,7 +34,7 @@ create table Limsmuc_Settings (
 	sid LONG not null primary key,
 	userId LONG,
 	presence VARCHAR(75) null,
-	presenceUpdatedAt LONG,
+	presenceUpdatedAt DATE null,
 	mute BOOLEAN,
 	chatEnabled BOOLEAN,
 	adminAreaOpened BOOLEAN

@@ -35,6 +35,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,12 +64,12 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			{ "sid", Types.BIGINT },
 			{ "userId", Types.BIGINT },
 			{ "presence", Types.VARCHAR },
-			{ "presenceUpdatedAt", Types.BIGINT },
+			{ "presenceUpdatedAt", Types.TIMESTAMP },
 			{ "mute", Types.BOOLEAN },
 			{ "chatEnabled", Types.BOOLEAN },
 			{ "adminAreaOpened", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt LONG,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Settings";
 	public static final String ORDER_BY_JPQL = " ORDER BY settings.sid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Settings.sid ASC";
@@ -158,7 +159,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			setPresence(presence);
 		}
 
-		Long presenceUpdatedAt = (Long)attributes.get("presenceUpdatedAt");
+		Date presenceUpdatedAt = (Date)attributes.get("presenceUpdatedAt");
 
 		if (presenceUpdatedAt != null) {
 			setPresenceUpdatedAt(presenceUpdatedAt);
@@ -251,12 +252,12 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	}
 
 	@Override
-	public long getPresenceUpdatedAt() {
+	public Date getPresenceUpdatedAt() {
 		return _presenceUpdatedAt;
 	}
 
 	@Override
-	public void setPresenceUpdatedAt(long presenceUpdatedAt) {
+	public void setPresenceUpdatedAt(Date presenceUpdatedAt) {
 		_presenceUpdatedAt = presenceUpdatedAt;
 	}
 
@@ -420,7 +421,14 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			settingsCacheModel.presence = null;
 		}
 
-		settingsCacheModel.presenceUpdatedAt = getPresenceUpdatedAt();
+		Date presenceUpdatedAt = getPresenceUpdatedAt();
+
+		if (presenceUpdatedAt != null) {
+			settingsCacheModel.presenceUpdatedAt = presenceUpdatedAt.getTime();
+		}
+		else {
+			settingsCacheModel.presenceUpdatedAt = Long.MIN_VALUE;
+		}
 
 		settingsCacheModel.mute = getMute();
 
@@ -507,7 +515,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	private boolean _setOriginalUserId;
 	private String _presence;
 	private String _originalPresence;
-	private long _presenceUpdatedAt;
+	private Date _presenceUpdatedAt;
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;

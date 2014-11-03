@@ -67,7 +67,9 @@
 			<id name="sid" />
 			<basic name="userId" />
 			<basic name="presence" />
-			<basic name="presenceUpdatedAt" />
+			<basic name="presenceUpdatedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<basic name="mute" />
 			<basic name="chatEnabled" />
 			<basic name="adminAreaOpened" />
