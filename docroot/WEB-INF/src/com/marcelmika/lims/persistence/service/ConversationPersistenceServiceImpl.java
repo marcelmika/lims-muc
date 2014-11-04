@@ -56,7 +56,21 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
         // Save to persistence
         try {
-            // Save conversation
+            // User cannot create a multi user conversation that already exists
+            if (conversation.getConversationType() == ConversationType.MULTI_USER) {
+                // Try to find a conversation with the same id
+                com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
+                        ConversationLocalServiceUtil.getConversation(conversation.getConversationId());
+
+                // Conversation already exits -> call collision
+                if (conversationModel != null) {
+                    return CreateConversationResponseEvent.failure(
+                            CreateConversationResponseEvent.Status.ERROR_MUC_COLLISION
+                    );
+                }
+            }
+
+            // Create conversation
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.addConversation(
                             conversation.getConversationId(), conversation.getConversationType().getCode()

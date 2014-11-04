@@ -120,6 +120,10 @@ public class ConversationController {
                     status == CreateConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
+            // Collision
+            else if (status == CreateConversationResponseEvent.Status.ERROR_MUC_COLLISION) {
+                ResponseUtil.writeResponse(HttpStatus.CONFLICT, response);
+            }
             // Everything else is server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
