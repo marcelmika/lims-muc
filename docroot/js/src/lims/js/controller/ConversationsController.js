@@ -353,9 +353,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // Set from template
                 conversationContainer.set('innerHTML',
                     Y.Lang.sub(instance.template, {
-                        conversationTitle: conversationModel.get('title'),
-                        triggerTitle: conversationModel.get('title'),
-                        unreadMessages: conversationModel.get('unreadMessagesCount')
+                        conversationTitle: conversationModel.get('title') || Y.LIMS.Core.i18n.values.conversationLoading,
+                        triggerTitle: conversationModel.get('title') || Y.LIMS.Core.i18n.values.conversationLoading,
+                        unreadMessages: conversationModel.get('unreadMessagesCount') || 0
                     })
                 );
                 // Add panel container to parent container
