@@ -26,6 +26,7 @@ create table Limsmuc_Participant (
 	participantId LONG,
 	unreadMessagesCount INTEGER,
 	isOpened BOOLEAN,
+	isCreator BOOLEAN,
 	hasLeft BOOLEAN,
 	openedAt DATE null
 );

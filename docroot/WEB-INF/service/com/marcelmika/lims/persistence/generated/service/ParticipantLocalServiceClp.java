@@ -169,6 +169,12 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		_methodParameterTypes28 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
+
+		_methodName29 = "addParticipant";
+
+		_methodParameterTypes29 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean"
+			};
 	}
 
 	@Override
@@ -1066,6 +1072,42 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		}
 	}
 
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Participant addParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean isCreator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName29,
+					_methodParameterTypes29,
+					new Object[] {
+						ClpSerializer.translateInput(cid),
+						
+					ClpSerializer.translateInput(participantId),
+						
+					isCreator
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Participant)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -1123,4 +1165,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	private String[] _methodParameterTypes27;
 	private String _methodName28;
 	private String[] _methodParameterTypes28;
+	private String _methodName29;
+	private String[] _methodParameterTypes29;
 }

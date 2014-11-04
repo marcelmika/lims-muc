@@ -55,6 +55,7 @@ public class ParticipantWrapper implements Participant,
 		attributes.put("participantId", getParticipantId());
 		attributes.put("unreadMessagesCount", getUnreadMessagesCount());
 		attributes.put("isOpened", getIsOpened());
+		attributes.put("isCreator", getIsCreator());
 		attributes.put("hasLeft", getHasLeft());
 		attributes.put("openedAt", getOpenedAt());
 
@@ -92,6 +93,12 @@ public class ParticipantWrapper implements Participant,
 
 		if (isOpened != null) {
 			setIsOpened(isOpened);
+		}
+
+		Boolean isCreator = (Boolean)attributes.get("isCreator");
+
+		if (isCreator != null) {
+			setIsCreator(isCreator);
 		}
 
 		Boolean hasLeft = (Boolean)attributes.get("hasLeft");
@@ -235,6 +242,36 @@ public class ParticipantWrapper implements Participant,
 	@Override
 	public void setIsOpened(boolean isOpened) {
 		_participant.setIsOpened(isOpened);
+	}
+
+	/**
+	* Returns the is creator of this participant.
+	*
+	* @return the is creator of this participant
+	*/
+	@Override
+	public boolean getIsCreator() {
+		return _participant.getIsCreator();
+	}
+
+	/**
+	* Returns <code>true</code> if this participant is is creator.
+	*
+	* @return <code>true</code> if this participant is is creator; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsCreator() {
+		return _participant.isIsCreator();
+	}
+
+	/**
+	* Sets whether this participant is is creator.
+	*
+	* @param isCreator the is creator of this participant
+	*/
+	@Override
+	public void setIsCreator(boolean isCreator) {
+		_participant.setIsCreator(isCreator);
 	}
 
 	/**

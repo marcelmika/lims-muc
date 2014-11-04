@@ -441,6 +441,23 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	}
 
 	/**
+	* Adds new participant to the system
+	*
+	* @param cid           Id of the conversation to which the participant belongs to
+	* @param participantId User Id of the participant
+	* @param isCreator     true if the user is a creator of hte conversation
+	* @return Participant Model
+	* @throws com.liferay.portal.kernel.exception.SystemException
+	*/
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Participant addParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean isCreator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _participantLocalService.addParticipant(cid, participantId,
+			isCreator);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public ParticipantLocalService getWrappedParticipantLocalService() {

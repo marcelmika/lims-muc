@@ -333,6 +333,17 @@ public class MessageLocalServiceUtil {
 		return getService().lastMessage(cid);
 	}
 
+	/**
+	* Counts number of messages for the given conversation
+	*
+	* @param cid id of the conversation
+	* @return number of messages
+	*/
+	public static java.lang.Integer countMessages(java.lang.Long cid)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countMessages(cid);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

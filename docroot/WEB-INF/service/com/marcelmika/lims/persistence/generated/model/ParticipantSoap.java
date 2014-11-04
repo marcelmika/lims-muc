@@ -35,6 +35,7 @@ public class ParticipantSoap implements Serializable {
 		soapModel.setParticipantId(model.getParticipantId());
 		soapModel.setUnreadMessagesCount(model.getUnreadMessagesCount());
 		soapModel.setIsOpened(model.getIsOpened());
+		soapModel.setIsCreator(model.getIsCreator());
 		soapModel.setHasLeft(model.getHasLeft());
 		soapModel.setOpenedAt(model.getOpenedAt());
 
@@ -133,6 +134,18 @@ public class ParticipantSoap implements Serializable {
 		_isOpened = isOpened;
 	}
 
+	public boolean getIsCreator() {
+		return _isCreator;
+	}
+
+	public boolean isIsCreator() {
+		return _isCreator;
+	}
+
+	public void setIsCreator(boolean isCreator) {
+		_isCreator = isCreator;
+	}
+
 	public boolean getHasLeft() {
 		return _hasLeft;
 	}
@@ -158,6 +171,7 @@ public class ParticipantSoap implements Serializable {
 	private long _participantId;
 	private int _unreadMessagesCount;
 	private boolean _isOpened;
+	private boolean _isCreator;
 	private boolean _hasLeft;
 	private Date _openedAt;
 }

@@ -136,6 +136,27 @@ public interface ParticipantModel extends BaseModel<Participant> {
 	public void setIsOpened(boolean isOpened);
 
 	/**
+	 * Returns the is creator of this participant.
+	 *
+	 * @return the is creator of this participant
+	 */
+	public boolean getIsCreator();
+
+	/**
+	 * Returns <code>true</code> if this participant is is creator.
+	 *
+	 * @return <code>true</code> if this participant is is creator; <code>false</code> otherwise
+	 */
+	public boolean isIsCreator();
+
+	/**
+	 * Sets whether this participant is is creator.
+	 *
+	 * @param isCreator the is creator of this participant
+	 */
+	public void setIsCreator(boolean isCreator);
+
+	/**
 	 * Returns the has left of this participant.
 	 *
 	 * @return the has left of this participant

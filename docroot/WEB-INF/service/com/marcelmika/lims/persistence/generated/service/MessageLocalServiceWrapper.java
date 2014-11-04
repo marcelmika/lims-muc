@@ -347,6 +347,18 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	}
 
 	/**
+	* Counts number of messages for the given conversation
+	*
+	* @param cid id of the conversation
+	* @return number of messages
+	*/
+	@Override
+	public java.lang.Integer countMessages(java.lang.Long cid)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _messageLocalService.countMessages(cid);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public MessageLocalService getWrappedMessageLocalService() {

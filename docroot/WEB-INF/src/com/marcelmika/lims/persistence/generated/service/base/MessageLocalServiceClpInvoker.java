@@ -134,6 +134,10 @@ public class MessageLocalServiceClpInvoker {
 		_methodName63 = "lastMessage";
 
 		_methodParameterTypes63 = new String[] { "java.lang.Long" };
+
+		_methodName64 = "countMessages";
+
+		_methodParameterTypes64 = new String[] { "java.lang.Long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -262,6 +266,11 @@ public class MessageLocalServiceClpInvoker {
 			return MessageLocalServiceUtil.lastMessage((java.lang.Long)arguments[0]);
 		}
 
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+			return MessageLocalServiceUtil.countMessages((java.lang.Long)arguments[0]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -309,4 +318,6 @@ public class MessageLocalServiceClpInvoker {
 	private String[] _methodParameterTypes62;
 	private String _methodName63;
 	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
 }

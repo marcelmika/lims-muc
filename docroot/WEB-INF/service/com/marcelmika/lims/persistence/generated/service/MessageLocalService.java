@@ -296,4 +296,13 @@ public interface MessageLocalService extends BaseLocalService,
 	*/
 	public java.lang.Object[] lastMessage(java.lang.Long cid)
 		throws java.lang.Exception;
+
+	/**
+	* Counts number of messages for the given conversation
+	*
+	* @param cid id of the conversation
+	* @return number of messages
+	*/
+	public java.lang.Integer countMessages(java.lang.Long cid)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

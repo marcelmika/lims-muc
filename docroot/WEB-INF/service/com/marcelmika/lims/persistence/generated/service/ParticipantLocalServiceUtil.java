@@ -419,6 +419,21 @@ public class ParticipantLocalServiceUtil {
 		getService().leaveConversation(cid, participantId);
 	}
 
+	/**
+	* Adds new participant to the system
+	*
+	* @param cid           Id of the conversation to which the participant belongs to
+	* @param participantId User Id of the participant
+	* @param isCreator     true if the user is a creator of hte conversation
+	* @return Participant Model
+	* @throws com.liferay.portal.kernel.exception.SystemException
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Participant addParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean isCreator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().addParticipant(cid, participantId, isCreator);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

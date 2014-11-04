@@ -168,6 +168,12 @@ public class ParticipantLocalServiceClpInvoker {
 		_methodParameterTypes69 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
+
+		_methodName70 = "addParticipant";
+
+		_methodParameterTypes70 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -338,6 +344,13 @@ public class ParticipantLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+			return ParticipantLocalServiceUtil.addParticipant((java.lang.Long)arguments[0],
+				(java.lang.Long)arguments[1],
+				((Boolean)arguments[2]).booleanValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -397,4 +410,6 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes68;
 	private String _methodName69;
 	private String[] _methodParameterTypes69;
+	private String _methodName70;
+	private String[] _methodParameterTypes70;
 }

@@ -14,10 +14,10 @@
 
 package com.marcelmika.lims.persistence.generated.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.generated.model.Message;
-import com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.MessageLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -144,5 +144,15 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      */
     public Object[] lastMessage(Long cid) throws Exception {
         return messageFinder.lastMessage(cid);
+    }
+
+    /**
+     * Counts number of messages for the given conversation
+     *
+     * @param cid id of the conversation
+     * @return number of messages
+     */
+    public Integer countMessages(Long cid) throws SystemException {
+        return messagePersistence.countByCid(cid);
     }
 }

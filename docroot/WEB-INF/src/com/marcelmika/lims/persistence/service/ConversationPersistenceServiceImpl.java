@@ -72,7 +72,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Creator is also participant
             Participant participantModel = ParticipantLocalServiceUtil.addParticipant(
-                    conversationModel.getCid(), creator.getBuddyId()
+                    conversationModel.getCid(), creator.getBuddyId(), true
             );
 
             participants.add(creator);
@@ -526,32 +526,44 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
 
         try {
-            // Get a list of conversations where the user participates
+            // Get a list of conversations where the user participates and are opened
             List<Participant> buddyParticipates = ParticipantLocalServiceUtil.getOpenedConversations(
                     buddy.getBuddyId()
             );
 
-            // Prepare conversations container
+            // Prepare the conversation list that will be returned
             List<Conversation> conversations = new LinkedList<Conversation>();
 
-            // Find conversations where the user participates
+            // Go over all the participant objects and map the conversation data related to them
             for (Participant participates : buddyParticipates) {
 
-                // Do not count participants that has left the conversation
+                // Do not count participants that left the conversation
                 if (participates.getHasLeft()) {
                     continue;
                 }
 
+                // Count the number of messages in the conversation
+                Integer numberOfMessages = MessageLocalServiceUtil.countMessages(participates.getCid());
+
+                // If the user is not the creator of the conversation and there is no message yet go on. It means
+                // that the user who is creating the conversation hasn't sent any message yet. He may change
+                // his mind and don't send a message at all. However, if there is no check like that the other
+                // users will see this conversation.
+                if (!participates.getIsCreator() && numberOfMessages == 0) {
+                    continue;
+                }
+
+                // Read the conversation data
                 Conversation conversation = readConversation(participates.getCid());
 
+                // If such conversation was found
                 if (conversation != null) {
-
                     // Add properties to conversation
                     conversation.setParticipants(readParticipants(participates.getCid()));
                     conversation.setUnreadMessagesCount(participates.getUnreadMessagesCount());
                     conversation.setBuddy(buddy);
 
-                    // Add to container
+                    // Add to the conversation list
                     conversations.add(conversation);
                 }
             }

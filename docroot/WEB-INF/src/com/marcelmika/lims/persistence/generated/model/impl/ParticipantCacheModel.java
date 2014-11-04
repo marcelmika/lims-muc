@@ -37,7 +37,7 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{pid=");
 		sb.append(pid);
@@ -49,6 +49,8 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 		sb.append(unreadMessagesCount);
 		sb.append(", isOpened=");
 		sb.append(isOpened);
+		sb.append(", isCreator=");
+		sb.append(isCreator);
 		sb.append(", hasLeft=");
 		sb.append(hasLeft);
 		sb.append(", openedAt=");
@@ -67,6 +69,7 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 		participantImpl.setParticipantId(participantId);
 		participantImpl.setUnreadMessagesCount(unreadMessagesCount);
 		participantImpl.setIsOpened(isOpened);
+		participantImpl.setIsCreator(isCreator);
 		participantImpl.setHasLeft(hasLeft);
 
 		if (openedAt == Long.MIN_VALUE) {
@@ -88,6 +91,7 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 		participantId = objectInput.readLong();
 		unreadMessagesCount = objectInput.readInt();
 		isOpened = objectInput.readBoolean();
+		isCreator = objectInput.readBoolean();
 		hasLeft = objectInput.readBoolean();
 		openedAt = objectInput.readLong();
 	}
@@ -100,6 +104,7 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 		objectOutput.writeLong(participantId);
 		objectOutput.writeInt(unreadMessagesCount);
 		objectOutput.writeBoolean(isOpened);
+		objectOutput.writeBoolean(isCreator);
 		objectOutput.writeBoolean(hasLeft);
 		objectOutput.writeLong(openedAt);
 	}
@@ -109,6 +114,7 @@ public class ParticipantCacheModel implements CacheModel<Participant>,
 	public long participantId;
 	public int unreadMessagesCount;
 	public boolean isOpened;
+	public boolean isCreator;
 	public boolean hasLeft;
 	public long openedAt;
 }

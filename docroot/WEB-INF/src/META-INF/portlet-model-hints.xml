@@ -32,6 +32,7 @@
 		<field name="participantId" type="long" />
 		<field name="unreadMessagesCount" type="int" />
 		<field name="isOpened" type="boolean" />
+		<field name="isCreator" type="boolean" />
 		<field name="hasLeft" type="boolean" />
 		<field name="openedAt" type="Date" />
 	</model>

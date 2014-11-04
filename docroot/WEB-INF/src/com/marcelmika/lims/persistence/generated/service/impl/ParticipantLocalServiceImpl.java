@@ -65,34 +65,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public Participant addParticipant(Long cid, Long participantId) throws SystemException {
-        // Fetch possible existing conversation
-        Participant participantModel;
-        try {
-            // Try to find participant
-            participantModel = participantPersistence.findByCidParticipantId(cid, participantId);
-        } catch (NoSuchParticipantException e) {
-            // No participant was found, so create a new one
-            participantModel = participantPersistence.create(counterLocalService.increment());
-            participantModel.setCid(cid);
-            participantModel.setParticipantId(participantId);
-        }
-
-        // Only if the conversation isn't opened for the participant already
-        if (!participantModel.getIsOpened()) {
-            // Set the time when the conversation was opened
-            participantModel.setOpenedAt(Calendar.getInstance().getTime());
-            // Open conversation for participant
-            participantModel.setIsOpened(true);
-        }
-
-        // Since we are adding the user again, even though he might left we will ignore that
-        participantModel.setHasLeft(false);
-        participantModel.setUnreadMessagesCount(0);
-
-        // Save
-        participantPersistence.update(participantModel, false);
-
-        return participantModel;
+        return addParticipant(cid, participantId, false);
     }
 
     /**
@@ -190,7 +163,6 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
         // Save
         participantPersistence.update(participant, false);
     }
-
 
     /**
      * Returns a list of opened conversations where the the user participates
@@ -300,5 +272,52 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
             // Save
             participantPersistence.update(participantModel, false);
         }
+    }
+
+    /**
+     * Adds new participant to the system
+     *
+     * @param cid           Id of the conversation to which the participant belongs to
+     * @param participantId User Id of the participant
+     * @param isCreator     true if the user is a creator of hte conversation
+     * @return Participant Model
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     */
+    public Participant addParticipant(Long cid, Long participantId, boolean isCreator) throws SystemException {
+        // Fetch possible existing conversation
+        Participant participantModel;
+        try {
+            // Try to find participant
+            participantModel = participantPersistence.findByCidParticipantId(cid, participantId);
+        } catch (NoSuchParticipantException e) {
+            // No participant was found, so create a new one
+            participantModel = participantPersistence.create(counterLocalService.increment());
+            participantModel.setCid(cid);
+            participantModel.setParticipantId(participantId);
+        }
+
+        // Only if the conversation isn't opened for the participant already
+        if (!participantModel.getIsOpened()) {
+            // Set the time when the conversation was opened
+            participantModel.setOpenedAt(Calendar.getInstance().getTime());
+            // Open conversation for participant
+            participantModel.setIsOpened(true);
+        }
+
+        // Since we are adding the user again, even though he might left we will ignore that
+        participantModel.setHasLeft(false);
+        // The counter needs to be reset otherwise the user might get unread message count
+        // during the time he wasn't in the conversation and that's something we don't want.
+        participantModel.setUnreadMessagesCount(0);
+        // If the participant was yet set as a creator set the creator flag. However, if the
+        // user was once set as a creator the fact cannot be changed.
+        if (!participantModel.getIsCreator()) {
+            participantModel.setIsCreator(isCreator);
+        }
+
+        // Save
+        participantPersistence.update(participantModel, false);
+
+        return participantModel;
     }
 }

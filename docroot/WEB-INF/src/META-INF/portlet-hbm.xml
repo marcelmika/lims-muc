@@ -44,6 +44,7 @@
 		<property name="participantId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="unreadMessagesCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="isOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="isCreator" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="hasLeft" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="openedAt" type="org.hibernate.type.TimestampType" />
 	</class>

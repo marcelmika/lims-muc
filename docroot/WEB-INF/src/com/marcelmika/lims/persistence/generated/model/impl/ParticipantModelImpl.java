@@ -64,10 +64,11 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 			{ "participantId", Types.BIGINT },
 			{ "unreadMessagesCount", Types.INTEGER },
 			{ "isOpened", Types.BOOLEAN },
+			{ "isCreator", Types.BOOLEAN },
 			{ "hasLeft", Types.BOOLEAN },
 			{ "openedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,hasLeft BOOLEAN,openedAt DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Participant (pid LONG not null primary key,cid LONG,participantId LONG,unreadMessagesCount INTEGER,isOpened BOOLEAN,isCreator BOOLEAN,hasLeft BOOLEAN,openedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Participant";
 	public static final String ORDER_BY_JPQL = " ORDER BY participant.openedAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Participant.openedAt ASC";
@@ -132,6 +133,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		attributes.put("participantId", getParticipantId());
 		attributes.put("unreadMessagesCount", getUnreadMessagesCount());
 		attributes.put("isOpened", getIsOpened());
+		attributes.put("isCreator", getIsCreator());
 		attributes.put("hasLeft", getHasLeft());
 		attributes.put("openedAt", getOpenedAt());
 
@@ -169,6 +171,12 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 		if (isOpened != null) {
 			setIsOpened(isOpened);
+		}
+
+		Boolean isCreator = (Boolean)attributes.get("isCreator");
+
+		if (isCreator != null) {
+			setIsCreator(isCreator);
 		}
 
 		Boolean hasLeft = (Boolean)attributes.get("hasLeft");
@@ -276,6 +284,21 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	}
 
 	@Override
+	public boolean getIsCreator() {
+		return _isCreator;
+	}
+
+	@Override
+	public boolean isIsCreator() {
+		return _isCreator;
+	}
+
+	@Override
+	public void setIsCreator(boolean isCreator) {
+		_isCreator = isCreator;
+	}
+
+	@Override
 	public boolean getHasLeft() {
 		return _hasLeft;
 	}
@@ -338,6 +361,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		participantImpl.setParticipantId(getParticipantId());
 		participantImpl.setUnreadMessagesCount(getUnreadMessagesCount());
 		participantImpl.setIsOpened(getIsOpened());
+		participantImpl.setIsCreator(getIsCreator());
 		participantImpl.setHasLeft(getHasLeft());
 		participantImpl.setOpenedAt(getOpenedAt());
 
@@ -419,6 +443,8 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 		participantCacheModel.isOpened = getIsOpened();
 
+		participantCacheModel.isCreator = getIsCreator();
+
 		participantCacheModel.hasLeft = getHasLeft();
 
 		Date openedAt = getOpenedAt();
@@ -435,7 +461,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{pid=");
 		sb.append(getPid());
@@ -447,6 +473,8 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		sb.append(getUnreadMessagesCount());
 		sb.append(", isOpened=");
 		sb.append(getIsOpened());
+		sb.append(", isCreator=");
+		sb.append(getIsCreator());
 		sb.append(", hasLeft=");
 		sb.append(getHasLeft());
 		sb.append(", openedAt=");
@@ -458,7 +486,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Participant");
@@ -483,6 +511,10 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 		sb.append(
 			"<column><column-name>isOpened</column-name><column-value><![CDATA[");
 		sb.append(getIsOpened());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isCreator</column-name><column-value><![CDATA[");
+		sb.append(getIsCreator());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>hasLeft</column-name><column-value><![CDATA[");
@@ -513,6 +545,7 @@ public class ParticipantModelImpl extends BaseModelImpl<Participant>
 	private boolean _isOpened;
 	private boolean _originalIsOpened;
 	private boolean _setOriginalIsOpened;
+	private boolean _isCreator;
 	private boolean _hasLeft;
 	private Date _openedAt;
 	private long _columnBitmask;
