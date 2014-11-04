@@ -293,7 +293,7 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
          * {integer}
          */
         timerInterval: {
-            value: 2000 // 2 seconds
+            value: 1500 // 1,5 seconds
         }
     }
 });
