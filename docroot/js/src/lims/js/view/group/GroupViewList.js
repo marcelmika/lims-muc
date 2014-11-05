@@ -26,10 +26,6 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     initializer: function () {
         // Attach events
         this._attachEvents();
-
-        // Group list needs to be removed from the DOM since we don't know if there
-        // are any groups yet
-        this.get('groupList').remove();
     },
 
     /**
@@ -261,7 +257,13 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
          */
         groupList: {
             valueFn: function () {
-                return this.get('container').one('.group-list');
+                // Vars
+                var groupList = this.get('container').one('.group-list');
+                // Remove it from the DOM, since it will be shown after
+                // the list is loaded from the server
+                groupList.remove();
+
+                return groupList;
             }
         },
 
