@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+ *
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ *
+ * Written by Marcel Mika <marcelmika.com>, 2014
+ */
+
+
+/********************************************************************************
+/ CONVERSATION FEED PANEL
+/********************************************************************************/
+
+.liferay-ims .conversation-toggle {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-toggle.png) no-repeat left center;
+    @include image-2x('/images/icon-conversation-toggle@2x.png', auto, 18px);
+    height: 24px;
+    padding: 0 0 0 26px;
+  }
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-toggle-selected.png) no-repeat left center;
+    @include image-2x('/images/icon-conversation-toggle-selected@2x.png', auto, 18px);
+  }
+
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    max-height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+}

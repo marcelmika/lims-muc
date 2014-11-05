@@ -101,6 +101,7 @@
                 "js/controller/MainController.js",
                 "js/controller/ConversationsController.js",
                 "js/controller/view/ConversationFeedViewController.js",
+                "js/controller/view/ConversationToggleViewController.js",
                 "js/controller/view/GroupViewController.js",
                 "js/controller/view/PresenceViewController.js",
                 "js/controller/view/SettingsViewController.js",
