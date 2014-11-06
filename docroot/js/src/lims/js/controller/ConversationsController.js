@@ -63,6 +63,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             Y.on('buddySelected', this._onBuddySelected, this);
             Y.on('buddiesSelected', this._onBuddiesSelected, this);
             Y.on('conversationSelected', this._onConversationSelected, this);
+            Y.on('conversationClosed', this._onConversationClosed, this);
             // Session expired
             Y.on('userSessionExpired', this._onSessionExpired, this);
 
@@ -74,9 +75,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             Y.on('windowresize', function () {
                 instance._onWindowResize();
             });
-
         },
-
 
         /**
          * Opens new conversation
@@ -97,7 +96,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 settings = this.get('settings'),                    // Settings of logged user
                 properties = this.get('properties'),                // Portlet properties
                 notification = this.get('notification'),            // Notification handler
-                controller;                                         // Controller (selected or newly created)
+                controller,                                         // Controller (selected or newly created)
+                instance = this;
 
             // Create new model
             conversationModel = new Y.LIMS.Model.ConversationModel({
@@ -112,7 +112,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
             // Create new container node
             conversationContainer = Y.Node.create(this.containerTemplate);
-            // Set from template
+            // Set attributes
+            conversationContainer.setAttribute('data-conversationId', conversationId);
+            // Set content from template
             conversationContainer.set('innerHTML',
                 Y.Lang.sub(this.conversationTemplate, {
                     conversationTitle: conversationModel.get('title'),
@@ -120,8 +122,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     unreadMessages: conversationModel.get('unreadMessagesCount')
                 })
             );
-            // Add panel container to parent container
-            this.get('container').append(conversationContainer);
 
             // Create new single user conversation controller
             controller = new Y.LIMS.Controller.SingleUserConversationViewController({
@@ -134,16 +134,24 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 notification: notification
             });
 
-            // Save the model, thanks to that the conversation will be created on server too.
-            conversationModel.save();
-
             // Remove controller from map if it's unloaded from the screen
             controller.on('panelDidUnload', function (event) {
                 delete map[event.controllerId];
+                // Layout subviews
+                instance._layoutSubviews();
             });
 
             // Add controller to map
             map[conversationId] = controller;
+
+            // Add panel container to parent container
+            this.get('container').append(conversationContainer);
+
+            // Layout subviews
+            this._layoutSubviews();
+
+            // Save the model, thanks to that the conversation will be created on server too.
+            conversationModel.save();
 
             return controller;
         },
@@ -161,13 +169,15 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 buddyDetails = this.get('buddyDetails'),            // Currently logged user
                 conversationId,                                     // Id of the conversation
                 conversationType,                                   // Type of the conversation
+                conversationTitle,                                  // Title of the conversation
                 unreadMessagesCount,                                // Unread messages count
                 settings = this.get('settings'),                    // Settings of logged user
                 properties = this.get('properties'),                // Portlet properties
                 conversationModel,                                  // Model which will be attached to controller
                 conversationList = this.get('conversationList'),    // List of conversations
                 notification = this.get('notification'),            // Notification handler
-                controller;                                         // Bind controller
+                controller,                                         // Bind controller
+                instance = this;
 
             // Create js objects for each node
             conversationNodes.each(function (conversationNode) {
@@ -175,6 +185,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // from the attribute on conversation node
                 conversationId = conversationNode.attr('data-conversationId');
                 conversationType = conversationNode.attr('data-conversationType');
+                conversationTitle = conversationNode.attr('data-conversationTitle');
                 unreadMessagesCount = conversationNode.attr('data-unreadMessagesCount');
 
                 // Bind controller only if it's not in the map
@@ -184,6 +195,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     conversationModel = new Y.LIMS.Model.ConversationModel({
                         conversationId: conversationId,
                         conversationType: conversationType,
+                        title: conversationTitle,
                         creator: buddyDetails,
                         unreadMessagesCount: unreadMessagesCount,
                         serverTimeOffset: properties.getServerTimeOffset()
@@ -207,6 +219,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     // Remove controller from map if it's unloaded from the screen
                     controller.on('panelDidUnload', function (event) {
                         delete map[event.controllerId];
+                        // Layout subviews
+                        instance._layoutSubviews();
                     });
 
                     // Add to map
@@ -225,7 +239,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Vars
             var size = 0,
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),
-                conversationNodes = this.get('conversationNodes');
+                conversationNodes = this.get('openedConversationNodes');
 
             conversationNodes.each(function (conversationNode) {
                 if (conversationNode.getAttribute('hidden') !== 'true') {
@@ -245,7 +259,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _lastNotHiddenConversation: function () {
             // Vars
-            var conversationNodes = this.get('conversationNodes'),
+            var conversationNodes = this.get('openedConversationNodes'),
                 conversationNode,
                 index;
 
@@ -288,7 +302,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _hiddenConversations: function () {
             // Vars
-            var conversationNodes = this.get('conversationNodes');
+            var conversationNodes = this.get('openedConversationNodes');
 
             return conversationNodes.filter(function (conversationNode) {
                 return conversationNode.getAttribute('hidden') === 'true';
@@ -303,7 +317,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _visibleConversations: function () {
             // Vars
-            var conversationNodes = this.get('conversationNodes');
+            var conversationNodes = this.get('openedConversationNodes');
 
             return conversationNodes.filter(function (conversationNode) {
                 return conversationNode.getAttribute('hidden') !== 'true';
@@ -331,6 +345,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 firstHiddenConversation,                        // First conversation node that is hidden
                 lastVisibleConversation,                        // Last conversation node that is visible
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),  // Get the node size
+                map = this.get('conversationMap'),              // Map that holds all conversation controllers
+                conversationToggleController = this.get('conversationToggleController'),
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
 
@@ -341,6 +357,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // the recursionDepth parameter when you call the method.
             if (depth > 100) {
                 // The maximal depth was exceeded so end up here
+                console.error('OVERFLOW!');
                 return;
             }
 
@@ -370,10 +387,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             hiddenConversations = this._hiddenConversations();
             visibleConversations = this._visibleConversations();
 
-            console.log('staticPart', staticPart);
-            console.log('dynamicPart', dynamicPart);
-            console.log('ratio', ratio);
-
             // If the ratio is less than zero it means that the size of all conversation nodes is less
             // than the size of the dynamic part size. In other words it is possible that some conversation
             // might be visible again
@@ -392,7 +405,14 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                     // And make it visible again
                     if (firstHiddenConversation) {
+
+                        // Show the node
                         firstHiddenConversation.show();
+
+                        // Add the controller to toggle
+                        conversationToggleController.removeConversation(
+                            map[firstHiddenConversation.attr('data-conversationId')].get('model')
+                        );
 
                         // Recalculate the size of the conversations
                         hiddenConversations = this._hiddenConversations();
@@ -417,7 +437,15 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // At least one conversation must remain visible
                 if (lastVisibleConversation && visibleConversations.size() > 1) {
+
+                    // Hide the node
                     lastVisibleConversation.hide();
+
+                    // Remove controller from toggle
+                    conversationToggleController.addConversation(
+                        map[lastVisibleConversation.attr('data-conversationId')].get('model')
+                    );
+
                     // Since there is at least one conversation hidden show the conversation toggle
                     this._showConversationToggle();
 
@@ -467,9 +495,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var controller = this.get('conversationToggleController'),
                 container = this.get('container');
 
-            if (!controller.get('container').inDoc()) {
-                container.append(controller.get('container'));
-            }
+            container.append(controller.get('container'));
         },
 
         /**
@@ -483,6 +509,33 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
             if (controller.get('container').inDoc()) {
                 controller.get('container').remove();
+            }
+        },
+
+        /**
+         * Adds a controller to the proper position
+         *
+         * @param controller {Y.LIMS.Controller.SingleUserConversationViewController}
+         * @private
+         */
+        _positionController: function (controller) {
+            // Vars
+            var toggleController = this.get('conversationToggleController'),    // Toggle controller
+                lastConversationNode;  // Last not hidden conversation
+
+
+            // Toggle is visible
+            if (toggleController.isVisible()) {
+                // Get the last conversation
+                lastConversationNode = this._lastNotHiddenConversation();
+                // Add the conversation before the last visible conversation
+                lastConversationNode.insert(controller.get('container'), 'before');
+                // Show the container since it might have been hidden
+                controller.get('container').show();
+                // If the conversation is in the toggle remove it from there
+                toggleController.removeConversation(controller.get('model'));
+                // Layout subviews
+                this._layoutSubviews();
             }
         },
 
@@ -512,6 +565,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             else {
                 controller = this._openConversation(conversationId, conversation.get('title'), []);
             }
+
+            // Add the controller to the proper position
+            this._positionController(controller);
 
             // At the end show the controller to the user
             controller.presentViewController();
@@ -550,6 +606,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy]);
             }
 
+            // Add the controller to the proper position
+            this._positionController(controller);
+
             // At the end show the controller to the user
             controller.presentViewController();
         },
@@ -582,11 +641,43 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies
                 );
 
+                // Add the controller to the proper position
+                this._positionController(controller);
+
                 // Open the controller
                 controller.presentViewController();
             }
         },
 
+        /**
+         * Called when the user attempts to close the conversation
+         * @private
+         */
+        _onConversationClosed: function (event) {
+            // Vars
+            var model = event.conversation || null,
+                map = this.get('conversationMap'),
+                conversationToggleController = this.get('conversationToggleController'),
+                controller;
+
+            // Parameters check
+            if (!model) {
+                return;
+            }
+
+            // Get the controller from the map
+            controller = map[model.get('conversationId')];
+
+            if (controller) {
+                // Close the controller
+                controller.getPanel().close();
+                // Add the controller to toggle
+                conversationToggleController.removeConversation(model);
+                // Layout subviews
+                this._layoutSubviews();
+            }
+
+        },
 
         /**
          * Called whenever we receive a notification from long pooling that conversations have been updated
@@ -634,9 +725,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     // Add it to list
                     conversationList.add(conversationModel);
 
-                    // Create new container node
+                    // Create container node
                     conversationContainer = Y.Node.create(instance.containerTemplate);
-                    // Set from template
+                    // Set attributes
+                    conversationContainer.setAttribute('data-conversationId', conversationId);
+                    // Set content from template
                     conversationContainer.set('innerHTML',
                         Y.Lang.sub(instance.conversationTemplate, {
                             conversationTitle: conversationModel.get('title') || Y.LIMS.Core.i18n.values.conversationLoading,
@@ -644,8 +737,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                             unreadMessages: conversationModel.get('unreadMessagesCount') || 0
                         })
                     );
-                    // Add panel container to parent container
-                    container.append(conversationContainer);
 
                     // Create new single user conversation controller
                     controller = new Y.LIMS.Controller.SingleUserConversationViewController({
@@ -661,6 +752,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     // Remove controller from map if it's unloaded from the screen
                     controller.on('panelDidUnload', function (event) {
                         delete map[event.controllerId];
+                        // Layout subviews
+                        instance._layoutSubviews();
                     });
 
                     // Add controller to map
@@ -669,8 +762,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     // Load conversation model (e.g. messages, etc.)
                     conversationModel.load(function (err) {
                         if (!err) {
+                            // Add panel container to parent container
+                            container.append(conversationContainer);
                             // Show the controller to the user
                             controller.showViewController();
+                            // Layout subviews
+                            instance._layoutSubviews();
                             // We have created a controller based on long polling message.
                             // We thus need to notify the user about received messages.
                             notification.notify(conversationModel.get('lastMessage'));
@@ -743,8 +840,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
              * {object}
              */
             conversationMap: {
-                value: {
-                } // default value
+                value: {} // default value
             },
 
             /**
@@ -845,6 +941,17 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             conversationNodes: {
                 valueFn: function () {
                     return this.get('container').all('.conversation');
+                }
+            },
+
+            /**
+             * List of conversations rendered conversation nodes that are not closed
+             *
+             * {array}
+             */
+            openedConversationNodes: {
+                getter: function () {
+                    return this.get('container').all('.conversation:not(.closed)');
                 }
             },
 

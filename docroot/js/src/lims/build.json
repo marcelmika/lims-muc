@@ -66,6 +66,8 @@
                 "js/view/conversation/options/AddMoreOption.js",
                 "js/view/conversation/options/LeaveConversationOption.js",
                 "js/view/conversation/options/ConversationOptionsView.js",
+                "js/view/conversation/toggle/ConversationToggleItem.js",
+                "js/view/conversation/toggle/ConversationToggleList.js",
                 "js/view/elements/ChoiceElementView.js",
                 "js/view/elements/SwitchElementView.js",
                 "js/view/elements/SliderElementView.js",
@@ -89,7 +91,8 @@
                     "view",
                     "node",
                     "anim",
-                    "slider"
+                    "slider",
+                    "datatype-number"
                 ]
             }
         },

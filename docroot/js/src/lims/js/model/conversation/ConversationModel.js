@@ -431,6 +431,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         // Update from response
         this.setAttrs({
             conversationType: conversation.conversationType,
+            title: conversation.title,
             etag: conversation.etag,
             unreadMessagesCount: conversation.unreadMessagesCount,
             firstMessage: conversation.firstMessage,
@@ -585,7 +586,16 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
          * {number}
          */
         unreadMessagesCount: {
-            value: 0 // default value
+            value: 0, // default value
+            /**
+             * Getter
+             * @param value
+             * @return {number}
+             */
+            getter: function (value) {
+                // Just to be sure that the returned value will be a number
+                return Y.Number.parse(value);
+            }
         },
 
         /**

@@ -28,6 +28,66 @@
     @include image-2x('/images/icon-conversation-toggle-selected@2x.png', auto, 18px);
   }
 
+  .toggle-item {
+    border-bottom: 1px solid #efefef;
+    padding: 0;
+    cursor: pointer;
+    @include no-select;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #f8f8f8;
+    }
+
+    .title {
+      padding: 5px 60px 5px 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 178px;
+    }
+
+    // Unread messages badge
+    .unread {
+      background: #bd3131;
+      color: #fff;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      right: 36px;
+      top: 11px;
+      text-align: center;
+      line-height: 14px;
+      font-weight: bold;
+      opacity: 0.8;
+      overflow: hidden;
+      // Rounded corners
+      @include border-radius(5px);
+
+      &.dimmed {
+        background-color: #b3b3b3;
+      }
+    }
+
+    .close {
+      cursor: pointer;
+      width: 20px;
+      height: 14px;
+      position: absolute;
+      top: 12px;
+      right: 6px;
+      opacity: 0.8;
+      outline: none;
+      filter: none;
+      background: url(/images/close-button.png) center center no-repeat;
+    }
+
+  }
+
 
   ////////////////////////////////////////////
   // PANEL CONTENT                          //
