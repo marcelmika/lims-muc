@@ -21,7 +21,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-right: 15px;
+    padding-right: 17px;
     // Make the button unselectable
     @include no-select();
   }
@@ -31,8 +31,8 @@
     background: #bd3131;
     color: #fff;
     font-size: 10px;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     position: absolute;
     right: 3px;
     top: 4px;
@@ -41,11 +41,13 @@
     font-weight: bold;
     opacity: 0.8;
     overflow: hidden;
+    border: 1px solid #bd3131;
     // Rounded corners
     @include border-radius(5px);
 
     &.dimmed {
       background-color: #b3b3b3;
+      border-color: #b3b3b3;
     }
   }
 }

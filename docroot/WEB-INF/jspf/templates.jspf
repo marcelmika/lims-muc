@@ -92,7 +92,10 @@
 <script type="text/x-template" id="lims-conversation-toggle-template">
     <li class="conversation-toggle">
         <div class="panel-trigger">
-            <span class="trigger-name">(0)</span>
+            <span class="trigger-name">
+                <span class="count"></span>
+            </span>
+            <div class="unread"></div>
         </div>
         <div class="panel">
             <div class="panel-window">

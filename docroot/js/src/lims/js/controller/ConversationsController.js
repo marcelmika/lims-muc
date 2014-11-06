@@ -357,7 +357,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // the recursionDepth parameter when you call the method.
             if (depth > 100) {
                 // The maximal depth was exceeded so end up here
-                console.error('OVERFLOW!');
                 return;
             }
 

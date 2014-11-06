@@ -24,21 +24,13 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         },
 
         /**
-         * Panel Did Load is called when the panel is attached to the controller
-         */
-        onPanelDidLoad: function () {
-            // Events
-            this._attachEvents();
-        },
-
-        /**
          * Renders view controller's views
          */
         render: function () {
             // Vars
             var conversationList = this.get('conversationList'),
                 container = this.get('container'),
-                panelTriggerName = this.get('panelTriggerName'),
+                countNode = this.get('countNode'),
                 panelContent = this.get('panelContent'),
                 listView = this.get('listView');
 
@@ -51,7 +43,7 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             }
 
             // Render title
-            panelTriggerName.set('innerHTML', '(' + conversationList.length + ')');
+            countNode.set('innerHTML', conversationList.length);
 
             // Update conversation list in the view
             listView.set('conversationList', conversationList);
@@ -61,6 +53,9 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             // Add it the panel content
             panelContent.set('innerHTML', '');
             panelContent.append(listView.get('container'));
+
+            // Render unread messages badge
+            this._renderUnreadBadge();
         },
 
         /**
@@ -70,15 +65,6 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
          */
         isVisible: function () {
             return this.get('container').inDoc();
-        },
-
-        /**
-         * Attaches events to DOM elements from container
-         *
-         * @private
-         */
-        _attachEvents: function () {
-
         },
 
         /**
@@ -101,6 +87,8 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             if (!this._containsConversation(conversationId)) {
                 // Add it to the list
                 conversationList.push(conversation);
+                // Register events
+                conversation.on('readSuccess', this._onConversationReadSuccess, this);
             }
 
             // Render
@@ -121,11 +109,42 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
                 return;
             }
 
-            // If there is such controller in the map
-            this._removeConversation(conversationId);
+            if (this._containsConversation(conversationId)) {
+                // If there is such controller in the map
+                this._removeConversation(conversationId);
+                // Detach subscription
+                conversation.detach('readSuccess', this._onConversationReadSuccess, this);
 
-            // Render
-            this.render();
+                // Render
+                this.render();
+            }
+        },
+
+        /**
+         * Renders unread badge
+         *
+         * @private
+         */
+        _renderUnreadBadge: function () {
+            // Vars
+            var conversationList = this.get('conversationList'),
+                unreadBadge = this.get('unreadBadge'),
+                unreadMessagesSum = 0;
+
+            // Count the sum of unread messages over all registered conversations
+            Y.Array.each(conversationList, function (conversation) {
+                unreadMessagesSum += conversation.get('unreadMessagesCount');
+            });
+
+            // Fill in the sum
+            unreadBadge.set('innerHTML', unreadMessagesSum);
+
+            // Decide if the unread badge should be shown or hidden
+            if (unreadMessagesSum === 0) {
+                unreadBadge.hide();
+            } else {
+                unreadBadge.show();
+            }
         },
 
         /**
@@ -166,6 +185,16 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
 
             // Save the list
             this.set('conversationList', updatedList);
+        },
+
+        /**
+         * Called when any of the registered conversation models is successfully read
+         *
+         * @private
+         */
+        _onConversationReadSuccess: function () {
+            // Update badge
+            this._renderUnreadBadge();
         }
 
     }, {
@@ -241,6 +270,28 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             panelTriggerName: {
                 valueFn: function () {
                     return this.get('panelTrigger').one('.trigger-name');
+                }
+            },
+
+            /**
+             * Count node
+             *
+             * {Node}
+             */
+            countNode: {
+                valueFn: function () {
+                    return this.get('panelTrigger').one('.count');
+                }
+            },
+
+            /**
+             * Unread badge node
+             *
+             * {Node}
+             */
+            unreadBadge: {
+                valueFn: function () {
+                    return this.get('panelTrigger').one('.unread');
                 }
             }
         }
