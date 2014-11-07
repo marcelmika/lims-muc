@@ -43,6 +43,15 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     },
 
     /**
+     * Returns true if the panel is opened
+     *
+     * @return {boolean}
+     */
+    isOpened: function () {
+        return this.get('isOpened');
+    },
+
+    /**
      * Shows the panel
      */
     show: function () {
@@ -162,6 +171,60 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
         }
     },
 
+
+    /**
+     * Starts the title notification blinking effect
+     *
+     * @private
+     */
+    startTitleBlinking: function () {
+        // Vars
+        var panelTitle = this.get('panelTitle'),
+            trigger = this.get('trigger'),
+            blinkingTitleTimer = this.get('blinkingTitleTimer'),
+            blinkingTitleInterval = this.get('blinkingTitleInterval');
+
+        // If there is a title interval from the past invalidate it
+        if (blinkingTitleInterval) {
+            clearInterval(blinkingTitleTimer);
+        }
+
+        // Create new timer that will run the blinking effect
+        this.set('blinkingTitleTimer', setInterval(function () {
+
+            // Toggle panel title highlight
+            if (panelTitle.hasClass('highlight')) {
+                trigger.removeClass('highlight');
+                panelTitle.removeClass('highlight');
+            } else {
+                trigger.addClass('highlight');
+                panelTitle.addClass('highlight');
+            }
+
+        }, blinkingTitleInterval));
+    },
+
+    /**
+     * Stops the title notification blinking effect
+     *
+     * @private
+     */
+    stopTitleBlinking: function () {
+        // Vars
+        var panelTitle = this.get('panelTitle'),
+            trigger = this.get('trigger'),
+            blinkingTitleTimer = this.get('blinkingTitleTimer');
+
+        // Remove the highlight class
+        panelTitle.removeClass('highlight');
+        trigger.removeClass('highlight');
+        // Clear the timeout
+        clearInterval(blinkingTitleTimer);
+        // Set the value to null
+        this.set('blinkingTitleTimer', null);
+    },
+
+
     /**
      * Attaches events to all necessary elements from the container
      *
@@ -255,6 +318,22 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             valueFn: function () {
                 return  Y.Node.create(this.errorTemplate);
             }
+        },
+
+        /**
+         * Timer that is used fro the blinking title effect
+         *
+         * {timer}
+         */
+        blinkingTitleTimer: {
+            value: null // to be set
+        },
+
+        /**
+         * Length of the blinking title period
+         */
+        blinkingTitleInterval: {
+            value: 1000 // 1 second
         }
     }
 

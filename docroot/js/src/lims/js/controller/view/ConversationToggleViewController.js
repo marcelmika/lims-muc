@@ -26,6 +26,21 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         },
 
         /**
+         * Panel Did Load is called when the panel is attached to the controller
+         */
+        onPanelDidLoad: function () {
+            this.getPanel().stopTitleBlinking();
+        },
+
+        /**
+         * Panel Did Appear is called when the panel is currently active. Only one panel
+         * can be active at one time.
+         */
+        onPanelDidAppear: function () {
+            this.getPanel().stopTitleBlinking();
+        },
+
+        /**
          * Renders view controller's views
          */
         render: function () {
@@ -123,20 +138,36 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         },
 
         /**
-         * Renders unread badge
+         * Counts sum of unread messages
          *
+         * @return {number}
          * @private
          */
-        _renderUnreadBadge: function () {
+        _unreadMessagesSum: function () {
             // Vars
             var conversationList = this.get('conversationList'),
-                unreadBadge = this.get('unreadBadge'),
                 unreadMessagesSum = 0;
 
             // Count the sum of unread messages over all registered conversations
             Y.Array.each(conversationList, function (conversation) {
                 unreadMessagesSum += conversation.get('unreadMessagesCount');
             });
+
+            return unreadMessagesSum;
+        },
+
+        /**
+         * Renders unread badge
+         *
+         * @private
+         */
+        _renderUnreadBadge: function () {
+            // Vars
+            var unreadBadge = this.get('unreadBadge'),
+                unreadMessagesSum;
+
+            // Count the sum of unread messages over all registered conversations
+            unreadMessagesSum = this._unreadMessagesSum();
 
             // Fill in the sum
             unreadBadge.set('innerHTML', unreadMessagesSum);
@@ -216,8 +247,21 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
          * @private
          */
         _onConversationReadSuccess: function () {
+            // Vars
+            var unreadMessagesCached = this.get('unreadMessagesCached'),
+                unreadMessages = this._unreadMessagesSum();
+
             // Update badge
             this._renderUnreadBadge();
+
+            if (unreadMessages !== unreadMessagesCached && !this.getPanel().isOpened()) {
+                // Start the title blinking if needed
+                this.getPanel().startTitleBlinking();
+            } else {
+                this.getPanel().stopTitleBlinking();
+            }
+
+            this.set('unreadMessagesCached', unreadMessages);
         }
 
     }, {
@@ -303,6 +347,15 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
                 valueFn: function () {
                     return this.get('panelTrigger').one('.trigger-name');
                 }
+            },
+
+            /**
+             * Cached unread messages count
+             *
+             * {number}
+             */
+            unreadMessagesCached: {
+                value: 0 // to be set
             },
 
             /**

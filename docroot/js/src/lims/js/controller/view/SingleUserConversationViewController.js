@@ -114,6 +114,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 currentUnreadMessagesCount,                 // Current unread message count
                 updatedUnreadMessageCount,                  // Unread message count of updated model
                 notification = this.get('notification'),    // Notification handler
+                panel = this.getPanel(),                    // Panel related to the controller
                 listView = this.get('listView'),            // List view
                 instance = this;                            // Saved instance
 
@@ -141,7 +142,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                                 // Notify about new message
                                 notification.notify(conversationModel.get('lastMessage'));
                                 // Start blinking effect
-                                instance._startTitleBlinking();
+                                panel.startTitleBlinking();
                                 // Update badge count
                                 instance._updateBadge(updatedUnreadMessageCount);
                             }
@@ -287,58 +288,6 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Re-render
             panelTitleText.set('innerHTML', conversationTitle);
             panelTriggerText.set('innerHTML', conversationTitle);
-        },
-
-        /**
-         * Starts the title notification blinking effect
-         *
-         * @private
-         */
-        _startTitleBlinking: function () {
-            // Vars
-            var panelTitle = this.get('panelTitle'),
-                panelTrigger = this.get('panelTrigger'),
-                blinkingTitleTimer = this.get('blinkingTitleTimer'),
-                blinkingTitleInterval = this.get('blinkingTitleInterval');
-
-            // If there is a title interval from the past invalidate it
-            if (blinkingTitleInterval) {
-                clearInterval(blinkingTitleTimer);
-            }
-
-            // Create new timer that will run the blinking effect
-            this.set('blinkingTitleTimer', setInterval(function () {
-
-                // Toggle panel title highlight
-                if (panelTitle.hasClass('highlight')) {
-                    panelTrigger.removeClass('highlight');
-                    panelTitle.removeClass('highlight');
-                } else {
-                    panelTrigger.addClass('highlight');
-                    panelTitle.addClass('highlight');
-                }
-
-            }, blinkingTitleInterval));
-        },
-
-        /**
-         * Stops the title notification blinking effect
-         *
-         * @private
-         */
-        _stopTitleBlinking: function () {
-            // Vars
-            var panelTitle = this.get('panelTitle'),
-                panelTrigger = this.get('panelTrigger'),
-                blinkingTitleTimer = this.get('blinkingTitleTimer');
-
-            // Remove the highlight class
-            panelTitle.removeClass('highlight');
-            panelTrigger.removeClass('highlight');
-            // Clear the timeout
-            clearInterval(blinkingTitleTimer);
-            // Set the value to null
-            this.set('blinkingTitleTimer', null);
         },
 
         /**
@@ -715,6 +664,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         _onMessageTextFieldFocus: function () {
             // Vars
             var model = this.get('model'),
+                panel = this.getPanel(),
                 instance = this;
 
             // If the users sets focus to the text field
@@ -731,7 +681,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             }
 
             // Stop the blinking effect
-            this._stopTitleBlinking();
+            panel.stopTitleBlinking();
         },
 
         /**
@@ -1050,22 +1000,6 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                         errorMessage: Y.LIMS.Core.i18n.values.conversationReadErrorMessage
                     });
                 }
-            },
-
-            /**
-             * Timer that is used fro the blinking title effect
-             *
-             * {timer}
-             */
-            blinkingTitleTimer: {
-                value: null // to be set
-            },
-
-            /**
-             * Length of the blinking title period
-             */
-            blinkingTitleInterval: {
-                value: 1000 // 1 second
             },
 
             /**
