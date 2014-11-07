@@ -67,6 +67,7 @@
     "middleName":"${fn:escapeXml(currentUser.middleName)}",
     "lastName":"${fn:escapeXml(currentUser.lastName)}",
     "portletEnabled": ${settings.chatEnabled},
+    "activePanelId": "${settings.activePanelId}",
     "portletResourceURL":"<%= renderResponse.encodeURL(limsPortletURL.toString()) %>",
     "currentServerTime":<%= System.currentTimeMillis() %>
     }

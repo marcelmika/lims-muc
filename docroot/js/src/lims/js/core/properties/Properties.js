@@ -108,6 +108,15 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns an id of the current active panel
+     *
+     * @return {string}
+     */
+    getActivePanelId: function () {
+        return this.get('activePanelId');
+    },
+
+    /**
      * Returns server time offset compared to client time
      *
      * @returns {timestamp}
@@ -245,6 +254,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         lastName: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.lastName;
+            }
+        },
+
+        /**
+         * Currently active panel id
+         *
+         * {string}
+         */
+        activePanelId: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.activePanelId;
             }
         },
 

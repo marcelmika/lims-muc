@@ -28,7 +28,7 @@
 
 
     <%-- LIMS bar --%>
-    <div id="lims-container" class="${ieSupportClass}">
+    <div id="lims-container" class="covered ${ieSupportClass}">
 
             <%-- Browser is supported --%>
         <c:if test="${isSupportedBrowser}">

@@ -21,6 +21,11 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         initializer: function () {
             // This needs to be called in each view controller
             this.setup(this.get('container'), this.get('controllerId'));
+
+            // Toggle is active
+            if (this.get('properties').getActivePanelId() === this.get('controllerId')) {
+                this.getPanel().show();
+            }
         },
 
         /**
@@ -217,6 +222,15 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
              * {Node}
              */
             container: {
+                value: null // to be set
+            },
+
+            /**
+             * Properties object that holds the global portlet properties
+             *
+             * {Y.LIMS.Core.Properties}
+             */
+            properties: {
                 value: null // to be set
             },
 

@@ -44,6 +44,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             if (properties.isChatEnabled()) {
                 this._startPolling();
             }
+
+            // Fire an event that the initialization has been finished
+            Y.fire('initializationFinished');
         },
 
         /**
@@ -877,10 +880,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             conversationToggleController: {
                 valueFn: function () {
                     // Vars
-                    var container = Y.Node.create(this.conversationToggleTemplate);
+                    var container = Y.Node.create(this.conversationToggleTemplate),
+                        properties = this.get('properties');
 
                     return new Y.LIMS.Controller.ConversationToggleViewController({
-                        container: container
+                        container: container,
+                        properties: properties
                     });
                 }
             },

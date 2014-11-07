@@ -50,6 +50,7 @@
     border-bottom: 1px solid #efefef;
     padding: 0;
     cursor: pointer;
+    line-height: 27px;
     @include no-select;
 
     &:last-of-type {
