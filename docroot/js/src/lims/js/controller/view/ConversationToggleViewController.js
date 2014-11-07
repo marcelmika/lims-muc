@@ -21,11 +21,8 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         initializer: function () {
             // This needs to be called in each view controller
             this.setup(this.get('container'), this.get('controllerId'));
-
-            // Toggle is active
-            if (this.get('properties').getActivePanelId() === this.get('controllerId')) {
-                this.getPanel().show();
-            }
+            // Open toggle
+            this._openToggle();
         },
 
         /**
@@ -190,6 +187,27 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
 
             // Save the list
             this.set('conversationList', updatedList);
+        },
+
+        /**
+         * Opens toggle if possible
+         *
+         * @private
+         */
+        _openToggle: function () {
+            // Vars
+            var properties = this.get('properties'),
+                controllerId = this.get('controllerId'),
+                isActive = properties.getActivePanelId() === controllerId;
+
+            // Toggle is active
+            if (isActive) {
+                this.getPanel().show();
+            }
+
+            if (!properties.isChatEnabled()) {
+                this.hideViewController();
+            }
         },
 
         /**

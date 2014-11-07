@@ -797,6 +797,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         _onChatEnabled: function () {
             // Re-enable polling
             this._startPolling();
+            // Layout subviews
+            this._layoutSubviews();
         },
 
         /**
