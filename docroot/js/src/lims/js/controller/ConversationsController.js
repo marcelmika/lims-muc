@@ -347,8 +347,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 visibleConversations,                           // List of visible conversation nodes
                 firstHiddenConversation,                        // First conversation node that is hidden
                 lastVisibleConversation,                        // Last conversation node that is visible
+                controller,                                     // Conversation controller
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),  // Get the node size
-                map = this.get('conversationMap'),              // Map that holds all conversation controllers
                 conversationToggleController = this.get('conversationToggleController'),
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
@@ -411,10 +411,13 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         // Show the node
                         firstHiddenConversation.show();
 
-                        // Add the controller to toggle
-                        conversationToggleController.removeConversation(
-                            map[firstHiddenConversation.attr('data-conversationId')].get('model')
-                        );
+                        // Find the controller related to the node
+                        controller = this._getControllerFromMap(firstHiddenConversation.attr('data-conversationId'));
+                        // Add it to the toggle only if the controller exists
+                        if (controller) {
+                            // Add the controller to toggle
+                            conversationToggleController.removeConversation(controller.get('model'));
+                        }
 
                         // Recalculate the size of the conversations
                         hiddenConversations = this._hiddenConversations();
@@ -443,10 +446,13 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     // Hide the node
                     lastVisibleConversation.hide();
 
-                    // Remove controller from toggle
-                    conversationToggleController.addConversation(
-                        map[lastVisibleConversation.attr('data-conversationId')].get('model')
-                    );
+                    // Find the controller related to the node
+                    controller = this._getControllerFromMap(lastVisibleConversation.attr('data-conversationId'));
+                    // Add it to the toggle only if the controller exists
+                    if (controller) {
+                        // Add the controller to toggle
+                        conversationToggleController.addConversation(controller.get('model'));
+                    }
 
                     // Since there is at least one conversation hidden show the conversation toggle
                     this._showConversationToggle();
@@ -522,23 +528,63 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _positionController: function (controller) {
             // Vars
-            var toggleController = this.get('conversationToggleController'),    // Toggle controller
-                lastConversationNode;  // Last not hidden conversation
+            var toggleController = this.get('conversationToggleController'),
+                lastConversationNode,
+                lastConversationController,
+                model = controller.get('model');
 
-
-            // Toggle is visible
+            // Toggle is visible that means that the controller given in parameter will be set as
+            // a last visible controller right after the conversation toggle
             if (toggleController.isVisible()) {
-                // Get the last conversation
+
+                // Get the last conversation's node that is visible before the toggle
                 lastConversationNode = this._lastNotHiddenConversation();
-                // Add the conversation before the last visible conversation
+                // Add the conversation node before the last visible conversation
                 lastConversationNode.insert(controller.get('container'), 'before');
+
                 // Show the container since it might have been hidden
                 controller.get('container').show();
-                // If the conversation is in the toggle remove it from there
+
+                // If the conversation is in the toggle remove it from there. Since it's not needed anymore
                 toggleController.removeConversation(controller.get('model'));
-                // Layout subviews
+
+                // Find the controller related to the node. We need this because we need to send
+                // a request to server that will switch the position of those two controllers
+                // on a server side as well. Thanks to that if the user refreshes page
+                // the newly positioned controller will remain at its position.
+                lastConversationController = this._getControllerFromMap(
+                    lastConversationNode.attr('data-conversationId')
+                );
+
+                // Only if the controller exists
+                if (lastConversationController) {
+                    model.switchConversations(lastConversationController.get('model'));
+                }
+
+                // Layout subviews again since the last conversation node is still presented and
+                // it hasn't been added to the toggle. However if we call the layout subviews method
+                // now everything will be recalculated again.
                 this._layoutSubviews();
             }
+        },
+
+        /**
+         * Returns controller stored in map. Returns null if no controller was found
+         *
+         * @param controllerId
+         * @return {Y.LIMS.Controller.SingleUserConversationViewController|null}
+         * @private
+         */
+        _getControllerFromMap: function (controllerId) {
+            // Vars
+            var map = this.get('conversationMap');   // Map that holds all conversation controllers
+
+            // No such controller was found
+            if (!map.hasOwnProperty(controllerId)) {
+                return null;
+            }
+
+            return map[controllerId];
         },
 
         /**
@@ -561,18 +607,21 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Such conversation is already in the map
             if (map.hasOwnProperty(conversationId)) {
                 // Find it, later on we will present it to the user
-                controller = map[conversationId];
+                controller = this._getControllerFromMap(conversationId);
             }
             // No such conversation
             else {
                 controller = this._openConversation(conversationId, conversation.get('title'), []);
             }
 
-            // Add the controller to the proper position
-            this._positionController(controller);
+            // Only if the controller exists
+            if (controller) {
+                // Add the controller to the proper position
+                this._positionController(controller);
 
-            // At the end show the controller to the user
-            controller.presentViewController();
+                // At the end show the controller to the user
+                controller.presentViewController();
+            }
         },
 
         /**
@@ -601,18 +650,20 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Such conversation is already in the map
             if (map.hasOwnProperty(conversationId)) {
                 // Find it, later on we will present it to the user
-                controller = map[conversationId];
+                controller = this._getControllerFromMap(conversationId);
             }
             // No such conversation
             else {
                 controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy]);
             }
 
-            // Add the controller to the proper position
-            this._positionController(controller);
-
-            // At the end show the controller to the user
-            controller.presentViewController();
+            // Only if the controller exists
+            if (controller) {
+                // Add the controller to the proper position
+                this._positionController(controller);
+                // At the end show the controller to the user
+                controller.presentViewController();
+            }
         },
 
         /**
@@ -658,7 +709,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         _onConversationClosed: function (event) {
             // Vars
             var model = event.conversation || null,
-                map = this.get('conversationMap'),
                 conversationToggleController = this.get('conversationToggleController'),
                 controller;
 
@@ -668,8 +718,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             }
 
             // Get the controller from the map
-            controller = map[model.get('conversationId')];
+            controller = this._getControllerFromMap(model.get('conversationId'));
 
+            // Only if the controller exists
             if (controller) {
                 // Close the controller
                 controller.getPanel().close();
@@ -709,8 +760,13 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // Controller exists
                 if (map.hasOwnProperty(conversationId)) {
-                    controller = map[conversationId];
-                    controller.updateModel(conversationModel);
+                    // Find the controller
+                    controller = instance._getControllerFromMap(conversationId);
+
+                    // Only if the controller exists
+                    if (controller) {
+                        controller.updateModel(conversationModel);
+                    }
                 }
                 // Create new controller from conversation model only if there is
                 // a pending message. This check needs to be here because it is possible

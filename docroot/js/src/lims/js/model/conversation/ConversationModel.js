@@ -148,6 +148,59 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
     },
 
     /**
+     * Sends a request to the server that switches position of two conversation controllers
+     *
+     * @param secondModel {Y.LIMS.Model.ConversationModel}
+     * @param callback
+     * @private
+     */
+    switchConversations: function (secondModel, callback) {
+
+        // Vars
+        var instance = this,
+            parameters = Y.JSON.stringify({
+                firstConversationId: this.get('conversationId'),
+                secondConversationId: secondModel.get('conversationId')
+            });
+
+        // Send the request
+        Y.io(this.getServerRequestUrl(), {
+            method: "POST",
+            data: {
+                query: "SwitchConversations",
+                parameters: parameters
+            },
+            on: {
+                success: function () {
+
+                    // Call success
+                    if (callback) {
+                        callback(null, instance);
+                    }
+
+                    // Fire an event
+                    instance.fire('switchConversationsSuccess', instance);
+                },
+                failure: function (x, o) {
+                    // If the attempt is unauthorized session has expired
+                    if (o.status === 401) {
+                        // Notify everybody else
+                        Y.fire('userSessionExpired');
+                    }
+
+                    // Fire an event
+                    instance.fire('switchConversationsError', instance);
+
+                    // Call error
+                    if (callback) {
+                        callback('cannot leave conversation', instance);
+                    }
+                }
+            }
+        });
+    },
+
+    /**
      * Adds more participants to the conversation
      *
      * @param participants [Y.LIMS.Model.BuddyItemModel]
@@ -491,6 +544,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             preStopperId: preStopperId
         });
     }
+
 
 }, {
     ATTRS: {

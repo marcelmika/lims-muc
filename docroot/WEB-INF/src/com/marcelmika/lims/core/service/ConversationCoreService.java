@@ -88,6 +88,14 @@ public interface ConversationCoreService {
     public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
 
     /**
+     * Switch conversations positions
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
+
+    /**
      * Adds buddies to the conversation
      *
      * @param event request event for method

@@ -163,6 +163,18 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
     }
 
     /**
+     * Switch conversations positions
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    @Override
+    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event) {
+        // Send to persistence
+        return conversationPersistenceService.switchConversations(event);
+    }
+
+    /**
      * Adds buddies to the conversation
      *
      * @param event request event for method

@@ -164,6 +164,8 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             conversation.setParticipants(readParticipants(conversationModel.getCid()));
             // Add buddy
             conversation.setBuddy(buddy);
+            // Add opened at info
+            conversation.setOpenedAt(participant.getOpenedAt());
 
             // Call Success
             return ReadSingleUserConversationResponseEvent.success(
@@ -453,6 +455,68 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             // Return failure
             return LeaveConversationResponseEvent.failure(
                     LeaveConversationResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Switch conversations positions
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    @Override
+    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event) {
+
+        // Map to persistence objects
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+        String firstConversationId = event.getFirstConversationId();
+        String secondConversationId = event.getSecondConversationId();
+
+        // Save to persistence
+        try {
+
+            // Find conversations
+            com.marcelmika.lims.persistence.generated.model.Conversation firstConversationModel =
+                    ConversationLocalServiceUtil.getConversation(firstConversationId);
+            com.marcelmika.lims.persistence.generated.model.Conversation secondConversationModel =
+                    ConversationLocalServiceUtil.getConversation(secondConversationId);
+
+            // Both conversations must exist
+            if (firstConversationModel == null || secondConversationModel == null) {
+                // Call failure
+                return SwitchConversationsResponseEvent.failure(
+                        SwitchConversationsResponseEvent.Status.ERROR_NOT_FOUND
+                );
+            }
+
+            // Find participant objects
+            Participant firstParticipant = ParticipantLocalServiceUtil.getParticipant(
+                    firstConversationModel.getCid(), buddy.getBuddyId()
+            );
+            Participant secondParticipant = ParticipantLocalServiceUtil.getParticipant(
+                    secondConversationModel.getCid(), buddy.getBuddyId()
+            );
+
+            // User must participate in both conversations
+            if (firstParticipant == null || secondParticipant == null) {
+                // Call failure
+                return SwitchConversationsResponseEvent.failure(
+                        SwitchConversationsResponseEvent.Status.ERROR_FORBIDDEN
+                );
+            }
+
+            // Switch conversations order
+            ParticipantLocalServiceUtil.switchConversations(firstParticipant, secondParticipant);
+
+            // Call success
+            return SwitchConversationsResponseEvent.success();
+        }
+        // Failure
+        catch (Exception exception) {
+            // Call Failure
+            return SwitchConversationsResponseEvent.failure(
+                    SwitchConversationsResponseEvent.Status.ERROR_PERSISTENCE
             );
         }
     }

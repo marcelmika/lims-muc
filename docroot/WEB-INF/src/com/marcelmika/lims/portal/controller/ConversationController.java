@@ -654,6 +654,78 @@ public class ConversationController {
     }
 
     /**
+     * Switches two conversations positions
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void switchConversations(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;                                // Authorized user
+        SwitchConversationsParameters parameters;   // Request parameters
+
+        // Deserialize
+        try {
+            // Buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+
+            // Deserialize parameters
+            parameters = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS), SwitchConversationsParameters.class
+            );
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Switch conversations
+        SwitchConversationsResponseEvent responseEvent = conversationCoreService.switchConversations(
+                new SwitchConversationsRequestEvent(
+                        buddy.toBuddyDetails(),
+                        parameters.getFirstConversationId(),
+                        parameters.getSecondConversationId()
+                ));
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Write success to response
+            ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
+        }
+        // Failure
+        else {
+            SwitchConversationsResponseEvent.Status status = responseEvent.getStatus();
+            // Forbidden
+            if (status == SwitchConversationsResponseEvent.Status.ERROR_FORBIDDEN) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
+            // Not found
+            else if (status == SwitchConversationsResponseEvent.Status.ERROR_NOT_FOUND) {
+                ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            }
+            // Bad request
+            else if (status == SwitchConversationsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Everything else is a server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getException());
+                }
+            }
+        }
+    }
+
+    /**
      * Create new message in conversation
      *
      * @param request  ResourceRequest

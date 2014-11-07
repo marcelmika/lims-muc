@@ -143,36 +143,43 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 		_methodParameterTypes23 = new String[] { "java.lang.Long" };
 
-		_methodName24 = "getConversationParticipants";
+		_methodName24 = "switchConversations";
 
-		_methodParameterTypes24 = new String[] { "java.lang.Long" };
+		_methodParameterTypes24 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Participant",
+				"com.marcelmika.lims.persistence.generated.model.Participant"
+			};
 
-		_methodName25 = "getParticipant";
+		_methodName25 = "getConversationParticipants";
 
-		_methodParameterTypes25 = new String[] {
+		_methodParameterTypes25 = new String[] { "java.lang.Long" };
+
+		_methodName26 = "getParticipant";
+
+		_methodParameterTypes26 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName26 = "getConversations";
+		_methodName27 = "getConversations";
 
-		_methodParameterTypes26 = new String[] {
+		_methodParameterTypes27 = new String[] {
 				"java.lang.Long", "java.lang.Integer", "java.lang.Integer",
 				"java.lang.Integer", "java.lang.Boolean"
 			};
 
-		_methodName27 = "getConversationsCount";
+		_methodName28 = "getConversationsCount";
 
-		_methodParameterTypes27 = new String[] { "java.lang.Long" };
+		_methodParameterTypes28 = new String[] { "java.lang.Long" };
 
-		_methodName28 = "leaveConversation";
+		_methodName29 = "leaveConversation";
 
-		_methodParameterTypes28 = new String[] {
+		_methodParameterTypes29 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName29 = "addParticipant";
+		_methodName30 = "addParticipant";
 
-		_methodParameterTypes29 = new String[] {
+		_methodParameterTypes30 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean"
 			};
 	}
@@ -905,6 +912,37 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	}
 
 	@Override
+	public void switchConversations(
+		com.marcelmika.lims.persistence.generated.model.Participant firstConversationParticipant,
+		com.marcelmika.lims.persistence.generated.model.Participant secondConversationParticipant)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName24,
+				_methodParameterTypes24,
+				new Object[] {
+					ClpSerializer.translateInput(firstConversationParticipant),
+					
+				ClpSerializer.translateInput(secondConversationParticipant)
+				});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversationParticipants(
 		java.lang.Long cid)
 		throws com.liferay.portal.kernel.exception.SystemException,
@@ -912,8 +950,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24,
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25,
 					new Object[] { ClpSerializer.translateInput(cid) });
 		}
 		catch (Throwable t) {
@@ -946,8 +984,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName25,
-					_methodParameterTypes25,
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26,
 					new Object[] {
 						ClpSerializer.translateInput(cid),
 						
@@ -981,8 +1019,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName26,
-					_methodParameterTypes26,
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27,
 					new Object[] {
 						ClpSerializer.translateInput(participantId),
 						
@@ -1020,8 +1058,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName27,
-					_methodParameterTypes27,
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28,
 					new Object[] { ClpSerializer.translateInput(participantId) });
 		}
 		catch (Throwable t) {
@@ -1047,8 +1085,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	public void leaveConversation(java.lang.Long cid,
 		java.lang.Long participantId) throws java.lang.Exception {
 		try {
-			_invokableLocalService.invokeMethod(_methodName28,
-				_methodParameterTypes28,
+			_invokableLocalService.invokeMethod(_methodName29,
+				_methodParameterTypes29,
 				new Object[] {
 					ClpSerializer.translateInput(cid),
 					
@@ -1079,8 +1117,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName29,
-					_methodParameterTypes29,
+			returnObj = _invokableLocalService.invokeMethod(_methodName30,
+					_methodParameterTypes30,
 					new Object[] {
 						ClpSerializer.translateInput(cid),
 						
@@ -1167,4 +1205,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	private String[] _methodParameterTypes28;
 	private String _methodName29;
 	private String[] _methodParameterTypes29;
+	private String _methodName30;
+	private String[] _methodParameterTypes30;
 }

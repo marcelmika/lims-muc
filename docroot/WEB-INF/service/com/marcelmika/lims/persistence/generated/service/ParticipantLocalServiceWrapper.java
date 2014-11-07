@@ -368,6 +368,22 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	}
 
 	/**
+	* Switches an order of two conversations by switching their openedAt timestamps
+	*
+	* @param firstConversationParticipant Participant
+	* @param secondConversationParticipant Participant
+	* @throws SystemException
+	*/
+	@Override
+	public void switchConversations(
+		com.marcelmika.lims.persistence.generated.model.Participant firstConversationParticipant,
+		com.marcelmika.lims.persistence.generated.model.Participant secondConversationParticipant)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_participantLocalService.switchConversations(firstConversationParticipant,
+			secondConversationParticipant);
+	}
+
+	/**
 	* Returns a list of users who participates in conversation
 	*
 	* @param cid Id of the conversation related to the participants

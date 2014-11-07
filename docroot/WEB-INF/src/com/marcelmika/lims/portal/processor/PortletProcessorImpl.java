@@ -60,6 +60,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_READ_CONVERSATIONS = "ReadConversations";
     private static final String QUERY_ADD_PARTICIPANTS = "AddParticipants";
     private static final String QUERY_LEAVE_CONVERSATION = "LeaveConversation";
+    private static final String QUERY_SWITCH_CONVERSATIONS = "SwitchConversations";
     private static final String QUERY_GET_GROUP_LIST = "GetGroupList";
     private static final String QUERY_CREATE_MESSAGE = "CreateMessage";
     private static final String QUERY_UPDATE_BUDDY_PRESENCE = "UpdateBuddyPresence";
@@ -178,9 +179,13 @@ public class PortletProcessorImpl implements PortletProcessor {
         else if (query.equals(QUERY_ADD_PARTICIPANTS)) {
             conversationController.addParticipants(request, response);
         }
-        // LeaveConversation
+        // Leave Conversation
         else if (query.equals(QUERY_LEAVE_CONVERSATION)) {
             conversationController.leaveConversation(request, response);
+        }
+        // Switch Conversations
+        else if (query.equals(QUERY_SWITCH_CONVERSATIONS)) {
+            conversationController.switchConversations(request, response);
         }
         // Get Group List
         else if (query.equals(QUERY_GET_GROUP_LIST)) {

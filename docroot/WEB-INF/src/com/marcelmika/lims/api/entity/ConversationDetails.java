@@ -28,6 +28,7 @@ public class ConversationDetails {
     private List<MessageDetails> messages;
     private List<BuddyDetails> participants;
     private Date updatedAt;
+    private Date openedAt;
     private MessageDetails firstMessage;
     private MessageDetails lastMessage;
 
@@ -91,6 +92,14 @@ public class ConversationDetails {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getOpenedAt() {
+        return openedAt;
+    }
+
+    public void setOpenedAt(Date openedAt) {
+        this.openedAt = openedAt;
     }
 
     public MessageDetails getFirstMessage() {

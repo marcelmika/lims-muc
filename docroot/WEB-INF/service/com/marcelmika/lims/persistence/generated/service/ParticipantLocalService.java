@@ -315,6 +315,18 @@ public interface ParticipantLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Switches an order of two conversations by switching their openedAt timestamps
+	*
+	* @param firstConversationParticipant Participant
+	* @param secondConversationParticipant Participant
+	* @throws SystemException
+	*/
+	public void switchConversations(
+		com.marcelmika.lims.persistence.generated.model.Participant firstConversationParticipant,
+		com.marcelmika.lims.persistence.generated.model.Participant secondConversationParticipant)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns a list of users who participates in conversation
 	*
 	* @param cid Id of the conversation related to the participants

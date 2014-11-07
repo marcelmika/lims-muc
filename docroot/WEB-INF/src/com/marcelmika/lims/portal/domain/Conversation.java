@@ -34,6 +34,7 @@ public class Conversation {
     private List<Buddy> participants;
     private List<Message> messages;
     private Date updatedAt;
+    private Date openedAt;
     private Message firstMessage;
     private Message lastMessage;
 
@@ -56,6 +57,7 @@ public class Conversation {
         conversation.conversationId = details.getConversationId();
         conversation.unreadMessagesCount = details.getUnreadMessagesCount();
         conversation.updatedAt = details.getUpdatedAt();
+        conversation.openedAt = details.getOpenedAt();
 
         // Relations
         if (details.getParticipants() != null) {
@@ -114,6 +116,7 @@ public class Conversation {
         // Map data from conversation
         details.setConversationId(conversationId);
         details.setUpdatedAt(updatedAt);
+        details.setOpenedAt(openedAt);
 
         // Relations
         if (conversationType != null) {
@@ -225,6 +228,14 @@ public class Conversation {
         this.updatedAt = updatedAt;
     }
 
+    public Date getOpenedAt() {
+        return openedAt;
+    }
+
+    public void setOpenedAt(Date openedAt) {
+        this.openedAt = openedAt;
+    }
+
     public Message getFirstMessage() {
         return firstMessage;
     }
@@ -252,6 +263,7 @@ public class Conversation {
                 ", participants=" + participants +
                 ", messages=" + messages +
                 ", updatedAt=" + updatedAt +
+                ", openedAt=" + openedAt +
                 ", firstMessage=" + firstMessage +
                 ", lastMessage=" + lastMessage +
                 '}';

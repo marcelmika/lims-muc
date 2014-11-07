@@ -77,6 +77,14 @@ public interface ConversationPersistenceService {
     public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
 
     /**
+     * Switch conversations positions
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
+
+    /**
      * Sends message to conversation
      *
      * @param event request event for method

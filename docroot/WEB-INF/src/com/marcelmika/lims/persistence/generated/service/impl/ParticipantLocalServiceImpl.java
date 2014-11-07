@@ -28,6 +28,7 @@ import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.ParticipantLocalServiceBaseImpl;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -173,6 +174,29 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      */
     public List<Participant> getOpenedConversations(Long participantId) throws SystemException {
         return participantPersistence.findByParticipantIdIsOpened(participantId, true);
+    }
+
+    /**
+     * Switches an order of two conversations by switching their openedAt timestamps
+     *
+     * @param firstConversationParticipant  Participant
+     * @param secondConversationParticipant Participant
+     * @throws SystemException
+     */
+    public void switchConversations(Participant firstConversationParticipant,
+                                    Participant secondConversationParticipant) throws SystemException {
+
+        // Take dates
+        Date firstOpenedAt = firstConversationParticipant.getOpenedAt();
+        Date secondOpenedAt = secondConversationParticipant.getOpenedAt();
+
+        // Switch them
+        firstConversationParticipant.setOpenedAt(secondOpenedAt);
+        secondConversationParticipant.setOpenedAt(firstOpenedAt);
+
+        // Save it
+        participantPersistence.update(firstConversationParticipant, false);
+        participantPersistence.update(secondConversationParticipant, false);
     }
 
     /**
