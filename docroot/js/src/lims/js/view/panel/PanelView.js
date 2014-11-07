@@ -226,6 +226,102 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
 
 
     /**
+     * Updates badge value
+     *
+     * @param value
+     * @param animated
+     * @private
+     */
+    updateBadge: function (value, animated) {
+        // Vars
+        var badge = this.get('badge');
+
+        // No unread messages
+        if (value === 0) {
+            this.hideBadge();
+        }
+        // At least one unread message
+        else {
+            // Update value
+            if (badge) {
+                badge.set('innerHTML', value);
+            }
+            // Show badge
+            this.showBadge(animated);
+        }
+    },
+
+    /**
+     * Shows badge
+     *
+     * @private
+     */
+    showBadge: function (animated) {
+        // Vars
+        var badge = this.get('badge'),
+            badgeAnimation = this.get('badgeAnimation');
+
+        // Show badge
+        if (badge) {
+
+            // Show the badge
+            badge.show();
+
+            // Run the animation
+            if (animated) {
+                // Move the badge outside of the visible area
+                badge.setStyle('top', 15);
+                badgeAnimation.run();
+            } else {
+                badge.setStyle('top', 4);
+            }
+        }
+    },
+
+    /**
+     * Hides badge
+     *
+     * @private
+     */
+    hideBadge: function () {
+        // Vars
+        var badge = this.get('badge');
+
+        // Hide badge
+        if (badge) {
+            badge.hide();
+        }
+    },
+
+    /**
+     * Makes the badge brighter
+     *
+     * @private
+     */
+    brightBadge: function () {
+        // Vars
+        var badge = this.get('badge');
+
+        if (badge) {
+            badge.removeClass('dimmed');
+        }
+    },
+
+    /**
+     * Makes the badge less noticeable
+     *
+     * @private
+     */
+    dimBadge: function () {
+        // Vars
+        var badge = this.get('badge');
+
+        if (badge) {
+            badge.addClass('dimmed');
+        }
+    },
+
+    /**
      * Attaches events to all necessary elements from the container
      *
      * @private
@@ -303,6 +399,43 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
         panelButtons: {
             valueFn: function () {
                 return this.get('container').all('.panel-button');
+            }
+        },
+
+        /**
+         * Badge that shows number of unread messages node
+         *
+         * {Node}
+         */
+        badge: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container');
+                // Find badge
+                return container.one('.unread');
+            }
+        },
+
+        /**
+         * Animation of the updated badge
+         *
+         * {Y.Anim}
+         */
+        badgeAnimation: {
+            valueFn: function () {
+                // Vars
+                var badge = this.get('badge');
+
+                // Only if the panel contains badge
+                if (badge) {
+                    return new Y.Anim({
+                        node: badge,
+                        duration: 0.3,
+                        from: {top: 15},
+                        to: {top: 4},
+                        easing: 'backOut'
+                    });
+                }
             }
         },
 

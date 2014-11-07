@@ -72,7 +72,7 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             panelContent.append(listView.get('container'));
 
             // Render unread messages badge
-            this._renderUnreadBadge();
+            this._updateUnreadBadge(false);
         },
 
         /**
@@ -161,22 +161,23 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
          *
          * @private
          */
-        _renderUnreadBadge: function () {
+        _updateUnreadBadge: function (animated) {
             // Vars
-            var unreadBadge = this.get('unreadBadge'),
+            var panel = this.get('panel'),
                 unreadMessagesSum;
 
             // Count the sum of unread messages over all registered conversations
             unreadMessagesSum = this._unreadMessagesSum();
 
+            // Cache the value
+            this.set('unreadMessagesCached', unreadMessagesSum);
+
             // Fill in the sum
-            unreadBadge.set('innerHTML', unreadMessagesSum);
+            panel.updateBadge(unreadMessagesSum, animated);
 
             // Decide if the unread badge should be shown or hidden
             if (unreadMessagesSum === 0) {
-                unreadBadge.hide();
-            } else {
-                unreadBadge.show();
+                panel.hideBadge();
             }
         },
 
@@ -209,7 +210,8 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         _removeConversation: function (conversationId) {
             // Vars
             var conversationList = this.get('conversationList'),
-                updatedList;
+                updatedList,
+                unreadMessages;
 
             // Filter out the model with the conversation id
             updatedList = Y.Array.filter(conversationList, function (model) {
@@ -218,6 +220,12 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
 
             // Save the list
             this.set('conversationList', updatedList);
+
+            // Count messages. If there are no left, stop the blinking effect
+            unreadMessages = this._unreadMessagesSum();
+            if (unreadMessages === 0) {
+                this.getPanel().stopTitleBlinking();
+            }
         },
 
         /**
@@ -249,19 +257,30 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         _onConversationReadSuccess: function () {
             // Vars
             var unreadMessagesCached = this.get('unreadMessagesCached'),
-                unreadMessages = this._unreadMessagesSum();
+                unreadMessages = this._unreadMessagesSum(),
+                startBlinking,
+                updateBadge;
 
             // Update badge
-            this._renderUnreadBadge();
+            updateBadge = unreadMessages !== unreadMessagesCached;  // The count has changed
 
-            if (unreadMessages !== unreadMessagesCached && !this.getPanel().isOpened()) {
+            if (updateBadge) {
+                // Update badge
+                this._updateUnreadBadge(true);
+            }
+
+            // Check if the blinking should be allowed
+            startBlinking =
+                unreadMessagesCached !== null               // If this is note the first time the conversation is read
+                && unreadMessages !== unreadMessagesCached  // The count has changed
+                && !this.getPanel().isOpened();             // And the conversation toggle is not opened
+
+            if (startBlinking) {
                 // Start the title blinking if needed
                 this.getPanel().startTitleBlinking();
             } else {
                 this.getPanel().stopTitleBlinking();
             }
-
-            this.set('unreadMessagesCached', unreadMessages);
         }
 
     }, {
@@ -355,7 +374,7 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
              * {number}
              */
             unreadMessagesCached: {
-                value: 0 // to be set
+                value: null // to be set
             },
 
             /**
@@ -366,17 +385,6 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             countNode: {
                 valueFn: function () {
                     return this.get('panelTrigger').one('.count');
-                }
-            },
-
-            /**
-             * Unread badge node
-             *
-             * {Node}
-             */
-            unreadBadge: {
-                valueFn: function () {
-                    return this.get('panelTrigger').one('.unread');
                 }
             }
         }

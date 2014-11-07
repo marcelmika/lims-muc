@@ -46,13 +46,13 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Vars
             var model = this.get('model'),
                 listView = this.get('listView'),
-                instance = this;
+                panel = this.get('panel');
 
             // Reset counter of unread messages
             model.resetUnreadMessagesCounter(function (err) {
                 if (!err) {
                     // Reset badge
-                    instance._updateBadge(0);
+                    panel.updateBadge(0, true);
                 }
             });
             // Always scroll to the last message when user opens the window
@@ -60,11 +60,11 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Add focus on textarea
             listView.setTextFieldFocus();
             // Hide badge since it's not needed anymore
-            this._hideBadge();
+            panel.hideBadge();
             // Start timer that periodically updates timestamps of messages
             this._startTimer();
             // Make the badge less noticeable
-            this._dimBadge();
+            panel.dimBadge();
 
             // Fire a global event that the conversation was opened
             Y.fire('conversationPanelOpened', {
@@ -77,10 +77,11 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         onPanelDidDisappear: function () {
             // Vars
-            var optionsView = this.get('optionsView');
+            var optionsView = this.get('optionsView'),
+                panel = this.get('panel');
 
             // Make the badge noticeable again
-            this._brightBadge();
+            panel.brightBadge();
             // Hide the options view
             optionsView.hideView();
 
@@ -144,7 +145,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                                 // Start blinking effect
                                 panel.startTitleBlinking();
                                 // Update badge count
-                                instance._updateBadge(updatedUnreadMessageCount);
+                                panel.updateBadge(updatedUnreadMessageCount, true);
                             }
                         }
                         // Callback
@@ -290,90 +291,6 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTriggerText.set('innerHTML', conversationTitle);
         },
 
-        /**
-         * Updates badge value
-         *
-         * @param value
-         * @private
-         */
-        _updateBadge: function (value) {
-            // Vars
-            var badge = this.get('badge');
-
-            // No unread messages
-            if (value === 0) {
-                this._hideBadge();
-            }
-            // At least one unread message
-            else {
-                // Update value
-                if (badge) {
-                    badge.set('innerHTML', value);
-                }
-                // Show badge
-                this._showBadge();
-            }
-        },
-
-        /**
-         * Shows badge
-         *
-         * @private
-         */
-        _showBadge: function () {
-            // Vars
-            var badge = this.get('badge'),
-                badgeAnimation = this.get('badgeAnimation');
-
-            // Show badge
-            if (badge) {
-                // Move the badge outside of the visible area
-                badge.setStyle('top', 15);
-                // Show the badge
-                badge.show();
-                // Run the animation
-                badgeAnimation.run();
-            }
-        },
-
-        /**
-         * Hides badge
-         *
-         * @private
-         */
-        _hideBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            // Hide badge
-            if (badge) {
-                badge.hide();
-            }
-        },
-
-        /**
-         * Makes the badge brighter
-         *
-         * @private
-         */
-        _brightBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            badge.removeClass('dimmed');
-        },
-
-        /**
-         * Makes the badge less noticeable
-         *
-         * @private
-         */
-        _dimBadge: function () {
-            // Vars
-            var badge = this.get('badge');
-
-            badge.addClass('dimmed');
-        },
 
         /**
          * Shows activity indicator
@@ -664,8 +581,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         _onMessageTextFieldFocus: function () {
             // Vars
             var model = this.get('model'),
-                panel = this.getPanel(),
-                instance = this;
+                panel = this.getPanel();
 
             // If the users sets focus to the text field
             // and there are still some unread messages
@@ -675,7 +591,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 model.resetUnreadMessagesCounter(function (err) {
                     if (!err) {
                         // Reset badge
-                        instance._updateBadge(0);
+                        panel.updateBadge(0, true);
                     }
                 });
             }
@@ -756,41 +672,6 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
              */
             model: {
                 value: null // to be set
-            },
-
-            /**
-             * Badge that shows number of unread messages node
-             *
-             * {Node}
-             */
-            badge: {
-                valueFn: function () {
-                    // Vars
-                    var container = this.get('container');
-                    // Find badge
-                    return container.one('.unread');
-                }
-            },
-
-
-            /**
-             * Animation of the updated badge
-             *
-             * {Y.Anim}
-             */
-            badgeAnimation: {
-                valueFn: function () {
-                    // Vars
-                    var badge = this.get('badge');
-
-                    return new Y.Anim({
-                        node: badge,
-                        duration: 0.3,
-                        from: {top: 15},
-                        to: {top: 4},
-                        easing: 'backOut'
-                    });
-                }
             },
 
             /**
