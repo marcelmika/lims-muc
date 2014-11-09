@@ -134,7 +134,7 @@ public class SettingsLocalServiceClpInvoker {
 
 		_methodName64 = "updateAllConnections";
 
-		_methodParameterTypes64 = new String[] {  };
+		_methodParameterTypes64 = new String[] { "int" };
 
 		_methodName65 = "setChatEnabled";
 
@@ -324,7 +324,7 @@ public class SettingsLocalServiceClpInvoker {
 
 		if (_methodName64.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
-			SettingsLocalServiceUtil.updateAllConnections();
+			SettingsLocalServiceUtil.updateAllConnections(((Integer)arguments[0]).intValue());
 
 			return null;
 		}

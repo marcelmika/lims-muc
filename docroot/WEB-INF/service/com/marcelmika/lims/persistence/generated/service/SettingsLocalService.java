@@ -292,7 +292,8 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Updates connections that have the connected at value below the threshold
 	*/
-	public void updateAllConnections() throws java.lang.Exception;
+	public void updateAllConnections(int connectionThreshold)
+		throws java.lang.Exception;
 
 	/**
 	* Updates chat enabled value. If set to true the portlet is fully functional. If set to

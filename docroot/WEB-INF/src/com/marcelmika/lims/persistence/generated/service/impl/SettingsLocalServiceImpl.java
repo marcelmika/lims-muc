@@ -148,20 +148,26 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * Updates connections that have the connected at value below the threshold
      */
     @Override
-    public void updateAllConnections() throws Exception {
+    public void updateAllConnections(int connectionThreshold) throws Exception {
+
+        // Check the input
+        if (connectionThreshold < 1) {
+            connectionThreshold = 1;
+        }
 
         // Get current timestamp
         Date now = Calendar.getInstance().getTime();
 
-        // Get current timestamp
+        // Get threshold timestamp
         Calendar threshold = Calendar.getInstance();
-        // Minus one minute
-        threshold.add(Calendar.MINUTE, -1);
+        // Minus the connection threshold
+        threshold.add(Calendar.MINUTE, -1 * (connectionThreshold));
 
         // Create dynamic query
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(Settings.class);
         // Add the restriction that will find all connections that are older than one minute
         query.add(RestrictionsFactoryUtil.le("connectedAt", threshold.getTime()));
+        query.add(RestrictionsFactoryUtil.eq("connected", true));
 
         // Get the results
         List results = SettingsLocalServiceUtil.dynamicQuery(query);

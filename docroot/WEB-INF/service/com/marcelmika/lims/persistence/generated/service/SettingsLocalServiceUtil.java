@@ -325,8 +325,9 @@ public class SettingsLocalServiceUtil {
 	/**
 	* Updates connections that have the connected at value below the threshold
 	*/
-	public static void updateAllConnections() throws java.lang.Exception {
-		getService().updateAllConnections();
+	public static void updateAllConnections(int connectionThreshold)
+		throws java.lang.Exception {
+		getService().updateAllConnections(connectionThreshold);
 	}
 
 	/**

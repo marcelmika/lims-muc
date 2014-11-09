@@ -18,4 +18,14 @@ import com.marcelmika.lims.api.events.RequestEvent;
  * Time: 11:23
  */
 public class UpdateAllConnectionsRequestEvent extends RequestEvent {
+
+    private Integer connectionThreshold;
+
+    public UpdateAllConnectionsRequestEvent(Integer connectionThreshold) {
+        this.connectionThreshold = connectionThreshold;
+    }
+
+    public Integer getConnectionThreshold() {
+        return connectionThreshold;
+    }
 }

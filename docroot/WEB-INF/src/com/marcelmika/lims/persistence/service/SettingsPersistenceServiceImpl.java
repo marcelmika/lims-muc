@@ -142,7 +142,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         // Update all connections
         try {
-            SettingsLocalServiceUtil.updateAllConnections();
+            SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold());
         }
         // Failure
         catch (Exception exception) {

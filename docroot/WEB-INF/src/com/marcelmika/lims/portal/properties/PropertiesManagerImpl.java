@@ -44,6 +44,10 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static final int BUDDY_LIST_MAX_SEARCH_MAX = 30;
     private static final int BUDDY_LIST_MAX_SEARCH_DEFAULT = 10;
 
+    private static final int CONNECTION_LOST_THRESHOLD_MIN = 0;
+    private static final int CONNECTION_LOST_THRESHOLD_MAX = 1440;
+    private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 1;
+
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MIN = 10;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 50;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_DEFAULT = 10;
@@ -100,10 +104,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupConversationFeedMaxConversations(preferences);
             setupBuddyListSiteExcludes(preferences);
             setupBuddyListGroupExcludes(preferences);
+            setupConnectionLostThreshold();
             setupErrorMode();
 
             // Set url properties
-            setUrlProperties();
+            setupUrlProperties();
 
             // Set jabber related properties
             setupJabberProperties();
@@ -691,6 +696,23 @@ public class PropertiesManagerImpl implements PropertiesManager {
         Environment.setBuddyListMaxSearch(buddyListMaxSearch);
     }
 
+    /**
+     * Sets connection lost threshold value
+     */
+    private void setupConnectionLostThreshold() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.CONNECTION_LOST_THRESHOLD,
+                PortletPropertiesKeys.CONNECTION_LOST_THRESHOLD,
+                CONNECTION_LOST_THRESHOLD_MIN,
+                CONNECTION_LOST_THRESHOLD_MAX,
+                CONNECTION_LOST_THRESHOLD_DEFAULT
+        );
+
+        // Set url properties
+        Environment.setConnectionLostThreshold(value);
+    }
 
     /**
      * Updates conversation list max messages property
@@ -962,7 +984,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     /**
      * Sets url related properties
      */
-    private void setUrlProperties() {
+    private void setupUrlProperties() {
 
         // Set url properties
         Environment.setUrlHelp(PortletPropertiesValues.URL_HELP);

@@ -9,6 +9,9 @@
 
 package com.marcelmika.lims.core.service;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.lims.api.environment.Environment;
 import com.marcelmika.lims.api.events.ResponseEvent;
 import com.marcelmika.lims.api.events.settings.*;
 import com.marcelmika.lims.persistence.service.SettingsPersistenceService;
@@ -22,6 +25,11 @@ import com.marcelmika.lims.persistence.service.SettingsPersistenceService;
  * Time: 2:44 PM
  */
 public class SettingsCoreServiceImpl implements SettingsCoreService {
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(SettingsCoreServiceImpl.class);
+
 
     // Dependencies
     SettingsPersistenceService settingsPersistenceService;

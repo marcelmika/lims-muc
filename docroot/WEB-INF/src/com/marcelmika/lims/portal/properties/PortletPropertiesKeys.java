@@ -34,6 +34,9 @@ public interface PortletPropertiesKeys {
     public static final String BUDDY_LIST_IGNORE_DEFAULT_USER = "buddy.list.ignore.default.user";
     public static final String BUDDY_LIST_IGNORE_DEACTIVATED_USER = "buddy.list.ignore.deactivated.user";
 
+    // Connection
+    public static final String CONNECTION_LOST_THRESHOLD = "connection.lost.threshold";
+
     // Conversation
     public static final String CONVERSATION_LIST_MAX_MESSAGES = "conversation.list.max.messages";
 

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
+import com.marcelmika.lims.api.environment.Environment;
 import com.marcelmika.lims.api.events.settings.UpdateAllConnectionsRequestEvent;
 import com.marcelmika.lims.api.events.settings.UpdateAllConnectionsResponseEvent;
 import com.marcelmika.lims.core.service.SettingsCoreService;
@@ -39,12 +40,24 @@ public class UpdateConnectionsJob implements MessageListener {
 
         // Log debug
         if (log.isDebugEnabled()) {
-            log.debug("Scheduled connections update started");
+            log.debug("[JOB] Update connections: START");
+        }
+
+        // Get the connection threshold
+        Integer connectionThreshold = Environment.getConnectionLostThreshold();
+
+        // Threshold is turned off
+        if (connectionThreshold == 0) {
+            if (log.isDebugEnabled()) {
+                log.debug("[JOB] Update connections: TURNED OFF");
+            }
+            // End here
+            return;
         }
 
         // Update connections
         UpdateAllConnectionsResponseEvent responseEvent = coreService.updateAllConnections(
-                new UpdateAllConnectionsRequestEvent()
+                new UpdateAllConnectionsRequestEvent(connectionThreshold)
         );
 
         // Log error
@@ -57,7 +70,7 @@ public class UpdateConnectionsJob implements MessageListener {
 
         // Log debug
         if (log.isDebugEnabled()) {
-            log.debug("Scheduled connections update ended");
+            log.debug("[JOB] Update connections: END");
         }
 
     }

@@ -75,6 +75,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEACTIVATED_USER
     );
 
+    // Connection - Connection Lost Threshold
+    public static final Integer CONNECTION_LOST_THRESHOLD = getInteger(
+            PortletPropertiesKeys.CONNECTION_LOST_THRESHOLD
+    );
+
     // Conversations - Max messages count
     public static final int CONVERSATION_LIST_MAX_MESSAGES = getInteger(
             PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES

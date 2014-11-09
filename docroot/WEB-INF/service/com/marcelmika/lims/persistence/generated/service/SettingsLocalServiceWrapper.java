@@ -341,8 +341,9 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* Updates connections that have the connected at value below the threshold
 	*/
 	@Override
-	public void updateAllConnections() throws java.lang.Exception {
-		_settingsLocalService.updateAllConnections();
+	public void updateAllConnections(int connectionThreshold)
+		throws java.lang.Exception {
+		_settingsLocalService.updateAllConnections(connectionThreshold);
 	}
 
 	/**

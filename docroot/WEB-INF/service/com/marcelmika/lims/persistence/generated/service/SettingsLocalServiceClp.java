@@ -134,7 +134,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 		_methodName23 = "updateAllConnections";
 
-		_methodParameterTypes23 = new String[] {  };
+		_methodParameterTypes23 = new String[] { "int" };
 
 		_methodName24 = "setChatEnabled";
 
@@ -853,10 +853,11 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public void updateAllConnections() throws java.lang.Exception {
+	public void updateAllConnections(int connectionThreshold)
+		throws java.lang.Exception {
 		try {
 			_invokableLocalService.invokeMethod(_methodName23,
-				_methodParameterTypes23, new Object[] {  });
+				_methodParameterTypes23, new Object[] { connectionThreshold });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

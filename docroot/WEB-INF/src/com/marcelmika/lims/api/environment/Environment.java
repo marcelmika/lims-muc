@@ -28,6 +28,7 @@ public class Environment {
     private static Boolean buddyListIgnoreDeactivatedUser = false;
     private static Integer buddyListMaxBuddies = 0;
     private static Integer buddyListMaxSearch = 0;
+    private static Integer connectionLostThreshold = 0;
     private static Integer conversationListMaxMessages = 0;
     private static Integer conversationFeedMaxConversations = 0;
     private static String[] buddyListSiteExcludes = new String[]{};
@@ -400,6 +401,24 @@ public class Environment {
      */
     public static void setBuddyListIgnoreDeactivatedUser(Boolean buddyListIgnoreDeactivatedUser) {
         Environment.buddyListIgnoreDeactivatedUser = buddyListIgnoreDeactivatedUser;
+    }
+
+    /**
+     * Connection lost threshold
+     *
+     * @return Integer
+     */
+    public static Integer getConnectionLostThreshold() {
+        return connectionLostThreshold;
+    }
+
+    /**
+     * Sets the connection lost threshold property
+     *
+     * @param connectionLostThreshold Integer, 0 if the automatic connection check should be switched off
+     */
+    public static void setConnectionLostThreshold(Integer connectionLostThreshold) {
+        Environment.connectionLostThreshold = connectionLostThreshold;
     }
 
     /**
