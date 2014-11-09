@@ -314,12 +314,19 @@ public class SettingsLocalServiceUtil {
 	/**
 	* Updates user's connection
 	*
-	* @param userId id of the user whose connection should be updated
+	* @param userId      id of the user whose connection should be updated
 	* @param isConnected true if the user connected flag should be set to true
 	*/
 	public static void updateConnection(java.lang.Long userId,
 		boolean isConnected) throws java.lang.Exception {
 		getService().updateConnection(userId, isConnected);
+	}
+
+	/**
+	* Updates connections that have the connected at value below the threshold
+	*/
+	public static void updateAllConnections() throws java.lang.Exception {
+		getService().updateAllConnections();
 	}
 
 	/**

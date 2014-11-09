@@ -69,6 +69,17 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
     }
 
     /**
+     * Update all users connections
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
+        return settingsPersistenceService.updateAllConnections(event);
+    }
+
+    /**
      * Enables chat for buddy
      *
      * @param event Request event for logout method

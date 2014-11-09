@@ -48,6 +48,14 @@ public interface SettingsCoreService {
     public UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
 
     /**
+     * Update all users connections
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
+
+    /**
      * Enables chat for buddy
      *
      * @param event Request event

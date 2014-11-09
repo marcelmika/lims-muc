@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.api.entity.BuddyDetails;
 import com.marcelmika.lims.api.entity.SettingsDetails;
 import com.marcelmika.lims.api.events.settings.*;
+import com.marcelmika.lims.persistence.domain.Buddy;
 import com.marcelmika.lims.persistence.domain.Settings;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil;
@@ -28,6 +29,7 @@ import com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUti
 public class SettingsPersistenceServiceImpl implements SettingsPersistenceService {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SettingsPersistenceServiceImpl.class);
 
     /**
@@ -125,6 +127,56 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Failure
             return UpdateSettingsResponseEvent.failure(
                     UpdateSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Update all users connections
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
+
+        // Update all connections
+        try {
+            SettingsLocalServiceUtil.updateAllConnections();
+        }
+        // Failure
+        catch (Exception exception) {
+            return UpdateAllConnectionsResponseEvent.failure(
+                    UpdateAllConnectionsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+
+        // Success
+        return UpdateAllConnectionsResponseEvent.success();
+    }
+
+    /**
+     * Update connection of the particular user
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdateConnectionResponseEvent updateConnection(UpdateConnectionRequestEvent event) {
+        // Get buddy
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+
+        // Update connection
+        try {
+            // Save
+            SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true);
+            // Success
+            return UpdateConnectionResponseEvent.success();
+        }
+        // Failure
+        catch (Exception exception) {
+            return UpdateConnectionResponseEvent.failure(
+                    UpdateConnectionResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
     }

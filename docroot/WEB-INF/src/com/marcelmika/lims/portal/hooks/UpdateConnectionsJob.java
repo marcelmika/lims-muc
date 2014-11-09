@@ -1,0 +1,64 @@
+/*
+ * Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+ *
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ *
+ * Written by Marcel Mika <marcelmika.com>, 2014
+ */
+
+package com.marcelmika.lims.portal.hooks;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageListener;
+import com.liferay.portal.kernel.messaging.MessageListenerException;
+import com.marcelmika.lims.api.events.settings.UpdateAllConnectionsRequestEvent;
+import com.marcelmika.lims.api.events.settings.UpdateAllConnectionsResponseEvent;
+import com.marcelmika.lims.core.service.SettingsCoreService;
+import com.marcelmika.lims.core.service.SettingsCoreServiceUtil;
+
+/**
+ * @author Ing. Marcel Mika
+ * @link http://marcelmika.com
+ * Date: 09/11/14
+ * Time: 11:13
+ */
+public class UpdateConnectionsJob implements MessageListener {
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(UpdateConnectionsJob.class);
+
+    // Services
+    SettingsCoreService coreService = SettingsCoreServiceUtil.getSettingsCoreService();
+
+    @Override
+    public void receive(Message message) throws MessageListenerException {
+
+        // Log debug
+        if (log.isDebugEnabled()) {
+            log.debug("Scheduled connections update started");
+        }
+
+        // Update connections
+        UpdateAllConnectionsResponseEvent responseEvent = coreService.updateAllConnections(
+                new UpdateAllConnectionsRequestEvent()
+        );
+
+        // Log error
+        if (!responseEvent.isSuccess()) {
+            // Log
+            if (log.isErrorEnabled()) {
+                log.error(responseEvent.getException());
+            }
+        }
+
+        // Log debug
+        if (log.isDebugEnabled()) {
+            log.debug("Scheduled connections update ended");
+        }
+
+    }
+}

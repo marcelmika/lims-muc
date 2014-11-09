@@ -14,10 +14,14 @@
 
 package com.marcelmika.lims.persistence.generated.service.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.generated.model.Settings;
+import com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.base.SettingsLocalServiceBaseImpl;
 
 import java.util.Calendar;
@@ -138,6 +142,36 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
 
         // Save
         settingsPersistence.update(settings, false);
+    }
+
+    /**
+     * Updates connections that have the connected at value below the threshold
+     */
+    @Override
+    public void updateAllConnections() throws Exception {
+
+        // Get current timestamp
+        Date now = Calendar.getInstance().getTime();
+
+        // Get current timestamp
+        Calendar threshold = Calendar.getInstance();
+        // Minus one minute
+        threshold.add(Calendar.MINUTE, -1);
+
+        // Create dynamic query
+        DynamicQuery query = DynamicQueryFactoryUtil.forClass(Settings.class);
+        // Add the restriction that will find all connections that are older than one minute
+        query.add(RestrictionsFactoryUtil.le("connectedAt", threshold.getTime()));
+
+        // Get the results
+        List results = SettingsLocalServiceUtil.dynamicQuery(query);
+
+        // Set the connected flag to false for all found settings
+        for (Object setting : results) {
+            ((Settings) setting).setConnected(false);
+            ((Settings) setting).setPresenceUpdatedAt(now);
+            settingsPersistence.update((Settings) setting, false);
+        }
     }
 
     /**

@@ -7,6 +7,25 @@
     <portlet>
         <portlet-name>1</portlet-name>
 
+        <!--
+        The scheduler-entry element contains the declarative data of a scheduler.
+        -->
+        <scheduler-entry>
+            <scheduler-event-listener-class>
+                com.marcelmika.lims.portal.hooks.UpdateConnectionsJob
+            </scheduler-event-listener-class>
+            <trigger>
+                <simple>
+                    <simple-trigger-value>1</simple-trigger-value>
+                    <!--
+                    Based in above configurations scheduler will run in every one minute.
+                    time unit can be day","hour", "minute", "second", or "week"
+                    -->
+                    <time-unit>minute</time-unit>
+                </simple>
+            </trigger>
+        </scheduler-entry>
+
         <!-- Friendly URL -->
         <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper
         </friendly-url-mapper-class>

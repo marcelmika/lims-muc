@@ -132,60 +132,64 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 		_methodParameterTypes22 = new String[] { "java.lang.Long", "boolean" };
 
-		_methodName23 = "setChatEnabled";
+		_methodName23 = "updateAllConnections";
 
-		_methodParameterTypes23 = new String[] { "long", "boolean" };
+		_methodParameterTypes23 = new String[] {  };
 
-		_methodName24 = "getAllGroups";
+		_methodName24 = "setChatEnabled";
 
-		_methodParameterTypes24 = new String[] {
+		_methodParameterTypes24 = new String[] { "long", "boolean" };
+
+		_methodName25 = "getAllGroups";
+
+		_methodParameterTypes25 = new String[] {
 				"java.lang.Long", "boolean", "boolean", "int", "int"
 			};
 
-		_methodName25 = "getSitesGroups";
+		_methodName26 = "getSitesGroups";
 
-		_methodParameterTypes25 = new String[] {
+		_methodParameterTypes26 = new String[] {
 				"java.lang.Long", "boolean", "boolean", "java.lang.String[][]",
 				"int", "int"
 			};
 
-		_methodName26 = "getSocialGroups";
+		_methodName27 = "getSocialGroups";
 
-		_methodParameterTypes26 = new String[] {
+		_methodParameterTypes27 = new String[] {
 				"java.lang.Long", "boolean", "boolean", "int[][]", "int", "int"
 			};
 
-		_methodName27 = "getUserGroups";
+		_methodName28 = "getUserGroups";
 
-		_methodParameterTypes27 = new String[] {
+		_methodParameterTypes28 = new String[] {
 				"java.lang.Long", "boolean", "boolean", "java.lang.String[][]",
 				"int", "int"
 			};
 
-		_methodName28 = "searchSitesBuddies";
+		_methodName29 = "searchSitesBuddies";
 
-		_methodParameterTypes28 = new String[] {
+		_methodParameterTypes29 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
 
-		_methodName29 = "searchAllBuddies";
+		_methodName30 = "searchAllBuddies";
 
-		_methodParameterTypes29 = new String[] {
+		_methodParameterTypes30 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"int", "int"
 			};
 
-		_methodName30 = "searchSocialBuddies";
+		_methodName31 = "searchSocialBuddies";
 
-		_methodParameterTypes30 = new String[] {
+		_methodParameterTypes31 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"int[][]", "int", "int"
 			};
 
-		_methodName31 = "searchUserGroupsBuddies";
+		_methodName32 = "searchUserGroupsBuddies";
 
-		_methodParameterTypes31 = new String[] {
+		_methodParameterTypes32 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
@@ -849,11 +853,34 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
+	public void updateAllConnections() throws java.lang.Exception {
+		try {
+			_invokableLocalService.invokeMethod(_methodName23,
+				_methodParameterTypes23, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof java.lang.Exception) {
+				throw (java.lang.Exception)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
 	public void setChatEnabled(long userId, boolean enabled)
 		throws java.lang.Exception {
 		try {
-			_invokableLocalService.invokeMethod(_methodName23,
-				_methodParameterTypes23, new Object[] { userId, enabled });
+			_invokableLocalService.invokeMethod(_methodName24,
+				_methodParameterTypes24, new Object[] { userId, enabled });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -880,8 +907,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24,
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -921,8 +948,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName25,
-					_methodParameterTypes25,
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -964,8 +991,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName26,
-					_methodParameterTypes26,
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1007,8 +1034,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName27,
-					_methodParameterTypes27,
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1051,8 +1078,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName28,
-					_methodParameterTypes28,
+			returnObj = _invokableLocalService.invokeMethod(_methodName29,
+					_methodParameterTypes29,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1096,8 +1123,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName29,
-					_methodParameterTypes29,
+			returnObj = _invokableLocalService.invokeMethod(_methodName30,
+					_methodParameterTypes30,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1139,8 +1166,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName30,
-					_methodParameterTypes30,
+			returnObj = _invokableLocalService.invokeMethod(_methodName31,
+					_methodParameterTypes31,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1185,8 +1212,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName31,
-					_methodParameterTypes31,
+			returnObj = _invokableLocalService.invokeMethod(_methodName32,
+					_methodParameterTypes32,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1285,4 +1312,6 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	private String[] _methodParameterTypes30;
 	private String _methodName31;
 	private String[] _methodParameterTypes31;
+	private String _methodName32;
+	private String[] _methodParameterTypes32;
 }

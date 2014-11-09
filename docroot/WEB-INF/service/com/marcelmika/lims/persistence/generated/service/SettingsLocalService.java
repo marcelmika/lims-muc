@@ -283,11 +283,16 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Updates user's connection
 	*
-	* @param userId id of the user whose connection should be updated
+	* @param userId      id of the user whose connection should be updated
 	* @param isConnected true if the user connected flag should be set to true
 	*/
 	public void updateConnection(java.lang.Long userId, boolean isConnected)
 		throws java.lang.Exception;
+
+	/**
+	* Updates connections that have the connected at value below the threshold
+	*/
+	public void updateAllConnections() throws java.lang.Exception;
 
 	/**
 	* Updates chat enabled value. If set to true the portlet is fully functional. If set to
