@@ -44,7 +44,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
             Y.Lang.sub(this.template, {
                 name: model.get('fullName'),
                 portrait: this._getPortrait(model),
-                presence: this._getPresence(model.get('presence'))
+                presence: this._getPresence(model.get('presence'), model.get('connected'))
             })
         );
 
@@ -93,17 +93,29 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         return portraitView.get('container').get('outerHTML');
     },
 
-    // Returns presence view
     /**
      * Renders presence based on the presence type
      *
      * @param presenceType
+     * @param connected
      * @return HTML of the rendered presence
      * @private
      */
-    _getPresence: function (presenceType) {
+    _getPresence: function (presenceType, connected) {
         // Vars
-        var presenceView = new Y.LIMS.View.PresenceView({presenceType: presenceType});
+        var presenceView;
+
+        // User is connected
+        if (connected) {
+            // Get the presence
+            presenceView = new Y.LIMS.View.PresenceView({presenceType: presenceType});
+        }
+        // User is not connected
+        else {
+            // It means the user is offline
+            presenceView = new Y.LIMS.View.PresenceView({presenceType: "OFFLINE"});
+        }
+
         // Render presence
         presenceView.render();
         // Return the HTML

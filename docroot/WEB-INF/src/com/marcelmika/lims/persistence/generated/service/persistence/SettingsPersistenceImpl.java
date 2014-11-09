@@ -1149,6 +1149,8 @@ public class SettingsPersistenceImpl extends BasePersistenceImpl<Settings>
 		settingsImpl.setMute(settings.isMute());
 		settingsImpl.setChatEnabled(settings.isChatEnabled());
 		settingsImpl.setAdminAreaOpened(settings.isAdminAreaOpened());
+		settingsImpl.setConnected(settings.isConnected());
+		settingsImpl.setConnectedAt(settings.getConnectedAt());
 
 		return settingsImpl;
 	}

@@ -353,7 +353,7 @@ public class ParticipantLocalServiceUtil {
 	/**
 	* Switches an order of two conversations by switching their openedAt timestamps
 	*
-	* @param firstConversationParticipant Participant
+	* @param firstConversationParticipant  Participant
 	* @param secondConversationParticipant Participant
 	* @throws SystemException
 	*/

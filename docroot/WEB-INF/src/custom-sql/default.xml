@@ -12,7 +12,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -38,7 +40,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -71,7 +75,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -111,7 +117,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -158,7 +166,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -188,7 +198,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -225,7 +237,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -265,7 +279,9 @@
 				User_.middleName AS middleName,
 				User_.lastName AS lastName,
 				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
 			INNER JOIN

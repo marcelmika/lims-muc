@@ -9,6 +9,8 @@
 
 package com.marcelmika.lims.api.entity;
 
+import java.util.Date;
+
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
@@ -22,6 +24,8 @@ public class BuddyDetails {
     private String fullName;
     private String screenName;
     private String password;
+    private Boolean connected;
+    private Date connectedAt;
     private PresenceDetails presenceDetails;
     private SettingsDetails settingsDetails;
 
@@ -69,6 +73,22 @@ public class BuddyDetails {
         return presenceDetails;
     }
 
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
+    }
+
+    public Date getConnectedAt() {
+        return connectedAt;
+    }
+
+    public void setConnectedAt(Date connectedAt) {
+        this.connectedAt = connectedAt;
+    }
+
     public void setPresenceDetails(PresenceDetails presenceDetails) {
         this.presenceDetails = presenceDetails;
     }
@@ -89,6 +109,8 @@ public class BuddyDetails {
                 ", fullName='" + fullName + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", password='" + password + '\'' +
+                ", connected=" + connected +
+                ", connectedAt=" + connectedAt +
                 ", presenceDetails=" + presenceDetails +
                 ", settingsDetails=" + settingsDetails +
                 '}';

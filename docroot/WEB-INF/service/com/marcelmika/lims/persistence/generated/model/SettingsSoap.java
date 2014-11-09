@@ -37,6 +37,8 @@ public class SettingsSoap implements Serializable {
 		soapModel.setMute(model.getMute());
 		soapModel.setChatEnabled(model.getChatEnabled());
 		soapModel.setAdminAreaOpened(model.getAdminAreaOpened());
+		soapModel.setConnected(model.getConnected());
+		soapModel.setConnectedAt(model.getConnectedAt());
 
 		return soapModel;
 	}
@@ -157,6 +159,26 @@ public class SettingsSoap implements Serializable {
 		_adminAreaOpened = adminAreaOpened;
 	}
 
+	public boolean getConnected() {
+		return _connected;
+	}
+
+	public boolean isConnected() {
+		return _connected;
+	}
+
+	public void setConnected(boolean connected) {
+		_connected = connected;
+	}
+
+	public Date getConnectedAt() {
+		return _connectedAt;
+	}
+
+	public void setConnectedAt(Date connectedAt) {
+		_connectedAt = connectedAt;
+	}
+
 	private long _sid;
 	private long _userId;
 	private String _presence;
@@ -164,4 +186,6 @@ public class SettingsSoap implements Serializable {
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
+	private boolean _connected;
+	private Date _connectedAt;
 }

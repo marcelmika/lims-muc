@@ -38,5 +38,7 @@ create table Limsmuc_Settings (
 	presenceUpdatedAt DATE null,
 	mute BOOLEAN,
 	chatEnabled BOOLEAN,
-	adminAreaOpened BOOLEAN
+	adminAreaOpened BOOLEAN,
+	connected BOOLEAN,
+	connectedAt DATE null
 );

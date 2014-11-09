@@ -195,6 +195,41 @@ public interface SettingsModel extends BaseModel<Settings> {
 	 */
 	public void setAdminAreaOpened(boolean adminAreaOpened);
 
+	/**
+	 * Returns the connected of this settings.
+	 *
+	 * @return the connected of this settings
+	 */
+	public boolean getConnected();
+
+	/**
+	 * Returns <code>true</code> if this settings is connected.
+	 *
+	 * @return <code>true</code> if this settings is connected; <code>false</code> otherwise
+	 */
+	public boolean isConnected();
+
+	/**
+	 * Sets whether this settings is connected.
+	 *
+	 * @param connected the connected of this settings
+	 */
+	public void setConnected(boolean connected);
+
+	/**
+	 * Returns the connected at of this settings.
+	 *
+	 * @return the connected at of this settings
+	 */
+	public Date getConnectedAt();
+
+	/**
+	 * Sets the connected at of this settings.
+	 *
+	 * @param connectedAt the connected at of this settings
+	 */
+	public void setConnectedAt(Date connectedAt);
+
 	@Override
 	public boolean isNew();
 

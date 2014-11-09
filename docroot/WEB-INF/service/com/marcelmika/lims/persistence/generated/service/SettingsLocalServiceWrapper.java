@@ -326,6 +326,18 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
+	* Updates user's connection
+	*
+	* @param userId id of the user whose connection should be updated
+	* @param isConnected true if the user connected flag should be set to true
+	*/
+	@Override
+	public void updateConnection(java.lang.Long userId, boolean isConnected)
+		throws java.lang.Exception {
+		_settingsLocalService.updateConnection(userId, isConnected);
+	}
+
+	/**
 	* Updates chat enabled value. If set to true the portlet is fully functional. If set to
 	* false the chat will be disabled.
 	*

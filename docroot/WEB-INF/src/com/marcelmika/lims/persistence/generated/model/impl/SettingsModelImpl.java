@@ -67,9 +67,11 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			{ "presenceUpdatedAt", Types.TIMESTAMP },
 			{ "mute", Types.BOOLEAN },
 			{ "chatEnabled", Types.BOOLEAN },
-			{ "adminAreaOpened", Types.BOOLEAN }
+			{ "adminAreaOpened", Types.BOOLEAN },
+			{ "connected", Types.BOOLEAN },
+			{ "connectedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN,connected BOOLEAN,connectedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Settings";
 	public static final String ORDER_BY_JPQL = " ORDER BY settings.sid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Settings.sid ASC";
@@ -135,6 +137,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		attributes.put("mute", getMute());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
+		attributes.put("connected", getConnected());
+		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
 	}
@@ -181,6 +185,18 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		if (adminAreaOpened != null) {
 			setAdminAreaOpened(adminAreaOpened);
+		}
+
+		Boolean connected = (Boolean)attributes.get("connected");
+
+		if (connected != null) {
+			setConnected(connected);
+		}
+
+		Date connectedAt = (Date)attributes.get("connectedAt");
+
+		if (connectedAt != null) {
+			setConnectedAt(connectedAt);
 		}
 	}
 
@@ -306,6 +322,31 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		_adminAreaOpened = adminAreaOpened;
 	}
 
+	@Override
+	public boolean getConnected() {
+		return _connected;
+	}
+
+	@Override
+	public boolean isConnected() {
+		return _connected;
+	}
+
+	@Override
+	public void setConnected(boolean connected) {
+		_connected = connected;
+	}
+
+	@Override
+	public Date getConnectedAt() {
+		return _connectedAt;
+	}
+
+	@Override
+	public void setConnectedAt(Date connectedAt) {
+		_connectedAt = connectedAt;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -344,6 +385,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		settingsImpl.setMute(getMute());
 		settingsImpl.setChatEnabled(getChatEnabled());
 		settingsImpl.setAdminAreaOpened(getAdminAreaOpened());
+		settingsImpl.setConnected(getConnected());
+		settingsImpl.setConnectedAt(getConnectedAt());
 
 		settingsImpl.resetOriginalValues();
 
@@ -436,12 +479,23 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		settingsCacheModel.adminAreaOpened = getAdminAreaOpened();
 
+		settingsCacheModel.connected = getConnected();
+
+		Date connectedAt = getConnectedAt();
+
+		if (connectedAt != null) {
+			settingsCacheModel.connectedAt = connectedAt.getTime();
+		}
+		else {
+			settingsCacheModel.connectedAt = Long.MIN_VALUE;
+		}
+
 		return settingsCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -457,6 +511,10 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		sb.append(getChatEnabled());
 		sb.append(", adminAreaOpened=");
 		sb.append(getAdminAreaOpened());
+		sb.append(", connected=");
+		sb.append(getConnected());
+		sb.append(", connectedAt=");
+		sb.append(getConnectedAt());
 		sb.append("}");
 
 		return sb.toString();
@@ -464,7 +522,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Settings");
@@ -498,6 +556,14 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			"<column><column-name>adminAreaOpened</column-name><column-value><![CDATA[");
 		sb.append(getAdminAreaOpened());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>connected</column-name><column-value><![CDATA[");
+		sb.append(getConnected());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>connectedAt</column-name><column-value><![CDATA[");
+		sb.append(getConnectedAt());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -519,6 +585,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
+	private boolean _connected;
+	private Date _connectedAt;
 	private long _columnBitmask;
 	private Settings _escapedModel;
 }

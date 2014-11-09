@@ -74,6 +74,10 @@
 			<basic name="mute" />
 			<basic name="chatEnabled" />
 			<basic name="adminAreaOpened" />
+			<basic name="connected" />
+			<basic name="connectedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

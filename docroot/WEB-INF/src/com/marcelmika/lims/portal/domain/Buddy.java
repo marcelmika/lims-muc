@@ -27,6 +27,7 @@ import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,8 @@ public class Buddy {
     private String middleName;
     private String lastName;
     private String password;
+    private Boolean connected;
+    private Date connectedAt;
     private Presence presence;
     private Settings settings;
 
@@ -188,6 +191,8 @@ public class Buddy {
         buddy.fullName = buddyDetails.getFullName();
         buddy.screenName = buddyDetails.getScreenName();
         buddy.password = buddyDetails.getPassword();
+        buddy.connected = buddyDetails.getConnected();
+        buddy.connectedAt = buddyDetails.getConnectedAt();
 
         // Add additional info from local service util if it's not set in buddy details
         if (buddyDetails.getBuddyId() != null) {
@@ -260,6 +265,8 @@ public class Buddy {
         details.setFullName(fullName);
         details.setScreenName(screenName);
         details.setPassword(password);
+        details.setConnected(connected);
+        details.setConnectedAt(connectedAt);
 
         if (presence != null) {
             details.setPresenceDetails(presence.toPresenceDetails());
@@ -346,6 +353,23 @@ public class Buddy {
         this.lastName = lastName;
     }
 
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
+    }
+
+    @JSON(include = false)
+    public Date getConnectedAt() {
+        return connectedAt;
+    }
+
+    public void setConnectedAt(Date connectedAt) {
+        this.connectedAt = connectedAt;
+    }
+
     public Presence getPresence() {
         return presence;
     }
@@ -374,6 +398,8 @@ public class Buddy {
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
+                ", connected=" + connected +
+                ", connectedAt=" + connectedAt +
                 ", presence=" + presence +
                 ", settings=" + settings +
                 '}';

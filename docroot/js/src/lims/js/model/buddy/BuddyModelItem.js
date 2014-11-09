@@ -146,6 +146,15 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
          */
         presence: {
             value: null // default value
+        },
+
+        /**
+         * True if the user is connected
+         *
+         * {boolean}
+         */
+        connected: {
+            value: false // default value
         }
     }
 });

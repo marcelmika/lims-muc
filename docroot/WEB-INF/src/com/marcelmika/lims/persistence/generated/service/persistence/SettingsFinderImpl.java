@@ -92,6 +92,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -146,6 +148,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -205,6 +209,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -263,6 +269,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -322,6 +330,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -392,6 +402,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -463,6 +475,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
@@ -539,6 +553,8 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("lastName", Type.STRING);
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
+            query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);

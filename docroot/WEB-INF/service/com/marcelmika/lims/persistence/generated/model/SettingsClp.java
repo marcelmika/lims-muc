@@ -81,6 +81,8 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		attributes.put("mute", getMute());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
+		attributes.put("connected", getConnected());
+		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
 	}
@@ -127,6 +129,18 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 		if (adminAreaOpened != null) {
 			setAdminAreaOpened(adminAreaOpened);
+		}
+
+		Boolean connected = (Boolean)attributes.get("connected");
+
+		if (connected != null) {
+			setConnected(connected);
+		}
+
+		Date connectedAt = (Date)attributes.get("connectedAt");
+
+		if (connectedAt != null) {
+			setConnectedAt(connectedAt);
 		}
 	}
 
@@ -318,6 +332,57 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		}
 	}
 
+	@Override
+	public boolean getConnected() {
+		return _connected;
+	}
+
+	@Override
+	public boolean isConnected() {
+		return _connected;
+	}
+
+	@Override
+	public void setConnected(boolean connected) {
+		_connected = connected;
+
+		if (_settingsRemoteModel != null) {
+			try {
+				Class<?> clazz = _settingsRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setConnected", boolean.class);
+
+				method.invoke(_settingsRemoteModel, connected);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public Date getConnectedAt() {
+		return _connectedAt;
+	}
+
+	@Override
+	public void setConnectedAt(Date connectedAt) {
+		_connectedAt = connectedAt;
+
+		if (_settingsRemoteModel != null) {
+			try {
+				Class<?> clazz = _settingsRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setConnectedAt", Date.class);
+
+				method.invoke(_settingsRemoteModel, connectedAt);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getSettingsRemoteModel() {
 		return _settingsRemoteModel;
 	}
@@ -394,6 +459,8 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		clone.setMute(getMute());
 		clone.setChatEnabled(getChatEnabled());
 		clone.setAdminAreaOpened(getAdminAreaOpened());
+		clone.setConnected(getConnected());
+		clone.setConnectedAt(getConnectedAt());
 
 		return clone;
 	}
@@ -442,7 +509,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -458,6 +525,10 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		sb.append(getChatEnabled());
 		sb.append(", adminAreaOpened=");
 		sb.append(getAdminAreaOpened());
+		sb.append(", connected=");
+		sb.append(getConnected());
+		sb.append(", connectedAt=");
+		sb.append(getConnectedAt());
 		sb.append("}");
 
 		return sb.toString();
@@ -465,7 +536,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Settings");
@@ -499,6 +570,14 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 			"<column><column-name>adminAreaOpened</column-name><column-value><![CDATA[");
 		sb.append(getAdminAreaOpened());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>connected</column-name><column-value><![CDATA[");
+		sb.append(getConnected());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>connectedAt</column-name><column-value><![CDATA[");
+		sb.append(getConnectedAt());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -513,5 +592,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
+	private boolean _connected;
+	private Date _connectedAt;
 	private BaseModel<?> _settingsRemoteModel;
 }

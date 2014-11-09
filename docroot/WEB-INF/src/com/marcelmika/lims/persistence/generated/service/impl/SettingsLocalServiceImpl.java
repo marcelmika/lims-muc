@@ -15,6 +15,8 @@
 package com.marcelmika.lims.persistence.generated.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.generated.model.Settings;
 import com.marcelmika.lims.persistence.generated.service.base.SettingsLocalServiceBaseImpl;
 
@@ -37,6 +39,10 @@ import java.util.List;
  * @see com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil
  */
 public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(SettingsLocalServiceImpl.class);
 
     /*
      * NOTE FOR DEVELOPERS:
@@ -102,6 +108,36 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
 
             settingsPersistence.update(settings, true);
         }
+    }
+
+    /**
+     * Updates user's connection
+     *
+     * @param userId      id of the user whose connection should be updated
+     * @param isConnected true if the user connected flag should be set to true
+     */
+    @Override
+    public void updateConnection(Long userId, boolean isConnected) throws Exception {
+        // Get user settings
+        Settings settings = getSettingsByUser(userId);
+
+        // Get current timestamp
+        Date now = Calendar.getInstance().getTime();
+
+        // If we change the settings connected flag we also need to update the presence updated at timestamp.
+        // Otherwise the caching of groups wouldn't work since the groups are not refreshed until the
+        // presence is updated.
+        if (settings.getConnected() != isConnected) {
+            settings.setPresenceUpdatedAt(now);
+        }
+
+        // The user is connected
+        settings.setConnected(isConnected);
+        // Update timestamp
+        settings.setConnectedAt(now);
+
+        // Save
+        settingsPersistence.update(settings, false);
     }
 
     /**

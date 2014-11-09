@@ -28,6 +28,8 @@
         <column name='mute' type='boolean'/>
         <column name='chatEnabled' type='boolean'/>
         <column name='adminAreaOpened' type='boolean'/>
+        <column name="connected" type="boolean"/>
+        <column name="connectedAt" type="Date"/>
         <finder name='UserId' return-type='Settings'>
             <finder-column name='userId'/>
         </finder>

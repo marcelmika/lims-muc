@@ -56,6 +56,8 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 		attributes.put("mute", getMute());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
+		attributes.put("connected", getConnected());
+		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
 	}
@@ -102,6 +104,18 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 
 		if (adminAreaOpened != null) {
 			setAdminAreaOpened(adminAreaOpened);
+		}
+
+		Boolean connected = (Boolean)attributes.get("connected");
+
+		if (connected != null) {
+			setConnected(connected);
+		}
+
+		Date connectedAt = (Date)attributes.get("connectedAt");
+
+		if (connectedAt != null) {
+			setConnectedAt(connectedAt);
 		}
 	}
 
@@ -315,6 +329,56 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	@Override
 	public void setAdminAreaOpened(boolean adminAreaOpened) {
 		_settings.setAdminAreaOpened(adminAreaOpened);
+	}
+
+	/**
+	* Returns the connected of this settings.
+	*
+	* @return the connected of this settings
+	*/
+	@Override
+	public boolean getConnected() {
+		return _settings.getConnected();
+	}
+
+	/**
+	* Returns <code>true</code> if this settings is connected.
+	*
+	* @return <code>true</code> if this settings is connected; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isConnected() {
+		return _settings.isConnected();
+	}
+
+	/**
+	* Sets whether this settings is connected.
+	*
+	* @param connected the connected of this settings
+	*/
+	@Override
+	public void setConnected(boolean connected) {
+		_settings.setConnected(connected);
+	}
+
+	/**
+	* Returns the connected at of this settings.
+	*
+	* @return the connected at of this settings
+	*/
+	@Override
+	public java.util.Date getConnectedAt() {
+		return _settings.getConnectedAt();
+	}
+
+	/**
+	* Sets the connected at of this settings.
+	*
+	* @param connectedAt the connected at of this settings
+	*/
+	@Override
+	public void setConnectedAt(java.util.Date connectedAt) {
+		_settings.setConnectedAt(connectedAt);
 	}
 
 	@Override

@@ -32,6 +32,8 @@ public class Buddy {
     private String password;
     private Presence presence;
     private Date presenceUpdatedAt;
+    private Boolean connected;
+    private Date connectedAt;
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -40,26 +42,32 @@ public class Buddy {
     /**
      * Create new user and maps data from user details
      *
-     * @param buddyDetails BuddyDetails
+     * @param details BuddyDetails
      * @return User
      */
-    public static Buddy fromBuddyDetails(BuddyDetails buddyDetails) {
+    public static Buddy fromBuddyDetails(BuddyDetails details) {
         // Create new buddy
         Buddy buddy = new Buddy();
         // Map data to user details
-        buddy.buddyId = buddyDetails.getBuddyId();
-        buddy.fullName = buddyDetails.getFullName();
-        buddy.screenName = buddyDetails.getScreenName();
-        buddy.password = buddyDetails.getPassword();
+        buddy.buddyId = details.getBuddyId();
+        buddy.fullName = details.getFullName();
+        buddy.screenName = details.getScreenName();
+        buddy.password = details.getPassword();
+        buddy.connected = details.getConnected();
+
+        if (details.getConnectedAt() != null) {
+            buddy.connectedAt = details.getConnectedAt();
+        }
 
         // Relations
-        if (buddyDetails.getPresenceDetails() != null) {
-            buddy.presence = Presence.fromPresenceDetails(buddyDetails.getPresenceDetails());
+        if (details.getPresenceDetails() != null) {
+            buddy.presence = Presence.fromPresenceDetails(details.getPresenceDetails());
         }
+
+
 
         return buddy;
     }
-
 
     /**
      * Factory method which creates new list of Buddies from the list of BuddyDetails
@@ -117,9 +125,16 @@ public class Buddy {
             buddy.presence = Presence.fromDescription(presence);
         }
 
-        Calendar presenceUpdatedAt = (Calendar) object[firstElement];
+        Calendar presenceUpdatedAt = (Calendar) object[firstElement++];
         if (presenceUpdatedAt != null) {
             buddy.presenceUpdatedAt = presenceUpdatedAt.getTime();
+        }
+
+        buddy.connected = (Boolean) object[firstElement++];
+
+        Calendar connectedAt = (Calendar) object[firstElement];
+        if (connectedAt != null) {
+            buddy.connectedAt = connectedAt.getTime();
         }
 
         return buddy;
@@ -155,6 +170,8 @@ public class Buddy {
         details.setFullName(fullName);
         details.setScreenName(screenName);
         details.setPassword(password);
+        details.setConnected(connected);
+        details.setConnectedAt(connectedAt);
 
         // Relations
         if (presence != null) {
@@ -216,6 +233,22 @@ public class Buddy {
         this.presenceUpdatedAt = presenceUpdatedAt;
     }
 
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
+    }
+
+    public Date getConnectedAt() {
+        return connectedAt;
+    }
+
+    public void setConnectedAt(Date connectedAt) {
+        this.connectedAt = connectedAt;
+    }
+
     @Override
     public int hashCode() {
         return buddyId != null ? buddyId.hashCode() : 0;
@@ -239,6 +272,9 @@ public class Buddy {
                 ", screenName='" + screenName + '\'' +
                 ", password='" + password + '\'' +
                 ", presence=" + presence +
+                ", presenceUpdatedAt=" + presenceUpdatedAt +
+                ", connected=" + connected +
+                ", connectedAt=" + connectedAt +
                 '}';
     }
 }

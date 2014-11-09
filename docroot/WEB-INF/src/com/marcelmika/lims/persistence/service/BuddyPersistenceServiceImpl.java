@@ -53,14 +53,9 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
         try {
-            // Take presence from user settings
-            Settings settings = SettingsLocalServiceUtil.getSettingsByUser(buddy.getBuddyId());
 
-            // If the user disabled the chat keep it offline
-            if (settings.isChatEnabled()) {
-                // When the user logs in, change the presence to active
-                SettingsLocalServiceUtil.changePresence(buddy.getBuddyId(), Presence.ACTIVE.getDescription());
-            }
+            // Update user's connection
+            SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true);
 
             // Call success
             return LoginBuddyResponseEvent.success(buddy.toBuddyDetails());
@@ -85,8 +80,8 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
         try {
-            // Change presence to offline
-            SettingsLocalServiceUtil.changePresence(buddy.getBuddyId(), Presence.OFFLINE.getDescription());
+            // Update user's connection
+            SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), false);
 
             // Call success
             return LogoutBuddyResponseEvent.success("User successfully logged out", buddy.toBuddyDetails());
@@ -143,8 +138,17 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             Settings settings = SettingsLocalServiceUtil.getSettingsByUser(buddy.getBuddyId());
 
             if (settings != null) {
-                // Create Presence from string
-                Presence presence = Presence.fromDescription(settings.getPresence());
+
+                Presence presence;
+                // User is connected
+                if (settings.isConnected()) {
+                    // Create Presence from string
+                    presence = Presence.fromDescription(settings.getPresence());
+                } else {
+                    // User is not connected this means that he's offline
+                    presence = Presence.OFFLINE;
+                }
+
                 // Success
                 return ReadPresenceBuddyResponseEvent.success(
                         "Presence successfully read", presence.toPresenceDetails()
