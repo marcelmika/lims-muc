@@ -38,21 +38,24 @@ public class UpdateConnectionsJob implements MessageListener {
     @Override
     public void receive(Message message) throws MessageListenerException {
 
-        // Log debug
-        if (log.isDebugEnabled()) {
-            log.debug("[JOB] Update connections: START");
-        }
-
         // Get the connection threshold
         Integer connectionThreshold = Environment.getConnectionLostThreshold();
 
-        // Threshold is turned off
+        // Update connections is turned off
         if (connectionThreshold == 0) {
             if (log.isDebugEnabled()) {
                 log.debug("[JOB] Update connections: TURNED OFF");
             }
             // End here
             return;
+        }
+
+        // This is for time profiling purposes
+        long start = 0;
+
+        // Log debug
+        if (log.isDebugEnabled()) {
+            start = System.currentTimeMillis();
         }
 
         // Update connections
@@ -70,7 +73,8 @@ public class UpdateConnectionsJob implements MessageListener {
 
         // Log debug
         if (log.isDebugEnabled()) {
-            log.debug("[JOB] Update connections: END");
+            long end = System.currentTimeMillis();
+            log.debug(String.format("[JOB] Update connections: %dms", (end - start)));
         }
 
     }
