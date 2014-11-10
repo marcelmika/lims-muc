@@ -52,14 +52,6 @@ public interface SettingsPersistenceService {
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
 
     /**
-     * Update connection of the particular user
-     *
-     * @param event Request event
-     * @return Response event
-     */
-    public UpdateConnectionResponseEvent updateConnection(UpdateConnectionRequestEvent event);
-
-    /**
      * Enables chat for buddy
      *
      * @param event Request event for logout method

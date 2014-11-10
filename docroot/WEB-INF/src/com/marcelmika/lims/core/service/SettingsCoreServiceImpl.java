@@ -77,17 +77,6 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
     }
 
     /**
-     * Update connection of the particular user
-     *
-     * @param event Request event
-     * @return Response event
-     */
-    @Override
-    public UpdateConnectionResponseEvent updateConnection(UpdateConnectionRequestEvent event) {
-        return settingsPersistenceService.updateConnection(event);
-    }
-
-    /**
      * Update all users connections
      *
      * @param event Request event

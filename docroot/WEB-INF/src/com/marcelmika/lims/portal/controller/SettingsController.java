@@ -46,7 +46,13 @@ public class SettingsController {
         this.settingsCoreService = settingsCoreService;
     }
 
-    public void updateConnection(ResourceRequest request, ResourceResponse response) {
+    /**
+     * Reads users settings
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void readSettings(ResourceRequest request, ResourceResponse response) {
 
         Buddy buddy;        // Authorized user
 
@@ -68,14 +74,14 @@ public class SettingsController {
         }
 
         // Update connection
-        UpdateConnectionResponseEvent responseEvent = settingsCoreService.updateConnection(
-                new UpdateConnectionRequestEvent(buddy.toBuddyDetails())
+        ReadSettingsResponseEvent responseEvent = settingsCoreService.readSettings(
+                new ReadSettingsRequestEvent(buddy.toBuddyDetails())
         );
 
         // Success
         if (responseEvent.isSuccess()) {
             // Map settings
-            Settings settings = Settings.fromSettingsDetails(responseEvent.getSettings());
+            Settings settings = Settings.fromSettingsDetails(responseEvent.getSettingsDetails());
             // Serialize
             String serialized = JSONFactoryUtil.looseSerialize(settings);
             // Write success to response
@@ -83,9 +89,9 @@ public class SettingsController {
         }
         // Failure
         else {
-            UpdateConnectionResponseEvent.Status status = responseEvent.getStatus();
+            ReadSettingsResponseEvent.Status status = responseEvent.getStatus();
             // Everything else is a server fault
-            if (status == UpdateConnectionResponseEvent.Status.ERROR_PERSISTENCE) {
+            if (status == ReadSettingsResponseEvent.Status.ERROR_PERSISTENCE) {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
             }
             // Log

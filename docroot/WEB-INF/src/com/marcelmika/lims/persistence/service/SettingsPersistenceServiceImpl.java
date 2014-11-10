@@ -44,10 +44,10 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
-            // Create settings domain from service builder domain
+            // Save
             Settings settings = Settings.fromServiceBuilderModel(
                     PanelLocalServiceUtil.getPanelByUser(buddy.getBuddyId()),
-                    SettingsLocalServiceUtil.getSettingsByUser(buddy.getBuddyId())
+                    SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true)
             );
 
             // Success
@@ -153,37 +153,6 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         // Success
         return UpdateAllConnectionsResponseEvent.success();
-    }
-
-    /**
-     * Update connection of the particular user
-     *
-     * @param event Request event
-     * @return Response event
-     */
-    @Override
-    public UpdateConnectionResponseEvent updateConnection(UpdateConnectionRequestEvent event) {
-        // Get buddy
-        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
-
-        // Update connection
-        try {
-
-            // Save
-            Settings settings = Settings.fromServiceBuilderModel(
-                    PanelLocalServiceUtil.getPanelByUser(buddy.getBuddyId()),
-                    SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true)
-            );
-
-            // Success
-            return UpdateConnectionResponseEvent.success(settings.toSettingsDetails());
-        }
-        // Failure
-        catch (Exception exception) {
-            return UpdateConnectionResponseEvent.failure(
-                    UpdateConnectionResponseEvent.Status.ERROR_PERSISTENCE, exception
-            );
-        }
     }
 
     /**

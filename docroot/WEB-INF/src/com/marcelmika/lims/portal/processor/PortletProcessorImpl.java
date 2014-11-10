@@ -64,8 +64,8 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_GET_GROUP_LIST = "GetGroupList";
     private static final String QUERY_CREATE_MESSAGE = "CreateMessage";
     private static final String QUERY_UPDATE_BUDDY_PRESENCE = "UpdateBuddyPresence";
+    private static final String QUERY_READ_SETTINGS = "ReadSettings";
     private static final String QUERY_UPDATE_ACTIVE_PANEL = "UpdateActivePanel";
-    private static final String QUERY_UPDATE_CONNECTION = "UpdateConnection";
     private static final String QUERY_UPDATE_SETTINGS = "UpdateSettings";
     private static final String QUERY_GET_SERVER_TIME = "GetServerTime";
     private static final String QUERY_SEARCH_BUDDIES = "SearchBuddies";
@@ -204,9 +204,9 @@ public class PortletProcessorImpl implements PortletProcessor {
         else if (query.equals(QUERY_UPDATE_ACTIVE_PANEL)) {
             settingsController.updateActivePanel(request, response);
         }
-        // Update connection
-        else if (query.equals(QUERY_UPDATE_CONNECTION)) {
-            settingsController.updateConnection(request, response);
+        // Read settings connection
+        else if (query.equals(QUERY_READ_SETTINGS)) {
+            settingsController.readSettings(request, response);
         }
         // Update settings
         else if (query.equals(QUERY_UPDATE_SETTINGS)) {

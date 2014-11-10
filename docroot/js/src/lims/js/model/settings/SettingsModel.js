@@ -113,7 +113,7 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
                 Y.io(this.getServerRequestUrl(), {
                     method: "GET",
                     data: {
-                        query: "UpdateConnection" // TODO: Rewrite
+                        query: "ReadSettings"
                     },
                     on: {
                         success: function (id, o) {
