@@ -38,13 +38,33 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
             errorView = this.get('errorView'),
             container = this.get('container');
 
+
         // Local events
         model.after('add', this._onGroupAdd, this);
         model.on('groupReset', this._onGroupReset, this);
         model.after('groupsReadSuccess', this._onGroupsReadSuccess, this);
         model.after('groupsReadError', this._onGroupsReadError, this);
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
-        container.on('mousewheel', this._onContainerMouseWheel, this);
+        container.on('mouseenter', this._onContainerContentMouseEnter, this);
+        container.on('mouseleave', this._onContainerContentMouseLeave, this);
+    },
+
+    /**
+     * Call this method when the view should attach mouse wheel event
+     */
+    _attachMouseWheel: function () {
+        // Subscribe to the mouse wheel event
+        this.set('mouseWheelSubscription', Y.on('mousewheel', this._onContainerMouseWheel, this));
+    },
+
+    /**
+     * Call this method when the view should detach mouse wheel event
+     */
+    _detachMouseWheel: function () {
+        // Vars
+        var mouseWheelSubscription = this.get('mouseWheelSubscription');
+        // Detach subscription
+        mouseWheelSubscription.detach();
     },
 
     /**
@@ -210,6 +230,28 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     },
 
     /**
+     * Called when the user enters container content with the mouse cursor
+     *
+     * @private
+     */
+    _onContainerContentMouseEnter: function () {
+        // Attach the mouse wheel event since we need to track
+        // users scrolling
+        this._attachMouseWheel();
+    },
+
+    /**
+     * Called when the user leaves container content with the mouse cursor
+     *
+     * @private
+     */
+    _onContainerContentMouseLeave: function () {
+        // Detach the mouse wheel event since there is no need to track
+        // scrolling since the cursor is not above the panel content
+        this._detachMouseWheel();
+    },
+
+    /**
      * Called when the user scrolls with mouse wheel over the container
      *
      * @param event
@@ -217,13 +259,10 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
      * @private
      */
     _onContainerMouseWheel: function (event) {
-        // FIXME: This is s hack that prevents issue #37 to happen
-        if (this.name === "groupViewList") {
-            // Vars
-            var container = this.get('container');
-            // Prevent scrolling of the whole window
-            return this.preventScroll(event, container);
-        }
+        // Vars
+        var container = this.get('container');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, container);
     }
 
 }, {
@@ -274,6 +313,15 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
          */
         activityIndicator: {
             value: null // to be set
+        },
+
+        /**
+         * Event subscription for the mouse wheel event
+         *
+         * {Subscription}
+         */
+        mouseWheelSubscription: {
+            value: null
         },
 
         /**

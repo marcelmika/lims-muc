@@ -75,9 +75,27 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         model.on('readSuccess', this._onConversationFeedReadSuccess, this);
         model.on('readError', this._onConversationFeedReadError, this);
         errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
-
-        container.on('mousewheel', this._onContainerMouseWheel, this);
         container.on('scroll', this._onContainerContentScroll, this);
+        container.on('mouseenter', this._onContainerContentMouseEnter, this);
+        container.on('mouseleave', this._onContainerContentMouseLeave, this);
+    },
+
+    /**
+     * Call this method when the view should attach mouse wheel event
+     */
+    _attachMouseWheel: function () {
+        // Subscribe to the mouse wheel event
+        this.set('mouseWheelSubscription', Y.on('mousewheel', this._onContainerMouseWheel, this));
+    },
+
+    /**
+     * Call this method when the view should detach mouse wheel event
+     */
+    _detachMouseWheel: function () {
+        // Vars
+        var mouseWheelSubscription = this.get('mouseWheelSubscription');
+        // Detach subscription
+        mouseWheelSubscription.detach();
     },
 
     /**
@@ -349,6 +367,28 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     },
 
     /**
+     * Called when the user enters container content with the mouse cursor
+     *
+     * @private
+     */
+    _onContainerContentMouseEnter: function () {
+        // Attach the mouse wheel event since we need to track
+        // users scrolling
+        this._attachMouseWheel();
+    },
+
+    /**
+     * Called when the user leaves container content with the mouse cursor
+     *
+     * @private
+     */
+    _onContainerContentMouseLeave: function () {
+        // Detach the mouse wheel event since there is no need to track
+        // scrolling since the cursor is not above the panel content
+        this._detachMouseWheel();
+    },
+
+    /**
      * Called when the user scrolls with mouse wheel over the container
      *
      * @param event
@@ -356,13 +396,9 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      * @private
      */
     _onContainerMouseWheel: function (event) {
-        // FIXME: This is s hack that prevents issue #37 to happen
-        if (this.name === "conversationFeedList") {
-            // Vars
-            var container = this.get('container');
-            // Prevent scrolling of the whole window
-            return this.preventScroll(event, container);
-        }
+        var container = this.get('container');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, container);
     }
 
 }, {
@@ -447,6 +483,15 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
          */
         shouldAnimateList: {
             value: true
+        },
+
+        /**
+         * Event subscription for the mouse wheel event
+         *
+         * {Subscription}
+         */
+        mouseWheelSubscription: {
+            value: null
         },
 
         /**

@@ -59,9 +59,8 @@ Y.LIMS.View.ViewExtension.prototype = {
      */
     preventScroll: function (event, node) {
         // Vars
-        var target = event.currentTarget,
-            scrollTop = target.get('scrollTop'),
-            scrollHeight = target.get('scrollHeight'),
+        var scrollTop = node.get('scrollTop'),
+            scrollHeight = node.get('scrollHeight'),
             height = node.get('clientHeight'),
             delta = event.wheelDelta,
             up = delta > 0,
@@ -79,7 +78,7 @@ Y.LIMS.View.ViewExtension.prototype = {
         // Scroll down
         if (!up && -delta > scrollHeight - height - scrollTop) {
             // Scrolling down, but this will take us past the bottom.
-            target.set('scrollTop', scrollHeight);
+            node.set('scrollTop', scrollHeight);
 
             // Prevent scrolling of precedents
             return preventScrollFunction();
@@ -87,7 +86,7 @@ Y.LIMS.View.ViewExtension.prototype = {
         // Scroll up
         else if (up && delta > scrollTop) {
             // Scrolling up, but this will take us past the top.
-            target.set('scrollTop', 0);
+            node.set('scrollTop', 0);
             // Prevent scrolling of precedents
             return preventScrollFunction();
         }

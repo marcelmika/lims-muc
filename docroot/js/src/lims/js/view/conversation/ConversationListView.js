@@ -165,8 +165,28 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Attach events to panel content
         panelContent.on('scroll', this._onPanelContentScroll, this);
-        panelContent.on('mousewheel', this._onPanelContentMouseWheel, this);
+        panelContent.on('mouseenter', this._onPanelContentMouseEnter, this);
+        panelContent.on('mouseleave', this._onPanelContentMouseLeave, this);
     },
+
+    /**
+     * Call this method when the view should attach mouse wheel event
+     */
+    _attachMouseWheel: function () {
+        // Subscribe to the mouse wheel event
+        this.set('mouseWheelSubscription', Y.on('mousewheel', this._onPanelContentMouseWheel, this));
+    },
+
+    /**
+     * Call this method when the view should detach mouse wheel event
+     */
+    _detachMouseWheel: function () {
+        // Vars
+        var mouseWheelSubscription = this.get('mouseWheelSubscription');
+        // Detach subscription
+        mouseWheelSubscription.detach();
+    },
+
 
     /**
      * Renders and adds a single message to the list
@@ -628,6 +648,28 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Called when the user enters panel content with the mouse cursor
+     *
+     * @private
+     */
+    _onPanelContentMouseEnter: function () {
+        // Attach the mouse wheel event since we need to track
+        // users scrolling
+        this._attachMouseWheel();
+    },
+
+    /**
+     * Called when the user leaves panel content with the mouse cursor
+     *
+     * @private
+     */
+    _onPanelContentMouseLeave: function () {
+        // Detach the mouse wheel event since there is no need to track
+        // scrolling since the cursor is not above the panel content
+        this._detachMouseWheel();
+    },
+
+    /**
      * Called when the user scrolls with mouse wheel over the panel content
      *
      * @param event
@@ -635,13 +677,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @private
      */
     _onPanelContentMouseWheel: function (event) {
-        // FIXME: This is s hack that prevents issue #37 to happen
-        if (this.name === "conversationListView") {
-            // Vars
-            var panelContent = this.get('panelContent');
-            // Prevent scrolling of the whole window
-            return this.preventScroll(event, panelContent);
-        }
+        // Vars
+        var panelContent = this.get('panelContent');
+        // Prevent scrolling of the whole window
+        return this.preventScroll(event, panelContent);
     },
 
     /**
@@ -862,6 +901,15 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
          */
         minMessageTextFieldHeight: {
             value: 14
+        },
+
+        /**
+         * Event subscription for the mouse wheel event
+         *
+         * {Subscription}
+         */
+        mouseWheelSubscription: {
+            value: null
         },
 
         /**
