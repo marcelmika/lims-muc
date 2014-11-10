@@ -49,31 +49,10 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
             }
         }, 'li');
 
+        // Global events
         Y.on('presenceChanged', this._onPresenceChanged, this);
-    },
-
-    /**
-     * Presence changed event
-     *
-     * @param event
-     * @private
-     */
-    _onPresenceChanged: function (event) {
-        // Update presence indicator
-        this._updatePresenceIndicator(event.presence);
-
-        // Disable chat if needed
-        if (event.presence === "OFFLINE") {
-            Y.fire("chatDisabled");
-            // Since if we call chatDisabled all controllers will be automatically
-            // hidden. Thus we need to show our controller again.
-            this.showViewController();
-        } else {
-            Y.fire("chatEnabled");
-        }
-
-        // Dismiss controller
-        this.dismissViewController();
+        Y.on('settingsUpdated', this._onSettingsUpdated, this);
+        Y.on('chatDisabled', this._onChatDisabled, this);
     },
 
     /**
@@ -84,35 +63,104 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
      */
     _updatePresenceIndicator: function (presence) {
         // Vars
-        var buddyDetails = this.get('buddyDetails'),
-            presenceClass = "";
+        var presenceClass = "";
 
         // Set status indicator based on the presence type
         switch (presence) {
             case "ACTIVE":
                 presenceClass = "online";
-                buddyDetails.updatePresence('ACTIVE');
                 break;
             case "AWAY":
                 presenceClass = "busy";
-                buddyDetails.updatePresence('AWAY');
                 break;
             case "DND":
                 presenceClass = "unavailable";
-                buddyDetails.updatePresence('DND');
                 break;
             case "OFFLINE":
                 presenceClass = "off";
-                buddyDetails.updatePresence('OFFLINE');
                 break;
             default:
                 presenceClass = "off";
-                buddyDetails.updatePresence('UNRECOGNIZED');
                 break;
         }
 
         // Update status indicator
         this.get('statusIndicator').setAttribute('class', "status-indicator " + presenceClass);
+    },
+
+    /**
+     * Updates buddy details presence based on the parameter
+     *
+     * @param presence
+     * @private
+     */
+    _updateBuddyDetails: function (presence) {
+        // Vars
+        var buddyDetails = this.get('buddyDetails');
+
+        // Set status indicator based on the presence type
+        switch (presence) {
+            case "ACTIVE":
+                buddyDetails.updatePresence('ACTIVE');
+                break;
+            case "AWAY":
+                buddyDetails.updatePresence('AWAY');
+                break;
+            case "DND":
+                buddyDetails.updatePresence('DND');
+                break;
+            case "OFFLINE":
+                buddyDetails.updatePresence('OFFLINE');
+                break;
+            default:
+                buddyDetails.updatePresence('UNRECOGNIZED');
+                break;
+        }
+    },
+
+    /**
+     * Called when the settings model is updated
+     *
+     * @private
+     */
+    _onSettingsUpdated: function () {
+        // Var
+        var model = this.get('model');
+
+        // Update presence indicator
+        this._updatePresenceIndicator(model.get('presence'));
+    },
+
+    /**
+     * Presence changed event
+     *
+     * @param event
+     * @private
+     */
+    _onPresenceChanged: function (event) {
+        // Update presence indicator and buddy details
+        this._updatePresenceIndicator(event.presence);
+        this._updateBuddyDetails(event.presence);
+
+        // Disable chat if needed
+        if (event.presence === "OFFLINE") {
+            Y.fire("chatDisabled");
+        } else {
+            Y.fire("chatEnabled");
+        }
+
+        // Dismiss controller
+        this.dismissViewController();
+    },
+
+    /**
+     * Called when the chat is disabled
+     * @private
+     */
+    _onChatDisabled: function () {
+        // Since if we call chatDisabled all controllers will be automatically
+        // hidden. Thus we need to show our controller again.
+        this.showViewController();
     }
 
 }, {
@@ -137,6 +185,16 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
         container: {
             value: null // to be set
         },
+
+        /**
+         * Model attached to controller
+         *
+         * {Y.LIMS.Model.SettingsModel}
+         */
+        model: {
+            value: null // to be set
+        },
+
 
         /**
          * Container for the status indicator

@@ -52,6 +52,7 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             // Presence
             new Y.LIMS.Controller.PresenceViewController({
                 container: rootNode.one('.status-panel'),
+                model: settingsModel,
                 buddyDetails: buddyDetails
             });
             // Settings

@@ -75,7 +75,8 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
     sync: function (action, options, callback) {
         // Vars
         var content,
-            response;
+            response,
+            instance = this;
 
         // Serialize
         content = Y.JSON.stringify(this.toJSON());
@@ -129,11 +130,22 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
                                 return;
                             }
 
-                            // TODO: Update from response
+                            // Check if the chat enabled property was changed
+                            if (response.chatEnabled !== instance.get('chatEnabled')) {
+                                if (response.chatEnabled === true) {
+                                    Y.fire("chatEnabled");
+                                } else {
+                                    Y.fire("chatDisabled");
+                                }
+                            }
 
-                            console.log(response);
+                            // Callback
+                            callback(null, response);
 
-                            callback(null);
+                            // Fire event
+                            Y.fire('settingsUpdated', {
+                                settings: instance
+                            });
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -196,6 +208,15 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
          */
         isAdminAreaOpened: {
             value: false // default value
+        },
+
+        /**
+         * Presence
+         *
+         * {ACTIVE|AWAY|DND|OFFLINE}
+         */
+        presence: {
+            value: "OFFLINE"
         }
     }
 });

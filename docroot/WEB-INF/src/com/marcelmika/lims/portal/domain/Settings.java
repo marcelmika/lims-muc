@@ -106,10 +106,6 @@ public class Settings {
         return isMute;
     }
 
-    public void setMute(boolean isMute) {
-        this.isMute = isMute;
-    }
-
     public void setIsMute(boolean isMute) {
         this.isMute = isMute;
     }
@@ -122,7 +118,7 @@ public class Settings {
         return isChatEnabled;
     }
 
-    public void setChatEnabled(boolean isChatEnabled) {
+    public void setIsChatEnabled(boolean isChatEnabled) {
         this.isChatEnabled = isChatEnabled;
     }
 

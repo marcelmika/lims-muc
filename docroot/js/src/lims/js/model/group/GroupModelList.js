@@ -78,8 +78,6 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                                 return;
                             }
 
-                            console.log(response);
-
                             var i, groups, group, buddies;
                             // Parse groups
                             groups = response.groups;

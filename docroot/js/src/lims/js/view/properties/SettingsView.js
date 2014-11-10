@@ -36,6 +36,8 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
 
         // Local events
         soundSwitch.on('switchClick', this._onSoundSwitchClick, this);
+        // Global events
+        Y.on('settingsUpdated', this._onSettingsUpdated, this);
     },
 
     /**
@@ -76,6 +78,23 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
             // Re-enable the view so the user can interact with it again
             soundSwitch.enable();
         });
+    },
+
+    /**
+     * Called when the settings model is updated
+     *
+     * @private
+     */
+    _onSettingsUpdated: function () {
+        // Vars
+        var model = this.get('model'),
+            soundSwitch = this.get('soundSwitch');
+
+        if (model.get('isMute')) {
+            soundSwitch.turnOff();
+        } else {
+            soundSwitch.turnOn();
+        }
     }
 
 }, {

@@ -258,7 +258,6 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
         this.hideViewController();
     }
 
-
 }, {
     // Attributes of the view controller
     ATTRS: {

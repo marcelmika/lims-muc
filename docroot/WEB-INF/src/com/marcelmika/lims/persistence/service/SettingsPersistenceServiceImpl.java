@@ -114,6 +114,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             com.marcelmika.lims.persistence.generated.model.Settings settings = SettingsLocalServiceUtil.getSettingsByUser(
                     event.getBuddyId()
             );
+
             // Set new values
             settings.setMute(details.isMute());
             settings.setAdminAreaOpened(details.isAdminAreaOpened());

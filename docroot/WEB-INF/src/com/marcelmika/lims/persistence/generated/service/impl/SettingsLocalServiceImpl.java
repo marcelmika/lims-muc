@@ -88,7 +88,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      */
     @Override
     public Settings saveSettings(Settings settings) throws SystemException {
-        return settingsPersistence.update(settings, true);
+        return settingsPersistence.update(settings, false);
     }
 
     /**
