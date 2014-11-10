@@ -828,12 +828,18 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public void updateConnection(java.lang.Long userId, boolean isConnected)
-		throws java.lang.Exception {
+	public com.marcelmika.lims.persistence.generated.model.Settings updateConnection(
+		java.lang.Long userId, boolean isConnected) throws java.lang.Exception {
+		Object returnObj = null;
+
 		try {
-			_invokableLocalService.invokeMethod(_methodName22,
-				_methodParameterTypes22,
-				new Object[] { ClpSerializer.translateInput(userId), isConnected });
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
+					new Object[] {
+						ClpSerializer.translateInput(userId),
+						
+					isConnected
+					});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -850,6 +856,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 					" is not a valid exception");
 			}
 		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Settings)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override

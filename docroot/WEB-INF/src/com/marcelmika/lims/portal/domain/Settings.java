@@ -9,6 +9,7 @@
 
 package com.marcelmika.lims.portal.domain;
 
+import com.liferay.portal.kernel.json.JSON;
 import com.marcelmika.lims.api.entity.SettingsDetails;
 
 /**
@@ -24,6 +25,7 @@ public class Settings {
     private String activePanelId;
     private boolean isMute;
     private boolean isChatEnabled;
+    @JSON(include = false)
     private boolean isAdminAreaOpened;
 
 
@@ -96,6 +98,10 @@ public class Settings {
         this.activePanelId = activePanelId;
     }
 
+    public boolean getIsMute() {
+        return isMute;
+    }
+
     public boolean isMute() {
         return isMute;
     }
@@ -108,12 +114,20 @@ public class Settings {
         this.isMute = isMute;
     }
 
+    public boolean getIsChatEnabled() {
+        return isChatEnabled;
+    }
+
     public boolean isChatEnabled() {
         return isChatEnabled;
     }
 
     public void setChatEnabled(boolean isChatEnabled) {
         this.isChatEnabled = isChatEnabled;
+    }
+
+    public boolean getIsAdminAreaOpened() {
+        return isAdminAreaOpened;
     }
 
     public boolean isAdminAreaOpened() {

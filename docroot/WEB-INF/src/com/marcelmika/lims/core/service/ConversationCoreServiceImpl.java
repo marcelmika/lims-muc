@@ -16,12 +16,9 @@ import com.marcelmika.lims.api.entity.ConversationDetails;
 import com.marcelmika.lims.api.entity.MessageDetails;
 import com.marcelmika.lims.api.environment.Environment;
 import com.marcelmika.lims.api.events.conversation.*;
-import com.marcelmika.lims.api.events.settings.UpdateConnectionRequestEvent;
-import com.marcelmika.lims.api.events.settings.UpdateConnectionResponseEvent;
 import com.marcelmika.lims.jabber.service.ConversationJabberService;
 import com.marcelmika.lims.jabber.service.ConversationJabberServiceListener;
 import com.marcelmika.lims.persistence.service.ConversationPersistenceService;
-import com.marcelmika.lims.persistence.service.SettingsPersistenceService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -37,7 +34,6 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
     // Dependencies
     ConversationJabberService conversationJabberService;
     ConversationPersistenceService conversationPersistenceService;
-    SettingsPersistenceService settingsPersistenceService;
 
     // Log
     private static Log log = LogFactoryUtil.getLog(ConversationCoreServiceImpl.class);
@@ -48,11 +44,9 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      * @param conversationJabberService jabber service
      */
     public ConversationCoreServiceImpl(final ConversationJabberService conversationJabberService,
-                                       final ConversationPersistenceService conversationPersistenceService,
-                                       final SettingsPersistenceService settingsPersistenceService) {
+                                       final ConversationPersistenceService conversationPersistenceService) {
         this.conversationJabberService = conversationJabberService;
         this.conversationPersistenceService = conversationPersistenceService;
-        this.settingsPersistenceService = settingsPersistenceService;
 
         // Listeners
         conversationJabberService.addConversationJabberServiceListener(this);
@@ -78,21 +72,6 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      */
     @Override
     public GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event) {
-        // Update user's connection on each read conversation request. The update connection
-        // needs to be called perpetually otherwise the user will be "disconnected". Since the read conversation
-        // request is called always this is one of the places were this could be placed
-        UpdateConnectionResponseEvent updateResponseEvent = settingsPersistenceService.updateConnection(
-                new UpdateConnectionRequestEvent(event.getBuddyDetails())
-        );
-
-        // Failure
-        if (!updateResponseEvent.isSuccess()) {
-            // Log
-            if (log.isErrorEnabled()) {
-                log.error(updateResponseEvent.getException());
-            }
-        }
-
         // Read from persistence
         return conversationPersistenceService.getOpenedConversations(event);
     }

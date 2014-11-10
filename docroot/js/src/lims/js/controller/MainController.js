@@ -57,7 +57,9 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             // Settings
             new Y.LIMS.Controller.SettingsViewController({
                 container: rootNode.one('.chat-settings'),
-                model: settingsModel
+                model: settingsModel,
+                properties: properties,
+                poller: poller
             });
             // Conversation
             new Y.LIMS.Controller.ConversationsController({

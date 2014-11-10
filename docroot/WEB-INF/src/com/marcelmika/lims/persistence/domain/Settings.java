@@ -138,4 +138,15 @@ public class Settings {
     public void setAdminAreaOpened(boolean isAdminAreaOpened) {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "presence=" + presence +
+                ", activePanel='" + activePanel + '\'' +
+                ", isMute=" + isMute +
+                ", isChatEnabled=" + isChatEnabled +
+                ", isAdminAreaOpened=" + isAdminAreaOpened +
+                '}';
+    }
 }

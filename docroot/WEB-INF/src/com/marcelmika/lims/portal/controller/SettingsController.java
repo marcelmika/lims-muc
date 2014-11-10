@@ -12,10 +12,7 @@ package com.marcelmika.lims.portal.controller;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.lims.api.events.settings.UpdateActivePanelRequestEvent;
-import com.marcelmika.lims.api.events.settings.UpdateActivePanelResponseEvent;
-import com.marcelmika.lims.api.events.settings.UpdateSettingsRequestEvent;
-import com.marcelmika.lims.api.events.settings.UpdateSettingsResponseEvent;
+import com.marcelmika.lims.api.events.settings.*;
 import com.marcelmika.lims.core.service.SettingsCoreService;
 import com.marcelmika.lims.portal.domain.Buddy;
 import com.marcelmika.lims.portal.domain.Settings;
@@ -47,6 +44,55 @@ public class SettingsController {
      */
     public SettingsController(final SettingsCoreService settingsCoreService) {
         this.settingsCoreService = settingsCoreService;
+    }
+
+    public void updateConnection(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;        // Authorized user
+
+        // Deserialize
+        try {
+            // Create buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Update connection
+        UpdateConnectionResponseEvent responseEvent = settingsCoreService.updateConnection(
+                new UpdateConnectionRequestEvent(buddy.toBuddyDetails())
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Map settings
+            Settings settings = Settings.fromSettingsDetails(responseEvent.getSettings());
+            // Serialize
+            String serialized = JSONFactoryUtil.looseSerialize(settings);
+            // Write success to response
+            ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+        }
+        // Failure
+        else {
+            UpdateConnectionResponseEvent.Status status = responseEvent.getStatus();
+            // Everything else is a server fault
+            if (status == UpdateConnectionResponseEvent.Status.ERROR_PERSISTENCE) {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+            }
+            // Log
+            if (log.isErrorEnabled()) {
+                log.error(responseEvent.getException());
+            }
+        }
     }
 
     /**

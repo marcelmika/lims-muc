@@ -74,7 +74,8 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
     // Custom sync layer.
     sync: function (action, options, callback) {
         // Vars
-        var content;
+        var content,
+            response;
 
         // Serialize
         content = Y.JSON.stringify(this.toJSON());
@@ -107,6 +108,46 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
                 break;
 
             case 'read':
+
+                // Do the request
+                Y.io(this.getServerRequestUrl(), {
+                    method: "GET",
+                    data: {
+                        query: "UpdateConnection" // TODO: Rewrite
+                    },
+                    on: {
+                        success: function (id, o) {
+                            // Deserialize
+                            try {
+                                // Deserialize response
+                                response = Y.JSON.parse(o.responseText);
+                            }
+                            catch (exception) {
+                                // JSON.parse throws a SyntaxError when passed invalid JSON
+                                callback(exception);
+                                // End here
+                                return;
+                            }
+
+                            // TODO: Update from response
+
+                            console.log(response);
+
+                            callback(null);
+                        },
+                        failure: function (x, o) {
+                            // If the attempt is unauthorized session has expired
+                            if (o.status === 401) {
+                                // Notify everybody else
+                                Y.fire('userSessionExpired');
+                            }
+                            callback("Cannot update connection");
+                        }
+                    }
+                });
+                break;
+
+
             case 'delete':
                 break;
 

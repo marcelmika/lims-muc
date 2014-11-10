@@ -9,6 +9,7 @@
 
 package com.marcelmika.lims.api.events.settings;
 
+import com.marcelmika.lims.api.entity.SettingsDetails;
 import com.marcelmika.lims.api.events.ResponseEvent;
 
 /**
@@ -19,6 +20,7 @@ import com.marcelmika.lims.api.events.ResponseEvent;
  */
 public class UpdateConnectionResponseEvent extends ResponseEvent {
 
+    private SettingsDetails settings;
     private Status status;
 
     public enum Status {
@@ -38,11 +40,12 @@ public class UpdateConnectionResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static UpdateConnectionResponseEvent success() {
+    public static UpdateConnectionResponseEvent success(SettingsDetails settings) {
         UpdateConnectionResponseEvent event = new UpdateConnectionResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
+        event.settings = settings;
 
         return event;
     }
@@ -85,4 +88,7 @@ public class UpdateConnectionResponseEvent extends ResponseEvent {
         return status;
     }
 
+    public SettingsDetails getSettings() {
+        return settings;
+    }
 }

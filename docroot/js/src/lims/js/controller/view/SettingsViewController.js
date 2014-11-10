@@ -31,6 +31,17 @@ Y.LIMS.Controller.SettingsViewController = Y.Base.create('settingsViewController
             this._attachEvents();
             // Bind settings
             this._bindSettings();
+            // Start poller
+            this._startPolling();
+        },
+
+        /**
+         * Session Expired is called whenever the user session has expired. Provide all necessary cleaning like
+         * invalidation of timer, etc. At the end of the method the controller will be automatically hidden from
+         * the screen.
+         */
+        onSessionExpired: function () {
+            this._stopPolling();
         },
 
         /**
@@ -63,6 +74,41 @@ Y.LIMS.Controller.SettingsViewController = Y.Base.create('settingsViewController
             if (adminProperties) {
                 model.set('isAdminAreaOpened', adminProperties.isOpened());
             }
+        },
+
+        /**
+         * Starts poller that periodically refreshes the group list
+         *
+         * @private
+         */
+        _startPolling: function () {
+
+            // Vars
+            var model = this.get('model'),
+                poller = this.get('poller'),
+                properties = this.get('properties');
+
+            // Start only if the chat is enabled
+            if (properties.isChatEnabled()) {
+
+                // Register model to the poller
+                poller.register('settingsViewController:model', new Y.LIMS.Core.PollerEntry({
+                    model: model,       // Model that will be periodically refreshed
+                    interval: 30000     // 30 seconds period
+                }));
+            }
+        },
+
+        /**
+         * Stops poller that periodically refreshes the group list
+         *
+         * @private
+         */
+        _stopPolling: function () {
+            // Vars
+            var poller = this.get('poller');
+            // Pause
+            poller.unregister('settingsViewController:model');
         },
 
         /**
@@ -167,6 +213,24 @@ Y.LIMS.Controller.SettingsViewController = Y.Base.create('settingsViewController
                         model: model
                     });
                 }
+            },
+
+            /**
+             * An instance of poller that periodically refreshes models that are subscribed
+             *
+             * {Y.LIMS.Core.Poller}
+             */
+            poller: {
+                value: null // to be set
+            },
+
+            /**
+             * Properties object
+             *
+             * {Y.LIMS.Core.Properties}
+             */
+            properties: {
+                value: null // to be set
             }
         }
     });

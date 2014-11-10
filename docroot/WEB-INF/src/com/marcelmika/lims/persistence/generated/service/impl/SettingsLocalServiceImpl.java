@@ -119,9 +119,11 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      *
      * @param userId      id of the user whose connection should be updated
      * @param isConnected true if the user connected flag should be set to true
+     * @return Settings updated settings model
+     * @throws Exception
      */
     @Override
-    public void updateConnection(Long userId, boolean isConnected) throws Exception {
+    public Settings updateConnection(Long userId, boolean isConnected) throws Exception {
         // Get user settings
         Settings settings = getSettingsByUser(userId);
 
@@ -142,6 +144,8 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
 
         // Save
         settingsPersistence.update(settings, false);
+
+        return settings;
     }
 
     /**

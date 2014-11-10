@@ -168,10 +168,15 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         // Update connection
         try {
+
             // Save
-            SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true);
+            Settings settings = Settings.fromServiceBuilderModel(
+                    PanelLocalServiceUtil.getPanelByUser(buddy.getBuddyId()),
+                    SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true)
+            );
+
             // Success
-            return UpdateConnectionResponseEvent.success();
+            return UpdateConnectionResponseEvent.success(settings.toSettingsDetails());
         }
         // Failure
         catch (Exception exception) {

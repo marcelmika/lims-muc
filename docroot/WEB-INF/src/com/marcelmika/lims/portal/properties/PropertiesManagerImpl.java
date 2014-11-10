@@ -46,7 +46,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
     private static final int CONNECTION_LOST_THRESHOLD_MIN = 0;
     private static final int CONNECTION_LOST_THRESHOLD_MAX = 1440;
-    private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 1;
+    private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 2;
 
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MIN = 10;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 50;

@@ -285,9 +285,11 @@ public interface SettingsLocalService extends BaseLocalService,
 	*
 	* @param userId      id of the user whose connection should be updated
 	* @param isConnected true if the user connected flag should be set to true
+	* @return Settings updated settings model
+	* @throws Exception
 	*/
-	public void updateConnection(java.lang.Long userId, boolean isConnected)
-		throws java.lang.Exception;
+	public com.marcelmika.lims.persistence.generated.model.Settings updateConnection(
+		java.lang.Long userId, boolean isConnected) throws java.lang.Exception;
 
 	/**
 	* Updates connections that have the connected at value below the threshold

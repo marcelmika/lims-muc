@@ -316,10 +316,8 @@ public class SettingsLocalServiceClpInvoker {
 
 		if (_methodName63.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-			SettingsLocalServiceUtil.updateConnection((java.lang.Long)arguments[0],
+			return SettingsLocalServiceUtil.updateConnection((java.lang.Long)arguments[0],
 				((Boolean)arguments[1]).booleanValue());
-
-			return null;
 		}
 
 		if (_methodName64.equals(name) &&
