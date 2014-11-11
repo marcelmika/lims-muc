@@ -126,7 +126,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 // Remember the message count
                 currentUnreadMessagesCount = conversationModel.get('unreadMessagesCount');
                 // Update model
-                conversationModel.load(function (err, conversation) {
+                conversationModel.load({resetStopper: true}, function (err, conversation) {
                     if (!err) {
                         // New message count
                         updatedUnreadMessageCount = conversation.get('unreadMessagesCount');

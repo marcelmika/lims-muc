@@ -307,9 +307,10 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             parameters,         // Request parameters
             instance = this,    // Save the instance so we can call its methods in diff context
             response,           // Response from the server
-            stopperId = this.get('stopperId'),
+            stopperId,          // Stopper message id
             readMore = options.readMore || false,   // True if the read more parameter should be included
             resetEtag = options.resetEtag || false, // True if the etag should be reset
+            resetStopper = options.resetStopper || false, // True if the stopper id should be reset
             etag = this.get('etag');
 
         // We need to reset the etag if we want to read more. It is quite possible
@@ -319,6 +320,16 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
         if (readMore || resetEtag) {
             etag = -1;
         }
+
+        // Whenever we want to read the first page of the messages and nothing more we need
+        // to reset the stopper. If the stopper is not reset whenever the conversation etag
+        // has been changed the message feed will grove infinitely.
+        if (resetStopper) {
+            this.set('stopperId', null);
+        }
+
+        // Read the stopper id
+        stopperId = this.get('stopperId');
 
         switch (action) {
 
