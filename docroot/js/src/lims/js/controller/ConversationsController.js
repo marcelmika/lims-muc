@@ -30,20 +30,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         // The initializer runs when a MainController instance is created, and gives
         // us an opportunity to set up all sub controllers
         initializer: function () {
-            // Vars
-            var properties = this.get('properties');
-
             // Bind to already rendered conversations
             this._bindConversations();
             // Attach events
             this._attachEvents();
             // Layout
             this._layoutSubviews();
-
-            // Start polling only if the chat is enabled
-            if (properties.isChatEnabled()) {
-                this._startPolling();
-            }
 
             // Fire an event that the initialization has been finished
             Y.fire('initializationFinished');
@@ -108,7 +100,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 creator: buddyDetails,
                 participants: participants,
                 title: title,
-                serverTimeOffset: properties.getServerTimeOffset()
+                serverTimeOffset: properties.getServerTimeOffset(),
+                isCreated: false
             });
             // Add model to list
             conversationList.add(conversationModel);
@@ -173,6 +166,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 conversationId,                                     // Id of the conversation
                 conversationType,                                   // Type of the conversation
                 conversationTitle,                                  // Title of the conversation
+                etag,                                               // Conversation etag
                 unreadMessagesCount,                                // Unread messages count
                 settings = this.get('settings'),                    // Settings of logged user
                 properties = this.get('properties'),                // Portlet properties
@@ -188,6 +182,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // from the attribute on conversation node
                 conversationId = conversationNode.attr('data-conversationId');
                 conversationType = conversationNode.attr('data-conversationType');
+                etag = Y.Number.parse(conversationNode.attr('data-etag'));
                 conversationTitle = conversationNode.attr('data-conversationTitle');
                 unreadMessagesCount = conversationNode.attr('data-unreadMessagesCount');
 
@@ -199,6 +194,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         conversationId: conversationId,
                         conversationType: conversationType,
                         title: conversationTitle,
+                        etag: etag,
                         creator: buddyDetails,
                         unreadMessagesCount: unreadMessagesCount,
                         serverTimeOffset: properties.getServerTimeOffset()

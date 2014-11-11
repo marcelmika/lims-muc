@@ -48,13 +48,14 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 listView = this.get('listView'),
                 panel = this.get('panel');
 
-            // Reset counter of unread messages
-            model.resetUnreadMessagesCounter(function (err) {
-                if (!err) {
-                    // Reset badge
-                    panel.updateBadge(0, true);
-                }
-            });
+            // Only if the model is created on the server
+            if (model.get('isCreated')) {
+                // Load the model
+                model.load({
+                    resetEtag: true
+                });
+            }
+
             // Always scroll to the last message when user opens the window
             listView.scrollToBottom();
             // Add focus on textarea
@@ -110,6 +111,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @param model
          */
         updateModel: function (model) {
+
             // Vars
             var conversationModel = this.get('model'),      // Current conversation model
                 currentUnreadMessagesCount,                 // Current unread message count
@@ -270,6 +272,10 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 panelTitleText = this.get('panelTitleText'),
                 panelTriggerText = this.get('panelTriggerText');
 
+            // If there are no participants don't update the title
+            if (!participants) {
+                return;
+            }
 
             // Participants contain the currently logged user as well.
             // Thus we need to filter him first.

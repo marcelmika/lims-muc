@@ -64,6 +64,7 @@
     <li class="conversation ${selectedClass} ${hiddenClass}"
         data-conversationId="${conversation.conversationId}"
         data-conversationType="${conversation.conversationType}"
+        data-etag="${conversation.etag}"
         data-conversationTitle="${fn:escapeXml(conversation.title)}"
         data-unreadMessagesCount="${conversation.unreadMessagesCount}">
         <div class="panel-trigger">
