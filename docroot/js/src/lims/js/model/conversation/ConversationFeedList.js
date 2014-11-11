@@ -45,6 +45,12 @@ Y.LIMS.Model.ConversationFeedList = Y.Base.create('conversationFeedList', Y.Mode
         if (readMore) {
             this.set('etag', -1);
             etag = -1;
+        } else {
+            // If we don't want to read more the page size should be set to null. If the server
+            // returns 304 not modified nothing will be changed. However, if there are new conversations
+            // page should be reset so we are not going to refresh the whole feed. This is fine since
+            // if there are new conversations the feed will scroll to top.
+            pageSize = null;
         }
 
         switch (action) {
