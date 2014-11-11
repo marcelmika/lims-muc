@@ -445,7 +445,9 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Hide the view since it's not needed anymore
             addMoreView.hideView();
             // Reload model since we want the changes to show immediately
-            model.load();
+            model.load({
+                resetEtag: true
+            });
         },
 
         /**
@@ -458,7 +460,9 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             var model = this.get('model');
 
             // Reload model
-            model.load();
+            model.load({
+                resetEtag: true
+            });
         },
 
         /**
