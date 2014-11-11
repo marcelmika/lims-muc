@@ -165,16 +165,18 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
         // Attach events to panel content
         panelContent.on('scroll', this._onPanelContentScroll, this);
-        panelContent.on('mouseenter', this._onPanelContentMouseEnter, this);
-        panelContent.on('mouseleave', this._onPanelContentMouseLeave, this);
+        panelContent.after('mouseenter', this._onPanelContentMouseEnter, this);
+        panelContent.before('mouseleave', this._onPanelContentMouseLeave, this);
     },
 
     /**
      * Call this method when the view should attach mouse wheel event
      */
     _attachMouseWheel: function () {
+        // The previous attachment needs to be cleared first
+        this._detachMouseWheel();
         // Subscribe to the mouse wheel event
-        this.set('mouseWheelSubscription', Y.on('mousewheel', this._onPanelContentMouseWheel, this));
+        this.set('mouseWheelSubscription', Y.on('mousewheel', this._onContainerMouseWheel, this));
     },
 
     /**
@@ -183,8 +185,11 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     _detachMouseWheel: function () {
         // Vars
         var mouseWheelSubscription = this.get('mouseWheelSubscription');
-        // Detach subscription
-        mouseWheelSubscription.detach();
+
+        if (mouseWheelSubscription) {
+            // Detach subscription
+            mouseWheelSubscription.detach();
+        }
     },
 
 
@@ -676,9 +681,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @return {*}
      * @private
      */
-    _onPanelContentMouseWheel: function (event) {
+    _onContainerMouseWheel: function (event) {
         // Vars
         var panelContent = this.get('panelContent');
+
         // Prevent scrolling of the whole window
         return this.preventScroll(event, panelContent);
     },

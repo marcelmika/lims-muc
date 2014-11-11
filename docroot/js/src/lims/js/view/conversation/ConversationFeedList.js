@@ -76,14 +76,16 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         model.on('readError', this._onConversationFeedReadError, this);
         errorView.on('resendButtonClick', this._onConversationFeedReadRetry, this);
         container.on('scroll', this._onContainerContentScroll, this);
-        container.on('mouseenter', this._onContainerContentMouseEnter, this);
-        container.on('mouseleave', this._onContainerContentMouseLeave, this);
+        container.after('mouseenter', this._onContainerContentMouseEnter, this);
+        container.before('mouseleave', this._onContainerContentMouseLeave, this);
     },
 
     /**
      * Call this method when the view should attach mouse wheel event
      */
     _attachMouseWheel: function () {
+        // The previous attachment needs to be cleared first
+        this._detachMouseWheel();
         // Subscribe to the mouse wheel event
         this.set('mouseWheelSubscription', Y.on('mousewheel', this._onContainerMouseWheel, this));
     },
@@ -94,8 +96,11 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
     _detachMouseWheel: function () {
         // Vars
         var mouseWheelSubscription = this.get('mouseWheelSubscription');
-        // Detach subscription
-        mouseWheelSubscription.detach();
+
+        if (mouseWheelSubscription) {
+            // Detach subscription
+            mouseWheelSubscription.detach();
+        }
     },
 
     /**
@@ -397,6 +402,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      */
     _onContainerMouseWheel: function (event) {
         var container = this.get('container');
+
         // Prevent scrolling of the whole window
         return this.preventScroll(event, container);
     }

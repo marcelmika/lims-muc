@@ -45,14 +45,16 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         model.after('groupsReadSuccess', this._onGroupsReadSuccess, this);
         model.after('groupsReadError', this._onGroupsReadError, this);
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
-        container.on('mouseenter', this._onContainerContentMouseEnter, this);
-        container.on('mouseleave', this._onContainerContentMouseLeave, this);
+        container.after('mouseenter', this._onContainerContentMouseEnter, this);
+        container.before('mouseleave', this._onContainerContentMouseLeave, this);
     },
 
     /**
      * Call this method when the view should attach mouse wheel event
      */
     _attachMouseWheel: function () {
+        // The previous attachment needs to be cleared first
+        this._detachMouseWheel();
         // Subscribe to the mouse wheel event
         this.set('mouseWheelSubscription', Y.on('mousewheel', this._onContainerMouseWheel, this));
     },
@@ -63,8 +65,11 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     _detachMouseWheel: function () {
         // Vars
         var mouseWheelSubscription = this.get('mouseWheelSubscription');
-        // Detach subscription
-        mouseWheelSubscription.detach();
+
+        if (mouseWheelSubscription) {
+            // Detach subscription
+            mouseWheelSubscription.detach();
+        }
     },
 
     /**
@@ -261,6 +266,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     _onContainerMouseWheel: function (event) {
         // Vars
         var container = this.get('container');
+
         // Prevent scrolling of the whole window
         return this.preventScroll(event, container);
     }
