@@ -18,9 +18,9 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.domain.ConversationType;
-import com.marcelmika.lims.persistence.domain.SynchronizationType;
 import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.model.Panel;
+import com.marcelmika.lims.persistence.generated.model.Participant;
 import com.marcelmika.lims.persistence.generated.model.Settings;
 import com.marcelmika.lims.persistence.generated.service.base.SynchronizationLocalServiceBaseImpl;
 
@@ -61,12 +61,18 @@ public class SynchronizationLocalServiceImpl
      */
     @Override
     public void synchronizeSUC_1_2_0() throws SystemException {
+
+        // Important note: The operations are not idempotent.
+        // In other words, don't change the order of the operations below
+
         // Settings
         synchronizeSUCSettings_1_2_0();
         // Panel
         synchronizeSUCPanel_1_2_0();
         // Conversation
         synchronizeSUCConversation_1_2_0();
+        // Participant
+        synchronizeSUCParticipant_1_2_0();
     }
 
     /**
@@ -207,6 +213,68 @@ public class SynchronizationLocalServiceImpl
 
                 // Save the conversation
                 conversationPersistence.update(conversation, false);
+            }
+
+            // Increase index
+            index++;
+
+        } while (objects.size() != 0); // Continue until there are no more objects
+    }
+
+    /**
+     * Sync SUC Participant table for SUC 1.2.0
+     *
+     * @throws SystemException
+     */
+    private void synchronizeSUCParticipant_1_2_0() throws SystemException {
+
+        List<Object[]> objects;
+        int index = 0;
+        int step = 100;
+
+        do {
+
+            // Find start and end
+            int start = index * step;
+            int end = (index + 1) * step;
+
+            // Get from db
+            objects = synchronizationFinder.findSUCParticipant_1_2_0(start, end);
+
+            for (Object[] object : objects) {
+
+                // First, find the conversation
+                Long cid = (Long) object[1];
+                Long participantId = (Long) object[2];
+
+
+                // This will find the conversation that belongs to the
+                Conversation conversation = conversationPersistence.fetchBySyncIdSUC(cid);
+
+                // We cannot add a participant to a non-existing conversation
+                if (conversation == null) {
+                    continue;
+                }
+
+                // Check if there is such participant already
+                Participant participant = participantPersistence.fetchByCidParticipantId(
+                        conversation.getCid(), participantId
+                );
+
+                // The participant is not in the db yet
+                if (participant == null) {
+                    // Create a new one
+                    participant = participantPersistence.create(counterLocalService.increment());
+                    participant.setCid(conversation.getCid());
+                    participant.setParticipantId(participantId);
+                    participant.setUnreadMessagesCount((Integer) object[3]);
+                    participant.setIsOpened((Boolean) object[4]);
+                    participant.setIsCreator(false); // default
+                    participant.setHasLeft(false); // will never happen in SUC
+                    participant.setOpenedAt(new Date((Long)object[5]));
+
+                    participantPersistence.update(participant, false);
+                }
             }
 
             // Increase index

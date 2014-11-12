@@ -55,4 +55,20 @@
 		]]>
     </sql>
 
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.findParticipant.SUC-1.2.0">
+        <![CDATA[
+			SELECT
+				Lims_Participant.pid AS pid,
+				Lims_Participant.cid AS cid,
+				Lims_Participant.participantId AS participantId,
+				Lims_Participant.unreadMessagesCount AS unreadMessagesCount,
+				Lims_Participant.isOpened AS isOpened,
+				Lims_Participant.openedAt AS openedAt
+			FROM
+				Lims_Participant
+		    ORDER BY
+		        Lims_Participant.pid
+		]]>
+    </sql>
+
 </custom-sql>
