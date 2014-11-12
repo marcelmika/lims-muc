@@ -274,8 +274,9 @@ public class SynchronizationLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static void syncSUC() throws java.lang.Exception {
-		getService().syncSUC();
+	public static void synchronizeSUC_1_2_0()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().synchronizeSUC_1_2_0();
 	}
 
 	public static void clearService() {

@@ -116,7 +116,7 @@ public class SynchronizationLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "syncSUC";
+		_methodName19 = "synchronizeSUC_1_2_0";
 
 		_methodParameterTypes19 = new String[] {  };
 	}
@@ -671,7 +671,8 @@ public class SynchronizationLocalServiceClp
 	}
 
 	@Override
-	public void syncSUC() throws java.lang.Exception {
+	public void synchronizeSUC_1_2_0()
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,
 				_methodParameterTypes19, new Object[] {  });
@@ -679,8 +680,8 @@ public class SynchronizationLocalServiceClp
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

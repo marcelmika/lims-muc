@@ -87,7 +87,7 @@
 	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationModelImpl">
 		<attributes>
 			<id name="sid" />
-			<basic name="mucSync" />
+			<basic name="sucSync" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

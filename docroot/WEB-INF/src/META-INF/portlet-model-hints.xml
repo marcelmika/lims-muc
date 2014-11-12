@@ -49,6 +49,6 @@
 	</model>
 	<model name="com.marcelmika.lims.persistence.generated.model.Synchronization">
 		<field name="sid" type="long" />
-		<field name="mucSync" type="boolean" />
+		<field name="sucSync" type="boolean" />
 	</model>
 </model-hints>

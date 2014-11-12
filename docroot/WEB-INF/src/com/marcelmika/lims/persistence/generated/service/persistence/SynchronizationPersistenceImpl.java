@@ -325,7 +325,7 @@ public class SynchronizationPersistenceImpl extends BasePersistenceImpl<Synchron
 		synchronizationImpl.setPrimaryKey(synchronization.getPrimaryKey());
 
 		synchronizationImpl.setSid(synchronization.getSid());
-		synchronizationImpl.setMucSync(synchronization.isMucSync());
+		synchronizationImpl.setSucSync(synchronization.isSucSync());
 
 		return synchronizationImpl;
 	}

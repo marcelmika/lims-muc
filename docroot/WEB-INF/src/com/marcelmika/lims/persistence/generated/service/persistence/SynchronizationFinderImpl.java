@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.lims.persistence.generated.model.Synchronization;
+import org.omg.CORBA.SystemException;
 
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
 
     // Settings
     private static final String FIND_SETTINGS_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".findSettings.SUC-1.2.0";
-    private static final String COUNT_SETTINGS_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".countSettings.SUC-1.2.0";
 
 
     /**
@@ -45,11 +45,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
      * @param start int
      * @param end   int
      * @return list of objects with settings rows
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCSettings_1_2_0(int start, int end) throws Exception {
+    public List<Object[]> findSUCSettings_1_2_0(int start, int end) throws SystemException {
 
         Session session = null;
 
@@ -79,43 +79,5 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             closeSession(session);
         }
     }
-
-
-    /**
-     * Counts number of rows in settings table for SUC v1.2.0
-     *
-     * @return number of rows
-     * @throws Exception
-     */
-    @Override
-    @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
-    public Integer countSUCSettings_1_2_0() throws Exception {
-
-        Session session = null;
-
-        try {
-            // Open the database session
-            session = openSession();
-            // Generate SQL
-            String sql = CustomSQLUtil.get(COUNT_SETTINGS_SUC_1_2_0);
-
-            // Create query from SQL
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("settingsCount", Type.INTEGER);
-
-            // Get the result
-            List<Integer> result = (List<Integer>) QueryUtil.list(query, getDialect(), 0, 1);
-
-            // Return the count
-            return result.get(0);
-
-        } finally {
-            // Session needs to be closed if something goes wrong
-            closeSession(session);
-        }
-    }
-
 
 }

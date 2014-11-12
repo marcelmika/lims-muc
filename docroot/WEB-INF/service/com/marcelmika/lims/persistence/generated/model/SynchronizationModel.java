@@ -71,25 +71,25 @@ public interface SynchronizationModel extends BaseModel<Synchronization> {
 	public void setSid(long sid);
 
 	/**
-	 * Returns the muc sync of this synchronization.
+	 * Returns the suc sync of this synchronization.
 	 *
-	 * @return the muc sync of this synchronization
+	 * @return the suc sync of this synchronization
 	 */
-	public boolean getMucSync();
+	public boolean getSucSync();
 
 	/**
-	 * Returns <code>true</code> if this synchronization is muc sync.
+	 * Returns <code>true</code> if this synchronization is suc sync.
 	 *
-	 * @return <code>true</code> if this synchronization is muc sync; <code>false</code> otherwise
+	 * @return <code>true</code> if this synchronization is suc sync; <code>false</code> otherwise
 	 */
-	public boolean isMucSync();
+	public boolean isSucSync();
 
 	/**
-	 * Sets whether this synchronization is muc sync.
+	 * Sets whether this synchronization is suc sync.
 	 *
-	 * @param mucSync the muc sync of this synchronization
+	 * @param sucSync the suc sync of this synchronization
 	 */
-	public void setMucSync(boolean mucSync);
+	public void setSucSync(boolean sucSync);
 
 	@Override
 	public boolean isNew();

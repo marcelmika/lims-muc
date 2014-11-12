@@ -23,19 +23,9 @@
 				Lims_Settings.adminAreaOpened AS adminAreaOpened
 			FROM
 				Lims_Settings
+		    ORDER BY
+		        Lims_Settings.sid
 		]]>
     </sql>
-
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.countSettings.SUC-1.2.0">
-        <![CDATA[
-			SELECT
-			    COUNT(Lims_Settings.sid) AS settingsCount
-			FROM
-				Lims_Settings
-		]]>
-    </sql>
-
-
-
 
 </custom-sql>

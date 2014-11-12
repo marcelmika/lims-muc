@@ -58,9 +58,9 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 	public static final String TABLE_NAME = "Limsmuc_Synchronization";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "sid", Types.BIGINT },
-			{ "mucSync", Types.BOOLEAN }
+			{ "sucSync", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Synchronization (sid LONG not null primary key,mucSync BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Synchronization (sid LONG not null primary key,sucSync BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Synchronization";
 	public static final String ORDER_BY_JPQL = " ORDER BY synchronization.sid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Synchronization.sid ASC";
@@ -115,7 +115,7 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("sid", getSid());
-		attributes.put("mucSync", getMucSync());
+		attributes.put("sucSync", getSucSync());
 
 		return attributes;
 	}
@@ -128,10 +128,10 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 			setSid(sid);
 		}
 
-		Boolean mucSync = (Boolean)attributes.get("mucSync");
+		Boolean sucSync = (Boolean)attributes.get("sucSync");
 
-		if (mucSync != null) {
-			setMucSync(mucSync);
+		if (sucSync != null) {
+			setSucSync(sucSync);
 		}
 	}
 
@@ -146,18 +146,18 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 	}
 
 	@Override
-	public boolean getMucSync() {
-		return _mucSync;
+	public boolean getSucSync() {
+		return _sucSync;
 	}
 
 	@Override
-	public boolean isMucSync() {
-		return _mucSync;
+	public boolean isSucSync() {
+		return _sucSync;
 	}
 
 	@Override
-	public void setMucSync(boolean mucSync) {
-		_mucSync = mucSync;
+	public void setSucSync(boolean sucSync) {
+		_sucSync = sucSync;
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 		SynchronizationImpl synchronizationImpl = new SynchronizationImpl();
 
 		synchronizationImpl.setSid(getSid());
-		synchronizationImpl.setMucSync(getMucSync());
+		synchronizationImpl.setSucSync(getSucSync());
 
 		synchronizationImpl.resetOriginalValues();
 
@@ -247,7 +247,7 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 
 		synchronizationCacheModel.sid = getSid();
 
-		synchronizationCacheModel.mucSync = getMucSync();
+		synchronizationCacheModel.sucSync = getSucSync();
 
 		return synchronizationCacheModel;
 	}
@@ -258,8 +258,8 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 
 		sb.append("{sid=");
 		sb.append(getSid());
-		sb.append(", mucSync=");
-		sb.append(getMucSync());
+		sb.append(", sucSync=");
+		sb.append(getSucSync());
 		sb.append("}");
 
 		return sb.toString();
@@ -279,8 +279,8 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 		sb.append(getSid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>mucSync</column-name><column-value><![CDATA[");
-		sb.append(getMucSync());
+			"<column><column-name>sucSync</column-name><column-value><![CDATA[");
+		sb.append(getSucSync());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -293,6 +293,6 @@ public class SynchronizationModelImpl extends BaseModelImpl<Synchronization>
 			Synchronization.class
 		};
 	private long _sid;
-	private boolean _mucSync;
+	private boolean _sucSync;
 	private Synchronization _escapedModel;
 }

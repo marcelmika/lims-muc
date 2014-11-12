@@ -9,6 +9,7 @@
 
 package com.marcelmika.lims.persistence.service;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.api.events.synchronization.SynchronizeSUCRequestEvent;
@@ -36,19 +37,41 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     @Override
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event) {
 
-        // Synchronize SUC
-        try {
-            // Let the persistence handle it
-            SynchronizationLocalServiceUtil.syncSUC();
+        boolean success = false;
 
-            // Success
+        // Try to synchronize with SUC v1.2.0
+        if (synchronizeSUC_1_2_0()) {
+            success = true;
+        }
+
+
+        // Success
+        if (success) {
             return SynchronizeSUCResponseEvent.success();
         }
         // Failure
-        catch (Exception exception) {
-            return SynchronizeSUCResponseEvent.failure(
-                    SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE, exception
-            );
+        else {
+            return SynchronizeSUCResponseEvent.failure(SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE);
+        }
+    }
+
+    /**
+     * Synchronizes with SUC v1.2.0
+     *
+     * @return true if the sync was successful, false otherwise
+     */
+    private boolean synchronizeSUC_1_2_0() {
+        // Let the persistence handle it
+        try {
+            // Synchronize
+            SynchronizationLocalServiceUtil.synchronizeSUC_1_2_0();
+
+            // Success
+            return true;
+        }
+        // Failure
+        catch (SystemException e) {
+            return false;
         }
     }
 }

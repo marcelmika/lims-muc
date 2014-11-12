@@ -22,13 +22,8 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  */
 public class SynchronizationFinderUtil {
 	public static java.util.List<java.lang.Object[]> findSUCSettings_1_2_0(
-		int start, int end) throws java.lang.Exception {
+		int start, int end) throws org.omg.CORBA.SystemException {
 		return getFinder().findSUCSettings_1_2_0(start, end);
-	}
-
-	public static java.lang.Integer countSUCSettings_1_2_0()
-		throws java.lang.Exception {
-		return getFinder().countSUCSettings_1_2_0();
 	}
 
 	public static SynchronizationFinder getFinder() {

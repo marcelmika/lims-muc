@@ -30,7 +30,7 @@ public class SynchronizationSoap implements Serializable {
 		SynchronizationSoap soapModel = new SynchronizationSoap();
 
 		soapModel.setSid(model.getSid());
-		soapModel.setMucSync(model.getMucSync());
+		soapModel.setSucSync(model.getSucSync());
 
 		return soapModel;
 	}
@@ -93,18 +93,18 @@ public class SynchronizationSoap implements Serializable {
 		_sid = sid;
 	}
 
-	public boolean getMucSync() {
-		return _mucSync;
+	public boolean getSucSync() {
+		return _sucSync;
 	}
 
-	public boolean isMucSync() {
-		return _mucSync;
+	public boolean isSucSync() {
+		return _sucSync;
 	}
 
-	public void setMucSync(boolean mucSync) {
-		_mucSync = mucSync;
+	public void setSucSync(boolean sucSync) {
+		_sucSync = sucSync;
 	}
 
 	private long _sid;
-	private boolean _mucSync;
+	private boolean _sucSync;
 }

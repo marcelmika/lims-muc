@@ -114,7 +114,7 @@ public class SynchronizationLocalServiceClpInvoker {
 
 		_methodParameterTypes61 = new String[] { "java.lang.String" };
 
-		_methodName66 = "syncSUC";
+		_methodName66 = "synchronizeSUC_1_2_0";
 
 		_methodParameterTypes66 = new String[] {  };
 	}
@@ -222,7 +222,7 @@ public class SynchronizationLocalServiceClpInvoker {
 
 		if (_methodName66.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
-			SynchronizationLocalServiceUtil.syncSUC();
+			SynchronizationLocalServiceUtil.synchronizeSUC_1_2_0();
 
 			return null;
 		}

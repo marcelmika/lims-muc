@@ -74,7 +74,7 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("sid", getSid());
-		attributes.put("mucSync", getMucSync());
+		attributes.put("sucSync", getSucSync());
 
 		return attributes;
 	}
@@ -87,10 +87,10 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 			setSid(sid);
 		}
 
-		Boolean mucSync = (Boolean)attributes.get("mucSync");
+		Boolean sucSync = (Boolean)attributes.get("sucSync");
 
-		if (mucSync != null) {
-			setMucSync(mucSync);
+		if (sucSync != null) {
+			setSucSync(sucSync);
 		}
 	}
 
@@ -118,26 +118,26 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 	}
 
 	@Override
-	public boolean getMucSync() {
-		return _mucSync;
+	public boolean getSucSync() {
+		return _sucSync;
 	}
 
 	@Override
-	public boolean isMucSync() {
-		return _mucSync;
+	public boolean isSucSync() {
+		return _sucSync;
 	}
 
 	@Override
-	public void setMucSync(boolean mucSync) {
-		_mucSync = mucSync;
+	public void setSucSync(boolean sucSync) {
+		_sucSync = sucSync;
 
 		if (_synchronizationRemoteModel != null) {
 			try {
 				Class<?> clazz = _synchronizationRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setMucSync", boolean.class);
+				Method method = clazz.getMethod("setSucSync", boolean.class);
 
-				method.invoke(_synchronizationRemoteModel, mucSync);
+				method.invoke(_synchronizationRemoteModel, sucSync);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -217,7 +217,7 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 		SynchronizationClp clone = new SynchronizationClp();
 
 		clone.setSid(getSid());
-		clone.setMucSync(getMucSync());
+		clone.setSucSync(getSucSync());
 
 		return clone;
 	}
@@ -270,8 +270,8 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 
 		sb.append("{sid=");
 		sb.append(getSid());
-		sb.append(", mucSync=");
-		sb.append(getMucSync());
+		sb.append(", sucSync=");
+		sb.append(getSucSync());
 		sb.append("}");
 
 		return sb.toString();
@@ -291,8 +291,8 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 		sb.append(getSid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>mucSync</column-name><column-value><![CDATA[");
-		sb.append(getMucSync());
+			"<column><column-name>sucSync</column-name><column-value><![CDATA[");
+		sb.append(getSucSync());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -301,6 +301,6 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 	}
 
 	private long _sid;
-	private boolean _mucSync;
+	private boolean _sucSync;
 	private BaseModel<?> _synchronizationRemoteModel;
 }

@@ -50,7 +50,7 @@ public class SynchronizationWrapper implements Synchronization,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("sid", getSid());
-		attributes.put("mucSync", getMucSync());
+		attributes.put("sucSync", getSucSync());
 
 		return attributes;
 	}
@@ -63,10 +63,10 @@ public class SynchronizationWrapper implements Synchronization,
 			setSid(sid);
 		}
 
-		Boolean mucSync = (Boolean)attributes.get("mucSync");
+		Boolean sucSync = (Boolean)attributes.get("sucSync");
 
-		if (mucSync != null) {
-			setMucSync(mucSync);
+		if (sucSync != null) {
+			setSucSync(sucSync);
 		}
 	}
 
@@ -111,33 +111,33 @@ public class SynchronizationWrapper implements Synchronization,
 	}
 
 	/**
-	* Returns the muc sync of this synchronization.
+	* Returns the suc sync of this synchronization.
 	*
-	* @return the muc sync of this synchronization
+	* @return the suc sync of this synchronization
 	*/
 	@Override
-	public boolean getMucSync() {
-		return _synchronization.getMucSync();
+	public boolean getSucSync() {
+		return _synchronization.getSucSync();
 	}
 
 	/**
-	* Returns <code>true</code> if this synchronization is muc sync.
+	* Returns <code>true</code> if this synchronization is suc sync.
 	*
-	* @return <code>true</code> if this synchronization is muc sync; <code>false</code> otherwise
+	* @return <code>true</code> if this synchronization is suc sync; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean isMucSync() {
-		return _synchronization.isMucSync();
+	public boolean isSucSync() {
+		return _synchronization.isSucSync();
 	}
 
 	/**
-	* Sets whether this synchronization is muc sync.
+	* Sets whether this synchronization is suc sync.
 	*
-	* @param mucSync the muc sync of this synchronization
+	* @param sucSync the suc sync of this synchronization
 	*/
 	@Override
-	public void setMucSync(boolean mucSync) {
-		_synchronization.setMucSync(mucSync);
+	public void setSucSync(boolean sucSync) {
+		_synchronization.setSucSync(sucSync);
 	}
 
 	@Override

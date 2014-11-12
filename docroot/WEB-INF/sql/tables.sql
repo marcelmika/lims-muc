@@ -45,5 +45,5 @@ create table Limsmuc_Settings (
 
 create table Limsmuc_Synchronization (
 	sid LONG not null primary key,
-	mucSync BOOLEAN
+	sucSync BOOLEAN
 );

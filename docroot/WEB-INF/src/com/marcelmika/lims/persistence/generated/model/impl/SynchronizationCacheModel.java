@@ -39,8 +39,8 @@ public class SynchronizationCacheModel implements CacheModel<Synchronization>,
 
 		sb.append("{sid=");
 		sb.append(sid);
-		sb.append(", mucSync=");
-		sb.append(mucSync);
+		sb.append(", sucSync=");
+		sb.append(sucSync);
 		sb.append("}");
 
 		return sb.toString();
@@ -51,7 +51,7 @@ public class SynchronizationCacheModel implements CacheModel<Synchronization>,
 		SynchronizationImpl synchronizationImpl = new SynchronizationImpl();
 
 		synchronizationImpl.setSid(sid);
-		synchronizationImpl.setMucSync(mucSync);
+		synchronizationImpl.setSucSync(sucSync);
 
 		synchronizationImpl.resetOriginalValues();
 
@@ -61,16 +61,16 @@ public class SynchronizationCacheModel implements CacheModel<Synchronization>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		sid = objectInput.readLong();
-		mucSync = objectInput.readBoolean();
+		sucSync = objectInput.readBoolean();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(sid);
-		objectOutput.writeBoolean(mucSync);
+		objectOutput.writeBoolean(sucSync);
 	}
 
 	public long sid;
-	public boolean mucSync;
+	public boolean sucSync;
 }

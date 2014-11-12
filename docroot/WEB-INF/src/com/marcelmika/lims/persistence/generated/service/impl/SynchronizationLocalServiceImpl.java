@@ -50,40 +50,29 @@ public class SynchronizationLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.SynchronizationLocalServiceUtil} to access the synchronization local service.
 	 */
 
-    public void syncSUC() throws SystemException {
 
-        log.info("SYNCING!!");
+    /**
+     * Synchronizes LIMS SUC v1.2.0
+     *
+     * @throws SystemException
+     */
+    @Override
+    public void synchronizeSUC_1_2_0() throws SystemException {
+        // Settings
+        synchronizeSUCSettings_1_2_0();
 
-        syncSUCSettings();
-
-    }
-
-    private void syncSUCSettings() throws SystemException {
-
-        boolean success = false;
-
-        if (syncSUCSettings_1_2_0()) {
-            success = true;
-        }
-
-
-        if (!success) {
-            throw new SystemException("Cannot find any SUC settings table");
-        }
     }
 
     /**
      * Sync SUC Settings table for SUC 1.2.0
      *
-     * @return true on success, false on error
+     * @throws SystemException
      */
-    private boolean syncSUCSettings_1_2_0() {
+    private void synchronizeSUCSettings_1_2_0() throws SystemException {
 
         List<Object[]> objects;
         int index = 0;
-        int step = 1;
-
-        try {
+        int step = 100;
 
             do {
                 // Find start and end
@@ -130,19 +119,5 @@ public class SynchronizationLocalServiceImpl
 
             } while (objects.size() != 0); // Continue until there are no more objects
 
-
-            // Success
-            return true;
-
-        }
-        // Failure
-        catch (Exception e) {
-            // Log
-            if (log.isDebugEnabled()) {
-                log.debug(e);
-            }
-            return false;
-        }
     }
-
 }

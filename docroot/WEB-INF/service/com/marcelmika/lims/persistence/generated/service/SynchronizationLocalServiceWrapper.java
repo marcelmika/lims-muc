@@ -289,8 +289,9 @@ public class SynchronizationLocalServiceWrapper
 	}
 
 	@Override
-	public void syncSUC() throws java.lang.Exception {
-		_synchronizationLocalService.syncSUC();
+	public void synchronizeSUC_1_2_0()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_synchronizationLocalService.synchronizeSUC_1_2_0();
 	}
 
 	/**

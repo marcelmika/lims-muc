@@ -68,6 +68,6 @@
 		<id name="sid" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="mucSync" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sucSync" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 </hibernate-mapping>
