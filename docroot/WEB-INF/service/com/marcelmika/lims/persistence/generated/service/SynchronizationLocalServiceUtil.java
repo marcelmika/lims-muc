@@ -274,6 +274,11 @@ public class SynchronizationLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* Synchronizes LIMS SUC v1.2.0
+	*
+	* @throws SystemException
+	*/
 	public static void synchronizeSUC_1_2_0()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().synchronizeSUC_1_2_0();

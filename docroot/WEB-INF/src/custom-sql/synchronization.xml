@@ -28,4 +28,17 @@
 		]]>
     </sql>
 
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.findPanel.SUC-1.2.0">
+        <![CDATA[
+			SELECT
+				Lims_Panel.pid AS pid,
+				Lims_Panel.userId AS userId,
+				Lims_Panel.activePanelId AS activePanelId
+			FROM
+				Lims_Panel
+		    ORDER BY
+		        Lims_Panel.pid
+		]]>
+    </sql>
+
 </custom-sql>

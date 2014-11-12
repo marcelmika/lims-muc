@@ -26,6 +26,11 @@ public class SynchronizationFinderUtil {
 		return getFinder().findSUCSettings_1_2_0(start, end);
 	}
 
+	public static java.util.List<java.lang.Object[]> findSUCPanel_1_2_0(
+		int start, int end) throws org.omg.CORBA.SystemException {
+		return getFinder().findSUCPanel_1_2_0(start, end);
+	}
+
 	public static SynchronizationFinder getFinder() {
 		if (_finder == null) {
 			_finder = (SynchronizationFinder)PortletBeanLocatorUtil.locate(com.marcelmika.lims.persistence.generated.service.ClpSerializer.getServletContextName(),

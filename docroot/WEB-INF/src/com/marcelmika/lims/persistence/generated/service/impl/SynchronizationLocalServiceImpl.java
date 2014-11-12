@@ -14,11 +14,12 @@
 
 package com.marcelmika.lims.persistence.generated.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.model.Settings;
 import com.marcelmika.lims.persistence.generated.service.base.SynchronizationLocalServiceBaseImpl;
-import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.Date;
 import java.util.List;
@@ -40,16 +41,15 @@ import java.util.List;
 public class SynchronizationLocalServiceImpl
         extends SynchronizationLocalServiceBaseImpl {
 
-    // Log
-    @SuppressWarnings("unused")
-    private static Log log = LogFactoryUtil.getLog(SynchronizationLocalServiceImpl.class);
-
 	/*
      * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.SynchronizationLocalServiceUtil} to access the synchronization local service.
 	 */
 
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(SynchronizationLocalServiceImpl.class);
 
     /**
      * Synchronizes LIMS SUC v1.2.0
@@ -60,7 +60,8 @@ public class SynchronizationLocalServiceImpl
     public void synchronizeSUC_1_2_0() throws SystemException {
         // Settings
         synchronizeSUCSettings_1_2_0();
-
+        // Panel
+        synchronizeSUCPanel_1_2_0();
     }
 
     /**
@@ -74,50 +75,89 @@ public class SynchronizationLocalServiceImpl
         int index = 0;
         int step = 100;
 
-            do {
-                // Find start and end
-                int start = index * step;
-                int end = (index + 1) * step;
+        do {
+            // Find start and end
+            int start = index * step;
+            int end = (index + 1) * step;
 
-                // Get from db
-                objects = synchronizationFinder.findSUCSettings_1_2_0(start, end);
+            // Get from db
+            objects = synchronizationFinder.findSUCSettings_1_2_0(start, end);
 
-                for (Object[] object : objects) {
+            for (Object[] object : objects) {
 
-                    // Get the user ID
-                    Long userId = (Long) object[1];
+                // Get the user ID
+                Long userId = (Long) object[1];
 
-                    // If the settings for the particular user are already there do nothing
-                    Settings settings = settingsPersistence.fetchByUserId(userId);
-                    if (settings != null) {
-                        continue;
-                    }
-
-                    // Map suc settings to muc settings
-                    settings = settingsPersistence.create(counterLocalService.increment());
-                    settings.setUserId((Long) object[1]);
-                    settings.setPresence((String) object[2]);
-                    settings.setPresenceUpdatedAt(new Date((Long) object[3]));
-                    settings.setMute((Boolean) object[4]);
-                    settings.setChatEnabled((Boolean) object[5]);
-                    settings.setAdminAreaOpened((Boolean) object[6]);
-                    // Presence needs to be set to online because of the different presence system in muc
-                    if (settings.getPresence().equals("presence.off")) {
-                        settings.setPresence("presence.online");
-                    }
-                    settings.setConnected(false);
-                    settings.setConnectedAt(new Date(0));
-                    // Save
-                    settingsPersistence.update(settings, false);
-
-                    log.info(settings);
+                // If the settings for the particular user are already there do nothing
+                Settings settings = settingsPersistence.fetchByUserId(userId);
+                if (settings != null) {
+                    continue;
                 }
 
-                // Increase index
-                index++;
+                // Map suc settings object to muc settings object
+                settings = settingsPersistence.create(counterLocalService.increment());
+                settings.setUserId((Long) object[1]);
+                settings.setPresence((String) object[2]);
+                settings.setPresenceUpdatedAt(new Date((Long) object[3]));
+                settings.setMute((Boolean) object[4]);
+                settings.setChatEnabled((Boolean) object[5]);
+                settings.setAdminAreaOpened((Boolean) object[6]);
+                // Presence needs to be set to online because of the different presence system in muc
+                if (settings.getPresence().equals("presence.off")) {
+                    settings.setPresence("presence.online");
+                }
+                settings.setConnected(false);
+                settings.setConnectedAt(new Date(0));
+                // Save
+                settingsPersistence.update(settings, false);
+            }
 
+            // Increase index
+            index++;
 
-            } while (objects.size() != 0); // Continue until there are no more objects
+        } while (objects.size() != 0); // Continue until there are no more objects
+    }
 
+    /**
+     * Sync SUC Panel table for SUC 1.2.0
+     *
+     * @throws SystemException
+     */
+    private void synchronizeSUCPanel_1_2_0() throws SystemException {
+
+        List<Object[]> objects;
+        int index = 0;
+        int step = 100;
+
+        do {
+            // Find start and end
+            int start = index * step;
+            int end = (index + 1) * step;
+
+            // Get from db
+            objects = synchronizationFinder.findSUCPanel_1_2_0(start, end);
+
+            for (Object[] object : objects) {
+                // Get the user ID
+                Long userId = (Long) object[1];
+
+                // If the panel row for the particular user is already there do nothing
+                Panel panel = panelPersistence.fetchByUserId(userId);
+                if (panel != null) {
+                    continue;
+                }
+
+                // Map suc panel object to muc object
+                panel = panelPersistence.create(counterLocalService.increment());
+                panel.setUserId((Long) object[1]);
+                panel.setActivePanelId((String) object[2]);
+                // Save
+                panelPersistence.update(panel, false);
+            }
+
+            // Increase index
+            index++;
+
+        } while (objects.size() != 0); // Continue until there are no more objects
     }
 }

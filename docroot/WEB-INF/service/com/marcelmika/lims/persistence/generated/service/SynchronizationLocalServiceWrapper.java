@@ -288,6 +288,11 @@ public class SynchronizationLocalServiceWrapper
 			arguments);
 	}
 
+	/**
+	* Synchronizes LIMS SUC v1.2.0
+	*
+	* @throws SystemException
+	*/
 	@Override
 	public void synchronizeSUC_1_2_0()
 		throws com.liferay.portal.kernel.exception.SystemException {
