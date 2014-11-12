@@ -54,6 +54,8 @@ public class ConversationWrapper implements Conversation,
 		attributes.put("conversationId", getConversationId());
 		attributes.put("conversationType", getConversationType());
 		attributes.put("updatedAt", getUpdatedAt());
+		attributes.put("syncId", getSyncId());
+		attributes.put("syncType", getSyncType());
 
 		return attributes;
 	}
@@ -82,6 +84,18 @@ public class ConversationWrapper implements Conversation,
 
 		if (updatedAt != null) {
 			setUpdatedAt(updatedAt);
+		}
+
+		Long syncId = (Long)attributes.get("syncId");
+
+		if (syncId != null) {
+			setSyncId(syncId);
+		}
+
+		Integer syncType = (Integer)attributes.get("syncType");
+
+		if (syncType != null) {
+			setSyncType(syncType);
 		}
 	}
 
@@ -183,6 +197,46 @@ public class ConversationWrapper implements Conversation,
 	@Override
 	public void setUpdatedAt(java.util.Date updatedAt) {
 		_conversation.setUpdatedAt(updatedAt);
+	}
+
+	/**
+	* Returns the sync ID of this conversation.
+	*
+	* @return the sync ID of this conversation
+	*/
+	@Override
+	public long getSyncId() {
+		return _conversation.getSyncId();
+	}
+
+	/**
+	* Sets the sync ID of this conversation.
+	*
+	* @param syncId the sync ID of this conversation
+	*/
+	@Override
+	public void setSyncId(long syncId) {
+		_conversation.setSyncId(syncId);
+	}
+
+	/**
+	* Returns the sync type of this conversation.
+	*
+	* @return the sync type of this conversation
+	*/
+	@Override
+	public int getSyncType() {
+		return _conversation.getSyncType();
+	}
+
+	/**
+	* Sets the sync type of this conversation.
+	*
+	* @param syncType the sync type of this conversation
+	*/
+	@Override
+	public void setSyncType(int syncType) {
+		_conversation.setSyncType(syncType);
 	}
 
 	@Override

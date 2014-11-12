@@ -23,4 +23,7 @@ public interface SynchronizationFinder {
 
 	public java.util.List<java.lang.Object[]> findSUCPanel_1_2_0(int start,
 		int end) throws org.omg.CORBA.SystemException;
+
+	public java.util.List<java.lang.Object[]> findSUCConversation_1_2_0(
+		int start, int end) throws org.omg.CORBA.SystemException;
 }

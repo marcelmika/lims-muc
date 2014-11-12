@@ -44,6 +44,8 @@
         <column name='conversationId' type='String'/>
         <column name='conversationType' type='int'/>
         <column name='updatedAt' type='Date'/>
+        <column name='syncId' type='long'/>
+        <column name='syncType' type='int'/>
         <order>
             <order-column name="updatedAt" order-by="desc"/>
         </order>

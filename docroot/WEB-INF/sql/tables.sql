@@ -2,7 +2,9 @@ create table Limsmuc_Conversation (
 	cid LONG not null primary key,
 	conversationId VARCHAR(256) null,
 	conversationType INTEGER,
-	updatedAt DATE null
+	updatedAt DATE null,
+	syncId LONG,
+	syncType INTEGER
 );
 
 create table Limsmuc_Message (

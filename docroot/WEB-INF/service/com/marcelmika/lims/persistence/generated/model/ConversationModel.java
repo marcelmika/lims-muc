@@ -116,6 +116,34 @@ public interface ConversationModel extends BaseModel<Conversation> {
 	 */
 	public void setUpdatedAt(Date updatedAt);
 
+	/**
+	 * Returns the sync ID of this conversation.
+	 *
+	 * @return the sync ID of this conversation
+	 */
+	public long getSyncId();
+
+	/**
+	 * Sets the sync ID of this conversation.
+	 *
+	 * @param syncId the sync ID of this conversation
+	 */
+	public void setSyncId(long syncId);
+
+	/**
+	 * Returns the sync type of this conversation.
+	 *
+	 * @return the sync type of this conversation
+	 */
+	public int getSyncType();
+
+	/**
+	 * Sets the sync type of this conversation.
+	 *
+	 * @param syncType the sync type of this conversation
+	 */
+	public void setSyncType(int syncType);
+
 	@Override
 	public boolean isNew();
 

@@ -17,6 +17,9 @@ package com.marcelmika.lims.persistence.generated.service.impl;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.lims.persistence.domain.ConversationType;
+import com.marcelmika.lims.persistence.domain.SynchronizationType;
+import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.model.Panel;
 import com.marcelmika.lims.persistence.generated.model.Settings;
 import com.marcelmika.lims.persistence.generated.service.base.SynchronizationLocalServiceBaseImpl;
@@ -62,6 +65,8 @@ public class SynchronizationLocalServiceImpl
         synchronizeSUCSettings_1_2_0();
         // Panel
         synchronizeSUCPanel_1_2_0();
+        // Conversation
+        synchronizeSUCConversation_1_2_0();
     }
 
     /**
@@ -153,6 +158,56 @@ public class SynchronizationLocalServiceImpl
                 panel.setActivePanelId((String) object[2]);
                 // Save
                 panelPersistence.update(panel, false);
+            }
+
+            // Increase index
+            index++;
+
+        } while (objects.size() != 0); // Continue until there are no more objects
+    }
+
+    /**
+     * Sync SUC Conversation table for SUC 1.2.0
+     *
+     * @throws SystemException
+     */
+    private void synchronizeSUCConversation_1_2_0() throws SystemException {
+
+        List<Object[]> objects;
+        int index = 0;
+        int step = 100;
+
+        do {
+
+            // Find start and end
+            int start = index * step;
+            int end = (index + 1) * step;
+
+            // Get from db
+            objects = synchronizationFinder.findSUCConversation_1_2_0(start, end);
+
+            for (Object[] object : objects) {
+
+                // Get the conversation ID
+                String conversationId = (String) object[1];
+
+                // Check if there is already such conversation
+                Conversation conversation = conversationPersistence.fetchByConversationId(conversationId);
+
+                // If the particular conversation is not in db yet
+                if (conversation == null) {
+                    // Create a new one
+                    conversation = conversationPersistence.create(counterLocalService.increment());
+                    conversation.setConversationId((String) object[1]);
+                    conversation.setConversationType(ConversationType.SINGLE_USER.getCode()); // There are no MUC in SUC
+                    conversation.setUpdatedAt((Date) object[3]);
+                }
+
+                conversation.setSyncId((Long) object[0]);
+                conversation.setSyncType(SynchronizationType.SUC.getCode());
+
+                // Save the conversation
+                conversationPersistence.update(conversation, false);
             }
 
             // Increase index

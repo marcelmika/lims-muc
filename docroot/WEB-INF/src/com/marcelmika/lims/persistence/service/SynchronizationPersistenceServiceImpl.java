@@ -71,6 +71,11 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         }
         // Failure
         catch (SystemException e) {
+
+            if (log.isDebugEnabled()) {
+                log.debug("Sync SUC v1.2.0 FAILED");
+            }
+
             return false;
         }
     }

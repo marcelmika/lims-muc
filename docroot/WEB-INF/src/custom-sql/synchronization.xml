@@ -41,4 +41,18 @@
 		]]>
     </sql>
 
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.findConversation.SUC-1.2.0">
+        <![CDATA[
+			SELECT
+				Lims_Conversation.cid AS cid,
+				Lims_Conversation.conversationId AS conversationId,
+				Lims_Conversation.conversationType AS conversationType,
+				Lims_Conversation.updatedAt AS updatedAt
+			FROM
+				Lims_Conversation
+		    ORDER BY
+		        Lims_Conversation.cid
+		]]>
+    </sql>
+
 </custom-sql>

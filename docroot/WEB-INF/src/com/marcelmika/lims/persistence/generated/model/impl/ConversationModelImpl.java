@@ -63,9 +63,11 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 			{ "cid", Types.BIGINT },
 			{ "conversationId", Types.VARCHAR },
 			{ "conversationType", Types.INTEGER },
-			{ "updatedAt", Types.TIMESTAMP }
+			{ "updatedAt", Types.TIMESTAMP },
+			{ "syncId", Types.BIGINT },
+			{ "syncType", Types.INTEGER }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Conversation (cid LONG not null primary key,conversationId VARCHAR(256) null,conversationType INTEGER,updatedAt DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Conversation (cid LONG not null primary key,conversationId VARCHAR(256) null,conversationType INTEGER,updatedAt DATE null,syncId LONG,syncType INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Conversation";
 	public static final String ORDER_BY_JPQL = " ORDER BY conversation.updatedAt DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Conversation.updatedAt DESC";
@@ -127,6 +129,8 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 		attributes.put("conversationId", getConversationId());
 		attributes.put("conversationType", getConversationType());
 		attributes.put("updatedAt", getUpdatedAt());
+		attributes.put("syncId", getSyncId());
+		attributes.put("syncType", getSyncType());
 
 		return attributes;
 	}
@@ -155,6 +159,18 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 
 		if (updatedAt != null) {
 			setUpdatedAt(updatedAt);
+		}
+
+		Long syncId = (Long)attributes.get("syncId");
+
+		if (syncId != null) {
+			setSyncId(syncId);
+		}
+
+		Integer syncType = (Integer)attributes.get("syncType");
+
+		if (syncType != null) {
+			setSyncType(syncType);
 		}
 	}
 
@@ -215,6 +231,26 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 		_updatedAt = updatedAt;
 	}
 
+	@Override
+	public long getSyncId() {
+		return _syncId;
+	}
+
+	@Override
+	public void setSyncId(long syncId) {
+		_syncId = syncId;
+	}
+
+	@Override
+	public int getSyncType() {
+		return _syncType;
+	}
+
+	@Override
+	public void setSyncType(int syncType) {
+		_syncType = syncType;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -250,6 +286,8 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 		conversationImpl.setConversationId(getConversationId());
 		conversationImpl.setConversationType(getConversationType());
 		conversationImpl.setUpdatedAt(getUpdatedAt());
+		conversationImpl.setSyncId(getSyncId());
+		conversationImpl.setSyncType(getSyncType());
 
 		conversationImpl.resetOriginalValues();
 
@@ -332,12 +370,16 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 			conversationCacheModel.updatedAt = Long.MIN_VALUE;
 		}
 
+		conversationCacheModel.syncId = getSyncId();
+
+		conversationCacheModel.syncType = getSyncType();
+
 		return conversationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{cid=");
 		sb.append(getCid());
@@ -347,6 +389,10 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 		sb.append(getConversationType());
 		sb.append(", updatedAt=");
 		sb.append(getUpdatedAt());
+		sb.append(", syncId=");
+		sb.append(getSyncId());
+		sb.append(", syncType=");
+		sb.append(getSyncType());
 		sb.append("}");
 
 		return sb.toString();
@@ -354,7 +400,7 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -377,6 +423,14 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 			"<column><column-name>updatedAt</column-name><column-value><![CDATA[");
 		sb.append(getUpdatedAt());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>syncId</column-name><column-value><![CDATA[");
+		sb.append(getSyncId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>syncType</column-name><column-value><![CDATA[");
+		sb.append(getSyncType());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -392,6 +446,8 @@ public class ConversationModelImpl extends BaseModelImpl<Conversation>
 	private String _originalConversationId;
 	private int _conversationType;
 	private Date _updatedAt;
+	private long _syncId;
+	private int _syncType;
 	private long _columnBitmask;
 	private Conversation _escapedModel;
 }

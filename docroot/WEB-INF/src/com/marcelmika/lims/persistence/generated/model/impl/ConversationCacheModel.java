@@ -38,7 +38,7 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{cid=");
 		sb.append(cid);
@@ -48,6 +48,10 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 		sb.append(conversationType);
 		sb.append(", updatedAt=");
 		sb.append(updatedAt);
+		sb.append(", syncId=");
+		sb.append(syncId);
+		sb.append(", syncType=");
+		sb.append(syncType);
 		sb.append("}");
 
 		return sb.toString();
@@ -75,6 +79,9 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 			conversationImpl.setUpdatedAt(new Date(updatedAt));
 		}
 
+		conversationImpl.setSyncId(syncId);
+		conversationImpl.setSyncType(syncType);
+
 		conversationImpl.resetOriginalValues();
 
 		return conversationImpl;
@@ -86,6 +93,8 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 		conversationId = objectInput.readUTF();
 		conversationType = objectInput.readInt();
 		updatedAt = objectInput.readLong();
+		syncId = objectInput.readLong();
+		syncType = objectInput.readInt();
 	}
 
 	@Override
@@ -102,10 +111,14 @@ public class ConversationCacheModel implements CacheModel<Conversation>,
 
 		objectOutput.writeInt(conversationType);
 		objectOutput.writeLong(updatedAt);
+		objectOutput.writeLong(syncId);
+		objectOutput.writeInt(syncType);
 	}
 
 	public long cid;
 	public String conversationId;
 	public int conversationType;
 	public long updatedAt;
+	public long syncId;
+	public int syncType;
 }
