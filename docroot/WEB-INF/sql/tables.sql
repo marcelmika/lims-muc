@@ -3,8 +3,7 @@ create table Limsmuc_Conversation (
 	conversationId VARCHAR(256) null,
 	conversationType INTEGER,
 	updatedAt DATE null,
-	syncId LONG,
-	syncType INTEGER
+	syncIdSUC LONG
 );
 
 create table Limsmuc_Message (

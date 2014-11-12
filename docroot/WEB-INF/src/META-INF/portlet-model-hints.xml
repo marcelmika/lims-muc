@@ -8,8 +8,7 @@
 		</field>
 		<field name="conversationType" type="int" />
 		<field name="updatedAt" type="Date" />
-		<field name="syncId" type="long" />
-		<field name="syncType" type="int" />
+		<field name="syncIdSUC" type="long" />
 	</model>
 	<model name="com.marcelmika.lims.persistence.generated.model.Message">
 		<field name="mid" type="long" />

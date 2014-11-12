@@ -335,6 +335,224 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 	private static final String _FINDER_COLUMN_CONVERSATIONID_CONVERSATIONID_1 = "conversation.conversationId IS NULL";
 	private static final String _FINDER_COLUMN_CONVERSATIONID_CONVERSATIONID_2 = "conversation.conversationId = ?";
 	private static final String _FINDER_COLUMN_CONVERSATIONID_CONVERSATIONID_3 = "(conversation.conversationId IS NULL OR conversation.conversationId = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_SYNCIDSUC = new FinderPath(ConversationModelImpl.ENTITY_CACHE_ENABLED,
+			ConversationModelImpl.FINDER_CACHE_ENABLED, ConversationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySyncIdSUC",
+			new String[] { Long.class.getName() },
+			ConversationModelImpl.SYNCIDSUC_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SYNCIDSUC = new FinderPath(ConversationModelImpl.ENTITY_CACHE_ENABLED,
+			ConversationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySyncIdSUC",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the conversation where syncIdSUC = &#63; or throws a {@link com.marcelmika.lims.persistence.generated.NoSuchConversationException} if it could not be found.
+	 *
+	 * @param syncIdSUC the sync ID s u c
+	 * @return the matching conversation
+	 * @throws com.marcelmika.lims.persistence.generated.NoSuchConversationException if a matching conversation could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Conversation findBySyncIdSUC(long syncIdSUC)
+		throws NoSuchConversationException, SystemException {
+		Conversation conversation = fetchBySyncIdSUC(syncIdSUC);
+
+		if (conversation == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("syncIdSUC=");
+			msg.append(syncIdSUC);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchConversationException(msg.toString());
+		}
+
+		return conversation;
+	}
+
+	/**
+	 * Returns the conversation where syncIdSUC = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param syncIdSUC the sync ID s u c
+	 * @return the matching conversation, or <code>null</code> if a matching conversation could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Conversation fetchBySyncIdSUC(long syncIdSUC)
+		throws SystemException {
+		return fetchBySyncIdSUC(syncIdSUC, true);
+	}
+
+	/**
+	 * Returns the conversation where syncIdSUC = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param syncIdSUC the sync ID s u c
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching conversation, or <code>null</code> if a matching conversation could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Conversation fetchBySyncIdSUC(long syncIdSUC,
+		boolean retrieveFromCache) throws SystemException {
+		Object[] finderArgs = new Object[] { syncIdSUC };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
+					finderArgs, this);
+		}
+
+		if (result instanceof Conversation) {
+			Conversation conversation = (Conversation)result;
+
+			if ((syncIdSUC != conversation.getSyncIdSUC())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_CONVERSATION_WHERE);
+
+			query.append(_FINDER_COLUMN_SYNCIDSUC_SYNCIDSUC_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(syncIdSUC);
+
+				List<Conversation> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"ConversationPersistenceImpl.fetchBySyncIdSUC(long, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					Conversation conversation = list.get(0);
+
+					result = conversation;
+
+					cacheResult(conversation);
+
+					if ((conversation.getSyncIdSUC() != syncIdSUC)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
+							finderArgs, conversation);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Conversation)result;
+		}
+	}
+
+	/**
+	 * Removes the conversation where syncIdSUC = &#63; from the database.
+	 *
+	 * @param syncIdSUC the sync ID s u c
+	 * @return the conversation that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Conversation removeBySyncIdSUC(long syncIdSUC)
+		throws NoSuchConversationException, SystemException {
+		Conversation conversation = findBySyncIdSUC(syncIdSUC);
+
+		return remove(conversation);
+	}
+
+	/**
+	 * Returns the number of conversations where syncIdSUC = &#63;.
+	 *
+	 * @param syncIdSUC the sync ID s u c
+	 * @return the number of matching conversations
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countBySyncIdSUC(long syncIdSUC) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SYNCIDSUC;
+
+		Object[] finderArgs = new Object[] { syncIdSUC };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CONVERSATION_WHERE);
+
+			query.append(_FINDER_COLUMN_SYNCIDSUC_SYNCIDSUC_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(syncIdSUC);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SYNCIDSUC_SYNCIDSUC_2 = "conversation.syncIdSUC = ?";
 
 	public ConversationPersistenceImpl() {
 		setModelClass(Conversation.class);
@@ -352,6 +570,9 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 
 		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONVERSATIONID,
 			new Object[] { conversation.getConversationId() }, conversation);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
+			new Object[] { conversation.getSyncIdSUC() }, conversation);
 
 		conversation.resetOriginalValues();
 	}
@@ -434,6 +655,13 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 				args, Long.valueOf(1));
 			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONVERSATIONID,
 				args, conversation);
+
+			args = new Object[] { conversation.getSyncIdSUC() };
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SYNCIDSUC, args,
+				Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args,
+				conversation);
 		}
 		else {
 			ConversationModelImpl conversationModelImpl = (ConversationModelImpl)conversation;
@@ -446,6 +674,16 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 					args, Long.valueOf(1));
 				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CONVERSATIONID,
 					args, conversation);
+			}
+
+			if ((conversationModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_SYNCIDSUC.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { conversation.getSyncIdSUC() };
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SYNCIDSUC, args,
+					Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args,
+					conversation);
 			}
 		}
 	}
@@ -468,6 +706,19 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 				args);
 			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CONVERSATIONID,
 				args);
+		}
+
+		args = new Object[] { conversation.getSyncIdSUC() };
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SYNCIDSUC, args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args);
+
+		if ((conversationModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_SYNCIDSUC.getColumnBitmask()) != 0) {
+			args = new Object[] { conversationModelImpl.getOriginalSyncIdSUC() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SYNCIDSUC, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args);
 		}
 	}
 
@@ -633,8 +884,7 @@ public class ConversationPersistenceImpl extends BasePersistenceImpl<Conversatio
 		conversationImpl.setConversationId(conversation.getConversationId());
 		conversationImpl.setConversationType(conversation.getConversationType());
 		conversationImpl.setUpdatedAt(conversation.getUpdatedAt());
-		conversationImpl.setSyncId(conversation.getSyncId());
-		conversationImpl.setSyncType(conversation.getSyncType());
+		conversationImpl.setSyncIdSUC(conversation.getSyncIdSUC());
 
 		return conversationImpl;
 	}

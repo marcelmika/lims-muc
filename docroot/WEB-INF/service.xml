@@ -44,13 +44,15 @@
         <column name='conversationId' type='String'/>
         <column name='conversationType' type='int'/>
         <column name='updatedAt' type='Date'/>
-        <column name='syncId' type='long'/>
-        <column name='syncType' type='int'/>
+        <column name='syncIdSUC' type='long'/>
         <order>
             <order-column name="updatedAt" order-by="desc"/>
         </order>
         <finder name='ConversationId' return-type='Conversation'>
             <finder-column name='conversationId'/>
+        </finder>
+        <finder name='SyncIdSUC' return-type='Conversation'>
+            <finder-column name='syncIdSUC'/>
         </finder>
     </entity>
 

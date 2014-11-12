@@ -34,8 +34,7 @@ public class ConversationSoap implements Serializable {
 		soapModel.setConversationId(model.getConversationId());
 		soapModel.setConversationType(model.getConversationType());
 		soapModel.setUpdatedAt(model.getUpdatedAt());
-		soapModel.setSyncId(model.getSyncId());
-		soapModel.setSyncType(model.getSyncType());
+		soapModel.setSyncIdSUC(model.getSyncIdSUC());
 
 		return soapModel;
 	}
@@ -120,26 +119,17 @@ public class ConversationSoap implements Serializable {
 		_updatedAt = updatedAt;
 	}
 
-	public long getSyncId() {
-		return _syncId;
+	public long getSyncIdSUC() {
+		return _syncIdSUC;
 	}
 
-	public void setSyncId(long syncId) {
-		_syncId = syncId;
-	}
-
-	public int getSyncType() {
-		return _syncType;
-	}
-
-	public void setSyncType(int syncType) {
-		_syncType = syncType;
+	public void setSyncIdSUC(long syncIdSUC) {
+		_syncIdSUC = syncIdSUC;
 	}
 
 	private long _cid;
 	private String _conversationId;
 	private int _conversationType;
 	private Date _updatedAt;
-	private long _syncId;
-	private int _syncType;
+	private long _syncIdSUC;
 }

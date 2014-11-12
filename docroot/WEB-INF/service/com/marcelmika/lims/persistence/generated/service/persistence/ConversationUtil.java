@@ -180,6 +180,74 @@ public class ConversationUtil {
 	}
 
 	/**
+	* Returns the conversation where syncIdSUC = &#63; or throws a {@link com.marcelmika.lims.persistence.generated.NoSuchConversationException} if it could not be found.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the matching conversation
+	* @throws com.marcelmika.lims.persistence.generated.NoSuchConversationException if a matching conversation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Conversation findBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.lims.persistence.generated.NoSuchConversationException {
+		return getPersistence().findBySyncIdSUC(syncIdSUC);
+	}
+
+	/**
+	* Returns the conversation where syncIdSUC = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the matching conversation, or <code>null</code> if a matching conversation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	/**
+	* Returns the conversation where syncIdSUC = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching conversation, or <code>null</code> if a matching conversation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchBySyncIdSUC(syncIdSUC, retrieveFromCache);
+	}
+
+	/**
+	* Removes the conversation where syncIdSUC = &#63; from the database.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the conversation that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Conversation removeBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.lims.persistence.generated.NoSuchConversationException {
+		return getPersistence().removeBySyncIdSUC(syncIdSUC);
+	}
+
+	/**
+	* Returns the number of conversations where syncIdSUC = &#63;.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the number of matching conversations
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countBySyncIdSUC(long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countBySyncIdSUC(syncIdSUC);
+	}
+
+	/**
 	* Caches the conversation in the entity cache if it is enabled.
 	*
 	* @param conversation the conversation

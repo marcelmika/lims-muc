@@ -1,4 +1,6 @@
 create index IX_9738C4E2 on Limsmuc_Conversation (conversationId);
+create index IX_C3E2CA4B on Limsmuc_Conversation (syncIdSUC);
+create index IX_BA61F8E1 on Limsmuc_Conversation (syncSUCId);
 
 create index IX_BC48D7E8 on Limsmuc_Message (cid);
 create index IX_21E2C551 on Limsmuc_Message (creatorId);

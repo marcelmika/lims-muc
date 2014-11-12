@@ -79,8 +79,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 		attributes.put("conversationId", getConversationId());
 		attributes.put("conversationType", getConversationType());
 		attributes.put("updatedAt", getUpdatedAt());
-		attributes.put("syncId", getSyncId());
-		attributes.put("syncType", getSyncType());
+		attributes.put("syncIdSUC", getSyncIdSUC());
 
 		return attributes;
 	}
@@ -111,16 +110,10 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 			setUpdatedAt(updatedAt);
 		}
 
-		Long syncId = (Long)attributes.get("syncId");
+		Long syncIdSUC = (Long)attributes.get("syncIdSUC");
 
-		if (syncId != null) {
-			setSyncId(syncId);
-		}
-
-		Integer syncType = (Integer)attributes.get("syncType");
-
-		if (syncType != null) {
-			setSyncType(syncType);
+		if (syncIdSUC != null) {
+			setSyncIdSUC(syncIdSUC);
 		}
 	}
 
@@ -218,44 +211,21 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 	}
 
 	@Override
-	public long getSyncId() {
-		return _syncId;
+	public long getSyncIdSUC() {
+		return _syncIdSUC;
 	}
 
 	@Override
-	public void setSyncId(long syncId) {
-		_syncId = syncId;
+	public void setSyncIdSUC(long syncIdSUC) {
+		_syncIdSUC = syncIdSUC;
 
 		if (_conversationRemoteModel != null) {
 			try {
 				Class<?> clazz = _conversationRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setSyncId", long.class);
+				Method method = clazz.getMethod("setSyncIdSUC", long.class);
 
-				method.invoke(_conversationRemoteModel, syncId);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
-	public int getSyncType() {
-		return _syncType;
-	}
-
-	@Override
-	public void setSyncType(int syncType) {
-		_syncType = syncType;
-
-		if (_conversationRemoteModel != null) {
-			try {
-				Class<?> clazz = _conversationRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setSyncType", int.class);
-
-				method.invoke(_conversationRemoteModel, syncType);
+				method.invoke(_conversationRemoteModel, syncIdSUC);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -336,8 +306,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 		clone.setConversationId(getConversationId());
 		clone.setConversationType(getConversationType());
 		clone.setUpdatedAt(getUpdatedAt());
-		clone.setSyncId(getSyncId());
-		clone.setSyncType(getSyncType());
+		clone.setSyncIdSUC(getSyncIdSUC());
 
 		return clone;
 	}
@@ -386,7 +355,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{cid=");
 		sb.append(getCid());
@@ -396,10 +365,8 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 		sb.append(getConversationType());
 		sb.append(", updatedAt=");
 		sb.append(getUpdatedAt());
-		sb.append(", syncId=");
-		sb.append(getSyncId());
-		sb.append(", syncType=");
-		sb.append(getSyncType());
+		sb.append(", syncIdSUC=");
+		sb.append(getSyncIdSUC());
 		sb.append("}");
 
 		return sb.toString();
@@ -407,7 +374,7 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -431,12 +398,8 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 		sb.append(getUpdatedAt());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>syncId</column-name><column-value><![CDATA[");
-		sb.append(getSyncId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>syncType</column-name><column-value><![CDATA[");
-		sb.append(getSyncType());
+			"<column><column-name>syncIdSUC</column-name><column-value><![CDATA[");
+		sb.append(getSyncIdSUC());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -448,7 +411,6 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 	private String _conversationId;
 	private int _conversationType;
 	private Date _updatedAt;
-	private long _syncId;
-	private int _syncType;
+	private long _syncIdSUC;
 	private BaseModel<?> _conversationRemoteModel;
 }

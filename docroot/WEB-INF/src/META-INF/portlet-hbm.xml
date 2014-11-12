@@ -16,8 +16,7 @@
 		<property name="conversationId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="conversationType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="updatedAt" type="org.hibernate.type.TimestampType" />
-		<property name="syncId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="syncType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" table="Limsmuc_Message">
 		<cache usage="read-write" />

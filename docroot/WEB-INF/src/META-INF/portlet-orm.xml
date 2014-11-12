@@ -15,8 +15,7 @@
 			<basic name="updatedAt">
 				<temporal>TIMESTAMP</temporal>
 			</basic>
-			<basic name="syncId" />
-			<basic name="syncType" />
+			<basic name="syncIdSUC" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

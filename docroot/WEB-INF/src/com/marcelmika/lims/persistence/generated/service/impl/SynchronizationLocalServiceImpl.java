@@ -203,8 +203,7 @@ public class SynchronizationLocalServiceImpl
                     conversation.setUpdatedAt((Date) object[3]);
                 }
 
-                conversation.setSyncId((Long) object[0]);
-                conversation.setSyncType(SynchronizationType.SUC.getCode());
+                conversation.setSyncIdSUC((Long) object[0]);
 
                 // Save the conversation
                 conversationPersistence.update(conversation, false);

@@ -54,8 +54,7 @@ public class ConversationWrapper implements Conversation,
 		attributes.put("conversationId", getConversationId());
 		attributes.put("conversationType", getConversationType());
 		attributes.put("updatedAt", getUpdatedAt());
-		attributes.put("syncId", getSyncId());
-		attributes.put("syncType", getSyncType());
+		attributes.put("syncIdSUC", getSyncIdSUC());
 
 		return attributes;
 	}
@@ -86,16 +85,10 @@ public class ConversationWrapper implements Conversation,
 			setUpdatedAt(updatedAt);
 		}
 
-		Long syncId = (Long)attributes.get("syncId");
+		Long syncIdSUC = (Long)attributes.get("syncIdSUC");
 
-		if (syncId != null) {
-			setSyncId(syncId);
-		}
-
-		Integer syncType = (Integer)attributes.get("syncType");
-
-		if (syncType != null) {
-			setSyncType(syncType);
+		if (syncIdSUC != null) {
+			setSyncIdSUC(syncIdSUC);
 		}
 	}
 
@@ -200,43 +193,23 @@ public class ConversationWrapper implements Conversation,
 	}
 
 	/**
-	* Returns the sync ID of this conversation.
+	* Returns the sync ID s u c of this conversation.
 	*
-	* @return the sync ID of this conversation
+	* @return the sync ID s u c of this conversation
 	*/
 	@Override
-	public long getSyncId() {
-		return _conversation.getSyncId();
+	public long getSyncIdSUC() {
+		return _conversation.getSyncIdSUC();
 	}
 
 	/**
-	* Sets the sync ID of this conversation.
+	* Sets the sync ID s u c of this conversation.
 	*
-	* @param syncId the sync ID of this conversation
+	* @param syncIdSUC the sync ID s u c of this conversation
 	*/
 	@Override
-	public void setSyncId(long syncId) {
-		_conversation.setSyncId(syncId);
-	}
-
-	/**
-	* Returns the sync type of this conversation.
-	*
-	* @return the sync type of this conversation
-	*/
-	@Override
-	public int getSyncType() {
-		return _conversation.getSyncType();
-	}
-
-	/**
-	* Sets the sync type of this conversation.
-	*
-	* @param syncType the sync type of this conversation
-	*/
-	@Override
-	public void setSyncType(int syncType) {
-		_conversation.setSyncType(syncType);
+	public void setSyncIdSUC(long syncIdSUC) {
+		_conversation.setSyncIdSUC(syncIdSUC);
 	}
 
 	@Override
