@@ -23,6 +23,7 @@ import com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.ParticipantLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil;
+import com.marcelmika.lims.persistence.generated.service.SynchronizationLocalServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -48,6 +49,8 @@ public class ClpMessageListener extends BaseMessageListener {
 			ParticipantLocalServiceUtil.clearService();
 
 			SettingsLocalServiceUtil.clearService();
+
+			SynchronizationLocalServiceUtil.clearService();
 		}
 	}
 }

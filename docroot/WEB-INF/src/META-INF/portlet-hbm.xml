@@ -7,6 +7,7 @@
 	<import class="com.marcelmika.lims.persistence.generated.model.Panel" />
 	<import class="com.marcelmika.lims.persistence.generated.model.Participant" />
 	<import class="com.marcelmika.lims.persistence.generated.model.Settings" />
+	<import class="com.marcelmika.lims.persistence.generated.model.Synchronization" />
 	<class name="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" table="Limsmuc_Conversation">
 		<cache usage="read-write" />
 		<id name="cid" type="long">
@@ -61,5 +62,12 @@
 		<property name="adminAreaOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connected" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connectedAt" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationImpl" table="Limsmuc_Synchronization">
+		<cache usage="read-write" />
+		<id name="sid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="mucSync" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 </hibernate-mapping>

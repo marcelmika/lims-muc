@@ -106,25 +106,25 @@ public class ConversationLocalServiceClpInvoker {
 				"com.marcelmika.lims.persistence.generated.model.Conversation"
 			};
 
-		_methodName54 = "getBeanIdentifier";
+		_methodName60 = "getBeanIdentifier";
 
-		_methodParameterTypes54 = new String[] {  };
+		_methodParameterTypes60 = new String[] {  };
 
-		_methodName55 = "setBeanIdentifier";
-
-		_methodParameterTypes55 = new String[] { "java.lang.String" };
-
-		_methodName60 = "addConversation";
-
-		_methodParameterTypes60 = new String[] { "java.lang.String", "int" };
-
-		_methodName61 = "getConversation";
+		_methodName61 = "setBeanIdentifier";
 
 		_methodParameterTypes61 = new String[] { "java.lang.String" };
 
-		_methodName62 = "updateConversationTimestamp";
+		_methodName66 = "addConversation";
 
-		_methodParameterTypes62 = new String[] { "long" };
+		_methodParameterTypes66 = new String[] { "java.lang.String", "int" };
+
+		_methodName67 = "getConversation";
+
+		_methodParameterTypes67 = new String[] { "java.lang.String" };
+
+		_methodName68 = "updateConversationTimestamp";
+
+		_methodParameterTypes68 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,31 +216,31 @@ public class ConversationLocalServiceClpInvoker {
 			return ConversationLocalServiceUtil.updateConversation((com.marcelmika.lims.persistence.generated.model.Conversation)arguments[0]);
 		}
 
-		if (_methodName54.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
 			return ConversationLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName55.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			ConversationLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName60.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+		if (_methodName66.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
 			return ConversationLocalServiceUtil.addConversation((java.lang.String)arguments[0],
 				((Integer)arguments[1]).intValue());
 		}
 
-		if (_methodName61.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
 			return ConversationLocalServiceUtil.getConversation((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName62.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
 			ConversationLocalServiceUtil.updateConversationTimestamp(((Long)arguments[0]).longValue());
 
 			return null;
@@ -281,14 +281,14 @@ public class ConversationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName54;
-	private String[] _methodParameterTypes54;
-	private String _methodName55;
-	private String[] _methodParameterTypes55;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
 	private String _methodName61;
 	private String[] _methodParameterTypes61;
-	private String _methodName62;
-	private String[] _methodParameterTypes62;
+	private String _methodName66;
+	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
 }

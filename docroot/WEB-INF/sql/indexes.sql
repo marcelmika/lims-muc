@@ -11,4 +11,5 @@ create index IX_8D897FAC on Limsmuc_Participant (participantId);
 create index IX_8A3FED13 on Limsmuc_Participant (participantId, isOpened);
 
 create index IX_A8B4EE3F on Limsmuc_Settings (presence);
+create index IX_9207DC3 on Limsmuc_Settings (syncId, syncType);
 create index IX_8F36E54A on Limsmuc_Settings (userId);

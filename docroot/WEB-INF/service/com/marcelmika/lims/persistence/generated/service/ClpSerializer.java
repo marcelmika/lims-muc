@@ -30,6 +30,7 @@ import com.marcelmika.lims.persistence.generated.model.MessageClp;
 import com.marcelmika.lims.persistence.generated.model.PanelClp;
 import com.marcelmika.lims.persistence.generated.model.ParticipantClp;
 import com.marcelmika.lims.persistence.generated.model.SettingsClp;
+import com.marcelmika.lims.persistence.generated.model.SynchronizationClp;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -126,6 +127,10 @@ public class ClpSerializer {
 			return translateInputSettings(oldModel);
 		}
 
+		if (oldModelClassName.equals(SynchronizationClp.class.getName())) {
+			return translateInputSynchronization(oldModel);
+		}
+
 		return oldModel;
 	}
 
@@ -191,6 +196,16 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateInputSynchronization(BaseModel<?> oldModel) {
+		SynchronizationClp oldClpModel = (SynchronizationClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getSynchronizationRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInput(Object obj) {
 		if (obj instanceof BaseModel<?>) {
 			return translateInput((BaseModel<?>)obj);
@@ -231,6 +246,11 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl")) {
 			return translateOutputSettings(oldModel);
+		}
+
+		if (oldModelClassName.equals(
+					"com.marcelmika.lims.persistence.generated.model.impl.SynchronizationImpl")) {
+			return translateOutputSynchronization(oldModel);
 		}
 
 		return oldModel;
@@ -338,6 +358,11 @@ public class ClpSerializer {
 			return new com.marcelmika.lims.persistence.generated.NoSuchSettingsException();
 		}
 
+		if (className.equals(
+					"com.marcelmika.lims.persistence.generated.NoSuchSynchronizationException")) {
+			return new com.marcelmika.lims.persistence.generated.NoSuchSynchronizationException();
+		}
+
 		return throwable;
 	}
 
@@ -387,6 +412,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setSettingsRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputSynchronization(BaseModel<?> oldModel) {
+		SynchronizationClp newModel = new SynchronizationClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setSynchronizationRemoteModel(oldModel);
 
 		return newModel;
 	}

@@ -42,3 +42,8 @@ create table Limsmuc_Settings (
 	connected BOOLEAN,
 	connectedAt DATE null
 );
+
+create table Limsmuc_Synchronization (
+	sid LONG not null primary key,
+	mucSync BOOLEAN
+);

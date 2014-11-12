@@ -41,6 +41,8 @@ import com.marcelmika.lims.persistence.generated.service.persistence.Participant
 import com.marcelmika.lims.persistence.generated.service.persistence.ParticipantPersistence;
 import com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder;
 import com.marcelmika.lims.persistence.generated.service.persistence.SettingsPersistence;
+import com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder;
+import com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationPersistence;
 
 import java.io.Serializable;
 
@@ -523,6 +525,63 @@ public abstract class SettingsLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the synchronization local service.
+	 *
+	 * @return the synchronization local service
+	 */
+	public com.marcelmika.lims.persistence.generated.service.SynchronizationLocalService getSynchronizationLocalService() {
+		return synchronizationLocalService;
+	}
+
+	/**
+	 * Sets the synchronization local service.
+	 *
+	 * @param synchronizationLocalService the synchronization local service
+	 */
+	public void setSynchronizationLocalService(
+		com.marcelmika.lims.persistence.generated.service.SynchronizationLocalService synchronizationLocalService) {
+		this.synchronizationLocalService = synchronizationLocalService;
+	}
+
+	/**
+	 * Returns the synchronization persistence.
+	 *
+	 * @return the synchronization persistence
+	 */
+	public SynchronizationPersistence getSynchronizationPersistence() {
+		return synchronizationPersistence;
+	}
+
+	/**
+	 * Sets the synchronization persistence.
+	 *
+	 * @param synchronizationPersistence the synchronization persistence
+	 */
+	public void setSynchronizationPersistence(
+		SynchronizationPersistence synchronizationPersistence) {
+		this.synchronizationPersistence = synchronizationPersistence;
+	}
+
+	/**
+	 * Returns the synchronization finder.
+	 *
+	 * @return the synchronization finder
+	 */
+	public SynchronizationFinder getSynchronizationFinder() {
+		return synchronizationFinder;
+	}
+
+	/**
+	 * Sets the synchronization finder.
+	 *
+	 * @param synchronizationFinder the synchronization finder
+	 */
+	public void setSynchronizationFinder(
+		SynchronizationFinder synchronizationFinder) {
+		this.synchronizationFinder = synchronizationFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -724,6 +783,12 @@ public abstract class SettingsLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected SettingsPersistence settingsPersistence;
 	@BeanReference(type = SettingsFinder.class)
 	protected SettingsFinder settingsFinder;
+	@BeanReference(type = com.marcelmika.lims.persistence.generated.service.SynchronizationLocalService.class)
+	protected com.marcelmika.lims.persistence.generated.service.SynchronizationLocalService synchronizationLocalService;
+	@BeanReference(type = SynchronizationPersistence.class)
+	protected SynchronizationPersistence synchronizationPersistence;
+	@BeanReference(type = SynchronizationFinder.class)
+	protected SynchronizationFinder synchronizationFinder;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

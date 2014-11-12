@@ -84,6 +84,15 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationModelImpl">
+		<attributes>
+			<id name="sid" />
+			<basic name="mucSync" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" name="Conversation">
 		<table name="Limsmuc_Conversation" />
 		<attributes />
@@ -102,6 +111,10 @@
 	</entity>
 	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" name="Settings">
 		<table name="Limsmuc_Settings" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationImpl" name="Synchronization">
+		<table name="Limsmuc_Synchronization" />
 		<attributes />
 	</entity>
 </entity-mappings>

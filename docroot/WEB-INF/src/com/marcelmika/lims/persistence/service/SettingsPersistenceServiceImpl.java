@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.api.entity.BuddyDetails;
 import com.marcelmika.lims.api.entity.SettingsDetails;
 import com.marcelmika.lims.api.events.settings.*;
-import com.marcelmika.lims.persistence.domain.Buddy;
 import com.marcelmika.lims.persistence.domain.Settings;
 import com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil;
@@ -100,6 +99,8 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event) {
+
+        // Get the details
         SettingsDetails details = event.getSettingsDetails();
 
         // Check params

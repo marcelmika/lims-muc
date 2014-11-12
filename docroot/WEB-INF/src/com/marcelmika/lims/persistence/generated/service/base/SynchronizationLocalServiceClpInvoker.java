@@ -14,7 +14,7 @@
 
 package com.marcelmika.lims.persistence.generated.service.base;
 
-import com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil;
+import com.marcelmika.lims.persistence.generated.service.SynchronizationLocalServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,26 +22,26 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class MessageLocalServiceClpInvoker {
-	public MessageLocalServiceClpInvoker() {
-		_methodName0 = "addMessage";
+public class SynchronizationLocalServiceClpInvoker {
+	public SynchronizationLocalServiceClpInvoker() {
+		_methodName0 = "addSynchronization";
 
 		_methodParameterTypes0 = new String[] {
-				"com.marcelmika.lims.persistence.generated.model.Message"
+				"com.marcelmika.lims.persistence.generated.model.Synchronization"
 			};
 
-		_methodName1 = "createMessage";
+		_methodName1 = "createSynchronization";
 
 		_methodParameterTypes1 = new String[] { "long" };
 
-		_methodName2 = "deleteMessage";
+		_methodName2 = "deleteSynchronization";
 
 		_methodParameterTypes2 = new String[] { "long" };
 
-		_methodName3 = "deleteMessage";
+		_methodName3 = "deleteSynchronization";
 
 		_methodParameterTypes3 = new String[] {
-				"com.marcelmika.lims.persistence.generated.model.Message"
+				"com.marcelmika.lims.persistence.generated.model.Synchronization"
 			};
 
 		_methodName4 = "dynamicQuery";
@@ -80,11 +80,11 @@ public class MessageLocalServiceClpInvoker {
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchMessage";
+		_methodName10 = "fetchSynchronization";
 
 		_methodParameterTypes10 = new String[] { "long" };
 
-		_methodName11 = "getMessage";
+		_methodName11 = "getSynchronization";
 
 		_methodParameterTypes11 = new String[] { "long" };
 
@@ -92,18 +92,18 @@ public class MessageLocalServiceClpInvoker {
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getMessages";
+		_methodName13 = "getSynchronizations";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getMessagesCount";
+		_methodName14 = "getSynchronizationsCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateMessage";
+		_methodName15 = "updateSynchronization";
 
 		_methodParameterTypes15 = new String[] {
-				"com.marcelmika.lims.persistence.generated.model.Message"
+				"com.marcelmika.lims.persistence.generated.model.Synchronization"
 			};
 
 		_methodName60 = "getBeanIdentifier";
@@ -114,74 +114,53 @@ public class MessageLocalServiceClpInvoker {
 
 		_methodParameterTypes61 = new String[] { "java.lang.String" };
 
-		_methodName66 = "addMessage";
+		_methodName66 = "syncSUC";
 
-		_methodParameterTypes66 = new String[] {
-				"long", "long", "int", "java.lang.String", "java.util.Date"
-			};
-
-		_methodName67 = "readMessages";
-
-		_methodParameterTypes67 = new String[] {
-				"java.lang.Long", "java.lang.Integer", "java.lang.Long",
-				"java.lang.Boolean"
-			};
-
-		_methodName68 = "firstMessage";
-
-		_methodParameterTypes68 = new String[] { "java.lang.Long" };
-
-		_methodName69 = "lastMessage";
-
-		_methodParameterTypes69 = new String[] { "java.lang.Long" };
-
-		_methodName70 = "countMessages";
-
-		_methodParameterTypes70 = new String[] { "java.lang.Long" };
+		_methodParameterTypes66 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
 		if (_methodName0.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes0, parameterTypes)) {
-			return MessageLocalServiceUtil.addMessage((com.marcelmika.lims.persistence.generated.model.Message)arguments[0]);
+			return SynchronizationLocalServiceUtil.addSynchronization((com.marcelmika.lims.persistence.generated.model.Synchronization)arguments[0]);
 		}
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return MessageLocalServiceUtil.createMessage(((Long)arguments[0]).longValue());
+			return SynchronizationLocalServiceUtil.createSynchronization(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return MessageLocalServiceUtil.deleteMessage(((Long)arguments[0]).longValue());
+			return SynchronizationLocalServiceUtil.deleteSynchronization(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName3.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes3, parameterTypes)) {
-			return MessageLocalServiceUtil.deleteMessage((com.marcelmika.lims.persistence.generated.model.Message)arguments[0]);
+			return SynchronizationLocalServiceUtil.deleteSynchronization((com.marcelmika.lims.persistence.generated.model.Synchronization)arguments[0]);
 		}
 
 		if (_methodName4.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes4, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQuery();
+			return SynchronizationLocalServiceUtil.dynamicQuery();
 		}
 
 		if (_methodName5.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes5, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return SynchronizationLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName6.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes6, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return SynchronizationLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue());
 		}
 
 		if (_methodName7.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes7, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return SynchronizationLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue(),
 				(com.liferay.portal.kernel.util.OrderByComparator)arguments[3]);
@@ -189,86 +168,63 @@ public class MessageLocalServiceClpInvoker {
 
 		if (_methodName8.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes8, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return SynchronizationLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName9.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-			return MessageLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return SynchronizationLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				(com.liferay.portal.kernel.dao.orm.Projection)arguments[1]);
 		}
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return MessageLocalServiceUtil.fetchMessage(((Long)arguments[0]).longValue());
+			return SynchronizationLocalServiceUtil.fetchSynchronization(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return MessageLocalServiceUtil.getMessage(((Long)arguments[0]).longValue());
+			return SynchronizationLocalServiceUtil.getSynchronization(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName12.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-			return MessageLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
+			return SynchronizationLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
 		}
 
 		if (_methodName13.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-			return MessageLocalServiceUtil.getMessages(((Integer)arguments[0]).intValue(),
+			return SynchronizationLocalServiceUtil.getSynchronizations(((Integer)arguments[0]).intValue(),
 				((Integer)arguments[1]).intValue());
 		}
 
 		if (_methodName14.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-			return MessageLocalServiceUtil.getMessagesCount();
+			return SynchronizationLocalServiceUtil.getSynchronizationsCount();
 		}
 
 		if (_methodName15.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-			return MessageLocalServiceUtil.updateMessage((com.marcelmika.lims.persistence.generated.model.Message)arguments[0]);
+			return SynchronizationLocalServiceUtil.updateSynchronization((com.marcelmika.lims.persistence.generated.model.Synchronization)arguments[0]);
 		}
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return MessageLocalServiceUtil.getBeanIdentifier();
+			return SynchronizationLocalServiceUtil.getBeanIdentifier();
 		}
 
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			MessageLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+			SynchronizationLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
 		if (_methodName66.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
-			return MessageLocalServiceUtil.addMessage(((Long)arguments[0]).longValue(),
-				((Long)arguments[1]).longValue(),
-				((Integer)arguments[2]).intValue(),
-				(java.lang.String)arguments[3], (java.util.Date)arguments[4]);
-		}
+			SynchronizationLocalServiceUtil.syncSUC();
 
-		if (_methodName67.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
-			return MessageLocalServiceUtil.readMessages((java.lang.Long)arguments[0],
-				(java.lang.Integer)arguments[1], (java.lang.Long)arguments[2],
-				(java.lang.Boolean)arguments[3]);
-		}
-
-		if (_methodName68.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
-			return MessageLocalServiceUtil.firstMessage((java.lang.Long)arguments[0]);
-		}
-
-		if (_methodName69.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
-			return MessageLocalServiceUtil.lastMessage((java.lang.Long)arguments[0]);
-		}
-
-		if (_methodName70.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
-			return MessageLocalServiceUtil.countMessages((java.lang.Long)arguments[0]);
+			return null;
 		}
 
 		throw new UnsupportedOperationException();
@@ -312,12 +268,4 @@ public class MessageLocalServiceClpInvoker {
 	private String[] _methodParameterTypes61;
 	private String _methodName66;
 	private String[] _methodParameterTypes66;
-	private String _methodName67;
-	private String[] _methodParameterTypes67;
-	private String _methodName68;
-	private String[] _methodParameterTypes68;
-	private String _methodName69;
-	private String[] _methodParameterTypes69;
-	private String _methodName70;
-	private String[] _methodParameterTypes70;
 }

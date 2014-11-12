@@ -85,6 +85,23 @@
 
     </bean>
 
+    <!-- Synchronization Core Service -->
+
+    <bean id="com.marcelmika.lims.core.service.SynchronizationCoreService"
+          class="com.marcelmika.lims.core.service.SynchronizationCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.lims.persistence.service.SynchronizationPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.lims.core.service.SynchronizationCoreServiceUtil"
+          class="com.marcelmika.lims.core.service.SynchronizationCoreServiceUtil">
+        <property name="synchronizationCoreService" ref="com.marcelmika.lims.core.service.SynchronizationCoreService"/>
+    </bean>
+
+    <!-- Synchronization Persistence Service -->
+
+    <bean id="com.marcelmika.lims.persistence.service.SynchronizationPersistenceService"
+          class="com.marcelmika.lims.persistence.service.SynchronizationPersistenceServiceImpl"/>
+
     <!-- Conversation Core Service -->
 
     <bean id="com.marcelmika.lims.core.service.ConversationCoreService"

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  -->
+
+<custom-sql>
+
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.findSettings.SUC-1.2.0">
+        <![CDATA[
+			SELECT
+				Lims_Settings.sid AS sid,
+				Lims_Settings.userId AS userId,
+				Lims_Settings.presence AS presence,
+				Lims_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Lims_Settings.mute AS mute,
+				Lims_Settings.chatEnabled AS chatEnabled,
+				Lims_Settings.adminAreaOpened AS adminAreaOpened
+			FROM
+				Lims_Settings
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.countSettings.SUC-1.2.0">
+        <![CDATA[
+			SELECT
+			    COUNT(Lims_Settings.sid) AS settingsCount
+			FROM
+				Lims_Settings
+		]]>
+    </sql>
+
+
+
+
+</custom-sql>

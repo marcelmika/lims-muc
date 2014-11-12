@@ -14,4 +14,7 @@
 	<bean id="com.marcelmika.lims.persistence.generated.service.SettingsLocalService" class="com.marcelmika.lims.persistence.generated.service.impl.SettingsLocalServiceImpl" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsPersistence" class="com.marcelmika.lims.persistence.generated.service.persistence.SettingsPersistenceImpl" parent="basePersistence" />
 	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder" class="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinderImpl" parent="basePersistence" />
+	<bean id="com.marcelmika.lims.persistence.generated.service.SynchronizationLocalService" class="com.marcelmika.lims.persistence.generated.service.impl.SynchronizationLocalServiceImpl" />
+	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationPersistence" class="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationPersistenceImpl" parent="basePersistence" />
+	<bean id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder" class="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinderImpl" parent="basePersistence" />
 </beans>

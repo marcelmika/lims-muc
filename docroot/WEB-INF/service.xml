@@ -100,4 +100,10 @@
         </finder>
     </entity>
 
+    <!-- Synchronization -->
+    <entity name='Synchronization' local-service='true' remote-service='false'>
+        <column name='sid' type='long' primary='true'/>
+        <column name='sucSync' type='boolean'/>
+    </entity>
+
 </service-builder>
