@@ -28,6 +28,7 @@
 		<property name="creatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createdAt" type="org.hibernate.type.TimestampType" />
 		<property name="body" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.marcelmika.lims.persistence.generated.model.impl.PanelImpl" table="Limsmuc_Panel">
 		<cache usage="read-write" />

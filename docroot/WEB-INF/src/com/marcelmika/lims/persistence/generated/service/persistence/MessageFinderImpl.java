@@ -18,6 +18,7 @@ import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.lims.persistence.generated.model.Message;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,13 +94,13 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * before the stopper message
      *
      * @param cid       id of the conversation related to the messages
-     * @param stopperId id of the message that server as a stopper
+     * @param stopper message
      * @return number of messages
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
-    public Integer countAllMessages(Long cid, Long stopperId) throws Exception {
+    public Integer countAllMessages(Long cid, Message stopper) throws Exception {
 
         Session session = null;
 
@@ -107,7 +108,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Open the database session
             session = openSession();
             // Generate SQL
-            String sql = getCountAllMessagesSQL(stopperId);
+            String sql = getCountAllMessagesSQL(stopper);
 
             // Create query from SQL
             SQLQuery query = session.createSQLQuery(sql);
@@ -235,19 +236,19 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     /**
      * Prepares SQL for the count all messages query
      *
-     * @param stopperId id of the message stopper
+     * @param stopper message
      * @return SQL string
      * @throws Exception
      */
-    private String getCountAllMessagesSQL(Long stopperId) throws Exception {
+    private String getCountAllMessagesSQL(Message stopper) throws Exception {
 
         // Get custom query sql (check /src/custom-sql/default.xml)
         String sql = CustomSQLUtil.get(COUNT_ALL_MESSAGES);
 
         // Replace stopper id
-        if (stopperId != null) {
+        if (stopper != null && stopper.getCreatedAt() != null) {
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
-                    String.format("AND Limsmuc_Message.mid >= %d", stopperId));
+                    String.format("AND Limsmuc_Message.createdAt >= '%s'", stopper.getCreatedAt()));
         } else {
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
         }

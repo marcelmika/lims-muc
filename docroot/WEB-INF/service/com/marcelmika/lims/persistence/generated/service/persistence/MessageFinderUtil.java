@@ -28,8 +28,9 @@ public class MessageFinderUtil {
 	}
 
 	public static java.lang.Integer countAllMessages(java.lang.Long cid,
-		java.lang.Long stopperId) throws java.lang.Exception {
-		return getFinder().countAllMessages(cid, stopperId);
+		com.marcelmika.lims.persistence.generated.model.Message stopper)
+		throws java.lang.Exception {
+		return getFinder().countAllMessages(cid, stopper);
 	}
 
 	public static java.lang.Object[] firstMessage(java.lang.Long cid)

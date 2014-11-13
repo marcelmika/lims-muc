@@ -55,6 +55,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		attributes.put("creatorId", getCreatorId());
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
+		attributes.put("syncIdSUC", getSyncIdSUC());
 
 		return attributes;
 	}
@@ -95,6 +96,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		if (body != null) {
 			setBody(body);
+		}
+
+		Long syncIdSUC = (Long)attributes.get("syncIdSUC");
+
+		if (syncIdSUC != null) {
+			setSyncIdSUC(syncIdSUC);
 		}
 	}
 
@@ -236,6 +243,26 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public void setBody(java.lang.String body) {
 		_message.setBody(body);
+	}
+
+	/**
+	* Returns the sync ID s u c of this message.
+	*
+	* @return the sync ID s u c of this message
+	*/
+	@Override
+	public long getSyncIdSUC() {
+		return _message.getSyncIdSUC();
+	}
+
+	/**
+	* Sets the sync ID s u c of this message.
+	*
+	* @param syncIdSUC the sync ID s u c of this message
+	*/
+	@Override
+	public void setSyncIdSUC(long syncIdSUC) {
+		_message.setSyncIdSUC(syncIdSUC);
 	}
 
 	@Override

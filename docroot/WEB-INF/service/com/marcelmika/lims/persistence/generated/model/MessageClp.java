@@ -80,6 +80,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		attributes.put("creatorId", getCreatorId());
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
+		attributes.put("syncIdSUC", getSyncIdSUC());
 
 		return attributes;
 	}
@@ -120,6 +121,12 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 		if (body != null) {
 			setBody(body);
+		}
+
+		Long syncIdSUC = (Long)attributes.get("syncIdSUC");
+
+		if (syncIdSUC != null) {
+			setSyncIdSUC(syncIdSUC);
 		}
 	}
 
@@ -261,6 +268,29 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		}
 	}
 
+	@Override
+	public long getSyncIdSUC() {
+		return _syncIdSUC;
+	}
+
+	@Override
+	public void setSyncIdSUC(long syncIdSUC) {
+		_syncIdSUC = syncIdSUC;
+
+		if (_messageRemoteModel != null) {
+			try {
+				Class<?> clazz = _messageRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSyncIdSUC", long.class);
+
+				method.invoke(_messageRemoteModel, syncIdSUC);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getMessageRemoteModel() {
 		return _messageRemoteModel;
 	}
@@ -336,6 +366,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		clone.setCreatorId(getCreatorId());
 		clone.setCreatedAt(getCreatedAt());
 		clone.setBody(getBody());
+		clone.setSyncIdSUC(getSyncIdSUC());
 
 		return clone;
 	}
@@ -382,7 +413,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{mid=");
 		sb.append(getMid());
@@ -396,6 +427,8 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		sb.append(getCreatedAt());
 		sb.append(", body=");
 		sb.append(getBody());
+		sb.append(", syncIdSUC=");
+		sb.append(getSyncIdSUC());
 		sb.append("}");
 
 		return sb.toString();
@@ -403,7 +436,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Message");
@@ -433,6 +466,10 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 			"<column><column-name>body</column-name><column-value><![CDATA[");
 		sb.append(getBody());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>syncIdSUC</column-name><column-value><![CDATA[");
+		sb.append(getSyncIdSUC());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -445,5 +482,6 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 	private long _creatorId;
 	private Date _createdAt;
 	private String _body;
+	private long _syncIdSUC;
 	private BaseModel<?> _messageRemoteModel;
 }

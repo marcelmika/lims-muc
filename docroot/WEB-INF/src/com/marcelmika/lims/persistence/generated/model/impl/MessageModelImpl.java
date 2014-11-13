@@ -65,9 +65,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			{ "messageType", Types.INTEGER },
 			{ "creatorId", Types.BIGINT },
 			{ "createdAt", Types.TIMESTAMP },
-			{ "body", Types.VARCHAR }
+			{ "body", Types.VARCHAR },
+			{ "syncIdSUC", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,messageType INTEGER,creatorId LONG,createdAt DATE null,body TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Message (mid LONG not null primary key,cid LONG,messageType INTEGER,creatorId LONG,createdAt DATE null,body TEXT null,syncIdSUC LONG)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Message";
 	public static final String ORDER_BY_JPQL = " ORDER BY message.createdAt ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Message.createdAt ASC";
@@ -85,7 +86,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			true);
 	public static long CID_COLUMN_BITMASK = 1L;
 	public static long CREATORID_COLUMN_BITMASK = 2L;
-	public static long CREATEDAT_COLUMN_BITMASK = 4L;
+	public static long SYNCIDSUC_COLUMN_BITMASK = 4L;
+	public static long CREATEDAT_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.marcelmika.lims.persistence.generated.model.Message"));
 
@@ -132,6 +134,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		attributes.put("creatorId", getCreatorId());
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
+		attributes.put("syncIdSUC", getSyncIdSUC());
 
 		return attributes;
 	}
@@ -172,6 +175,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		if (body != null) {
 			setBody(body);
+		}
+
+		Long syncIdSUC = (Long)attributes.get("syncIdSUC");
+
+		if (syncIdSUC != null) {
+			setSyncIdSUC(syncIdSUC);
 		}
 	}
 
@@ -266,6 +275,28 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		_body = body;
 	}
 
+	@Override
+	public long getSyncIdSUC() {
+		return _syncIdSUC;
+	}
+
+	@Override
+	public void setSyncIdSUC(long syncIdSUC) {
+		_columnBitmask |= SYNCIDSUC_COLUMN_BITMASK;
+
+		if (!_setOriginalSyncIdSUC) {
+			_setOriginalSyncIdSUC = true;
+
+			_originalSyncIdSUC = _syncIdSUC;
+		}
+
+		_syncIdSUC = syncIdSUC;
+	}
+
+	public long getOriginalSyncIdSUC() {
+		return _originalSyncIdSUC;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -303,6 +334,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		messageImpl.setCreatorId(getCreatorId());
 		messageImpl.setCreatedAt(getCreatedAt());
 		messageImpl.setBody(getBody());
+		messageImpl.setSyncIdSUC(getSyncIdSUC());
 
 		messageImpl.resetOriginalValues();
 
@@ -361,6 +393,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageModelImpl._setOriginalCreatorId = false;
 
+		messageModelImpl._originalSyncIdSUC = messageModelImpl._syncIdSUC;
+
+		messageModelImpl._setOriginalSyncIdSUC = false;
+
 		messageModelImpl._columnBitmask = 0;
 	}
 
@@ -393,12 +429,14 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			messageCacheModel.body = null;
 		}
 
+		messageCacheModel.syncIdSUC = getSyncIdSUC();
+
 		return messageCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{mid=");
 		sb.append(getMid());
@@ -412,6 +450,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		sb.append(getCreatedAt());
 		sb.append(", body=");
 		sb.append(getBody());
+		sb.append(", syncIdSUC=");
+		sb.append(getSyncIdSUC());
 		sb.append("}");
 
 		return sb.toString();
@@ -419,7 +459,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.lims.persistence.generated.model.Message");
@@ -449,6 +489,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			"<column><column-name>body</column-name><column-value><![CDATA[");
 		sb.append(getBody());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>syncIdSUC</column-name><column-value><![CDATA[");
+		sb.append(getSyncIdSUC());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -469,6 +513,9 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private boolean _setOriginalCreatorId;
 	private Date _createdAt;
 	private String _body;
+	private long _syncIdSUC;
+	private long _originalSyncIdSUC;
+	private boolean _setOriginalSyncIdSUC;
 	private long _columnBitmask;
 	private Message _escapedModel;
 }

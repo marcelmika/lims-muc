@@ -19,6 +19,7 @@
 		<field name="body" type="String">
 			<hint name="max-length">10000</hint>
 		</field>
+		<field name="syncIdSUC" type="long" />
 	</model>
 	<model name="com.marcelmika.lims.persistence.generated.model.Panel">
 		<field name="pid" type="long" />

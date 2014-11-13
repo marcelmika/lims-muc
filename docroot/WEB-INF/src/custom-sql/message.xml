@@ -54,9 +54,9 @@
             FROM
                 Limsmuc_Message
             WHERE
-                Limsmuc_Message.mid = (
+                Limsmuc_Message.createdAt = (
                     SELECT
-                        MIN(Limsmuc_Message.mid) AS firstMessage
+                        MIN(Limsmuc_Message.createdAt) AS firstMessage
                     FROM
                         Limsmuc_Message
                     WHERE
@@ -77,9 +77,9 @@
             FROM
                 Limsmuc_Message
             WHERE
-                Limsmuc_Message.mid = (
+                Limsmuc_Message.createdAt = (
                     SELECT
-                        MAX(Limsmuc_Message.mid) AS lastMessage
+                        MAX(Limsmuc_Message.createdAt) AS lastMessage
                     FROM
                         Limsmuc_Message
                     WHERE

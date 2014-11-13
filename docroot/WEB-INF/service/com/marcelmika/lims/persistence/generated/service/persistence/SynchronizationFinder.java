@@ -29,4 +29,7 @@ public interface SynchronizationFinder {
 
 	public java.util.List<java.lang.Object[]> findSUCParticipant_1_2_0(
 		int start, int end) throws org.omg.CORBA.SystemException;
+
+	public java.util.List<java.lang.Object[]> findSUCMessage_1_2_0(int start,
+		int end) throws org.omg.CORBA.SystemException;
 }

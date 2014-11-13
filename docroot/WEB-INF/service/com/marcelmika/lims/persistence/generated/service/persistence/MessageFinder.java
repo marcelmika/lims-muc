@@ -23,7 +23,8 @@ public interface MessageFinder {
 		throws java.lang.Exception;
 
 	public java.lang.Integer countAllMessages(java.lang.Long cid,
-		java.lang.Long stopperId) throws java.lang.Exception;
+		com.marcelmika.lims.persistence.generated.model.Message stopper)
+		throws java.lang.Exception;
 
 	public java.lang.Object[] firstMessage(java.lang.Long cid)
 		throws java.lang.Exception;

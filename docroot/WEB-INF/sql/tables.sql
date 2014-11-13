@@ -12,7 +12,8 @@ create table Limsmuc_Message (
 	messageType INTEGER,
 	creatorId LONG,
 	createdAt DATE null,
-	body TEXT null
+	body TEXT null,
+	syncIdSUC LONG
 );
 
 create table Limsmuc_Panel (

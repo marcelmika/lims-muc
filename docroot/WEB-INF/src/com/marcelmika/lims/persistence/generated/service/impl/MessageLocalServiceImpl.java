@@ -103,9 +103,18 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
             return messageFinder.findAllMessages(cid, pageSize);
         }
 
+        // Get the message related to the stopperId
+        Message stopper = messagePersistence.fetchByPrimaryKey(stopperId);
+
+        // Message shouldn't be null. However, if it is show at least some messages
+        if (stopper == null) {
+            // Find via message finder
+            return messageFinder.findAllMessages(cid, pageSize);
+        }
+
         int extendedPageSize;
         // Get the size of the possible list
-        Integer messagesCount = messageFinder.countAllMessages(cid, stopperId);
+        Integer messagesCount = messageFinder.countAllMessages(cid, stopper);
 
         // User is at the middle of the list and has requested more messages. Extend the
         // message list beyond the stopper message.

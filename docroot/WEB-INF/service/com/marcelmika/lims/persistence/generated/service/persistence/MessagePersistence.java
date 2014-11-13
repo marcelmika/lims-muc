@@ -233,6 +233,64 @@ public interface MessagePersistence extends BasePersistence<Message> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns the message where syncIdSUC = &#63; or throws a {@link com.marcelmika.lims.persistence.generated.NoSuchMessageException} if it could not be found.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the matching message
+	* @throws com.marcelmika.lims.persistence.generated.NoSuchMessageException if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.marcelmika.lims.persistence.generated.model.Message findBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.lims.persistence.generated.NoSuchMessageException;
+
+	/**
+	* Returns the message where syncIdSUC = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the matching message, or <code>null</code> if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the message where syncIdSUC = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching message, or <code>null</code> if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes the message where syncIdSUC = &#63; from the database.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the message that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.marcelmika.lims.persistence.generated.model.Message removeBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.lims.persistence.generated.NoSuchMessageException;
+
+	/**
+	* Returns the number of messages where syncIdSUC = &#63;.
+	*
+	* @param syncIdSUC the sync ID s u c
+	* @return the number of matching messages
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countBySyncIdSUC(long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Caches the message in the entity cache if it is enabled.
 	*
 	* @param message the message

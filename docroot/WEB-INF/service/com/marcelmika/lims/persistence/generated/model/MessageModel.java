@@ -144,6 +144,20 @@ public interface MessageModel extends BaseModel<Message> {
 	 */
 	public void setBody(String body);
 
+	/**
+	 * Returns the sync ID s u c of this message.
+	 *
+	 * @return the sync ID s u c of this message
+	 */
+	public long getSyncIdSUC();
+
+	/**
+	 * Sets the sync ID s u c of this message.
+	 *
+	 * @param syncIdSUC the sync ID s u c of this message
+	 */
+	public void setSyncIdSUC(long syncIdSUC);
+
 	@Override
 	public boolean isNew();
 
