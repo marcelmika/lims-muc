@@ -399,4 +399,11 @@ public interface ParticipantLocalService extends BaseLocalService,
 	public com.marcelmika.lims.persistence.generated.model.Participant addParticipant(
 		java.lang.Long cid, java.lang.Long participantId, boolean isCreator)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.marcelmika.lims.persistence.generated.model.Participant createParticipant()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void saveParticipant(
+		com.marcelmika.lims.persistence.generated.model.Participant participant)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

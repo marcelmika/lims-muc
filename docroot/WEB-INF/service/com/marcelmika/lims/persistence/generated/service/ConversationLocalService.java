@@ -257,6 +257,23 @@ public interface ConversationLocalService extends BaseLocalService,
 		java.lang.String conversationId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByConversationId(
+		java.lang.String conversationId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.marcelmika.lims.persistence.generated.model.Conversation createConversation()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void saveConversation(
+		com.marcelmika.lims.persistence.generated.model.Conversation conversation)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public void updateConversationTimestamp(long cid)
 		throws java.lang.Exception;
 }

@@ -18,18 +18,23 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
  * @author Brian Wing Shun Chan
  */
 public interface SynchronizationFinder {
-	public java.util.List<java.lang.Object[]> findSUCSettings_1_2_0(int start,
-		int end) throws org.omg.CORBA.SystemException;
+	public java.util.List<java.lang.Object[]> findSettings(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> findSUCPanel_1_2_0(int start,
-		int end) throws org.omg.CORBA.SystemException;
+	public java.util.List<java.lang.Object[]> findPanel(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> findSUCConversation_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException;
+	public java.util.List<java.lang.Object[]> findConversation(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> findSUCParticipant_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException;
+	public java.util.List<java.lang.Object[]> findParticipant(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> findSUCMessage_1_2_0(int start,
-		int end) throws org.omg.CORBA.SystemException;
+	public java.util.List<java.lang.Object[]> findMessage(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

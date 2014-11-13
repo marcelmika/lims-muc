@@ -275,13 +275,88 @@ public class SynchronizationLocalServiceUtil {
 	}
 
 	/**
-	* Synchronizes LIMS SUC v1.2.0
+	* Synchronizes LIMS SUC
 	*
 	* @throws SystemException
 	*/
-	public static void synchronizeSUC_1_2_0()
+	public static void synchronizeSUC(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().synchronizeSUC_1_2_0();
+		getService().synchronizeSUC(version);
+	}
+
+	/**
+	* Finds settings rows for the given version
+	*
+	* @param version of the settings table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with settings rows
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findSettings(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findSettings(version, start, end);
+	}
+
+	/**
+	* Finds panel rows for the given version
+	*
+	* @param version of the panel table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with panel rows
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findPanel(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findPanel(version, start, end);
+	}
+
+	/**
+	* Finds conversation rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with conversation rows
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findConversation(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findConversation(version, start, end);
+	}
+
+	/**
+	* Finds participant rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with participant rows
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findParticipant(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findParticipant(version, start, end);
+	}
+
+	/**
+	* Finds message rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with message rows
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findMessage(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findMessage(version, start, end);
 	}
 
 	public static void clearService() {

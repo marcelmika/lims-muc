@@ -21,29 +21,34 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * @author Brian Wing Shun Chan
  */
 public class SynchronizationFinderUtil {
-	public static java.util.List<java.lang.Object[]> findSUCSettings_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException {
-		return getFinder().findSUCSettings_1_2_0(start, end);
+	public static java.util.List<java.lang.Object[]> findSettings(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findSettings(version, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> findSUCPanel_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException {
-		return getFinder().findSUCPanel_1_2_0(start, end);
+	public static java.util.List<java.lang.Object[]> findPanel(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findPanel(version, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> findSUCConversation_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException {
-		return getFinder().findSUCConversation_1_2_0(start, end);
+	public static java.util.List<java.lang.Object[]> findConversation(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findConversation(version, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> findSUCParticipant_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException {
-		return getFinder().findSUCParticipant_1_2_0(start, end);
+	public static java.util.List<java.lang.Object[]> findParticipant(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findParticipant(version, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> findSUCMessage_1_2_0(
-		int start, int end) throws org.omg.CORBA.SystemException {
-		return getFinder().findSUCMessage_1_2_0(start, end);
+	public static java.util.List<java.lang.Object[]> findMessage(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findMessage(version, start, end);
 	}
 
 	public static SynchronizationFinder getFinder() {

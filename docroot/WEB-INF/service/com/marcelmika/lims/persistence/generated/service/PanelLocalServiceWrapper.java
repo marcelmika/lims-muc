@@ -293,6 +293,25 @@ public class PanelLocalServiceWrapper implements PanelLocalService,
 	}
 
 	@Override
+	public com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		return _panelLocalService.fetchByUserId(userId);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Panel createPanel()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _panelLocalService.createPanel();
+	}
+
+	@Override
+	public void savePanel(
+		com.marcelmika.lims.persistence.generated.model.Panel panel)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_panelLocalService.savePanel(panel);
+	}
+
+	@Override
 	public void updateActivePanel(long userId, java.lang.String activePanel)
 		throws java.lang.Exception {
 		_panelLocalService.updateActivePanel(userId, activePanel);

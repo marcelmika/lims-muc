@@ -260,6 +260,26 @@ public interface SettingsLocalService extends BaseLocalService,
 		long userId) throws java.lang.Exception;
 
 	/**
+	* Fetches settings based on the user id
+	*
+	* @param userId long
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.lims.persistence.generated.model.Settings fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Creates new settings object
+	*
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	public com.marcelmika.lims.persistence.generated.model.Settings createSettings()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Saves settings object to persistence
 	*
 	* @param settings Settings model

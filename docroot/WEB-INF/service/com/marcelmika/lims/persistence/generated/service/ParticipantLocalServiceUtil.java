@@ -450,6 +450,17 @@ public class ParticipantLocalServiceUtil {
 		return getService().addParticipant(cid, participantId, isCreator);
 	}
 
+	public static com.marcelmika.lims.persistence.generated.model.Participant createParticipant()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createParticipant();
+	}
+
+	public static void saveParticipant(
+		com.marcelmika.lims.persistence.generated.model.Participant participant)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().saveParticipant(participant);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

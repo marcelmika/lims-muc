@@ -138,6 +138,20 @@ public class MessageLocalServiceClpInvoker {
 		_methodName70 = "countMessages";
 
 		_methodParameterTypes70 = new String[] { "java.lang.Long" };
+
+		_methodName71 = "fetchBySyncIdSUC";
+
+		_methodParameterTypes71 = new String[] { "long" };
+
+		_methodName72 = "createMessage";
+
+		_methodParameterTypes72 = new String[] {  };
+
+		_methodName73 = "saveMessage";
+
+		_methodParameterTypes73 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Message"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -271,6 +285,23 @@ public class MessageLocalServiceClpInvoker {
 			return MessageLocalServiceUtil.countMessages((java.lang.Long)arguments[0]);
 		}
 
+		if (_methodName71.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			return MessageLocalServiceUtil.fetchBySyncIdSUC(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+			return MessageLocalServiceUtil.createMessage();
+		}
+
+		if (_methodName73.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
+			MessageLocalServiceUtil.saveMessage((com.marcelmika.lims.persistence.generated.model.Message)arguments[0]);
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -320,4 +351,10 @@ public class MessageLocalServiceClpInvoker {
 	private String[] _methodParameterTypes69;
 	private String _methodName70;
 	private String[] _methodParameterTypes70;
+	private String _methodName71;
+	private String[] _methodParameterTypes71;
+	private String _methodName72;
+	private String[] _methodParameterTypes72;
+	private String _methodName73;
+	private String[] _methodParameterTypes73;
 }

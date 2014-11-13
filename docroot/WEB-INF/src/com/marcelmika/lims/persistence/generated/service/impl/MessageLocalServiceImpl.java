@@ -164,4 +164,16 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
     public Integer countMessages(Long cid) throws SystemException {
         return messagePersistence.countByCid(cid);
     }
+
+    public Message fetchBySyncIdSUC(long syncIdSUC) throws SystemException {
+        return messagePersistence.fetchBySyncIdSUC(syncIdSUC);
+    }
+
+    public Message createMessage() throws SystemException {
+        return messagePersistence.create(counterLocalService.increment());
+    }
+
+    public void saveMessage(Message message) throws SystemException {
+        messagePersistence.update(message, false);
+    }
 }

@@ -302,6 +302,33 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 	}
 
 	@Override
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByConversationId(
+		java.lang.String conversationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _conversationLocalService.fetchByConversationId(conversationId);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _conversationLocalService.fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Conversation createConversation()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _conversationLocalService.createConversation();
+	}
+
+	@Override
+	public void saveConversation(
+		com.marcelmika.lims.persistence.generated.model.Conversation conversation)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_conversationLocalService.saveConversation(conversation);
+	}
+
+	@Override
 	public void updateConversationTimestamp(long cid)
 		throws java.lang.Exception {
 		_conversationLocalService.updateConversationTimestamp(cid);

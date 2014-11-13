@@ -80,6 +80,29 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Fetches settings based on the user id
+     *
+     * @param userId long
+     * @return Settings or null if nothing found
+     * @throws SystemException
+     */
+    @Override
+    public Settings fetchByUserId(long userId) throws SystemException {
+        return settingsPersistence.fetchByUserId(userId);
+    }
+
+    /**
+     * Creates new settings object
+     *
+     * @return Settings or null if nothing found
+     * @throws SystemException
+     */
+    @Override
+    public Settings createSettings() throws SystemException {
+        return settingsPersistence.create(counterLocalService.increment());
+    }
+
+    /**
      * Saves settings object to persistence
      *
      * @param settings Settings model

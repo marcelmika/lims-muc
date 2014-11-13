@@ -71,6 +71,22 @@ public class ConversationLocalServiceImpl
         }
     }
 
+    public Conversation fetchByConversationId(String conversationId) throws SystemException {
+        return conversationPersistence.fetchByConversationId(conversationId);
+    }
+
+    public Conversation fetchBySyncIdSUC(long syncIdSUC) throws SystemException {
+        return conversationPersistence.fetchBySyncIdSUC(syncIdSUC);
+    }
+
+    public Conversation createConversation() throws SystemException {
+        return conversationPersistence.create(counterLocalService.increment());
+    }
+
+    public void saveConversation(Conversation conversation) throws SystemException {
+        conversationPersistence.update(conversation, false);
+    }
+
     public void updateConversationTimestamp(long cid) throws Exception {
 
         // Find conversation

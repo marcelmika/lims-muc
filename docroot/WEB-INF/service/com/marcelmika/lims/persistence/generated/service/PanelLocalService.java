@@ -255,6 +255,17 @@ public interface PanelLocalService extends BaseLocalService,
 	public com.marcelmika.lims.persistence.generated.model.Panel getPanelByUser(
 		long userId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.marcelmika.lims.persistence.generated.model.Panel createPanel()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void savePanel(
+		com.marcelmika.lims.persistence.generated.model.Panel panel)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public void updateActivePanel(long userId, java.lang.String activePanel)
 		throws java.lang.Exception;
 }

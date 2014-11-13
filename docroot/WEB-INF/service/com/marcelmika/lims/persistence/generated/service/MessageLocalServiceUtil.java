@@ -344,6 +344,23 @@ public class MessageLocalServiceUtil {
 		return getService().countMessages(cid);
 	}
 
+	public static com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	public static com.marcelmika.lims.persistence.generated.model.Message createMessage()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createMessage();
+	}
+
+	public static void saveMessage(
+		com.marcelmika.lims.persistence.generated.model.Message message)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().saveMessage(message);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

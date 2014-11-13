@@ -122,9 +122,27 @@ public class ConversationLocalServiceClpInvoker {
 
 		_methodParameterTypes67 = new String[] { "java.lang.String" };
 
-		_methodName68 = "updateConversationTimestamp";
+		_methodName68 = "fetchByConversationId";
 
-		_methodParameterTypes68 = new String[] { "long" };
+		_methodParameterTypes68 = new String[] { "java.lang.String" };
+
+		_methodName69 = "fetchBySyncIdSUC";
+
+		_methodParameterTypes69 = new String[] { "long" };
+
+		_methodName70 = "createConversation";
+
+		_methodParameterTypes70 = new String[] {  };
+
+		_methodName71 = "saveConversation";
+
+		_methodParameterTypes71 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Conversation"
+			};
+
+		_methodName72 = "updateConversationTimestamp";
+
+		_methodParameterTypes72 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -241,6 +259,28 @@ public class ConversationLocalServiceClpInvoker {
 
 		if (_methodName68.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return ConversationLocalServiceUtil.fetchByConversationId((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			return ConversationLocalServiceUtil.fetchBySyncIdSUC(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+			return ConversationLocalServiceUtil.createConversation();
+		}
+
+		if (_methodName71.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			ConversationLocalServiceUtil.saveConversation((com.marcelmika.lims.persistence.generated.model.Conversation)arguments[0]);
+
+			return null;
+		}
+
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
 			ConversationLocalServiceUtil.updateConversationTimestamp(((Long)arguments[0]).longValue());
 
 			return null;
@@ -291,4 +331,12 @@ public class ConversationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes67;
 	private String _methodName68;
 	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
+	private String _methodName70;
+	private String[] _methodParameterTypes70;
+	private String _methodName71;
+	private String[] _methodParameterTypes71;
+	private String _methodName72;
+	private String[] _methodParameterTypes72;
 }

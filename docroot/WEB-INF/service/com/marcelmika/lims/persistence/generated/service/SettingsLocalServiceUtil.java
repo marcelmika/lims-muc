@@ -287,6 +287,29 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Fetches settings based on the user id
+	*
+	* @param userId long
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Settings fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByUserId(userId);
+	}
+
+	/**
+	* Creates new settings object
+	*
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.lims.persistence.generated.model.Settings createSettings()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createSettings();
+	}
+
+	/**
 	* Saves settings object to persistence
 	*
 	* @param settings Settings model

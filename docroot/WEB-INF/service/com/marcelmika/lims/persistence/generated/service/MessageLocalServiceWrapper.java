@@ -358,6 +358,26 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.countMessages(cid);
 	}
 
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _messageLocalService.fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Message createMessage()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _messageLocalService.createMessage();
+	}
+
+	@Override
+	public void saveMessage(
+		com.marcelmika.lims.persistence.generated.model.Message message)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_messageLocalService.saveMessage(message);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

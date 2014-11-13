@@ -305,4 +305,16 @@ public interface MessageLocalService extends BaseLocalService,
 	*/
 	public java.lang.Integer countMessages(java.lang.Long cid)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.marcelmika.lims.persistence.generated.model.Message createMessage()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void saveMessage(
+		com.marcelmika.lims.persistence.generated.model.Message message)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

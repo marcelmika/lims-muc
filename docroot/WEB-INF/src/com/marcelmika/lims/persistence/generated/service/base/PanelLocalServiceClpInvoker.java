@@ -118,9 +118,23 @@ public class PanelLocalServiceClpInvoker {
 
 		_methodParameterTypes66 = new String[] { "long" };
 
-		_methodName67 = "updateActivePanel";
+		_methodName67 = "fetchByUserId";
 
-		_methodParameterTypes67 = new String[] { "long", "java.lang.String" };
+		_methodParameterTypes67 = new String[] { "long" };
+
+		_methodName68 = "createPanel";
+
+		_methodParameterTypes68 = new String[] {  };
+
+		_methodName69 = "savePanel";
+
+		_methodParameterTypes69 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Panel"
+			};
+
+		_methodName70 = "updateActivePanel";
+
+		_methodParameterTypes70 = new String[] { "long", "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -231,6 +245,23 @@ public class PanelLocalServiceClpInvoker {
 
 		if (_methodName67.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+			return PanelLocalServiceUtil.fetchByUserId(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return PanelLocalServiceUtil.createPanel();
+		}
+
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			PanelLocalServiceUtil.savePanel((com.marcelmika.lims.persistence.generated.model.Panel)arguments[0]);
+
+			return null;
+		}
+
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
 			PanelLocalServiceUtil.updateActivePanel(((Long)arguments[0]).longValue(),
 				(java.lang.String)arguments[1]);
 
@@ -280,4 +311,10 @@ public class PanelLocalServiceClpInvoker {
 	private String[] _methodParameterTypes66;
 	private String _methodName67;
 	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
+	private String _methodName70;
+	private String[] _methodParameterTypes70;
 }

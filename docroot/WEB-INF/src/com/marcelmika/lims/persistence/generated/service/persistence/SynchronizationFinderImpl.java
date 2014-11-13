@@ -12,13 +12,13 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.lims.persistence.generated.model.Synchronization;
-import org.omg.CORBA.SystemException;
+import com.marcelmika.lims.persistence.synchronization.suc.query.SynchronizationQueryFactory;
+import com.marcelmika.lims.persistence.synchronization.Version;
+import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.List;
 
@@ -34,46 +34,27 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SynchronizationFinderImpl.class);
 
-
-    // v1.2.0
-    private static final String FIND_SETTINGS_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".Settings.SUC-1.2.0";
-    private static final String FIND_PANEL_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".Panel.SUC-1.2.0";
-    private static final String FIND_CONVERSATION_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".Conversation.SUC-1.2.0";
-    private static final String FIND_PARTICIPANT_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".Participant.SUC-1.2.0";
-    private static final String FIND_MESSAGE_SUC_1_2_0 = SynchronizationFinder.class.getName() + ".Message.SUC-1.2.0";
-
-
     /**
-     * Finds settings rows for SUC v1.2.0
+     * Finds settings rows for the given version
      *
-     * @param start int
-     * @param end   int
+     * @param version of the settings table
+     * @param start   int
+     * @param end     int
      * @return list of objects with settings rows
      * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCSettings_1_2_0(int start, int end) throws SystemException {
+    public List<Object[]> findSettings(String version, int start, int end) throws SystemException {
 
         Session session = null;
 
         try {
             // Open database session
             session = openSession();
-            // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(FIND_SETTINGS_SUC_1_2_0);
 
-            // Create query from sql
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("sid", Type.LONG);
-            query.addScalar("userId", Type.LONG);
-            query.addScalar("presence", Type.STRING);
-            query.addScalar("presenceUpdatedAt", Type.LONG);
-            query.addScalar("mute", Type.BOOLEAN);
-            query.addScalar("chatEnabled", Type.BOOLEAN);
-            query.addScalar("adminAreaOpened", Type.BOOLEAN);
+            // Create query
+            SQLQuery query = SynchronizationQueryFactory.createSettingsQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -85,32 +66,26 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
     }
 
     /**
-     * Finds panel rows for SUC v1.2.0
+     * Finds panel rows for the given version
      *
-     * @param start int
-     * @param end   int
+     * @param version of the panel table
+     * @param start   int
+     * @param end     int
      * @return list of objects with panel rows
      * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCPanel_1_2_0(int start, int end) throws SystemException {
+    public List<Object[]> findPanel(String version, int start, int end) throws SystemException {
 
         Session session = null;
 
         try {
             // Open database session
             session = openSession();
-            // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(FIND_PANEL_SUC_1_2_0);
 
-            // Create query from sql
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("pid", Type.LONG);
-            query.addScalar("userId", Type.LONG);
-            query.addScalar("activePanelId", Type.STRING);
+            // Create query
+            SQLQuery query = SynchronizationQueryFactory.createPanelQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -122,33 +97,26 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
     }
 
     /**
-     * Finds conversation rows for SUC v1.2.0
+     * Finds conversation rows for the given version
      *
-     * @param start int
-     * @param end   int
+     * @param version of the conversation table
+     * @param start   int
+     * @param end     int
      * @return list of objects with conversation rows
      * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCConversation_1_2_0(int start, int end) throws SystemException {
+    public List<Object[]> findConversation(String version, int start, int end) throws SystemException {
 
         Session session = null;
 
         try {
             // Open database session
             session = openSession();
-            // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(FIND_CONVERSATION_SUC_1_2_0);
 
-            // Create query from sql
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("cid", Type.LONG);
-            query.addScalar("conversationId", Type.STRING);
-            query.addScalar("conversationType", Type.STRING);
-            query.addScalar("updatedAt", Type.CALENDAR);
+            // Create query
+            SQLQuery query = SynchronizationQueryFactory.createConversationQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -160,35 +128,26 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
     }
 
     /**
-     * Finds participant rows for SUC v1.2.0
+     * Finds participant rows for the given version
      *
-     * @param start int
-     * @param end   int
-     * @return list of objects with conversation rows
+     * @param version of the conversation table
+     * @param start   int
+     * @param end     int
+     * @return list of objects with participant rows
      * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCParticipant_1_2_0(int start, int end) throws SystemException {
+    public List<Object[]> findParticipant(String version, int start, int end) throws SystemException {
 
         Session session = null;
 
         try {
             // Open database session
             session = openSession();
-            // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(FIND_PARTICIPANT_SUC_1_2_0);
 
-            // Create query from sql
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("pid", Type.LONG);
-            query.addScalar("cid", Type.LONG);
-            query.addScalar("participantId", Type.LONG);
-            query.addScalar("unreadMessagesCount", Type.INTEGER);
-            query.addScalar("isOpened", Type.BOOLEAN);
-            query.addScalar("openedAt", Type.LONG);
+            // Create query
+            SQLQuery query = SynchronizationQueryFactory.createParticipantQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -200,34 +159,26 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
     }
 
     /**
-     * Finds message rows for SUC v1.2.0
+     * Finds message rows for the given version
      *
-     * @param start int
-     * @param end int
-     * @return list of objects with conversation rows
+     * @param version of the conversation table
+     * @param start   int
+     * @param end     int
+     * @return list of objects with message rows
      * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findSUCMessage_1_2_0(int start, int end) throws SystemException {
+    public List<Object[]> findMessage(String version, int start, int end) throws SystemException {
 
         Session session = null;
 
         try {
             // Open database session
             session = openSession();
-            // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(FIND_MESSAGE_SUC_1_2_0);
 
-            // Create query from sql
-            SQLQuery query = session.createSQLQuery(sql);
-
-            // Now we need to map types to columns
-            query.addScalar("mid", Type.LONG);
-            query.addScalar("cid", Type.LONG);
-            query.addScalar("creatorId", Type.LONG);
-            query.addScalar("createdAt", Type.CALENDAR);
-            query.addScalar("body", Type.STRING);
+            // Create query
+            SQLQuery query = SynchronizationQueryFactory.createMessageQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);

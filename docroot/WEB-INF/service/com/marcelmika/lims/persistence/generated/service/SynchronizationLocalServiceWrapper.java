@@ -289,14 +289,94 @@ public class SynchronizationLocalServiceWrapper
 	}
 
 	/**
-	* Synchronizes LIMS SUC v1.2.0
+	* Synchronizes LIMS SUC
 	*
 	* @throws SystemException
 	*/
 	@Override
-	public void synchronizeSUC_1_2_0()
+	public void synchronizeSUC(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_synchronizationLocalService.synchronizeSUC_1_2_0();
+		_synchronizationLocalService.synchronizeSUC(version);
+	}
+
+	/**
+	* Finds settings rows for the given version
+	*
+	* @param version of the settings table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with settings rows
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> findSettings(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.findSettings(version, start, end);
+	}
+
+	/**
+	* Finds panel rows for the given version
+	*
+	* @param version of the panel table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with panel rows
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> findPanel(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.findPanel(version, start, end);
+	}
+
+	/**
+	* Finds conversation rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with conversation rows
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> findConversation(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.findConversation(version, start, end);
+	}
+
+	/**
+	* Finds participant rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with participant rows
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> findParticipant(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.findParticipant(version, start, end);
+	}
+
+	/**
+	* Finds message rows for the given version
+	*
+	* @param version of the conversation table
+	* @param start   int
+	* @param end     int
+	* @return list of objects with message rows
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> findMessage(
+		java.lang.String version, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.findMessage(version, start, end);
 	}
 
 	/**

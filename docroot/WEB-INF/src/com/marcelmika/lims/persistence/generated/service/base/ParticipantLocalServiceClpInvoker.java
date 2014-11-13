@@ -181,6 +181,16 @@ public class ParticipantLocalServiceClpInvoker {
 		_methodParameterTypes77 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean"
 			};
+
+		_methodName78 = "createParticipant";
+
+		_methodParameterTypes78 = new String[] {  };
+
+		_methodName79 = "saveParticipant";
+
+		_methodParameterTypes79 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Participant"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -366,6 +376,18 @@ public class ParticipantLocalServiceClpInvoker {
 				((Boolean)arguments[2]).booleanValue());
 		}
 
+		if (_methodName78.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
+			return ParticipantLocalServiceUtil.createParticipant();
+		}
+
+		if (_methodName79.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+			ParticipantLocalServiceUtil.saveParticipant((com.marcelmika.lims.persistence.generated.model.Participant)arguments[0]);
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -429,4 +451,8 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes76;
 	private String _methodName77;
 	private String[] _methodParameterTypes77;
+	private String _methodName78;
+	private String[] _methodParameterTypes78;
+	private String _methodName79;
+	private String[] _methodParameterTypes79;
 }

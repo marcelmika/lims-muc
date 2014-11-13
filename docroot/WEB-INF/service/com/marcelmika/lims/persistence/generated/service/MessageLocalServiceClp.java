@@ -138,6 +138,20 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		_methodName23 = "countMessages";
 
 		_methodParameterTypes23 = new String[] { "java.lang.Long" };
+
+		_methodName24 = "fetchBySyncIdSUC";
+
+		_methodParameterTypes24 = new String[] { "long" };
+
+		_methodName25 = "createMessage";
+
+		_methodParameterTypes25 = new String[] {  };
+
+		_methodName26 = "saveMessage";
+
+		_methodParameterTypes26 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Message"
+			};
 	}
 
 	@Override
@@ -854,6 +868,89 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		return (java.lang.Integer)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24, new Object[] { syncIdSUC });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Message)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Message createMessage()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Message)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public void saveMessage(
+		com.marcelmika.lims.persistence.generated.model.Message message)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName26,
+				_methodParameterTypes26,
+				new Object[] { ClpSerializer.translateInput(message) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -901,4 +998,10 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	private String[] _methodParameterTypes22;
 	private String _methodName23;
 	private String[] _methodParameterTypes23;
+	private String _methodName24;
+	private String[] _methodParameterTypes24;
+	private String _methodName25;
+	private String[] _methodParameterTypes25;
+	private String _methodName26;
+	private String[] _methodParameterTypes26;
 }

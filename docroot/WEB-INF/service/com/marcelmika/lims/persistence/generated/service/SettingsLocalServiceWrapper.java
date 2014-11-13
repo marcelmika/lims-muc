@@ -299,6 +299,31 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
+	* Fetches settings based on the user id
+	*
+	* @param userId long
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Settings fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.fetchByUserId(userId);
+	}
+
+	/**
+	* Creates new settings object
+	*
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Settings createSettings()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.createSettings();
+	}
+
+	/**
 	* Saves settings object to persistence
 	*
 	* @param settings Settings model

@@ -118,9 +118,23 @@ public class PanelLocalServiceClp implements PanelLocalService {
 
 		_methodParameterTypes19 = new String[] { "long" };
 
-		_methodName20 = "updateActivePanel";
+		_methodName20 = "fetchByUserId";
 
-		_methodParameterTypes20 = new String[] { "long", "java.lang.String" };
+		_methodParameterTypes20 = new String[] { "long" };
+
+		_methodName21 = "createPanel";
+
+		_methodParameterTypes21 = new String[] {  };
+
+		_methodName22 = "savePanel";
+
+		_methodParameterTypes22 = new String[] {
+				"com.marcelmika.lims.persistence.generated.model.Panel"
+			};
+
+		_methodName23 = "updateActivePanel";
+
+		_methodParameterTypes23 = new String[] { "long", "java.lang.String" };
 	}
 
 	@Override
@@ -697,11 +711,93 @@ public class PanelLocalServiceClp implements PanelLocalService {
 	}
 
 	@Override
+	public com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20, new Object[] { userId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Panel)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Panel createPanel()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.lims.persistence.generated.model.Panel)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public void savePanel(
+		com.marcelmika.lims.persistence.generated.model.Panel panel)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName22,
+				_methodParameterTypes22,
+				new Object[] { ClpSerializer.translateInput(panel) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
 	public void updateActivePanel(long userId, java.lang.String activePanel)
 		throws java.lang.Exception {
 		try {
-			_invokableLocalService.invokeMethod(_methodName20,
-				_methodParameterTypes20,
+			_invokableLocalService.invokeMethod(_methodName23,
+				_methodParameterTypes23,
 				new Object[] { userId, ClpSerializer.translateInput(activePanel) });
 		}
 		catch (Throwable t) {
@@ -762,4 +858,10 @@ public class PanelLocalServiceClp implements PanelLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+	private String _methodName21;
+	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
+	private String _methodName23;
+	private String[] _methodParameterTypes23;
 }

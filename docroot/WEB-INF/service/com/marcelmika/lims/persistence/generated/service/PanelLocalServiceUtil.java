@@ -282,6 +282,22 @@ public class PanelLocalServiceUtil {
 		return getService().getPanelByUser(userId);
 	}
 
+	public static com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByUserId(userId);
+	}
+
+	public static com.marcelmika.lims.persistence.generated.model.Panel createPanel()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createPanel();
+	}
+
+	public static void savePanel(
+		com.marcelmika.lims.persistence.generated.model.Panel panel)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().savePanel(panel);
+	}
+
 	public static void updateActivePanel(long userId,
 		java.lang.String activePanel) throws java.lang.Exception {
 		getService().updateActivePanel(userId, activePanel);

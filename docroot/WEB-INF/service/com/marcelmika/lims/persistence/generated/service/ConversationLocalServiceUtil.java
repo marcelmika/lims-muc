@@ -286,6 +286,29 @@ public class ConversationLocalServiceUtil {
 		return getService().getConversation(conversationId);
 	}
 
+	public static com.marcelmika.lims.persistence.generated.model.Conversation fetchByConversationId(
+		java.lang.String conversationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByConversationId(conversationId);
+	}
+
+	public static com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	public static com.marcelmika.lims.persistence.generated.model.Conversation createConversation()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createConversation();
+	}
+
+	public static void saveConversation(
+		com.marcelmika.lims.persistence.generated.model.Conversation conversation)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().saveConversation(conversation);
+	}
+
 	public static void updateConversationTimestamp(long cid)
 		throws java.lang.Exception {
 		getService().updateConversationTimestamp(cid);

@@ -473,6 +473,19 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 			isCreator);
 	}
 
+	@Override
+	public com.marcelmika.lims.persistence.generated.model.Participant createParticipant()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _participantLocalService.createParticipant();
+	}
+
+	@Override
+	public void saveParticipant(
+		com.marcelmika.lims.persistence.generated.model.Participant participant)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_participantLocalService.saveParticipant(participant);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

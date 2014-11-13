@@ -114,9 +114,29 @@ public class SynchronizationLocalServiceClpInvoker {
 
 		_methodParameterTypes61 = new String[] { "java.lang.String" };
 
-		_methodName66 = "synchronizeSUC_1_2_0";
+		_methodName66 = "synchronizeSUC";
 
-		_methodParameterTypes66 = new String[] {  };
+		_methodParameterTypes66 = new String[] { "java.lang.String" };
+
+		_methodName67 = "findSettings";
+
+		_methodParameterTypes67 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName68 = "findPanel";
+
+		_methodParameterTypes68 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName69 = "findConversation";
+
+		_methodParameterTypes69 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName70 = "findParticipant";
+
+		_methodParameterTypes70 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName71 = "findMessage";
+
+		_methodParameterTypes71 = new String[] { "java.lang.String", "int", "int" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -222,9 +242,44 @@ public class SynchronizationLocalServiceClpInvoker {
 
 		if (_methodName66.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
-			SynchronizationLocalServiceUtil.synchronizeSUC_1_2_0();
+			SynchronizationLocalServiceUtil.synchronizeSUC((java.lang.String)arguments[0]);
 
 			return null;
+		}
+
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.findSettings((java.lang.String)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.findPanel((java.lang.String)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.findConversation((java.lang.String)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.findParticipant((java.lang.String)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName71.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.findMessage((java.lang.String)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -268,4 +323,14 @@ public class SynchronizationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes61;
 	private String _methodName66;
 	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
+	private String _methodName70;
+	private String[] _methodParameterTypes70;
+	private String _methodName71;
+	private String[] _methodParameterTypes71;
 }

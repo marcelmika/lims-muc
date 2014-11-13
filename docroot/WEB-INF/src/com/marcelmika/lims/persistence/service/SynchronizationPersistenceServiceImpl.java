@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.lims.api.events.synchronization.SynchronizeSUCResponseEvent;
 import com.marcelmika.lims.persistence.generated.service.SynchronizationLocalServiceUtil;
+import com.marcelmika.lims.persistence.synchronization.Version;
 
 /**
  * @author Ing. Marcel Mika
@@ -40,7 +41,7 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         boolean success = false;
 
         // Try to synchronize with SUC v1.2.0
-        if (synchronizeSUC_1_2_0()) {
+        if (synchronizeSUC(Version.SUC_1_2_0)) {
             success = true;
         }
 
@@ -60,11 +61,11 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
      *
      * @return true if the sync was successful, false otherwise
      */
-    private boolean synchronizeSUC_1_2_0() {
+    private boolean synchronizeSUC(Version version) {
         // Let the persistence handle it
         try {
             // Synchronize
-            SynchronizationLocalServiceUtil.synchronizeSUC_1_2_0();
+            SynchronizationLocalServiceUtil.synchronizeSUC(version.getDescription());
 
             // Success
             return true;

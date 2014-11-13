@@ -60,6 +60,18 @@ public class PanelLocalServiceImpl extends PanelLocalServiceBaseImpl {
         }
     }
 
+    public Panel fetchByUserId(long userId) throws SystemException {
+        return panelPersistence.fetchByUserId(userId);
+    }
+
+    public Panel createPanel() throws SystemException {
+        return panelPersistence.create(counterLocalService.increment());
+    }
+
+    public void savePanel(Panel panel) throws SystemException {
+        panelPersistence.update(panel, false);
+    }
+
     public void updateActivePanel(long userId, String activePanel) throws Exception {
         // Get user settings
         Panel panel = getPanelByUser(userId);

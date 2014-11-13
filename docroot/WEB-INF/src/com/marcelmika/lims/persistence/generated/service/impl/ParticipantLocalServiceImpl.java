@@ -344,4 +344,13 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
 
         return participantModel;
     }
+
+
+    public Participant createParticipant() throws SystemException {
+        return participantPersistence.create(counterLocalService.increment());
+    }
+
+    public void saveParticipant(Participant participant) throws SystemException {
+        participantPersistence.update(participant, false);
+    }
 }
