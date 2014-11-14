@@ -12,7 +12,7 @@
         -->
         <scheduler-entry>
             <scheduler-event-listener-class>
-                com.marcelmika.lims.portal.hooks.UpdateConnectionsJob
+                com.marcelmika.limsmuc.portal.hooks.UpdateConnectionsJob
             </scheduler-event-listener-class>
             <trigger>
                 <simple>

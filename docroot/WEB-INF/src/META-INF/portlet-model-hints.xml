@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="com.marcelmika.lims.persistence.generated.model.Conversation">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Conversation">
 		<field name="cid" type="long" />
 		<field name="conversationId" type="String">
 			<hint name="max-length">256</hint>
@@ -10,7 +10,7 @@
 		<field name="updatedAt" type="Date" />
 		<field name="syncIdSUC" type="long" />
 	</model>
-	<model name="com.marcelmika.lims.persistence.generated.model.Message">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Message">
 		<field name="mid" type="long" />
 		<field name="cid" type="long" />
 		<field name="messageType" type="int" />
@@ -21,14 +21,14 @@
 		</field>
 		<field name="syncIdSUC" type="long" />
 	</model>
-	<model name="com.marcelmika.lims.persistence.generated.model.Panel">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Panel">
 		<field name="pid" type="long" />
 		<field name="userId" type="long" />
 		<field name="activePanelId" type="String">
 			<hint name="max-length">256</hint>
 		</field>
 	</model>
-	<model name="com.marcelmika.lims.persistence.generated.model.Participant">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Participant">
 		<field name="pid" type="long" />
 		<field name="cid" type="long" />
 		<field name="participantId" type="long" />
@@ -38,7 +38,7 @@
 		<field name="hasLeft" type="boolean" />
 		<field name="openedAt" type="Date" />
 	</model>
-	<model name="com.marcelmika.lims.persistence.generated.model.Settings">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Settings">
 		<field name="sid" type="long" />
 		<field name="userId" type="long" />
 		<field name="presence" type="String" />
@@ -49,7 +49,7 @@
 		<field name="connected" type="boolean" />
 		<field name="connectedAt" type="Date" />
 	</model>
-	<model name="com.marcelmika.lims.persistence.generated.model.Synchronization">
+	<model name="com.marcelmika.limsmuc.persistence.generated.model.Synchronization">
 		<field name="sid" type="long" />
 		<field name="sucSync" type="boolean" />
 	</model>

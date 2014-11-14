@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="com.marcelmika.lims.persistence.generated.model.Conversation" />
-	<import class="com.marcelmika.lims.persistence.generated.model.Message" />
-	<import class="com.marcelmika.lims.persistence.generated.model.Panel" />
-	<import class="com.marcelmika.lims.persistence.generated.model.Participant" />
-	<import class="com.marcelmika.lims.persistence.generated.model.Settings" />
-	<import class="com.marcelmika.lims.persistence.generated.model.Synchronization" />
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" table="Limsmuc_Conversation">
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Conversation" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Message" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Panel" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Participant" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Settings" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Synchronization" />
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationImpl" table="Limsmuc_Conversation">
 		<cache usage="read-write" />
 		<id name="cid" type="long">
 			<generator class="assigned" />
@@ -18,7 +18,7 @@
 		<property name="updatedAt" type="org.hibernate.type.TimestampType" />
 		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" table="Limsmuc_Message">
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageImpl" table="Limsmuc_Message">
 		<cache usage="read-write" />
 		<id name="mid" type="long">
 			<generator class="assigned" />
@@ -30,7 +30,7 @@
 		<property name="body" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.PanelImpl" table="Limsmuc_Panel">
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelImpl" table="Limsmuc_Panel">
 		<cache usage="read-write" />
 		<id name="pid" type="long">
 			<generator class="assigned" />
@@ -38,7 +38,7 @@
 		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="activePanelId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl" table="Limsmuc_Participant">
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl" table="Limsmuc_Participant">
 		<cache usage="read-write" />
 		<id name="pid" type="long">
 			<generator class="assigned" />
@@ -51,7 +51,7 @@
 		<property name="hasLeft" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="openedAt" type="org.hibernate.type.TimestampType" />
 	</class>
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" table="Limsmuc_Settings">
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsImpl" table="Limsmuc_Settings">
 		<cache usage="read-write" />
 		<id name="sid" type="long">
 			<generator class="assigned" />
@@ -65,7 +65,7 @@
 		<property name="connected" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connectedAt" type="org.hibernate.type.TimestampType" />
 	</class>
-	<class name="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationImpl" table="Limsmuc_Synchronization">
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationImpl" table="Limsmuc_Synchronization">
 		<cache usage="read-write" />
 		<id name="sid" type="long">
 			<generator class="assigned" />

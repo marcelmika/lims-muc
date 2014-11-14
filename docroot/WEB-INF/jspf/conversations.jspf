@@ -7,7 +7,7 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
-<%@ page import="com.marcelmika.lims.portal.properties.InputLimits" %>
+<%@ page import="com.marcelmika.limsmuc.portal.properties.InputLimits" %>
 
 <% { %>
 

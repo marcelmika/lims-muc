@@ -12,7 +12,7 @@
 <custom-sql>
 
     <!-- Finds all messages in the database related to the conversation and stopper -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.findAllMessages">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.findAllMessages">
         <![CDATA[
 			SELECT
 				Limsmuc_Message.mid AS mid,
@@ -30,7 +30,7 @@
     </sql>
 
     <!-- Counts all messages in the database related to the conversation and stopper -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.countAllMessages">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.countAllMessages">
         <![CDATA[
 			SELECT
 			    COUNT(Limsmuc_Message.mid) AS messageCount
@@ -43,7 +43,7 @@
     </sql>
 
     <!-- Returns the oldest message in the conversation -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.firstMessage">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.firstMessage">
         <![CDATA[
 			SELECT
                 Limsmuc_Message.mid AS mid,
@@ -66,7 +66,7 @@
     </sql>
 
     <!-- Returns the oldest message in the conversation -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.MessageFinder.lastMessage">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.lastMessage">
         <![CDATA[
 			SELECT
                 Limsmuc_Message.mid AS mid,

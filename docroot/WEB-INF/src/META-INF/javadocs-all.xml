@@ -3,7 +3,7 @@
 <javadocs>
 	<javadoc>
 		<name>BuddyCollectionDetails</name>
-		<type>com.marcelmika.lims.api.entity.BuddyCollectionDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.BuddyCollectionDetails</type>
 		<comment><![CDATA[Container which holds a collection of buddy details]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -40,7 +40,7 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyDetails</name>
-		<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getBuddyId</name>
@@ -153,7 +153,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationDetails</name>
-		<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationId</name>
@@ -277,7 +277,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationTypeDetails</name>
-		<type>com.marcelmika.lims.api.entity.ConversationTypeDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.ConversationTypeDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ConversationTypeDetails</name>
@@ -308,7 +308,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCollectionDetails</name>
-		<type>com.marcelmika.lims.api.entity.GroupCollectionDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.GroupCollectionDetails</type>
 		<comment><![CDATA[Simple container that holds groups]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -348,7 +348,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupDetails</name>
-		<type>com.marcelmika.lims.api.entity.GroupDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.GroupDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getBuddies</name>
@@ -404,7 +404,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MessageDetails</name>
-		<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getFrom</name>
@@ -483,7 +483,7 @@
 	</javadoc>
 	<javadoc>
 		<name>PaginationDetails</name>
-		<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.MessagePaginationDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getFirstMessageId</name>
@@ -523,7 +523,7 @@
 			<name>setAction</name>
 			<param>
 				<name>action</name>
-				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails.ActionDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessagePaginationDetails.ActionDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -539,7 +539,7 @@
 	</javadoc>
 	<javadoc>
 		<name>PresenceDetails</name>
-		<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>PresenceDetails</name>
@@ -576,7 +576,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SettingsDetails</name>
-		<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+		<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getPresenceDetails</name>
@@ -649,7 +649,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Environment</name>
-		<type>com.marcelmika.lims.api.environment.Environment</type>
+		<type>com.marcelmika.limsmuc.api.environment.Environment</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getBuddyListSource</name>
@@ -793,12 +793,12 @@
 	</javadoc>
 	<javadoc>
 		<name>RequestEvent</name>
-		<type>com.marcelmika.lims.api.events.RequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.RequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 	</javadoc>
 	<javadoc>
 		<name>ResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.ResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.ResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getResult</name>
@@ -830,13 +830,13 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.ConnectBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ConnectBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ConnectBuddyRequestEvent</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -852,7 +852,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.ConnectBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ConnectBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>connectFailure</name>
@@ -865,7 +865,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[related to the event]]></comment>
 			</param>
@@ -885,7 +885,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[related to the event]]></comment>
 			</param>
@@ -906,13 +906,13 @@
 	</javadoc>
 	<javadoc>
 		<name>DeleteBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.DeleteBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>DeleteBuddyRequestEvent</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -928,7 +928,7 @@
 	</javadoc>
 	<javadoc>
 		<name>DeleteBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.DeleteBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>removeFailure</name>
@@ -939,7 +939,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -955,7 +955,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -974,13 +974,13 @@
 	</javadoc>
 	<javadoc>
 		<name>LoginBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.LoginBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>LoginBuddyRequestEvent</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -996,7 +996,7 @@
 	</javadoc>
 	<javadoc>
 		<name>LoginBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.LoginBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>loginFailure</name>
@@ -1009,7 +1009,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[related to the event]]></comment>
 			</param>
@@ -1029,7 +1029,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[related to the event]]></comment>
 			</param>
@@ -1050,13 +1050,13 @@
 	</javadoc>
 	<javadoc>
 		<name>LogoutBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.LogoutBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>LogoutBuddyRequestEvent</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1072,7 +1072,7 @@
 	</javadoc>
 	<javadoc>
 		<name>LogoutBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.LogoutBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>logoutFailure</name>
@@ -1083,7 +1083,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -1099,7 +1099,7 @@
 			</param>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -1118,13 +1118,13 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadPresenceBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.ReadPresenceBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ReadPresenceBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ReadPresenceBuddyRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1140,7 +1140,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadPresenceBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.ReadPresenceBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ReadPresenceBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>readPresenceSuccess</name>
@@ -1151,7 +1151,7 @@
 			</param>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -1181,7 +1181,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdatePresenceBuddyRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.UpdatePresenceBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>UpdatePresenceBuddyRequestEvent</name>
@@ -1192,7 +1192,7 @@
 			</param>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1217,7 +1217,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdatePresenceBuddyResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.buddy.UpdatePresenceBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>updatePresenceSuccess</name>
@@ -1249,18 +1249,18 @@
 	</javadoc>
 	<javadoc>
 		<name>AddBuddiesRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.AddParticipantsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.AddParticipantsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>AddBuddiesRequestEvent</name>
 			<param>
 				<name>buddyCollectionDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyCollectionDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyCollectionDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>conversationDetails</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1285,7 +1285,7 @@
 	</javadoc>
 	<javadoc>
 		<name>AddBuddiesResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.AddParticipantsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.AddParticipantsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>addBuddiesSuccess</name>
@@ -1317,7 +1317,7 @@
 	</javadoc>
 	<javadoc>
 		<name>CloseConversationRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.CloseConversationRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.CloseConversationRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>CloseConversationRequestEvent</name>
@@ -1353,7 +1353,7 @@
 	</javadoc>
 	<javadoc>
 		<name>CloseConversationResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.CloseConversationResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.CloseConversationResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>CloseConversationResponseEvent</name>
@@ -1372,7 +1372,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.CloseConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.CloseConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1386,7 +1386,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.CloseConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.CloseConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1413,23 +1413,23 @@
 	</javadoc>
 	<javadoc>
 		<name>CreateConversationRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.CreateConversationRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.CreateConversationRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>CreateConversationRequestEvent</name>
 			<param>
 				<name>creator</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>initialMessage</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1463,7 +1463,7 @@
 	</javadoc>
 	<javadoc>
 		<name>CreateConversationResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.CreateConversationResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>CreateConversationResponseEvent</name>
@@ -1474,7 +1474,7 @@
 			<comment><![CDATA[Factory method for success status]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -1487,7 +1487,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.CreateConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1501,7 +1501,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.CreateConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1537,13 +1537,13 @@
 	</javadoc>
 	<javadoc>
 		<name>GetConversationsRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.GetConversationsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.GetConversationsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GetConversationsRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1559,7 +1559,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GetConversationsResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.GetConversationsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.GetConversationsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationsSuccess</name>
@@ -1595,13 +1595,13 @@
 	</javadoc>
 	<javadoc>
 		<name>GetOpenedConversationsRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.GetOpenedConversationsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GetOpenedConversationsRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1617,7 +1617,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GetOpenedConversationsResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.GetOpenedConversationsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GetOpenedConversationsResponseEvent</name>
@@ -1641,7 +1641,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.GetOpenedConversationsResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1655,7 +1655,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.GetOpenedConversationsResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1691,7 +1691,7 @@
 	</javadoc>
 	<javadoc>
 		<name>LeaveConversationRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.LeaveConversationRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.LeaveConversationRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>LeaveConversationRequestEvent</name>
@@ -1727,7 +1727,7 @@
 	</javadoc>
 	<javadoc>
 		<name>LeaveConversationResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.LeaveConversationResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.LeaveConversationResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>leaveConversationSuccess</name>
@@ -1759,7 +1759,7 @@
 	</javadoc>
 	<javadoc>
 		<name>OpenConversationRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.OpenConversationRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.OpenConversationRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>OpenConversationRequestEvent</name>
@@ -1795,7 +1795,7 @@
 	</javadoc>
 	<javadoc>
 		<name>OpenConversationResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.OpenConversationResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.OpenConversationResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>OpenConversationResponseEvent</name>
@@ -1814,7 +1814,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.OpenConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.OpenConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1828,7 +1828,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.OpenConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.OpenConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1855,23 +1855,23 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadSingleUserConversationRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.ReadSingleUserConversationRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ReadSingleUserConversationRequestEvent</name>
 			<param>
 				<name>participant</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>pagination</name>
-				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessagePaginationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -1905,7 +1905,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadSingleUserConversationResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.ReadSingleUserConversationResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ReadSingleUserConversationResponseEvent</name>
@@ -1916,7 +1916,7 @@
 			<comment><![CDATA[Factory method for success status]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -1929,7 +1929,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.ReadSingleUserConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1943,7 +1943,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.ReadSingleUserConversationResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -1979,7 +1979,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ResetUnreadMessagesCounterRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.ResetUnreadMessagesCounterRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ResetUnreadMessagesCounterRequestEvent</name>
@@ -2015,7 +2015,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ResetUnreadMessagesCounterResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.ResetUnreadMessagesCounterResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ResetUnreadMessagesCounterResponseEvent</name>
@@ -2034,7 +2034,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.ResetUnreadMessagesCounterResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -2048,7 +2048,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.ResetUnreadMessagesCounterResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -2075,23 +2075,23 @@
 	</javadoc>
 	<javadoc>
 		<name>SendMessageRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.SendMessageRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.SendMessageRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>SendMessageRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>conversationDetails</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
 				<name>messageDetails</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2125,7 +2125,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SendMessageResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.conversation.SendMessageResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>SendMessageResponseEvent</name>
@@ -2136,7 +2136,7 @@
 			<comment><![CDATA[Factory method for success status]]></comment>
 			<param>
 				<name>message</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -2149,7 +2149,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.SendMessageResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -2163,7 +2163,7 @@
 			<comment><![CDATA[Factory method for failure status]]></comment>
 			<param>
 				<name>status</name>
-				<type>com.marcelmika.lims.api.events.conversation.SendMessageResponseEvent.Status</type>
+				<type>com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent.Status</type>
 				<required>true</required>
 				<comment><![CDATA[Status]]></comment>
 			</param>
@@ -2199,13 +2199,13 @@
 	</javadoc>
 	<javadoc>
 		<name>GetGroupsRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GetGroupsRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2221,13 +2221,13 @@
 	</javadoc>
 	<javadoc>
 		<name>GetGroupsResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.group.GetGroupsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroupsSuccess</name>
 			<param>
 				<name>groupCollectionDetails</name>
-				<type>com.marcelmika.lims.api.entity.GroupCollectionDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.GroupCollectionDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -2257,13 +2257,13 @@
 	</javadoc>
 	<javadoc>
 		<name>DisableChatRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.DisableChatRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.DisableChatRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>DisableChatRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2279,7 +2279,7 @@
 	</javadoc>
 	<javadoc>
 		<name>DisableChatResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.DisableChatResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.DisableChatResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>disableChatSuccess</name>
@@ -2311,13 +2311,13 @@
 	</javadoc>
 	<javadoc>
 		<name>EnableChatRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.EnableChatRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.EnableChatRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>EnableChatRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2333,7 +2333,7 @@
 	</javadoc>
 	<javadoc>
 		<name>EnableChatResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.EnableChatResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.EnableChatResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>enableChatSuccess</name>
@@ -2365,13 +2365,13 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadSettingsRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.ReadSettingsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ReadSettingsRequestEvent</name>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2387,7 +2387,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadSettingsResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.ReadSettingsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>readSettingsSuccess</name>
@@ -2398,7 +2398,7 @@
 			</param>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -2428,7 +2428,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdateActivePanelRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.UpdateActivePanelRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>UpdateActivePanelRequestEvent</name>
@@ -2464,7 +2464,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdateActivePanelResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.UpdateActivePanelResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>updateActivePanelFailure</name>
@@ -2496,7 +2496,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdateSettingsRequestEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.UpdateSettingsRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.UpdateSettingsRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>UpdateSettingsRequestEvent</name>
@@ -2507,7 +2507,7 @@
 			</param>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -2532,7 +2532,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UpdateSettingsResponseEvent</name>
-		<type>com.marcelmika.lims.api.events.settings.UpdateSettingsResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.settings.UpdateSettingsResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>updateSettingsFailure</name>
@@ -2543,7 +2543,7 @@
 			</param>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
@@ -2564,7 +2564,7 @@
 			</param>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -2583,14 +2583,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Buddy</name>
-		<type>com.marcelmika.lims.core.domain.Buddy</type>
+		<type>com.marcelmika.limsmuc.core.domain.Buddy</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromBuddyDetails</name>
 			<comment><![CDATA[Create new user and maps data from user details]]></comment>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[BuddyDetails]]></comment>
 			</param>
@@ -2712,14 +2712,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Conversation</name>
-		<type>com.marcelmika.lims.core.domain.Conversation</type>
+		<type>com.marcelmika.limsmuc.core.domain.Conversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromConversationDetails</name>
 			<comment><![CDATA[Factory method which creates new Conversation from the ConversationDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<required>true</required>
 				<comment><![CDATA[ConversationDetails]]></comment>
 			</param>
@@ -2866,19 +2866,19 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationType</name>
-		<type>com.marcelmika.lims.core.domain.ConversationType</type>
+		<type>com.marcelmika.limsmuc.core.domain.ConversationType</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 	</javadoc>
 	<javadoc>
 		<name>Message</name>
-		<type>com.marcelmika.lims.core.domain.Message</type>
+		<type>com.marcelmika.limsmuc.core.domain.Message</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromMessageDetails</name>
 			<comment><![CDATA[Creates new Message and maps data from Message details]]></comment>
 			<param>
 				<name>messageDetails</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<required>true</required>
 				<comment><![CDATA[MessageDetails]]></comment>
 			</param>
@@ -2949,14 +2949,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Presence</name>
-		<type>com.marcelmika.lims.core.domain.Presence</type>
+		<type>com.marcelmika.limsmuc.core.domain.Presence</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromPresenceDetails</name>
 			<comment><![CDATA[Factory method which creates new Presence from PresenceDetails]]></comment>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<required>true</required>
 				<comment><![CDATA[PresenceDetails]]></comment>
 			</param>
@@ -3008,14 +3008,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Settings</name>
-		<type>com.marcelmika.lims.core.domain.Settings</type>
+		<type>com.marcelmika.limsmuc.core.domain.Settings</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromSettingsDetails</name>
 			<comment><![CDATA[Create new settings and maps data from settings details]]></comment>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<required>true</required>
 				<comment><![CDATA[SettingsDetails]]></comment>
 			</param>
@@ -3089,7 +3089,7 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyCoreService</name>
-		<type>com.marcelmika.lims.core.service.BuddyCoreService</type>
+		<type>com.marcelmika.limsmuc.core.service.BuddyCoreService</type>
 		<comment><![CDATA[Serves as a port to the business logic related to buddy.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3151,7 +3151,7 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyCoreServiceImpl</name>
-		<type>com.marcelmika.lims.core.service.BuddyCoreServiceImpl</type>
+		<type>com.marcelmika.limsmuc.core.service.BuddyCoreServiceImpl</type>
 		<comment><![CDATA[Implementation of BuddyCoreService]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3159,13 +3159,13 @@
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>buddyJabberService</name>
-				<type>com.marcelmika.lims.jabber.service.BuddyJabberService</type>
+				<type>com.marcelmika.limsmuc.jabber.service.BuddyJabberService</type>
 				<required>true</required>
 				<comment><![CDATA[jabber service]]></comment>
 			</param>
 			<param>
 				<name>buddyPersistenceService</name>
-				<type>com.marcelmika.lims.persistence.service.BuddyPersistenceService</type>
+				<type>com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService</type>
 				<required>true</required>
 				<comment><![CDATA[persistence service]]></comment>
 			</param>
@@ -3238,7 +3238,7 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyCoreServiceUtil</name>
-		<type>com.marcelmika.lims.core.service.BuddyCoreServiceUtil</type>
+		<type>com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil</type>
 		<comment><![CDATA[Utility class that holds an instance of BuddyCoreService.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3265,7 +3265,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationCoreService</name>
-		<type>com.marcelmika.lims.core.service.ConversationCoreService</type>
+		<type>com.marcelmika.limsmuc.core.service.ConversationCoreService</type>
 		<comment><![CDATA[Serves as a port to the business logic related to conversation.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3415,7 +3415,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationCoreServiceImpl</name>
-		<type>com.marcelmika.lims.core.service.ConversationCoreServiceImpl</type>
+		<type>com.marcelmika.limsmuc.core.service.ConversationCoreServiceImpl</type>
 		<comment><![CDATA[Implementation of ConversationCoreService]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3423,13 +3423,13 @@
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>conversationJabberService</name>
-				<type>com.marcelmika.lims.jabber.service.ConversationJabberService</type>
+				<type>com.marcelmika.limsmuc.jabber.service.ConversationJabberService</type>
 				<required>true</required>
 				<comment><![CDATA[jabber service]]></comment>
 			</param>
 			<param>
 				<name>conversationPersistenceService</name>
-				<type>com.marcelmika.lims.persistence.service.ConversationPersistenceService</type>
+				<type>com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -3582,7 +3582,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationCoreServiceUtil</name>
-		<type>com.marcelmika.lims.core.service.ConversationCoreServiceUtil</type>
+		<type>com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil</type>
 		<comment><![CDATA[Utility class that holds an instance of ConversationCoreService.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3609,14 +3609,14 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCoreService</name>
-		<type>com.marcelmika.lims.core.service.GroupCoreService</type>
+		<type>com.marcelmika.limsmuc.core.service.GroupCoreService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroups</name>
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -3628,20 +3628,20 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCoreServiceImpl</name>
-		<type>com.marcelmika.lims.core.service.GroupCoreServiceImpl</type>
+		<type>com.marcelmika.limsmuc.core.service.GroupCoreServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GroupCoreServiceImpl</name>
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>groupJabberService</name>
-				<type>com.marcelmika.lims.jabber.service.GroupJabberService</type>
+				<type>com.marcelmika.limsmuc.jabber.service.GroupJabberService</type>
 				<required>true</required>
 				<comment><![CDATA[jabber service]]></comment>
 			</param>
 			<param>
 				<name>groupPersistenceService</name>
-				<type>com.marcelmika.lims.persistence.service.GroupPersistenceService</type>
+				<type>com.marcelmika.limsmuc.persistence.service.GroupPersistenceService</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -3650,7 +3650,7 @@
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -3668,7 +3668,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCoreServiceUtil</name>
-		<type>com.marcelmika.lims.core.service.GroupCoreServiceUtil</type>
+		<type>com.marcelmika.limsmuc.core.service.GroupCoreServiceUtil</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroupCoreService</name>
@@ -3694,7 +3694,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SettingsCoreService</name>
-		<type>com.marcelmika.lims.core.service.SettingsCoreService</type>
+		<type>com.marcelmika.limsmuc.core.service.SettingsCoreService</type>
 		<comment><![CDATA[Several settings values are related to each buddy. Those values can be changed via SettingsCoreService that serves as a port to the business logic related to settings.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3770,7 +3770,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SettingsCoreServiceImpl</name>
-		<type>com.marcelmika.lims.core.service.SettingsCoreServiceImpl</type>
+		<type>com.marcelmika.limsmuc.core.service.SettingsCoreServiceImpl</type>
 		<comment><![CDATA[Implementation of SettingsCoreService]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3778,7 +3778,7 @@
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>settingsPersistenceService</name>
-				<type>com.marcelmika.lims.persistence.service.SettingsPersistenceService</type>
+				<type>com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService</type>
 				<required>true</required>
 				<comment><![CDATA[persistence service]]></comment>
 			</param>
@@ -3859,7 +3859,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SettingsCoreServiceUtil</name>
-		<type>com.marcelmika.lims.core.service.SettingsCoreServiceUtil</type>
+		<type>com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil</type>
 		<comment><![CDATA[Utility class that holds an instance of SettingsCoreService.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -3886,7 +3886,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Jabber</name>
-		<type>com.marcelmika.lims.jabber.Jabber</type>
+		<type>com.marcelmika.limsmuc.jabber.Jabber</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -3898,7 +3898,7 @@
 			</param>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
@@ -4051,7 +4051,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberException</name>
-		<type>com.marcelmika.lims.jabber.JabberException</type>
+		<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>JabberException</name>
@@ -4097,15 +4097,8 @@
 		</method>
 	</javadoc>
 	<javadoc>
-		<name>JabberImpl</name>
-		<type>com.marcelmika.lims.jabber.JabberImpl</type>
-		<comment><![CDATA[Jabber server facade]]></comment>
-		<author><![CDATA[Ing. Marcel Mika]]></author>
-		<deprecated><![CDATA[]]></deprecated>
-	</javadoc>
-	<javadoc>
 		<name>JabberKeys</name>
-		<type>com.marcelmika.lims.jabber.JabberKeys</type>
+		<type>com.marcelmika.limsmuc.jabber.JabberKeys</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<field>
@@ -4126,7 +4119,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberMapper</name>
-		<type>com.marcelmika.lims.jabber.JabberMapper</type>
+		<type>com.marcelmika.limsmuc.jabber.JabberMapper</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -4168,7 +4161,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberUtil</name>
-		<type>com.marcelmika.lims.jabber.JabberUtil</type>
+		<type>com.marcelmika.limsmuc.jabber.JabberUtil</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -4198,7 +4191,7 @@
 			</param>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
@@ -4337,14 +4330,14 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManager</name>
-		<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConnection</name>
 			<comment><![CDATA[Creates new connection with jabber server]]></comment>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4364,8 +4357,8 @@
 				<comment><![CDATA[String]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4409,7 +4402,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManagerFactory</name>
-		<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManagerFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>buildManager</name>
@@ -4420,15 +4413,15 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManagerImpl</name>
-		<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManagerImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerImpl</type>
 		<comment><![CDATA[Manages user's connection to the server]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConnection</name>
 			<comment><![CDATA[Creates new connection with jabber server]]></comment>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4448,8 +4441,8 @@
 				<comment><![CDATA[String]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4547,7 +4540,7 @@
 	</javadoc>
 	<javadoc>
 		<name>LiferaySaslMechanism</name>
-		<type>com.marcelmika.lims.jabber.connection.sasl.LiferaySaslMechanism</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.sasl.LiferaySaslMechanism</type>
 		<comment><![CDATA[Has to be overridden to repair bug in SASLPlainMechanism class from Smack]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -4602,7 +4595,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationContainer</name>
-		<type>com.marcelmika.lims.jabber.conversation.ConversationContainer</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.ConversationContainer</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -4616,7 +4609,7 @@
 			</param>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 				<required>true</required>
 				<comment><![CDATA[conversation]]></comment>
 			</param>
@@ -4663,7 +4656,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationKeys</name>
-		<type>com.marcelmika.lims.jabber.conversation.ConversationKeys</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.ConversationKeys</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<field>
 			<name>CONVERSATION_TYPE_MULTI_USER</name>
@@ -4674,13 +4667,13 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationManager</name>
-		<type>com.marcelmika.lims.jabber.conversation.ConversationManager</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.ConversationManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 	</javadoc>
 	<javadoc>
 		<name>ConversationStore</name>
-		<type>com.marcelmika.lims.jabber.conversation.ConversationStore</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.ConversationStore</type>
 		<comment><![CDATA[Singleton which stores all conversation containers within the application]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
@@ -4739,7 +4732,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MultiUserConversationManager</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.multi.MultiUserConversationManager</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>setConnection</name>
@@ -4754,7 +4747,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MultiUserConversationManagerFactory</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.multi.MultiUserConversationManagerFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManagerFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>buildManager</name>
@@ -4765,7 +4758,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MultiUserConversationManagerImpl</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.multi.MultiUserConversationManagerImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManagerImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>setConnection</name>
@@ -4780,7 +4773,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SingleUserConversationManager</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.single.SingleUserConversationManager</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>setChatManager</name>
@@ -4797,7 +4790,7 @@
 			<comment><![CDATA[Creates new single user chat conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
@@ -4805,8 +4798,8 @@
 				<comment><![CDATA[]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4823,13 +4816,13 @@
 			<comment><![CDATA[Sends message to conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
 			<param>
 				<name>message</name>
-				<type>com.marcelmika.lims.jabber.domain.Message</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Message</type>
 				<required>true</required>
 				<comment><![CDATA[Message]]></comment>
 			</param>
@@ -4837,15 +4830,15 @@
 				<comment><![CDATA[]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
 	</javadoc>
 	<javadoc>
 		<name>SingleUserConversationManagerFactory</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.single.SingleUserConversationManagerFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManagerFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>buildManager</name>
@@ -4856,7 +4849,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SingleUserConversationManagerImpl</name>
-		<type>com.marcelmika.lims.jabber.conversation.manager.single.SingleUserConversationManagerImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManagerImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>setChatManager</name>
@@ -4873,7 +4866,7 @@
 			<comment><![CDATA[Creates new single user chat conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
@@ -4881,8 +4874,8 @@
 				<comment><![CDATA[]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4899,13 +4892,13 @@
 			<comment><![CDATA[Sends message to conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
 			<param>
 				<name>message</name>
-				<type>com.marcelmika.lims.jabber.domain.Message</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Message</type>
 				<required>true</required>
 				<comment><![CDATA[Message]]></comment>
 			</param>
@@ -4913,8 +4906,8 @@
 				<comment><![CDATA[]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -4963,7 +4956,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Buddy</name>
-		<type>com.marcelmika.lims.jabber.domain.Buddy</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.Buddy</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromRosterEntry</name>
@@ -5023,7 +5016,7 @@
 			<comment><![CDATA[Create new user and maps data from user details]]></comment>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[BuddyDetails]]></comment>
 			</param>
@@ -5128,7 +5121,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Conversation</name>
-		<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -5211,14 +5204,14 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationType</name>
-		<type>com.marcelmika.lims.jabber.domain.ConversationType</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.ConversationType</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromConversationTypeDetails</name>
 			<comment><![CDATA[Factory method which creates new ConversationType from ConversationTypeDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationTypeDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationTypeDetails</type>
 				<required>true</required>
 				<comment><![CDATA[conversation type details]]></comment>
 			</param>
@@ -5264,14 +5257,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Group</name>
-		<type>com.marcelmika.lims.jabber.domain.Group</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.Group</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromGroupDetails</name>
 			<comment><![CDATA[Create new group and maps data from group details]]></comment>
 			<param>
 				<name>groupDetails</name>
-				<type>com.marcelmika.lims.api.entity.GroupDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.GroupDetails</type>
 				<required>true</required>
 				<comment><![CDATA[GroupDetails]]></comment>
 			</param>
@@ -5333,7 +5326,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCollection</name>
-		<type>com.marcelmika.lims.jabber.domain.GroupCollection</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.GroupCollection</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>toGroupCollectionDetails</name>
@@ -5366,7 +5359,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MUConversation</name>
-		<type>com.marcelmika.lims.jabber.domain.MUConversation</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.MUConversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -5553,7 +5546,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Message</name>
-		<type>com.marcelmika.lims.jabber.domain.Message</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.Message</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromSmackMessage</name>
@@ -5570,7 +5563,7 @@
 			<name>fromMessageDetails</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -5690,7 +5683,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MessageDeprecated</name>
-		<type>com.marcelmika.lims.jabber.domain.MessageDeprecated</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.MessageDeprecated</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -5790,7 +5783,7 @@
 	</javadoc>
 	<javadoc>
 		<name>MultiUserConversation</name>
-		<type>com.marcelmika.lims.jabber.domain.MultiUserConversation</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.MultiUserConversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationType</name>
@@ -5812,7 +5805,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Presence</name>
-		<type>com.marcelmika.lims.jabber.domain.Presence</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.Presence</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>Presence</name>
@@ -5827,7 +5820,7 @@
 			<comment><![CDATA[Factory method which creates new Presence from PresenceDetails]]></comment>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<required>true</required>
 				<comment><![CDATA[PresenceDetails]]></comment>
 			</param>
@@ -5888,7 +5881,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SUConversation</name>
-		<type>com.marcelmika.lims.jabber.domain.SUConversation</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.SUConversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -6025,7 +6018,7 @@
 	</javadoc>
 	<javadoc>
 		<name>SingleUserConversation</name>
-		<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+		<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromChat</name>
@@ -6045,7 +6038,7 @@
 			<name>fromConversationDetails</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -6158,7 +6151,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberFormFactory</name>
-		<type>com.marcelmika.lims.jabber.form.JabberFormFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.form.JabberFormFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getMUCConfigurationForm</name>
@@ -6171,7 +6164,7 @@
 	</javadoc>
 	<javadoc>
 		<name>PersistentRoomFormField</name>
-		<type>com.marcelmika.lims.jabber.form.PersistentRoomFormField</type>
+		<type>com.marcelmika.limsmuc.jabber.form.PersistentRoomFormField</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>PersistentRoomFormField</name>
@@ -6184,7 +6177,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupManager</name>
-		<type>com.marcelmika.lims.jabber.group.manager.GroupManager</type>
+		<type>com.marcelmika.limsmuc.jabber.group.manager.GroupManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>setRoster</name>
@@ -6207,7 +6200,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupManagerFactory</name>
-		<type>com.marcelmika.lims.jabber.group.manager.GroupManagerFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.group.manager.GroupManagerFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>buildManager</name>
@@ -6218,7 +6211,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupManagerImpl</name>
-		<type>com.marcelmika.lims.jabber.group.manager.GroupManagerImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.group.manager.GroupManagerImpl</type>
 		<comment><![CDATA[Group manager is responsible for the synchronization of groups and their entries. It keeps fresh copy of Group Collection related to the user.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -6288,7 +6281,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberChatManagerListener</name>
-		<type>com.marcelmika.lims.jabber.listener.JabberChatManagerListener</type>
+		<type>com.marcelmika.limsmuc.jabber.listener.JabberChatManagerListener</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -6326,7 +6319,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberMessageListener</name>
-		<type>com.marcelmika.lims.jabber.listener.JabberMessageListener</type>
+		<type>com.marcelmika.limsmuc.jabber.listener.JabberMessageListener</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -6336,7 +6329,7 @@
 			<name>JabberMessageListener</name>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -6344,7 +6337,7 @@
 			<name>setConversation</name>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.Conversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Conversation</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -6367,7 +6360,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberRosterListener</name>
-		<type>com.marcelmika.lims.jabber.listener.JabberRosterListener</type>
+		<type>com.marcelmika.limsmuc.jabber.listener.JabberRosterListener</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -6427,7 +6420,7 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyJabberService</name>
-		<type>com.marcelmika.lims.jabber.service.BuddyJabberService</type>
+		<type>com.marcelmika.limsmuc.jabber.service.BuddyJabberService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>connectBuddy</name>
@@ -6488,14 +6481,14 @@
 	</javadoc>
 	<javadoc>
 		<name>BuddyJabberServiceImpl</name>
-		<type>com.marcelmika.lims.jabber.service.BuddyJabberServiceImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.service.BuddyJabberServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>BuddyJabberServiceImpl</name>
 			<comment><![CDATA[BuddyJabberServiceImpl]]></comment>
 			<param>
 				<name>userSessionStore</name>
-				<type>com.marcelmika.lims.jabber.session.store.UserSessionStore</type>
+				<type>com.marcelmika.limsmuc.jabber.session.store.UserSessionStore</type>
 				<required>true</required>
 				<comment><![CDATA[UserSessionStore]]></comment>
 			</param>
@@ -6562,7 +6555,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationJabberService</name>
-		<type>com.marcelmika.lims.jabber.service.ConversationJabberService</type>
+		<type>com.marcelmika.limsmuc.jabber.service.ConversationJabberService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConversation</name>
@@ -6609,14 +6602,14 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationJabberServiceImpl</name>
-		<type>com.marcelmika.lims.jabber.service.ConversationJabberServiceImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.service.ConversationJabberServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ConversationJabberServiceImpl</name>
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>userSessionStore</name>
-				<type>com.marcelmika.lims.jabber.session.store.UserSessionStore</type>
+				<type>com.marcelmika.limsmuc.jabber.session.store.UserSessionStore</type>
 				<required>true</required>
 				<comment><![CDATA[UserSessionStore]]></comment>
 			</param>
@@ -6668,13 +6661,13 @@
 			<comment><![CDATA[Creates a single user conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
 			<param>
 				<name>session</name>
-				<type>com.marcelmika.lims.jabber.session.UserSession</type>
+				<type>com.marcelmika.limsmuc.jabber.session.UserSession</type>
 				<required>true</required>
 				<comment><![CDATA[UserSession]]></comment>
 			</param>
@@ -6688,19 +6681,19 @@
 			<comment><![CDATA[Sends message to a single user conversation]]></comment>
 			<param>
 				<name>conversation</name>
-				<type>com.marcelmika.lims.jabber.domain.SingleUserConversation</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.SingleUserConversation</type>
 				<required>true</required>
 				<comment><![CDATA[SingleUserConversation]]></comment>
 			</param>
 			<param>
 				<name>message</name>
-				<type>com.marcelmika.lims.jabber.domain.Message</type>
+				<type>com.marcelmika.limsmuc.jabber.domain.Message</type>
 				<required>true</required>
 				<comment><![CDATA[Message]]></comment>
 			</param>
 			<param>
 				<name>session</name>
-				<type>com.marcelmika.lims.jabber.session.UserSession</type>
+				<type>com.marcelmika.limsmuc.jabber.session.UserSession</type>
 				<required>true</required>
 				<comment><![CDATA[UserSession]]></comment>
 			</param>
@@ -6718,14 +6711,14 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupJabberService</name>
-		<type>com.marcelmika.lims.jabber.service.GroupJabberService</type>
+		<type>com.marcelmika.limsmuc.jabber.service.GroupJabberService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroups</name>
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -6737,14 +6730,14 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupJabberServiceImpl</name>
-		<type>com.marcelmika.lims.jabber.service.GroupJabberServiceImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.service.GroupJabberServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GroupJabberServiceImpl</name>
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>userSessionStore</name>
-				<type>com.marcelmika.lims.jabber.session.store.UserSessionStore</type>
+				<type>com.marcelmika.limsmuc.jabber.session.store.UserSessionStore</type>
 				<required>true</required>
 				<comment><![CDATA[UserSessionStore]]></comment>
 			</param>
@@ -6754,7 +6747,7 @@
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -6769,7 +6762,7 @@
 	</javadoc>
 	<javadoc>
 		<name>JabberSessionManager</name>
-		<type>com.marcelmika.lims.jabber.session.JabberSessionManager</type>
+		<type>com.marcelmika.limsmuc.jabber.session.JabberSessionManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<deprecated><![CDATA[]]></deprecated>
 		<method>
@@ -6777,13 +6770,13 @@
 			<comment><![CDATA[JabberSessionManager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManagerImpl</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerImpl</type>
 				<required>true</required>
 				<comment><![CDATA[JabberConnectionManager]]></comment>
 			</param>
 			<param>
 				<name>conversationManager</name>
-				<type>com.marcelmika.lims.jabber.conversation.ConversationManager</type>
+				<type>com.marcelmika.limsmuc.jabber.conversation.ConversationManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -6809,8 +6802,8 @@
 				<comment><![CDATA[String]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -6824,8 +6817,8 @@
 				<comment><![CDATA[long]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -6857,8 +6850,8 @@
 				<comment><![CDATA[Connection]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.jabber.JabberException</name>
-				<type>com.marcelmika.lims.jabber.JabberException</type>
+				<name>com.marcelmika.limsmuc.jabber.JabberException</name>
+				<type>com.marcelmika.limsmuc.jabber.JabberException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -6971,7 +6964,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UserSession</name>
-		<type>com.marcelmika.lims.jabber.session.UserSession</type>
+		<type>com.marcelmika.limsmuc.jabber.session.UserSession</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>UserSession</name>
@@ -6994,7 +6987,7 @@
 			</param>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create session manager]]></comment>
 			</param>
@@ -7008,7 +7001,7 @@
 			<comment><![CDATA[Creates new group manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create group manager]]></comment>
 			</param>
@@ -7022,7 +7015,7 @@
 			<comment><![CDATA[Create new single user conversation manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create single user conversation manager]]></comment>
 			</param>
@@ -7036,7 +7029,7 @@
 			<comment><![CDATA[Create new multi user conversation manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create multi user conversation manager]]></comment>
 			</param>
@@ -7061,7 +7054,7 @@
 			<name>setConnectionManager</name>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.lims.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -7075,7 +7068,7 @@
 			<name>setGroupManager</name>
 			<param>
 				<name>groupManager</name>
-				<type>com.marcelmika.lims.jabber.group.manager.GroupManager</type>
+				<type>com.marcelmika.limsmuc.jabber.group.manager.GroupManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -7089,7 +7082,7 @@
 			<name>setSingleUserConversationManager</name>
 			<param>
 				<name>singleUserConversationManager</name>
-				<type>com.marcelmika.lims.jabber.conversation.manager.single.SingleUserConversationManager</type>
+				<type>com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -7103,7 +7096,7 @@
 			<name>setMultiUserConversationManager</name>
 			<param>
 				<name>multiUserConversationManager</name>
-				<type>com.marcelmika.lims.jabber.conversation.manager.multi.MultiUserConversationManager</type>
+				<type>com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -7125,7 +7118,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UserSessionStore</name>
-		<type>com.marcelmika.lims.jabber.session.store.UserSessionStore</type>
+		<type>com.marcelmika.limsmuc.jabber.session.store.UserSessionStore</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getUserSession</name>
@@ -7156,7 +7149,7 @@
 			<comment><![CDATA[Adds user session to the store]]></comment>
 			<param>
 				<name>userSession</name>
-				<type>com.marcelmika.lims.jabber.session.UserSession</type>
+				<type>com.marcelmika.limsmuc.jabber.session.UserSession</type>
 				<required>true</required>
 				<comment><![CDATA[UserSession]]></comment>
 			</param>
@@ -7178,7 +7171,7 @@
 	</javadoc>
 	<javadoc>
 		<name>UserSessionStoreImpl</name>
-		<type>com.marcelmika.lims.jabber.session.store.UserSessionStoreImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.session.store.UserSessionStoreImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getUserSession</name>
@@ -7209,7 +7202,7 @@
 			<comment><![CDATA[Adds user session to the store]]></comment>
 			<param>
 				<name>userSession</name>
-				<type>com.marcelmika.lims.jabber.session.UserSession</type>
+				<type>com.marcelmika.limsmuc.jabber.session.UserSession</type>
 				<required>true</required>
 				<comment><![CDATA[UserSession]]></comment>
 			</param>
@@ -7234,7 +7227,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Jid</name>
-		<type>com.marcelmika.lims.jabber.utils.Jid</type>
+		<type>com.marcelmika.limsmuc.jabber.utils.Jid</type>
 		<comment><![CDATA[Provides methods to process Jabber Identifier. Warning: Implementation should be review, methods renamed according to http://xmpp.org/rfcs/rfc6122.html]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -7332,14 +7325,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Buddy</name>
-		<type>com.marcelmika.lims.persistence.domain.Buddy</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Buddy</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromBuddyDetails</name>
 			<comment><![CDATA[Create new user and maps data from user details]]></comment>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[BuddyDetails]]></comment>
 			</param>
@@ -7367,7 +7360,7 @@
 			<comment><![CDATA[Factory method which creates buddy from participant model]]></comment>
 			<param>
 				<name>participant</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Participant</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Participant</type>
 				<required>true</required>
 				<comment><![CDATA[Participant]]></comment>
 			</param>
@@ -7492,7 +7485,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Conversation</name>
-		<type>com.marcelmika.lims.persistence.domain.Conversation</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Conversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromConversationDetails</name>
@@ -7513,7 +7506,7 @@
 			<comment><![CDATA[Factory method which creates new Conversation from the ConversationDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<required>true</required>
 				<comment><![CDATA[conversation details]]></comment>
 			</param>
@@ -7526,7 +7519,7 @@
 			<name>fromConversationModel</name>
 			<param>
 				<name>conversationModel</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Conversation</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Conversation</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -7663,14 +7656,14 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationType</name>
-		<type>com.marcelmika.lims.persistence.domain.ConversationType</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.ConversationType</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromConversationTypeDetails</name>
 			<comment><![CDATA[Factory method which creates new ConversationType from ConversationTypeDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationTypeDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationTypeDetails</type>
 				<required>true</required>
 				<comment><![CDATA[conversation type details]]></comment>
 			</param>
@@ -7716,14 +7709,14 @@
 	</javadoc>
 	<javadoc>
 		<name>Group</name>
-		<type>com.marcelmika.lims.persistence.domain.Group</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Group</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromGroupDetails</name>
 			<comment><![CDATA[Creates new group and maps data from group details]]></comment>
 			<param>
 				<name>groupDetails</name>
-				<type>com.marcelmika.lims.api.entity.GroupDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.GroupDetails</type>
 				<required>true</required>
 				<comment><![CDATA[GroupDetails]]></comment>
 			</param>
@@ -7805,7 +7798,7 @@
 	</javadoc>
 	<javadoc>
 		<name>GroupCollection</name>
-		<type>com.marcelmika.lims.persistence.domain.GroupCollection</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.GroupCollection</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>toGroupCollectionDetails</name>
@@ -7862,13 +7855,13 @@
 	</javadoc>
 	<javadoc>
 		<name>Message</name>
-		<type>com.marcelmika.lims.persistence.domain.Message</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Message</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromMessageDetails</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -7890,7 +7883,7 @@
 			<name>fromMessageModel</name>
 			<param>
 				<name>messageModel</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Message</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Message</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -7985,13 +7978,13 @@
 	</javadoc>
 	<javadoc>
 		<name>Pagination</name>
-		<type>com.marcelmika.lims.persistence.domain.MessagePagination</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.MessagePagination</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromPaginationDetails</name>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.MessagePaginationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessagePaginationDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -8036,7 +8029,7 @@
 			<name>setAction</name>
 			<param>
 				<name>action</name>
-				<type>com.marcelmika.lims.persistence.domain.MessagePagination.Action</type>
+				<type>com.marcelmika.limsmuc.persistence.domain.MessagePagination.Action</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -8052,7 +8045,7 @@
 	</javadoc>
 	<javadoc>
 		<name>Presence</name>
-		<type>com.marcelmika.lims.persistence.domain.Presence</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Presence</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>Presence</name>
@@ -8075,7 +8068,7 @@
 			<comment><![CDATA[Factory method which creates new Presence from PresenceDetails]]></comment>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<required>true</required>
 				<comment><![CDATA[PresenceDetails]]></comment>
 			</param>
@@ -8142,20 +8135,20 @@
 	</javadoc>
 	<javadoc>
 		<name>Settings</name>
-		<type>com.marcelmika.lims.persistence.domain.Settings</type>
+		<type>com.marcelmika.limsmuc.persistence.domain.Settings</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromServiceBuilderModel</name>
 			<comment><![CDATA[Factory method which builds Settings object from Panel and Settings Model taken from database]]></comment>
 			<param>
 				<name>panelModel</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Panel</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Panel</type>
 				<required>true</required>
 				<comment><![CDATA[Panel model]]></comment>
 			</param>
 			<param>
 				<name>settingsModel</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Settings</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Settings</type>
 				<required>true</required>
 				<comment><![CDATA[Settings model]]></comment>
 			</param>
@@ -8169,7 +8162,7 @@
 			<comment><![CDATA[Create new settings and maps data from settings details]]></comment>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<required>true</required>
 				<comment><![CDATA[SettingsDetails]]></comment>
 			</param>
@@ -8257,11 +8250,11 @@
 	</javadoc>
 	<javadoc>
 		<name>ConversationImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationImpl</type>
 		<comment><![CDATA[The extended model implementation for the Conversation service. Represents a row in the &quot;lims_Conversation&quot; database table, with each column mapped to a property of this class.
 
 <p>
-Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.model.Conversation} interface.
+Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.model.Conversation} interface.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -8270,11 +8263,11 @@ Helper methods and all application logic should be put in this class. Whenever m
 	</javadoc>
 	<javadoc>
 		<name>MessageImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.model.impl.MessageImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.model.impl.MessageImpl</type>
 		<comment><![CDATA[The extended model implementation for the Message service. Represents a row in the &quot;lims_Message&quot; database table, with each column mapped to a property of this class.
 
 <p>
-Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.model.Message} interface.
+Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.model.Message} interface.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -8283,11 +8276,11 @@ Helper methods and all application logic should be put in this class. Whenever m
 	</javadoc>
 	<javadoc>
 		<name>PanelImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.model.impl.PanelImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.model.impl.PanelImpl</type>
 		<comment><![CDATA[The extended model implementation for the Panel service. Represents a row in the &quot;lims_Panel&quot; database table, with each column mapped to a property of this class.
 
 <p>
-Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.model.Panel} interface.
+Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.model.Panel} interface.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -8296,11 +8289,11 @@ Helper methods and all application logic should be put in this class. Whenever m
 	</javadoc>
 	<javadoc>
 		<name>ParticipantImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl</type>
 		<comment><![CDATA[The extended model implementation for the Participant service. Represents a row in the &quot;lims_Participant&quot; database table, with each column mapped to a property of this class.
 
 <p>
-Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.model.Participant} interface.
+Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.model.Participant} interface.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -8309,11 +8302,11 @@ Helper methods and all application logic should be put in this class. Whenever m
 	</javadoc>
 	<javadoc>
 		<name>SettingsImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsImpl</type>
 		<comment><![CDATA[The extended model implementation for the Settings service. Represents a row in the &quot;lims_Settings&quot; database table, with each column mapped to a property of this class.
 
 <p>
-Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.model.Settings} interface.
+Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.model.Settings} interface.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -8322,15 +8315,15 @@ Helper methods and all application logic should be put in this class. Whenever m
 	</javadoc>
 	<javadoc>
 		<name>ConversationLocalServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.impl.ConversationLocalServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.impl.ConversationLocalServiceImpl</type>
 		<comment><![CDATA[The implementation of the conversation local service.
 
 <p>
-All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.ConversationLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.base.ConversationLocalServiceBaseImpl]]></see>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.base.ConversationLocalServiceBaseImpl]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil]]></see>
 		<method>
 			<name>addConversation</name>
 			<param>
@@ -8384,15 +8377,15 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>MessageLocalServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.impl.MessageLocalServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.impl.MessageLocalServiceImpl</type>
 		<comment><![CDATA[The implementation of the message local service. <p/>
 
 <p>
-All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.MessageLocalService} interface. <p/> <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.MessageLocalService} interface. <p/> <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.base.MessageLocalServiceBaseImpl]]></see>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.base.MessageLocalServiceBaseImpl]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.MessageLocalServiceUtil]]></see>
 		<method>
 			<name>addMessage</name>
 			<param>
@@ -8453,15 +8446,15 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>PanelLocalServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.impl.PanelLocalServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.impl.PanelLocalServiceImpl</type>
 		<comment><![CDATA[The implementation of the panel local service.
 
 <p>
-All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.PanelLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.PanelLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.base.PanelLocalServiceBaseImpl]]></see>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.PanelLocalServiceUtil]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.base.PanelLocalServiceBaseImpl]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil]]></see>
 		<method>
 			<name>getPanelByUser</name>
 			<comment><![CDATA[Returns panel. Creates new if not found. Null on error]]></comment>
@@ -8495,15 +8488,15 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ParticipantLocalServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.impl.ParticipantLocalServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.impl.ParticipantLocalServiceImpl</type>
 		<comment><![CDATA[The implementation of the participant local service.
 
 <p>
-All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.ParticipantLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.ParticipantLocalService} interface.  <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.base.ParticipantLocalServiceBaseImpl]]></see>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.ParticipantLocalServiceUtil]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.base.ParticipantLocalServiceBaseImpl]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.ParticipantLocalServiceUtil]]></see>
 		<method>
 			<name>addParticipant</name>
 			<comment><![CDATA[Adds new participant to the system]]></comment>
@@ -8566,8 +8559,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[Participant whose conversation should be closed]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchConversationException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchConversationException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException</type>
 				<required>true</required>
 				<comment><![CDATA[]]></comment>
 			</throws>
@@ -8578,8 +8571,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[]]></comment>
 			</throws>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -8599,8 +8592,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[Participant whose counter should be reset]]></comment>
 			</param>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 			<throws>
@@ -8610,8 +8603,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[]]></comment>
 			</throws>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchConversationException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchConversationException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 		</method>
@@ -8649,8 +8642,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[list of participants]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 			<throws>
@@ -8679,8 +8672,8 @@ All custom service methods should be put in this class. Whenever methods are add
 				<comment><![CDATA[participant]]></comment>
 			</return>
 			<throws>
-				<name>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</name>
-				<type>com.marcelmika.lims.persistence.generated.NoSuchParticipantException</type>
+				<name>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</name>
+				<type>com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
 			<throws>
@@ -8693,15 +8686,15 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>SettingsLocalServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.impl.SettingsLocalServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.impl.SettingsLocalServiceImpl</type>
 		<comment><![CDATA[The implementation of the settings local service. <p/>
 
 <p>
-All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.lims.persistence.generated.service.SettingsLocalService} interface. <p/> <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalService} interface. <p/> <p> This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
 </p>]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.base.SettingsLocalServiceBaseImpl]]></see>
-		<see><![CDATA[com.marcelmika.lims.persistence.generated.service.SettingsLocalServiceUtil]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.base.SettingsLocalServiceBaseImpl]]></see>
+		<see><![CDATA[com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil]]></see>
 		<method>
 			<name>getSettingsByUser</name>
 			<comment><![CDATA[Returns settings related to the user whose id is given in the parameter]]></comment>
@@ -8727,7 +8720,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Saves settings object to persistence]]></comment>
 			<param>
 				<name>settings</name>
-				<type>com.marcelmika.lims.persistence.generated.model.Settings</type>
+				<type>com.marcelmika.limsmuc.persistence.generated.model.Settings</type>
 				<required>true</required>
 				<comment><![CDATA[Settings model]]></comment>
 			</param>
@@ -8915,7 +8908,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>SettingsFinderImpl</name>
-		<type>com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinderImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinderImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>findAllGroups</name>
@@ -9120,7 +9113,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>GroupManager</name>
-		<type>com.marcelmika.lims.persistence.manager.GroupManager</type>
+		<type>com.marcelmika.limsmuc.persistence.manager.GroupManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroups</name>
@@ -9156,7 +9149,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>GroupManagerImpl</name>
-		<type>com.marcelmika.lims.persistence.manager.GroupManagerImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.manager.GroupManagerImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroups</name>
@@ -9288,7 +9281,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			</param>
 			<param>
 				<name>relationTypes</name>
-				<type>com.marcelmika.lims.api.environment.Environment.BuddyListSocialRelation[]</type>
+				<type>com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation[]</type>
 				<required>true</required>
 				<comment><![CDATA[an array of relation type enums]]></comment>
 			</param>
@@ -9338,7 +9331,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			</param>
 			<param>
 				<name>relationTypes</name>
-				<type>com.marcelmika.lims.api.environment.Environment.BuddyListSocialRelation[]</type>
+				<type>com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation[]</type>
 				<required>true</required>
 				<comment><![CDATA[an array of relation type enums]]></comment>
 			</param>
@@ -9368,7 +9361,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>BuddyPersistenceService</name>
-		<type>com.marcelmika.lims.persistence.service.BuddyPersistenceService</type>
+		<type>com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>loginBuddy</name>
@@ -9443,7 +9436,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>BuddyPersistenceServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.service.BuddyPersistenceServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.service.BuddyPersistenceServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>loginBuddy</name>
@@ -9518,7 +9511,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ConversationPersistenceService</name>
-		<type>com.marcelmika.lims.persistence.service.ConversationPersistenceService</type>
+		<type>com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConversation</name>
@@ -9607,7 +9600,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ConversationPersistenceServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.service.ConversationPersistenceServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.service.ConversationPersistenceServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConversation</name>
@@ -9699,14 +9692,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>GroupPersistenceService</name>
-		<type>com.marcelmika.lims.persistence.service.GroupPersistenceService</type>
+		<type>com.marcelmika.limsmuc.persistence.service.GroupPersistenceService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getGroups</name>
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -9718,14 +9711,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>GroupPersistenceServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.service.GroupPersistenceServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.service.GroupPersistenceServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>GroupPersistenceServiceImpl</name>
 			<comment><![CDATA[Constructor]]></comment>
 			<param>
 				<name>groupManager</name>
-				<type>com.marcelmika.lims.persistence.manager.GroupManager</type>
+				<type>com.marcelmika.limsmuc.persistence.manager.GroupManager</type>
 				<required>true</required>
 				<comment><![CDATA[GroupManager]]></comment>
 			</param>
@@ -9735,7 +9728,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Get all groups related to the particular user]]></comment>
 			<param>
 				<name>event</name>
-				<type>com.marcelmika.lims.api.events.group.GetGroupsRequestEvent</type>
+				<type>com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent</type>
 				<required>true</required>
 				<comment><![CDATA[request event for method]]></comment>
 			</param>
@@ -9753,7 +9746,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>SettingsPersistenceService</name>
-		<type>com.marcelmika.lims.persistence.service.SettingsPersistenceService</type>
+		<type>com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>readSettings</name>
@@ -9828,7 +9821,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>SettingsPersistenceServiceImpl</name>
-		<type>com.marcelmika.lims.persistence.service.SettingsPersistenceServiceImpl</type>
+		<type>com.marcelmika.limsmuc.persistence.service.SettingsPersistenceServiceImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>readSettings</name>
@@ -9903,7 +9896,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Buddy</name>
-		<type>com.marcelmika.lims.portal.domain.Buddy</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Buddy</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromRenderRequest</name>
@@ -9992,7 +9985,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Factory method which creates new Buddy object from BuddyDetails]]></comment>
 			<param>
 				<name>buddyDetails</name>
-				<type>com.marcelmika.lims.api.entity.BuddyDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.BuddyDetails</type>
 				<required>true</required>
 				<comment><![CDATA[BuddyDetails]]></comment>
 			</param>
@@ -10146,7 +10139,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>BuddyCollection</name>
-		<type>com.marcelmika.lims.portal.domain.BuddyCollection</type>
+		<type>com.marcelmika.limsmuc.portal.domain.BuddyCollection</type>
 		<comment><![CDATA[Container which holds a collection of buddies]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -10208,14 +10201,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Conversation</name>
-		<type>com.marcelmika.lims.portal.domain.Conversation</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Conversation</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromConversationDetails</name>
 			<comment><![CDATA[Factory method which creates new Conversation from the ConversationDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationDetails</type>
 				<required>true</required>
 				<comment><![CDATA[ConversationDetails]]></comment>
 			</param>
@@ -10388,7 +10381,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ConversationType</name>
-		<type>com.marcelmika.lims.portal.domain.ConversationType</type>
+		<type>com.marcelmika.limsmuc.portal.domain.ConversationType</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ConversationType</name>
@@ -10419,7 +10412,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Factory method which creates new ConversationType from ConversationTypeDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.ConversationTypeDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.ConversationTypeDetails</type>
 				<required>true</required>
 				<comment><![CDATA[conversation type details]]></comment>
 			</param>
@@ -10463,14 +10456,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Group</name>
-		<type>com.marcelmika.lims.portal.domain.Group</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Group</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromGroupDetails</name>
 			<comment><![CDATA[Create new group and maps data from group details]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.GroupDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.GroupDetails</type>
 				<required>true</required>
 				<comment><![CDATA[GroupDetails]]></comment>
 			</param>
@@ -10549,14 +10542,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>GroupCollection</name>
-		<type>com.marcelmika.lims.portal.domain.GroupCollection</type>
+		<type>com.marcelmika.limsmuc.portal.domain.GroupCollection</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromGroupCollectionDetails</name>
 			<comment><![CDATA[Create new group and maps data from group details]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.GroupCollectionDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.GroupCollectionDetails</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -10618,7 +10611,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Message</name>
-		<type>com.marcelmika.lims.portal.domain.Message</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Message</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromMessageDetailsList</name>
@@ -10639,7 +10632,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Factory method which creates new Message from the MessageDetails]]></comment>
 			<param>
 				<name>details</name>
-				<type>com.marcelmika.lims.api.entity.MessageDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.MessageDetails</type>
 				<required>true</required>
 				<comment><![CDATA[message details]]></comment>
 			</param>
@@ -10750,7 +10743,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Pagination</name>
-		<type>com.marcelmika.lims.portal.domain.MessagePagination</type>
+		<type>com.marcelmika.limsmuc.portal.domain.MessagePagination</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>toPaginationDetails</name>
@@ -10818,7 +10811,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Presence</name>
-		<type>com.marcelmika.lims.portal.domain.Presence</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Presence</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>Presence</name>
@@ -10841,7 +10834,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Factory method which creates new Presence from PresenceDetails]]></comment>
 			<param>
 				<name>presenceDetails</name>
-				<type>com.marcelmika.lims.api.entity.PresenceDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.PresenceDetails</type>
 				<required>true</required>
 				<comment><![CDATA[PresenceDetails]]></comment>
 			</param>
@@ -10908,14 +10901,14 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>Settings</name>
-		<type>com.marcelmika.lims.portal.domain.Settings</type>
+		<type>com.marcelmika.limsmuc.portal.domain.Settings</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>fromSettingsDetails</name>
 			<comment><![CDATA[Create new settings and maps data from settings details]]></comment>
 			<param>
 				<name>settingsDetails</name>
-				<type>com.marcelmika.lims.api.entity.SettingsDetails</type>
+				<type>com.marcelmika.limsmuc.api.entity.SettingsDetails</type>
 				<required>true</required>
 				<comment><![CDATA[SettingsDetails]]></comment>
 			</param>
@@ -11028,7 +11021,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>LoginPostAction</name>
-		<type>com.marcelmika.lims.portal.hooks.LoginPostAction</type>
+		<type>com.marcelmika.limsmuc.portal.hooks.LoginPostAction</type>
 		<comment><![CDATA[Listens to login post action. Whenever it occurs it tries to login to the Jabber server with the credentials from the request.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -11053,7 +11046,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>SessionDestroyAction</name>
-		<type>com.marcelmika.lims.portal.hooks.SessionDestroyAction</type>
+		<type>com.marcelmika.limsmuc.portal.hooks.SessionDestroyAction</type>
 		<comment><![CDATA[Listens to the session destroy action. Whenever it occurs it tries to login the user to the LIMS system server with the credentials from the request.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -11073,7 +11066,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>UserListener</name>
-		<type>com.marcelmika.lims.portal.hooks.UserListener</type>
+		<type>com.marcelmika.limsmuc.portal.hooks.UserListener</type>
 		<comment><![CDATA[Listens to the events from portal related to user.]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -11101,7 +11094,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>HttpStatus</name>
-		<type>com.marcelmika.lims.portal.http.HttpStatus</type>
+		<type>com.marcelmika.limsmuc.portal.http.HttpStatus</type>
 		<comment><![CDATA[Enum which holds all necessary HTTP Status codes]]></comment>
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
@@ -11521,7 +11514,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>LIMSPortlet</name>
-		<type>com.marcelmika.lims.portal.portlet.LIMSPortlet</type>
+		<type>com.marcelmika.limsmuc.portal.portlet.LIMSPortlet</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>doView</name>
@@ -11641,7 +11634,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>PortletDispatcher</name>
-		<type>com.marcelmika.lims.portal.processor.PortletDispatcher</type>
+		<type>com.marcelmika.limsmuc.portal.processor.PortletDispatcher</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>dispatchRequest</name>
@@ -11704,7 +11697,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>PortletProcessor</name>
-		<type>com.marcelmika.lims.portal.processor.PortletProcessorImpl</type>
+		<type>com.marcelmika.limsmuc.portal.processor.PortletProcessorImpl</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>processRequest</name>
@@ -11887,7 +11880,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<comment><![CDATA[Sets status code to the response. Use for no-content responses.]]></comment>
 			<param>
 				<name>statusCode</name>
-				<type>com.marcelmika.lims.portal.http.HttpStatus</type>
+				<type>com.marcelmika.limsmuc.portal.http.HttpStatus</type>
 				<required>true</required>
 				<comment><![CDATA[HTTP Status code]]></comment>
 			</param>
@@ -11909,7 +11902,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			</param>
 			<param>
 				<name>statusCode</name>
-				<type>com.marcelmika.lims.portal.http.HttpStatus</type>
+				<type>com.marcelmika.limsmuc.portal.http.HttpStatus</type>
 				<required>true</required>
 				<comment><![CDATA[HTTP Status code]]></comment>
 			</param>
@@ -11971,7 +11964,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>CloseConversationParameters</name>
-		<type>com.marcelmika.lims.portal.processor.parameters.CloseConversationParameters</type>
+		<type>com.marcelmika.limsmuc.portal.processor.parameters.CloseConversationParameters</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationId</name>
@@ -11999,7 +11992,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>CreateMessageParameters</name>
-		<type>com.marcelmika.lims.portal.processor.parameters.CreateMessageParameters</type>
+		<type>com.marcelmika.limsmuc.portal.processor.parameters.CreateMessageParameters</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationId</name>
@@ -12027,7 +12020,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ReadConversationParameters</name>
-		<type>com.marcelmika.lims.portal.processor.parameters.ReadConversationParameters</type>
+		<type>com.marcelmika.limsmuc.portal.processor.parameters.ReadConversationParameters</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationId</name>
@@ -12053,7 +12046,7 @@ All custom service methods should be put in this class. Whenever methods are add
 			<name>setPagination</name>
 			<param>
 				<name>pagination</name>
-				<type>com.marcelmika.lims.portal.domain.MessagePagination</type>
+				<type>com.marcelmika.limsmuc.portal.domain.MessagePagination</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>
@@ -12089,7 +12082,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>ResetUnreadMessagesCounterParameters</name>
-		<type>com.marcelmika.lims.portal.processor.parameters.ResetUnreadMessagesCounterParameters</type>
+		<type>com.marcelmika.limsmuc.portal.processor.parameters.ResetUnreadMessagesCounterParameters</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getConversationId</name>
@@ -12117,7 +12110,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>PortletPropertiesKeys</name>
-		<type>com.marcelmika.lims.portal.properties.PortletPropertiesKeys</type>
+		<type>com.marcelmika.limsmuc.portal.properties.PortletPropertiesKeys</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<field>
 			<name>BUDDY_LIST_SOURCE</name>
@@ -12176,7 +12169,7 @@ All custom service methods should be put in this class. Whenever methods are add
 	</javadoc>
 	<javadoc>
 		<name>PortletPropertiesValues</name>
-		<type>com.marcelmika.lims.portal.properties.PortletPropertiesValues</type>
+		<type>com.marcelmika.limsmuc.portal.properties.PortletPropertiesValues</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>getString</name>

@@ -9,7 +9,7 @@
 
 
 <%-- Variables --%>
-<%--@elvariable id="properties" type="com.marcelmika.lims.portal.domain.Properties"--%>
+<%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Defaults --%>
 <c:set var="checked" value=""/>

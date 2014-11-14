@@ -8,7 +8,7 @@
   --%>
 
 <%-- Imports --%>
-<%@ page import="com.marcelmika.lims.api.environment.Environment" %>
+<%@ page import="com.marcelmika.limsmuc.api.environment.Environment" %>
 
 <%-- Variables --%>
 <%--@elvariable id="isAdmin" type="boolean"--%>

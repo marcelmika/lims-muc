@@ -10,10 +10,10 @@
 <% { %>
 
 <%-- Declared variables --%>
-<%--@elvariable id="settings" type="com.marcelmika.lims.portal.domain.Settings"--%>
+<%--@elvariable id="settings" type="com.marcelmika.limsmuc.portal.domain.Settings"--%>
 
 <%-- Imports --%>
-<%@ page import="com.marcelmika.lims.portal.domain.Presence" %>
+<%@ page import="com.marcelmika.limsmuc.portal.domain.Presence" %>
 
 <c:set var="PRESENCE_ACTIVE" value="<%= Presence.ACTIVE %>"/>
 <c:set var="PRESENCE_BUSY" value="<%= Presence.AWAY %>"/>

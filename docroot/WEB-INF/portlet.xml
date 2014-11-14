@@ -9,7 +9,7 @@
     <portlet>
         <portlet-name>1</portlet-name>
         <display-name>LIMS MUC</display-name>
-        <portlet-class>com.marcelmika.lims.portal.portlet.LIMSPortlet</portlet-class>
+        <portlet-class>com.marcelmika.limsmuc.portal.portlet.LIMSPortlet</portlet-class>
         <init-param>
             <name>view-jsp</name>
             <value>/view.jsp</value>

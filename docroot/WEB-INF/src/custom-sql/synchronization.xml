@@ -11,7 +11,7 @@
 
 <custom-sql>
 
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.Settings.SUC-1.2.0">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Settings.SUC-1.2.0">
         <![CDATA[
 			SELECT
 				Lims_Settings.sid AS sid,
@@ -28,7 +28,7 @@
 		]]>
     </sql>
 
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.Panel.SUC-1.2.0">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Panel.SUC-1.2.0">
         <![CDATA[
 			SELECT
 				Lims_Panel.pid AS pid,
@@ -41,7 +41,7 @@
 		]]>
     </sql>
 
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.Conversation.SUC-1.2.0">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Conversation.SUC-1.2.0">
         <![CDATA[
 			SELECT
 				Lims_Conversation.cid AS cid,
@@ -55,7 +55,7 @@
 		]]>
     </sql>
 
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.Participant.SUC-1.2.0">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Participant.SUC-1.2.0">
         <![CDATA[
 			SELECT
 				Lims_Participant.pid AS pid,
@@ -71,7 +71,7 @@
 		]]>
     </sql>
 
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SynchronizationFinder.Message.SUC-1.2.0">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Message.SUC-1.2.0">
         <![CDATA[
 			SELECT
 				Lims_Message.mid AS mid,

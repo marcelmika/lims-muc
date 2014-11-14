@@ -7,7 +7,7 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.ConversationModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationModelImpl">
 		<attributes>
 			<id name="cid" />
 			<basic name="conversationId" />
@@ -21,7 +21,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.MessageModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageModelImpl">
 		<attributes>
 			<id name="mid" />
 			<basic name="cid" />
@@ -37,7 +37,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.PanelModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelModelImpl">
 		<attributes>
 			<id name="pid" />
 			<basic name="userId" />
@@ -48,7 +48,7 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.ParticipantModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantModelImpl">
 		<attributes>
 			<id name="pid" />
 			<basic name="cid" />
@@ -65,7 +65,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.SettingsModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsModelImpl">
 		<attributes>
 			<id name="sid" />
 			<basic name="userId" />
@@ -86,7 +86,7 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationModelImpl">
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationModelImpl">
 		<attributes>
 			<id name="sid" />
 			<basic name="sucSync" />
@@ -95,27 +95,27 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ConversationImpl" name="Conversation">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationImpl" name="Conversation">
 		<table name="Limsmuc_Conversation" />
 		<attributes />
 	</entity>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.MessageImpl" name="Message">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageImpl" name="Message">
 		<table name="Limsmuc_Message" />
 		<attributes />
 	</entity>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.PanelImpl" name="Panel">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelImpl" name="Panel">
 		<table name="Limsmuc_Panel" />
 		<attributes />
 	</entity>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.ParticipantImpl" name="Participant">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl" name="Participant">
 		<table name="Limsmuc_Participant" />
 		<attributes />
 	</entity>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SettingsImpl" name="Settings">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsImpl" name="Settings">
 		<table name="Limsmuc_Settings" />
 		<attributes />
 	</entity>
-	<entity class="com.marcelmika.lims.persistence.generated.model.impl.SynchronizationImpl" name="Synchronization">
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationImpl" name="Synchronization">
 		<table name="Limsmuc_Synchronization" />
 		<attributes />
 	</entity>

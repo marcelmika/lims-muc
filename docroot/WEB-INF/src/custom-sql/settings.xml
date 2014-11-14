@@ -12,7 +12,7 @@
 <custom-sql>
 
     <!-- Finds all users in the database and joins them with settings table -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.findAllUsers">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findAllUsers">
         <![CDATA[
 			SELECT
 				User_.userId AS userId,
@@ -40,7 +40,7 @@
     </sql>
 
     <!-- Search all users in the database and joins them with settings table -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.searchAllUsers">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchAllUsers">
         <![CDATA[
 			SELECT
 				User_.userId AS userId,
@@ -74,7 +74,7 @@
     </sql>
 
     <!-- Finds all users and attaches groups to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.findBySitesGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findBySitesGroups">
         <![CDATA[
 			SELECT DISTINCT
 			    Group_.name AS groupName,
@@ -117,7 +117,7 @@
     </sql>
 
     <!-- Search all users and attaches groups to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.searchBySitesGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchBySitesGroups">
         <![CDATA[
 			SELECT DISTINCT
 				User_.userId AS userId,
@@ -165,7 +165,7 @@
     </sql>
 
     <!-- Finds all users and attaches social relation types to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.findBySocialGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findBySocialGroups">
         <![CDATA[
 			SELECT DISTINCT
 			    SocialRelation.type_ AS relationType,
@@ -198,7 +198,7 @@
     </sql>
 
     <!-- Search all users and attaches social relation types to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.searchBySocialGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchBySocialGroups">
         <![CDATA[
 			SELECT DISTINCT
 				User_.userId AS userId,
@@ -236,7 +236,7 @@
     </sql>
 
     <!-- Finds all users and attaches groups to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.findByUserGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findByUserGroups">
         <![CDATA[
 			SELECT DISTINCT
 			    UserGroup.name AS groupName,
@@ -279,7 +279,7 @@
     </sql>
 
     <!-- Finds all users and attaches groups to them -->
-    <sql id="com.marcelmika.lims.persistence.generated.service.persistence.SettingsFinder.searchByUserGroups">
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchByUserGroups">
         <![CDATA[
 			SELECT DISTINCT
 				User_.userId AS userId,
