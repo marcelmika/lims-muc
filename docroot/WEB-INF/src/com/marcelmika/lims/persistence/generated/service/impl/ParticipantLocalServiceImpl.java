@@ -227,11 +227,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      */
     @Override
     public Participant getParticipant(Long cid, Long participantId) throws SystemException {
-        try {
-            return participantPersistence.findByCidParticipantId(cid, participantId);
-        } catch (NoSuchParticipantException e) {
-            return null;
-        }
+        return participantPersistence.fetchByCidParticipantId(cid, participantId);
     }
 
     /**
@@ -320,12 +316,12 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      */
     @Override
     public Participant addParticipant(Long cid, Long participantId, boolean isCreator) throws SystemException {
+
         // Fetch possible existing conversation
-        Participant participantModel;
-        try {
-            // Try to find participant
-            participantModel = participantPersistence.findByCidParticipantId(cid, participantId);
-        } catch (NoSuchParticipantException e) {
+        Participant participantModel = participantPersistence.fetchByCidParticipantId(cid, participantId);
+
+        // Create a new one
+        if (participantModel == null) {
             // No participant was found, so create a new one
             participantModel = participantPersistence.create(counterLocalService.increment());
             participantModel.setCid(cid);
