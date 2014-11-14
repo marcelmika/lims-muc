@@ -15,6 +15,8 @@
 package com.marcelmika.lims.persistence.generated.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.lims.persistence.generated.NoSuchConversationException;
 import com.marcelmika.lims.persistence.generated.model.Conversation;
 import com.marcelmika.lims.persistence.generated.service.base.ConversationLocalServiceBaseImpl;
@@ -43,6 +45,19 @@ public class ConversationLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.ConversationLocalServiceUtil} to access the conversation local service.
 	 */
 
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(ConversationLocalServiceImpl.class);
+
+    /**
+     * Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
+     *
+     * @param conversationId of the new conversation
+     * @param conversationTypeCode of the new conversation
+     * @return created conversation
+     * @throws SystemException
+     */
+    @Override
     public Conversation addConversation(String conversationId, int conversationTypeCode) throws SystemException {
         // Fetch possible existing conversation
         Conversation conversationModel = conversationPersistence.fetchByConversationId(conversationId);
@@ -63,40 +78,84 @@ public class ConversationLocalServiceImpl
         return conversationModel;
     }
 
-    public Conversation getConversation(String conversationId) throws SystemException {
-        try {
-            return conversationPersistence.findByConversationId(conversationId);
-        } catch (NoSuchConversationException e) {
-            return null;
-        }
+    /**
+     * Returns conversation based on the cid
+     *
+     * @param cid of the conversation
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
+    public Conversation fetchByCid(long cid) throws SystemException {
+        return conversationPersistence.fetchByPrimaryKey(cid);
     }
 
+    /**
+     * Returns conversation based on the conversation id
+     *
+     * @param conversationId of the conversation
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
     public Conversation fetchByConversationId(String conversationId) throws SystemException {
         return conversationPersistence.fetchByConversationId(conversationId);
     }
 
+    /**
+     * Returns conversation based on the sync id SUC
+     *
+     * @param syncIdSUC of the conversation
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
     public Conversation fetchBySyncIdSUC(long syncIdSUC) throws SystemException {
         return conversationPersistence.fetchBySyncIdSUC(syncIdSUC);
     }
 
+    /**
+     * Create new conversation
+     *
+     * @return created conversation
+     * @throws SystemException
+     */
+    @Override
     public Conversation createConversation() throws SystemException {
         return conversationPersistence.create(counterLocalService.increment());
     }
 
+    /**
+     * Saves conversation to database
+     *
+     * @param conversation to be saved
+     * @throws SystemException
+     */
+    @Override
     public void saveConversation(Conversation conversation) throws SystemException {
         conversationPersistence.update(conversation, false);
     }
 
-    public void updateConversationTimestamp(long cid) throws Exception {
+    /**
+     * Sets the conversation updated at timestamp to the current timestamp
+     *
+     * @param cid of the conversation
+     * @throws SystemException
+     */
+    @Override
+    public void updateConversationTimestamp(long cid) throws SystemException {
 
         // Find conversation
-        Conversation conversation = conversationPersistence.findByPrimaryKey(cid);
+        Conversation conversation = conversationPersistence.fetchByPrimaryKey(cid);
 
-        // Update to current time
-        Calendar calendar = Calendar.getInstance();
-        conversation.setUpdatedAt(calendar.getTime());
+        // Do nothing if no conversation was found
+        if (conversation != null) {
+            // Update to current time
+            Calendar calendar = Calendar.getInstance();
+            conversation.setUpdatedAt(calendar.getTime());
 
-        // Save
-        conversationPersistence.update(conversation, false);
+            // Save
+            conversationPersistence.update(conversation, false);
+        }
     }
 }

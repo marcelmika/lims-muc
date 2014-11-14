@@ -118,9 +118,9 @@ public class ConversationLocalServiceClpInvoker {
 
 		_methodParameterTypes66 = new String[] { "java.lang.String", "int" };
 
-		_methodName67 = "getConversation";
+		_methodName67 = "fetchByCid";
 
-		_methodParameterTypes67 = new String[] { "java.lang.String" };
+		_methodParameterTypes67 = new String[] { "long" };
 
 		_methodName68 = "fetchByConversationId";
 
@@ -254,7 +254,7 @@ public class ConversationLocalServiceClpInvoker {
 
 		if (_methodName67.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
-			return ConversationLocalServiceUtil.getConversation((java.lang.String)arguments[0]);
+			return ConversationLocalServiceUtil.fetchByCid(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName68.equals(name) &&

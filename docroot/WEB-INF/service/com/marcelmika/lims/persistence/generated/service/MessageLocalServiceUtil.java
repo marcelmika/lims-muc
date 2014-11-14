@@ -283,11 +283,12 @@ public class MessageLocalServiceUtil {
 	* @param body        text of the message
 	* @param createdAt   timestamp of creation
 	* @return newly created message
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public static com.marcelmika.lims.persistence.generated.model.Message addMessage(
 		long cid, long creatorId, int messageType, java.lang.String body,
-		java.util.Date createdAt) throws java.lang.Exception {
+		java.util.Date createdAt)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .addMessage(cid, creatorId, messageType, body, createdAt);
 	}
@@ -300,12 +301,12 @@ public class MessageLocalServiceUtil {
 	* @param stopperId id of the stopper messages
 	* @param readMore  true if the list should be extended
 	* @return a list of messages
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public static java.util.List<java.lang.Object[]> readMessages(
 		java.lang.Long cid, java.lang.Integer pageSize,
 		java.lang.Long stopperId, java.lang.Boolean readMore)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().readMessages(cid, pageSize, stopperId, readMore);
 	}
 
@@ -314,10 +315,10 @@ public class MessageLocalServiceUtil {
 	*
 	* @param cid id of the conversation related to the messages
 	* @return first message in the conversation
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public static java.lang.Object[] firstMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().firstMessage(cid);
 	}
 
@@ -326,10 +327,10 @@ public class MessageLocalServiceUtil {
 	*
 	* @param cid id of the conversation related to the messages
 	* @return last message in the conversation
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public static java.lang.Object[] lastMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().lastMessage(cid);
 	}
 
@@ -344,17 +345,36 @@ public class MessageLocalServiceUtil {
 		return getService().countMessages(cid);
 	}
 
+	/**
+	* Returns conversation based on its sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
 		long syncIdSUC)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().fetchBySyncIdSUC(syncIdSUC);
 	}
 
+	/**
+	* Creates new plain message
+	*
+	* @return created message
+	* @throws SystemException
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Message createMessage()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().createMessage();
 	}
 
+	/**
+	* Save message to database
+	*
+	* @param message Message
+	* @throws SystemException
+	*/
 	public static void saveMessage(
 		com.marcelmika.lims.persistence.generated.model.Message message)
 		throws com.liferay.portal.kernel.exception.SystemException {

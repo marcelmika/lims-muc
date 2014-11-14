@@ -688,7 +688,7 @@ public class PanelLocalServiceClp implements PanelLocalService {
 
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Panel getPanelByUser(
-		long userId) {
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -697,6 +697,10 @@ public class PanelLocalServiceClp implements PanelLocalService {
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
 
 			if (t instanceof RuntimeException) {
 				throw (RuntimeException)t;
@@ -794,7 +798,7 @@ public class PanelLocalServiceClp implements PanelLocalService {
 
 	@Override
 	public void updateActivePanel(long userId, java.lang.String activePanel)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName23,
 				_methodParameterTypes23,
@@ -803,8 +807,8 @@ public class PanelLocalServiceClp implements PanelLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

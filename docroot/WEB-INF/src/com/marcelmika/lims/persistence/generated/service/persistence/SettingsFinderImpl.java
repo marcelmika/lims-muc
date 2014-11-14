@@ -10,6 +10,7 @@
 package com.marcelmika.lims.persistence.generated.service.persistence;
 
 import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -71,7 +72,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                         boolean ignoreDefaultUser,
                                         boolean ignoreDeactivatedUser,
                                         int start,
-                                        int end) throws Exception {
+                                        int end) throws SystemException {
 
         Session session = null;
 
@@ -118,7 +119,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains group name and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -127,7 +128,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                           boolean ignoreDeactivatedUser,
                                           String[] excludedSites,
                                           int start,
-                                          int end) throws Exception {
+                                          int end) throws SystemException {
         Session session = null;
 
         try {
@@ -178,7 +179,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List objects where each object contains relation type and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -187,7 +188,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                            boolean ignoreDeactivatedUser,
                                            int[] relationTypes,
                                            int start,
-                                           int end) throws Exception {
+                                           int end) throws SystemException {
 
         Session session = null;
 
@@ -239,7 +240,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List objects where each object contains group name and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
     public List<Object[]> findUserGroups(Long userId,
@@ -247,7 +248,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                          boolean ignoreDeactivatedUser,
                                          String[] excludedGroups,
                                          int start,
-                                         int end) throws Exception {
+                                         int end) throws SystemException {
 
         Session session = null;
 
@@ -299,6 +300,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -308,7 +310,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                              boolean ignoreDeactivatedUser,
                                              String[] excludedSites,
                                              int start,
-                                             int end) throws Exception {
+                                             int end) throws SystemException {
         Session session = null;
 
         try {
@@ -373,6 +375,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -381,7 +384,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                            boolean ignoreDefaultUser,
                                            boolean ignoreDeactivatedUser,
                                            int start,
-                                           int end) throws Exception {
+                                           int end) throws SystemException {
 
         Session session = null;
 
@@ -442,7 +445,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -452,7 +455,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                               boolean ignoreDeactivatedUser,
                                               int[] relationTypes,
                                               int start,
-                                              int end) throws Exception {
+                                              int end) throws SystemException {
 
         Session session = null;
 
@@ -520,7 +523,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
      * @param start                 of the list
      * @param end                   of the list
      * @return a list of buddies
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
@@ -530,7 +533,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                                   boolean ignoreDeactivatedUser,
                                                   String[] excludedGroups,
                                                   int start,
-                                                  int end) throws Exception {
+                                                  int end) throws SystemException {
 
         Session session = null;
 

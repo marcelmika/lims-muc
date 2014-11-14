@@ -20,15 +20,15 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
 public interface MessageFinder {
 	public java.util.List<java.lang.Object[]> findAllMessages(
 		java.lang.Long cid, java.lang.Integer pageSize)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.lang.Integer countAllMessages(java.lang.Long cid,
 		com.marcelmika.lims.persistence.generated.model.Message stopper)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.lang.Object[] firstMessage(java.lang.Long cid)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.lang.Object[] lastMessage(java.lang.Long cid)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

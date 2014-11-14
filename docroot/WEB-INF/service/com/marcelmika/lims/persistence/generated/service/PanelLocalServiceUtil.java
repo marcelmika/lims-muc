@@ -275,31 +275,62 @@ public class PanelLocalServiceUtil {
 	}
 
 	/**
-	* Returns panel. Creates new if not found. Null on error
+	* Returns panel. Creates new if not found
+	*
+	* @param userId of the user
+	* @return created panel
+	* @throws SystemException
 	*/
 	public static com.marcelmika.lims.persistence.generated.model.Panel getPanelByUser(
-		long userId) {
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getPanelByUser(userId);
 	}
 
+	/**
+	* Returns panel based on the user id
+	*
+	* @param userId of the user
+	* @return found panel or null if nothing was found
+	* @throws SystemException
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
 		long userId) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().fetchByUserId(userId);
 	}
 
+	/**
+	* Creates new plain panel
+	*
+	* @return created panel
+	* @throws SystemException
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Panel createPanel()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().createPanel();
 	}
 
+	/**
+	* Saves panel to database
+	*
+	* @param panel Panel
+	* @throws SystemException
+	*/
 	public static void savePanel(
 		com.marcelmika.lims.persistence.generated.model.Panel panel)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().savePanel(panel);
 	}
 
+	/**
+	* Updates user's active panel
+	*
+	* @param userId      of the user
+	* @param activePanel that will replace the old value
+	* @throws SystemException
+	*/
 	public static void updateActivePanel(long userId,
-		java.lang.String activePanel) throws java.lang.Exception {
+		java.lang.String activePanel)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().updateActivePanel(userId, activePanel);
 	}
 

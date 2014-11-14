@@ -20,8 +20,9 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
 public interface ParticipantFinder {
 	public java.util.List<java.lang.Object[]> findParticipatedConversations(
 		java.lang.Long participantId, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.lang.Integer countParticipatedConversations(
-		java.lang.Long participantId) throws java.lang.Exception;
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

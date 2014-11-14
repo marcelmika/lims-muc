@@ -63,8 +63,9 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @param cid           Id of the conversation to which the participant belongs to
      * @param participantId User Id of the participant
      * @return Participant Model
-     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws SystemException
      */
+    @Override
     public Participant addParticipant(Long cid, Long participantId) throws SystemException {
         return addParticipant(cid, participantId, false);
     }
@@ -75,8 +76,9 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param cid Id of the conversation related to the participants
      * @throws SystemException
-     * @throws com.liferay.portal.kernel.exception.PortalException
+     * @throws PortalException
      */
+    @Override
     public void updateParticipants(Long cid, Long senderId) throws SystemException, PortalException {
         // Fetch all participants by the conversation id
         List<Participant> participantList = participantPersistence.findByCid(cid);
@@ -115,10 +117,11 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param conversationId Conversation which should be closed
      * @param participantId  Participant whose conversation should be closed
-     * @throws com.marcelmika.lims.persistence.generated.NoSuchConversationException
+     * @throws NoSuchConversationException
      * @throws SystemException
      * @throws NoSuchParticipantException
      */
+    @Override
     public void closeConversation(String conversationId, Long participantId)
             throws NoSuchConversationException, SystemException, NoSuchParticipantException {
 
@@ -149,6 +152,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @throws SystemException
      * @throws NoSuchConversationException
      */
+    @Override
     public void resetUnreadMessagesCounter(String conversationId, Long participantId)
             throws NoSuchParticipantException, SystemException, NoSuchConversationException {
 
@@ -172,6 +176,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return List of opened conversations
      * @throws SystemException
      */
+    @Override
     public List<Participant> getOpenedConversations(Long participantId) throws SystemException {
         return participantPersistence.findByParticipantIdIsOpened(participantId, true);
     }
@@ -183,6 +188,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @param secondConversationParticipant Participant
      * @throws SystemException
      */
+    @Override
     public void switchConversations(Participant firstConversationParticipant,
                                     Participant secondConversationParticipant) throws SystemException {
 
@@ -207,6 +213,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @throws NoSuchParticipantException
      * @throws SystemException
      */
+    @Override
     public List<Participant> getConversationParticipants(Long cid) throws NoSuchParticipantException, SystemException {
         return participantPersistence.findByCid(cid);
     }
@@ -218,6 +225,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return participant or null if no participant was found
      * @throws SystemException
      */
+    @Override
     public Participant getParticipant(Long cid, Long participantId) throws SystemException {
         try {
             return participantPersistence.findByCidParticipantId(cid, participantId);
@@ -234,11 +242,12 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return List of conversation
      * @throws SystemException
      */
+    @Override
     public List<Participant> getConversations(Long participantId,
                                               Integer defaultPageSize,
                                               Integer currentPageSize,
                                               Integer maxPageSize,
-                                              Boolean readMore) throws Exception {
+                                              Boolean readMore) throws SystemException {
 
         // This is a first request, no current page size is set
         if (currentPageSize == null || currentPageSize < defaultPageSize) {
@@ -271,9 +280,10 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param participantId Long
      * @return summed number of conversations where the user participates
-     * @throws Exception
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public Integer getConversationsCount(Long participantId) throws Exception {
+    @Override
+    public Integer getConversationsCount(Long participantId) throws SystemException {
         return participantFinder.countParticipatedConversations(participantId);
     }
 
@@ -282,11 +292,12 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param cid           id of the conversation
      * @param participantId id of the participant
-     * @throws Exception
+     * @throws SystemException
      */
-    public void leaveConversation(Long cid, Long participantId) throws Exception {
+    @Override
+    public void leaveConversation(Long cid, Long participantId) throws SystemException {
         // Try to find participant
-        Participant participantModel = participantPersistence.findByCidParticipantId(cid, participantId);
+        Participant participantModel = participantPersistence.fetchByCidParticipantId(cid, participantId);
 
         if (participantModel != null) {
 
@@ -307,6 +318,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * @return Participant Model
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
+    @Override
     public Participant addParticipant(Long cid, Long participantId, boolean isCreator) throws SystemException {
         // Fetch possible existing conversation
         Participant participantModel;
@@ -345,11 +357,24 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
         return participantModel;
     }
 
-
+    /**
+     * Create new plain participant object
+     *
+     * @return created participant
+     * @throws SystemException
+     */
+    @Override
     public Participant createParticipant() throws SystemException {
         return participantPersistence.create(counterLocalService.increment());
     }
 
+    /**
+     * Saves participant
+     *
+     * @param participant Participant
+     * @throws SystemException
+     */
+    @Override
     public void saveParticipant(Participant participant) throws SystemException {
         participantPersistence.update(participant, false);
     }

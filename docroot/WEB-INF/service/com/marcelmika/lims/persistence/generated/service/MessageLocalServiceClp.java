@@ -706,7 +706,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Message addMessage(
 		long cid, long creatorId, int messageType, java.lang.String body,
-		java.util.Date createdAt) throws java.lang.Exception {
+		java.util.Date createdAt)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -727,8 +728,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -746,7 +747,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	@Override
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
 		java.lang.Integer pageSize, java.lang.Long stopperId,
-		java.lang.Boolean readMore) throws java.lang.Exception {
+		java.lang.Boolean readMore)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -765,8 +767,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -783,7 +785,7 @@ public class MessageLocalServiceClp implements MessageLocalService {
 
 	@Override
 	public java.lang.Object[] firstMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -794,8 +796,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -812,7 +814,7 @@ public class MessageLocalServiceClp implements MessageLocalService {
 
 	@Override
 	public java.lang.Object[] lastMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -823,8 +825,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

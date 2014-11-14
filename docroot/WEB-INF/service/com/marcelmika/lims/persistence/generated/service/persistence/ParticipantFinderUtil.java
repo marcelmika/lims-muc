@@ -23,13 +23,14 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
 public class ParticipantFinderUtil {
 	public static java.util.List<java.lang.Object[]> findParticipatedConversations(
 		java.lang.Long participantId, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
 				   .findParticipatedConversations(participantId, start, end);
 	}
 
 	public static java.lang.Integer countParticipatedConversations(
-		java.lang.Long participantId) throws java.lang.Exception {
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().countParticipatedConversations(participantId);
 	}
 

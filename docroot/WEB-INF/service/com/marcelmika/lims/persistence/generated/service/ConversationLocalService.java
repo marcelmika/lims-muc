@@ -248,32 +248,78 @@ public interface ConversationLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
+	*
+	* @param conversationId of the new conversation
+	* @param conversationTypeCode of the new conversation
+	* @return created conversation
+	* @throws SystemException
+	*/
 	public com.marcelmika.lims.persistence.generated.model.Conversation addConversation(
 		java.lang.String conversationId, int conversationTypeCode)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Returns conversation based on the cid
+	*
+	* @param cid of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.marcelmika.lims.persistence.generated.model.Conversation getConversation(
-		java.lang.String conversationId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByCid(
+		long cid) throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Returns conversation based on the conversation id
+	*
+	* @param conversationId of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByConversationId(
 		java.lang.String conversationId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Returns conversation based on the sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
 		long syncIdSUC)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Create new conversation
+	*
+	* @return created conversation
+	* @throws SystemException
+	*/
 	public com.marcelmika.lims.persistence.generated.model.Conversation createConversation()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Saves conversation to database
+	*
+	* @param conversation to be saved
+	* @throws SystemException
+	*/
 	public void saveConversation(
 		com.marcelmika.lims.persistence.generated.model.Conversation conversation)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Sets the conversation updated at timestamp to the current timestamp
+	*
+	* @param cid of the conversation
+	* @throws SystemException
+	*/
 	public void updateConversationTimestamp(long cid)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -1025,7 +1025,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	public java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
 		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
-		java.lang.Boolean readMore) throws java.lang.Exception {
+		java.lang.Boolean readMore)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1046,8 +1047,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1064,7 +1065,7 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 	@Override
 	public java.lang.Integer getConversationsCount(java.lang.Long participantId)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1075,8 +1076,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1093,7 +1094,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 
 	@Override
 	public void leaveConversation(java.lang.Long cid,
-		java.lang.Long participantId) throws java.lang.Exception {
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName29,
 				_methodParameterTypes29,
@@ -1106,8 +1108,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

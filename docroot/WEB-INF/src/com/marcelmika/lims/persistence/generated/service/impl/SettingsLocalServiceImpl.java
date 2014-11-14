@@ -59,10 +59,10 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      *
      * @param userId id of the user whose setting you are requesting
      * @return Settings
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
-    public Settings getSettingsByUser(long userId) throws Exception {
+    public Settings getSettingsByUser(long userId) throws SystemException {
         // Find user settings
         Settings settings = settingsPersistence.fetchByUserId(userId);
 
@@ -119,10 +119,10 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      *
      * @param userId   id of the user whose presence should be updated
      * @param presence new value of the presence
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
-    public void changePresence(long userId, String presence) throws Exception {
+    public void changePresence(long userId, String presence) throws SystemException {
         // Get user settings
         Settings settings = getSettingsByUser(userId);
         // Change presence
@@ -143,10 +143,10 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param userId      id of the user whose connection should be updated
      * @param isConnected true if the user connected flag should be set to true
      * @return Settings updated settings model
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
-    public Settings updateConnection(Long userId, boolean isConnected) throws Exception {
+    public Settings updateConnection(Long userId, boolean isConnected) throws SystemException {
         // Get user settings
         Settings settings = getSettingsByUser(userId);
 
@@ -175,7 +175,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * Updates connections that have the connected at value below the threshold
      */
     @Override
-    public void updateAllConnections(int connectionThreshold) throws Exception {
+    public void updateAllConnections(int connectionThreshold) throws SystemException {
 
         // Check the input
         if (connectionThreshold < 1) {
@@ -213,10 +213,10 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      *
      * @param userId  id of the user whose chat should be enabled/disabled
      * @param enabled if set to true the chat will be enabled. If set to false it will be disabled.
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
-    public void setChatEnabled(long userId, boolean enabled) throws Exception {
+    public void setChatEnabled(long userId, boolean enabled) throws SystemException {
         // Get user settings
         Settings settings = getSettingsByUser(userId);
         // Change value
@@ -235,14 +235,14 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> getAllGroups(Long userId,
                                        boolean ignoreDefaultUser,
                                        boolean ignoreDeactivatedUser,
                                        int start,
-                                       int end) throws Exception {
+                                       int end) throws SystemException {
         // Find via settings finder
         return settingsFinder.findAllGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
@@ -259,7 +259,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains group name and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> getSitesGroups(Long userId,
@@ -267,7 +267,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                          boolean ignoreDeactivatedUser,
                                          String[] excludedSites,
                                          int start,
-                                         int end) throws Exception {
+                                         int end) throws SystemException {
         // Find via settings finder
         return settingsFinder.findSitesGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
@@ -284,7 +284,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List objects where each object contains relation type and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> getSocialGroups(Long userId,
@@ -292,7 +292,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                           boolean ignoreDeactivatedUser,
                                           int[] relationTypes,
                                           int start,
-                                          int end) throws Exception {
+                                          int end) throws SystemException {
         // Find via settings finder
         return settingsFinder.findSocialGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
@@ -309,7 +309,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains group name and user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> getUserGroups(Long userId,
@@ -317,7 +317,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                         boolean ignoreDeactivatedUser,
                                         String[] excludedGroups,
                                         int start,
-                                        int end) throws Exception {
+                                        int end) throws SystemException {
         // Find via settings finder
         return settingsFinder.findUserGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedGroups, start, end
@@ -335,7 +335,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> searchSitesBuddies(Long userId,
@@ -344,7 +344,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                              boolean ignoreDeactivatedUser,
                                              String[] excludedSites,
                                              int start,
-                                             int end) throws Exception {
+                                             int end) throws SystemException {
 
         // Search via settings finder
         return settingsFinder.searchSitesBuddies(
@@ -362,7 +362,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> searchAllBuddies(Long userId,
@@ -370,7 +370,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                            boolean ignoreDefaultUser,
                                            boolean ignoreDeactivatedUser,
                                            int start,
-                                           int end) throws Exception {
+                                           int end) throws SystemException {
         // Search via settings finder
         return settingsFinder.searchAllBuddies(
                 userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, start, end
@@ -388,7 +388,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 value of the list
      * @param end                   value of the list
      * @return List of objects where each object contains user info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> searchSocialBuddies(Long userId,
@@ -397,7 +397,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                               boolean ignoreDeactivatedUser,
                                               int[] relationTypes,
                                               int start,
-                                              int end) throws Exception {
+                                              int end) throws SystemException {
 
         // Search via settings finder
         return settingsFinder.searchSocialBuddies(
@@ -417,7 +417,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @param start                 of the list
      * @param end                   of the list
      * @return a list of buddies
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     public List<Object[]> searchUserGroupsBuddies(Long userId,
@@ -426,7 +426,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
                                                   boolean ignoreDeactivatedUser,
                                                   String[] excludedGroups,
                                                   int start,
-                                                  int end) throws Exception {
+                                                  int end) throws SystemException {
 
         // Search via settings finder
         return settingsFinder.searchUserGroupsBuddies(

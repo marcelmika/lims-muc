@@ -253,11 +253,11 @@ public interface SettingsLocalService extends BaseLocalService,
 	*
 	* @param userId id of the user whose setting you are requesting
 	* @return Settings
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.lims.persistence.generated.model.Settings getSettingsByUser(
-		long userId) throws java.lang.Exception;
+		long userId) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Fetches settings based on the user id
@@ -295,10 +295,10 @@ public interface SettingsLocalService extends BaseLocalService,
 	*
 	* @param userId   id of the user whose presence should be updated
 	* @param presence new value of the presence
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public void changePresence(long userId, java.lang.String presence)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Updates user's connection
@@ -306,16 +306,17 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param userId      id of the user whose connection should be updated
 	* @param isConnected true if the user connected flag should be set to true
 	* @return Settings updated settings model
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public com.marcelmika.lims.persistence.generated.model.Settings updateConnection(
-		java.lang.Long userId, boolean isConnected) throws java.lang.Exception;
+		java.lang.Long userId, boolean isConnected)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Updates connections that have the connected at value below the threshold
 	*/
 	public void updateAllConnections(int connectionThreshold)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Updates chat enabled value. If set to true the portlet is fully functional. If set to
@@ -323,10 +324,10 @@ public interface SettingsLocalService extends BaseLocalService,
 	*
 	* @param userId  id of the user whose chat should be enabled/disabled
 	* @param enabled if set to true the chat will be enabled. If set to false it will be disabled.
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public void setChatEnabled(long userId, boolean enabled)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all buddies in the system
@@ -337,13 +338,13 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> getAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all groups where the user participates
@@ -355,13 +356,14 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains group name and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> getSitesGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end) throws java.lang.Exception;
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all user's social relations
@@ -373,13 +375,13 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List objects where each object contains relation type and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> getSocialGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns a list of user's groups
@@ -391,13 +393,14 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains group name and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> getUserGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end) throws java.lang.Exception;
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all buddies in sites where the user participates based on the search query
@@ -410,14 +413,14 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedSites, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all buddies in the system based on the search query
@@ -429,13 +432,13 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> searchAllBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws java.lang.Exception;
+		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns all user's social relations based on the search query
@@ -448,13 +451,14 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> searchSocialBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
-		int[] relationTypes, int start, int end) throws java.lang.Exception;
+		int[] relationTypes, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns a list of buddies. This list is made of all buddies based on the search query that are
@@ -468,12 +472,12 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @param start                 of the list
 	* @param end                   of the list
 	* @return a list of buddies
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedGroups, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

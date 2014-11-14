@@ -286,6 +286,14 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 			arguments);
 	}
 
+	/**
+	* Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
+	*
+	* @param conversationId of the new conversation
+	* @param conversationTypeCode of the new conversation
+	* @return created conversation
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation addConversation(
 		java.lang.String conversationId, int conversationTypeCode)
@@ -294,13 +302,26 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 			conversationTypeCode);
 	}
 
+	/**
+	* Returns conversation based on the cid
+	*
+	* @param cid of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Override
-	public com.marcelmika.lims.persistence.generated.model.Conversation getConversation(
-		java.lang.String conversationId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _conversationLocalService.getConversation(conversationId);
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByCid(
+		long cid) throws com.liferay.portal.kernel.exception.SystemException {
+		return _conversationLocalService.fetchByCid(cid);
 	}
 
+	/**
+	* Returns conversation based on the conversation id
+	*
+	* @param conversationId of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByConversationId(
 		java.lang.String conversationId)
@@ -308,6 +329,13 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 		return _conversationLocalService.fetchByConversationId(conversationId);
 	}
 
+	/**
+	* Returns conversation based on the sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation fetchBySyncIdSUC(
 		long syncIdSUC)
@@ -315,12 +343,24 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 		return _conversationLocalService.fetchBySyncIdSUC(syncIdSUC);
 	}
 
+	/**
+	* Create new conversation
+	*
+	* @return created conversation
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Conversation createConversation()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _conversationLocalService.createConversation();
 	}
 
+	/**
+	* Saves conversation to database
+	*
+	* @param conversation to be saved
+	* @throws SystemException
+	*/
 	@Override
 	public void saveConversation(
 		com.marcelmika.lims.persistence.generated.model.Conversation conversation)
@@ -328,9 +368,15 @@ public class ConversationLocalServiceWrapper implements ConversationLocalService
 		_conversationLocalService.saveConversation(conversation);
 	}
 
+	/**
+	* Sets the conversation updated at timestamp to the current timestamp
+	*
+	* @param cid of the conversation
+	* @throws SystemException
+	*/
 	@Override
 	public void updateConversationTimestamp(long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_conversationLocalService.updateConversationTimestamp(cid);
 	}
 

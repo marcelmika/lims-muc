@@ -292,12 +292,13 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	* @param body        text of the message
 	* @param createdAt   timestamp of creation
 	* @return newly created message
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Message addMessage(
 		long cid, long creatorId, int messageType, java.lang.String body,
-		java.util.Date createdAt) throws java.lang.Exception {
+		java.util.Date createdAt)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _messageLocalService.addMessage(cid, creatorId, messageType,
 			body, createdAt);
 	}
@@ -310,12 +311,13 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	* @param stopperId id of the stopper messages
 	* @param readMore  true if the list should be extended
 	* @return a list of messages
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> readMessages(java.lang.Long cid,
 		java.lang.Integer pageSize, java.lang.Long stopperId,
-		java.lang.Boolean readMore) throws java.lang.Exception {
+		java.lang.Boolean readMore)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _messageLocalService.readMessages(cid, pageSize, stopperId,
 			readMore);
 	}
@@ -325,11 +327,11 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	*
 	* @param cid id of the conversation related to the messages
 	* @return first message in the conversation
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.lang.Object[] firstMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _messageLocalService.firstMessage(cid);
 	}
 
@@ -338,11 +340,11 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	*
 	* @param cid id of the conversation related to the messages
 	* @return last message in the conversation
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.lang.Object[] lastMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _messageLocalService.lastMessage(cid);
 	}
 
@@ -358,6 +360,13 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.countMessages(cid);
 	}
 
+	/**
+	* Returns conversation based on its sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Message fetchBySyncIdSUC(
 		long syncIdSUC)
@@ -365,12 +374,24 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.fetchBySyncIdSUC(syncIdSUC);
 	}
 
+	/**
+	* Creates new plain message
+	*
+	* @return created message
+	* @throws SystemException
+	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Message createMessage()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _messageLocalService.createMessage();
 	}
 
+	/**
+	* Save message to database
+	*
+	* @param message Message
+	* @throws SystemException
+	*/
 	@Override
 	public void saveMessage(
 		com.marcelmika.lims.persistence.generated.model.Message message)

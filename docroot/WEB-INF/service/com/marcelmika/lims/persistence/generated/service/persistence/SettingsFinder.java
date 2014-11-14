@@ -21,42 +21,45 @@ public interface SettingsFinder {
 	public java.util.List<java.lang.Object[]> findAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> findSitesGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end) throws java.lang.Exception;
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> findSocialGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> findUserGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end) throws java.lang.Exception;
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedSites, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchAllBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws java.lang.Exception;
+		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchSocialBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
-		int[] relationTypes, int start, int end) throws java.lang.Exception;
+		int[] relationTypes, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedGroups, int start, int end)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

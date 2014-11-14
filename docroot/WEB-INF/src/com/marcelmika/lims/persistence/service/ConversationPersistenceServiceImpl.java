@@ -60,7 +60,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             if (conversation.getConversationType() == ConversationType.MULTI_USER) {
                 // Try to find a conversation with the same id
                 com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                        ConversationLocalServiceUtil.getConversation(conversation.getConversationId());
+                        ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
                 // Conversation already exits -> call collision
                 if (conversationModel != null) {
@@ -126,7 +126,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
             // Find conversation
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(
+                    ConversationLocalServiceUtil.fetchByConversationId(
                             conversation.getConversationId()
                     );
 
@@ -194,7 +194,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
             // Find conversation based on conversation ID
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(conversation.getConversationId());
+                    ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
             // Find participant related to the conversation
             List<Participant> participants = ParticipantLocalServiceUtil.getConversationParticipants(
@@ -332,7 +332,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Find conversation. Since each message is related to the conversation we need to find it first
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(conversationId);
+                    ConversationLocalServiceUtil.fetchByConversationId(conversationId);
 
             // No such conversation was found
             if (conversationModel == null) {
@@ -405,7 +405,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
             // Find conversation. Since each message is related to the conversation we need to find it first
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(conversationId);
+                    ConversationLocalServiceUtil.fetchByConversationId(conversationId);
 
             // No such conversation was found
             if (conversationModel == null) {
@@ -478,9 +478,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Find conversations
             com.marcelmika.lims.persistence.generated.model.Conversation firstConversationModel =
-                    ConversationLocalServiceUtil.getConversation(firstConversationId);
+                    ConversationLocalServiceUtil.fetchByConversationId(firstConversationId);
             com.marcelmika.lims.persistence.generated.model.Conversation secondConversationModel =
-                    ConversationLocalServiceUtil.getConversation(secondConversationId);
+                    ConversationLocalServiceUtil.fetchByConversationId(secondConversationId);
 
             // Both conversations must exist
             if (firstConversationModel == null || secondConversationModel == null) {
@@ -538,7 +538,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
             // Find conversation. Since each message is related to the conversation we need to find it first
             com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.getConversation(conversation.getConversationId());
+                    ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
             // No such conversation was found
             if (conversationModel == null) {
@@ -758,7 +758,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
         // Find by cid
         com.marcelmika.lims.persistence.generated.model.Conversation conversationModel =
-                ConversationLocalServiceUtil.getConversation(cid);
+                ConversationLocalServiceUtil.fetchByCid(cid);
 
         // No need to map anything else
         if (conversationModel == null) {

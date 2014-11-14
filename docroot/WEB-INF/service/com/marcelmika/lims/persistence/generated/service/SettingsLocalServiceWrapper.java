@@ -290,11 +290,11 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	*
 	* @param userId id of the user whose setting you are requesting
 	* @return Settings
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Settings getSettingsByUser(
-		long userId) throws java.lang.Exception {
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.getSettingsByUser(userId);
 	}
 
@@ -342,11 +342,11 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	*
 	* @param userId   id of the user whose presence should be updated
 	* @param presence new value of the presence
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public void changePresence(long userId, java.lang.String presence)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_settingsLocalService.changePresence(userId, presence);
 	}
 
@@ -356,11 +356,12 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param userId      id of the user whose connection should be updated
 	* @param isConnected true if the user connected flag should be set to true
 	* @return Settings updated settings model
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Settings updateConnection(
-		java.lang.Long userId, boolean isConnected) throws java.lang.Exception {
+		java.lang.Long userId, boolean isConnected)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.updateConnection(userId, isConnected);
 	}
 
@@ -369,7 +370,7 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	*/
 	@Override
 	public void updateAllConnections(int connectionThreshold)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_settingsLocalService.updateAllConnections(connectionThreshold);
 	}
 
@@ -379,11 +380,11 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	*
 	* @param userId  id of the user whose chat should be enabled/disabled
 	* @param enabled if set to true the chat will be enabled. If set to false it will be disabled.
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public void setChatEnabled(long userId, boolean enabled)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_settingsLocalService.setChatEnabled(userId, enabled);
 	}
 
@@ -396,13 +397,13 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> getAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.getAllGroups(userId, ignoreDefaultUser,
 			ignoreDeactivatedUser, start, end);
 	}
@@ -417,13 +418,14 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains group name and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> getSitesGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end) throws java.lang.Exception {
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.getSitesGroups(userId, ignoreDefaultUser,
 			ignoreDeactivatedUser, excludedSites, start, end);
 	}
@@ -438,13 +440,13 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List objects where each object contains relation type and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> getSocialGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.getSocialGroups(userId, ignoreDefaultUser,
 			ignoreDeactivatedUser, relationTypes, start, end);
 	}
@@ -459,13 +461,14 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains group name and user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> getUserGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end) throws java.lang.Exception {
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.getUserGroups(userId, ignoreDefaultUser,
 			ignoreDeactivatedUser, excludedGroups, start, end);
 	}
@@ -481,14 +484,14 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedSites, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.searchSitesBuddies(userId, searchQuery,
 			ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end);
 	}
@@ -503,13 +506,13 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> searchAllBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws java.lang.Exception {
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.searchAllBuddies(userId, searchQuery,
 			ignoreDefaultUser, ignoreDeactivatedUser, start, end);
 	}
@@ -525,13 +528,14 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 value of the list
 	* @param end                   value of the list
 	* @return List of objects where each object contains user info
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> searchSocialBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
-		int[] relationTypes, int start, int end) throws java.lang.Exception {
+		int[] relationTypes, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.searchSocialBuddies(userId, searchQuery,
 			ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end);
 	}
@@ -548,14 +552,14 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @param start                 of the list
 	* @param end                   of the list
 	* @return a list of buddies
-	* @throws Exception
+	* @throws SystemException
 	*/
 	@Override
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedGroups, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.searchUserGroupsBuddies(userId,
 			searchQuery, ignoreDefaultUser, ignoreDeactivatedUser,
 			excludedGroups, start, end);

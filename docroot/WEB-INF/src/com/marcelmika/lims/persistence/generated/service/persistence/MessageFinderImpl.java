@@ -11,6 +11,7 @@ package com.marcelmika.lims.persistence.generated.service.persistence;
 
 import com.liferay.compat.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -50,12 +51,12 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * @param cid      id of the conversation related to the messages
      * @param pageSize size of the returned list
      * @return List of objects where each objects contains a message info
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
     public List<Object[]> findAllMessages(Long cid,
-                                          Integer pageSize) throws Exception {
+                                          Integer pageSize) throws SystemException {
 
         Session session = null;
 
@@ -96,11 +97,11 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * @param cid       id of the conversation related to the messages
      * @param stopper message
      * @return number of messages
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
-    public Integer countAllMessages(Long cid, Message stopper) throws Exception {
+    public Integer countAllMessages(Long cid, Message stopper) throws SystemException {
 
         Session session = null;
 
@@ -137,11 +138,11 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      *
      * @param cid id of the conversation related to the messages
      * @return first message in the conversation
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public Object[] firstMessage(Long cid) throws Exception {
+    public Object[] firstMessage(Long cid) throws SystemException {
 
         Session session = null;
 
@@ -182,11 +183,11 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      *
      * @param cid id of the conversation related to the messages
      * @return last message in the conversation
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public Object[] lastMessage(Long cid) throws Exception {
+    public Object[] lastMessage(Long cid) throws SystemException {
 
         Session session = null;
 
@@ -226,9 +227,9 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * Prepares SQL for the find all messages query
      *
      * @return SQL string
-     * @throws Exception
+     * @throws SystemException
      */
-    private String getFindAllMessagesSQL() throws Exception {
+    private String getFindAllMessagesSQL() throws SystemException {
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(FIND_ALL_MESSAGES);
     }
@@ -238,9 +239,9 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      *
      * @param stopper message
      * @return SQL string
-     * @throws Exception
+     * @throws SystemException
      */
-    private String getCountAllMessagesSQL(Message stopper) throws Exception {
+    private String getCountAllMessagesSQL(Message stopper) throws SystemException {
 
         // Get custom query sql (check /src/custom-sql/default.xml)
         String sql = CustomSQLUtil.get(COUNT_ALL_MESSAGES);
@@ -260,9 +261,9 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * Prepares SQL for the first message query
      *
      * @return SQL string
-     * @throws Exception
+     * @throws SystemException
      */
-    private String getFirstMessageSQL() throws Exception {
+    private String getFirstMessageSQL() throws SystemException {
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(FIRST_MESSAGE);
     }
@@ -271,9 +272,9 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * Prepares SQL for the last message query
      *
      * @return SQL string
-     * @throws Exception
+     * @throws SystemException
      */
-    private String getLastMessageSQL() throws Exception {
+    private String getLastMessageSQL() throws SystemException {
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(LAST_MESSAGE);
     }

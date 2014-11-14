@@ -39,14 +39,16 @@ import java.util.List;
  */
 public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 
-    // Log
-    private static Log log = LogFactoryUtil.getLog(MessageLocalServiceImpl.class);
 
 	/*
      * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.marcelmika.lims.persistence.generated.service.MessageLocalServiceUtil} to access the message local service.
 	 */
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(MessageLocalServiceImpl.class);
 
     /**
      * Adds a message to the persistence
@@ -57,13 +59,14 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      * @param body        text of the message
      * @param createdAt   timestamp of creation
      * @return newly created message
-     * @throws Exception
+     * @throws SystemException
      */
+    @Override
     public Message addMessage(long cid,
                               long creatorId,
                               int messageType,
                               String body,
-                              Date createdAt) throws Exception {
+                              Date createdAt) throws SystemException {
 
         // Create new conversation object
         Message messageModel = messagePersistence.create(counterLocalService.increment());
@@ -89,12 +92,13 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      * @param stopperId id of the stopper messages
      * @param readMore  true if the list should be extended
      * @return a list of messages
-     * @throws Exception
+     * @throws SystemException
      */
+    @Override
     public List<Object[]> readMessages(Long cid,
                                        Integer pageSize,
                                        Long stopperId,
-                                       Boolean readMore) throws Exception {
+                                       Boolean readMore) throws SystemException {
 
         // The beginning of the list. No stopper yet. Return message list that
         // starts from the beginning and has a default page size.
@@ -138,9 +142,10 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      *
      * @param cid id of the conversation related to the messages
      * @return first message in the conversation
-     * @throws Exception
+     * @throws SystemException
      */
-    public Object[] firstMessage(Long cid) throws Exception {
+    @Override
+    public Object[] firstMessage(Long cid) throws SystemException {
         return messageFinder.firstMessage(cid);
     }
 
@@ -149,9 +154,10 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      *
      * @param cid id of the conversation related to the messages
      * @return last message in the conversation
-     * @throws Exception
+     * @throws SystemException
      */
-    public Object[] lastMessage(Long cid) throws Exception {
+    @Override
+    public Object[] lastMessage(Long cid) throws SystemException {
         return messageFinder.lastMessage(cid);
     }
 
@@ -161,18 +167,41 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      * @param cid id of the conversation
      * @return number of messages
      */
+    @Override
     public Integer countMessages(Long cid) throws SystemException {
         return messagePersistence.countByCid(cid);
     }
 
+    /**
+     * Returns conversation based on its sync id SUC
+     *
+     * @param syncIdSUC of the conversation
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
     public Message fetchBySyncIdSUC(long syncIdSUC) throws SystemException {
         return messagePersistence.fetchBySyncIdSUC(syncIdSUC);
     }
 
+    /**
+     * Creates new plain message
+     *
+     * @return created message
+     * @throws SystemException
+     */
+    @Override
     public Message createMessage() throws SystemException {
         return messagePersistence.create(counterLocalService.increment());
     }
 
+    /**
+     * Save message to database
+     *
+     * @param message Message
+     * @throws SystemException
+     */
+    @Override
     public void saveMessage(Message message) throws SystemException {
         messagePersistence.update(message, false);
     }

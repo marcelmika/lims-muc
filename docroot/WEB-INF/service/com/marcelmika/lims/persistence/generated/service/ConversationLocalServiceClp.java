@@ -119,9 +119,9 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 
 		_methodParameterTypes19 = new String[] { "java.lang.String", "int" };
 
-		_methodName20 = "getConversation";
+		_methodName20 = "fetchByCid";
 
-		_methodParameterTypes20 = new String[] { "java.lang.String" };
+		_methodParameterTypes20 = new String[] { "long" };
 
 		_methodName21 = "fetchByConversationId";
 
@@ -730,15 +730,13 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 	}
 
 	@Override
-	public com.marcelmika.lims.persistence.generated.model.Conversation getConversation(
-		java.lang.String conversationId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public com.marcelmika.lims.persistence.generated.model.Conversation fetchByCid(
+		long cid) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20,
-					new Object[] { ClpSerializer.translateInput(conversationId) });
+					_methodParameterTypes20, new Object[] { cid });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -874,7 +872,7 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 
 	@Override
 	public void updateConversationTimestamp(long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName25,
 				_methodParameterTypes25, new Object[] { cid });
@@ -882,8 +880,8 @@ public class ConversationLocalServiceClp implements ConversationLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

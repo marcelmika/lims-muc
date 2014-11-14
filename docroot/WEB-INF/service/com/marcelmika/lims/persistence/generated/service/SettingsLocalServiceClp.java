@@ -754,7 +754,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Settings getSettingsByUser(
-		long userId) throws java.lang.Exception {
+		long userId) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -764,8 +764,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -868,7 +868,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 	@Override
 	public void changePresence(long userId, java.lang.String presence)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName23,
 				_methodParameterTypes23,
@@ -877,8 +877,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -893,7 +893,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 	@Override
 	public com.marcelmika.lims.persistence.generated.model.Settings updateConnection(
-		java.lang.Long userId, boolean isConnected) throws java.lang.Exception {
+		java.lang.Long userId, boolean isConnected)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -908,8 +909,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -926,7 +927,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 	@Override
 	public void updateAllConnections(int connectionThreshold)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName25,
 				_methodParameterTypes25, new Object[] { connectionThreshold });
@@ -934,8 +935,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -950,7 +951,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 
 	@Override
 	public void setChatEnabled(long userId, boolean enabled)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName26,
 				_methodParameterTypes26, new Object[] { userId, enabled });
@@ -958,8 +959,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -976,7 +977,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> getAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -997,8 +998,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1017,7 +1018,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> getSitesGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end) throws java.lang.Exception {
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1040,8 +1042,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1060,7 +1062,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> getSocialGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1083,8 +1085,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1103,7 +1105,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> getUserGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end) throws java.lang.Exception {
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1126,8 +1129,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1147,7 +1150,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedSites, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1172,8 +1175,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1192,7 +1195,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> searchAllBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws java.lang.Exception {
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1215,8 +1218,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1235,7 +1238,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	public java.util.List<java.lang.Object[]> searchSocialBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
-		int[] relationTypes, int start, int end) throws java.lang.Exception {
+		int[] relationTypes, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1260,8 +1264,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -1281,7 +1285,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedGroups, int start, int end)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -1306,8 +1310,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof java.lang.Exception) {
-				throw (java.lang.Exception)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {

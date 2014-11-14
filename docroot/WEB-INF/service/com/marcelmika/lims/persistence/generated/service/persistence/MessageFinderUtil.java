@@ -23,23 +23,23 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
 public class MessageFinderUtil {
 	public static java.util.List<java.lang.Object[]> findAllMessages(
 		java.lang.Long cid, java.lang.Integer pageSize)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().findAllMessages(cid, pageSize);
 	}
 
 	public static java.lang.Integer countAllMessages(java.lang.Long cid,
 		com.marcelmika.lims.persistence.generated.model.Message stopper)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().countAllMessages(cid, stopper);
 	}
 
 	public static java.lang.Object[] firstMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().firstMessage(cid);
 	}
 
 	public static java.lang.Object[] lastMessage(java.lang.Long cid)
-		throws java.lang.Exception {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder().lastMessage(cid);
 	}
 

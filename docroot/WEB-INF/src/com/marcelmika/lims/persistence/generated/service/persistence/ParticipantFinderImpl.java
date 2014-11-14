@@ -10,6 +10,7 @@
 package com.marcelmika.lims.persistence.generated.service.persistence;
 
 import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -43,13 +44,13 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      * @param start         of the list
      * @param end           of the list
      * @return a list of participant objects
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
     public List<Object[]> findParticipatedConversations(Long participantId,
                                                         int start,
-                                                        int end) throws Exception {
+                                                        int end) throws SystemException {
 
         Session session = null;
 
@@ -90,11 +91,11 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      *
      * @param participantId id of the participant
      * @return a list of participant objects
-     * @throws Exception
+     * @throws SystemException
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
-    public Integer countParticipatedConversations(Long participantId) throws Exception {
+    public Integer countParticipatedConversations(Long participantId) throws SystemException {
 
         Session session = null;
 
@@ -132,7 +133,7 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      * @return SQL string
      * @throws Exception
      */
-    private String getFindParticipatedConversationsSQL() throws Exception {
+    private String getFindParticipatedConversationsSQL() throws SystemException {
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(FIND_PARTICIPATED_CONVERSATIONS);
     }
@@ -143,7 +144,7 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      * @return SQL string
      * @throws Exception
      */
-    private String getCountParticipatedConversationsSQL() throws Exception {
+    private String getCountParticipatedConversationsSQL() throws SystemException {
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(COUNT_PARTICIPATED_CONVERSATIONS);
     }

@@ -280,7 +280,7 @@ public class ParticipantLocalServiceUtil {
 	* @param cid           Id of the conversation to which the participant belongs to
 	* @param participantId User Id of the participant
 	* @return Participant Model
-	* @throws com.liferay.portal.kernel.exception.SystemException
+	* @throws SystemException
 	*/
 	public static com.marcelmika.lims.persistence.generated.model.Participant addParticipant(
 		java.lang.Long cid, java.lang.Long participantId)
@@ -294,7 +294,7 @@ public class ParticipantLocalServiceUtil {
 	*
 	* @param cid Id of the conversation related to the participants
 	* @throws SystemException
-	* @throws com.liferay.portal.kernel.exception.PortalException
+	* @throws PortalException
 	*/
 	public static void updateParticipants(java.lang.Long cid,
 		java.lang.Long senderId)
@@ -308,7 +308,7 @@ public class ParticipantLocalServiceUtil {
 	*
 	* @param conversationId Conversation which should be closed
 	* @param participantId  Participant whose conversation should be closed
-	* @throws com.marcelmika.lims.persistence.generated.NoSuchConversationException
+	* @throws NoSuchConversationException
 	* @throws SystemException
 	* @throws NoSuchParticipantException
 	*/
@@ -405,7 +405,8 @@ public class ParticipantLocalServiceUtil {
 	public static java.util.List<com.marcelmika.lims.persistence.generated.model.Participant> getConversations(
 		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
-		java.lang.Boolean readMore) throws java.lang.Exception {
+		java.lang.Boolean readMore)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .getConversations(participantId, defaultPageSize,
 			currentPageSize, maxPageSize, readMore);
@@ -416,10 +417,11 @@ public class ParticipantLocalServiceUtil {
 	*
 	* @param participantId Long
 	* @return summed number of conversations where the user participates
-	* @throws Exception
+	* @throws com.liferay.portal.kernel.exception.SystemException
 	*/
 	public static java.lang.Integer getConversationsCount(
-		java.lang.Long participantId) throws java.lang.Exception {
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getConversationsCount(participantId);
 	}
 
@@ -428,10 +430,11 @@ public class ParticipantLocalServiceUtil {
 	*
 	* @param cid           id of the conversation
 	* @param participantId id of the participant
-	* @throws Exception
+	* @throws SystemException
 	*/
 	public static void leaveConversation(java.lang.Long cid,
-		java.lang.Long participantId) throws java.lang.Exception {
+		java.lang.Long participantId)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().leaveConversation(cid, participantId);
 	}
 
@@ -450,11 +453,23 @@ public class ParticipantLocalServiceUtil {
 		return getService().addParticipant(cid, participantId, isCreator);
 	}
 
+	/**
+	* Create new plain participant object
+	*
+	* @return created participant
+	* @throws SystemException
+	*/
 	public static com.marcelmika.lims.persistence.generated.model.Participant createParticipant()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().createParticipant();
 	}
 
+	/**
+	* Saves participant
+	*
+	* @param participant Participant
+	* @throws SystemException
+	*/
 	public static void saveParticipant(
 		com.marcelmika.lims.persistence.generated.model.Participant participant)
 		throws com.liferay.portal.kernel.exception.SystemException {

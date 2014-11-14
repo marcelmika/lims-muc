@@ -249,23 +249,53 @@ public interface PanelLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	/**
-	* Returns panel. Creates new if not found. Null on error
+	* Returns panel. Creates new if not found
+	*
+	* @param userId of the user
+	* @return created panel
+	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.lims.persistence.generated.model.Panel getPanelByUser(
-		long userId);
+		long userId) throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Returns panel based on the user id
+	*
+	* @param userId of the user
+	* @return found panel or null if nothing was found
+	* @throws SystemException
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.lims.persistence.generated.model.Panel fetchByUserId(
 		long userId) throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Creates new plain panel
+	*
+	* @return created panel
+	* @throws SystemException
+	*/
 	public com.marcelmika.lims.persistence.generated.model.Panel createPanel()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Saves panel to database
+	*
+	* @param panel Panel
+	* @throws SystemException
+	*/
 	public void savePanel(
 		com.marcelmika.lims.persistence.generated.model.Panel panel)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Updates user's active panel
+	*
+	* @param userId      of the user
+	* @param activePanel that will replace the old value
+	* @throws SystemException
+	*/
 	public void updateActivePanel(long userId, java.lang.String activePanel)
-		throws java.lang.Exception;
+		throws com.liferay.portal.kernel.exception.SystemException;
 }
