@@ -51,6 +51,14 @@ public class ApplicationStartupAction extends SimpleAction {
      */
     private void runSUCSynchronization() {
 
+        // This is for time profiling purposes
+        long start = 0;
+
+        // Start time tracking
+        if (log.isDebugEnabled()) {
+            start = System.currentTimeMillis();
+        }
+
         // Sync
         SynchronizeSUCResponseEvent responseEvent = synchronizationService.synchronizeSUC(
                 new SynchronizeSUCRequestEvent()
@@ -69,6 +77,14 @@ public class ApplicationStartupAction extends SimpleAction {
             if (log.isInfoEnabled()) {
                 log.info("LIMS SUC synchronization failed. Either no SUC edition was installed or an error occurred");
             }
+        }
+
+        // Debug time
+        if (log.isDebugEnabled()) {
+            long end = System.currentTimeMillis();
+            log.debug(String.format("[SYNC] TIME: %dms",
+                    (end - start)
+            ));
         }
     }
 }
