@@ -68,4 +68,7 @@
     <%-- Preloaded Images --%>
     <%@ include file="/WEB-INF/jspf/preloaded-images.jspf" %>
 
+    <%-- Conflict notifications --%>
+    <%@ include file="/WEB-INF/jspf/conflict.jspf" %>
+
 </c:if>

@@ -72,7 +72,6 @@
                 "js/view/elements/SwitchElementView.js",
                 "js/view/elements/SliderElementView.js",
                 "js/view/elements/TokenInputElementView.js",
-                "js/view/notification/ConflictNotificationView.js",
                 "js/view/notification/ErrorNotificationView.js",
                 "js/view/notification/InfoNotificationView.js",
                 "js/view/group/GroupBuddyViewItem.js",

@@ -10,6 +10,9 @@
 
 // If there is no chat bar do nothing
 if (!Y.one('#limsmuc-container .lims-bar')) {
-    console.log('nothing!');
+    return;
+}
+// There is another instance of lims
+else if (Y.one('#lims-container')) {
     return;
 }
