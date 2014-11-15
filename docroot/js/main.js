@@ -1,5 +1,8 @@
 AUI().use('limsmuc-core', 'limsmuc-model', 'limsmuc-view', 'limsmuc-controller', 'limsmuc-plugin', function (A) {
 
+    // Vars
+    var conflictMessage;
+
     // If there is no chat bar do nothing
     if (!A.one('#limsmuc-container .lims-bar')) {
         return; // Stop the app
@@ -9,19 +12,27 @@ AUI().use('limsmuc-core', 'limsmuc-model', 'limsmuc-view', 'limsmuc-controller',
     else if (A.one('#lims-container')) {
 
         // Vars
-        var suc = A.one('#lims-container'),
-            conflictMessage = A.one('.lims-muc .conflict-suc');
-
-        // If there is a SUC ran as simultaneously show the warning and stop the app
-        if (suc) {
-
-            // Show the warning
-            if (conflictMessage) {
-                A.one('.lims-muc .conflict-suc').show();
-            }
-
-            return; // Stop the app
+        conflictMessage = A.one('.lims-muc .conflict-suc');
+        // Show the warning
+        if (conflictMessage) {
+            A.one('.lims-muc .conflict-suc').show();
         }
+
+        return; // Stop the app
+
+    }
+
+    // There is an instance of Chat Portlet already running
+    else if (A.one('#chatBar')) {
+
+        // Vars
+        conflictMessage = A.one('.lims-muc .conflict-chat-portlet');
+        // Show the warning
+        if (conflictMessage) {
+            A.one('.lims-muc .conflict-chat-portlet').show();
+        }
+
+        return;
     }
 
     // Dom ready startup

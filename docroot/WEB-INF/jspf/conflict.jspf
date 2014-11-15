@@ -13,3 +13,9 @@
     <br/>
     <span><liferay-ui:message key="conflict-suc-message"/></span>
 </div>
+
+<div class="conflict-notification conflict-chat-portlet aui-helper-hidden hide">
+    <strong><liferay-ui:message key="conflict-chat-portlet-title"/></strong>
+    <br/>
+    <span><liferay-ui:message key="conflict-chat-portlet-message"/></span>
+</div>
