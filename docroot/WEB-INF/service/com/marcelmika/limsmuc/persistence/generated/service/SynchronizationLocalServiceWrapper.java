@@ -380,6 +380,30 @@ public class SynchronizationLocalServiceWrapper
 	}
 
 	/**
+	* Returns synchronization object
+	*
+	* @return Synchronization
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization getSynchronization()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _synchronizationLocalService.getSynchronization();
+	}
+
+	/**
+	* Sets the synchronization suc synced flag
+	*
+	* @param synced true if the SUC was synced
+	* @throws SystemException
+	*/
+	@Override
+	public void setSucSynced(boolean synced)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_synchronizationLocalService.setSucSynced(synced);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public SynchronizationLocalService getWrappedSynchronizationLocalService() {

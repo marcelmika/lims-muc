@@ -445,7 +445,8 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	}
 
 	@Override
-	public int compareTo(Settings settings) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Settings settings) {
 		return _settings.compareTo(settings);
 	}
 
@@ -455,17 +456,17 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Settings> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Settings> toCacheModel() {
 		return _settings.toCacheModel();
 	}
 
 	@Override
-	public Settings toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toEscapedModel() {
 		return new SettingsWrapper(_settings.toEscapedModel());
 	}
 
 	@Override
-	public Settings toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toUnescapedModel() {
 		return new SettingsWrapper(_settings.toUnescapedModel());
 	}
 

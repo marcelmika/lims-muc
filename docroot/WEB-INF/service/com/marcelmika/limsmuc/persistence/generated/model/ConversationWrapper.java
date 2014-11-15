@@ -276,7 +276,8 @@ public class ConversationWrapper implements Conversation,
 	}
 
 	@Override
-	public int compareTo(Conversation conversation) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Conversation conversation) {
 		return _conversation.compareTo(conversation);
 	}
 
@@ -286,17 +287,17 @@ public class ConversationWrapper implements Conversation,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Conversation> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Conversation> toCacheModel() {
 		return _conversation.toCacheModel();
 	}
 
 	@Override
-	public Conversation toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Conversation toEscapedModel() {
 		return new ConversationWrapper(_conversation.toEscapedModel());
 	}
 
 	@Override
-	public Conversation toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Conversation toUnescapedModel() {
 		return new ConversationWrapper(_conversation.toUnescapedModel());
 	}
 

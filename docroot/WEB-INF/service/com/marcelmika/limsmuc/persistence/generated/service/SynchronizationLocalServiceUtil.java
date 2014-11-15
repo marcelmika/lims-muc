@@ -359,6 +359,28 @@ public class SynchronizationLocalServiceUtil {
 		return getService().findMessage(version, start, end);
 	}
 
+	/**
+	* Returns synchronization object
+	*
+	* @return Synchronization
+	* @throws SystemException
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Synchronization getSynchronization()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getSynchronization();
+	}
+
+	/**
+	* Sets the synchronization suc synced flag
+	*
+	* @param synced true if the SUC was synced
+	* @throws SystemException
+	*/
+	public static void setSucSynced(boolean synced)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().setSucSynced(synced);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

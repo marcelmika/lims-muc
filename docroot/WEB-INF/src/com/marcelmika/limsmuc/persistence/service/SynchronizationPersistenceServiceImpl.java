@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
+import com.marcelmika.limsmuc.persistence.generated.model.Synchronization;
 import com.marcelmika.limsmuc.persistence.generated.service.SynchronizationLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
 
@@ -38,6 +39,28 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     @Override
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event) {
 
+        // Get the synchronization
+        try {
+            Synchronization synchronization = SynchronizationLocalServiceUtil.getSynchronization();
+
+            // Synchronization was already done
+            if (synchronization.getSucSync()) {
+                return SynchronizeSUCResponseEvent.failure(
+                        SynchronizeSUCResponseEvent.Status.ERROR_ALREADY_SYNCED
+                );
+            }
+
+
+            // It doesn't matter if the conversation was successful or not, set the flag to true
+            SynchronizationLocalServiceUtil.setSucSynced(true);
+        }
+        // Failure
+        catch (SystemException e) {
+            return SynchronizeSUCResponseEvent.failure(SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE);
+        }
+
+
+        // Do the synchronization
         boolean success = false;
 
         // Try to synchronize with SUC v1.2.0
@@ -52,7 +75,6 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         else if (synchronizeSUC(Version.SUC_1_0_1)) {
             success = true;
         }
-
 
         // Success
         if (success) {

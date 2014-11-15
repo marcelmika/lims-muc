@@ -17,10 +17,11 @@ package com.marcelmika.limsmuc.persistence.generated.service.impl;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.persistence.generated.model.Synchronization;
 import com.marcelmika.limsmuc.persistence.generated.service.base.SynchronizationLocalServiceBaseImpl;
+import com.marcelmika.limsmuc.persistence.synchronization.Synchronizer;
 import com.marcelmika.limsmuc.persistence.synchronization.SynchronizerFactory;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
-import com.marcelmika.limsmuc.persistence.synchronization.Synchronizer;
 
 import java.util.List;
 
@@ -137,5 +138,45 @@ public class SynchronizationLocalServiceImpl
     @Override
     public List<Object[]> findMessage(String version, int start, int end) throws SystemException {
         return synchronizationFinder.findMessage(version, start, end);
+    }
+
+    /**
+     * Returns synchronization object
+     *
+     * @return Synchronization
+     * @throws SystemException
+     */
+    @Override
+    public Synchronization getSynchronization() throws SystemException {
+        // Only one synchronization object can be in the database
+        List<Synchronization> list = synchronizationPersistence.findAll();
+
+        // Create a new one
+        if (list.size() == 0) {
+            // Create new synchronization
+            Synchronization synchronization = synchronizationPersistence.create(counterLocalService.increment());
+            synchronization.setSucSync(false);
+            synchronizationPersistence.update(synchronization, false);
+
+            return synchronization;
+        }
+
+        return list.get(0);
+    }
+
+    /**
+     * Sets the synchronization suc synced flag
+     *
+     * @param synced true if the SUC was synced
+     * @throws SystemException
+     */
+    @Override
+    public void setSucSynced(boolean synced) throws SystemException {
+        // Get the synchronization
+        Synchronization synchronization = getSynchronization();
+        // Update the flag
+        synchronization.setSucSync(synced);
+        // Save
+        synchronizationPersistence.update(synchronization, false);
     }
 }

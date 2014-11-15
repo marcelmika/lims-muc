@@ -23,6 +23,7 @@ public class SynchronizeSUCResponseEvent extends ResponseEvent {
 
     public enum Status {
         SUCCESS, // Event was successful
+        ERROR_ALREADY_SYNCED, // The synchronization was already done
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 

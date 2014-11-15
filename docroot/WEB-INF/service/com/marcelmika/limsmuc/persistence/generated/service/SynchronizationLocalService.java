@@ -320,4 +320,23 @@ public interface SynchronizationLocalService extends BaseLocalService,
 	public java.util.List<java.lang.Object[]> findMessage(
 		java.lang.String version, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns synchronization object
+	*
+	* @return Synchronization
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization getSynchronization()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Sets the synchronization suc synced flag
+	*
+	* @param synced true if the SUC was synced
+	* @throws SystemException
+	*/
+	public void setSucSynced(boolean synced)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

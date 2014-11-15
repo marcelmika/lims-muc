@@ -137,6 +137,14 @@ public class SynchronizationLocalServiceClpInvoker {
 		_methodName71 = "findMessage";
 
 		_methodParameterTypes71 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName72 = "getSynchronization";
+
+		_methodParameterTypes72 = new String[] {  };
+
+		_methodName73 = "setSucSynced";
+
+		_methodParameterTypes73 = new String[] { "boolean" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -282,6 +290,18 @@ public class SynchronizationLocalServiceClpInvoker {
 				((Integer)arguments[2]).intValue());
 		}
 
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+			return SynchronizationLocalServiceUtil.getSynchronization();
+		}
+
+		if (_methodName73.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
+			SynchronizationLocalServiceUtil.setSucSynced(((Boolean)arguments[0]).booleanValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -333,4 +353,8 @@ public class SynchronizationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes70;
 	private String _methodName71;
 	private String[] _methodParameterTypes71;
+	private String _methodName72;
+	private String[] _methodParameterTypes72;
+	private String _methodName73;
+	private String[] _methodParameterTypes73;
 }

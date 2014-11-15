@@ -73,9 +73,20 @@ public class ApplicationStartupAction extends SimpleAction {
         }
         // Failure
         else {
-            // Log
-            if (log.isInfoEnabled()) {
-                log.info("LIMS SUC synchronization failed. Either no SUC edition was installed or an error occurred");
+            SynchronizeSUCResponseEvent.Status status = responseEvent.getStatus();
+            // Already synced
+            if (status == SynchronizeSUCResponseEvent.Status.ERROR_ALREADY_SYNCED) {
+                // Log
+                if (log.isInfoEnabled()) {
+                    log.info("LIMS is already synced");
+                }
+            }
+            // Other faults
+            else {
+                // Log
+                if (log.isInfoEnabled()) {
+                    log.info("LIMS wasn't synced. Either no SUC edition was installed or an error occurred.");
+                }
             }
         }
 

@@ -329,7 +329,8 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	}
 
 	@Override
-	public int compareTo(Message message) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Message message) {
 		return _message.compareTo(message);
 	}
 
@@ -339,17 +340,17 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Message> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Message> toCacheModel() {
 		return _message.toCacheModel();
 	}
 
 	@Override
-	public Message toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Message toEscapedModel() {
 		return new MessageWrapper(_message.toEscapedModel());
 	}
 
 	@Override
-	public Message toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Message toUnescapedModel() {
 		return new MessageWrapper(_message.toUnescapedModel());
 	}
 

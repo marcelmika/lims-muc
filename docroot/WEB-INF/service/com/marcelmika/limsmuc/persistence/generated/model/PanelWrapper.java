@@ -242,7 +242,8 @@ public class PanelWrapper implements Panel, ModelWrapper<Panel> {
 	}
 
 	@Override
-	public int compareTo(Panel panel) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Panel panel) {
 		return _panel.compareTo(panel);
 	}
 
@@ -252,17 +253,17 @@ public class PanelWrapper implements Panel, ModelWrapper<Panel> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Panel> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Panel> toCacheModel() {
 		return _panel.toCacheModel();
 	}
 
 	@Override
-	public Panel toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel toEscapedModel() {
 		return new PanelWrapper(_panel.toEscapedModel());
 	}
 
 	@Override
-	public Panel toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel toUnescapedModel() {
 		return new PanelWrapper(_panel.toUnescapedModel());
 	}
 

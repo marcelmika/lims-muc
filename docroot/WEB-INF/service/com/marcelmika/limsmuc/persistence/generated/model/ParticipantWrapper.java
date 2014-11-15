@@ -388,7 +388,8 @@ public class ParticipantWrapper implements Participant,
 	}
 
 	@Override
-	public int compareTo(Participant participant) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Participant participant) {
 		return _participant.compareTo(participant);
 	}
 
@@ -398,17 +399,17 @@ public class ParticipantWrapper implements Participant,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Participant> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Participant> toCacheModel() {
 		return _participant.toCacheModel();
 	}
 
 	@Override
-	public Participant toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant toEscapedModel() {
 		return new ParticipantWrapper(_participant.toEscapedModel());
 	}
 
 	@Override
-	public Participant toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant toUnescapedModel() {
 		return new ParticipantWrapper(_participant.toUnescapedModel());
 	}
 

@@ -204,7 +204,8 @@ public class SynchronizationWrapper implements Synchronization,
 	}
 
 	@Override
-	public int compareTo(Synchronization synchronization) {
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Synchronization synchronization) {
 		return _synchronization.compareTo(synchronization);
 	}
 
@@ -214,17 +215,17 @@ public class SynchronizationWrapper implements Synchronization,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Synchronization> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Synchronization> toCacheModel() {
 		return _synchronization.toCacheModel();
 	}
 
 	@Override
-	public Synchronization toEscapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization toEscapedModel() {
 		return new SynchronizationWrapper(_synchronization.toEscapedModel());
 	}
 
 	@Override
-	public Synchronization toUnescapedModel() {
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization toUnescapedModel() {
 		return new SynchronizationWrapper(_synchronization.toUnescapedModel());
 	}
 

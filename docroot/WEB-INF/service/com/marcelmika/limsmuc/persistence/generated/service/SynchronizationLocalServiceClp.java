@@ -139,6 +139,14 @@ public class SynchronizationLocalServiceClp
 		_methodName24 = "findMessage";
 
 		_methodParameterTypes24 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName25 = "getSynchronization";
+
+		_methodParameterTypes25 = new String[] {  };
+
+		_methodName26 = "setSucSynced";
+
+		_methodParameterTypes26 = new String[] { "boolean" };
 	}
 
 	@Override
@@ -895,6 +903,58 @@ public class SynchronizationLocalServiceClp
 		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization getSynchronization()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.limsmuc.persistence.generated.model.Synchronization)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public void setSucSynced(boolean synced)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName26,
+				_methodParameterTypes26, new Object[] { synced });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -944,4 +1004,8 @@ public class SynchronizationLocalServiceClp
 	private String[] _methodParameterTypes23;
 	private String _methodName24;
 	private String[] _methodParameterTypes24;
+	private String _methodName25;
+	private String[] _methodParameterTypes25;
+	private String _methodName26;
+	private String[] _methodParameterTypes26;
 }
