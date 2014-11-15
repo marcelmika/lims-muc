@@ -21,7 +21,7 @@ Y.LIMS.View.ConversationToggleItem = Y.Base.create('conversationToggleItem', Y.V
 
     // The template property holds the contents of the #lims-conversation-toggle-item-template
     // element, which will be used as the HTML template for conversation toggle list.
-    conversationTemplate: Y.one('#lims-conversation-toggle-item-template').get('innerHTML'),
+    conversationTemplate: Y.one('#limsmuc-conversation-toggle-item-template').get('innerHTML'),
 
     /**
      * Called after the instance is created

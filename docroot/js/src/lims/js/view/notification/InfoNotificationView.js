@@ -19,7 +19,7 @@ Y.LIMS.View.InfoNotificationView = Y.Base.create('infoNotificationView', Y.View,
     // The template property holds the contents of the #lims-info-notification-template
     // element, which will be used as the HTML template for info notifications
     // Check the templates.jspf to see all templates
-    infoTemplate: Y.one('#lims-info-notification-template').get('innerHTML'),
+    infoTemplate: Y.one('#limsmuc-info-notification-template').get('innerHTML'),
 
     /**
      * Shows info message

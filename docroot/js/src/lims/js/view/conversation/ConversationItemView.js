@@ -23,10 +23,10 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
     model: Y.LIMS.Model.MessageItemModel,
 
     // Check the templates.jspf to see all templates
-    regularTemplate: Y.one('#lims-conversation-item-regular-template').get('innerHTML'),
-    leftTemplate: Y.one('#lims-conversation-item-left-template').get('innerHTML'),
-    addedTemplate: Y.one('#lims-conversation-item-added-template').get('innerHTML'),
-    errorTemplate: Y.one('#lims-conversation-item-error-template').get('innerHTML'),
+    regularTemplate: Y.one('#limsmuc-conversation-item-regular-template').get('innerHTML'),
+    leftTemplate: Y.one('#limsmuc-conversation-item-left-template').get('innerHTML'),
+    addedTemplate: Y.one('#limsmuc-conversation-item-added-template').get('innerHTML'),
+    errorTemplate: Y.one('#limsmuc-conversation-item-error-template').get('innerHTML'),
 
     /**
      * Called on initialization of object

@@ -19,7 +19,7 @@ Y.LIMS.View.ErrorNotificationView = Y.Base.create('errorNotificationView', Y.Vie
     // The template property holds the contents of the #lims-error-notification-template
     // element, which will be used as the HTML template for error notifications
     // Check the templates.jspf to see all templates
-    errorTemplate: Y.one('#lims-error-notification-template').get('innerHTML'),
+    errorTemplate: Y.one('#limsmuc-error-notification-template').get('innerHTML'),
 
     /**
      * Shows create error message

@@ -20,11 +20,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
         // The template property holds the contents of the #lims-conversation-template
         // element, which will be used as the HTML template for conversation controller.
-        conversationTemplate: Y.one('#lims-conversation-template').get('innerHTML'),
+        conversationTemplate: Y.one('#limsmuc-conversation-template').get('innerHTML'),
 
         // The template property holds the contents of the #lims-conversation-toggle-template
         // element, which will be used as the HTML template for the conversation toggle controller.
-        conversationToggleTemplate: Y.one('#lims-conversation-toggle-template').get('innerHTML'),
+        conversationToggleTemplate: Y.one('#limsmuc-conversation-toggle-template').get('innerHTML'),
 
 
         // The initializer runs when a MainController instance is created, and gives

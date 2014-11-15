@@ -19,7 +19,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
     // The template property holds the contents of the #lims-panel-search-template
     // element, which will be used as the HTML template for the search panel
     // Check the templates.jspf to see all templates
-    template: Y.one('#lims-panel-search-template').get('innerHTML'),
+    template: Y.one('#limsmuc-panel-search-template').get('innerHTML'),
 
     /**
      *  The initializer runs when an instance is created.

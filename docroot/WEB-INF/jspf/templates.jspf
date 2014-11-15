@@ -12,12 +12,12 @@
 <c:set var="SEARCH_QUERY_MAX_SIZE" value="<%= InputLimits.SEARCH_QUERY_MAX_SIZE %>"/>
 
 <%-- This template HTML will be used to render each group item. --%>
-<script type="text/x-template" id="lims-group-item-template">
+<script type="text/x-template" id="limsmuc-group-item-template">
     <div class="group-name">{name}</div>
 </script>
 
 <%-- This template HTML will be used to conversation feed regular item --%>
-<script type="text/x-template" id="lims-conversation-feed-item-regular-template">
+<script type="text/x-template" id="limsmuc-conversation-feed-item-regular-template">
     <div class="item-portrait">{portrait}</div>
     <div class="title">{title}</div>
     <div class="last-message">{lastMessage}</div>
@@ -25,7 +25,7 @@
 </script>
 
 <%-- This template HTML will be used to conversation feed left item --%>
-<script type="text/x-template" id="lims-conversation-feed-item-left-template">
+<script type="text/x-template" id="limsmuc-conversation-feed-item-left-template">
     <div class="item-portrait">{portrait}</div>
     <div class="title">{title}</div>
     <div class="last-message">
@@ -35,7 +35,7 @@
 </script>
 
 <%-- This template HTML will be used to conversation feed added item --%>
-<script type="text/x-template" id="lims-conversation-feed-item-added-template">
+<script type="text/x-template" id="limsmuc-conversation-feed-item-added-template">
     <div class="item-portrait">{portrait}</div>
     <div class="title">{title}</div>
     <div class="last-message">
@@ -45,7 +45,7 @@
 </script>
 
 <%-- This template HTML will be used to render each group buddy item. --%>
-<script type="text/x-template" id="lims-group-buddy-item-template">
+<script type="text/x-template" id="limsmuc-group-buddy-item-template">
     <div class="group-buddy-item-portrait">{portrait}</div>
     <div class="group-buddy-item-name">{name}</div>
     <div class="group-buddy-item-presence">{presence}</div>
@@ -53,13 +53,13 @@
 </script>
 
 <%-- This template HTML will be used to render the list panel button --%>
-<script type="text/x-template" id="lims-panel-button-list">
+<script type="text/x-template" id="limsmuc-panel-button-list">
     <button title="<liferay-ui:message key="panel-button-list-title"/>"
             class="panel-button list"></button>
 </script>
 
 <%-- This template HTML will be used to render each conversation. --%>
-<script type="text/x-template" id="lims-conversation-template">
+<script type="text/x-template" id="limsmuc-conversation-template">
     <div class="panel-trigger">
         <span class="trigger-name">{triggerTitle}</span>
 
@@ -89,7 +89,7 @@
 </script>
 
 <%-- This template HTML will be used to render conversation toggle panel --%>
-<script type="text/x-template" id="lims-conversation-toggle-template">
+<script type="text/x-template" id="limsmuc-conversation-toggle-template">
     <li class="conversation-toggle">
         <div class="panel-trigger">
             <span class="trigger-name">
@@ -113,7 +113,7 @@
 </script>
 
 <%-- This template HTML will be used to render conversation toggle list item --%>
-<script type="text/x-template" id="lims-conversation-toggle-item-template">
+<script type="text/x-template" id="limsmuc-conversation-toggle-item-template">
     <div class="title">{title}</div>
     <div class="unread">{unreadMessages}</div>
     <button title="<liferay-ui:message key="panel-conversation-toggle-item-close-title"/>"
@@ -121,7 +121,7 @@
 </script>
 
 <%-- This template HTML will be used to render each conversation. --%>
-<script type="text/x-template" id="lims-conversation-options-template">
+<script type="text/x-template" id="limsmuc-conversation-options-template">
     <div class="conversation-options">
         <div class="content">
             <ul>
@@ -138,7 +138,7 @@
 
 
 <%-- This template HTML will be used to render each conversation. --%>
-<script type="text/x-template" id="lims-conversation-option-leave-conversation-template">
+<script type="text/x-template" id="limsmuc-conversation-option-leave-conversation-template">
     <div class="leave-conversation-option">
         <div class="content">
             <div class="text">
@@ -158,7 +158,7 @@
 
 
 <%-- This template HTML will be used to render each conversation. --%>
-<script type="text/x-template" id="lims-conversation-option-add-more-template">
+<script type="text/x-template" id="limsmuc-conversation-option-add-more-template">
     <div class="add-more-option">
         <div class="content">
             <div class="token-input">
@@ -177,7 +177,7 @@
 </script>
 
 <%-- This template HTML will be used to render new conversation --%>
-<script type="text/x-template" id="lims-panel-new-conversation-template">
+<script type="text/x-template" id="limsmuc-panel-new-conversation-template">
     <div class="panel-new-conversation">
         <div class="content">
             <div class="token-input">
@@ -189,7 +189,7 @@
 </script>
 
 <%-- This template HTML will be used to render each conversation item (i.e. message). --%>
-<script type="text/x-template" id="lims-conversation-item-regular-template">
+<script type="text/x-template" id="limsmuc-conversation-item-regular-template">
     <div class="conversation-item-portrait">{portrait}</div>
     <div class="conversation-item-message">
         <span class="conversation-item-name">{fullName}</span>
@@ -202,21 +202,21 @@
 </script>
 
 <%-- This template HTML will be used to render conversation item left message --%>
-<script type="text/x-template" id="lims-conversation-item-left-template">
+<script type="text/x-template" id="limsmuc-conversation-item-left-template">
     <div class="conversation-item-left-message">
         <liferay-ui:message key="panel-conversation-item-left-message"/>
     </div>
 </script>
 
 <%-- This template HTML will be used to render conversation item added message --%>
-<script type="text/x-template" id="lims-conversation-item-added-template">
+<script type="text/x-template" id="limsmuc-conversation-item-added-template">
     <div class="conversation-item-added-message">
         <liferay-ui:message key="panel-conversation-item-added-message"/>
     </div>
 </script>
 
 <%-- This template HTML will be used to play a sound via audio tag --%>
-<script type="text/x-template" id="lims-notification-audio-template">
+<script type="text/x-template" id="limsmuc-notification-audio-template">
     <audio class="lims-notification-audio">
         <source src="{mp3}" type="audio/mpeg">
         <source src="{wav}" type="audio/wav">
@@ -224,7 +224,7 @@
 </script>
 
 <%-- This template HTML will be used to play a sound via embed tag --%>
-<script type="text/x-template" id="lims-notification-embed-template">
+<script type="text/x-template" id="limsmuc-notification-embed-template">
     <object class="lims-notification-embed">
         <param name="autostart" value="true">
         <param name="src" value="{wav}">
@@ -235,11 +235,11 @@
 </script>
 
 <%-- This template HTML will be used as a panel search template --%>
-<script type="text/x-template" id="lims-panel-search-template">
+<script type="text/x-template" id="limsmuc-panel-search-template">
     <div class="panel-search">
         <div class="content">
-            <label class="search-input-field-label" for="lims-search-input-field">
-                <input id="lims-search-input-field"
+            <label class="search-input-field-label" for="limsmuc-search-input-field">
+                <input id="limsmuc-search-input-field"
                        maxlength="${SEARCH_QUERY_MAX_SIZE}"
                        class="search-input-field"
                        type="text"
@@ -256,7 +256,7 @@
 
 
 <%-- This template HTML will be used to render info notification (the blue one) --%>
-<script type="text/x-template" id="lims-info-notification-template">
+<script type="text/x-template" id="limsmuc-info-notification-template">
     <div class="info-notification">
         <div class="info-icon"></div>
         <div class="info-message">{infoMessage}</div>
@@ -265,7 +265,7 @@
 </script>
 
 <%-- This template HTML will be used to render error notification (the red one) --%>
-<script type="text/x-template" id="lims-error-notification-template">
+<script type="text/x-template" id="limsmuc-error-notification-template">
     <div class="error-notification">
         <div class="warning-icon"></div>
         <div class="error-message">{errorMessage}</div>
@@ -276,7 +276,7 @@
 </script>
 
 <%-- This template HTML will be used as a error notification in panel (the black one) --%>
-<script type="text/x-template" id="lims-panel-error-template">
+<script type="text/x-template" id="limsmuc-panel-error-template">
     <div class="panel-error">
         <div class="warning-icon"></div>
         <div class="error-message"></div>
@@ -284,7 +284,7 @@
 </script>
 
 <%-- This template HTML will be used to render error under message (the red one with delete button) --%>
-<script type="text/x-template" id="lims-conversation-item-error-template">
+<script type="text/x-template" id="limsmuc-conversation-item-error-template">
     <div class="conversation-item-error">
         <div class="warning-icon"></div>
         <div class="error-message"><liferay-ui:message key="panel-conversation-message-error-text"/></div>
@@ -295,4 +295,3 @@
         <div class="clear"></div>
     </div>
 </script>
-

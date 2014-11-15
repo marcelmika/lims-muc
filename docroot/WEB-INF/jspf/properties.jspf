@@ -18,7 +18,7 @@
 <portlet:resourceURL var="limsPortletURL" id="view.jsp" escapeXml="false"/>
 
 <%-- This template HTML will be used to render localization messages --%>
-<script type="text/x-template" id="lims-i18n">
+<script type="text/x-template" id="limsmuc-i18n">
     {
     "connectionErrorMessage":"<liferay-ui:message key="connection-error"/>",
     "searchNoResultsMessage":"<liferay-ui:message key="panel-search-no-results-text"/>",
@@ -51,12 +51,14 @@
     "incomingMessageTitleText" : "<liferay-ui:message key="incoming-message-title-text"/>",
     "mucTitleTwoParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-two-participants"/>",
     "mucTitleOthersParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-others-participants"/>",
-    "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>"
+    "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>",
+    "conflictSUCTitle" : "<liferay-ui:message key="conflict-suc-title"/>",
+    "conflictSUCMessage" : "<liferay-ui:message key="conflict-suc-message"/>"
     }
 </script>
 
 <%-- This template HTML will be used to render localization messages --%>
-<script type="text/x-template" id="lims-properties">
+<script type="text/x-template" id="limsmuc-properties">
     {
     "userId":${currentUser.buddyId},
     "companyId":${currentUser.companyId},

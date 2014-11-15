@@ -23,9 +23,9 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
     model: Y.LIMS.Model.ConversationModel,
 
     // Check the templates.jspf to see all templates
-    regularTemplate: Y.one('#lims-conversation-feed-item-regular-template').get('innerHTML'),
-    leftTemplate: Y.one('#lims-conversation-feed-item-left-template').get('innerHTML'),
-    addedTemplate: Y.one('#lims-conversation-feed-item-added-template').get('innerHTML'),
+    regularTemplate: Y.one('#limsmuc-conversation-feed-item-regular-template').get('innerHTML'),
+    leftTemplate: Y.one('#limsmuc-conversation-feed-item-left-template').get('innerHTML'),
+    addedTemplate: Y.one('#limsmuc-conversation-feed-item-added-template').get('innerHTML'),
 
 
     /**

@@ -15,8 +15,8 @@ Y.namespace('LIMS.Core');
 Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
 
     // Templates
-    audioSoundTemplate: Y.one('#lims-notification-audio-template').get('innerHTML'),
-    embedSoundTemplate: Y.one('#lims-notification-embed-template').get('innerHTML'),
+    audioSoundTemplate: Y.one('#limsmuc-notification-audio-template').get('innerHTML'),
+    embedSoundTemplate: Y.one('#limsmuc-notification-embed-template').get('innerHTML'),
 
     // Locations of the sound files
     mp3SoundFile: '/lims-muc-portlet/audio/notification.mp3',

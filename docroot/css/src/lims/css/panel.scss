@@ -2,7 +2,7 @@
 / PANEL - TRIGGER
 /********************************************************************************/
 
-.liferay-ims .lims-bar div ul li .panel-trigger {
+.lims-muc .lims-bar div ul li .panel-trigger {
   cursor: pointer;
   float: left;
   border-left: 1px solid #dddad8;
@@ -57,7 +57,7 @@
 }
 
 // Selected trigger
-.liferay-ims .lims-bar div ul li.selected .panel-trigger {
+.lims-muc .lims-bar div ul li.selected .panel-trigger {
   background: #fff;
   border-top: none;
   border-bottom: none;
@@ -72,7 +72,7 @@
 / PANEL - WINDOW
 /********************************************************************************/
 
-.liferay-ims .panel-window {
+.lims-muc .panel-window {
   background: #fff;
   border: 1px solid #dddad8;
   border-bottom: none;
@@ -82,7 +82,7 @@
   position: relative;
 }
 
-.liferay-ims .ie-support .panel-window {
+.lims-muc .ie-support .panel-window {
   border-right: 2px solid #dddad8;
   border-bottom: 1px solid #dddad8;
 }
@@ -91,7 +91,7 @@
 / PANEL - BUTTONS
 /********************************************************************************/
 
-.liferay-ims .panel-button {
+.lims-muc .panel-button {
   cursor: pointer;
   width: 20px;
   height: 14px;
@@ -145,7 +145,7 @@
 / PANEL - TITLE
 /********************************************************************************/
 
-.liferay-ims {
+.lims-muc {
 
   .panel-title {
     background: #ffffff;
@@ -186,7 +186,7 @@
 / PANEL - ERROR
 /********************************************************************************/
 
-.liferay-ims .panel-error {
+.lims-muc .panel-error {
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
   top: 25px;
@@ -210,7 +210,7 @@
   }
 }
 
-.liferay-ims .ie-support .panel-error {
+.lims-muc .ie-support .panel-error {
   background: #000;
 }
 
@@ -218,7 +218,7 @@
 / PANEL - SEARCH INPUT
 /********************************************************************************/
 
-.liferay-ims .panel-search {
+.lims-muc .panel-search {
   position: absolute;
   width: 100%;
   top: 26px;

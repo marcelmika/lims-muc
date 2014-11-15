@@ -1,8 +1,8 @@
 {
-    "name": "lims",
+    "name": "limsmuc",
     "builds": {
 
-        "lims": {
+        "limsmuc": {
             "cssfiles": [
                 "css/mixins.scss",
                 "css/theme.scss",

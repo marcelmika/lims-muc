@@ -19,7 +19,7 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     // The template property holds the contents of the #lims-conversation-item-error-template
     // element, which will be used as the HTML template for an error message
     // Check the templates.jspf to see all templates
-    errorTemplate: Y.one('#lims-panel-error-template').get('innerHTML'),
+    errorTemplate: Y.one('#limsmuc-panel-error-template').get('innerHTML'),
 
     /**
      * Constructor

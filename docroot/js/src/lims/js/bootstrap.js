@@ -9,6 +9,7 @@
  */
 
 // If there is no chat bar do nothing
-if (!Y.one('#lims-container .lims-bar')) {
+if (!Y.one('#limsmuc-container .lims-bar')) {
+    console.log('nothing!');
     return;
 }

@@ -19,7 +19,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
     // The template property holds the contents of the #lims-panel-new-conversation-template
     // element, which will be used as the HTML template for the new conversation panel
     // Check the templates.jspf to see all templates
-    template: Y.one('#lims-panel-new-conversation-template').get('innerHTML'),
+    template: Y.one('#limsmuc-panel-new-conversation-template').get('innerHTML'),
 
     /**
      * Called on initialization

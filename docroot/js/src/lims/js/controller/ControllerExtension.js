@@ -19,7 +19,7 @@ Y.LIMS.Controller.ControllerExtension = function () {
 Y.LIMS.Controller.ControllerExtension.prototype = {
 
     // Root node of the lims portlet
-    rootNode: '#lims-container',
+    rootNode: '#limsmuc-container',
 
     /**
      * Returns root container node

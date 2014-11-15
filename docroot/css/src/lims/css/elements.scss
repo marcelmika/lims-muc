@@ -3,7 +3,7 @@
 /********************************************************************************/
 
 /* Divider between list elements */
-.liferay-ims li.divider {
+.lims-muc li.divider {
   border-bottom: 1px solid #ddd;
 }
 
@@ -11,7 +11,7 @@
 / PRELOADER
 /********************************************************************************/
 
-.liferay-ims .preloader {
+.lims-muc .preloader {
   position: absolute;
   margin: 60px auto 0;
   text-align: center;
@@ -26,7 +26,7 @@
 / BUTTON
 /********************************************************************************/
 
-.liferay-ims {
+.lims-muc {
 
   .button {
     padding: 4px 10px;
@@ -145,7 +145,7 @@
 / SLIDER
 /********************************************************************************/
 
-.liferay-ims .slider {
+.lims-muc .slider {
 
   .yui3-slider-x .yui3-slider-thumb {
     width: 22px;
@@ -175,7 +175,7 @@
 / AUTOCOMPLETE LIST
 /********************************************************************************/
 
-.liferay-ims .yui3-aclist {
+.lims-muc .yui3-aclist {
 
   .yui3-aclist-content {
     background: #fff;
@@ -202,7 +202,7 @@
 /  TOKEN INPUT
 /************************************************************************************/
 
-.liferay-ims .token-input {
+.lims-muc .token-input {
 
   li {
     padding-bottom: 0;
@@ -364,7 +364,7 @@
 / STATUS INDICATOR
 /********************************************************************************/
 
-.liferay-ims .status-indicator {
+.lims-muc .status-indicator {
   width: 10px;
   height: 10px;
   opacity: 0.9;
@@ -395,7 +395,7 @@
 / SWITCH
 /********************************************************************************/
 
-.liferay-ims {
+.lims-muc {
 
   .switch {
     // Make the button unselectable
@@ -504,7 +504,7 @@
 /  ERROR NOTIFICATION
 /************************************************************************************/
 
-.liferay-ims .error-notification {
+.lims-muc .error-notification {
   top: 40%;
   padding: 10px;
   width: 90%;
@@ -552,7 +552,7 @@
 /  INFO NOTIFICATION
 /************************************************************************************/
 
-.liferay-ims .info-notification {
+.lims-muc .info-notification {
   top: 40%;
   padding: 10px;
   width: 90%;
@@ -582,7 +582,7 @@
 /  Portrait
 /************************************************************************************/
 
-.liferay-ims .portrait-container {
+.lims-muc .portrait-container {
   width: 46px;
   height: 46px;
   overflow: hidden;

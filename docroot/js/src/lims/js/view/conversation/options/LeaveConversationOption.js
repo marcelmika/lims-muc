@@ -18,7 +18,7 @@ Y.LIMS.View.LeaveConversationOption = Y.Base.create('leaveConversationOption', Y
 
     // The template property holds the contents of the #lims-conversation-option-leave-conversation-template
     // element, which will be used as the HTML template for the leave conversation option view
-    template: Y.one('#lims-conversation-option-leave-conversation-template').get('innerHTML'),
+    template: Y.one('#limsmuc-conversation-option-leave-conversation-template').get('innerHTML'),
 
     // Template for the error message
     errorMessageTemplate: '<div class="error-message" />',

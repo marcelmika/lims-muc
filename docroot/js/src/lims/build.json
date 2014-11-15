@@ -1,8 +1,8 @@
 {
-    "name": "lims",
+    "name": "limsmuc",
     "builds": {
 
-        "lims-core": {
+        "limsmuc-core": {
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/core/date/DateFormatter.js",
@@ -23,7 +23,7 @@
             }
         },
 
-        "lims-model": {
+        "limsmuc-model": {
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/model/ModelExtension.js",
@@ -53,7 +53,7 @@
             }
         },
 
-        "lims-view": {
+        "limsmuc-view": {
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/view/ViewExtension.js",
@@ -72,6 +72,7 @@
                 "js/view/elements/SwitchElementView.js",
                 "js/view/elements/SliderElementView.js",
                 "js/view/elements/TokenInputElementView.js",
+                "js/view/notification/ConflictNotificationView.js",
                 "js/view/notification/ErrorNotificationView.js",
                 "js/view/notification/InfoNotificationView.js",
                 "js/view/group/GroupBuddyViewItem.js",
@@ -97,7 +98,7 @@
             }
         },
 
-        "lims-controller": {
+        "limsmuc-controller": {
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/controller/ControllerExtension.js",
@@ -118,7 +119,7 @@
             }
         },
 
-        "lims-plugin": {
+        "limsmuc-plugin": {
             "jsfiles": [
                 "js/bootstrap.js",
                 "js/plugin/TokenInputPlugin.js"
@@ -138,13 +139,13 @@
         }
     },
     "rollups": {
-        "lims": {
+        "limsmuc": {
             "files": [
-                "lims-core",
-                "lims-model",
-                "lims-view",
-                "lims-controller",
-                "lims-plugin"
+                "limsmuc-core",
+                "limsmuc-model",
+                "limsmuc-view",
+                "limsmuc-controller",
+                "limsmuc-plugin"
             ]
         }
     }

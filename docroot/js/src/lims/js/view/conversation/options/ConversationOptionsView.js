@@ -18,7 +18,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
 
     // The template property holds the contents of the #lims-conversation-options-template
     // element, which will be used as the HTML template for the conversation options view
-    template: Y.one('#lims-conversation-options-template').get('innerHTML'),
+    template: Y.one('#limsmuc-conversation-options-template').get('innerHTML'),
 
     /**
      * Called after the initialization of the instance

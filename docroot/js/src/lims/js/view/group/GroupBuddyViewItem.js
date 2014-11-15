@@ -24,7 +24,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
 
     // The template property holds the contents of the #lims-group-item-template
     // element, which will be used as the HTML template for each group item.
-    template: Y.one('#lims-group-buddy-item-template').get('innerHTML'),
+    template: Y.one('#limsmuc-group-buddy-item-template').get('innerHTML'),
 
     /**
      * Renders the view

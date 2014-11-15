@@ -19,7 +19,10 @@ Y.LIMS.View.ViewExtension = function () {
 Y.LIMS.View.ViewExtension.prototype = {
 
     // Root node of the lims portlet
-    rootNode: '#lims-container',
+    rootNode: '#limsmuc-container',
+
+    // Container of the whole portlet
+    portletContainer: '.lims-muc',
 
     /**
      * Returns url of the portrait of buddy based on the portrait id
@@ -39,6 +42,13 @@ Y.LIMS.View.ViewExtension.prototype = {
      */
     getRootNode: function () {
         return Y.one(this.rootNode);
+    },
+
+    /**
+     * Returns portlet's container
+     */
+    getPortletContainer: function () {
+        return Y.one(this.portletContainer);
     },
 
     /**
