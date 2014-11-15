@@ -30,7 +30,7 @@ public enum Version {
     /**
      * LIMS SUC v1.1.0
      */
-    SUC_1_1_0(1, "SUC-1.2.0");
+    SUC_1_1_0(1, "SUC-1.1.0");
 
 
 
@@ -61,6 +61,10 @@ public enum Version {
         if (code == SUC_1_2_0.getCode()) {
             return SUC_1_2_0;
         }
+        // SUV v1.1.0
+        else if (code == SUC_1_1_0.getCode()) {
+            return SUC_1_1_0;
+        }
         // Unknown
         else {
             return UNKNOWN;
@@ -77,6 +81,10 @@ public enum Version {
         // SUC v1.2.0
         if (description.equals(SUC_1_2_0.getDescription())) {
             return SUC_1_2_0;
+        }
+        // SUC v1.1.0
+        else if (description.equals(SUC_1_1_0.getDescription())) {
+            return SUC_1_1_0;
         }
         // Unknown
         else {

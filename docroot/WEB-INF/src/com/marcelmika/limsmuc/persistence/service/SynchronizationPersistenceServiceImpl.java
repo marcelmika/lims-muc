@@ -44,6 +44,10 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         if (synchronizeSUC(Version.SUC_1_2_0)) {
             success = true;
         }
+        // Try to synchronize with SUC v1.1.0
+        else if (synchronizeSUC(Version.SUC_1_1_0)) {
+            success = true;
+        }
 
 
         // Success
@@ -73,8 +77,9 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         // Failure
         catch (SystemException e) {
 
+            // Log for debug
             if (log.isDebugEnabled()) {
-                log.debug("Sync SUC v1.2.0 FAILED");
+                log.debug("Version: " + version.getDescription() + " sync failed");
             }
 
             return false;
