@@ -48,6 +48,10 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         else if (synchronizeSUC(Version.SUC_1_1_0)) {
             success = true;
         }
+        // Try to synchronize with SUC v1.0.1
+        else if (synchronizeSUC(Version.SUC_1_0_1)) {
+            success = true;
+        }
 
 
         // Success

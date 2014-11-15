@@ -40,6 +40,7 @@ public class SynchronizationQueryFactory {
     // Versions
     private static final String VERSION_1_2_0 = "1.2.0";
     private static final String VERSION_1_1_0 = "1.1.0";
+    private static final String VERSION_1_0_1 = "1.0.1";
 
     /**
      * Returns sql query for the settings table based on the given version
@@ -86,6 +87,21 @@ public class SynchronizationQueryFactory {
             query.addScalar("mute", Type.BOOLEAN);
             query.addScalar("chatEnabled", Type.BOOLEAN);
         }
+        // SUC version v1.0.1
+        else if (version == Version.SUC_1_0_1) {
+            // Generate SQL (check /custom-sql/synchronization.xml)
+            String sql = CustomSQLUtil.get(SETTINGS_SUC + VERSION_1_0_1);
+
+            // Create query from sql
+            query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("sid", Type.LONG);
+            query.addScalar("userId", Type.LONG);
+            query.addScalar("presence", Type.STRING);
+            query.addScalar("mute", Type.BOOLEAN);
+            query.addScalar("chatEnabled", Type.BOOLEAN);
+        }
 
         return query;
     }
@@ -118,6 +134,19 @@ public class SynchronizationQueryFactory {
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
             String sql = CustomSQLUtil.get(PANEL_SUC + VERSION_1_1_0);
+
+            // Create query from sql
+            query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("pid", Type.LONG);
+            query.addScalar("userId", Type.LONG);
+            query.addScalar("activePanelId", Type.STRING);
+        }
+        // SUC version v1.0.1
+        else if (version == Version.SUC_1_0_1) {
+            // Generate SQL (check /custom-sql/synchronization.xml)
+            String sql = CustomSQLUtil.get(PANEL_SUC + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -160,6 +189,20 @@ public class SynchronizationQueryFactory {
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
             String sql = CustomSQLUtil.get(CONVERSATION_SUC + VERSION_1_1_0);
+
+            // Create query from sql
+            query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("cid", Type.LONG);
+            query.addScalar("conversationId", Type.STRING);
+            query.addScalar("conversationType", Type.STRING);
+            query.addScalar("updatedAt", Type.CALENDAR);
+        }
+        // SUC version v1.0.1
+        else if (version == Version.SUC_1_0_1) {
+            // Generate SQL (check /custom-sql/synchronization.xml)
+            String sql = CustomSQLUtil.get(CONVERSATION_SUC + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -217,6 +260,21 @@ public class SynchronizationQueryFactory {
             query.addScalar("isOpened", Type.BOOLEAN);
             query.addScalar("openedAt", Type.LONG);
         }
+        // SUC version v1.1.0
+        else if (version == Version.SUC_1_0_1) {
+            // Generate SQL (check /custom-sql/synchronization.xml)
+            String sql = CustomSQLUtil.get(PARTICIPANT_SUC + VERSION_1_0_1);
+
+            // Create query from sql
+            query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("pid", Type.LONG);
+            query.addScalar("cid", Type.LONG);
+            query.addScalar("participantId", Type.LONG);
+            query.addScalar("unreadMessagesCount", Type.INTEGER);
+            query.addScalar("isOpened", Type.BOOLEAN);
+        }
 
         return query;
     }
@@ -251,6 +309,21 @@ public class SynchronizationQueryFactory {
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
             String sql = CustomSQLUtil.get(MESSAGE_SUC + VERSION_1_1_0);
+
+            // Create query from sql
+            query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("mid", Type.LONG);
+            query.addScalar("cid", Type.LONG);
+            query.addScalar("creatorId", Type.LONG);
+            query.addScalar("createdAt", Type.CALENDAR);
+            query.addScalar("body", Type.STRING);
+        }
+        // SUC version v1.0.1
+        else if (version == Version.SUC_1_0_1) {
+            // Generate SQL (check /custom-sql/synchronization.xml)
+            String sql = CustomSQLUtil.get(MESSAGE_SUC + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);

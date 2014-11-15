@@ -168,4 +168,80 @@
 		]]>
     </sql>
 
+    <!--
+        ~ LIMS SUC v1.0.1
+    -->
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Settings.SUC-1.0.1">
+        <![CDATA[
+			SELECT
+				Lims_Settings.sid AS sid,
+				Lims_Settings.userId AS userId,
+				Lims_Settings.presence AS presence,
+				Lims_Settings.mute AS mute,
+				Lims_Settings.chatEnabled AS chatEnabled
+			FROM
+				Lims_Settings
+		    ORDER BY
+		        Lims_Settings.sid
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Panel.SUC-1.0.1">
+        <![CDATA[
+			SELECT
+				Lims_Panel.pid AS pid,
+				Lims_Panel.userId AS userId,
+				Lims_Panel.activePanelId AS activePanelId
+			FROM
+				Lims_Panel
+		    ORDER BY
+		        Lims_Panel.pid
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Conversation.SUC-1.0.1">
+        <![CDATA[
+			SELECT
+				Lims_Conversation.cid AS cid,
+				Lims_Conversation.conversationId AS conversationId,
+				Lims_Conversation.conversationType AS conversationType,
+				Lims_Conversation.updatedAt AS updatedAt
+			FROM
+				Lims_Conversation
+		    ORDER BY
+		        Lims_Conversation.cid
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Participant.SUC-1.0.1">
+        <![CDATA[
+			SELECT
+				Lims_Participant.pid AS pid,
+				Lims_Participant.cid AS cid,
+				Lims_Participant.participantId AS participantId,
+				Lims_Participant.unreadMessagesCount AS unreadMessagesCount,
+				Lims_Participant.isOpened AS isOpened
+			FROM
+				Lims_Participant
+		    ORDER BY
+		        Lims_Participant.pid
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Message.SUC-1.0.1">
+        <![CDATA[
+			SELECT
+				Lims_Message.mid AS mid,
+				Lims_Message.cid AS cid,
+				Lims_Message.creatorId AS creatorId,
+				Lims_Message.createdAt AS createdAt,
+				Lims_Message.body AS body
+			FROM
+				Lims_Message
+		    ORDER BY
+		        Lims_Message.mid
+		]]>
+    </sql>
+
 </custom-sql>

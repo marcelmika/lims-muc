@@ -21,6 +21,8 @@ public class SynchronizerFactory {
             new com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl();
     public static final Synchronizer VERSION_1_1_0 =
             new com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl();
+    public static final Synchronizer VERSION_1_0_1 =
+            new com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl();
 
     /**
      * Returns synchronizer based on the version. Null if no synchronizer for the given version is found
@@ -39,6 +41,10 @@ public class SynchronizerFactory {
         // SUC v1.1.0
         else if (version == Version.SUC_1_1_0) {
             synchronizer = VERSION_1_1_0;
+        }
+        // SUC v1.0.1
+        else if (version == Version.SUC_1_0_1) {
+            synchronizer = VERSION_1_0_1;
         }
 
         return synchronizer;
