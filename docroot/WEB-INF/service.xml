@@ -30,7 +30,7 @@
         <column name='adminAreaOpened' type='boolean'/>
         <column name="connected" type="boolean"/>
         <column name="connectedAt" type="Date"/>
-        <finder name='UserId' return-type='Settings'>
+        <finder name='UserId' return-type='Settings' unique="true">
             <finder-column name='userId'/>
         </finder>
         <finder name='Presence' return-type='Collection'>
@@ -48,7 +48,7 @@
         <order>
             <order-column name="updatedAt" order-by="desc"/>
         </order>
-        <finder name='ConversationId' return-type='Conversation'>
+        <finder name='ConversationId' return-type='Conversation' unique="true">
             <finder-column name='conversationId'/>
         </finder>
         <finder name='SyncIdSUC' return-type='Conversation'>
@@ -95,7 +95,7 @@
         <finder name='Cid' return-type='Collection'>
             <finder-column name='cid'/>
         </finder>
-        <finder name='CidParticipantId' return-type='Participant'>
+        <finder name='CidParticipantId' return-type='Participant' unique="true">
             <finder-column name='cid'/>
             <finder-column name='participantId'/>
         </finder>
