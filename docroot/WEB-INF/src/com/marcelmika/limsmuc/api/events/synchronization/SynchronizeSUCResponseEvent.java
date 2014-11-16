@@ -23,6 +23,7 @@ public class SynchronizeSUCResponseEvent extends ResponseEvent {
 
     public enum Status {
         SUCCESS, // Event was successful
+        SUCCESS_IN_PROGRESS, // Event is still in progress
         ERROR_ALREADY_SYNCED, // The synchronization was already done
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
@@ -44,6 +45,21 @@ public class SynchronizeSUCResponseEvent extends ResponseEvent {
 
         event.success = true;
         event.status = Status.SUCCESS;
+
+        return event;
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @param status Status
+     * @return ResponseEvent
+     */
+    public static SynchronizeSUCResponseEvent success(final Status status) {
+        SynchronizeSUCResponseEvent event = new SynchronizeSUCResponseEvent();
+
+        event.success = true;
+        event.status = status;
 
         return event;
     }

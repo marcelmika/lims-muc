@@ -20,7 +20,7 @@ Y.LIMS.Model.SynchronizationModel = Y.Base.create('synchronizationModel', Y.Mode
     /**
      * Starts tje synchronization
      *
-     * @param callback
+     * @param callback (error, inProgress)
      */
     synchronizeSUC: function (callback) {
 
@@ -35,12 +35,24 @@ Y.LIMS.Model.SynchronizationModel = Y.Base.create('synchronizationModel', Y.Mode
             on: {
                 success: function (id, o) {
 
-                    console.log(o);
-
-                    if (callback) {
+                    // Synchronization was successfully finished
+                    if (o.status === 200) {
+                        callback(null, false);
+                    }
+                    // Synchronization is in progress
+                    else if (o.status === 204) {
+                        callback(null, true);
+                    }
+                    // Synchronization error
+                    else if (o.status === 304) {
+                        callback("cannot synchronize", false);
+                    }
+                    // Unknown success code
+                    else {
                         callback(null);
                     }
 
+                    // Fire event
                     instance.fire('synchronizationSuccess');
 
                 },

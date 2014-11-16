@@ -702,6 +702,11 @@
       font-weight: bold;
       padding-right: 10px;
 
+      &.success {
+        color: #39B87E;
+        font-weight: normal;
+      }
+
       &.error {
         color: rgb(210, 103, 103);
         font-weight: normal;

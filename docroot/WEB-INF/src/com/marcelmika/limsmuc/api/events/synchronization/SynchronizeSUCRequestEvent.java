@@ -18,4 +18,18 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
  * Time: 11:38
  */
 public class SynchronizeSUCRequestEvent extends RequestEvent {
+
+    private boolean forceSynchronization;
+
+    public SynchronizeSUCRequestEvent() {
+        this.forceSynchronization = false;
+    }
+
+    public SynchronizeSUCRequestEvent(boolean forceSynchronization) {
+        this.forceSynchronization = forceSynchronization;
+    }
+
+    public boolean forceSynchronization() {
+        return forceSynchronization;
+    }
 }

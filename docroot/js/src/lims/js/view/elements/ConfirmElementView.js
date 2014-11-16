@@ -112,6 +112,7 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
         // Add/remove classes
         note.addClass('error');
         note.removeClass('info');
+        note.removeClass('success');
 
         // Set message
         note.set('innerHTML', message);
@@ -129,6 +130,25 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
         // Add/remove classes
         note.addClass('info');
         note.removeClass('error');
+        note.removeClass('success');
+
+        // Set message
+        note.set('innerHTML', message);
+    },
+
+    /**
+     * Shows success message
+     *
+     * @param message
+     */
+    showSuccessMessage: function (message) {
+        // Vars
+        var note = this.get('note');
+
+        // Add/remove classes
+        note.addClass('success');
+        note.removeClass('error');
+        note.removeClass('info');
 
         // Set message
         note.set('innerHTML', message);
@@ -139,13 +159,14 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
      *
      * @param message
      */
-    showDefaultMessage: function(message) {
+    showDefaultMessage: function (message) {
         // Vars
         var note = this.get('note');
 
         // Remove classes
         note.removeClass('info');
         note.removeClass('error');
+        note.removeClass('success');
 
         // Set message
         note.set('innerHTML', message);

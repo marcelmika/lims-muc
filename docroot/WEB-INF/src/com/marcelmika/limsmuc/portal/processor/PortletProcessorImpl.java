@@ -12,10 +12,10 @@ package com.marcelmika.limsmuc.portal.processor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.portal.controller.*;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
-import com.marcelmika.limsmuc.portal.controller.*;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -44,6 +44,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     SettingsController settingsController;
     ServerController serverController;
     PropertiesController propertiesController;
+    SynchronizationController synchronizationController;
 
     // Private properties
     private Random random = new Random();
@@ -70,23 +71,26 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_GET_SERVER_TIME = "GetServerTime";
     private static final String QUERY_SEARCH_BUDDIES = "SearchBuddies";
     private static final String QUERY_PATCH_PROPERTIES = "PatchProperties";
+    private static final String QUERY_SYNCHRONIZE_SUC = "SynchronizeSuc";
 
     /**
      * Constructor
      *
-     * @param buddyController        BuddyController
-     * @param conversationController ConversationController
-     * @param groupController        GroupController
-     * @param settingsController     SettingsController
-     * @param serverController       ServerController
-     * @param propertiesController   PropertiesController
+     * @param buddyController           BuddyController
+     * @param conversationController    ConversationController
+     * @param groupController           GroupController
+     * @param settingsController        SettingsController
+     * @param serverController          ServerController
+     * @param propertiesController      PropertiesController
+     * @param synchronizationController SynchronizationController
      */
     public PortletProcessorImpl(final BuddyController buddyController,
                                 final ConversationController conversationController,
                                 final GroupController groupController,
                                 final SettingsController settingsController,
                                 final ServerController serverController,
-                                final PropertiesController propertiesController) {
+                                final PropertiesController propertiesController,
+                                final SynchronizationController synchronizationController) {
 
         this.buddyController = buddyController;
         this.conversationController = conversationController;
@@ -94,6 +98,7 @@ public class PortletProcessorImpl implements PortletProcessor {
         this.settingsController = settingsController;
         this.serverController = serverController;
         this.propertiesController = propertiesController;
+        this.synchronizationController = synchronizationController;
     }
 
     /**
@@ -223,6 +228,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Patch properties
         else if (query.equals(QUERY_PATCH_PROPERTIES)) {
             propertiesController.patchProperties(request, response);
+        }
+        // Synchronize suc
+        else if (query.equals(QUERY_SYNCHRONIZE_SUC)) {
+            synchronizationController.synchronizeSUC(request, response);
         }
         // No such query was found
         else {

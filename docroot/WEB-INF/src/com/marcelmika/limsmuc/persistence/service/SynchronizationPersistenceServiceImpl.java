@@ -30,6 +30,8 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SynchronizationPersistenceServiceImpl.class);
 
+    private static boolean inProgress = false;
+
     /**
      * Synchronizes system with the data from existing LIMS SUC edition
      *
@@ -39,29 +41,41 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     @Override
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event) {
 
-        // Get the synchronization
-        try {
-            Synchronization synchronization = SynchronizationLocalServiceUtil.getSynchronization();
-
-            // Synchronization was already done
-            if (synchronization.getSucSync()) {
-                return SynchronizeSUCResponseEvent.failure(
-                        SynchronizeSUCResponseEvent.Status.ERROR_ALREADY_SYNCED
-                );
-            }
-
-
-            // It doesn't matter if the conversation was successful or not, set the flag to true
-            SynchronizationLocalServiceUtil.setSucSynced(true);
+        // If the synchronization is already in progress do nothing
+        if (inProgress) {
+            return SynchronizeSUCResponseEvent.success(
+                    SynchronizeSUCResponseEvent.Status.SUCCESS_IN_PROGRESS
+            );
         }
-        // Failure
-        catch (SystemException e) {
-            return SynchronizeSUCResponseEvent.failure(SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE);
+
+        // If the synchronization is not forced to happen check if suc was already synced
+        if (!event.forceSynchronization()) {
+            // Get the synchronization
+            try {
+                Synchronization synchronization = SynchronizationLocalServiceUtil.getSynchronization();
+
+                // Synchronization was already done
+                if (synchronization.getSucSync()) {
+                    return SynchronizeSUCResponseEvent.failure(
+                            SynchronizeSUCResponseEvent.Status.ERROR_ALREADY_SYNCED
+                    );
+                }
+
+                // It doesn't matter if the conversation was successful or not, set the flag to true
+                SynchronizationLocalServiceUtil.setSucSynced(true);
+            }
+            // Failure
+            catch (SystemException e) {
+                return SynchronizeSUCResponseEvent.failure(SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE);
+            }
         }
 
 
         // Do the synchronization
         boolean success = false;
+
+        // Sync is in progress
+        inProgress = true;
 
         // Try to synchronize with SUC v1.2.0
         if (synchronizeSUC(Version.SUC_1_2_0)) {
@@ -75,6 +89,9 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         else if (synchronizeSUC(Version.SUC_1_0_1)) {
             success = true;
         }
+
+        // Sync finished
+        inProgress = false;
 
         // Success
         if (success) {

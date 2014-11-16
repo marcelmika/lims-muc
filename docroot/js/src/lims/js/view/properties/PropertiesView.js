@@ -436,17 +436,21 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         synchronizationSUC.showActivityIndicator();
 
         // Start synchronization
-        model.synchronizeSUC(function (err) {
+        model.synchronizeSUC(function (err, inProgress) {
             // Hide the preloader
             synchronizationSUC.hideActivityIndicator();
 
-            // Show error
+            // Error
             if (err) {
                synchronizationSUC.showErrorMessage(Y.LIMS.Core.i18n.values.sucSynchronizationError);
             }
-            // Show info
+            // In progress
+            else if (inProgress) {
+                synchronizationSUC.showInfoMessage(Y.LIMS.Core.i18n.values.sucSynchronizationInProgress);
+            }
+            // Success
             else {
-                synchronizationSUC.showInfoMessage(Y.LIMS.Core.i18n.values.sucSynchronizationInfo);
+                synchronizationSUC.showSuccessMessage(Y.LIMS.Core.i18n.values.sucSynchronizationSuccess);
             }
         });
     }
