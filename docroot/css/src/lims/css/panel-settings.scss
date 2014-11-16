@@ -130,8 +130,17 @@
       cursor: pointer;
     }
 
+    .list {
+      padding-bottom: 10px;
+    }
+
     li {
       padding: 0 10px;
+    }
+
+    button {
+      font-size: 12px;
+      margin-bottom: 13px;
     }
 
     .buddy-list-ignore-default-user {

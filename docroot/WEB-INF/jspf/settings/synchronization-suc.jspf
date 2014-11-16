@@ -1,0 +1,30 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<li class="synchronization-suc">
+
+    <div class="confirm">
+        <button class="open button button-secondary">
+            <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-open-title"/>
+        </button>
+        <div class="confirm-decision">
+            <div class="note">
+                <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-default-note"/>
+            </div>
+            <button class="cancel button button-secondary">
+                <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-cancel-title"/>
+            </button>
+            <button class="ok button button-secondary">
+                <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-ok-title"/>
+            </button>
+            <div class="preloader"></div>
+        </div>
+    </div>
+
+</li>

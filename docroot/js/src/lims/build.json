@@ -41,7 +41,8 @@
                 "js/model/group/GroupModelList.js",
                 "js/model/group/GroupSocialRelationType.js",
                 "js/model/settings/SettingsModel.js",
-                "js/model/server/ServerTimeModel.js"
+                "js/model/server/ServerTimeModel.js",
+                "js/model/synchronization/SynchronizationModel.js"
             ],
             "config": {
                 "requires": [
@@ -69,6 +70,7 @@
                 "js/view/conversation/toggle/ConversationToggleItem.js",
                 "js/view/conversation/toggle/ConversationToggleList.js",
                 "js/view/elements/ChoiceElementView.js",
+                "js/view/elements/ConfirmElementView.js",
                 "js/view/elements/SwitchElementView.js",
                 "js/view/elements/SliderElementView.js",
                 "js/view/elements/TokenInputElementView.js",

@@ -51,7 +51,9 @@
     "incomingMessageTitleText" : "<liferay-ui:message key="incoming-message-title-text"/>",
     "mucTitleTwoParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-two-participants"/>",
     "mucTitleOthersParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-others-participants"/>",
-    "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>"
+    "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>",
+    "sucSynchronizationInfo" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-info-note"/>",
+    "sucSynchronizationError" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-error-note"/>"
     }
 </script>
 

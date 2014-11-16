@@ -90,7 +90,7 @@
 
                     <div class="settings ${adminAreaClass}">
                         <div class="version">${version}</div>
-                        <ul class="lfr-component">
+                        <ul class="lfr-component list">
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
@@ -101,6 +101,7 @@
                             <%@ include file="/WEB-INF/jspf/settings/conversation-feed-max-conversations.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                         </ul>
                     </div>
                     <div class="clear"></div>

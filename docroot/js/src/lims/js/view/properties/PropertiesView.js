@@ -61,7 +61,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             conversationListMaxMessages = this.get('conversationListMaxMessages'),
             conversationFeedMaxConversations = this.get('conversationFeedMaxConversations'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
-            buddyListGroupExcludes = this.get('buddyListGroupExcludes');
+            buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
+            synchronizationSUC = this.get('synchronizationSUC');
 
         // Local events
         openButton.on('click', this._onOpenButtonClick, this);
@@ -75,6 +76,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         conversationFeedMaxConversations.on('sliderUpdate', this._onConversationFeedMaxConversationsUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
+        synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
     },
 
     /**
@@ -419,6 +421,34 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             // we need to re-enable the focus again.
             buddyListGroupExcludes.focus();
         });
+    },
+
+    /**
+     * Called when user confirms
+     * @private
+     */
+    _onSynchronizationSucOkClick: function () {
+        // Vars
+        var synchronizationSUC = this.get('synchronizationSUC'),
+            model = this.get('synchronizationModel');
+
+        // Show the activity
+        synchronizationSUC.showActivityIndicator();
+
+        // Start synchronization
+        model.synchronizeSUC(function (err) {
+            // Hide the preloader
+            synchronizationSUC.hideActivityIndicator();
+
+            // Show error
+            if (err) {
+               synchronizationSUC.showErrorMessage(Y.LIMS.Core.i18n.values.sucSynchronizationError);
+            }
+            // Show info
+            else {
+                synchronizationSUC.showInfoMessage(Y.LIMS.Core.i18n.values.sucSynchronizationInfo);
+            }
+        });
     }
 
 
@@ -433,6 +463,17 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
          */
         container: {
             value: null // to be set
+        },
+
+        /**
+         * Synchronization model
+         *
+         * {Y.LIMS.Model.SynchronizationModel}
+         */
+        synchronizationModel: {
+            valueFn: function () {
+                return new Y.LIMS.Model.SynchronizationModel();
+            }
         },
 
         /**
@@ -752,6 +793,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.buddy-list-group-excludes');
 
                 return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for excluded groups
+         *
+         * {Y.LIMS.View.ConfirmElementView}
+         */
+        synchronizationSUC: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.synchronization-suc .confirm');
+
+                return new Y.LIMS.View.ConfirmElementView({
                     container: container
                 });
             }
