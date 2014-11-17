@@ -527,11 +527,13 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var toggleController = this.get('conversationToggleController'),
                 lastConversationNode,
                 lastConversationController,
-                model = controller.get('model');
+                model = controller.get('model'),
+                isHidden = controller.get('container').getAttribute('hidden');
 
             // Toggle is visible that means that the controller given in parameter will be set as
-            // a last visible controller right after the conversation toggle
-            if (toggleController.isVisible()) {
+            // a last visible controller right after the conversation toggle only if the controller
+            // is hidden within the toggle
+            if (toggleController.isVisible() && isHidden) {
 
                 // Get the last conversation's node that is visible before the toggle
                 lastConversationNode = this._lastNotHiddenConversation();

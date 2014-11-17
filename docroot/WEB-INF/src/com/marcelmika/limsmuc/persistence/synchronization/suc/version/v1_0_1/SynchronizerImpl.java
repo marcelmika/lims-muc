@@ -279,7 +279,7 @@ public class SynchronizerImpl implements Synchronizer {
                         participant.setIsOpened((Boolean) object[4]);
                         participant.setIsCreator(false); // default
                         participant.setHasLeft(false); // will never happen in SUC
-                        participant.setOpenedAt(new Date(0));
+                        participant.setOpenedAt(Calendar.getInstance().getTime());
 
                         // Save
                         ParticipantLocalServiceUtil.saveParticipant(participant);
