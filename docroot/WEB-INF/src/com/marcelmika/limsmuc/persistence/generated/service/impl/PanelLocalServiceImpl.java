@@ -83,6 +83,19 @@ public class PanelLocalServiceImpl extends PanelLocalServiceBaseImpl {
     }
 
     /**
+     * Returns panel based on the user id
+     *
+     * @param userId id of the user
+     * @param useCache true if the cache should be used
+     * @return found panel or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
+    public Panel fetchByUserId(long userId, boolean useCache) throws SystemException {
+        return panelPersistence.fetchByUserId(userId, useCache);
+    }
+
+    /**
      * Creates new plain panel
      *
      * @return created panel

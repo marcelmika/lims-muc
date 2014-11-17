@@ -375,6 +375,21 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	}
 
 	/**
+	* Returns conversation based on its sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @param useCache true if the cache should be used
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _messageLocalService.fetchBySyncIdSUC(syncIdSUC, useCache);
+	}
+
+	/**
 	* Creates new plain message
 	*
 	* @return created message

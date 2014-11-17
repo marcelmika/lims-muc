@@ -82,7 +82,7 @@ public class SynchronizerImpl implements Synchronizer {
                     Long userId = (Long) object[1];
 
                     // If the settings for the particular user are already there do nothing
-                    Settings settings = SettingsLocalServiceUtil.fetchByUserId(userId);
+                    Settings settings = SettingsLocalServiceUtil.fetchByUserId(userId, false);
                     if (settings != null) {
                         continue;
                     }
@@ -143,7 +143,7 @@ public class SynchronizerImpl implements Synchronizer {
                     Long userId = (Long) object[1];
 
                     // If the panel row for the particular user is already there do nothing
-                    Panel panel = PanelLocalServiceUtil.fetchByUserId(userId);
+                    Panel panel = PanelLocalServiceUtil.fetchByUserId(userId, false);
                     if (panel != null) {
                         continue;
                     }
@@ -196,7 +196,9 @@ public class SynchronizerImpl implements Synchronizer {
                     String conversationId = (String) object[1];
 
                     // Check if there is already such conversation
-                    Conversation conversation = ConversationLocalServiceUtil.fetchByConversationId(conversationId);
+                    Conversation conversation = ConversationLocalServiceUtil.fetchByConversationId(
+                            conversationId, false
+                    );
 
                     // If the particular conversation is not in db yet
                     if (conversation == null) {
@@ -257,7 +259,7 @@ public class SynchronizerImpl implements Synchronizer {
                     Long participantId = (Long) object[2];
 
                     // This will find the conversation that belongs to the participant
-                    Conversation conversation = ConversationLocalServiceUtil.fetchBySyncIdSUC(cid);
+                    Conversation conversation = ConversationLocalServiceUtil.fetchBySyncIdSUC(cid, false);
 
                     // We cannot add a participant to a non-existing conversation
                     if (conversation == null) {
@@ -266,7 +268,7 @@ public class SynchronizerImpl implements Synchronizer {
 
                     // Check if there is such participant already
                     Participant participant = ParticipantLocalServiceUtil.getParticipant(
-                            conversation.getCid(), participantId
+                            conversation.getCid(), participantId, false
                     );
 
                     // The participant is not in the db yet
@@ -327,7 +329,7 @@ public class SynchronizerImpl implements Synchronizer {
                     Long cid = (Long) object[1];
 
                     // Find the message
-                    Message message = MessageLocalServiceUtil.fetchBySyncIdSUC(mid);
+                    Message message = MessageLocalServiceUtil.fetchBySyncIdSUC(mid, false);
 
                     // Message already exists there is no need to synchronize it again
                     if (message != null) {
@@ -335,7 +337,7 @@ public class SynchronizerImpl implements Synchronizer {
                     }
 
                     // Find the conversation related to the message
-                    Conversation conversation = ConversationLocalServiceUtil.fetchBySyncIdSUC(cid);
+                    Conversation conversation = ConversationLocalServiceUtil.fetchBySyncIdSUC(cid, false);
 
                     // We cannot add a message to a non-existing conversation
                     if (conversation == null) {

@@ -159,36 +159,42 @@ public class ParticipantLocalServiceClpInvoker {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName74 = "getConversations";
+		_methodName74 = "getParticipant";
 
 		_methodParameterTypes74 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean"
+			};
+
+		_methodName75 = "getConversations";
+
+		_methodParameterTypes75 = new String[] {
 				"java.lang.Long", "java.lang.Integer", "java.lang.Integer",
 				"java.lang.Integer", "java.lang.Boolean"
 			};
 
-		_methodName75 = "getConversationsCount";
+		_methodName76 = "getConversationsCount";
 
-		_methodParameterTypes75 = new String[] { "java.lang.Long" };
+		_methodParameterTypes76 = new String[] { "java.lang.Long" };
 
-		_methodName76 = "leaveConversation";
+		_methodName77 = "leaveConversation";
 
-		_methodParameterTypes76 = new String[] {
+		_methodParameterTypes77 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName77 = "addParticipant";
+		_methodName78 = "addParticipant";
 
-		_methodParameterTypes77 = new String[] {
+		_methodParameterTypes78 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean"
 			};
 
-		_methodName78 = "createParticipant";
+		_methodName79 = "createParticipant";
 
-		_methodParameterTypes78 = new String[] {  };
+		_methodParameterTypes79 = new String[] {  };
 
-		_methodName79 = "saveParticipant";
+		_methodName80 = "saveParticipant";
 
-		_methodParameterTypes79 = new String[] {
+		_methodParameterTypes80 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Participant"
 			};
 	}
@@ -350,39 +356,46 @@ public class ParticipantLocalServiceClpInvoker {
 
 		if (_methodName74.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
+			return ParticipantLocalServiceUtil.getParticipant((java.lang.Long)arguments[0],
+				(java.lang.Long)arguments[1],
+				((Boolean)arguments[2]).booleanValue());
+		}
+
+		if (_methodName75.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
 			return ParticipantLocalServiceUtil.getConversations((java.lang.Long)arguments[0],
 				(java.lang.Integer)arguments[1],
 				(java.lang.Integer)arguments[2],
 				(java.lang.Integer)arguments[3], (java.lang.Boolean)arguments[4]);
 		}
 
-		if (_methodName75.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
+		if (_methodName76.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
 			return ParticipantLocalServiceUtil.getConversationsCount((java.lang.Long)arguments[0]);
 		}
 
-		if (_methodName76.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
+		if (_methodName77.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
 			ParticipantLocalServiceUtil.leaveConversation((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1]);
 
 			return null;
 		}
 
-		if (_methodName77.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
+		if (_methodName78.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
 			return ParticipantLocalServiceUtil.addParticipant((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue());
 		}
 
-		if (_methodName78.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
+		if (_methodName79.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
 			return ParticipantLocalServiceUtil.createParticipant();
 		}
 
-		if (_methodName79.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+		if (_methodName80.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
 			ParticipantLocalServiceUtil.saveParticipant((com.marcelmika.limsmuc.persistence.generated.model.Participant)arguments[0]);
 
 			return null;
@@ -455,4 +468,6 @@ public class ParticipantLocalServiceClpInvoker {
 	private String[] _methodParameterTypes78;
 	private String _methodName79;
 	private String[] _methodParameterTypes79;
+	private String _methodName80;
+	private String[] _methodParameterTypes80;
 }

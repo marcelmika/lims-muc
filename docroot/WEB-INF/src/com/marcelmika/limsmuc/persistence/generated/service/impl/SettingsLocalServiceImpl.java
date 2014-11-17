@@ -91,6 +91,19 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Fetches settings based on the user id
+     *
+     * @param userId   long
+     * @param useCache true if the cache should be used
+     * @return Settings or null if nothing found
+     * @throws SystemException
+     */
+    @Override
+    public Settings fetchByUserId(long userId, boolean useCache) throws SystemException {
+        return settingsPersistence.fetchByUserId(userId, useCache);
+    }
+
+    /**
      * Creates new settings object
      *
      * @return Settings or null if nothing found
@@ -196,7 +209,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         query.add(RestrictionsFactoryUtil.eq("connected", true));
 
         // Get the results
-        List results = com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil.dynamicQuery(query);
+        List results = dynamicQuery(query);
 
         // Set the connected flag to false for all found settings
         for (Object setting : results) {

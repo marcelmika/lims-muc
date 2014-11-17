@@ -160,36 +160,42 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName27 = "getConversations";
+		_methodName27 = "getParticipant";
 
 		_methodParameterTypes27 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean"
+			};
+
+		_methodName28 = "getConversations";
+
+		_methodParameterTypes28 = new String[] {
 				"java.lang.Long", "java.lang.Integer", "java.lang.Integer",
 				"java.lang.Integer", "java.lang.Boolean"
 			};
 
-		_methodName28 = "getConversationsCount";
+		_methodName29 = "getConversationsCount";
 
-		_methodParameterTypes28 = new String[] { "java.lang.Long" };
+		_methodParameterTypes29 = new String[] { "java.lang.Long" };
 
-		_methodName29 = "leaveConversation";
+		_methodName30 = "leaveConversation";
 
-		_methodParameterTypes29 = new String[] {
+		_methodParameterTypes30 = new String[] {
 				"java.lang.Long", "java.lang.Long"
 			};
 
-		_methodName30 = "addParticipant";
+		_methodName31 = "addParticipant";
 
-		_methodParameterTypes30 = new String[] {
+		_methodParameterTypes31 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean"
 			};
 
-		_methodName31 = "createParticipant";
+		_methodName32 = "createParticipant";
 
-		_methodParameterTypes31 = new String[] {  };
+		_methodParameterTypes32 = new String[] {  };
 
-		_methodName32 = "saveParticipant";
+		_methodName33 = "saveParticipant";
 
-		_methodParameterTypes32 = new String[] {
+		_methodParameterTypes33 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Participant"
 			};
 	}
@@ -1022,6 +1028,42 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	}
 
 	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant getParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27,
+					new Object[] {
+						ClpSerializer.translateInput(cid),
+						
+					ClpSerializer.translateInput(participantId),
+						
+					useCache
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.limsmuc.persistence.generated.model.Participant)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
 	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Participant> getConversations(
 		java.lang.Long participantId, java.lang.Integer defaultPageSize,
 		java.lang.Integer currentPageSize, java.lang.Integer maxPageSize,
@@ -1030,8 +1072,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName27,
-					_methodParameterTypes27,
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28,
 					new Object[] {
 						ClpSerializer.translateInput(participantId),
 						
@@ -1069,8 +1111,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName28,
-					_methodParameterTypes28,
+			returnObj = _invokableLocalService.invokeMethod(_methodName29,
+					_methodParameterTypes29,
 					new Object[] { ClpSerializer.translateInput(participantId) });
 		}
 		catch (Throwable t) {
@@ -1097,8 +1139,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		java.lang.Long participantId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName29,
-				_methodParameterTypes29,
+			_invokableLocalService.invokeMethod(_methodName30,
+				_methodParameterTypes30,
 				new Object[] {
 					ClpSerializer.translateInput(cid),
 					
@@ -1129,8 +1171,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName30,
-					_methodParameterTypes30,
+			returnObj = _invokableLocalService.invokeMethod(_methodName31,
+					_methodParameterTypes31,
 					new Object[] {
 						ClpSerializer.translateInput(cid),
 						
@@ -1164,8 +1206,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName31,
-					_methodParameterTypes31, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName32,
+					_methodParameterTypes32, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -1191,8 +1233,8 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 		com.marcelmika.limsmuc.persistence.generated.model.Participant participant)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName32,
-				_methodParameterTypes32,
+			_invokableLocalService.invokeMethod(_methodName33,
+				_methodParameterTypes33,
 				new Object[] { ClpSerializer.translateInput(participant) });
 		}
 		catch (Throwable t) {
@@ -1277,4 +1319,6 @@ public class ParticipantLocalServiceClp implements ParticipantLocalService {
 	private String[] _methodParameterTypes31;
 	private String _methodName32;
 	private String[] _methodParameterTypes32;
+	private String _methodName33;
+	private String[] _methodParameterTypes33;
 }

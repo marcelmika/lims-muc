@@ -299,6 +299,20 @@ public class PanelLocalServiceUtil {
 	}
 
 	/**
+	* Returns panel based on the user id
+	*
+	* @param userId id of the user
+	* @param useCache true if the cache should be used
+	* @return found panel or null if nothing was found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Panel fetchByUserId(
+		long userId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByUserId(userId, useCache);
+	}
+
+	/**
 	* Creates new plain panel
 	*
 	* @return created panel

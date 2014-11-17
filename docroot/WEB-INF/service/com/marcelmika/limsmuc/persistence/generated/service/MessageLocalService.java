@@ -321,6 +321,19 @@ public interface MessageLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns conversation based on its sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @param useCache true if the cache should be used
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdSUC(
+		long syncIdSUC, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Creates new plain message
 	*
 	* @return created message

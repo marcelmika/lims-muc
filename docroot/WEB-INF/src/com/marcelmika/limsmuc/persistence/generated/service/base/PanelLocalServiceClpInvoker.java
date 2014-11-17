@@ -122,19 +122,23 @@ public class PanelLocalServiceClpInvoker {
 
 		_methodParameterTypes67 = new String[] { "long" };
 
-		_methodName68 = "createPanel";
+		_methodName68 = "fetchByUserId";
 
-		_methodParameterTypes68 = new String[] {  };
+		_methodParameterTypes68 = new String[] { "long", "boolean" };
 
-		_methodName69 = "savePanel";
+		_methodName69 = "createPanel";
 
-		_methodParameterTypes69 = new String[] {
+		_methodParameterTypes69 = new String[] {  };
+
+		_methodName70 = "savePanel";
+
+		_methodParameterTypes70 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Panel"
 			};
 
-		_methodName70 = "updateActivePanel";
+		_methodName71 = "updateActivePanel";
 
-		_methodParameterTypes70 = new String[] { "long", "java.lang.String" };
+		_methodParameterTypes71 = new String[] { "long", "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -250,18 +254,24 @@ public class PanelLocalServiceClpInvoker {
 
 		if (_methodName68.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
-			return PanelLocalServiceUtil.createPanel();
+			return PanelLocalServiceUtil.fetchByUserId(((Long)arguments[0]).longValue(),
+				((Boolean)arguments[1]).booleanValue());
 		}
 
 		if (_methodName69.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			return PanelLocalServiceUtil.createPanel();
+		}
+
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
 			PanelLocalServiceUtil.savePanel((com.marcelmika.limsmuc.persistence.generated.model.Panel)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName70.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+		if (_methodName71.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
 			PanelLocalServiceUtil.updateActivePanel(((Long)arguments[0]).longValue(),
 				(java.lang.String)arguments[1]);
 
@@ -317,4 +327,6 @@ public class PanelLocalServiceClpInvoker {
 	private String[] _methodParameterTypes69;
 	private String _methodName70;
 	private String[] _methodParameterTypes70;
+	private String _methodName71;
+	private String[] _methodParameterTypes71;
 }

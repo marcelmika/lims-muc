@@ -277,7 +277,7 @@ public class ConversationLocalServiceUtil {
 	/**
 	* Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
 	*
-	* @param conversationId of the new conversation
+	* @param conversationId       of the new conversation
 	* @param conversationTypeCode of the new conversation
 	* @return created conversation
 	* @throws SystemException
@@ -314,6 +314,19 @@ public class ConversationLocalServiceUtil {
 	}
 
 	/**
+	* Returns conversation based on the conversation id
+	*
+	* @param conversationId of the conversation
+	* @param useCache       true if the cache should be used
+	* @return found conversation or null if nothing was found
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Conversation fetchByConversationId(
+		java.lang.String conversationId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByConversationId(conversationId, useCache);
+	}
+
+	/**
 	* Returns conversation based on the sync id SUC
 	*
 	* @param syncIdSUC of the conversation
@@ -324,6 +337,20 @@ public class ConversationLocalServiceUtil {
 		long syncIdSUC)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().fetchBySyncIdSUC(syncIdSUC);
+	}
+
+	/**
+	* Returns conversation based on the sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @param useCache  true if the cache should be used
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchBySyncIdSUC(syncIdSUC, useCache);
 	}
 
 	/**

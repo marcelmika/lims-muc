@@ -227,6 +227,19 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
     }
 
     /**
+     * Returns particular participant based on the id
+     *
+     * @param participantId Id of the participant
+     * @param useCache true if the cache should be used
+     * @return participant or null if no participant was found
+     * @throws SystemException
+     */
+    @Override
+    public Participant getParticipant(Long cid, Long participantId, boolean useCache) throws SystemException {
+        return participantPersistence.fetchByCidParticipantId(cid, participantId, useCache);
+    }
+
+    /**
      * Returns a list of conversations where the user participates.
      * Conversations that contain no messages are not included in the list.
      *

@@ -299,6 +299,20 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Fetches settings based on the user id
+	*
+	* @param userId   long
+	* @param useCache true if the cache should be used
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Settings fetchByUserId(
+		long userId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchByUserId(userId, useCache);
+	}
+
+	/**
 	* Creates new settings object
 	*
 	* @return Settings or null if nothing found

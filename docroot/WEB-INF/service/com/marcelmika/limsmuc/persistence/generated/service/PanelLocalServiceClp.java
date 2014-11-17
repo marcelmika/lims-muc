@@ -122,19 +122,23 @@ public class PanelLocalServiceClp implements PanelLocalService {
 
 		_methodParameterTypes20 = new String[] { "long" };
 
-		_methodName21 = "createPanel";
+		_methodName21 = "fetchByUserId";
 
-		_methodParameterTypes21 = new String[] {  };
+		_methodParameterTypes21 = new String[] { "long", "boolean" };
 
-		_methodName22 = "savePanel";
+		_methodName22 = "createPanel";
 
-		_methodParameterTypes22 = new String[] {
+		_methodParameterTypes22 = new String[] {  };
+
+		_methodName23 = "savePanel";
+
+		_methodParameterTypes23 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Panel"
 			};
 
-		_methodName23 = "updateActivePanel";
+		_methodName24 = "updateActivePanel";
 
-		_methodParameterTypes23 = new String[] { "long", "java.lang.String" };
+		_methodParameterTypes24 = new String[] { "long", "java.lang.String" };
 	}
 
 	@Override
@@ -743,13 +747,42 @@ public class PanelLocalServiceClp implements PanelLocalService {
 	}
 
 	@Override
-	public com.marcelmika.limsmuc.persistence.generated.model.Panel createPanel()
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel fetchByUserId(
+		long userId, boolean useCache)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21, new Object[] {  });
+					_methodParameterTypes21, new Object[] { userId, useCache });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.limsmuc.persistence.generated.model.Panel)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel createPanel()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -775,8 +808,8 @@ public class PanelLocalServiceClp implements PanelLocalService {
 		com.marcelmika.limsmuc.persistence.generated.model.Panel panel)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName22,
-				_methodParameterTypes22,
+			_invokableLocalService.invokeMethod(_methodName23,
+				_methodParameterTypes23,
 				new Object[] { ClpSerializer.translateInput(panel) });
 		}
 		catch (Throwable t) {
@@ -800,8 +833,8 @@ public class PanelLocalServiceClp implements PanelLocalService {
 	public void updateActivePanel(long userId, java.lang.String activePanel)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName23,
-				_methodParameterTypes23,
+			_invokableLocalService.invokeMethod(_methodName24,
+				_methodParameterTypes24,
 				new Object[] { userId, ClpSerializer.translateInput(activePanel) });
 		}
 		catch (Throwable t) {
@@ -868,4 +901,6 @@ public class PanelLocalServiceClp implements PanelLocalService {
 	private String[] _methodParameterTypes22;
 	private String _methodName23;
 	private String[] _methodParameterTypes23;
+	private String _methodName24;
+	private String[] _methodParameterTypes24;
 }

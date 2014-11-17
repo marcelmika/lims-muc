@@ -185,6 +185,19 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
     }
 
     /**
+     * Returns conversation based on its sync id SUC
+     *
+     * @param syncIdSUC of the conversation
+     * @param useCache true if the cache should be used
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
+    public Message fetchBySyncIdSUC(long syncIdSUC, boolean useCache) throws SystemException {
+        return messagePersistence.fetchBySyncIdSUC(syncIdSUC, useCache);
+    }
+
+    /**
      * Creates new plain message
      *
      * @return created message

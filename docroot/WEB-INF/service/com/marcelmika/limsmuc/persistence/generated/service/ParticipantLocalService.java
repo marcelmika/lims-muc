@@ -353,6 +353,19 @@ public interface ParticipantLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns particular participant based on the id
+	*
+	* @param participantId Id of the participant
+	* @param useCache true if the cache should be used
+	* @return participant or null if no participant was found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant getParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns a list of conversations where the user participates.
 	* Conversations that contain no messages are not included in the list.
 	*

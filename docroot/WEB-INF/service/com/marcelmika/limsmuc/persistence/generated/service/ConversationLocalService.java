@@ -251,7 +251,7 @@ public interface ConversationLocalService extends BaseLocalService,
 	/**
 	* Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
 	*
-	* @param conversationId of the new conversation
+	* @param conversationId       of the new conversation
 	* @param conversationTypeCode of the new conversation
 	* @return created conversation
 	* @throws SystemException
@@ -284,6 +284,18 @@ public interface ConversationLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns conversation based on the conversation id
+	*
+	* @param conversationId of the conversation
+	* @param useCache       true if the cache should be used
+	* @return found conversation or null if nothing was found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Conversation fetchByConversationId(
+		java.lang.String conversationId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns conversation based on the sync id SUC
 	*
 	* @param syncIdSUC of the conversation
@@ -293,6 +305,19 @@ public interface ConversationLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.limsmuc.persistence.generated.model.Conversation fetchBySyncIdSUC(
 		long syncIdSUC)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns conversation based on the sync id SUC
+	*
+	* @param syncIdSUC of the conversation
+	* @param useCache  true if the cache should be used
+	* @return found conversation or null if nothing was found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Conversation fetchBySyncIdSUC(
+		long syncIdSUC, boolean useCache)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

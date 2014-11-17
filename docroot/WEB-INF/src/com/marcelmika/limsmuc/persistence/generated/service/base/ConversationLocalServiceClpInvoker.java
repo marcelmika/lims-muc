@@ -126,23 +126,31 @@ public class ConversationLocalServiceClpInvoker {
 
 		_methodParameterTypes68 = new String[] { "java.lang.String" };
 
-		_methodName69 = "fetchBySyncIdSUC";
+		_methodName69 = "fetchByConversationId";
 
-		_methodParameterTypes69 = new String[] { "long" };
+		_methodParameterTypes69 = new String[] { "java.lang.String", "boolean" };
 
-		_methodName70 = "createConversation";
+		_methodName70 = "fetchBySyncIdSUC";
 
-		_methodParameterTypes70 = new String[] {  };
+		_methodParameterTypes70 = new String[] { "long" };
 
-		_methodName71 = "saveConversation";
+		_methodName71 = "fetchBySyncIdSUC";
 
-		_methodParameterTypes71 = new String[] {
+		_methodParameterTypes71 = new String[] { "long", "boolean" };
+
+		_methodName72 = "createConversation";
+
+		_methodParameterTypes72 = new String[] {  };
+
+		_methodName73 = "saveConversation";
+
+		_methodParameterTypes73 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Conversation"
 			};
 
-		_methodName72 = "updateConversationTimestamp";
+		_methodName74 = "updateConversationTimestamp";
 
-		_methodParameterTypes72 = new String[] { "long" };
+		_methodParameterTypes74 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -264,23 +272,35 @@ public class ConversationLocalServiceClpInvoker {
 
 		if (_methodName69.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
-			return ConversationLocalServiceUtil.fetchBySyncIdSUC(((Long)arguments[0]).longValue());
+			return ConversationLocalServiceUtil.fetchByConversationId((java.lang.String)arguments[0],
+				((Boolean)arguments[1]).booleanValue());
 		}
 
 		if (_methodName70.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
-			return ConversationLocalServiceUtil.createConversation();
+			return ConversationLocalServiceUtil.fetchBySyncIdSUC(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName71.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			return ConversationLocalServiceUtil.fetchBySyncIdSUC(((Long)arguments[0]).longValue(),
+				((Boolean)arguments[1]).booleanValue());
+		}
+
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+			return ConversationLocalServiceUtil.createConversation();
+		}
+
+		if (_methodName73.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
 			ConversationLocalServiceUtil.saveConversation((com.marcelmika.limsmuc.persistence.generated.model.Conversation)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName72.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+		if (_methodName74.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
 			ConversationLocalServiceUtil.updateConversationTimestamp(((Long)arguments[0]).longValue());
 
 			return null;
@@ -339,4 +359,8 @@ public class ConversationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes71;
 	private String _methodName72;
 	private String[] _methodParameterTypes72;
+	private String _methodName73;
+	private String[] _methodParameterTypes73;
+	private String _methodName74;
+	private String[] _methodParameterTypes74;
 }

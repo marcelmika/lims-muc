@@ -271,6 +271,19 @@ public interface SettingsLocalService extends BaseLocalService,
 		long userId) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Fetches settings based on the user id
+	*
+	* @param userId   long
+	* @param useCache true if the cache should be used
+	* @return Settings or null if nothing found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings fetchByUserId(
+		long userId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Creates new settings object
 	*
 	* @return Settings or null if nothing found

@@ -24,10 +24,10 @@ import java.util.Calendar;
 
 /**
  * The implementation of the conversation local service.
- *
+ * <p/>
  * <p>
  * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalService} interface.
- *
+ * <p/>
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
@@ -37,8 +37,8 @@ import java.util.Calendar;
  * @see com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil
  */
 public class ConversationLocalServiceImpl
-	extends ConversationLocalServiceBaseImpl {
-	/*
+        extends ConversationLocalServiceBaseImpl {
+    /*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil} to access the conversation local service.
@@ -51,7 +51,7 @@ public class ConversationLocalServiceImpl
     /**
      * Adds a new conversation to the system. If such conversation is already there does nothing and returns it.
      *
-     * @param conversationId of the new conversation
+     * @param conversationId       of the new conversation
      * @param conversationTypeCode of the new conversation
      * @return created conversation
      * @throws SystemException
@@ -102,6 +102,18 @@ public class ConversationLocalServiceImpl
     }
 
     /**
+     * Returns conversation based on the conversation id
+     *
+     * @param conversationId of the conversation
+     * @param useCache       true if the cache should be used
+     * @return found conversation or null if nothing was found
+     */
+    @Override
+    public Conversation fetchByConversationId(String conversationId, boolean useCache) throws SystemException {
+        return conversationPersistence.fetchByConversationId(conversationId, useCache);
+    }
+
+    /**
      * Returns conversation based on the sync id SUC
      *
      * @param syncIdSUC of the conversation
@@ -111,6 +123,19 @@ public class ConversationLocalServiceImpl
     @Override
     public Conversation fetchBySyncIdSUC(long syncIdSUC) throws SystemException {
         return conversationPersistence.fetchBySyncIdSUC(syncIdSUC);
+    }
+
+    /**
+     * Returns conversation based on the sync id SUC
+     *
+     * @param syncIdSUC of the conversation
+     * @param useCache  true if the cache should be used
+     * @return found conversation or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
+    public Conversation fetchBySyncIdSUC(long syncIdSUC, boolean useCache) throws SystemException {
+        return conversationPersistence.fetchBySyncIdSUC(syncIdSUC, useCache);
     }
 
     /**

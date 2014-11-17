@@ -310,6 +310,21 @@ public class PanelLocalServiceWrapper implements PanelLocalService,
 	}
 
 	/**
+	* Returns panel based on the user id
+	*
+	* @param userId id of the user
+	* @param useCache true if the cache should be used
+	* @return found panel or null if nothing was found
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel fetchByUserId(
+		long userId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _panelLocalService.fetchByUserId(userId, useCache);
+	}
+
+	/**
 	* Creates new plain panel
 	*
 	* @return created panel

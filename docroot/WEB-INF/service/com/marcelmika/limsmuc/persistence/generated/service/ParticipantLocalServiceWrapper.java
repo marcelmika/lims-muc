@@ -414,6 +414,22 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	}
 
 	/**
+	* Returns particular participant based on the id
+	*
+	* @param participantId Id of the participant
+	* @param useCache true if the cache should be used
+	* @return participant or null if no participant was found
+	* @throws SystemException
+	*/
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant getParticipant(
+		java.lang.Long cid, java.lang.Long participantId, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _participantLocalService.getParticipant(cid, participantId,
+			useCache);
+	}
+
+	/**
 	* Returns a list of conversations where the user participates.
 	* Conversations that contain no messages are not included in the list.
 	*
