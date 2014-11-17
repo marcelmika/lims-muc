@@ -158,46 +158,62 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
 
         // Vars
         var instance = this,
+            isCreated = this.get('isCreated'),
             parameters = Y.JSON.stringify({
                 firstConversationId: this.get('conversationId'),
                 secondConversationId: secondModel.get('conversationId')
             });
 
-        // Send the request
-        Y.io(this.getServerRequestUrl(), {
-            method: "POST",
-            data: {
-                query: "SwitchConversations",
-                parameters: parameters
-            },
-            on: {
-                success: function () {
+        // Conversation is not created yet
+        if (!isCreated) {
 
-                    // Call success
-                    if (callback) {
-                        callback(null, instance);
-                    }
-
-                    // Fire an event
-                    instance.fire('switchConversationsSuccess', instance);
+            // Wait until it's created
+            this.after('isCreatedChange', function (event) {
+                // Conversation was successfully created
+                if (event.newVal === true) {
+                    // We can now switch conversations
+                    instance.switchConversations(secondModel, callback);
+                }
+            }, this);
+        }
+        // Conversation was created
+        else {
+            // Send the request
+            Y.io(this.getServerRequestUrl(), {
+                method: "POST",
+                data: {
+                    query: "SwitchConversations",
+                    parameters: parameters
                 },
-                failure: function (x, o) {
-                    // If the attempt is unauthorized session has expired
-                    if (o.status === 401) {
-                        // Notify everybody else
-                        Y.fire('userSessionExpired');
-                    }
+                on: {
+                    success: function () {
 
-                    // Fire an event
-                    instance.fire('switchConversationsError', instance);
+                        // Call success
+                        if (callback) {
+                            callback(null, instance);
+                        }
 
-                    // Call error
-                    if (callback) {
-                        callback('cannot leave conversation', instance);
+                        // Fire an event
+                        instance.fire('switchConversationsSuccess', instance);
+                    },
+                    failure: function (x, o) {
+                        // If the attempt is unauthorized session has expired
+                        if (o.status === 401) {
+                            // Notify everybody else
+                            Y.fire('userSessionExpired');
+                        }
+
+                        // Fire an event
+                        instance.fire('switchConversationsError', instance);
+
+                        // Call error
+                        if (callback) {
+                            callback('cannot leave conversation', instance);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     },
 
     /**
