@@ -36,7 +36,7 @@
     line-height: 14px;
     font-size: 11px;
     max-height: 225px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .conversation-item {
@@ -279,7 +279,7 @@
 
       .token-input-plugin-content {
         max-height: 77px;
-        overflow-y: scroll;
+        overflow-y: auto;
       }
 
       .yui3-aclist-item {
