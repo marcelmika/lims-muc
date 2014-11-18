@@ -88,9 +88,11 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      * @private
      */
     _subscribeKeyUp: function () {
-        if (Y.one('doc')) {
+        if (Y.one(Y.config.doc)) {
+            // Detach the previous subscription
+            this._detachKeyUp();
             // Save the subscription to the key up event
-            this.set('keyUpSubscription', Y.one('doc').on('keyup', this._onKeyPress, this));
+            this.set('keyUpSubscription', Y.one(Y.config.doc).on('keyup', this._onKeyPress, this));
         }
     },
 

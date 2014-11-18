@@ -39,6 +39,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
 
         // Update the height
         animation.setAttrs({
+            from: { height: 0},
             to: { height: containerHeight}
         });
 
@@ -65,7 +66,8 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
 
         // Update the height
         animation.setAttrs({
-            from: { height: containerHeight}
+            from: { height: containerHeight},
+            to: { height: 0}
         });
 
         // Call back when animation ends
