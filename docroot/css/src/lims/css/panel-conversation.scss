@@ -29,7 +29,7 @@
     left: 5px;
     z-index: 3;
     margin-right: 5px;
-    background: rgba(0, 0, 0, 0.77);
+    @include transparent(#000000, 0.77);
     color: #fff;
     padding: 5px 10px;
     border-radius: 10px;
@@ -161,7 +161,7 @@
     z-index: 3;
     top: 26px;
     padding: 1px 10px 0;
-    background: rgba(255, 255, 255, 0.95);
+    @include transparent(#ffffff, 0.95);
     border-bottom: 1px solid #dddad8;
     @include box-shadow(#bcbcbc 0px 0px 1px);
 
@@ -204,7 +204,7 @@
     top: 26px;
     padding: 10px 10px 0;
     line-height: 17px;
-    background: rgba(255, 255, 255, 0.95);
+    @include transparent(#ffffff, 0.95);
     border-bottom: 1px solid #dddad8;
     @include box-shadow(#bcbcbc 0px 0px 1px);
 
@@ -249,7 +249,7 @@
     top: 26px;
     padding: 10px 10px 0;
     line-height: 17px;
-    background: rgba(255, 255, 255, 0.95);
+    @include transparent(#ffffff, 0.95);
     border-bottom: 1px solid #dddad8;
     @include box-shadow(#bcbcbc 0px 0px 1px);
 

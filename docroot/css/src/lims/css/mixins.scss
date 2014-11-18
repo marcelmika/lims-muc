@@ -40,3 +40,17 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+//
+// Makes transparent background color
+//
+// @param $color hex color e.g. #dd9900
+// @param $alpha in percent e.g. 0.6
+//
+@mixin transparent($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  $ie-hex-str: ie-hex-str($rgba);
+  @extend .transparent-background;
+  background-color: $rgba;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
+}
