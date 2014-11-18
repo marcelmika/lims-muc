@@ -182,7 +182,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // from the attribute on conversation node
                 conversationId = conversationNode.attr('data-conversationId');
                 conversationType = conversationNode.attr('data-conversationType');
-                etag = Y.Number.parse(conversationNode.attr('data-etag'));
+                etag = parseInt(conversationNode.attr('data-etag'), 10);
                 conversationTitle = conversationNode.attr('data-conversationTitle');
                 unreadMessagesCount = conversationNode.attr('data-unreadMessagesCount');
 

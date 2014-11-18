@@ -679,7 +679,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
              */
             getter: function (value) {
                 // Just to be sure that the returned value will be a number
-                return Y.Number.parse(value);
+                return parseInt(value, 10);
             }
         },
 
