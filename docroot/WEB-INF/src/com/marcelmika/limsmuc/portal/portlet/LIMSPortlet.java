@@ -244,6 +244,11 @@ public class LIMSPortlet extends MVCPortlet {
         // Check if the user is signed in
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
+        // Check for params
+        if (themeDisplay == null) {
+            return false;
+        }
+
         // Returns true if the user is signed in
         return themeDisplay.isSignedIn();
     }

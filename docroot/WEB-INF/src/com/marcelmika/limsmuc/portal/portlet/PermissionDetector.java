@@ -46,9 +46,21 @@ public class PermissionDetector {
      * @return true if the user is admin
      */
     public static boolean isAdmin(PortletRequest request) {
-        // Get permission checker
+        // Get theme display from the request
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
+        // Check parameters
+        if (themeDisplay == null) {
+            return false;
+        }
+
+        // Get permission checker
         PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
+
+        // Check parameters
+        if (permissionChecker == null) {
+            return false;
+        }
 
         // Returns true if the user is a universal administrator.
         return permissionChecker.isOmniadmin();

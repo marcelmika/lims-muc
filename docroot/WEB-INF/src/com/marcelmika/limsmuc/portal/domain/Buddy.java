@@ -72,8 +72,8 @@ public class Buddy {
     public static Buddy fromRenderRequest(RenderRequest request) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         Buddy buddy = new Buddy();
-        buddy.buddyId = themeDisplay.getUserId();
-        buddy.companyId = themeDisplay.getCompanyId();
+        buddy.buddyId = themeDisplay.getUser().getUserId();
+        buddy.companyId = themeDisplay.getUser().getCompanyId();
         buddy.portraitId = themeDisplay.getUser().getPortraitId();
         buddy.screenName = themeDisplay.getUser().getScreenName();
         buddy.fullName = themeDisplay.getUser().getFullName();
