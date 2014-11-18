@@ -324,10 +324,15 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             instance = this,    // Save the instance so we can call its methods in diff context
             response,           // Response from the server
             stopperId,          // Stopper message id
-            readMore = options.readMore || false,   // True if the read more parameter should be included
-            resetEtag = options.resetEtag || false, // True if the etag should be reset
-            resetStopper = options.resetStopper || false, // True if the stopper id should be reset
+            readMore,           // True if the read more parameter should be included
+            resetEtag,          // True if the etag should be reset
+            resetStopper,       // True if the stopper id should be reset
             etag = this.get('etag');
+
+        // Map values from options
+        readMore = options ? (options.readMore || false) : false;
+        resetEtag = options ? (options.resetEtag || false) : false;
+        resetStopper = options ? (options.resetStopper || false) : false;
 
         // We need to reset the etag if we want to read more. It is quite possible
         // that the conversation hasn't changed yet. So the etag is the same. As
