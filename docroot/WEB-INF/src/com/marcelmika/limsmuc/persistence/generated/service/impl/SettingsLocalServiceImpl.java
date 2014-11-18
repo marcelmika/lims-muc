@@ -72,6 +72,8 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
             settings.setUserId(userId);
             settings.setChatEnabled(true);
             settings.setPresence("presence.online");
+            settings.setPresenceUpdatedAt(Calendar.getInstance().getTime());
+            settings.setConnectedAt(Calendar.getInstance().getTime());
             settingsPersistence.update(settings, true);
         }
 
