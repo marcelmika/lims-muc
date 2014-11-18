@@ -96,6 +96,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
         var container = this.get('container'),      // Container that holds the view
             model = this.get('model'),              // Message model
             from = model.get('from'),               // Creator of the message
+            portrait,
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
@@ -103,10 +104,13 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
                 createdPrettified: formatter.prettyDate(model.get('createdAt')),
                 created: formatter.formatDate(new Date(model.get('createdAt'))),
                 fullName: from.get('fullName'),
-                content: Y.Escape.html(model.get('body')),
-                portrait: this._renderPortrait(from)
+                content: Y.Escape.html(model.get('body'))
             })
         );
+
+        // Add portrait
+        portrait = container.one('.conversation-item-portrait');
+        portrait.append(this._renderPortrait(from));
 
         // Set date node
         this.set('dateNode', container.one('.conversation-item-date'));
@@ -233,7 +237,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
         // Render
         portraitView.render();
 
-        return portraitView.get('container').get('outerHTML');
+        return portraitView.get('container');
     },
 
     /**

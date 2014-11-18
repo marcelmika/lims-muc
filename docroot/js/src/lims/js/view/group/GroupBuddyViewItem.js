@@ -33,7 +33,10 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
      */
     render: function () {
         // Vars
-        var container, model;
+        var container,
+            model,
+            portrait,
+            presence;
 
         // Container and model
         container = this.get("container");
@@ -42,11 +45,17 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.template, {
-                name: model.get('fullName'),
-                portrait: this._getPortrait(model),
-                presence: this._getPresence(model.get('presence'), model.get('connected'))
+                name: model.get('fullName')
             })
         );
+
+        // Add portrait
+        portrait = container.one('.group-buddy-item-portrait');
+        portrait.append(this._getPortrait(model));
+
+        // Add presence
+        presence = container.one('.group-buddy-item-presence');
+        presence.append(this._getPresence(model.get('presence'), model.get('connected')));
 
         // Attach events to newly created container
         this._attachEvents();
@@ -87,10 +96,11 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
             users: [user],
             small: true
         });
+
         // Render the portrait
         portraitView.render();
         // Return the HTML
-        return portraitView.get('container').get('outerHTML');
+        return portraitView.get('container');
     },
 
     /**
@@ -119,7 +129,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         // Render presence
         presenceView.render();
         // Return the HTML
-        return presenceView.get('container').get('outerHTML');
+        return presenceView.get('container');
     }
 
 }, {

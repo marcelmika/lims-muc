@@ -67,6 +67,14 @@
       float: left;
     }
 
+    .item-content {
+      position: absolute;
+      left: 60px;
+      z-index: 2;
+      top: 3px;
+      max-width: 165px;
+    }
+
   }
 
   .conversation-feed-item:last-of-type {

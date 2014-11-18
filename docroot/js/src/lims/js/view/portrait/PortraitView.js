@@ -26,7 +26,7 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
     defaultTemplate: '<div class="default-portrait" />',
 
     // Initials template
-    initialsTemplate: '<dic class="initials"/>',
+    initialsTemplate: '<div class="initials"/>',
 
     /**
      * Renders portrait

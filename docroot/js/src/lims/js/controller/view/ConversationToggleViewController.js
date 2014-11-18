@@ -68,8 +68,7 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
             listView.render();
 
             // Add it the panel content
-            panelContent.set('innerHTML', '');
-            panelContent.append(listView.get('container'));
+            panelContent.insert(listView.get('container'), 'replace');
 
             // Render unread messages badge
             this._updateUnreadBadge(false);

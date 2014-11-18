@@ -90,6 +90,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         var container = this.get('container'),
             model = this.get('model'),
             lastMessage = model.get('lastMessage'),
+            portrait,
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
@@ -97,11 +98,14 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.Lang.sub(this.regularTemplate, {
                 title: model.get('title'),
                 lastMessage: Y.Escape.html(lastMessage.get('body')),
-                portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
         );
+
+        // Add portrait
+        portrait = container.one('.item-portrait');
+        portrait.append(this._renderPortrait(model.get('participants')));
 
         // Set date node
         this.set('dateNode', container.one('.timestamp'));
@@ -118,6 +122,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             model = this.get('model'),
             lastMessage = model.get('lastMessage'),
             from = lastMessage.get('from'),
+            portrait,
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
@@ -125,11 +130,14 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.Lang.sub(this.leftTemplate, {
                 title: model.get('title'),
                 fullName: '<span class="name">' + from.get('fullName') + '</span>',
-                portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
         );
+
+        // Add portrait
+        portrait = container.one('.item-portrait');
+        portrait.append(this._renderPortrait(model.get('participants')));
     },
 
     /**
@@ -143,6 +151,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             model = this.get('model'),
             lastMessage = model.get('lastMessage'),
             from = lastMessage.get('from'),
+            portrait,
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Fill data from model to template and set it to container
@@ -150,11 +159,14 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             Y.Lang.sub(this.addedTemplate, {
                 title: model.get('title'),
                 fullName: '<span class="name">' + from.get('fullName') + '</span>',
-                portrait: this._renderPortrait(model.get('participants')),
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
         );
+
+        // Add portrait
+        portrait = container.one('.item-portrait');
+        portrait.append(this._renderPortrait(model.get('participants')));
     },
 
     /**
@@ -200,7 +212,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
 
         // Participants contain the currently logged user as well.
         // Thus we need to filter him first.
-        renderedUsers = participants.filter(function (participant) {
+        renderedUsers = Y.Array.filter(participants, function (participant) {
             return buddyDetails.get('buddyId') !== participant.get('buddyId');
         });
 
@@ -219,7 +231,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         // Render
         portraitView.render();
         // Return the HTML
-        return portraitView.get('container').get('outerHTML');
+        return portraitView.get('container');
     },
 
     /**

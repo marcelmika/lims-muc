@@ -281,7 +281,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Participants contain the currently logged user as well.
             // Thus we need to filter him first.
-            filteredParticipants = participants.filter(function (participant) {
+            filteredParticipants = Y.Array.filter(participants, function (participant) {
                 return buddyDetails.get('buddyId') !== participant.get('buddyId');
             });
 

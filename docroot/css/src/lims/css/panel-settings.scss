@@ -51,9 +51,13 @@
 
   .settings .version {
     position: absolute;
-    right: 10px;
+    right: 28px;
     z-index: 2;
     font-size: 11px;
+    background: #ffffff;
+    padding: 1px 10px;
+    border: 1px solid #f0f0f0;
+    border-top: none;
   }
 
   .settings.closed .version {
