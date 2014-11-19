@@ -9,9 +9,11 @@
 
 package com.marcelmika.limsmuc.portal.controller;
 
+import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.conversation.*;
 import com.marcelmika.limsmuc.core.service.ConversationCoreService;
 import com.marcelmika.limsmuc.portal.domain.*;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
@@ -19,11 +21,9 @@ import com.marcelmika.limsmuc.portal.localization.ConversationLocalizationUtil;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.request.parameters.*;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
-import com.marcelmika.limsmuc.api.events.conversation.*;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -500,7 +500,7 @@ public class ConversationController {
 
         Buddy buddy;                            // Authorized user
         AddParticipantsParameters parameters;   // Request parameters
-        List participants;                      // List of participants
+        List<Buddy> participants;               // List of participants
         BuddyCollection buddyCollection;        // Collection of participants
 
         // Deserialize
@@ -513,9 +513,13 @@ public class ConversationController {
                     request.getParameter(RequestParameterKeys.KEY_PARAMETERS), AddParticipantsParameters.class
             );
 
-            // Deserizalize content
-            participants = JSONFactoryUtil.looseDeserialize(
-                    request.getParameter(RequestParameterKeys.KEY_CONTENT), LinkedList.class
+
+            // Create deserializer for participants
+            JSONDeserializer<List<Buddy>> deserializer = JSONFactoryUtil.createJSONDeserializer();
+
+            // Buddies will come in an array
+            participants = deserializer.use("values", Buddy.class).deserialize(
+                    request.getParameter(RequestParameterKeys.KEY_CONTENT)
             );
 
             // Create buddy collection from the list
