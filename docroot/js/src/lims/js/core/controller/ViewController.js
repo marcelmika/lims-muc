@@ -160,12 +160,27 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
         panel.showError(errorMessage);
     },
 
+    /**
+     * Hides error message
+     */
     hideError: function () {
         // Vars
         var panel = this.get('panel');
 
         // Hide the error
         panel.hideError();
+    },
+
+    /**
+     * Returns true if the container is hidden
+     *
+     * @return {boolean}
+     */
+    isHidden: function () {
+        // Vars
+        var container = this.get('container');
+
+        return Y.LIMS.Core.Util.isHidden(container);
     },
 
     /**

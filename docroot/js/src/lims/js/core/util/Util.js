@@ -84,6 +84,16 @@ var Util = {
     },
 
     /**
+     * Returns true if node is hidden
+     *
+     * @param node {Node}
+     * @return {boolean}
+     */
+    isHidden: function (node) {
+        return node.hasClass('hide') || node.hasClass('aui-helper-hidden');
+    },
+
+    /**
      * Creates has code from the input
      *
      * @see https://github.com/garycourt/murmurhash-js

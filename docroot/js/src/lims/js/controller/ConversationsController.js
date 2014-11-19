@@ -241,7 +241,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 conversationNodes = this.get('openedConversationNodes');
 
             conversationNodes.each(function (conversationNode) {
-                if (conversationNode.getAttribute('hidden') !== 'true') {
+                if (!Y.LIMS.Core.Util.isHidden(conversationNode)) {
                     size += averageConversationNodeSize;
                 }
             });
@@ -266,7 +266,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // Get the node from the list
                 conversationNode = conversationNodes.item(index);
                 // Check if the node is not hidden, if so return it
-                if (conversationNode.getAttribute('hidden') !== 'true') {
+                if (!Y.LIMS.Core.Util.isHidden(conversationNode)) {
                     return conversationNode;
                 }
             }
@@ -304,7 +304,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var conversationNodes = this.get('openedConversationNodes');
 
             return conversationNodes.filter(function (conversationNode) {
-                return conversationNode.getAttribute('hidden') === 'true';
+                return Y.LIMS.Core.Util.isHidden(conversationNode);
             });
         },
 
@@ -319,7 +319,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var conversationNodes = this.get('openedConversationNodes');
 
             return conversationNodes.filter(function (conversationNode) {
-                return conversationNode.getAttribute('hidden') !== 'true';
+                return !Y.LIMS.Core.Util.isHidden(conversationNode);
             });
         },
 
@@ -528,7 +528,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 lastConversationNode,
                 lastConversationController,
                 model = controller.get('model'),
-                isHidden = controller.get('container').getAttribute('hidden');
+                isHidden = controller.isHidden();
 
             // Toggle is visible that means that the controller given in parameter will be set as
             // a last visible controller right after the conversation toggle only if the controller
