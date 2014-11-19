@@ -21,6 +21,10 @@
     padding: 0 0 0 42px;
   }
 
+  .panel-trigger.highlight .trigger-name {
+    background-image: none;
+  }
+
   .panel-trigger .count {
     background: #fff;
     color: #000;
@@ -39,6 +43,12 @@
     // Rounded corners
     @include border-radius(5px);
   }
+
+  .panel-trigger.highlight .count {
+    opacity: 1;
+    border-color: #fff;
+  }
+
 
   // Switch trigger icon when selected
   &.selected .panel-trigger .trigger-name {

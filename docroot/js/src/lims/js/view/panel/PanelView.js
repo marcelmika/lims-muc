@@ -179,8 +179,7 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
      */
     startTitleBlinking: function () {
         // Vars
-        var panelTitle = this.get('panelTitle'),
-            trigger = this.get('trigger'),
+        var instance = this,
             blinkingTitleTimer = this.get('blinkingTitleTimer'),
             blinkingTitleInterval = this.get('blinkingTitleInterval');
 
@@ -189,19 +188,28 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             clearInterval(blinkingTitleTimer);
         }
 
+        // Toggle blinking
+        instance.toggleTitleBlinking();
         // Create new timer that will run the blinking effect
         this.set('blinkingTitleTimer', setInterval(function () {
-
-            // Toggle panel title highlight
-            if (panelTitle.hasClass('highlight')) {
-                trigger.removeClass('highlight');
-                panelTitle.removeClass('highlight');
-            } else {
-                trigger.addClass('highlight');
-                panelTitle.addClass('highlight');
-            }
-
+            // Toggle blinking
+            instance.toggleTitleBlinking();
         }, blinkingTitleInterval));
+    },
+
+    /**
+     * Toggles blinking effect
+     */
+    toggleTitleBlinking: function () {
+        // Vars
+        var trigger = this.get('trigger');
+
+        // Toggle panel title highlight
+        if (trigger.hasClass('highlight')) {
+            trigger.removeClass('highlight');
+        } else {
+            trigger.addClass('highlight');
+        }
     },
 
     /**
@@ -211,12 +219,10 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
      */
     stopTitleBlinking: function () {
         // Vars
-        var panelTitle = this.get('panelTitle'),
-            trigger = this.get('trigger'),
+        var trigger = this.get('trigger'),
             blinkingTitleTimer = this.get('blinkingTitleTimer');
 
         // Remove the highlight class
-        panelTitle.removeClass('highlight');
         trigger.removeClass('highlight');
         // Clear the timeout
         clearInterval(blinkingTitleTimer);
@@ -466,7 +472,7 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
          * Length of the blinking title period
          */
         blinkingTitleInterval: {
-            value: 1000 // 1 second
+            value: 2000 // 1 second
         }
     }
 
