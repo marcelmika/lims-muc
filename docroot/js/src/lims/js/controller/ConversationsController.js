@@ -332,7 +332,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         _layoutSubviews: function (recursionDepth) {
             // Vars
             var depth = recursionDepth || 0,
-                docWidth = Y.one(Y.config.doc).get('docWidth'), // Width of the whole document
+                winWidth = Y.one(Y.config.win).get('winWidth'), // Width of the whole document
                 padding = this.get('barPadding'),               // Extra padding on both left and right side
                 extraWidth = this.get('mandatoryPanelsWidth'),  // Width of other than conversation panels
                 staticPart,                                     // The part that has a static size (other panels)
@@ -367,7 +367,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Calculate dynamic part. This is a part which content may have variable count
             // or size. In other words the dynamic part holds all conversation windows
             // and the conversation toggle.
-            dynamicPart = docWidth - staticPart;
+            dynamicPart = winWidth - staticPart;
 
             // Just to protect the equilibrium in universe and all kitten all over the world
             // be sure that we are not about to divide by zero
