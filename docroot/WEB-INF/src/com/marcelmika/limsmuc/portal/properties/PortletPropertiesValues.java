@@ -30,6 +30,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.PROPERTIES_SOURCE
     );
 
+    // Excluded - Sites
+    public static final String[] EXCLUDED_SITES = getStringValues(
+            PortletPropertiesKeys.EXCLUDED_SITES
+    );
+
     // Buddy List - Source
     public static final String BUDDY_LIST_SOURCE = getString(
             PortletPropertiesKeys.BUDDY_LIST_SOURCE

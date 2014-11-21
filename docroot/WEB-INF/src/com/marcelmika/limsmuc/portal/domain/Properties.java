@@ -23,6 +23,7 @@ import java.util.Arrays;
 public class Properties {
 
     private Environment.PropertiesSource propertiesSource;
+    private String[] excludedSites;
     private Environment.BuddyListStrategy buddyListStrategy;
     private Environment.BuddyListSocialRelation[] buddyListSocialRelations;
     private Boolean buddyListIgnoreDefaultUser;
@@ -47,6 +48,7 @@ public class Properties {
 
         // Map properties
         properties.propertiesSource = Environment.getPropertiesSource();
+        properties.excludedSites = Environment.getExcludedSites();
         properties.buddyListStrategy = Environment.getBuddyListStrategy();
         properties.buddyListSocialRelations = Environment.getBuddyListSocialRelations();
         properties.buddyListIgnoreDefaultUser = Environment.getBuddyListIgnoreDefaultUser();
@@ -69,6 +71,14 @@ public class Properties {
 
     public void setPropertiesSource(Environment.PropertiesSource propertiesSource) {
         this.propertiesSource = propertiesSource;
+    }
+
+    public String[] getExcludedSites() {
+        return excludedSites;
+    }
+
+    public void setExcludedSites(String[] excludedSites) {
+        this.excludedSites = excludedSites;
     }
 
     public Environment.BuddyListStrategy getBuddyListStrategy() {
