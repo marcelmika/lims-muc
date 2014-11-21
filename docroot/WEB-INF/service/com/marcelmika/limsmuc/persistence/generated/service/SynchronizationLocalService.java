@@ -249,11 +249,11 @@ public interface SynchronizationLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	/**
-	* Synchronizes LIMS SUC
+	* Synchronizes with the given version
 	*
 	* @throws SystemException
 	*/
-	public void synchronizeSUC(java.lang.String version)
+	public void synchronize(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

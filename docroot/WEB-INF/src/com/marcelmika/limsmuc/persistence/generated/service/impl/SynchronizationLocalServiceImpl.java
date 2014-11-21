@@ -54,12 +54,12 @@ public class SynchronizationLocalServiceImpl
 
 
     /**
-     * Synchronizes LIMS SUC
+     * Synchronizes with the given version
      *
      * @throws SystemException
      */
     @Override
-    public void synchronizeSUC(String version) throws SystemException {
+    public void synchronize(String version) throws SystemException {
         // Find the proper synchronizer based on the version
         Synchronizer synchronizer = SynchronizerFactory.createSynchronizer(Version.fromDescription(version));
 

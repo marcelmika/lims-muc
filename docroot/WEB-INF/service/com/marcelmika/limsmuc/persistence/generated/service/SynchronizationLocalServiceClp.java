@@ -116,7 +116,7 @@ public class SynchronizationLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "synchronizeSUC";
+		_methodName19 = "synchronize";
 
 		_methodParameterTypes19 = new String[] { "java.lang.String" };
 
@@ -699,7 +699,7 @@ public class SynchronizationLocalServiceClp
 	}
 
 	@Override
-	public void synchronizeSUC(java.lang.String version)
+	public void synchronize(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,

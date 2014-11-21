@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletRequestEvent;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletResponseEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
 import com.marcelmika.limsmuc.persistence.service.SynchronizationPersistenceService;
@@ -40,7 +42,7 @@ public class SynchronizationCoreServiceImpl implements SynchronizationCoreServic
     }
 
     /**
-     * Synchronizes system with the data from existing LIMS SUC edition
+     * Synchronizes system with the data from LIMS SUC edition
      *
      * @param event Request event
      * @return Response event
@@ -48,5 +50,16 @@ public class SynchronizationCoreServiceImpl implements SynchronizationCoreServic
     @Override
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event) {
         return synchronizationPersistenceService.synchronizeSUC(event);
+    }
+
+    /**
+     * Synchronizes system with the data from Chat Portlet
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public SynchronizeChatPortletResponseEvent synchronizeChatPortlet(SynchronizeChatPortletRequestEvent event) {
+        return synchronizationPersistenceService.synchronizeChatPortlet(event);
     }
 }

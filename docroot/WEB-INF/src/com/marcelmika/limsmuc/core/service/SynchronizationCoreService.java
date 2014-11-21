@@ -9,6 +9,8 @@
 
 package com.marcelmika.limsmuc.core.service;
 
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletRequestEvent;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletResponseEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
 
@@ -20,13 +22,20 @@ import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseE
  */
 public interface SynchronizationCoreService {
 
-
     /**
-     * Synchronizes system with the data from existing LIMS SUC edition
+     * Synchronizes system with the data from LIMS SUC edition
      *
      * @param event Request event
      * @return Response event
      */
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event);
+
+    /**
+     * Synchronizes system with the data from Chat Portlet
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public SynchronizeChatPortletResponseEvent synchronizeChatPortlet(SynchronizeChatPortletRequestEvent event);
 
 }

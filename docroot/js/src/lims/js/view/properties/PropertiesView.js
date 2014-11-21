@@ -63,7 +63,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
-            synchronizationSUC = this.get('synchronizationSUC');
+            synchronizationSUC = this.get('synchronizationSUC'),
+            synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
         // Local events
         openButton.on('click', this._onOpenButtonClick, this);
@@ -79,6 +80,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
+        synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
 
     /**
@@ -463,33 +465,66 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     },
 
     /**
-     * Called when user confirms
+     * Called when user confirms synchronization with SUC
+     *
      * @private
      */
     _onSynchronizationSucOkClick: function () {
         // Vars
-        var synchronizationSUC = this.get('synchronizationSUC'),
+        var confirmView = this.get('synchronizationSUC'),
             model = this.get('synchronizationModel');
 
         // Show the activity
-        synchronizationSUC.showActivityIndicator();
+        confirmView.showActivityIndicator();
 
         // Start synchronization
         model.synchronizeSUC(function (err, inProgress) {
             // Hide the preloader
-            synchronizationSUC.hideActivityIndicator();
+            confirmView.hideActivityIndicator();
 
             // Error
             if (err) {
-               synchronizationSUC.showErrorMessage(Y.LIMS.Core.i18n.values.sucSynchronizationError);
+                confirmView.showErrorMessage(Y.LIMS.Core.i18n.values.sucSynchronizationError);
             }
             // In progress
             else if (inProgress) {
-                synchronizationSUC.showInfoMessage(Y.LIMS.Core.i18n.values.sucSynchronizationInProgress);
+                confirmView.showInfoMessage(Y.LIMS.Core.i18n.values.sucSynchronizationInProgress);
             }
             // Success
             else {
-                synchronizationSUC.showSuccessMessage(Y.LIMS.Core.i18n.values.sucSynchronizationSuccess);
+                confirmView.showSuccessMessage(Y.LIMS.Core.i18n.values.sucSynchronizationSuccess);
+            }
+        });
+    },
+
+    /**
+     * Called when user confirms synchronization with Chat Portlet
+     * @private
+     */
+    _onSynchronizationChatPortletOkClick: function () {
+        // Vars
+        var confirmView = this.get('synchronizationChatPortlet'),
+            model = this.get('synchronizationModel');
+
+        // Show the activity
+        confirmView.showActivityIndicator();
+
+        // Start synchronization
+        model.synchronizeChatPortlet(function (err, inProgress) {
+            // Hide the preloader
+            confirmView.hideActivityIndicator();
+
+            // Error
+            if (err) {
+                confirmView.showErrorMessage(Y.LIMS.Core.i18n.values.chatPortletSynchronizationError);
+            }
+            // In progress
+            else if (inProgress) {
+                confirmView.showInfoMessage(Y.LIMS.Core.i18n.values.chatPortletSynchronizationInProgress);
+            }
+            // Success
+            else {
+                confirmView.showSuccessMessage(Y.LIMS.Core.i18n.values.chatPortletSynchronizationSuccess);
             }
         });
     }
@@ -858,7 +893,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         },
 
         /**
-         * View for excluded groups
+         * View for synchronization with SUC
          *
          * {Y.LIMS.View.ConfirmElementView}
          */
@@ -866,6 +901,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.synchronization-suc .confirm');
+
+                return new Y.LIMS.View.ConfirmElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for synchronization with Chat Portlet
+         *
+         * {Y.LIMS.View.ConfirmElementView}
+         */
+        synchronizationChatPortlet: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.synchronization-chat-portlet .confirm');
 
                 return new Y.LIMS.View.ConfirmElementView({
                     container: container

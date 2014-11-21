@@ -289,14 +289,14 @@ public class SynchronizationLocalServiceWrapper
 	}
 
 	/**
-	* Synchronizes LIMS SUC
+	* Synchronizes with the given version
 	*
 	* @throws SystemException
 	*/
 	@Override
-	public void synchronizeSUC(java.lang.String version)
+	public void synchronize(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_synchronizationLocalService.synchronizeSUC(version);
+		_synchronizationLocalService.synchronize(version);
 	}
 
 	/**

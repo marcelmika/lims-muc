@@ -72,6 +72,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_SEARCH_BUDDIES = "SearchBuddies";
     private static final String QUERY_PATCH_PROPERTIES = "PatchProperties";
     private static final String QUERY_SYNCHRONIZE_SUC = "SynchronizeSuc";
+    private static final String QUERY_SYNCHRONIZE_CHAT_PORTLET = "SynchronizeChatPortlet";
 
     /**
      * Constructor
@@ -232,6 +233,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Synchronize suc
         else if (query.equals(QUERY_SYNCHRONIZE_SUC)) {
             synchronizationController.synchronizeSUC(request, response);
+        }
+        // Synchronize chat portlet
+        else if (query.equals(QUERY_SYNCHRONIZE_CHAT_PORTLET)) {
+            synchronizationController.synchronizeChatPortlet(request, response);
         }
         // No such query was found
         else {

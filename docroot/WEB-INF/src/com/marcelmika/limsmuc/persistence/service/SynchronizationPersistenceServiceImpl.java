@@ -12,6 +12,8 @@ package com.marcelmika.limsmuc.persistence.service;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletRequestEvent;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletResponseEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
 import com.marcelmika.limsmuc.persistence.generated.model.Synchronization;
@@ -30,10 +32,11 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SynchronizationPersistenceServiceImpl.class);
 
-    private static boolean inProgress = false;
+    private static boolean sucInProgress = false;
+    private static boolean chatPortletInProgress = false;
 
     /**
-     * Synchronizes system with the data from existing LIMS SUC edition
+     * Synchronizes system with the data from LIMS SUC edition
      *
      * @param event Request event
      * @return Response event
@@ -42,7 +45,7 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event) {
 
         // If the synchronization is already in progress do nothing
-        if (inProgress) {
+        if (sucInProgress) {
             return SynchronizeSUCResponseEvent.success(
                     SynchronizeSUCResponseEvent.Status.SUCCESS_IN_PROGRESS
             );
@@ -75,23 +78,23 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
         boolean success = false;
 
         // Sync is in progress
-        inProgress = true;
+        sucInProgress = true;
 
         // Try to synchronize with SUC v1.2.0
-        if (synchronizeSUC(Version.SUC_1_2_0)) {
+        if (synchronize(Version.SUC_1_2_0)) {
             success = true;
         }
         // Try to synchronize with SUC v1.1.0
-        else if (synchronizeSUC(Version.SUC_1_1_0)) {
+        else if (synchronize(Version.SUC_1_1_0)) {
             success = true;
         }
         // Try to synchronize with SUC v1.0.1
-        else if (synchronizeSUC(Version.SUC_1_0_1)) {
+        else if (synchronize(Version.SUC_1_0_1)) {
             success = true;
         }
 
         // Sync finished
-        inProgress = false;
+        sucInProgress = false;
 
         // Success
         if (success) {
@@ -104,15 +107,58 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
     }
 
     /**
-     * Synchronizes with SUC v1.2.0
+     * Synchronizes system with the data from Chat Portlet
      *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public SynchronizeChatPortletResponseEvent synchronizeChatPortlet(SynchronizeChatPortletRequestEvent event) {
+
+        // If the synchronization is already in progress do nothing
+        if (chatPortletInProgress) {
+            return SynchronizeChatPortletResponseEvent.success(
+                    SynchronizeChatPortletResponseEvent.Status.SUCCESS_IN_PROGRESS
+            );
+        }
+
+        // Synchronize
+        boolean success = false;
+
+        // Sync is in progress
+        chatPortletInProgress = true;
+
+        // Try to synchronize with Chat Portlet v2.0.5
+        if (synchronize(Version.CHAT_PORTLET_2_0_5)) {
+            success = true;
+        }
+
+        // Sync finished
+        chatPortletInProgress = false;
+
+        // Success
+        if (success) {
+            return SynchronizeChatPortletResponseEvent.success();
+        }
+        // Failure
+        else {
+            return SynchronizeChatPortletResponseEvent.failure(
+                    SynchronizeChatPortletResponseEvent.Status.ERROR_PERSISTENCE
+            );
+        }
+    }
+
+    /**
+     * Synchronize with the given version of SUC
+     *
+     * @param version Version
      * @return true if the sync was successful, false otherwise
      */
-    private boolean synchronizeSUC(Version version) {
+    private boolean synchronize(Version version) {
         // Let the persistence handle it
         try {
             // Synchronize
-            SynchronizationLocalServiceUtil.synchronizeSUC(version.getDescription());
+            SynchronizationLocalServiceUtil.synchronize(version.getDescription());
 
             // Success
             return true;

@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.portal.controller;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletRequestEvent;
+import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeChatPortletResponseEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEvent;
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
 import com.marcelmika.limsmuc.core.service.SynchronizationCoreService;
@@ -30,6 +32,7 @@ import javax.portlet.ResourceResponse;
 public class SynchronizationController {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SynchronizationController.class);
 
     // Dependencies
@@ -82,6 +85,52 @@ public class SynchronizationController {
         else {
             // Error during sync
             if (status == SynchronizeSUCResponseEvent.Status.ERROR_PERSISTENCE) {
+                ResponseUtil.writeResponse(HttpStatus.NOT_MODIFIED, response);
+            }
+            // Everything else is a server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+            }
+        }
+    }
+
+    /**
+     * Synchronizes with Chat Portlet
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void synchronizeChatPortlet(ResourceRequest request, ResourceResponse response) {
+
+        // Check if the user is an admin
+        if (!PermissionDetector.isAdmin(request)) {
+            ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            return;
+        }
+
+        // Start the synchronization
+        SynchronizeChatPortletResponseEvent responseEvent = synchronizationCoreService.synchronizeChatPortlet(
+                new SynchronizeChatPortletRequestEvent()
+        );
+
+        // Get the status
+        SynchronizeChatPortletResponseEvent.Status status = responseEvent.getStatus();
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Success
+            if (status == SynchronizeChatPortletResponseEvent.Status.SUCCESS) {
+                ResponseUtil.writeResponse(HttpStatus.OK, response);
+            }
+            // In progress
+            else {
+                ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
+            }
+        }
+        // Failure
+        else {
+            // Error during sync
+            if (status == SynchronizeChatPortletResponseEvent.Status.ERROR_PERSISTENCE) {
                 ResponseUtil.writeResponse(HttpStatus.NOT_MODIFIED, response);
             }
             // Everything else is a server fault

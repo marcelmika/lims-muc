@@ -103,6 +103,7 @@
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
                         </ul>
                     </div>
                     <div class="clear"></div>

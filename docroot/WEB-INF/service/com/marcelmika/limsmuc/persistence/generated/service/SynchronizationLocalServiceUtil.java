@@ -275,13 +275,13 @@ public class SynchronizationLocalServiceUtil {
 	}
 
 	/**
-	* Synchronizes LIMS SUC
+	* Synchronizes with the given version
 	*
 	* @throws SystemException
 	*/
-	public static void synchronizeSUC(java.lang.String version)
+	public static void synchronize(java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().synchronizeSUC(version);
+		getService().synchronize(version);
 	}
 
 	/**

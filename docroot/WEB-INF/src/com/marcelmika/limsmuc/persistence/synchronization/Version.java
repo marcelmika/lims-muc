@@ -30,15 +30,19 @@ public enum Version {
     /**
      * LIMS SUC v1.1.0
      */
-    SUC_1_1_0(1, "SUC-1.1.0"),
+    SUC_1_1_0(2, "SUC-1.1.0"),
 
     /**
      * LIMS SUC v1.1.0
      */
-    SUC_1_0_1(1, "SUC-1.0.1");
+    SUC_1_0_1(3, "SUC-1.0.1"),
 
+    /**
+     * CHAT PORTLET v2.0.5
+     */
+    CHAT_PORTLET_2_0_5(4, "CHP-2.0.5");
 
-
+    
     // Unique integer code
     private int code;
     // Unique string description
