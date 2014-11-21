@@ -60,6 +60,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             buddyListMaxSearch = this.get('buddyListMaxSearch'),
             conversationListMaxMessages = this.get('conversationListMaxMessages'),
             conversationFeedMaxConversations = this.get('conversationFeedMaxConversations'),
+            excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
             synchronizationSUC = this.get('synchronizationSUC');
@@ -74,6 +75,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListMaxSearch.on('sliderUpdate', this._onBuddyListMaxSearchUpdate, this);
         conversationListMaxMessages.on('sliderUpdate', this._onConversationListMaxMessagesUpdate, this);
         conversationFeedMaxConversations.on('sliderUpdate', this._onConversationFeedMaxConversationsUpdate, this);
+        excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
@@ -350,6 +352,43 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             conversationFeedMaxConversations.enable();
         });
     },
+
+    /**
+     * Called when the user updates excluded sites property
+     *
+     * @param event
+     * @private
+     */
+    _onExcludedSitesUpdate: function (event) {
+        // Vars
+        var excludedSites = this.get('excludedSites'),
+            preValue = event.preValue,      // Previously selected value
+            postValue = event.postValue,    // Currently selected value
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            excludedSites: postValue
+        });
+
+        // Disable view
+        excludedSites.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                excludedSites.setValues(preValue);
+            }
+            // Re-enable the view so the user can interact with it again
+            excludedSites.enable();
+            // Since if we called the disable()
+            // function token input looses it's focus. So if we enable it
+            // we need to re-enable the focus again.
+            excludedSites.focus();
+        });
+    },
+
 
     /**
      * Called when the user updates buddy list sites excludes property
@@ -775,6 +814,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
          *
          * {Y.LIMS.View.TokenInputElementView}
          */
+        excludedSites: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.excluded-sites');
+
+                return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for buddy list excluded sites
+         *
+         * {Y.LIMS.View.TokenInputElementView}
+         */
         buddyListSiteExcludes: {
             valueFn: function () {
                 // Vars
@@ -787,7 +842,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         },
 
         /**
-         * View for excluded groups
+         * View for buddy list excluded groups
          *
          * {Y.LIMS.View.TokenInputElementView}
          */

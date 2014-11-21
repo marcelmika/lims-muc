@@ -81,6 +81,10 @@ public class Properties {
         this.excludedSites = excludedSites;
     }
 
+    public String getExcludedSitesFlatten() {
+        return StringUtil.merge(excludedSites, ",");
+    }
+
     public Environment.BuddyListStrategy getBuddyListStrategy() {
         return buddyListStrategy;
     }
@@ -189,6 +193,7 @@ public class Properties {
     public String toString() {
         return "Properties{" +
                 "propertiesSource=" + propertiesSource +
+                ", excludedSites=" + Arrays.toString(excludedSites) +
                 ", buddyListStrategy=" + buddyListStrategy +
                 ", buddyListSocialRelations=" + Arrays.toString(buddyListSocialRelations) +
                 ", buddyListIgnoreDefaultUser=" + buddyListIgnoreDefaultUser +
