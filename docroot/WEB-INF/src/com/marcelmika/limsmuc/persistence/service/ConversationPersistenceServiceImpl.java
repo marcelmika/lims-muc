@@ -19,8 +19,7 @@ import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.*;
 import com.marcelmika.limsmuc.persistence.domain.*;
 import com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException;
-import com.marcelmika.limsmuc.persistence.generated.model.Conversation;
-import com.marcelmika.limsmuc.persistence.generated.model.Message;
+import com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException;
 import com.marcelmika.limsmuc.persistence.generated.model.Participant;
 import com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.MessageLocalServiceUtil;
@@ -53,14 +52,14 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     public CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event) {
 
         Buddy creator = Buddy.fromBuddyDetails(event.getCreator());
-        com.marcelmika.limsmuc.persistence.domain.Conversation conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationDetails(event.getConversation());
+        Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
 
         // Save to persistence
         try {
             // User cannot create a multi user conversation that already exists
             if (conversation.getConversationType() == ConversationType.MULTI_USER) {
                 // Try to find a conversation with the same id
-                Conversation conversationModel =
+                com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                         ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
                 // Conversation already exits -> call collision
@@ -72,7 +71,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Create conversation
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.addConversation(
                             conversation.getConversationId(), conversation.getConversationType().getCode()
                     );
@@ -93,7 +92,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             participants.add(creator);
 
             // Create updated conversation
-            conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationModel(conversationModel);
+            conversation = Conversation.fromConversationModel(conversationModel);
             conversation.setUnreadMessagesCount(participantModel.getUnreadMessagesCount());
             conversation.setBuddy(creator);
             conversation.setParticipants(participants);
@@ -119,14 +118,14 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     public ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event) {
 
         // Map to persistence objects
-        com.marcelmika.limsmuc.persistence.domain.Conversation conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationDetails(event.getConversation());
+        Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
         MessagePagination pagination = MessagePagination.fromMessagePaginationDetails(event.getPagination());
         Buddy buddy = Buddy.fromBuddyDetails(event.getParticipant());
 
         // Read data from persistence
         try {
             // Find conversation
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(
                             conversation.getConversationId()
                     );
@@ -151,7 +150,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Map conversation from the persistence conversation model
-            conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationModel(conversationModel);
+            conversation = Conversation.fromConversationModel(conversationModel);
 
             // Add messages
             conversation.setMessages(readMessages(conversationModel.getCid(), pagination));
@@ -190,11 +189,11 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     @Override
     public GetConversationParticipantsResponseEvent getParticipants(GetConversationParticipantsRequestEvent event) {
         // Get conversation from event
-        com.marcelmika.limsmuc.persistence.domain.Conversation conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationDetails(event.getConversation());
+        Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
 
         try {
             // Find conversation based on conversation ID
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
             // Find participant related to the conversation
@@ -267,7 +266,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             );
         }
         // Participant not found
-        catch (com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException exception) {
+        catch (NoSuchParticipantException exception) {
             return CloseConversationResponseEvent.failure(
                     CloseConversationResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND, exception
             );
@@ -307,7 +306,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             );
         }
         // Participant not found
-        catch (com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException exception) {
+        catch (NoSuchParticipantException exception) {
             return ResetUnreadMessagesCounterResponseEvent.failure(
                     ResetUnreadMessagesCounterResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND, exception
             );
@@ -332,7 +331,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
 
             // Find conversation. Since each message is related to the conversation we need to find it first
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(conversationId);
 
             // No such conversation was found
@@ -405,7 +404,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         // Save to persistence
         try {
             // Find conversation. Since each message is related to the conversation we need to find it first
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(conversationId);
 
             // No such conversation was found
@@ -478,9 +477,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
 
             // Find conversations
-            Conversation firstConversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation firstConversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(firstConversationId);
-            Conversation secondConversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation secondConversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(secondConversationId);
 
             // Both conversations must exist
@@ -531,14 +530,15 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     @Override
     public SendMessageResponseEvent sendMessage(SendMessageRequestEvent event) {
         // Map to persistence objects
-        com.marcelmika.limsmuc.persistence.domain.Conversation conversation = com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationDetails(event.getConversationDetails());
+        Conversation conversation = Conversation.fromConversationDetails(event.getConversationDetails());
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
-        com.marcelmika.limsmuc.persistence.domain.Message message = com.marcelmika.limsmuc.persistence.domain.Message.fromMessageDetails(event.getMessageDetails());
+        Message message = Message.fromMessageDetails(event.getMessageDetails());
 
         // Save to persistence
         try {
+
             // Find conversation. Since each message is related to the conversation we need to find it first
-            Conversation conversationModel =
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                     ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
 
             // No such conversation was found
@@ -560,7 +560,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Create new message
-            Message messageModel = MessageLocalServiceUtil.addMessage(
+            com.marcelmika.limsmuc.persistence.generated.model.Message messageModel = MessageLocalServiceUtil.addMessage(
                     conversationModel.getCid(),             // Message is related to the conversation
                     buddy.getBuddyId(),                     // Message is created by buddy
                     message.getMessageType().getCode(),     // Message type
@@ -573,7 +573,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             ParticipantLocalServiceUtil.updateParticipants(conversationModel.getCid(), buddy.getBuddyId());
 
             // Map message from message model
-            com.marcelmika.limsmuc.persistence.domain.Message successMessage = com.marcelmika.limsmuc.persistence.domain.Message.fromMessageModel(messageModel);
+            Message successMessage = Message.fromMessageModel(messageModel);
             // Don't forget to add the buddy as the creator
             successMessage.setFrom(buddy);
 
@@ -611,7 +611,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             );
 
             // Prepare the conversation list that will be returned
-            List<com.marcelmika.limsmuc.persistence.domain.Conversation> conversations = new LinkedList<com.marcelmika.limsmuc.persistence.domain.Conversation>();
+            List<Conversation> conversations = new LinkedList<com.marcelmika.limsmuc.persistence.domain.Conversation>();
 
             // Go over all the participant objects and map the conversation data related to them
             for (Participant participates : buddyParticipates) {
@@ -633,7 +633,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 }
 
                 // Read the conversation data
-                com.marcelmika.limsmuc.persistence.domain.Conversation conversation = readConversation(participates.getCid());
+                Conversation conversation = readConversation(participates.getCid());
 
                 // If such conversation was found
                 if (conversation != null) {
@@ -649,7 +649,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Create details from persistence object
             List<ConversationDetails> conversationDetails = new LinkedList<ConversationDetails>();
-            for (com.marcelmika.limsmuc.persistence.domain.Conversation conversation : conversations) {
+            for (Conversation conversation : conversations) {
                 conversationDetails.add(conversation.toConversationDetails());
             }
 
@@ -693,17 +693,17 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             );
 
             // Prepare conversations container
-            List<com.marcelmika.limsmuc.persistence.domain.Conversation> conversations = new LinkedList<com.marcelmika.limsmuc.persistence.domain.Conversation>();
+            List<Conversation> conversations = new LinkedList<com.marcelmika.limsmuc.persistence.domain.Conversation>();
 
             // Find conversations where the user participates
             for (Participant participates : buddyParticipates) {
 
                 // Read conversation from persistence
-                com.marcelmika.limsmuc.persistence.domain.Conversation conversation = readConversation(participates.getCid());
+                Conversation conversation = readConversation(participates.getCid());
 
                 if (conversation != null) {
                     // Get the last message
-                    com.marcelmika.limsmuc.persistence.domain.Message lastMessage = getLastMessage(participates.getCid());
+                    Message lastMessage = getLastMessage(participates.getCid());
 
                     // Don't include conversation that have no messages
                     if (lastMessage != null) {
@@ -755,10 +755,10 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      * @return mapped conversation
      * @throws Exception
      */
-    private com.marcelmika.limsmuc.persistence.domain.Conversation readConversation(Long cid) throws Exception {
+    private Conversation readConversation(Long cid) throws Exception {
 
         // Find by cid
-        Conversation conversationModel =
+        com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                 ConversationLocalServiceUtil.fetchByCid(cid);
 
         // No need to map anything else
@@ -767,7 +767,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         }
 
         // Finally, we have everything we needed
-        return com.marcelmika.limsmuc.persistence.domain.Conversation.fromConversationModel(conversationModel);
+        return Conversation.fromConversationModel(conversationModel);
     }
 
     /**
@@ -809,7 +809,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      * @return a list of messages
      * @throws Exception
      */
-    private List<com.marcelmika.limsmuc.persistence.domain.Message> readMessages(Long cid, MessagePagination pagination) throws Exception {
+    private List<Message> readMessages(Long cid, MessagePagination pagination) throws Exception {
 
         Integer pageSize = Environment.getConversationListMaxMessages();
         Long stopperId = pagination.getStopperId();
@@ -821,7 +821,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         );
 
         // Map to persistence domain
-        return com.marcelmika.limsmuc.persistence.domain.Message.toMessageList(messageObjects, 0);
+        return Message.toMessageList(messageObjects, 0);
     }
 
     /**
@@ -831,7 +831,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      * @return first message, null if no message was found
      * @throws Exception
      */
-    private com.marcelmika.limsmuc.persistence.domain.Message getFirstMessage(Long cid) throws Exception {
+    private Message getFirstMessage(Long cid) throws Exception {
 
         // Read the first message from persistence
         Object[] messageObject = MessageLocalServiceUtil.firstMessage(cid);
@@ -841,7 +841,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             return null;
         }
 
-        return com.marcelmika.limsmuc.persistence.domain.Message.fromPlainObject(messageObject, 0);
+        return Message.fromPlainObject(messageObject, 0);
     }
 
     /**
@@ -851,7 +851,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      * @return last message, null if no message was found
      * @throws Exception
      */
-    private com.marcelmika.limsmuc.persistence.domain.Message getLastMessage(Long cid) throws Exception {
+    private Message getLastMessage(Long cid) throws Exception {
 
         // Read the first message from persistence
         Object[] messageObject = MessageLocalServiceUtil.lastMessage(cid);
@@ -861,6 +861,6 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             return null;
         }
 
-        return com.marcelmika.limsmuc.persistence.domain.Message.fromPlainObject(messageObject, 0);
+        return Message.fromPlainObject(messageObject, 0);
     }
 }

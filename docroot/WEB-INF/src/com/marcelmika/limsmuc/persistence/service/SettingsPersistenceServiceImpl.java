@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.persistence.domain.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
@@ -43,7 +44,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         try {
             // Save
-            com.marcelmika.limsmuc.persistence.domain.Settings settings = com.marcelmika.limsmuc.persistence.domain.Settings.fromServiceBuilderModel(
+            Settings settings = Settings.fromServiceBuilderModel(
                     PanelLocalServiceUtil.getPanelByUser(buddy.getBuddyId()),
                     SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), true)
             );
@@ -111,9 +112,8 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
         try {
             // Get settings
-            com.marcelmika.limsmuc.persistence.generated.model.Settings settings = SettingsLocalServiceUtil.getSettingsByUser(
-                    event.getBuddyId()
-            );
+            com.marcelmika.limsmuc.persistence.generated.model.Settings settings =
+                    SettingsLocalServiceUtil.getSettingsByUser(event.getBuddyId());
 
             // Set new values
             settings.setMute(details.isMute());
