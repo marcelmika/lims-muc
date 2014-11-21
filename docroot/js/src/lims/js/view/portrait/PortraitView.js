@@ -257,7 +257,8 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
                     'green',
                     'blue',
                     'purple',
-                    'yellow'
+                    'yellow',
+                    'orange'
                 ];
             }
         }
