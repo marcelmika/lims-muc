@@ -71,6 +71,7 @@
             <span class="trigger-name">${conversation.title}</span>
 
             <div class="unread ${hiddenBadgeClass} ${dimmedClass}">${conversation.unreadMessagesCount}</div>
+            <button class="close covered"></button>
         </div>
         <div class="panel">
             <div class="panel-window">

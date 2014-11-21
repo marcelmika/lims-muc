@@ -70,6 +70,7 @@
         <span class="trigger-name">{triggerTitle}</span>
 
         <div class="unread">{unreadMessages}</div>
+        <button class="close covered"></button>
     </div>
     <div class="panel">
         <div class="panel-window">

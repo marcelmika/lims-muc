@@ -62,6 +62,18 @@
       border-color: #b3b3b3;
     }
   }
+
+  .close {
+    background: #bd3131;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 3px;
+    top: 4px;
+    background: url(/images/trigger-close-button.png) center center no-repeat;
+    @include image-2x('/images/trigger-close-button@2x.png', auto, 9px);
+    background-size: 9px;
+  }
 }
 
 // Selected trigger

@@ -300,6 +300,34 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     },
 
     /**
+     * Shows the trigger close button
+     */
+    showTriggerClose: function () {
+        // Vars
+        var triggerClose = this.get('triggerClose'),
+            badge = this.get('badge');
+
+        if (triggerClose && badge) {
+            badge.addClass('covered');
+            triggerClose.removeClass('covered');
+        }
+    },
+
+    /**
+     * Hides the trigger close button
+     */
+    hideTriggerClose: function () {
+        // Vars
+        var triggerClose = this.get('triggerClose'),
+            badge = this.get('badge');
+
+        if (triggerClose && badge) {
+            badge.removeClass('covered');
+            triggerClose.addClass('covered');
+        }
+    },
+
+    /**
      * Makes the badge brighter
      *
      * @private
@@ -333,10 +361,34 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
      * @private
      */
     _attachEvents: function () {
-        // Attach trigger event
-        this.get('trigger').on('click', this._onTriggerClick, this);
+        // Vars
+        var trigger = this.get('trigger'),
+            panelButtons = this.get('panelButtons'),
+            instance = this;
+
+        // Local events
+        trigger.delegate('click', function (event) {
+            // Vars
+            var className = event.currentTarget.get('className');
+
+            // Trigger name clicked
+            if (className === 'trigger-name') {
+                // Fire event
+                instance._onTriggerClick(event);
+            }
+            // Close button clicked
+            else if (className === 'close') {
+                // Fire event
+                instance._onTriggerCloseClick(event);
+            }
+
+        }, '.trigger-name, .close');
+
+        // Attach trigger events
+        trigger.on('mouseenter', this._onTriggerMouseEnter, this);
+        trigger.on('mouseleave', this._onTriggerMouseLeave, this);
         // Attach panel button event
-        this.get('panelButtons').on('click', this._onPanelButtonsClick, this);
+        panelButtons.on('click', this._onPanelButtonsClick, this);
     },
 
     /**
@@ -347,6 +399,36 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     _onTriggerClick: function () {
         // Toggle panel while clicked on trigger
         this.toggle();
+    },
+
+    /**
+     * Called when the close button is clicked
+     *
+     * @private
+     */
+    _onTriggerCloseClick: function () {
+        // Close the panel
+        this.close();
+    },
+
+    /**
+     * Called when the user enters trigger with the mouse
+     *
+     * @private
+     */
+    _onTriggerMouseEnter: function () {
+        // Show trigger close button
+        this.showTriggerClose();
+    },
+
+    /**
+     * Called when the user leaves the trigger with mouse
+     *
+     * @private
+     */
+    _onTriggerMouseLeave: function () {
+        // Hide trigger close button
+        this.hideTriggerClose();
     },
 
     /**
@@ -415,10 +497,18 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
          */
         badge: {
             valueFn: function () {
-                // Vars
-                var container = this.get('container');
-                // Find badge
-                return container.one('.unread');
+                return this.get('container').one('.unread');
+            }
+        },
+
+        /**
+         * Close button in panel trigger
+         *
+         * {Node}
+         */
+        triggerClose: {
+            valueFn: function () {
+                return this.get('container').one('.close');
             }
         },
 
