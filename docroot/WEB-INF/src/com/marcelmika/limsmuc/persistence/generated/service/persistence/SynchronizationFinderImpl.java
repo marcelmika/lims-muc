@@ -16,7 +16,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.marcelmika.limsmuc.persistence.generated.model.Synchronization;
-import com.marcelmika.limsmuc.persistence.synchronization.suc.query.SynchronizationQueryFactory;
+import com.marcelmika.limsmuc.persistence.synchronization.QueryFactory;
+import com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil;
+import com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -53,8 +55,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             // Open database session
             session = openSession();
 
+            // Get the query factory
+            QueryFactory queryFactory = QueryFactoryUtil.getQueryFactory(Version.fromDescription(version));
+
             // Create query
-            SQLQuery query = SynchronizationQueryFactory.createSettingsQuery(Version.fromDescription(version), session);
+            SQLQuery query = queryFactory.createSettingsQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -84,8 +89,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             // Open database session
             session = openSession();
 
+            // Get the query factory
+            QueryFactory queryFactory = QueryFactoryUtil.getQueryFactory(Version.fromDescription(version));
+
             // Create query
-            SQLQuery query = SynchronizationQueryFactory.createPanelQuery(Version.fromDescription(version), session);
+            SQLQuery query = queryFactory.createPanelQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -115,8 +123,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             // Open database session
             session = openSession();
 
+            // Get the query factory
+            QueryFactory queryFactory = QueryFactoryUtil.getQueryFactory(Version.fromDescription(version));
+
             // Create query
-            SQLQuery query = SynchronizationQueryFactory.createConversationQuery(Version.fromDescription(version), session);
+            SQLQuery query = queryFactory.createConversationQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -146,8 +157,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             // Open database session
             session = openSession();
 
+            // Get the query factory
+            QueryFactory queryFactory = QueryFactoryUtil.getQueryFactory(Version.fromDescription(version));
+
             // Create query
-            SQLQuery query = SynchronizationQueryFactory.createParticipantQuery(Version.fromDescription(version), session);
+            SQLQuery query = queryFactory.createParticipantQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
@@ -177,8 +191,11 @@ public class SynchronizationFinderImpl extends BasePersistenceImpl<Synchronizati
             // Open database session
             session = openSession();
 
+            // Get the query factory
+            QueryFactory queryFactory = QueryFactoryUtil.getQueryFactory(Version.fromDescription(version));
+
             // Create query
-            SQLQuery query = SynchronizationQueryFactory.createMessageQuery(Version.fromDescription(version), session);
+            SQLQuery query = queryFactory.createMessageQuery(Version.fromDescription(version), session);
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);

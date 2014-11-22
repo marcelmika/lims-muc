@@ -40,9 +40,9 @@ public enum Version {
     /**
      * CHAT PORTLET v2.0.5
      */
-    CHAT_PORTLET_2_0_5(4, "CHP-2.0.5");
+    CHAT_PORTLET_2_0_5(100, "CHP-2.0.5");  // Chat portlet version code is always greater than 100
 
-    
+
     // Unique integer code
     private int code;
     // Unique string description
@@ -107,6 +107,24 @@ public enum Version {
         else {
             return UNKNOWN;
         }
+    }
+
+    /**
+     * Returns true if version is of the SUC type
+     *
+     * @return boolean
+     */
+    public boolean isSUC() {
+        return this.getCode() < 100;
+    }
+
+    /**
+     * Returns true if version is of the Chat Portlet type
+     *
+     * @return boolean
+     */
+    public boolean isChatPortlet() {
+        return this.getCode() >= 100;
     }
 
     /**

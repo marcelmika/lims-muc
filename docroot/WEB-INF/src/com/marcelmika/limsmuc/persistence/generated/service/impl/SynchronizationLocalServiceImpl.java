@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.persistence.generated.model.Synchronization;
 import com.marcelmika.limsmuc.persistence.generated.service.base.SynchronizationLocalServiceBaseImpl;
 import com.marcelmika.limsmuc.persistence.synchronization.Synchronizer;
-import com.marcelmika.limsmuc.persistence.synchronization.SynchronizerFactory;
+import com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public class SynchronizationLocalServiceImpl
     @Override
     public void synchronize(String version) throws SystemException {
         // Find the proper synchronizer based on the version
-        Synchronizer synchronizer = SynchronizerFactory.createSynchronizer(Version.fromDescription(version));
+        Synchronizer synchronizer = SynchronizerUtil.createSynchronizer(Version.fromDescription(version));
 
         // Synchronizer was found
         if (synchronizer != null) {

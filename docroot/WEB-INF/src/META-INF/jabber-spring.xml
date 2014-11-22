@@ -142,6 +142,41 @@
         <property name="buddyCoreService" ref="com.marcelmika.limsmuc.core.service.BuddyCoreService"/>
     </bean>
 
+    <!-- Query Factory -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil"
+          class="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil">
+        <property name="sucQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
+        <property name="chatPortletQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
+
+    <!-- Synchronizer Util -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil"
+          class="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil">
+        <property name="suc_1_2_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
+        <property name="suc_1_1_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
+        <property name="suc_1_0_1" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
+        <property name="chatPortlet_2_0_5" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
 
     <!-- Buddy Jabber Service -->
 

@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder;
+import com.marcelmika.limsmuc.persistence.synchronization.QueryFactory;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
 
 /**
@@ -24,11 +25,11 @@ import com.marcelmika.limsmuc.persistence.synchronization.Version;
  * Date: 13/11/14
  * Time: 14:50
  */
-public class SynchronizationQueryFactory {
+public class QueryFactoryImpl implements QueryFactory {
 
     // Log
     @SuppressWarnings("unused")
-    private static Log log = LogFactoryUtil.getLog(SynchronizationQueryFactory.class);
+    private static Log log = LogFactoryUtil.getLog(QueryFactoryImpl.class);
 
     // Tables
     private static final String SETTINGS_SUC = SynchronizationFinder.class.getName() + ".Settings.SUC-";
@@ -49,7 +50,8 @@ public class SynchronizationQueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public static SQLQuery createSettingsQuery(Version version, Session session) {
+    @Override
+    public SQLQuery createSettingsQuery(Version version, Session session) {
 
         SQLQuery query = null;
 
@@ -113,7 +115,8 @@ public class SynchronizationQueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public static SQLQuery createPanelQuery(Version version, Session session) {
+    @Override
+    public SQLQuery createPanelQuery(Version version, Session session) {
 
         SQLQuery query = null;
 
@@ -167,7 +170,8 @@ public class SynchronizationQueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public static SQLQuery createConversationQuery(Version version, Session session) {
+    @Override
+    public SQLQuery createConversationQuery(Version version, Session session) {
 
         SQLQuery query = null;
 
@@ -224,7 +228,8 @@ public class SynchronizationQueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public static SQLQuery createParticipantQuery(Version version, Session session) {
+    @Override
+    public SQLQuery createParticipantQuery(Version version, Session session) {
 
         SQLQuery query = null;
 
@@ -286,7 +291,8 @@ public class SynchronizationQueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public static SQLQuery createMessageQuery(Version version, Session session) {
+    @Override
+    public SQLQuery createMessageQuery(Version version, Session session) {
 
         SQLQuery query = null;
 
