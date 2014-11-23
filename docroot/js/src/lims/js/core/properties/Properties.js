@@ -126,6 +126,15 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns portlet's context path
+     *
+     * @return {string}
+     */
+    getContextPath: function () {
+        return this.get('contextPath');
+    },
+
+    /**
      * Returns true if the whole chat is enabled
      *
      * @returns {boolean}
@@ -301,6 +310,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         pathImage: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.pathImage;
+            }
+        },
+
+        /**
+         * Portlet context path
+         *
+         * {string}
+         */
+        contextPath: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.contextPath;
             }
         },
 

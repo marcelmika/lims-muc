@@ -769,13 +769,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.buddy-list-max-buddies .slider'),
-                    valueContainer = this.get('container').one('.buddy-list-max-buddies .value');
+                    valueContainer = this.get('container').one('.buddy-list-max-buddies .value'),
+                    properties = this.get('properties');
 
                 return new Y.LIMS.View.SliderElementView({
                     container: container,
                     valueContainer: valueContainer,
                     min: 10,
                     max: 500,
+                    path: properties.getContextPath(),
                     value: valueContainer.get('innerHTML')
                 });
             }
@@ -790,13 +792,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.buddy-list-max-search .slider'),
-                    valueContainer = this.get('container').one('.buddy-list-max-search .value');
+                    valueContainer = this.get('container').one('.buddy-list-max-search .value'),
+                    properties = this.get('properties');
 
                 return new Y.LIMS.View.SliderElementView({
                     container: container,
                     valueContainer: valueContainer,
                     min: 7,
                     max: 30,
+                    path: properties.getContextPath(),
                     value: valueContainer.get('innerHTML')
                 });
             }
@@ -811,13 +815,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.conversation-list-max-messages .slider'),
-                    valueContainer = this.get('container').one('.conversation-list-max-messages .value');
+                    valueContainer = this.get('container').one('.conversation-list-max-messages .value'),
+                    properties = this.get('properties');
 
                 return new Y.LIMS.View.SliderElementView({
                     container: container,
                     valueContainer: valueContainer,
                     min: 10,
                     max: 50,
+                    path: properties.getContextPath(),
                     value: valueContainer.get('innerHTML')
                 });
             }
@@ -832,13 +838,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.conversation-feed-max-conversations .slider'),
-                    valueContainer = this.get('container').one('.conversation-feed-max-conversations .value');
+                    valueContainer = this.get('container').one('.conversation-feed-max-conversations .value'),
+                    properties = this.get('properties');
 
                 return new Y.LIMS.View.SliderElementView({
                     container: container,
                     valueContainer: valueContainer,
                     min: 6,
                     max: 20,
+                    path: properties.getContextPath(),
                     value: valueContainer.get('innerHTML')
                 });
             }
@@ -922,6 +930,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                     container: container
                 });
             }
+        },
+
+        /**
+         * Properties object
+         *
+         * {Y.LIMS.Core.Properties}
+         */
+        properties: {
+            value: null // to be set
         }
     }
 });

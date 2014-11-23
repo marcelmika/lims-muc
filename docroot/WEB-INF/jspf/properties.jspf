@@ -74,6 +74,7 @@
     "portletEnabled": ${settings.chatEnabled},
     "activePanelId": "${settings.activePanelId}",
     "portletResourceURL":"<%= renderResponse.encodeURL(limsPortletURL.toString()) %>",
+    "contextPath":"<%= request.getContextPath() %>",
     "currentServerTime":<%= System.currentTimeMillis() %>
     }
 </script>

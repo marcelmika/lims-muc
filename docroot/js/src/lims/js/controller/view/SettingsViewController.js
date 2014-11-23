@@ -185,14 +185,16 @@ Y.LIMS.Controller.SettingsViewController = Y.Base.create('settingsViewController
             adminProperties: {
                 valueFn: function () {
                     // Vars
-                    var container = this.get('container').one('.admin-area');
+                    var container = this.get('container').one('.admin-area'),
+                        properties = this.get('properties');
 
                     if (!container) {
                         return null;
                     }
 
                     return new Y.LIMS.View.PropertiesView({
-                        container: container
+                        container: container,
+                        properties: properties
                     });
                 }
             },

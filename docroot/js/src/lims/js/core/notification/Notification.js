@@ -19,8 +19,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
     embedSoundTemplate: Y.one('#limsmuc-notification-embed-template').get('innerHTML'),
 
     // Locations of the sound files
-    mp3SoundFile: '/lims-muc-portlet/audio/notification.mp3',
-    wavSoundFile: '/lims-muc-portlet/audio/notification.wav',
+    mp3SoundFile: '/audio/notification.mp3',
+    wavSoundFile: '/audio/notification.wav',
 
 
     /**
@@ -229,9 +229,17 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
          */
         audioSoundPlayer: {
             valueFn: function () {
+                // Vars
+                var properties = this.get('properties'),
+                    path = properties.getContextPath(),
+                    mp3 = path + this.mp3SoundFile,
+                    wav = path + this.wavSoundFile;
+
+                console.log(mp3, wav);
+
                 return Y.Node.create(Y.Lang.sub(this.audioSoundTemplate, {
-                    wav: this.wavSoundFile,
-                    mp3: this.mp3SoundFile
+                    wav: wav,
+                    mp3: mp3
                 }));
             }
         },
@@ -243,8 +251,13 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
          */
         embedSoundPlayer: {
             valueFn: function () {
+                // Vars
+                var properties = this.get('properties'),
+                    path = properties.getContextPath(),
+                    wav = path + this.wavSoundFile;
+
                 return Y.Node.create(Y.Lang.sub(this.embedSoundTemplate, {
-                    wav: this.wavSoundFile
+                    wav: wav
                 }));
             }
         },

@@ -179,15 +179,17 @@ Y.LIMS.View.SliderElementView = Y.Base.create('sliderElementView', Y.View, [], {
                 // Vars
                 var min = this.get('min'),
                     max = this.get('max'),
-                    value = this.get('value');
+                    value = this.get('value'),
+                    path = this.get('path'),
+                    length = this.get('length');
 
                 // Create an instance of slider
                 return new Y.Slider({
                     min: min,
                     max: max,
                     value: value,
-                    length: '313px',
-                    thumbUrl: '/lims-muc-portlet/images/slider-thumb@2x.png'
+                    length: length,
+                    thumbUrl: path + '/images/slider-thumb@2x.png'
                 });
             }
         },
@@ -208,6 +210,15 @@ Y.LIMS.View.SliderElementView = Y.Base.create('sliderElementView', Y.View, [], {
          */
         max: {
             value: 10 // default value
+        },
+
+        /**
+         * Length of the slider
+         *
+         * {string}
+         */
+        length: {
+            value: '313px' // default value
         },
 
         /**
@@ -246,6 +257,15 @@ Y.LIMS.View.SliderElementView = Y.Base.create('sliderElementView', Y.View, [], {
             setter: function (value) {
                 return parseInt(value, 10);
             }
+        },
+
+        /**
+         * Context path
+         *
+         * {string}
+         */
+        path: {
+            value: '' // to be set
         },
 
         /**
