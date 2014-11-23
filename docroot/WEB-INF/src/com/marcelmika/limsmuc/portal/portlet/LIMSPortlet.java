@@ -12,6 +12,7 @@ package com.marcelmika.limsmuc.portal.portlet;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -73,6 +74,7 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_IS_ENABLED = "isEnabled";
     private static final String VARIABLE_CURRENT_USER = "currentUser";
     private static final String VARIABLE_VERSION = "version";
+    private static final String VARIABLE_PRELOADED_IMAGES = "preloadedImages";
 
     // Log
     private static Log log = LogFactoryUtil.getLog(LIMSPortlet.class);
@@ -245,6 +247,8 @@ public class LIMSPortlet extends MVCPortlet {
         renderRequest.setAttribute(VARIABLE_CURRENT_USER, buddy);
         // Version
         renderRequest.setAttribute(VARIABLE_VERSION, PortletPropertiesValues.VERSION);
+        // Preloaded images
+        renderRequest.setAttribute(VARIABLE_PRELOADED_IMAGES, preloadedImages(renderRequest));
     }
 
     /**
@@ -308,5 +312,23 @@ public class LIMSPortlet extends MVCPortlet {
             // Cannot get the site name -> exclude portlet
             return true;
         }
+    }
+
+    /**
+     * Returns a list of image file names
+     *
+     * @param renderRequest RenderRequest
+     * @return list of image file names
+     */
+    private String[] preloadedImages(RenderRequest renderRequest) {
+        // Find the real path
+        String path = renderRequest.getPortletSession().getPortletContext().getRealPath("/images");
+        // Path wasn't found
+        if (path == null) {
+            return new String[]{};
+        }
+
+        // Get the list of files in the path
+        return FileUtil.listFiles(path);
     }
 }
