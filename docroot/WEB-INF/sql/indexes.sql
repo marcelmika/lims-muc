@@ -3,8 +3,8 @@ create index IX_C3E2CA4B on Limsmuc_Conversation (syncIdSUC);
 
 create index IX_BC48D7E8 on Limsmuc_Message (cid);
 create index IX_21E2C551 on Limsmuc_Message (creatorId);
-create unique index IX_4076BE36 on Limsmuc_Message (syncIdChatPortlet);
-create unique index IX_2D392735 on Limsmuc_Message (syncIdSUC);
+create index IX_4076BE36 on Limsmuc_Message (syncIdChatPortlet);
+create index IX_2D392735 on Limsmuc_Message (syncIdSUC);
 
 create index IX_90E2497D on Limsmuc_Panel (userId);
 

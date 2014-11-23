@@ -75,10 +75,10 @@
         <finder name='Cid' return-type='Collection'>
             <finder-column name='cid'/>
         </finder>
-        <finder name='SyncIdSUC' return-type='Conversation' unique="true">
+        <finder name='SyncIdSUC' return-type='Conversation'>
             <finder-column name='syncIdSUC'/>
         </finder>
-        <finder name='SyncIdChatPortlet' return-type='Conversation' unique="true">
+        <finder name='SyncIdChatPortlet' return-type='Conversation'>
             <finder-column name='syncIdChatPortlet'/>
         </finder>
     </entity>

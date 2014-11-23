@@ -235,8 +235,6 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
                     mp3 = path + this.mp3SoundFile,
                     wav = path + this.wavSoundFile;
 
-                console.log(mp3, wav);
-
                 return Y.Node.create(Y.Lang.sub(this.audioSoundTemplate, {
                     wav: wav,
                     mp3: mp3
