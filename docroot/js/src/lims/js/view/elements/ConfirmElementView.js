@@ -51,8 +51,8 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
         var confirmDecision = this.get('confirmDecision'),
             openButton = this.get('openButton');
 
-        confirmDecision.show();
-        openButton.hide();
+        Y.LIMS.Core.Util.show(confirmDecision);
+        Y.LIMS.Core.Util.hide(openButton);
     },
 
     /**
@@ -64,8 +64,8 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
             openButton = this.get('openButton'),
             defaultMessage = this.get('defaultMessage');
 
-        confirmDecision.hide();
-        openButton.show();
+        Y.LIMS.Core.Util.hide(confirmDecision);
+        Y.LIMS.Core.Util.show(openButton);
 
         // Set the default message
         this.showDefaultMessage(defaultMessage);
@@ -80,9 +80,9 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
             cancelButton = this.get('cancelButton'),
             okButton = this.get('okButton');
 
-        activityIndicator.show();
-        cancelButton.hide();
-        okButton.hide();
+        Y.LIMS.Core.Util.show(activityIndicator);
+        Y.LIMS.Core.Util.hide(cancelButton);
+        Y.LIMS.Core.Util.hide(okButton);
     },
 
     /**
@@ -95,9 +95,9 @@ Y.LIMS.View.ConfirmElementView = Y.Base.create('confirmElementView', Y.View, [Y.
             cancelButton = this.get('cancelButton'),
             okButton = this.get('okButton');
 
-        activityIndicator.hide();
-        cancelButton.show();
-        okButton.show();
+        Y.LIMS.Core.Util.hide(activityIndicator);
+        Y.LIMS.Core.Util.show(cancelButton);
+        Y.LIMS.Core.Util.show(okButton);
     },
 
     /**

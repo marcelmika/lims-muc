@@ -80,7 +80,7 @@
                 <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
                         class="panel-button minimize"></button>
                 <button title="<liferay-ui:message key="panel-button-options-title"/>"
-                        class="panel-button options aui-helper-hidden hide"></button>
+                        class="panel-button options hide"></button>
                 <div class="panel-title-text"><span>{conversationTitle}</span></div>
             </div>
             <div class="panel-content">

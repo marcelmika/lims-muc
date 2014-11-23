@@ -271,7 +271,7 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
         if (badge) {
 
             // Show the badge
-            badge.show();
+            Y.LIMS.Core.Util.show(badge);
 
             // Run the animation
             if (animated) {
@@ -295,7 +295,7 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
 
         // Hide badge
         if (badge) {
-            badge.hide();
+            Y.LIMS.Core.Util.hide(badge);
         }
     },
 

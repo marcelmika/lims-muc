@@ -58,7 +58,7 @@ Y.LIMS.View.ConversationToggleItem = Y.Base.create('conversationToggleItem', Y.V
             // Get the unread badge
             unreadBadge = this.get('unreadBadge');
             // Hide it
-            unreadBadge.hide();
+            Y.LIMS.Core.Util.hide(unreadBadge);
         }
 
         return this;

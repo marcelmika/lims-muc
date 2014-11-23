@@ -206,7 +206,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         // Vars
         var searchButton = this.get('searchButton');
         // Show the button
-        searchButton.show();
+        Y.LIMS.Core.Util.show(searchButton);
     },
 
     /**
@@ -218,7 +218,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         // Vars
         var searchButton = this.get('searchButton');
         // Hide the button
-        searchButton.hide();
+        Y.LIMS.Core.Util.hide(searchButton);
     },
 
     /**
@@ -236,7 +236,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         }
 
         // Show the button
-        listButton.show();
+        Y.LIMS.Core.Util.show(listButton);
     },
 
     /**
@@ -248,7 +248,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         // Vars
         var listButton = this.get('listButton');
         // Hide the button
-        listButton.hide();
+        Y.LIMS.Core.Util.hide(listButton);
     },
 
     /**

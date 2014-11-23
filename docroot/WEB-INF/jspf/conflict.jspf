@@ -8,13 +8,13 @@
   --%>
 
 
-<div class="conflict-notification conflict-suc aui-helper-hidden hide">
+<div class="conflict-notification conflict-suc hide">
     <strong><liferay-ui:message key="conflict-suc-title"/></strong>
     <br/>
     <span><liferay-ui:message key="conflict-suc-message"/></span>
 </div>
 
-<div class="conflict-notification conflict-chat-portlet aui-helper-hidden hide">
+<div class="conflict-notification conflict-chat-portlet hide">
     <strong><liferay-ui:message key="conflict-chat-portlet-title"/></strong>
     <br/>
     <span><liferay-ui:message key="conflict-chat-portlet-message"/></span>

@@ -193,7 +193,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
 
                 // Hide the node since it's going to be set visible
                 // whenever the user clicks on the option button
-                container.hide();
+                Y.LIMS.Core.Util.hide(container);
 
                 return container;
             }
@@ -211,7 +211,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
 
                 // Hide the content at the beginning since it's going to be
                 // shown later on
-                content.hide();
+                Y.LIMS.Core.Util.hide(content);
 
                 return content;
             }
@@ -299,7 +299,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
                 // Before the animation starts
                 animation.before('start', function () {
                     // Show the container
-                    container.show();
+                    Y.LIMS.Core.Util.show(container);
 
                 }, this);
 
@@ -339,7 +339,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
                 // On animation end
                 animation.on('end', function () {
                     // Hide the container
-                    container.hide();
+                    Y.LIMS.Core.Util.hide(container);
                     // Set the hidden flag
                     this.set('isHidden', true);
                 }, this);
@@ -384,7 +384,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
                     // Opening
                     else {
                         // Show the content node
-                        content.show();
+                        Y.LIMS.Core.Util.show(content);
                         // Set opacity to 0
                         content.setStyle('opacity', 0);
                     }
@@ -395,7 +395,7 @@ Y.LIMS.View.ConversationOptionsView = Y.Base.create('conversationOptionsView', Y
                     // Closing
                     if (animation.get('reverse')) {
                         // Hide the node
-                        content.hide();
+                        Y.LIMS.Core.Util.hide(content);
                     }
                 }, this);
 

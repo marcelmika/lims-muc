@@ -104,7 +104,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 // Vars
                 var container = Y.Node.create(this.template);
                 // Hide the node from the beginning
-                container.hide();
+                Y.LIMS.Core.Util.hide(container);
 
                 return container;
             }
@@ -120,7 +120,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 // Vars
                 var content = this.get('container').one('.content');
                 // Hide the content at the beginning
-                content.hide();
+                Y.LIMS.Core.Util.hide(content);
 
                 return content;
             }
@@ -204,7 +204,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 // Before the animation starts
                 animation.before('start', function () {
                     // Show the container
-                    container.show();
+                    Y.LIMS.Core.Util.show(container);
 
                 }, this);
 
@@ -245,7 +245,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                 // On animation end
                 animation.on('end', function () {
                     // Hide the container
-                    container.hide();
+                    Y.LIMS.Core.Util.hide(container);
                     // Clear all tokens in participants input view
                     participants.clear();
                     // Set the hidden flag
@@ -293,7 +293,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                     // Opening
                     else {
                         // Show the content node
-                        content.show();
+                        Y.LIMS.Core.Util.show(content);
                         // Set opacity to 0
                         content.setStyle('opacity', 0);
                     }
@@ -304,7 +304,7 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                     // Closing
                     if (animation.get('reverse')) {
                         // Hide the node
-                        content.hide();
+                        Y.LIMS.Core.Util.hide(content);
                         // Remove focus from participants input
                         participants.blur();
                     } else {

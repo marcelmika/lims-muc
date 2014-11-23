@@ -322,7 +322,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
 
                 // Hide the node since it's going to be set visible
                 // whenever the user clicks on the option button
-                container.hide();
+                Y.LIMS.Core.Util.hide(container);
 
                 return container;
             }
@@ -340,7 +340,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
 
                 // Hide the content at the beginning since it's going to be
                 // shown later on
-                content.hide();
+                Y.LIMS.Core.Util.hide(content);
 
                 return content;
             }
@@ -486,7 +486,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
                 // Before the animation starts
                 animation.before('start', function () {
                     // Show the container
-                    container.show();
+                    Y.LIMS.Core.Util.show(container);
 
                 }, this);
 
@@ -527,7 +527,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
                 // On animation end
                 animation.on('end', function () {
                     // Hide the container
-                    container.hide();
+                    Y.LIMS.Core.Util.hide(container);
                     // Set the hidden flag
                     this.set('isHidden', true);
                     // Clear token input
@@ -575,7 +575,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
                     // Opening
                     else {
                         // Show the content node
-                        content.show();
+                        Y.LIMS.Core.Util.show(content);
                         // Set opacity to 0
                         content.setStyle('opacity', 0);
                     }
@@ -586,7 +586,7 @@ Y.LIMS.View.AddMoreOption = Y.Base.create('addMoreOption', Y.View, [], {
                     // Closing
                     if (animation.get('reverse')) {
                         // Hide the node
-                        content.hide();
+                        Y.LIMS.Core.Util.hide(content);
                         // Remove focus from participants input
                         participants.blur();
                     } else {

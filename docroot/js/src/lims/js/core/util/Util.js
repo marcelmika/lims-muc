@@ -90,7 +90,25 @@ var Util = {
      * @return {boolean}
      */
     isHidden: function (node) {
-        return node.hasClass('hide') || node.hasClass('aui-helper-hidden');
+        return node.hasClass('hide');
+    },
+
+    /**
+     * Shows node
+     *
+     * @param node {Node}
+     */
+    show: function (node) {
+        node.removeClass('hide');
+    },
+
+    /**
+     * Hides node
+     *
+     * @param node {Node}
+     */
+    hide: function (node) {
+        node.addClass('hide');
     },
 
     /**

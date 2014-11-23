@@ -129,7 +129,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
             conversationFeedList.setStyle('opacity', 0);
         }
 
-        conversationFeedList.show();
+        Y.LIMS.Core.Util.show(conversationFeedList);
 
         // Run the effect animation
         if (animated) {
@@ -146,7 +146,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         // Vars
         var conversationFeedList = this.get('conversationFeedList');
         // Hide list view
-        conversationFeedList.hide();
+        Y.LIMS.Core.Util.hide(conversationFeedList);
     },
 
     /**
@@ -282,7 +282,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
         this.set('shouldAnimateList', false);
 
         // Hide indicator
-        activityIndicator.hide();
+        Y.LIMS.Core.Util.hide(activityIndicator);
     },
 
     /**
@@ -297,7 +297,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
             errorView = this.get('errorView');
 
         // Hide indicator
-        activityIndicator.hide();
+        Y.LIMS.Core.Util.hide(activityIndicator);
         // Hide conversations
         this._hideListView();
         // Hide info about no conversations
@@ -316,7 +316,7 @@ Y.LIMS.View.ConversationFeedList = Y.Base.create('conversationFeedList', Y.View,
      */
     _onConversationFeedUpdated: function (event) {
         // Hide indicator if it wasn't already hidden
-        this.get('activityIndicator').hide();
+        Y.LIMS.Core.Util.hide(this.get('activityIndicator'));
         // Render the list
         this._renderConversationList();
 

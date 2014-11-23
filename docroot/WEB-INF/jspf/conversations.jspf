@@ -46,7 +46,7 @@
             <c:set var="hiddenClass" value=""/>
         </c:when>
         <c:otherwise>
-            <c:set var="hiddenClass" value="aui-helper-hidden hide"/>
+            <c:set var="hiddenClass" value="hide"/>
         </c:otherwise>
     </c:choose>
 
@@ -56,7 +56,7 @@
             <c:set var="hiddenBadgeClass" value=""/>
         </c:when>
         <c:otherwise>
-            <c:set var="hiddenBadgeClass" value="aui-helper-hidden hide"/>
+            <c:set var="hiddenBadgeClass" value="hide"/>
         </c:otherwise>
     </c:choose>
 
@@ -83,7 +83,7 @@
                     <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
                             class="panel-button minimize"></button>
                     <button title="<liferay-ui:message key="panel-button-options-title"/>"
-                            class="panel-button options aui-helper-hidden hide"></button>
+                            class="panel-button options hide"></button>
                     <div class="panel-title-text"><span>${conversation.title}</span></div>
                 </div>
 

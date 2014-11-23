@@ -310,7 +310,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             var activityIndicator = this.get('activityIndicator');
 
             // Show preloader
-            activityIndicator.show();
+            Y.LIMS.Core.Util.show(activityIndicator);
         },
 
         /**
@@ -323,7 +323,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             var activityIndicator = this.get('activityIndicator');
 
             // Hide preloader
-            activityIndicator.hide();
+            Y.LIMS.Core.Util.hide(activityIndicator);
         },
 
         /**
@@ -394,7 +394,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             createErrorView.hideErrorMessage(false);
             readErrorView.hideErrorMessage(false);
             // Show the options button
-            optionsButton.show();
+            Y.LIMS.Core.Util.show(optionsButton);
             // Show the panel input so the user can post messages
             listView.showView();
             // Update title
@@ -419,7 +419,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Show read error message
             readErrorView.showErrorMessage(true);
             // Hide the options button
-            optionsButton.hide();
+            Y.LIMS.Core.Util.hide(optionsButton);
             // Hide the panel input. We don't want users to post any messages now
             listView.hideView();
         },

@@ -124,7 +124,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         var participantsList = this.get('participantsList');
 
         if (participantsList.inDoc()) {
-            participantsList.show();
+            Y.LIMS.Core.Util.show(participantsList);
         }
     },
 
@@ -136,7 +136,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         var participantsList = this.get('participantsList');
 
         if (participantsList.inDoc()) {
-            participantsList.hide();
+            Y.LIMS.Core.Util.hide(participantsList);
         }
     },
 
@@ -235,7 +235,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // If the list is not yet rendered, add it to the container
         if (!participantsList.inDoc()) {
             // Hide the list, it's going to be shown whenever the user hovers over the title
-            participantsList.hide();
+            Y.LIMS.Core.Util.hide(participantsList);
             // Add list to container
             container.prepend(participantsList);
         }
@@ -336,7 +336,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             panelContentList.setStyle('opacity', 0);
         }
 
-        panelContentList.show();
+        Y.LIMS.Core.Util.show(panelContentList);
 
         // Run the effect animation
         if (animated) {
@@ -353,7 +353,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Vars
         var panelContentList = this.get('panelContentList');
         // Hide list view
-        panelContentList.hide();
+        Y.LIMS.Core.Util.hide(panelContentList);
     },
 
     /**
@@ -609,7 +609,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      */
     _onMessagesUpdated: function (event) {
         // Hide indicator if it wasn't already hidden
-        this.get('activityIndicator').hide();
+        Y.LIMS.Core.Util.hide(this.get('activityIndicator'));
         // Render the list
         this._renderMessagesList(event.readMore, event.preStopperId);
         // Render participants

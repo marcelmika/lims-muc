@@ -476,7 +476,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
                 // Vars
                 var content = this.get('container').one('.content');
                 // Hide the content at the beginning
-                content.hide();
+                Y.LIMS.Core.Util.hide(content);
 
                 return content;
             }
@@ -512,7 +512,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
                     // Opening
                     else {
                         // Show the content node
-                        content.show();
+                        Y.LIMS.Core.Util.show(content);
                         // Add focus to search input
                         searchInput.focus();
                         // Set opacity to 0
@@ -525,7 +525,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
                     // Closing
                     if (animation.get('reverse')) {
                         // Hide the node
-                        content.hide();
+                        Y.LIMS.Core.Util.hide(content);
                         // Remove focus from search input
                         searchInput.blur();
                     }

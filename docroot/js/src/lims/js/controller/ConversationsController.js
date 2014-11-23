@@ -412,7 +412,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     if (firstHiddenConversation) {
 
                         // Show the node
-                        firstHiddenConversation.show();
+                        Y.LIMS.Core.Util.show(firstHiddenConversation);
 
                         // Find the controller related to the node
                         controller = this._getControllerFromMap(firstHiddenConversation.attr('data-conversationId'));
@@ -447,7 +447,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 if (lastVisibleConversation && visibleConversations.size() > 1) {
 
                     // Hide the node
-                    lastVisibleConversation.hide();
+                    Y.LIMS.Core.Util.hide(lastVisibleConversation);
 
                     // Find the controller related to the node
                     controller = this._getControllerFromMap(lastVisibleConversation.attr('data-conversationId'));
@@ -548,7 +548,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 lastConversationNode.insert(controller.get('container'), 'before');
 
                 // Show the container since it might have been hidden
-                controller.get('container').show();
+                Y.LIMS.Core.Util.show(controller.get('container'));
 
                 // If the conversation is in the toggle remove it from there. Since it's not needed anymore
                 toggleController.removeConversation(controller.get('model'));
