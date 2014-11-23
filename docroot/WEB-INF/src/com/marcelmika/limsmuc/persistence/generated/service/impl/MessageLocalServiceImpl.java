@@ -176,7 +176,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      * Returns conversation based on its sync id SUC
      *
      * @param syncIdSUC of the conversation
-     * @return found conversation or null if nothing was found
+     * @return found message or null if nothing was found
      * @throws SystemException
      */
     @Override
@@ -189,12 +189,25 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
      *
      * @param syncIdSUC of the conversation
      * @param useCache true if the cache should be used
-     * @return found conversation or null if nothing was found
+     * @return found message or null if nothing was found
      * @throws SystemException
      */
     @Override
     public Message fetchBySyncIdSUC(long syncIdSUC, boolean useCache) throws SystemException {
         return messagePersistence.fetchBySyncIdSUC(syncIdSUC, useCache);
+    }
+
+    /**
+     * Returns conversation based on its sync id Chat Portlet
+     *
+     * @param syncIdChatPortlet of the conversation
+     * @param useCache true if the cache should be used
+     * @return found message or null if nothing was found
+     * @throws SystemException
+     */
+    @Override
+    public Message fetchBySyncIdChatPortlet(long syncIdChatPortlet, boolean useCache) throws SystemException {
+        return messagePersistence.fetchBySyncIdChatPortlet(syncIdChatPortlet, useCache);
     }
 
     /**

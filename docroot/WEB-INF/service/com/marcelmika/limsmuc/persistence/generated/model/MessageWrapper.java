@@ -56,6 +56,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
 		attributes.put("syncIdSUC", getSyncIdSUC());
+		attributes.put("syncIdChatPortlet", getSyncIdChatPortlet());
 
 		return attributes;
 	}
@@ -102,6 +103,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		if (syncIdSUC != null) {
 			setSyncIdSUC(syncIdSUC);
+		}
+
+		Long syncIdChatPortlet = (Long)attributes.get("syncIdChatPortlet");
+
+		if (syncIdChatPortlet != null) {
+			setSyncIdChatPortlet(syncIdChatPortlet);
 		}
 	}
 
@@ -263,6 +270,26 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public void setSyncIdSUC(long syncIdSUC) {
 		_message.setSyncIdSUC(syncIdSUC);
+	}
+
+	/**
+	* Returns the sync ID chat portlet of this message.
+	*
+	* @return the sync ID chat portlet of this message
+	*/
+	@Override
+	public long getSyncIdChatPortlet() {
+		return _message.getSyncIdChatPortlet();
+	}
+
+	/**
+	* Sets the sync ID chat portlet of this message.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet of this message
+	*/
+	@Override
+	public void setSyncIdChatPortlet(long syncIdChatPortlet) {
+		_message.setSyncIdChatPortlet(syncIdChatPortlet);
 	}
 
 	@Override

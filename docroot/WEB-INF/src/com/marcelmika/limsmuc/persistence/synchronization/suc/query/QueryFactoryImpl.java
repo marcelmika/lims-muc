@@ -32,11 +32,11 @@ public class QueryFactoryImpl implements QueryFactory {
     private static Log log = LogFactoryUtil.getLog(QueryFactoryImpl.class);
 
     // Tables
-    private static final String SETTINGS_SUC = SynchronizationFinder.class.getName() + ".Settings.SUC-";
-    private static final String PANEL_SUC = SynchronizationFinder.class.getName() + ".Panel.SUC-";
-    private static final String CONVERSATION_SUC = SynchronizationFinder.class.getName() + ".Conversation.SUC-";
-    private static final String PARTICIPANT_SUC = SynchronizationFinder.class.getName() + ".Participant.SUC-";
-    private static final String MESSAGE_SUC = SynchronizationFinder.class.getName() + ".Message.SUC-";
+    private static final String SETTINGS = SynchronizationFinder.class.getName() + ".Settings.SUC-";
+    private static final String PANEL = SynchronizationFinder.class.getName() + ".Panel.SUC-";
+    private static final String CONVERSATION = SynchronizationFinder.class.getName() + ".Conversation.SUC-";
+    private static final String PARTICIPANT = SynchronizationFinder.class.getName() + ".Participant.SUC-";
+    private static final String MESSAGE = SynchronizationFinder.class.getName() + ".Message.SUC-";
 
     // Versions
     private static final String VERSION_1_2_0 = "1.2.0";
@@ -58,7 +58,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.2.0
         if (version == Version.SUC_1_2_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(SETTINGS_SUC + VERSION_1_2_0);
+            String sql = CustomSQLUtil.get(SETTINGS + VERSION_1_2_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -76,7 +76,7 @@ public class QueryFactoryImpl implements QueryFactory {
         else if (version == Version.SUC_1_1_0) {
 
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(SETTINGS_SUC + VERSION_1_1_0);
+            String sql = CustomSQLUtil.get(SETTINGS + VERSION_1_1_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -92,7 +92,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.0.1
         else if (version == Version.SUC_1_0_1) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(SETTINGS_SUC + VERSION_1_0_1);
+            String sql = CustomSQLUtil.get(SETTINGS + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -123,7 +123,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.2.0
         if (version == Version.SUC_1_2_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PANEL_SUC + VERSION_1_2_0);
+            String sql = CustomSQLUtil.get(PANEL + VERSION_1_2_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -136,7 +136,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.1.0
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PANEL_SUC + VERSION_1_1_0);
+            String sql = CustomSQLUtil.get(PANEL + VERSION_1_1_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -149,7 +149,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.0.1
         else if (version == Version.SUC_1_0_1) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PANEL_SUC + VERSION_1_0_1);
+            String sql = CustomSQLUtil.get(PANEL + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -178,7 +178,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.2.0
         if (version == Version.SUC_1_2_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(CONVERSATION_SUC + VERSION_1_2_0);
+            String sql = CustomSQLUtil.get(CONVERSATION + VERSION_1_2_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -192,7 +192,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.1.0
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(CONVERSATION_SUC + VERSION_1_1_0);
+            String sql = CustomSQLUtil.get(CONVERSATION + VERSION_1_1_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -206,7 +206,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.0.1
         else if (version == Version.SUC_1_0_1) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(CONVERSATION_SUC + VERSION_1_0_1);
+            String sql = CustomSQLUtil.get(CONVERSATION + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -236,7 +236,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.2.0
         if (version == Version.SUC_1_2_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PARTICIPANT_SUC + VERSION_1_2_0);
+            String sql = CustomSQLUtil.get(PARTICIPANT + VERSION_1_2_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -252,7 +252,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.1.0
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PARTICIPANT_SUC + VERSION_1_1_0);
+            String sql = CustomSQLUtil.get(PARTICIPANT + VERSION_1_1_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -268,7 +268,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.1.0
         else if (version == Version.SUC_1_0_1) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(PARTICIPANT_SUC + VERSION_1_0_1);
+            String sql = CustomSQLUtil.get(PARTICIPANT + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -299,7 +299,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.2.0
         if (version == Version.SUC_1_2_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(MESSAGE_SUC + VERSION_1_2_0);
+            String sql = CustomSQLUtil.get(MESSAGE + VERSION_1_2_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -314,7 +314,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.1.0
         else if (version == Version.SUC_1_1_0) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(MESSAGE_SUC + VERSION_1_1_0);
+            String sql = CustomSQLUtil.get(MESSAGE + VERSION_1_1_0);
 
             // Create query from sql
             query = session.createSQLQuery(sql);
@@ -329,7 +329,7 @@ public class QueryFactoryImpl implements QueryFactory {
         // SUC version v1.0.1
         else if (version == Version.SUC_1_0_1) {
             // Generate SQL (check /custom-sql/synchronization.xml)
-            String sql = CustomSQLUtil.get(MESSAGE_SUC + VERSION_1_0_1);
+            String sql = CustomSQLUtil.get(MESSAGE + VERSION_1_0_1);
 
             // Create query from sql
             query = session.createSQLQuery(sql);

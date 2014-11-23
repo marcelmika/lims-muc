@@ -404,6 +404,76 @@ public class MessageUtil {
 	}
 
 	/**
+	* Returns the message where syncIdChatPortlet = &#63; or throws a {@link com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException} if it could not be found.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet
+	* @return the matching message
+	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Message findBySyncIdChatPortlet(
+		long syncIdChatPortlet)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException {
+		return getPersistence().findBySyncIdChatPortlet(syncIdChatPortlet);
+	}
+
+	/**
+	* Returns the message where syncIdChatPortlet = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet
+	* @return the matching message, or <code>null</code> if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdChatPortlet(
+		long syncIdChatPortlet)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchBySyncIdChatPortlet(syncIdChatPortlet);
+	}
+
+	/**
+	* Returns the message where syncIdChatPortlet = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching message, or <code>null</code> if a matching message could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdChatPortlet(
+		long syncIdChatPortlet, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBySyncIdChatPortlet(syncIdChatPortlet,
+			retrieveFromCache);
+	}
+
+	/**
+	* Removes the message where syncIdChatPortlet = &#63; from the database.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet
+	* @return the message that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Message removeBySyncIdChatPortlet(
+		long syncIdChatPortlet)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException {
+		return getPersistence().removeBySyncIdChatPortlet(syncIdChatPortlet);
+	}
+
+	/**
+	* Returns the number of messages where syncIdChatPortlet = &#63;.
+	*
+	* @param syncIdChatPortlet the sync ID chat portlet
+	* @return the number of matching messages
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countBySyncIdChatPortlet(long syncIdChatPortlet)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countBySyncIdChatPortlet(syncIdChatPortlet);
+	}
+
+	/**
 	* Caches the message in the entity cache if it is enabled.
 	*
 	* @param message the message

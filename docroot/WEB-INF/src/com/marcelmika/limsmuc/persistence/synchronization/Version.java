@@ -78,6 +78,10 @@ public enum Version {
         else if (code == SUC_1_0_1.getCode()) {
             return SUC_1_0_1;
         }
+        // Chat portlet v2.0.5
+        else if (code == CHAT_PORTLET_2_0_5.getCode()) {
+            return CHAT_PORTLET_2_0_5;
+        }
         // Unknown
         else {
             return UNKNOWN;
@@ -102,6 +106,10 @@ public enum Version {
         // SUC v1.0.1
         else if (description.equals(SUC_1_0_1.getDescription())) {
             return SUC_1_0_1;
+        }
+        // Chat Portlet v2.0.5
+        else if (description.equals(CHAT_PORTLET_2_0_5.getDescription())) {
+            return CHAT_PORTLET_2_0_5;
         }
         // Unknown
         else {

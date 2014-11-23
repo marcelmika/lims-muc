@@ -37,7 +37,7 @@ import java.util.Date;
 public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{mid=");
 		sb.append(mid);
@@ -53,6 +53,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		sb.append(body);
 		sb.append(", syncIdSUC=");
 		sb.append(syncIdSUC);
+		sb.append(", syncIdChatPortlet=");
+		sb.append(syncIdChatPortlet);
 		sb.append("}");
 
 		return sb.toString();
@@ -82,6 +84,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		}
 
 		messageImpl.setSyncIdSUC(syncIdSUC);
+		messageImpl.setSyncIdChatPortlet(syncIdChatPortlet);
 
 		messageImpl.resetOriginalValues();
 
@@ -97,6 +100,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		createdAt = objectInput.readLong();
 		body = objectInput.readUTF();
 		syncIdSUC = objectInput.readLong();
+		syncIdChatPortlet = objectInput.readLong();
 	}
 
 	@Override
@@ -116,6 +120,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		}
 
 		objectOutput.writeLong(syncIdSUC);
+		objectOutput.writeLong(syncIdChatPortlet);
 	}
 
 	public long mid;
@@ -125,4 +130,5 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	public long createdAt;
 	public String body;
 	public long syncIdSUC;
+	public long syncIdChatPortlet;
 }

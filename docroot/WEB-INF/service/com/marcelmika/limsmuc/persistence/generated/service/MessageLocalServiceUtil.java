@@ -349,7 +349,7 @@ public class MessageLocalServiceUtil {
 	* Returns conversation based on its sync id SUC
 	*
 	* @param syncIdSUC of the conversation
-	* @return found conversation or null if nothing was found
+	* @return found message or null if nothing was found
 	* @throws SystemException
 	*/
 	public static com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdSUC(
@@ -363,13 +363,27 @@ public class MessageLocalServiceUtil {
 	*
 	* @param syncIdSUC of the conversation
 	* @param useCache true if the cache should be used
-	* @return found conversation or null if nothing was found
+	* @return found message or null if nothing was found
 	* @throws SystemException
 	*/
 	public static com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdSUC(
 		long syncIdSUC, boolean useCache)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().fetchBySyncIdSUC(syncIdSUC, useCache);
+	}
+
+	/**
+	* Returns conversation based on its sync id Chat Portlet
+	*
+	* @param syncIdChatPortlet of the conversation
+	* @param useCache true if the cache should be used
+	* @return found message or null if nothing was found
+	* @throws SystemException
+	*/
+	public static com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdChatPortlet(
+		long syncIdChatPortlet, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchBySyncIdChatPortlet(syncIdChatPortlet, useCache);
 	}
 
 	/**

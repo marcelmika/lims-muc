@@ -147,13 +147,17 @@ public class MessageLocalServiceClp implements MessageLocalService {
 
 		_methodParameterTypes25 = new String[] { "long", "boolean" };
 
-		_methodName26 = "createMessage";
+		_methodName26 = "fetchBySyncIdChatPortlet";
 
-		_methodParameterTypes26 = new String[] {  };
+		_methodParameterTypes26 = new String[] { "long", "boolean" };
 
-		_methodName27 = "saveMessage";
+		_methodName27 = "createMessage";
 
-		_methodParameterTypes27 = new String[] {
+		_methodParameterTypes27 = new String[] {  };
+
+		_methodName28 = "saveMessage";
+
+		_methodParameterTypes28 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Message"
 			};
 	}
@@ -934,13 +938,43 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	}
 
 	@Override
-	public com.marcelmika.limsmuc.persistence.generated.model.Message createMessage()
+	public com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdChatPortlet(
+		long syncIdChatPortlet, boolean useCache)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName26,
-					_methodParameterTypes26, new Object[] {  });
+					_methodParameterTypes26,
+					new Object[] { syncIdChatPortlet, useCache });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.marcelmika.limsmuc.persistence.generated.model.Message)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.marcelmika.limsmuc.persistence.generated.model.Message createMessage()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -966,8 +1000,8 @@ public class MessageLocalServiceClp implements MessageLocalService {
 		com.marcelmika.limsmuc.persistence.generated.model.Message message)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName27,
-				_methodParameterTypes27,
+			_invokableLocalService.invokeMethod(_methodName28,
+				_methodParameterTypes28,
 				new Object[] { ClpSerializer.translateInput(message) });
 		}
 		catch (Throwable t) {
@@ -1042,4 +1076,6 @@ public class MessageLocalServiceClp implements MessageLocalService {
 	private String[] _methodParameterTypes26;
 	private String _methodName27;
 	private String[] _methodParameterTypes27;
+	private String _methodName28;
+	private String[] _methodParameterTypes28;
 }

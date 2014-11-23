@@ -891,13 +891,6 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"MessagePersistenceImpl.fetchBySyncIdSUC(long, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-					}
-
 					Message message = list.get(0);
 
 					result = message;
@@ -998,6 +991,219 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 	}
 
 	private static final String _FINDER_COLUMN_SYNCIDSUC_SYNCIDSUC_2 = "message.syncIdSUC = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
+			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySyncIdChatPortlet",
+			new String[] { Long.class.getName() },
+			MessageModelImpl.SYNCIDCHATPORTLET_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
+			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySyncIdChatPortlet", new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the message where syncIdChatPortlet = &#63; or throws a {@link com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException} if it could not be found.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet
+	 * @return the matching message
+	 * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchMessageException if a matching message could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Message findBySyncIdChatPortlet(long syncIdChatPortlet)
+		throws NoSuchMessageException, SystemException {
+		Message message = fetchBySyncIdChatPortlet(syncIdChatPortlet);
+
+		if (message == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("syncIdChatPortlet=");
+			msg.append(syncIdChatPortlet);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchMessageException(msg.toString());
+		}
+
+		return message;
+	}
+
+	/**
+	 * Returns the message where syncIdChatPortlet = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet
+	 * @return the matching message, or <code>null</code> if a matching message could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Message fetchBySyncIdChatPortlet(long syncIdChatPortlet)
+		throws SystemException {
+		return fetchBySyncIdChatPortlet(syncIdChatPortlet, true);
+	}
+
+	/**
+	 * Returns the message where syncIdChatPortlet = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching message, or <code>null</code> if a matching message could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Message fetchBySyncIdChatPortlet(long syncIdChatPortlet,
+		boolean retrieveFromCache) throws SystemException {
+		Object[] finderArgs = new Object[] { syncIdChatPortlet };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+					finderArgs, this);
+		}
+
+		if (result instanceof Message) {
+			Message message = (Message)result;
+
+			if ((syncIdChatPortlet != message.getSyncIdChatPortlet())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_MESSAGE_WHERE);
+
+			query.append(_FINDER_COLUMN_SYNCIDCHATPORTLET_SYNCIDCHATPORTLET_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(syncIdChatPortlet);
+
+				List<Message> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+						finderArgs, list);
+				}
+				else {
+					Message message = list.get(0);
+
+					result = message;
+
+					cacheResult(message);
+
+					if ((message.getSyncIdChatPortlet() != syncIdChatPortlet)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+							finderArgs, message);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Message)result;
+		}
+	}
+
+	/**
+	 * Removes the message where syncIdChatPortlet = &#63; from the database.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet
+	 * @return the message that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Message removeBySyncIdChatPortlet(long syncIdChatPortlet)
+		throws NoSuchMessageException, SystemException {
+		Message message = findBySyncIdChatPortlet(syncIdChatPortlet);
+
+		return remove(message);
+	}
+
+	/**
+	 * Returns the number of messages where syncIdChatPortlet = &#63;.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet
+	 * @return the number of matching messages
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countBySyncIdChatPortlet(long syncIdChatPortlet)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET;
+
+		Object[] finderArgs = new Object[] { syncIdChatPortlet };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_MESSAGE_WHERE);
+
+			query.append(_FINDER_COLUMN_SYNCIDCHATPORTLET_SYNCIDCHATPORTLET_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(syncIdChatPortlet);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SYNCIDCHATPORTLET_SYNCIDCHATPORTLET_2 =
+		"message.syncIdChatPortlet = ?";
 
 	public MessagePersistenceImpl() {
 		setModelClass(Message.class);
@@ -1018,6 +1224,9 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC,
 			new Object[] { message.getSyncIdSUC() }, message);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+			new Object[] { message.getSyncIdChatPortlet() }, message);
 
 		message.resetOriginalValues();
 	}
@@ -1107,6 +1316,13 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 				Long.valueOf(1));
 			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args,
 				message);
+
+			args = new Object[] { message.getSyncIdChatPortlet() };
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET,
+				args, Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+				args, message);
 		}
 		else {
 			MessageModelImpl messageModelImpl = (MessageModelImpl)message;
@@ -1129,6 +1345,16 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 					Long.valueOf(1));
 				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args,
 					message);
+			}
+
+			if ((messageModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { message.getSyncIdChatPortlet() };
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET,
+					args, Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+					args, message);
 			}
 		}
 	}
@@ -1160,6 +1386,23 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SYNCIDSUC, args);
 			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDSUC, args);
+		}
+
+		args = new Object[] { message.getSyncIdChatPortlet() };
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET,
+			args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+			args);
+
+		if ((messageModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET.getColumnBitmask()) != 0) {
+			args = new Object[] { messageModelImpl.getOriginalSyncIdChatPortlet() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SYNCIDCHATPORTLET,
+				args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SYNCIDCHATPORTLET,
+				args);
 		}
 	}
 
@@ -1345,6 +1588,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 		messageImpl.setCreatedAt(message.getCreatedAt());
 		messageImpl.setBody(message.getBody());
 		messageImpl.setSyncIdSUC(message.getSyncIdSUC());
+		messageImpl.setSyncIdChatPortlet(message.getSyncIdChatPortlet());
 
 		return messageImpl;
 	}

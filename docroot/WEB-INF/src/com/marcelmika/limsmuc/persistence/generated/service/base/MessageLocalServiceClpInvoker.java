@@ -147,13 +147,17 @@ public class MessageLocalServiceClpInvoker {
 
 		_methodParameterTypes72 = new String[] { "long", "boolean" };
 
-		_methodName73 = "createMessage";
+		_methodName73 = "fetchBySyncIdChatPortlet";
 
-		_methodParameterTypes73 = new String[] {  };
+		_methodParameterTypes73 = new String[] { "long", "boolean" };
 
-		_methodName74 = "saveMessage";
+		_methodName74 = "createMessage";
 
-		_methodParameterTypes74 = new String[] {
+		_methodParameterTypes74 = new String[] {  };
+
+		_methodName75 = "saveMessage";
+
+		_methodParameterTypes75 = new String[] {
 				"com.marcelmika.limsmuc.persistence.generated.model.Message"
 			};
 	}
@@ -302,11 +306,17 @@ public class MessageLocalServiceClpInvoker {
 
 		if (_methodName73.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
-			return MessageLocalServiceUtil.createMessage();
+			return MessageLocalServiceUtil.fetchBySyncIdChatPortlet(((Long)arguments[0]).longValue(),
+				((Boolean)arguments[1]).booleanValue());
 		}
 
 		if (_methodName74.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
+			return MessageLocalServiceUtil.createMessage();
+		}
+
+		if (_methodName75.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
 			MessageLocalServiceUtil.saveMessage((com.marcelmika.limsmuc.persistence.generated.model.Message)arguments[0]);
 
 			return null;
@@ -369,4 +379,6 @@ public class MessageLocalServiceClpInvoker {
 	private String[] _methodParameterTypes73;
 	private String _methodName74;
 	private String[] _methodParameterTypes74;
+	private String _methodName75;
+	private String[] _methodParameterTypes75;
 }

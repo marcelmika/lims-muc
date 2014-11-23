@@ -81,6 +81,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		attributes.put("createdAt", getCreatedAt());
 		attributes.put("body", getBody());
 		attributes.put("syncIdSUC", getSyncIdSUC());
+		attributes.put("syncIdChatPortlet", getSyncIdChatPortlet());
 
 		return attributes;
 	}
@@ -127,6 +128,12 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 		if (syncIdSUC != null) {
 			setSyncIdSUC(syncIdSUC);
+		}
+
+		Long syncIdChatPortlet = (Long)attributes.get("syncIdChatPortlet");
+
+		if (syncIdChatPortlet != null) {
+			setSyncIdChatPortlet(syncIdChatPortlet);
 		}
 	}
 
@@ -291,6 +298,30 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		}
 	}
 
+	@Override
+	public long getSyncIdChatPortlet() {
+		return _syncIdChatPortlet;
+	}
+
+	@Override
+	public void setSyncIdChatPortlet(long syncIdChatPortlet) {
+		_syncIdChatPortlet = syncIdChatPortlet;
+
+		if (_messageRemoteModel != null) {
+			try {
+				Class<?> clazz = _messageRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSyncIdChatPortlet",
+						long.class);
+
+				method.invoke(_messageRemoteModel, syncIdChatPortlet);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getMessageRemoteModel() {
 		return _messageRemoteModel;
 	}
@@ -367,6 +398,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		clone.setCreatedAt(getCreatedAt());
 		clone.setBody(getBody());
 		clone.setSyncIdSUC(getSyncIdSUC());
+		clone.setSyncIdChatPortlet(getSyncIdChatPortlet());
 
 		return clone;
 	}
@@ -413,7 +445,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{mid=");
 		sb.append(getMid());
@@ -429,6 +461,8 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 		sb.append(getBody());
 		sb.append(", syncIdSUC=");
 		sb.append(getSyncIdSUC());
+		sb.append(", syncIdChatPortlet=");
+		sb.append(getSyncIdChatPortlet());
 		sb.append("}");
 
 		return sb.toString();
@@ -436,7 +470,7 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.limsmuc.persistence.generated.model.Message");
@@ -470,6 +504,10 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 			"<column><column-name>syncIdSUC</column-name><column-value><![CDATA[");
 		sb.append(getSyncIdSUC());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>syncIdChatPortlet</column-name><column-value><![CDATA[");
+		sb.append(getSyncIdChatPortlet());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -483,5 +521,6 @@ public class MessageClp extends BaseModelImpl<Message> implements Message {
 	private Date _createdAt;
 	private String _body;
 	private long _syncIdSUC;
+	private long _syncIdChatPortlet;
 	private BaseModel<?> _messageRemoteModel;
 }

@@ -297,7 +297,6 @@ public class SynchronizerImpl implements Synchronizer {
         }
     }
 
-
     /**
      * Sync SUC Message table for SUC 1.0.1
      *
@@ -342,7 +341,7 @@ public class SynchronizerImpl implements Synchronizer {
                         continue;
                     }
 
-                    // Create new message an map values
+                    // Create new message and map values
                     message = MessageLocalServiceUtil.createMessage();
                     message.setCid(conversation.getCid());
                     message.setMessageType(MessageType.REGULAR.getCode());

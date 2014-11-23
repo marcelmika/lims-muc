@@ -32,6 +32,7 @@
 			</basic>
 			<basic name="body" />
 			<basic name="syncIdSUC" />
+			<basic name="syncIdChatPortlet" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

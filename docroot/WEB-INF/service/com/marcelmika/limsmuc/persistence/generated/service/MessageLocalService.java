@@ -312,7 +312,7 @@ public interface MessageLocalService extends BaseLocalService,
 	* Returns conversation based on its sync id SUC
 	*
 	* @param syncIdSUC of the conversation
-	* @return found conversation or null if nothing was found
+	* @return found message or null if nothing was found
 	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -325,12 +325,25 @@ public interface MessageLocalService extends BaseLocalService,
 	*
 	* @param syncIdSUC of the conversation
 	* @param useCache true if the cache should be used
-	* @return found conversation or null if nothing was found
+	* @return found message or null if nothing was found
 	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdSUC(
 		long syncIdSUC, boolean useCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns conversation based on its sync id Chat Portlet
+	*
+	* @param syncIdChatPortlet of the conversation
+	* @param useCache true if the cache should be used
+	* @return found message or null if nothing was found
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public com.marcelmika.limsmuc.persistence.generated.model.Message fetchBySyncIdChatPortlet(
+		long syncIdChatPortlet, boolean useCache)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

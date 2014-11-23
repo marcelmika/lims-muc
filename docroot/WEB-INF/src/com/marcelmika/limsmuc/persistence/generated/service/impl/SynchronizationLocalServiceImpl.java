@@ -68,6 +68,10 @@ public class SynchronizationLocalServiceImpl
             // Run the sync
             synchronizer.run();
         }
+        // No synchronizer found
+        else {
+            throw new SystemException("No synchronizer found for version: " + version);
+        }
     }
 
     /**

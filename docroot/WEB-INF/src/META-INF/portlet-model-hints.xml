@@ -20,6 +20,7 @@
 			<hint name="max-length">10000</hint>
 		</field>
 		<field name="syncIdSUC" type="long" />
+		<field name="syncIdChatPortlet" type="long" />
 	</model>
 	<model name="com.marcelmika.limsmuc.persistence.generated.model.Panel">
 		<field name="pid" type="long" />

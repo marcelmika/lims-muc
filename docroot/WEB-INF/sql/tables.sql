@@ -13,7 +13,8 @@ create table Limsmuc_Message (
 	creatorId LONG,
 	createdAt DATE null,
 	body TEXT null,
-	syncIdSUC LONG
+	syncIdSUC LONG,
+	syncIdChatPortlet LONG
 );
 
 create table Limsmuc_Panel (

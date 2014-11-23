@@ -65,6 +65,7 @@
         <column name='createdAt' type='Date'/>
         <column name='body' type='String'/>
         <column name='syncIdSUC' type='long'/>
+        <column name='syncIdChatPortlet' type='long'/>
         <order>
             <order-column name="createdAt" order-by="asc"/>
         </order>
@@ -74,8 +75,11 @@
         <finder name='Cid' return-type='Collection'>
             <finder-column name='cid'/>
         </finder>
-        <finder name='SyncIdSUC' return-type='Conversation'>
+        <finder name='SyncIdSUC' return-type='Conversation' unique="true">
             <finder-column name='syncIdSUC'/>
+        </finder>
+        <finder name='SyncIdChatPortlet' return-type='Conversation' unique="true">
+            <finder-column name='syncIdChatPortlet'/>
         </finder>
     </entity>
 

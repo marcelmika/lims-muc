@@ -158,6 +158,20 @@ public interface MessageModel extends BaseModel<Message> {
 	 */
 	public void setSyncIdSUC(long syncIdSUC);
 
+	/**
+	 * Returns the sync ID chat portlet of this message.
+	 *
+	 * @return the sync ID chat portlet of this message
+	 */
+	public long getSyncIdChatPortlet();
+
+	/**
+	 * Sets the sync ID chat portlet of this message.
+	 *
+	 * @param syncIdChatPortlet the sync ID chat portlet of this message
+	 */
+	public void setSyncIdChatPortlet(long syncIdChatPortlet);
+
 	@Override
 	public boolean isNew();
 

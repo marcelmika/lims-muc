@@ -244,4 +244,36 @@
 		]]>
     </sql>
 
+    <!--
+        ~ Chat Portlet v2.0.5
+    -->
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Status.CHP-2.0.5">
+        <![CDATA[
+			SELECT
+				Chat_Status.userId AS userId,
+				Chat_Status.modifiedDate AS modifiedDate,
+				Chat_Status.playSound AS playSound
+			FROM
+				Chat_Status
+		    ORDER BY
+		        Chat_Status.statusId
+		]]>
+    </sql>
+
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SynchronizationFinder.Entry.CHP-2.0.5">
+        <![CDATA[
+			SELECT
+				Chat_Entry.entryId AS entryId,
+				Chat_Entry.fromUserId AS fromUserId,
+				Chat_Entry.toUserId AS toUserId,
+				Chat_Entry.createDate AS createDate,
+				Chat_Entry.content AS content
+			FROM
+				Chat_Entry
+		    ORDER BY
+		        Chat_Entry.entryId
+		]]>
+    </sql>
+
 </custom-sql>

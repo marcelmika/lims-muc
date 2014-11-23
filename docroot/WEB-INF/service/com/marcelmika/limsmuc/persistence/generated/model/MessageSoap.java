@@ -37,6 +37,7 @@ public class MessageSoap implements Serializable {
 		soapModel.setCreatedAt(model.getCreatedAt());
 		soapModel.setBody(model.getBody());
 		soapModel.setSyncIdSUC(model.getSyncIdSUC());
+		soapModel.setSyncIdChatPortlet(model.getSyncIdChatPortlet());
 
 		return soapModel;
 	}
@@ -145,6 +146,14 @@ public class MessageSoap implements Serializable {
 		_syncIdSUC = syncIdSUC;
 	}
 
+	public long getSyncIdChatPortlet() {
+		return _syncIdChatPortlet;
+	}
+
+	public void setSyncIdChatPortlet(long syncIdChatPortlet) {
+		_syncIdChatPortlet = syncIdChatPortlet;
+	}
+
 	private long _mid;
 	private long _cid;
 	private int _messageType;
@@ -152,4 +161,5 @@ public class MessageSoap implements Serializable {
 	private Date _createdAt;
 	private String _body;
 	private long _syncIdSUC;
+	private long _syncIdChatPortlet;
 }
