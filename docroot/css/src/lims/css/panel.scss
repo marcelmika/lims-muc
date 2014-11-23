@@ -117,6 +117,10 @@
   font-size: 12px;
   min-width: 250px;
   position: relative;
+
+  .content {
+    min-height: inherit;
+  }
 }
 
 .lims-muc .ie-support .panel-window {
