@@ -346,8 +346,15 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 controller,                                     // Conversation controller
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),  // Get the node size
                 conversationToggleController = this.get('conversationToggleController'),
+                properties = this.get('properties'),
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
+
+            // Don't layout subviews if chat is not enabled. The method will be called
+            // whenever the chat is enabled
+            if (!properties.isChatEnabled()) {
+                return;
+            }
 
             // This is just a defensive programming check. Since the layoutSubviews method can call itself
             // in a recursion it is possible that when there is a bug the method may call itself forever
