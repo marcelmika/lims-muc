@@ -169,6 +169,7 @@ public class SynchronizationPersistenceServiceImpl implements SynchronizationPer
             // Log for debug
             if (log.isDebugEnabled()) {
                 log.debug("Version: " + version.getDescription() + " sync failed");
+                log.debug(e);
             }
 
             return false;
