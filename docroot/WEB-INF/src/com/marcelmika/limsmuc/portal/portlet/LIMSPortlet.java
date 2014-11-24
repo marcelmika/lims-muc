@@ -278,6 +278,12 @@ public class LIMSPortlet extends MVCPortlet {
      * @return true if the current site is excluded
      */
     private boolean isExcluded(PortletRequest request) {
+
+        // Admin is never excluded
+        if (PermissionDetector.isAdmin(request)) {
+            return false;
+        }
+
         // Check if the user is signed in
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
