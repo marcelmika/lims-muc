@@ -176,6 +176,8 @@
 /********************************************************************************/
 
 .lims-muc .yui3-aclist {
+  // Needs to be here otherwise in IE the position:relative inline rule is added
+  position: absolute !important;
 
   .yui3-aclist-content {
     background: #fff;
@@ -299,9 +301,9 @@
     // Rounded corners
     @include border-radius(8px);
     background-color: #74B3EB;
-    border: 1px solid #629CCE;
+    border: none;
     color: white;
-    padding: 0 10px 1px;
+    padding: 1px 11px 2px;
     position: relative;
   }
 
