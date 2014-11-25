@@ -310,6 +310,12 @@
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 212px;
+
+    .error-notification,
+    .info-notification {
+      position: inherit; // This needs to be here because of an issue with firefox
+      margin: 15px 0;
+    }
   }
 
   .preloader {
