@@ -19,6 +19,8 @@ import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.marcelmika.limsmuc.persistence.generated.model.Message;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -41,6 +43,9 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
 
     // Placeholders
     private static final String PLACEHOLDER_STOPPER = "[$STOPPER$]";
+
+    // Date formatter
+    private static final DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     /**
      * Finds all messages related to the given conversation.
@@ -93,7 +98,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      * If stopper id is set the result will not contain messages that are
      * before the stopper message
      *
-     * @param cid       id of the conversation related to the messages
+     * @param cid     id of the conversation related to the messages
      * @param stopper message
      * @return number of messages
      * @throws SystemException
@@ -247,8 +252,11 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
 
         // Replace stopper id
         if (stopper != null && stopper.getCreatedAt() != null) {
+            // Format the date
+            String createdAt = dateFormatISO8601.format(stopper.getCreatedAt());
+
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
-                    String.format("AND Limsmuc_Message.createdAt >= '%s'", stopper.getCreatedAt()));
+                    String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt));
         } else {
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
         }
