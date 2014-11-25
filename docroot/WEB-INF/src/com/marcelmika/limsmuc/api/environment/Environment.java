@@ -34,6 +34,7 @@ public class Environment {
     private static Integer conversationFeedMaxConversations = 0;
     private static String[] buddyListSiteExcludes = new String[]{};
     private static String[] buddyListGroupExcludes = new String[]{};
+    private static Integer pollingSlowDownThreshold = 0;
     private static Boolean jabberEnabled = false;
     private static String jabberHost = "";
     private static Integer jabberPort = 0;
@@ -474,6 +475,24 @@ public class Environment {
      */
     public static void setConversationFeedMaxConversations(Integer conversationFeedMaxConversations) {
         Environment.conversationFeedMaxConversations = conversationFeedMaxConversations;
+    }
+
+    /**
+     * Returns polling slow down threshold
+     *
+     * @return Integer
+     */
+    public static Integer getPollingSlowDownThreshold() {
+        return pollingSlowDownThreshold;
+    }
+
+    /**
+     * Sets polling slow down threshold property
+     *
+     * @param pollingSlowDownThreshold Integer
+     */
+    public static void setPollingSlowDownThreshold(Integer pollingSlowDownThreshold) {
+        Environment.pollingSlowDownThreshold = pollingSlowDownThreshold;
     }
 
     /**

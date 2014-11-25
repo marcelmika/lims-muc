@@ -93,8 +93,10 @@ Y.LIMS.Controller.SettingsViewController = Y.Base.create('settingsViewController
 
                 // Register model to the poller
                 poller.register('settingsViewController:model', new Y.LIMS.Core.PollerEntry({
-                    model: model,       // Model that will be periodically refreshed
-                    interval: 30000     // 30 seconds period
+                    model: model,        // Model that will be periodically refreshed
+                    interval: 30000,     // 30 seconds period
+                    maxInterval: 40000,  // 40 seconds period
+                    minInterval: 30000   // 30 seconds period
                 }));
             }
         },

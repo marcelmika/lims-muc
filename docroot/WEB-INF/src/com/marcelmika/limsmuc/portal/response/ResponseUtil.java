@@ -74,12 +74,23 @@ public class ResponseUtil {
     }
 
     /**
+     * Writes slow down header to response. Thanks to that the client knows that server is overwhelmed
+     * with request so it should increase polling gap
+     *
+     * @param response Resource response
+     */
+    public static void writeSlowDownResponse(ResourceResponse response) {
+        // Add the slow down header
+        response.setProperty("X-Slow-Down", "true");
+    }
+
+    /**
      * Returns writer from response, null on error
      *
      * @param response ResourceResponse
      * @return PrintWriter, null on error
      */
-    public static PrintWriter getResponseWriter(ResourceResponse response) {
+    private static PrintWriter getResponseWriter(ResourceResponse response) {
         PrintWriter writer = null;
         try {
             writer = response.getWriter();

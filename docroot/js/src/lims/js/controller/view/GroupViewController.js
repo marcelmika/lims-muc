@@ -127,8 +127,10 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
 
             // Register model to the poller
             poller.register('groupViewController:model', new Y.LIMS.Core.PollerEntry({
-                model: model,       // Model that will be periodically refreshed
-                interval: 10000     // 10 seconds period
+                model: model,        // Model that will be periodically refreshed
+                interval: 10000,     // 10 seconds period
+                maxInterval: 20000,  // 20 seconds period
+                minInterval: 10000   // 10 seconds period
             }));
         }
     },

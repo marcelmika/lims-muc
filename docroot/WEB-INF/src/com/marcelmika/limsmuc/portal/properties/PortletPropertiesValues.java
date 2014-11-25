@@ -95,6 +95,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS
     );
 
+    // Polling - Slow down threshold
+    public static final int POLLING_SLOW_DOWN_THRESHOLD = getInteger(
+            PortletPropertiesKeys.POLLING_SLOW_DOWN_THRESHOLD
+    );
+
     // Jabber (Disabled by default)
     public static final Boolean JABBER_ENABLED = getBoolean(
             PortletPropertiesKeys.JABBER_ENABLED

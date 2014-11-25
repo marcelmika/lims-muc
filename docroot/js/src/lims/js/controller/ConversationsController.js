@@ -480,6 +480,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             poller.register('conversationController:model', new Y.LIMS.Core.PollerEntry({
                 model: conversationList,        // Model that will be periodically refreshed
                 interval: 7000,                 // 7 seconds period
+                maxInterval: 15000,             // 15 seconds period
+                minInterval: 7000,              // 7 seconds period
                 connectionMonitor: true         // Fires connection success/error event
             }));
         },

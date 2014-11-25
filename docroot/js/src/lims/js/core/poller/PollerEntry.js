@@ -8,11 +8,19 @@
  */
 
 /**
- * Poller Entry represents a single entry added to a poller. The polling can be started or stoped.
+ * Poller Entry represents a single entry added to a poller. The polling can be started or stopped.
  */
 Y.namespace('LIMS.Core');
 
 Y.LIMS.Core.PollerEntry = Y.Base.create('pollerEntry', Y.Base, [], {
+
+    /**
+     * Called after initialization of the object
+     */
+    initializer: function () {
+        // Attach events
+        this._attachEvents();
+    },
 
     /**
      * Starts polling
@@ -20,11 +28,21 @@ Y.LIMS.Core.PollerEntry = Y.Base.create('pollerEntry', Y.Base, [], {
     startPolling: function () {
         // Vars
         var interval = this.get('interval'),
+            timer = this.get('timer'),
             instance = this;
 
-        // Load the model first
-        this._loadModel();
-        // And then periodically
+        // Timer wasn't set yet
+        if (timer === null) {
+            // Load the model first
+            this._loadModel();
+        }
+        // Timer was set already, so first clear it before
+        // you set a new one
+        else {
+            clearTimeout(timer);
+        }
+
+        // Create timer
         this.set('timer', setInterval(function () {
             instance._loadModel();
         }, interval));
@@ -39,6 +57,18 @@ Y.LIMS.Core.PollerEntry = Y.Base.create('pollerEntry', Y.Base, [], {
 
         // Stop the timer
         clearTimeout(timer);
+    },
+
+    /**
+     * Attach events to elements
+     *
+     * @private
+     */
+    _attachEvents: function () {
+        // Vars
+        var model = this.get('model');
+
+        model.on('slowDown', this._onSlowDown, this);
     },
 
     /**
@@ -80,6 +110,36 @@ Y.LIMS.Core.PollerEntry = Y.Base.create('pollerEntry', Y.Base, [], {
                 }
             }
         });
+    },
+
+    /**
+     * Called when the slow down event occurs
+     *
+     * @param event
+     * @private
+     */
+    _onSlowDown: function (event) {
+        // Vars
+        var slowDown = event.slowDown,
+            interval = this.get('interval'),
+            minInterval = this.get('minInterval'),
+            maxInterval = this.get('maxInterval');
+
+        // We should slow down and we are not yet at the max
+        if (slowDown === true && interval < maxInterval) {
+            // Increase time interval by one second
+            this.set('interval', (interval + 1000));
+            // Restart the polling
+            this.startPolling();
+        }
+
+        // We should slow down and we are not yet at the min
+        if (slowDown === false && interval > minInterval) {
+            // Decrease time interval by one second
+            this.set('interval', (interval - 1000));
+            // Restart the polling
+            this.startPolling();
+        }
     }
 
 }, {
@@ -105,7 +165,25 @@ Y.LIMS.Core.PollerEntry = Y.Base.create('pollerEntry', Y.Base, [], {
          * {integer}
          */
         interval: {
-            value: null // to be set
+            value: 10000 // default value (10 seconds)
+        },
+
+        /**
+         * Maximal possible interval
+         *
+         * {number}
+         */
+        maxInterval: {
+            value: 30000 // default value (30 seconds)
+        },
+
+        /**
+         * Minimal possible interval
+         *
+         * {number}
+         */
+        minInterval: {
+            value: 10000 // default value (10 seconds)
         },
 
         /**

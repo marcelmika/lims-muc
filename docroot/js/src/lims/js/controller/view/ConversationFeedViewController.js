@@ -131,8 +131,10 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
 
                 // Register model to the poller
                 poller.register('conversationFeedViewController:model', new Y.LIMS.Core.PollerEntry({
-                    model: model,       // Model that will be periodically refreshed
-                    interval: 10000     // 10 seconds period
+                    model: model,        // Model that will be periodically refreshed
+                    interval: 10000,     // 10 seconds period
+                    maxInterval: 20000,  // 20 seconds period
+                    minInterval: 10000   // 10 seconds period
                 }));
             }
         },

@@ -111,13 +111,12 @@ public class PortletProcessorImpl implements PortletProcessor {
      */
     public void processRequest(ResourceRequest request, ResourceResponse response) {
 
-        // This is for time profiling purposes
-        long start = 0;
+        // Write down the start time
+        long start = System.currentTimeMillis();
 
         // Log request
         if (log.isDebugEnabled()) {
             logRequest(request);
-            start = System.currentTimeMillis();
         }
 
         // If the error mode is on and a random error was added to the response
@@ -138,12 +137,21 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Decide which method should be called
         dispatchRequest(request, response, query);
 
+        // Write down the end time
+        long end = System.currentTimeMillis();
+
+        // Check if the request took to much time
+        long diff = end - start;
+
+        // Add slow down header to notify client about overwhelmed server
+        if (diff > Environment.getPollingSlowDownThreshold()) {
+            ResponseUtil.writeSlowDownResponse(response);
+        }
+
         // Debug time
         if (log.isDebugEnabled()) {
-            long end = System.currentTimeMillis();
             log.debug(String.format("[%s] TIME: %dms",
-                    request.getParameter(RequestParameterKeys.KEY_QUERY),
-                    (end - start)
+                    request.getParameter(RequestParameterKeys.KEY_QUERY), diff
             ));
         }
     }
@@ -302,6 +310,15 @@ public class PortletProcessorImpl implements PortletProcessor {
             if (query.equals(QUERY_SEARCH_BUDDIES) && number > 5) {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 return true;
+            }
+
+            // Slow down simulation
+            if (number > 5) {
+                try {
+                    Thread.sleep(Environment.getPollingSlowDownThreshold());
+                } catch (InterruptedException e) {
+                    // Do nothing
+                }
             }
         }
 

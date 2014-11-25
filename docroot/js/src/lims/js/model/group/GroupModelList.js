@@ -52,6 +52,13 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                     on: {
                         success: function (id, o) {
 
+                            // Check if the poller should slow down
+                            if (o.getResponseHeader('X-Slow-Down')) {
+                                instance.fire('slowDown', {slowDown: true});
+                            } else {
+                                instance.fire('slowDown', {slowDown: false});
+                            }
+
                             // If nothing has change the server returns 304 (not modified)
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {

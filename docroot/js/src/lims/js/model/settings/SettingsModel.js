@@ -118,6 +118,14 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
                     },
                     on: {
                         success: function (id, o) {
+
+                            // Check if the poller should slow down
+                            if (o.getResponseHeader('X-Slow-Down')) {
+                                instance.fire('slowDown', {slowDown: true});
+                            } else {
+                                instance.fire('slowDown', {slowDown: false});
+                            }
+
                             // Deserialize
                             try {
                                 // Deserialize response

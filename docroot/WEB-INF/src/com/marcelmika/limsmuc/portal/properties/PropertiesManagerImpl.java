@@ -56,6 +56,10 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MAX = 20;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT = 7;
 
+    private static final int POLLING_SLOW_DOWN_THRESHOLD_MIN = 100;
+    private static final int POLLING_SLOW_DOWN_THRESHOLD_MAX = 5000;
+    private static final int POLLING_SLOW_DOWN_THRESHOLD_DEFAULT = 1000;
+
     // Set to true if the environment was already set up
     private boolean isSetup = false;
 
@@ -106,6 +110,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupBuddyListSiteExcludes(preferences);
             setupBuddyListGroupExcludes(preferences);
             setupConnectionLostThreshold();
+            setupPollingSlowDownThreshold();
             setupErrorMode();
 
             // Set url properties
@@ -768,6 +773,24 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Set url properties
         Environment.setConnectionLostThreshold(value);
+    }
+
+    /**
+     * Sets polling slow down threshold value
+     */
+    private void setupPollingSlowDownThreshold() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.POLLING_SLOW_DOWN_THRESHOLD,
+                PortletPropertiesKeys.POLLING_SLOW_DOWN_THRESHOLD,
+                POLLING_SLOW_DOWN_THRESHOLD_MIN,
+                POLLING_SLOW_DOWN_THRESHOLD_MAX,
+                POLLING_SLOW_DOWN_THRESHOLD_DEFAULT
+        );
+
+        // Set url properties
+        Environment.setPollingSlowDownThreshold(value);
     }
 
     /**
