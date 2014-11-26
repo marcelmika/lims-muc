@@ -6,7 +6,7 @@ create index IX_21E2C551 on Limsmuc_Message (creatorId);
 create index IX_4076BE36 on Limsmuc_Message (syncIdChatPortlet);
 create index IX_2D392735 on Limsmuc_Message (syncIdSUC);
 
-create index IX_90E2497D on Limsmuc_Panel (userId);
+create unique index IX_90E2497D on Limsmuc_Panel (userId);
 
 create index IX_E6C333BC on Limsmuc_Participant (cid);
 create unique index IX_6AEA59A2 on Limsmuc_Participant (cid, participantId);

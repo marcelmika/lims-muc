@@ -14,7 +14,7 @@
         <column name='pid' type='long' primary='true'/>
         <column name='userId' type='long'/>
         <column name='activePanelId' type='String'/>
-        <finder name='UserId' return-type='Panel'>
+        <finder name='UserId' return-type='Panel' unique="true">
             <finder-column name='userId'/>
         </finder>
     </entity>
