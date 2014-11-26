@@ -304,9 +304,12 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
             valueFn: function () {
                 // Vars
                 var groupList = this.get('container').one('.group-list');
-                // Remove it from the DOM, since it will be shown after
-                // the list is loaded from the server
-                groupList.remove();
+
+                if (groupList) {
+                    // Remove it from the DOM, since it will be shown after
+                    // the list is loaded from the server
+                    groupList.remove();
+                }
 
                 return groupList;
             }
