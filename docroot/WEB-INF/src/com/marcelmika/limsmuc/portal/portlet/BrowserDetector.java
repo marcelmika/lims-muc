@@ -29,6 +29,7 @@ public class BrowserDetector {
     private static final float MIN_SUPPORTED_VERSION_IE = 8;
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(BrowserDetector.class);
 
     /**

@@ -23,6 +23,8 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
     initializer: function () {
         // Attach events
         this._attachEvents();
+        // Fix autocomplete position
+        this._fixAutoCompletePosition();
     },
 
     /**
@@ -123,7 +125,28 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         setTimeout(function () {
             contentNode.set('scrollTop', scrollHeight);
         }, 1);
+    },
 
+    /**
+     * The autocomplete list z-index is broken in Internet Explorer 8 and 9.
+     * This method will fix the issue
+     *
+     * @private
+     */
+    _fixAutoCompletePosition: function () {
+        // Vars
+        var ieVersion = Y.UA.ie,
+            container = this.get('container').one('.yui3-aclist');
+
+        if (container) {
+            if (!(ieVersion === 8 || ieVersion === 9)) {
+                // This will remove the relative position that is added to all internet
+                // explorers. However in newer version (10 and above) the issue is fixed
+                // and the relative position is not needed anymore. Thus move it back to
+                // absolute
+                container.addClass('fix-position');
+            }
+        }
     },
 
     /**
@@ -265,6 +288,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                         activateFirstItem: true,
                         enableCache: true,
                         maxResults: this.get('maxResults'),
+                        zIndex: 10,
                         align: {
                             node: this.get('tokenListNode'),
                             points: ['tl', 'bl']
@@ -363,7 +387,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
          * {number}
          */
         maxResults: {
-            value: 7 // default value
+            value: 6 // default value
         },
 
         /**

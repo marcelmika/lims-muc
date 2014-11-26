@@ -176,8 +176,10 @@
 /********************************************************************************/
 
 .lims-muc .yui3-aclist {
-  // Needs to be here otherwise in IE the position:relative inline rule is added
-  position: absolute !important;
+
+  &.fix-position {
+    position: absolute !important;
+  }
 
   .yui3-aclist-content {
     background: #fff;
