@@ -15,7 +15,7 @@ AUI().use('limsmuc-core', 'limsmuc-model', 'limsmuc-view', 'limsmuc-controller',
         conflictMessage = A.one('.lims-muc .conflict-suc');
         // Show the warning
         if (conflictMessage) {
-            A.one('.lims-muc .conflict-suc').show();
+            A.one('.lims-muc .conflict-suc').removeClass('hide');
         }
 
         return; // Stop the app
@@ -29,7 +29,7 @@ AUI().use('limsmuc-core', 'limsmuc-model', 'limsmuc-view', 'limsmuc-controller',
         conflictMessage = A.one('.lims-muc .conflict-chat-portlet');
         // Show the warning
         if (conflictMessage) {
-            A.one('.lims-muc .conflict-chat-portlet').show();
+            A.one('.lims-muc .conflict-chat-portlet').removeClass('hide');
         }
 
         return;
