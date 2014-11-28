@@ -113,6 +113,10 @@
     border-bottom: 1px solid #dddad8;
     @include box-shadow(#bcbcbc 0px 0px 1px);
 
+    .content {
+      min-height: inherit;
+    }
+
     .participants {
       margin: 10px 0px 5px 10px;
       background: white;

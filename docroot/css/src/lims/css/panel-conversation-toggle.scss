@@ -110,6 +110,21 @@
       outline: none;
       filter: none;
       background: url(/images/close-button.png) center center no-repeat;
+      border: none;
+      padding: 0;
+      margin: 0;
+      @include box-shadow(none);
+
+      &:hover,
+      &:focus, {
+        border: none;
+        filter: none;
+        padding: 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 20px;
+        height: 14px;
+      }
     }
 
   }
