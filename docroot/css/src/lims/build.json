@@ -1,0 +1,33 @@
+{
+    "name": "limsmuc",
+    "builds": {
+
+        "limsmuc": {
+            "cssfiles": [
+                "css/mixins.scss",
+                "css/theme.scss",
+                "css/reset.scss",
+                "css/elements.scss",
+                "css/globals.scss",
+                "css/panel.scss",
+                "css/panel-contacts.scss",
+                "css/panel-conversation.scss",
+                "css/panel-conversation-feed.scss",
+                "css/panel-conversation-toggle.scss",
+                "css/panel-presence.scss",
+                "css/panel-settings.scss",
+                "css/panel-status.scss",
+                "css/portlet.scss"
+            ],
+            "replace": {
+                "/images/": "../../../images/"
+            }
+        }
+    },
+
+    "shifter": {
+        "lint": false,
+        "coverage": false
+    }
+
+}

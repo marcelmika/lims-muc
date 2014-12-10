@@ -1,0 +1,399 @@
+/********************************************************************************
+/ CONVERSATION
+/********************************************************************************/
+
+.lims-muc .conversation {
+
+  .panel-content {
+    height: 250px;
+    overflow-y: auto;
+    background: #fff;
+    margin-top: 0;
+  }
+
+  .panel-title-text span {
+    cursor: pointer;
+  }
+
+  .panel-content li {
+    line-height: 15px;
+  }
+
+  .ie .panel-content {
+    position: relative;
+  }
+
+  .participants-list {
+    position: absolute;
+    top: 29px;
+    left: 5px;
+    z-index: 3;
+    margin-right: 5px;
+    @include transparent(#000000, 0.77);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    line-height: 14px;
+    font-size: 11px;
+    max-height: 225px;
+    overflow-y: auto;
+  }
+
+  .conversation-item {
+    padding: 5px 7px;
+    min-height: 34px;
+  }
+
+  .conversation-item-portrait .portrait-container, {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+  }
+
+  .conversation-item-message {
+    margin-left: 32px;
+    max-width: 220px;
+  }
+
+  .conversation-item-name {
+    float: left;
+    font-size: 11px;
+    display: block;
+    padding: 3px 5px 3px;
+    color: #7e7e7e;
+    max-width: 120px;
+    line-height: 10px
+  }
+
+  .conversation-item-date {
+    float: right;
+    font-size: 9px;
+    font-style: normal;
+    color: #7e7e7e;
+    max-width: 75px;
+    line-height: 10px;
+    padding-top: 3px;
+  }
+
+  .conversation-item-text {
+    display: block;
+    text-align: left;
+    line-height: 14px;
+    padding: 2px 8px;
+    color: #222;
+    clear: left;
+    word-wrap: break-word;
+    opacity: 0.6;
+  }
+
+  .conversation-item-left-message,
+  .conversation-item-added-message {
+    text-align: center;
+    padding: 7px 5px 10px;
+    border-bottom: 1px solid #EFEEEE;
+    border-top: 1px solid #EFEEEE;
+    font-size: 11px;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .panel-input {
+    opacity: 0; /* panel input is hidden until the message feed is loaded */
+    position: relative;
+    height: 34px;
+  }
+
+  .panel-input textarea {
+    width: 249px;
+    height: 22px;
+    padding: 5px 10px 5px;
+    background: #f8f8f8;
+    border: 1px solid #dedede;
+    border-left: none;
+    border-right: none;
+    display: block;
+    overflow: hidden;
+    @include box-shadow(none);
+    resize: none;
+    outline: none;
+    font-size: 12px;
+    line-height: 14px;
+    color: #545454;
+    @include border-radius(0px);
+  }
+
+  .panel-input textarea:focus {
+    background: #fff;
+    border-bottom-color: #fff;
+  }
+
+  .preloader.read-more-preloader {
+    position: relative;
+    margin-top: 8px;
+    background-size: 20px;
+    height: 20px;
+  }
+
+  .chat-height-monitor {
+    white-space: pre;
+    white-space: pre-wrap;
+    white-space: pre-line;
+    white-space: -o-pre-wrap;
+    white-space: -moz-pre-wrap;
+    word-wrap: break-word;
+    left: -10000em;
+    top: -10000em;
+    padding: 5px 10px 5px;
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+  }
+
+  ////////////////////////////////////////////////////////////
+  // CONVERSATION OPTIONS                                   //
+  ////////////////////////////////////////////////////////////
+
+  .conversation-options {
+    position: absolute;
+    width: 249px;
+    z-index: 3;
+    top: 26px;
+    padding: 1px 10px 0;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    li {
+      background: transparent;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      padding-left: 30px;
+      line-height: 30px;
+      @include no-select();
+
+      &:hover {
+        color: #aaa;
+      }
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+
+      &.add-more {
+        background: url(/images/icon-add-more.png) left 30% no-repeat;
+        @include image-2x('/images/icon-add-more@2x.png', auto, 18px);
+      }
+
+      &.leave-conversation {
+        background: url(/images/icon-leave-conversation.png) left center no-repeat;
+        @include image-2x('/images/icon-leave-conversation@2x.png', 19px, auto);
+      }
+    }
+  }
+
+  ////////////////////////////////////////////////////////////
+  // LEAVE CONVERSATION OPTION                              //
+  ////////////////////////////////////////////////////////////
+
+  .leave-conversation-option {
+    position: absolute;
+    width: 249px;
+    z-index: 3;
+    top: 26px;
+    padding: 10px 10px 0;
+    line-height: 17px;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .buttons {
+      text-align: right;
+      margin-top: 5px;
+      position: relative;
+
+      .button {
+        border-radius: 0;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-right: 5px;
+      }
+
+      .preloader {
+        margin: 0;
+        top: 0;
+        right: 20px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+
+      .error-message {
+        float: left;
+        max-width: 100px;
+        color: #DF6D6D;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////
+  // ADD MORE PARTICIPANTS OPTION                           //
+  ////////////////////////////////////////////////////////////
+
+  .add-more-option {
+    position: absolute;
+    width: 249px;
+    z-index: 3;
+    top: 26px;
+    padding: 10px 10px 0;
+    line-height: 17px;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .token-input {
+
+      .token-input-plugin {
+        width: 247px;
+      }
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 77px;
+        overflow-y: auto;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
+      }
+    }
+
+    .buttons {
+      text-align: right;
+      margin: 10px 0;
+      position: relative;
+
+      .button {
+        border-radius: 0;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-left: 5px;
+      }
+
+      .preloader {
+        margin: 0;
+        top: 5px;
+        right: 10px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+
+      .error-message {
+        float: left;
+        max-width: 100px;
+        color: #DF6D6D;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////
+  // CONVERSATION ITEM ERROR                                //
+  ////////////////////////////////////////////////////////////
+
+  .conversation-item-error {
+    padding: 5px 0 5px;
+
+    .warning-icon {
+      background: transparent url(/images/icon-warning-red.png) no-repeat center center;
+      @include image-2x('/images/icon-warning-red@2x.png', auto, 16px);
+      width: 14px;
+      height: 16px;
+      margin: 7px 7px 0 0;
+      float: left;
+    }
+
+    .error-message {
+      color: #ce1b1b;
+      max-width: 160px;
+      float: left;
+      line-height: 13px;
+      font-size: 11px;
+      text-align: justify;
+    }
+
+    .resend-button {
+      background: transparent url(/images/icon-resend.png) no-repeat center center;
+      @include image-2x('/images/icon-resend@2x.png', auto, 21px);
+      width: 21px;
+      height: 21px;
+      float: right;
+      @include box-shadow(none);
+      margin: 0;
+      padding: 0 15px 0 0;
+      border: none;
+
+      &:hover,
+      &:focus, {
+        border: none;
+        filter: none;
+        padding: 0 15px 0 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 21px;
+        height: 21px;
+      }
+    }
+
+    .resend-button.preloader {
+      position: relative;
+      margin: 0;
+      background: transparent url(/images/preloader-button.gif) center center no-repeat;
+      @include image-2x('/images/preloader-button@2x.gif', 21px, 21px);
+      background-size: 21px;
+    }
+
+    .delete-button {
+      background: transparent url(/images/icon-basket.png) no-repeat center center;
+      @include image-2x('/images/icon-basket@2x.png', 16px, 21px);
+      width: 16px;
+      height: 21px;
+      float: right;
+      padding: 0;
+      margin: 0;
+      border: none;
+      @include box-shadow(none);
+
+      &:hover,
+      &:focus, {
+        border: none;
+        filter: none;
+        padding: 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 16px;
+        height: 21px;
+      }
+    }
+  }
+}

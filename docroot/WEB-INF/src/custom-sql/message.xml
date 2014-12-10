@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  -->
+
+<custom-sql>
+
+    <!-- Finds all messages in the database related to the conversation and stopper -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.findAllMessages">
+        <![CDATA[
+			SELECT
+				Limsmuc_Message.mid AS mid,
+				Limsmuc_Message.messageType AS messageType,
+				Limsmuc_Message.creatorId AS creatorId,
+				Limsmuc_Message.createdAt AS createdAd,
+				Limsmuc_Message.body AS body
+			FROM
+				Limsmuc_Message
+			WHERE
+				Limsmuc_Message.cid = ?
+			ORDER BY
+			    Limsmuc_Message.createdAt DESC
+		]]>
+    </sql>
+
+    <!-- Counts all messages in the database related to the conversation and stopper -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.countAllMessages">
+        <![CDATA[
+			SELECT
+			    COUNT(Limsmuc_Message.mid) AS messageCount
+			FROM
+				Limsmuc_Message
+			WHERE
+				Limsmuc_Message.cid = ?
+                [$STOPPER$]
+		]]>
+    </sql>
+
+    <!-- Returns the oldest message in the conversation -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.firstMessage">
+        <![CDATA[
+			SELECT
+                Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.messageType AS messageType,
+                Limsmuc_Message.creatorId AS creatorId,
+                Limsmuc_Message.createdAt AS createdAd,
+                Limsmuc_Message.body AS body
+            FROM
+                Limsmuc_Message
+            WHERE
+                Limsmuc_Message.createdAt = (
+                    SELECT
+                        MIN(Limsmuc_Message.createdAt) AS firstMessage
+                    FROM
+                        Limsmuc_Message
+                    WHERE
+                        Limsmuc_Message.cid = ?
+                )
+		]]>
+    </sql>
+
+    <!-- Returns the oldest message in the conversation -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.MessageFinder.lastMessage">
+        <![CDATA[
+			SELECT
+                Limsmuc_Message.mid AS mid,
+                Limsmuc_Message.messageType AS messageType,
+                Limsmuc_Message.creatorId AS creatorId,
+                Limsmuc_Message.createdAt AS createdAd,
+                Limsmuc_Message.body AS body
+            FROM
+                Limsmuc_Message
+            WHERE
+                Limsmuc_Message.createdAt = (
+                    SELECT
+                        MAX(Limsmuc_Message.createdAt) AS lastMessage
+                    FROM
+                        Limsmuc_Message
+                    WHERE
+                        Limsmuc_Message.cid = ?
+                )
+		]]>
+    </sql>
+
+</custom-sql>

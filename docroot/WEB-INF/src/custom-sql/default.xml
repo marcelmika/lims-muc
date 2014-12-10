@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<custom-sql>
+
+    <sql file="custom-sql/settings.xml" />
+    <sql file="custom-sql/message.xml" />
+    <sql file="custom-sql/participant.xml" />
+    <sql file="custom-sql/synchronization.xml" />
+
+</custom-sql>

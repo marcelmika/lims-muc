@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationModelImpl">
+		<attributes>
+			<id name="cid" />
+			<basic name="conversationId" />
+			<basic name="conversationType" />
+			<basic name="updatedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="syncIdSUC" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageModelImpl">
+		<attributes>
+			<id name="mid" />
+			<basic name="cid" />
+			<basic name="messageType" />
+			<basic name="creatorId" />
+			<basic name="createdAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="body" />
+			<basic name="syncIdSUC" />
+			<basic name="syncIdChatPortlet" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelModelImpl">
+		<attributes>
+			<id name="pid" />
+			<basic name="userId" />
+			<basic name="activePanelId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantModelImpl">
+		<attributes>
+			<id name="pid" />
+			<basic name="cid" />
+			<basic name="participantId" />
+			<basic name="unreadMessagesCount" />
+			<basic name="isOpened" />
+			<basic name="isCreator" />
+			<basic name="hasLeft" />
+			<basic name="openedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsModelImpl">
+		<attributes>
+			<id name="sid" />
+			<basic name="userId" />
+			<basic name="presence" />
+			<basic name="presenceUpdatedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="mute" />
+			<basic name="chatEnabled" />
+			<basic name="adminAreaOpened" />
+			<basic name="connected" />
+			<basic name="connectedAt">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationModelImpl">
+		<attributes>
+			<id name="sid" />
+			<basic name="sucSync" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationImpl" name="Conversation">
+		<table name="Limsmuc_Conversation" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageImpl" name="Message">
+		<table name="Limsmuc_Message" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelImpl" name="Panel">
+		<table name="Limsmuc_Panel" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl" name="Participant">
+		<table name="Limsmuc_Participant" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsImpl" name="Settings">
+		<table name="Limsmuc_Settings" />
+		<attributes />
+	</entity>
+	<entity class="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationImpl" name="Synchronization">
+		<table name="Limsmuc_Synchronization" />
+		<attributes />
+	</entity>
+</entity-mappings>

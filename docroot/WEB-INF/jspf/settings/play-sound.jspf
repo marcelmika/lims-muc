@@ -1,0 +1,29 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<c:choose>
+    <c:when test="${settings.mute == false}">
+        <c:set var="playSoundChecked" value="checked"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="playSoundChecked" value=""/>
+    </c:otherwise>
+</c:choose>
+
+
+<li class="play-sound">
+
+    <label for="limsPlaySoundCheckbox" class="switch">
+        <input ${playSoundChecked} id="limsPlaySoundCheckbox"
+                                   class="play-sound-checkbox"
+                                   type="checkbox"/>
+        <span></span>
+    </label>
+    <span><liferay-ui:message key="panel-settings-play-sound-label"/></span>
+</li>

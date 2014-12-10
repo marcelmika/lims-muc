@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+
+<beans default-destroy-method="destroy"
+       default-init-method="afterPropertiesSet"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- Controllers -->
+    <bean id="com.marcelmika.limsmuc.portal.controller.BuddyController"
+          class="com.marcelmika.limsmuc.portal.controller.BuddyController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.BuddyCoreService"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.core.service.SettingsCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.ConversationController"
+          class="com.marcelmika.limsmuc.portal.controller.ConversationController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.ConversationCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.GroupController"
+          class="com.marcelmika.limsmuc.portal.controller.GroupController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.GroupCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.SettingsController"
+          class="com.marcelmika.limsmuc.portal.controller.SettingsController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.SettingsCoreService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.ServerController"
+          class="com.marcelmika.limsmuc.portal.controller.ServerController">
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.PropertiesController"
+          class="com.marcelmika.limsmuc.portal.controller.PropertiesController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.portal.properties.PropertiesManager"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.controller.SynchronizationController"
+          class="com.marcelmika.limsmuc.portal.controller.SynchronizationController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
+    </bean>
+
+    <!-- Properties -->
+
+    <bean id="com.marcelmika.limsmuc.portal.properties.PropertiesManager"
+          class="com.marcelmika.limsmuc.portal.properties.PropertiesManagerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.portal.properties.PropertiesManagerUtil"
+          class="com.marcelmika.limsmuc.portal.properties.PropertiesManagerUtil">
+        <property name="propertiesManager" ref="com.marcelmika.limsmuc.portal.properties.PropertiesManager"/>
+    </bean>
+
+    <!-- Portlet Processor -->
+
+    <bean id="com.marcelmika.limsmuc.portal.processor.PortletProcessor"
+          class="com.marcelmika.limsmuc.portal.processor.PortletProcessorImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.portal.controller.BuddyController"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.portal.controller.ConversationController"/>
+        <constructor-arg index="2" ref="com.marcelmika.limsmuc.portal.controller.GroupController"/>
+        <constructor-arg index="3" ref="com.marcelmika.limsmuc.portal.controller.SettingsController"/>
+        <constructor-arg index="4" ref="com.marcelmika.limsmuc.portal.controller.ServerController"/>
+        <constructor-arg index="5" ref="com.marcelmika.limsmuc.portal.controller.PropertiesController"/>
+        <constructor-arg index="6" ref="com.marcelmika.limsmuc.portal.controller.SynchronizationController"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.portal.processor.PortletProcessorUtil"
+          class="com.marcelmika.limsmuc.portal.processor.PortletProcessorUtil">
+        <property name="portletProcessor" ref="com.marcelmika.limsmuc.portal.processor.PortletProcessor"/>
+    </bean>
+
+
+    <!-- Settings Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.SettingsCoreService"
+          class="com.marcelmika.limsmuc.core.service.SettingsCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil">
+        <property name="settingsCoreService" ref="com.marcelmika.limsmuc.core.service.SettingsCoreService"/>
+    </bean>
+
+    <!-- Settings Persistence Service -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService"
+          class="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceServiceImpl">
+
+    </bean>
+
+    <!-- Synchronization Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"
+          class="com.marcelmika.limsmuc.core.service.SynchronizationCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.persistence.service.SynchronizationPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.SynchronizationCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.SynchronizationCoreServiceUtil">
+        <property name="synchronizationCoreService" ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
+    </bean>
+
+    <!-- Synchronization Persistence Service -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.service.SynchronizationPersistenceService"
+          class="com.marcelmika.limsmuc.persistence.service.SynchronizationPersistenceServiceImpl"/>
+
+    <!-- Conversation Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.ConversationCoreService"
+          class="com.marcelmika.limsmuc.core.service.ConversationCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.service.ConversationJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil">
+        <property name="conversationCoreService" ref="com.marcelmika.limsmuc.core.service.ConversationCoreService"/>
+    </bean>
+
+    <!-- Conversation Jabber Service -->
+
+    <bean id="com.marcelmika.limsmuc.jabber.service.ConversationJabberService"
+          class="com.marcelmika.limsmuc.jabber.service.ConversationJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+    </bean>
+
+
+    <!-- Buddy Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.BuddyCoreService"
+          class="com.marcelmika.limsmuc.core.service.BuddyCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.service.BuddyJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil">
+        <property name="buddyCoreService" ref="com.marcelmika.limsmuc.core.service.BuddyCoreService"/>
+    </bean>
+
+    <!-- Query Factory -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil"
+          class="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil">
+        <property name="sucQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
+        <property name="chatPortletQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
+
+    <!-- Synchronizer Util -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil"
+          class="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil">
+        <property name="suc_1_2_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
+        <property name="suc_1_1_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
+        <property name="suc_1_0_1" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
+        <property name="chatPortlet_2_0_5" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
+
+    <bean id="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"
+          class="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
+
+    <!-- Buddy Jabber Service -->
+
+    <bean id="com.marcelmika.limsmuc.jabber.service.BuddyJabberService"
+          class="com.marcelmika.limsmuc.jabber.service.BuddyJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+    </bean>
+
+
+    <!-- User Session Store -->
+    <bean id="com.marcelmika.limsmuc.jabber.session.UserSessionStore"
+          class="com.marcelmika.limsmuc.jabber.session.store.UserSessionStoreImpl"/>
+
+
+    <!-- Buddy Persistence Service -->
+    <bean id="com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService"
+          class="com.marcelmika.limsmuc.persistence.service.BuddyPersistenceServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.persistence.group.SearchManager"/>
+    </bean>
+
+    <!-- Buddy Search Service -->
+    <bean id="com.marcelmika.limsmuc.persistence.group.SearchManager"
+          class="com.marcelmika.limsmuc.persistence.manager.SearchManagerImpl"/>
+
+
+    <!-- Conversation Persistence Service -->
+    <bean id="com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService"
+          class="com.marcelmika.limsmuc.persistence.service.ConversationPersistenceServiceImpl"/>
+
+
+    <!-- Group Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.GroupCoreService"
+          class="com.marcelmika.limsmuc.core.service.GroupCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.service.GroupJabberService"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.persistence.service.GroupPersistenceService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.GroupCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.GroupCoreServiceUtil">
+        <property name="groupCoreService" ref="com.marcelmika.limsmuc.core.service.GroupCoreService"/>
+    </bean>
+
+
+    <!-- Group Jabber Service -->
+
+    <bean id="com.marcelmika.limsmuc.jabber.service.GroupJabberService"
+          class="com.marcelmika.limsmuc.jabber.service.GroupJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+    </bean>
+
+    <!-- Group Persistence Service -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.group.GroupManager"
+          class="com.marcelmika.limsmuc.persistence.manager.GroupManagerImpl"/>
+
+    <!-- Group Persistence Manager -->
+
+    <bean id="com.marcelmika.limsmuc.persistence.service.GroupPersistenceService"
+          class="com.marcelmika.limsmuc.persistence.service.GroupPersistenceServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.persistence.group.GroupManager"/>
+    </bean>
+
+</beans>

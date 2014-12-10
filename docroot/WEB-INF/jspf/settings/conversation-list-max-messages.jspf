@@ -1,0 +1,23 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+
+<%-- Variables --%>
+<%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
+
+<%-- Render --%>
+<li class="conversation-list-max-messages">
+
+    <div class="settings-category-title">
+        <span><liferay-ui:message key="panel-settings-admin-area-conversation-list-max-messages-title"/></span>
+    </div>
+    <div class="value">${properties.conversationListMaxMessages}</div>
+    <div class="slider"></div>
+
+</li>

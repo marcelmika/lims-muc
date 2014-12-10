@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Conversation" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Message" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Panel" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Participant" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Settings" />
+	<import class="com.marcelmika.limsmuc.persistence.generated.model.Synchronization" />
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.ConversationImpl" table="Limsmuc_Conversation">
+		<cache usage="read-write" />
+		<id name="cid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="conversationId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="conversationType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="updatedAt" type="org.hibernate.type.TimestampType" />
+		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.MessageImpl" table="Limsmuc_Message">
+		<cache usage="read-write" />
+		<id name="mid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="cid" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="messageType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="creatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createdAt" type="org.hibernate.type.TimestampType" />
+		<property name="body" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="syncIdSUC" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="syncIdChatPortlet" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.PanelImpl" table="Limsmuc_Panel">
+		<cache usage="read-write" />
+		<id name="pid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="activePanelId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl" table="Limsmuc_Participant">
+		<cache usage="read-write" />
+		<id name="pid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="cid" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="participantId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="unreadMessagesCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="isOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="isCreator" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="hasLeft" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="openedAt" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsImpl" table="Limsmuc_Settings">
+		<cache usage="read-write" />
+		<id name="sid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="presence" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="presenceUpdatedAt" type="org.hibernate.type.TimestampType" />
+		<property name="mute" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="chatEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="adminAreaOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="connected" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="connectedAt" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationImpl" table="Limsmuc_Synchronization">
+		<cache usage="read-write" />
+		<id name="sid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sucSync" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+</hibernate-mapping>

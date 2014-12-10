@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  -->
+
+<custom-sql>
+
+    <!-- Returns conversations where the user participates -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.ParticipantFinder.findParticipatedConversations">
+        <![CDATA[
+            SELECT
+                Limsmuc_Participant.pid pid,
+                Limsmuc_Participant.cid cid,
+                Limsmuc_Participant.participantId participantId,
+                Limsmuc_Participant.unreadMessagesCount unreadMessagesCount,
+                Limsmuc_Participant.isOpened isOpened,
+                Limsmuc_Participant.openedAt openedAt
+            FROM
+                Limsmuc_Participant
+            INNER JOIN
+                Limsmuc_Conversation ON (Limsmuc_Conversation.cid = Limsmuc_Participant.cid)
+            WHERE
+                Limsmuc_Participant.participantId = ?
+                AND Limsmuc_Participant.hasLeft = [$FALSE$]
+                AND (Limsmuc_Conversation.cid IN
+                    (
+                        SELECT
+                            DISTINCT Limsmuc_Message.cid
+                        FROM
+                            Limsmuc_Participant
+                        INNER JOIN
+                            Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
+                        WHERE
+                            Limsmuc_Participant.participantId = ?
+                            AND Limsmuc_Participant.hasLeft = [$FALSE$]
+                    )
+                )
+            ORDER BY
+                Limsmuc_conversation.updatedAt DESC
+		]]>
+    </sql>
+
+    <!-- Counts conversations where the user participates. Doesn't include conversation where there's no message -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.ParticipantFinder.countParticipatedConversations">
+        <![CDATA[
+            SELECT
+                COUNT(DISTINCT Limsmuc_Message.cid) as participatedCount
+            FROM
+                Limsmuc_Participant
+            INNER JOIN
+                Limsmuc_Message ON (Limsmuc_Message.cid = Limsmuc_Participant.cid)
+            WHERE
+                Limsmuc_Participant.participantId = ?
+                AND Limsmuc_Participant.hasLeft = [$FALSE$]
+		]]>
+    </sql>
+
+</custom-sql>

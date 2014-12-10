@@ -1,0 +1,116 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%-- Imports --%>
+<%@ page import="com.marcelmika.limsmuc.api.environment.Environment" %>
+
+<%-- Variables --%>
+<%--@elvariable id="isAdmin" type="boolean"--%>
+<%--@elvariable id="version" type="String"--%>
+
+<%-- Constants --%>
+<c:set var="PREFERENCES" value="<%= Environment.PropertiesSource.PREFERENCES %>"/>
+
+<%-- Rendered --%>
+<% { %>
+
+<c:choose>
+    <c:when test="${settings.activePanelId == 'settings'}">
+        <c:set var="selectedClass" value="selected"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="selectedClass" value=""/>
+    </c:otherwise>
+</c:choose>
+
+<c:choose>
+    <c:when test="${settings.chatEnabled}">
+        <c:set var="hiddenClass" value=""/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="hiddenClass" value="hide"/>
+    </c:otherwise>
+</c:choose>
+
+<c:choose>
+    <c:when test="${settings.adminAreaOpened}">
+        <c:set var="adminAreaClass" value="opened"/>
+        <c:set var="helpButtonHiddenClass" value=""/>
+        <c:set var="openButtonText"><liferay-ui:message key="panel-settings-admin-area-close"/></c:set>
+    </c:when>
+    <c:otherwise>
+        <c:set var="adminAreaClass" value="closed"/>
+        <c:set var="helpButtonHiddenClass" value="hide"/>
+        <c:set var="openButtonText"><liferay-ui:message key="panel-settings-admin-area-open"/></c:set>
+    </c:otherwise>
+</c:choose>
+
+<li class="chat-settings ${selectedClass} ${hiddenClass}">
+    <div class="panel-trigger">
+        <div class="trigger-name"></div>
+    </div>
+    <div class="panel">
+        <div class="panel-window">
+
+            <%-- Title --%>
+            <div class="panel-title">
+                <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
+                        class="panel-button minimize"></button>
+                <div class="panel-title-text">
+                    <span><liferay-ui:message key="panel-settings-title"/></span>
+                </div>
+            </div>
+
+            <%-- USER SETTINGS --%>
+            <div class="user-settings">
+                <ul class="lfr-component settings">
+                    <%@ include file="/WEB-INF/jspf/settings/play-sound.jspf" %>
+                </ul>
+            </div>
+
+            <%-- ADMIN AREA --%>
+            <c:if test="${isAdmin and (properties.propertiesSource eq PREFERENCES)}">
+                <div class="admin-area">
+                    <div class="settings-title">
+                        <div class="settings-title-text">
+                            <liferay-ui:message key="panel-settings-admin-area-title"/>
+                        </div>
+                        <a class="help ${helpButtonHiddenClass}" href="${properties.urlHelp}" target="_blank"
+                           title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
+
+                        <div class="open-button">${openButtonText}</div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="settings ${adminAreaClass}">
+                        <div class="version">${version}</div>
+                        <ul class="lfr-component list">
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-buddies.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-search.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/conversation-list-max-messages.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/conversation-feed-max-conversations.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </c:if>
+        </div>
+    </div>
+</li>
+
+<% } %>

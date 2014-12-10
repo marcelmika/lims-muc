@@ -1,0 +1,105 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%@ page import="com.marcelmika.limsmuc.portal.properties.InputLimits" %>
+
+<% { %>
+
+<%-- Declared variables --%>
+<%--@elvariable id="conversations" type="java.util.List<Conversation>"--%>
+
+<%-- Constants --%>
+<c:set var="MESSAGE_MAX_SIZE" value="<%= InputLimits.MESSAGE_MAX_SIZE %>"/>
+
+<%-- Rendered --%>
+<c:forEach items="${conversations}" var="conversation">
+
+    <%-- Check if conversation should be opened --%>
+    <c:choose>
+        <c:when test="${settings.activePanelId == conversation.conversationId}">
+            <c:set var="selectedClass" value="selected"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="selectedClass" value=""/>
+        </c:otherwise>
+    </c:choose>
+
+    <%-- Check if badge should be dimme --%>
+    <c:choose>
+        <c:when test="${settings.activePanelId == conversation.conversationId}">
+            <c:set var="dimmedClass" value="dimmed"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="dimmedClass" value=""/>
+        </c:otherwise>
+    </c:choose>
+
+    <%-- Check if portlet should be visible --%>
+    <c:choose>
+        <c:when test="${settings.chatEnabled}">
+            <c:set var="hiddenClass" value=""/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="hiddenClass" value="hide"/>
+        </c:otherwise>
+    </c:choose>
+
+    <%-- Check if badge should be visible --%>
+    <c:choose>
+        <c:when test="${conversation.unreadMessagesCount > 0}">
+            <c:set var="hiddenBadgeClass" value=""/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="hiddenBadgeClass" value="hide"/>
+        </c:otherwise>
+    </c:choose>
+
+    <%-- Conversation --%>
+    <li class="conversation ${selectedClass} ${hiddenClass}"
+        data-conversationId="${conversation.conversationId}"
+        data-conversationType="${conversation.conversationType}"
+        data-etag="${conversation.etag}"
+        data-conversationTitle="${fn:escapeXml(conversation.title)}"
+        data-unreadMessagesCount="${conversation.unreadMessagesCount}">
+        <div class="panel-trigger">
+            <span class="trigger-name">${conversation.title}</span>
+
+            <div class="unread ${hiddenBadgeClass} ${dimmedClass}">${conversation.unreadMessagesCount}</div>
+            <button class="close covered"></button>
+        </div>
+        <div class="panel">
+            <div class="panel-window">
+
+                    <%-- Title --%>
+                <div class="panel-title">
+                    <button title="<liferay-ui:message key="panel-button-close-title"/>"
+                            class="panel-button close"></button>
+                    <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
+                            class="panel-button minimize"></button>
+                    <button title="<liferay-ui:message key="panel-button-options-title"/>"
+                            class="panel-button options hide"></button>
+                    <div class="panel-title-text"><span>${conversation.title}</span></div>
+                </div>
+
+                    <%-- Content --%>
+                <div class="panel-content">
+                    <div class="preloader"></div>
+                    <ul></ul>
+                </div>
+                <div class="panel-input covered">
+                    <textarea placeholder="<liferay-ui:message key="panel-conversation-message-placeholder" />"
+                              maxlength="${MESSAGE_MAX_SIZE}"></textarea>
+                </div>
+            </div>
+        </div>
+    </li>
+
+</c:forEach>
+
+<% }%>

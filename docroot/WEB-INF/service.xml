@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE service-builder PUBLIC
+        "-//Liferay//DTD Service Builder 6.2.0//EN"
+        "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+
+<service-builder package-path='com.marcelmika.limsmuc.persistence.generated'>
+
+    <!-- This will be a prefix of all entity tables -->
+    <namespace>Limsmuc</namespace>
+
+    <!-- Panel -->
+    <entity name='Panel' local-service='true' remote-service='false'>
+        <column name='pid' type='long' primary='true'/>
+        <column name='userId' type='long'/>
+        <column name='activePanelId' type='String'/>
+        <finder name='UserId' return-type='Panel' unique="true">
+            <finder-column name='userId'/>
+        </finder>
+    </entity>
+
+    <!-- Settings -->
+    <entity name='Settings' local-service='true' remote-service='false'>
+        <column name='sid' type='long' primary='true'/>
+        <column name='userId' type='long'/>
+        <column name='presence' type='String'/>
+        <column name="presenceUpdatedAt" type="Date"/>
+        <column name='mute' type='boolean'/>
+        <column name='chatEnabled' type='boolean'/>
+        <column name='adminAreaOpened' type='boolean'/>
+        <column name="connected" type="boolean"/>
+        <column name="connectedAt" type="Date"/>
+        <finder name='UserId' return-type='Settings' unique="true">
+            <finder-column name='userId'/>
+        </finder>
+        <finder name='Presence' return-type='Collection'>
+            <finder-column name='presence'/>
+        </finder>
+    </entity>
+
+    <!-- Conversation -->
+    <entity name='Conversation' local-service='true' remote-service='false'>
+        <column name='cid' type='long' primary='true'/>
+        <column name='conversationId' type='String'/>
+        <column name='conversationType' type='int'/>
+        <column name='updatedAt' type='Date'/>
+        <column name='syncIdSUC' type='long'/>
+        <order>
+            <order-column name="updatedAt" order-by="desc"/>
+        </order>
+        <finder name='ConversationId' return-type='Conversation' unique="true">
+            <finder-column name='conversationId'/>
+        </finder>
+        <finder name='SyncIdSUC' return-type='Conversation'>
+            <finder-column name='syncIdSUC'/>
+        </finder>
+    </entity>
+
+    <!-- Message -->
+    <entity name='Message' local-service='true' remote-service='false'>
+        <column name='mid' type='long' primary='true'/>
+        <column name='cid' type='long'/>
+        <column name='messageType' type='int'/>
+        <column name='creatorId' type='long'/>
+        <column name='createdAt' type='Date'/>
+        <column name='body' type='String'/>
+        <column name='syncIdSUC' type='long'/>
+        <column name='syncIdChatPortlet' type='long'/>
+        <order>
+            <order-column name="createdAt" order-by="asc"/>
+        </order>
+        <finder name='CreatorId' return-type='Buddy'>
+            <finder-column name='creatorId'/>
+        </finder>
+        <finder name='Cid' return-type='Collection'>
+            <finder-column name='cid'/>
+        </finder>
+        <finder name='SyncIdSUC' return-type='Conversation'>
+            <finder-column name='syncIdSUC'/>
+        </finder>
+        <finder name='SyncIdChatPortlet' return-type='Conversation'>
+            <finder-column name='syncIdChatPortlet'/>
+        </finder>
+    </entity>
+
+    <!-- Participant -->
+    <entity name='Participant' local-service='true' remote-service='false'>
+        <column name='pid' type='long' primary='true'/>
+        <column name='cid' type='long' primary='false'/>
+        <column name='participantId' type='long'/>
+        <column name='unreadMessagesCount' type='int'/>
+        <column name='isOpened' type='boolean'/>
+        <column name='isCreator' type='boolean'/>
+        <column name='hasLeft' type='boolean'/>
+        <column name='openedAt' type='Date'/>
+        <order>
+            <order-column name="openedAt" order-by="asc"/>
+        </order>
+        <finder name='Cid' return-type='Collection'>
+            <finder-column name='cid'/>
+        </finder>
+        <finder name='CidParticipantId' return-type='Participant' unique="true">
+            <finder-column name='cid'/>
+            <finder-column name='participantId'/>
+        </finder>
+        <finder name='ParticipantId' return-type='Collection'>
+            <finder-column name='participantId'/>
+        </finder>
+        <finder name='ParticipantIdIsOpened' return-type='Collection'>
+            <finder-column name='participantId'/>
+            <finder-column name='isOpened'/>
+        </finder>
+    </entity>
+
+    <!-- Synchronization -->
+    <entity name='Synchronization' local-service='true' remote-service='false'>
+        <column name='sid' type='long' primary='true'/>
+        <column name='sucSync' type='boolean'/>
+    </entity>
+
+</service-builder>

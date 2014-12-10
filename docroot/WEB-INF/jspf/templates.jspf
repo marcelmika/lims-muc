@@ -1,0 +1,305 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%-- Constants --%>
+<c:set var="MESSAGE_MAX_SIZE" value="<%= InputLimits.MESSAGE_MAX_SIZE %>"/>
+<c:set var="SEARCH_QUERY_MAX_SIZE" value="<%= InputLimits.SEARCH_QUERY_MAX_SIZE %>"/>
+
+<%-- This template HTML will be used to render each group item. --%>
+<script type="text/x-template" id="limsmuc-group-item-template">
+    <div class="group-name">{name}</div>
+</script>
+
+<%-- This template HTML will be used to conversation feed regular item --%>
+<script type="text/x-template" id="limsmuc-conversation-feed-item-regular-template">
+    <div class="item-portrait"></div>
+    <div class="item-content">
+        <div class="title">{title}</div>
+        <div class="last-message">{lastMessage}</div>
+        <div class="timestamp" title="{timestamp}">{timestampPrettified}</div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to conversation feed left item --%>
+<script type="text/x-template" id="limsmuc-conversation-feed-item-left-template">
+    <div class="item-portrait"></div>
+    <div class="item-content">
+        <div class="title">{title}</div>
+        <div class="last-message">
+            <liferay-ui:message key="panel-conversation-item-left-message"/>
+        </div>
+        <div class="timestamp" title="{timestamp}">{timestampPrettified}</div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to conversation feed added item --%>
+<script type="text/x-template" id="limsmuc-conversation-feed-item-added-template">
+    <div class="item-portrait"></div>
+    <div class="item-content">
+        <div class="title">{title}</div>
+        <div class="last-message">
+            <liferay-ui:message key="panel-conversation-item-added-message"/>
+        </div>
+        <div class="timestamp" title="{timestamp}">{timestampPrettified}</div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render each group buddy item. --%>
+<script type="text/x-template" id="limsmuc-group-buddy-item-template">
+    <div class="group-buddy-item-portrait"></div>
+    <div class="group-buddy-item-name">{name}</div>
+    <div class="group-buddy-item-presence"></div>
+    <div class="group-buddy-item-divider"></div>
+</script>
+
+<%-- This template HTML will be used to render the list panel button --%>
+<script type="text/x-template" id="limsmuc-panel-button-list">
+    <button title="<liferay-ui:message key="panel-button-list-title"/>"
+            class="panel-button list"></button>
+</script>
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="limsmuc-conversation-template">
+    <div class="panel-trigger">
+        <span class="trigger-name">{triggerTitle}</span>
+
+        <div class="unread">{unreadMessages}</div>
+        <button class="close covered"></button>
+    </div>
+    <div class="panel">
+        <div class="panel-window">
+            <div class="panel-title">
+                <button title="<liferay-ui:message key="panel-button-close-title"/>"
+                        class="panel-button close"></button>
+                <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
+                        class="panel-button minimize"></button>
+                <button title="<liferay-ui:message key="panel-button-options-title"/>"
+                        class="panel-button options hide"></button>
+                <div class="panel-title-text"><span>{conversationTitle}</span></div>
+            </div>
+            <div class="panel-content">
+                <div class="preloader"></div>
+                <ul></ul>
+            </div>
+            <div class="panel-input">
+                <textarea placeholder="<liferay-ui:message key="panel-conversation-message-placeholder" />"
+                          maxlength="${MESSAGE_MAX_SIZE}"></textarea>
+            </div>
+        </div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render conversation toggle panel --%>
+<script type="text/x-template" id="limsmuc-conversation-toggle-template">
+    <li class="conversation-toggle">
+        <div class="panel-trigger">
+            <span class="trigger-name">
+                <span class="count"></span>
+            </span>
+
+            <div class="unread"></div>
+        </div>
+        <div class="panel">
+            <div class="panel-window">
+                <div class="panel-title">
+                    <button title="<liferay-ui:message key="panel-button-minimize-title"/>"
+                            class="panel-button minimize"></button>
+                    <div class="panel-title-text">
+                        <span><liferay-ui:message key="panel-conversation-toggle-title"/></span>
+                    </div>
+                </div>
+                <div class="panel-content"></div>
+            </div>
+        </div>
+    </li>
+</script>
+
+<%-- This template HTML will be used to render conversation toggle list item --%>
+<script type="text/x-template" id="limsmuc-conversation-toggle-item-template">
+    <div class="title">{title}</div>
+    <div class="unread">{unreadMessages}</div>
+    <button title="<liferay-ui:message key="panel-conversation-toggle-item-close-title"/>"
+            class="close"></button>
+</script>
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="limsmuc-conversation-options-template">
+    <div class="conversation-options">
+        <div class="content">
+            <ul>
+                <li class="add-more">
+                    <liferay-ui:message key="panel-conversation-options-add-more"/>
+                </li>
+                <li class="leave-conversation">
+                    <liferay-ui:message key="panel-conversation-options-leave-conversation"/>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="limsmuc-conversation-option-leave-conversation-template">
+    <div class="leave-conversation-option">
+        <div class="content">
+            <div class="text">
+                <liferay-ui:message key="panel-conversation-options-leave-conversation-text"/>
+            </div>
+            <div class="buttons">
+                <button class="cancel button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-leave-conversation-cancel"/>
+                </button>
+                <button class="leave button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-leave-conversation-leave"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<%-- This template HTML will be used to render each conversation. --%>
+<script type="text/x-template" id="limsmuc-conversation-option-add-more-template">
+    <div class="add-more-option">
+        <div class="content">
+            <div class="token-input">
+                <input class="participants" type="text" placeholder=""/>
+            </div>
+            <div class="buttons">
+                <button class="cancel button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-add-more-cancel"/>
+                </button>
+                <button class="add button button-secondary">
+                    <liferay-ui:message key="panel-conversation-options-add-more-add"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render new conversation --%>
+<script type="text/x-template" id="limsmuc-panel-new-conversation-template">
+    <div class="panel-new-conversation">
+        <div class="content">
+            <div class="token-input">
+                <input class="participants" type="text" placeholder=""/>
+            </div>
+            <button class="button button-secondary">Done</button>
+        </div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render each conversation item (i.e. message). --%>
+<script type="text/x-template" id="limsmuc-conversation-item-regular-template">
+    <div class="conversation-item-portrait"></div>
+    <div class="conversation-item-message">
+        <span class="conversation-item-name">{fullName}</span>
+        <span class="conversation-item-date" title="{created}">{createdPrettified}</span>
+        <span class="conversation-item-text">{content}</span>
+
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</script>
+
+<%-- This template HTML will be used to render conversation item left message --%>
+<script type="text/x-template" id="limsmuc-conversation-item-left-template">
+    <div class="conversation-item-left-message">
+        <liferay-ui:message key="panel-conversation-item-left-message"/>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render conversation item added message --%>
+<script type="text/x-template" id="limsmuc-conversation-item-added-template">
+    <div class="conversation-item-added-message">
+        <liferay-ui:message key="panel-conversation-item-added-message"/>
+    </div>
+</script>
+
+<%-- This template HTML will be used to play a sound via audio tag --%>
+<script type="text/x-template" id="limsmuc-notification-audio-template">
+    <audio class="lims-notification-audio">
+        <source src="{mp3}" type="audio/mpeg">
+        <source src="{wav}" type="audio/wav">
+    </audio>
+</script>
+
+<%-- This template HTML will be used to play a sound via embed tag --%>
+<script type="text/x-template" id="limsmuc-notification-embed-template">
+    <object class="lims-notification-embed">
+        <param name="autostart" value="true">
+        <param name="src" value="{wav}">
+        <param name="autoplay" value="true">
+        <param name="controller" value="false">
+        <embed src="{wav}" controller="false" autoplay="true" autostart="true" type="audio/wav"></embed>
+    </object>
+</script>
+
+<%-- This template HTML will be used as a panel search template --%>
+<script type="text/x-template" id="limsmuc-panel-search-template">
+    <div class="panel-search">
+        <div class="content">
+            <label class="search-input-field-label" for="limsmuc-search-input-field">
+                <input id="limsmuc-search-input-field"
+                       maxlength="${SEARCH_QUERY_MAX_SIZE}"
+                       class="search-input-field"
+                       type="text"
+                       value=""/>
+            </label>
+
+            <div class="search-content">
+                <div class="preloader"></div>
+                <ul class="group-buddy-list"></ul>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<%-- This template HTML will be used to render info notification (the blue one) --%>
+<script type="text/x-template" id="limsmuc-info-notification-template">
+    <div class="info-notification">
+        <div class="info-icon"></div>
+        <div class="info-message">{infoMessage}</div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render error notification (the red one) --%>
+<script type="text/x-template" id="limsmuc-error-notification-template">
+    <div class="error-notification">
+        <div class="warning-icon"></div>
+        <div class="error-message">{errorMessage}</div>
+        <button class="resend-button"
+                title="<liferay-ui:message key="panel-error-notification-resend-title" />"></button>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<%-- This template HTML will be used as a error notification in panel (the black one) --%>
+<script type="text/x-template" id="limsmuc-panel-error-template">
+    <div class="panel-error">
+        <div class="warning-icon"></div>
+        <div class="error-message"></div>
+    </div>
+</script>
+
+<%-- This template HTML will be used to render error under message (the red one with delete button) --%>
+<script type="text/x-template" id="limsmuc-conversation-item-error-template">
+    <div class="conversation-item-error">
+        <div class="warning-icon"></div>
+        <div class="error-message"><liferay-ui:message key="panel-conversation-message-error-text"/></div>
+        <button class="delete-button"
+                title="<liferay-ui:message key="panel-conversation-message-error-delete-title" />"></button>
+        <button class="resend-button"
+                title="<liferay-ui:message key="panel-conversation-message-error-resend-title" />"></button>
+        <div class="clear"></div>
+    </div>
+</script>

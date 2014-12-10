@@ -1,0 +1,31 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+
+<%-- Variables --%>
+<%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
+
+<%-- Defaults --%>
+<c:set var="checked" value=""/>
+
+<%-- Decide if the swtich should be checked --%>
+<c:if test="${properties.buddyListIgnoreDeactivatedUser}">
+    <c:set var="checked" value="checked"/>
+</c:if>
+
+<%-- Render --%>
+<li class="buddy-list-ignore-deactivated-user">
+    <label class="switch">
+        <input ${checked} type="checkbox"/>
+        <span></span>
+    </label>
+    <span>
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-ignore-deactivated-user-title"/>
+    </span>
+</li>

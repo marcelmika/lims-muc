@@ -1,0 +1,164 @@
+/********************************************************************************
+/ CONVERSATION FEED PANEL
+/********************************************************************************/
+
+.lims-muc .conversation-feed {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-feed.png) no-repeat center center;
+    @include image-2x('/images/icon-conversation-feed@2x.png', auto, 16px);
+    width: 40px;
+    height: 24px;
+  }
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(/images/icon-conversation-feed-selected.png) no-repeat center center;
+    @include image-2x('/images/icon-conversation-feed-selected@2x.png', auto, 16px);
+    width: 40px;
+    height: 24px;
+  }
+
+  .preloader.read-more-preloader {
+    position: relative;
+    margin: 8px 0;
+    background-size: 20px;
+    height: 20px;
+  }
+
+  .conversation-feed-item {
+    padding: 4px 7px 3px;
+    cursor: pointer;
+    clear: both;
+    line-height: 15px;
+    border-bottom: 1px solid #efefef;
+    min-height: 47px;
+
+    &:hover {
+      background: #f8f8f8;
+    }
+
+    .title {
+      margin-top: 2px;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+
+    .timestamp {
+      font-size: 9px;
+      color: #aaa;
+      margin-top: 0px;
+    }
+
+    .last-message {
+      margin-top: 0px;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .item-portrait {
+      margin: 0 6px 2px 0;
+      float: left;
+    }
+
+    .item-content {
+      position: absolute;
+      left: 60px;
+      z-index: 2;
+      top: 3px;
+      max-width: 165px;
+    }
+
+  }
+
+  .conversation-feed-item:last-of-type {
+    border-bottom: none;
+  }
+
+  .conversation-feed-item.unread {
+    background: #EDEDED;
+  }
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    list-style-type: none;
+    margin: 0;
+    height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+  ////////////////////////////////////////////
+  // PANEL NEW CONVERSATION                 //
+  ////////////////////////////////////////////
+  .panel-new-conversation {
+    position: absolute;
+    z-index: 2;
+    top: 27px;
+    left: 1px;
+    width: 250px;
+    min-height: 0px;
+    max-height: 250px;
+    padding-bottom: 5px;
+    @include transparent(#ffffff, 0.9);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .content {
+      min-height: inherit;
+    }
+
+    .participants {
+      margin: 10px 0px 5px 10px;
+      background: white;
+      width: 227px;
+    }
+
+    .button {
+      float: right;
+      margin: 5px 11px;
+      border-radius: 0;
+      font-size: 12px;
+      padding: 4px 10px;
+    }
+
+    .token-input {
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 77px;
+        overflow-y: auto;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
+      }
+    }
+  }
+}

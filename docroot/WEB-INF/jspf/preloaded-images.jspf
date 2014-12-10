@@ -1,0 +1,32 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+
+<%--
+  ~ This fragment contains all the images that need to be preloaded before thay are actually displayed.
+  ~ Some elements are created "on the fly", e.g. warning messages, etc. Imagine the situation when
+  ~ you lost a connection with server. You want to display a warning icon but you can't since the icon
+  ~ must be loaded from the server first. However, if you add the icon here it will be loaded no matter
+  ~ what happens. The preloaded-images class is defined in css. It's taken away from the
+  ~ visible are so it's not going to interfee with user attention.
+--%>
+
+<%-- Vars --%>
+<%--@elvariable id="preloadedImages" type="String[]"--%>
+
+<%-- Rendered --%>
+<% { %>
+
+<div class="preloaded-images">
+    <c:forEach items="${preloadedImages}" var="image">
+        <img src="<%= request.getContextPath() %>/images/${image}" width="1" height="1" alt=""/>
+    </c:forEach>
+</div>
+
+<% } %>
