@@ -798,7 +798,7 @@ public class ConversationController {
                 ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
             }
             // Forbidden
-            if (status == SendMessageResponseEvent.Status.ERROR_FORBIDDEN) {
+            else if (status == SendMessageResponseEvent.Status.ERROR_FORBIDDEN) {
                 ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
             // Not found
