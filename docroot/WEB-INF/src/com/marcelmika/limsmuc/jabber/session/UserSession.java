@@ -60,9 +60,9 @@ public class UserSession {
         // Group manager
         userSession.groupManager = createGroupManager(companyId, connectionManager);
         // Single User Conversation manager
-        userSession.singleUserConversationManager = createSingleUserConversationManager(connectionManager);
+        userSession.singleUserConversationManager = createSingleUserConversationManager(companyId, connectionManager);
         // Multi User Conversation manager
-        userSession.multiUserConversationManager = createMultiUserConversationManager(connectionManager);
+        userSession.multiUserConversationManager = createMultiUserConversationManager(companyId, connectionManager);
 
         return userSession;
     }
@@ -70,6 +70,7 @@ public class UserSession {
     /**
      * Creates new group manager
      *
+     * @param companyId Long
      * @param connectionManager used to create group manager
      * @return Group manager
      */
@@ -85,14 +86,16 @@ public class UserSession {
     /**
      * Create new single user conversation manager
      *
+     * @param companyId Long
      * @param connectionManager used to create single user conversation manager
      * @return SingleUserConversationManager
      */
-    private static SingleUserConversationManager createSingleUserConversationManager(
-            ConnectionManager connectionManager) {
+    private static SingleUserConversationManager createSingleUserConversationManager(Long companyId,
+                                                                                     ConnectionManager connectionManager) {
 
         // Build SUC manager
         SingleUserConversationManager singleManager = SingleUserConversationManagerFactory.buildManager();
+        singleManager.setCompanyId(companyId);
         singleManager.setChatManager(connectionManager.getChatManager());
 
         return singleManager;
@@ -101,14 +104,16 @@ public class UserSession {
     /**
      * Create new multi user conversation manager
      *
+     * @param companyId Long
      * @param connectionManager used to create multi user conversation manager
      * @return MultiUserConversationManager
      */
-    private static MultiUserConversationManager createMultiUserConversationManager(
-            ConnectionManager connectionManager) {
+    private static MultiUserConversationManager createMultiUserConversationManager(Long companyId,
+                                                                                   ConnectionManager connectionManager) {
 
         // Build MUC manager
         MultiUserConversationManager multiManager = MultiUserConversationManagerFactory.buildManager();
+        multiManager.setCompanyId(companyId);
         multiManager.setConnection(connectionManager.getConnection());
 
         return multiManager;

@@ -23,13 +23,6 @@ import com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent;
 public interface ConversationJabberService {
 
     /**
-     * Register conversation jabber service listener
-     *
-     * @param listener ConversationJabberServiceListener
-     */
-    public void addConversationJabberServiceListener(ConversationJabberServiceListener listener);
-
-    /**
      * Creates new conversation
      *
      * @param event request event for method

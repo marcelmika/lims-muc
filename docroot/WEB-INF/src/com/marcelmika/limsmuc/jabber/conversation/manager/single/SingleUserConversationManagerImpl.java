@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.jabber.conversation.manager.single;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.jabber.JabberException;
 import com.marcelmika.limsmuc.jabber.conversation.manager.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
@@ -40,6 +42,8 @@ public class SingleUserConversationManagerImpl
 
     // Smack Chat Manager
     private ChatManager chatManager;
+    // We need the company id otherwise we cannot find users in liferay
+    private Long companyId;
 
     // Conversation Listeners
     private List<ConversationListener> conversationListeners = Collections.synchronizedList(
@@ -74,6 +78,16 @@ public class SingleUserConversationManagerImpl
     }
 
     /**
+     * Sets company id to the group manager
+     *
+     * @param companyId Long
+     */
+    @Override
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    /**
      * Sends message to conversation
      *
      * @param conversation SingleUserConversation
@@ -97,7 +111,7 @@ public class SingleUserConversationManagerImpl
             // Receiver's Jid
             String receiverJid = Jid.getJid(receiver.getScreenName());
             // Create a new chat
-            Chat chat = chatManager.createChat(receiverJid, null);
+            Chat chat = chatManager.createChat(receiverJid, this);
             // Send message via new conversation
             chat.sendMessage(message.getBody());
         }
@@ -151,9 +165,25 @@ public class SingleUserConversationManagerImpl
      */
     @Override
     public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message smackMessage) {
-
         // Parse message
         Message message = Message.fromSmackMessage(smackMessage);
+
+        // Important: This is a leaking of the business logic. However there is no better place where
+        // such call can be added. Thus we simply ignore this fact.
+        try {
+            User fromUser = UserLocalServiceUtil.getUserByScreenName(companyId, message.getFrom().getScreenName());
+            User toUser = UserLocalServiceUtil.getUserByScreenName(companyId, message.getTo().getScreenName());
+            // Map the user
+            message.setFrom(Buddy.fromPortalUser(fromUser));
+            message.setTo(Buddy.fromPortalUser(toUser));
+
+        } catch (Exception e) {
+            // No such user was found, thus simply ignore this fact and don't add it to the list
+            if (log.isErrorEnabled()) {
+                log.error(e);
+            }
+            return;
+        }
 
         // Don't no pass a message that is empty
         if (message.getBody() != null) {

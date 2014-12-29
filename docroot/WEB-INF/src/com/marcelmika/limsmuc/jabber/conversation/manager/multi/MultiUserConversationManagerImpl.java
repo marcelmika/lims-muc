@@ -27,4 +27,9 @@ public class MultiUserConversationManagerImpl implements MultiUserConversationMa
     public void setConnection(Connection connection) {
 
     }
+
+    @Override
+    public void setCompanyId(Long companyId) {
+
+    }
 }

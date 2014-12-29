@@ -114,6 +114,7 @@
           class="com.marcelmika.limsmuc.core.service.ConversationCoreServiceImpl">
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.service.ConversationJabberService"/>
         <constructor-arg index="1" ref="com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService"/>
+        <constructor-arg index="2" ref="com.marcelmika.limsmuc.core.bus.ConversationEventBus"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil"
@@ -121,11 +122,16 @@
         <property name="conversationCoreService" ref="com.marcelmika.limsmuc.core.service.ConversationCoreService"/>
     </bean>
 
+    <!-- Conversation Event Bus -->
+    <bean id="com.marcelmika.limsmuc.core.bus.ConversationEventBus"
+          class="com.marcelmika.limsmuc.core.bus.ConversationEventBusImpl"/>
+
     <!-- Conversation Jabber Service -->
 
     <bean id="com.marcelmika.limsmuc.jabber.service.ConversationJabberService"
           class="com.marcelmika.limsmuc.jabber.service.ConversationJabberServiceImpl">
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.core.bus.ConversationEventBus"/>
     </bean>
 
 

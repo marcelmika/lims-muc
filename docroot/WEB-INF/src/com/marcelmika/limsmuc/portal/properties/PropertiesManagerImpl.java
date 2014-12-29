@@ -1037,9 +1037,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private void setupJabberProperties() {
 
         // Set jabber properties to Environment
-        // TODO: Uncomment when implemented
-//        Environment.setJabberEnabled(PortletPropertiesValues.JABBER_ENABLED);
-        Environment.setJabberEnabled(false);
+        Environment.setJabberEnabled(PortletPropertiesValues.JABBER_ENABLED);
         Environment.setJabberHost(PortletPropertiesValues.JABBER_HOST);
         Environment.setJabberPort(PortletPropertiesValues.JABBER_PORT);
         Environment.setJabberServiceName(PortletPropertiesValues.JABBER_SERVICE_NAME);

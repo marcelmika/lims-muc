@@ -20,6 +20,14 @@ import com.marcelmika.limsmuc.api.events.conversation.*;
 public interface ConversationPersistenceService {
 
     /**
+     * Checks if the conversation exists
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    public ExistsConversationResponseEvent existsConversation(ExistsConversationRequestEvent event);
+
+    /**
      * Creates new conversation
      *
      * @param event request event for method

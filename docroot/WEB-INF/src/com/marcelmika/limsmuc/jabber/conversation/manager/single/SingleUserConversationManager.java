@@ -38,6 +38,13 @@ public interface SingleUserConversationManager {
     public void setChatManager(ChatManager chatManager);
 
     /**
+     * Sets company id
+     *
+     * @param companyId Long
+     */
+    public void setCompanyId(Long companyId);
+
+    /**
      * Sends message to conversation
      *
      * @param conversation SingleUserConversation

@@ -26,4 +26,11 @@ public interface MultiUserConversationManager {
      */
     public void setConnection(Connection connection);
 
+    /**
+     * Sets company id to the group manager
+     *
+     * @param companyId Long
+     */
+    public void setCompanyId(Long companyId);
+
 }

@@ -117,4 +117,20 @@ public class ConversationDetails {
     public void setLastMessage(MessageDetails lastMessage) {
         this.lastMessage = lastMessage;
     }
+
+    @Override
+    public String toString() {
+        return "ConversationDetails{" +
+                "conversationId='" + conversationId + '\'' +
+                ", conversationType=" + conversationType +
+                ", unreadMessagesCount=" + unreadMessagesCount +
+                ", buddy=" + buddy +
+                ", messages=" + messages +
+                ", participants=" + participants +
+                ", updatedAt=" + updatedAt +
+                ", openedAt=" + openedAt +
+                ", firstMessage=" + firstMessage +
+                ", lastMessage=" + lastMessage +
+                '}';
+    }
 }

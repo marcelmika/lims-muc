@@ -27,6 +27,7 @@ import com.marcelmika.limsmuc.api.events.buddy.*;
 public class BuddyCoreServiceImpl implements BuddyCoreService {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(BuddyCoreServiceImpl.class);
 
     // Dependencies

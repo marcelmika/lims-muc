@@ -43,6 +43,41 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
     private static Log log = LogFactoryUtil.getLog(ConversationPersistenceServiceImpl.class);
 
     /**
+     * Checks if the conversation exists
+     *
+     * @param event request event for method
+     * @return response event for method
+     */
+    @Override
+    public ExistsConversationResponseEvent existsConversation(ExistsConversationRequestEvent event) {
+
+        // Check parameters
+        if (event.getConversationId() == null) {
+            return ExistsConversationResponseEvent.failure(
+                    ExistsConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        try {
+            // Try to find a conversation with the same id
+            com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
+                    ConversationLocalServiceUtil.fetchByConversationId(event.getConversationId());
+
+            // Conversation exists only if it's not null
+            boolean exists = conversationModel != null;
+
+            // Success
+            return ExistsConversationResponseEvent.success(exists);
+        }
+        // Failure
+        catch (Exception exception) {
+            return ExistsConversationResponseEvent.failure(
+                    ExistsConversationResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
      * Creates new conversation
      *
      * @param event request event for method

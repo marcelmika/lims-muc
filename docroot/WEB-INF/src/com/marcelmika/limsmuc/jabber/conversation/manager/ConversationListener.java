@@ -18,8 +18,9 @@ import com.marcelmika.limsmuc.jabber.domain.Message;
  * Time: 21:01
  */
 public interface ConversationListener {
+
     /**
-     * * Called whenever the user receives a message within any
+     * Called whenever the user receives a message within any
      * of the conversations
      *
      * @param message received message
