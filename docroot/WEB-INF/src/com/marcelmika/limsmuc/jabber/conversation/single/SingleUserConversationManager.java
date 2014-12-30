@@ -7,10 +7,10 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.conversation.manager.single;
+package com.marcelmika.limsmuc.jabber.conversation.single;
 
-import com.marcelmika.limsmuc.jabber.JabberException;
-import com.marcelmika.limsmuc.jabber.conversation.manager.ConversationListener;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Message;
 import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
 import org.jivesoftware.smack.ChatManager;

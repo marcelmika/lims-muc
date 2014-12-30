@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.connection.manager;
 
-import com.marcelmika.limsmuc.jabber.JabberException;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.Connection;

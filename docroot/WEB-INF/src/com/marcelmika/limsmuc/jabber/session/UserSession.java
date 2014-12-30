@@ -10,12 +10,12 @@
 package com.marcelmika.limsmuc.jabber.session;
 
 import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManagerFactory;
-import com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManagerFactory;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManager;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManagerFactory;
+import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManager;
+import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManagerFactory;
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManagerFactory;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
+import com.marcelmika.limsmuc.jabber.group.GroupManagerFactory;
 
 /**
  * @author Ing. Marcel Mika

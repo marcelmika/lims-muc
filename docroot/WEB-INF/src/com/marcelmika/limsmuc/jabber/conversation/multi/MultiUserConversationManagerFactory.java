@@ -7,7 +7,7 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.conversation.manager.multi;
+package com.marcelmika.limsmuc.jabber.conversation.multi;
 
 /**
  * @author Ing. Marcel Mika

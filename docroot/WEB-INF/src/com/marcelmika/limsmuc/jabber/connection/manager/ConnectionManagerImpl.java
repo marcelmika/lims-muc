@@ -13,7 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.jabber.JabberException;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.connection.sasl.LiferaySaslMechanism;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import org.jivesoftware.smack.*;

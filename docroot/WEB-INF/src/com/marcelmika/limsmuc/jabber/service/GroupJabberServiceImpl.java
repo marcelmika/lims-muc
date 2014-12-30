@@ -11,10 +11,10 @@ package com.marcelmika.limsmuc.jabber.service;
 
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
-import com.marcelmika.limsmuc.jabber.JabberException;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManager;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
 

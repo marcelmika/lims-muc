@@ -7,7 +7,7 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.conversation.manager.multi;
+package com.marcelmika.limsmuc.jabber.conversation.multi;
 
 import org.jivesoftware.smack.Connection;
 
@@ -15,21 +15,22 @@ import org.jivesoftware.smack.Connection;
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
  * Date: 4/3/14
- * Time: 11:24 PM
+ * Time: 11:39 PM
  */
-public class MultiUserConversationManagerImpl implements MultiUserConversationManager {
+public interface MultiUserConversationManager {
+
     /**
      * Sets connection
      *
      * @param connection Connection
      */
-    @Override
-    public void setConnection(Connection connection) {
+    public void setConnection(Connection connection);
 
-    }
+    /**
+     * Sets company id to the group manager
+     *
+     * @param companyId Long
+     */
+    public void setCompanyId(Long companyId);
 
-    @Override
-    public void setCompanyId(Long companyId) {
-
-    }
 }

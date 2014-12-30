@@ -7,15 +7,15 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.conversation.manager.single;
+package com.marcelmika.limsmuc.jabber.conversation.single;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.jabber.JabberException;
-import com.marcelmika.limsmuc.jabber.conversation.manager.ConversationListener;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Message;
 import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
@@ -170,7 +170,7 @@ public class SingleUserConversationManagerImpl
         // Don't notify about the message if the user sent message from LIMS to avoid
         // unnecessary duplicates
         String resource = Jid.getResource(smackMessage.getFrom());
-        
+
         if (Environment.getJabberResource().toLowerCase().equals(resource)) {
             // Log
             if (log.isDebugEnabled()) {
@@ -201,7 +201,7 @@ public class SingleUserConversationManagerImpl
             return;
         }
 
-        // Don't no pass a message that is empty
+        // Don't pass a message that is empty
         if (message.getBody() != null) {
             // Notify about incoming message
             notifyListeners(message);

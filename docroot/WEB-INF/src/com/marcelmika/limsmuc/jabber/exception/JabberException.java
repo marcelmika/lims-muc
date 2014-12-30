@@ -9,7 +9,7 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber;
+package com.marcelmika.limsmuc.jabber.exception;
 
 /**
  * @author Ing. Marcel Mika

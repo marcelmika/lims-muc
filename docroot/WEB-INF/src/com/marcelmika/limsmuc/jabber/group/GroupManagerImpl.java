@@ -7,7 +7,7 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.group.manager;
+package com.marcelmika.limsmuc.jabber.group;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -49,6 +49,7 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     private boolean wasModified = true;
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(GroupManagerImpl.class);
 
     // -------------------------------------------------------------------------------------------
