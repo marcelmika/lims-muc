@@ -30,17 +30,20 @@ public class Message {
     private Buddy from;
     private Date createdAt;
     private String body;
+    private MessageType messageType;
 
-
-    // -------------------------------------------------------------------------------------------
-    // Factory Methods
-    // -------------------------------------------------------------------------------------------
-
+    /**
+     * Factory method creates message form Smack message
+     *
+     * @param smackMessage Message
+     * @return Message
+     */
     public static Message fromSmackMessage(org.jivesoftware.smack.packet.Message smackMessage) {
         // Create new message
         Message message = new Message();
         // Map properties
         message.body = smackMessage.getBody();
+        message.messageType = MessageType.REGULAR;
         message.createdAt = getMessageTimestamp(smackMessage);
         // Map relations
         message.from = Buddy.fromSmackUser(smackMessage.getFrom());
@@ -49,6 +52,12 @@ public class Message {
         return message;
     }
 
+    /**
+     * Factory method creates message from message details
+     *
+     * @param details MessageDetails
+     * @return Message
+     */
     public static Message fromMessageDetails(MessageDetails details) {
         // Create new message
         Message message = new Message();
@@ -57,15 +66,24 @@ public class Message {
         message.body = details.getBody();
         message.createdAt = details.getCreatedAt();
 
-        // Relations:
-        // From
+        // Relations
         if (details.getFrom() != null) {
             message.from = Buddy.fromBuddyDetails(details.getFrom());
+        }
+
+        if (details.getMessageType() != null) {
+            message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
         }
 
         return message;
     }
 
+    /**
+     * Maps a list of message details to a list of messages
+     *
+     * @param details list of message details
+     * @return list of messages
+     */
     public static List<Message> fromMessageDetails(List<MessageDetails> details) {
         // Create new message list
         List<Message> messages = new ArrayList<Message>();
@@ -75,6 +93,57 @@ public class Message {
         }
         return messages;
     }
+
+    /**
+     * Maps a list of messages to a list of message details
+     *
+     * @param messages list of messages
+     * @return list fo message details
+     */
+    public static List<MessageDetails> toMessageDetailsList(List<Message> messages) {
+        // Create new list
+        List<MessageDetails> details = new ArrayList<MessageDetails>();
+        // Map
+        for (Message message : messages) {
+            details.add(message.toMessageDetails());
+        }
+
+        return details;
+    }
+
+    /**
+     * Creates message details from message
+     *
+     * @return MessageDetails
+     */
+    public MessageDetails toMessageDetails() {
+        // Create new message details
+        MessageDetails details = new MessageDetails();
+        // Properties
+        details.setMessageId(messageId);
+        details.setBody(body);
+        details.setCreatedAt(createdAt);
+
+        // Relations
+        if (from != null) {
+            details.setFrom(from.toBuddyDetails());
+        }
+
+        if (to != null) {
+            details.setTo(to.toBuddyDetails());
+        }
+
+        if (messageType != null) {
+            details.setMessageType(messageType.toMessageTypeDetails());
+        }
+
+        return details;
+    }
+
+
+    // -------------------------------------------------------------------------------------------
+    // Private Methods
+    // -------------------------------------------------------------------------------------------
 
     /**
      * Method which calculates smack message timestamp.
@@ -100,38 +169,6 @@ public class Message {
             // Extension isn't provided so return empty date
             return new Date(0);
         }
-    }
-
-    public static List<MessageDetails> toMessageDetailsList(List<Message> messages) {
-        // Create new list
-        List<MessageDetails> details = new ArrayList<MessageDetails>();
-        // Map
-        for (Message message : messages) {
-            details.add(message.toMessageDetails());
-        }
-
-        return details;
-    }
-
-
-    public MessageDetails toMessageDetails() {
-        // Create new message details
-        MessageDetails details = new MessageDetails();
-        // Properties
-        details.setMessageId(messageId);
-        details.setBody(body);
-        details.setCreatedAt(createdAt);
-
-        // Relations
-        if (from != null) {
-            details.setFrom(from.toBuddyDetails());
-        }
-
-        if (to != null) {
-            details.setTo(to.toBuddyDetails());
-        }
-
-        return details;
     }
 
 
@@ -180,6 +217,14 @@ public class Message {
         this.body = body;
     }
 
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -188,6 +233,7 @@ public class Message {
                 ", from=" + from +
                 ", createdAt=" + createdAt +
                 ", body='" + body + '\'' +
+                ", messageType=" + messageType +
                 '}';
     }
 }

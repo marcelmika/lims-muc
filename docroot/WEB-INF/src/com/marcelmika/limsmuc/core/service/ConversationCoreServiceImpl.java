@@ -17,6 +17,7 @@ import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.*;
 import com.marcelmika.limsmuc.core.bus.ConversationEventBus;
 import com.marcelmika.limsmuc.core.bus.ConversationEventBusListener;
+import com.marcelmika.limsmuc.core.domain.Buddy;
 import com.marcelmika.limsmuc.core.domain.Conversation;
 import com.marcelmika.limsmuc.core.domain.Message;
 import com.marcelmika.limsmuc.jabber.service.ConversationJabberService;
@@ -212,19 +213,7 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             );
         }
 
-        // Send message locally
-        SendMessageResponseEvent persistenceResponseEvent = conversationPersistenceService.sendMessage(
-                new SendMessageRequestEvent(
-                        event.getBuddyDetails(),
-                        participantListEvent.getConversation(),
-                        event.getMessageDetails())
-        );
-        // Failure
-        if (!persistenceResponseEvent.isSuccess()) {
-            return persistenceResponseEvent;
-        }
-
-        // Send message to Jabber
+        // Send message to Jabber if enabled
         if (Environment.isJabberEnabled()) {
             // TODO: Move away
             ConversationDetails conversationDetails = participantListEvent.getConversation();
@@ -237,12 +226,26 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
                             participantListEvent.getConversation(),
                             event.getMessageDetails())
             );
+
             // Failure
             if (!jabberResponseEvent.isSuccess()) {
                 return SendMessageResponseEvent.failure(
                         SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
                 );
             }
+        }
+
+        // Send message locally
+        SendMessageResponseEvent persistenceResponseEvent = conversationPersistenceService.sendMessage(
+                new SendMessageRequestEvent(
+                        event.getBuddyDetails(),
+                        participantListEvent.getConversation(),
+                        event.getMessageDetails())
+        );
+
+        // Failure
+        if (!persistenceResponseEvent.isSuccess()) {
+            return persistenceResponseEvent;
         }
 
         // Return persistence event
@@ -258,8 +261,13 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
 
     @Override
     public void messageReceived(MessageReceivedBusEvent event) {
-        log.info("## CORE MESSAGE RECEIVED: " + event);
 
+        // Log
+        if (log.isDebugEnabled()){
+            log.debug("Message received" + event);
+        }
+
+        // Map from api objects
         Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
         Message message = Message.fromMessageDetails(event.getMessage());
 
@@ -276,33 +284,47 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             }
         }
 
+        // Conversation holds the creator
+        Buddy creator = conversation.getBuddy();
+
         // If no such conversation exists create a new one
         if (!existsConversationRequest.isExists()) {
-            // TODO: Create new conversation
-            log.info("CREATING NEW CONVERSATION");
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug("Creating new conversation" + conversation);
+            }
+
+            // Create new conversation
+            CreateConversationResponseEvent responseEvent = conversationPersistenceService.createConversation(
+                    new CreateConversationRequestEvent(
+                            creator.toBuddyDetails(), conversation.toConversationDetails(), message.toMessageDetails()
+                    ));
+
+            // Failure
+            if (!responseEvent.isSuccess()) {
+                // Log error
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getStatus());
+                    log.error(responseEvent.getException());
+                }
+                // End here
+                return;
+            }
         }
 
-        // TODO: Send a message
-        log.info("SENDING MESSAGE");
+        // Send a message
+        SendMessageResponseEvent sendMessageResponse = conversationPersistenceService.sendMessage(
+                new SendMessageRequestEvent(
+                        creator.toBuddyDetails(), conversation.toConversationDetails(), message.toMessageDetails()
+                ));
 
-
-//        // Conversation holds the creator
-//        BuddyDetails creator = conversation.getBuddy();
-//
-//        // Create the conversation
-//        CreateConversationResponseEvent responseEvent = conversationPersistenceService.createConversation(
-//                new CreateConversationRequestEvent(creator, conversation, message)
-//        );
-//
-//        if (!responseEvent.isSuccess()) {
-//            // TODO log
-//            log.error(responseEvent.getException());
-//        }
-//
-//        SendMessageResponseEvent sendMessageResponse = conversationPersistenceService.sendMessage(
-//                new SendMessageRequestEvent(creator, conversation, message)
-//        );
-//
-//        // Send message
+        // Send message
+        if (!sendMessageResponse.isSuccess()) {
+            // Log error
+            if (log.isErrorEnabled()) {
+                log.error(sendMessageResponse.getStatus());
+                log.error(sendMessageResponse.getException());
+            }
+        }
     }
 }

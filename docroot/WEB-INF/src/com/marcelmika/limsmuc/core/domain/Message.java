@@ -25,6 +25,7 @@ public class Message {
     private Buddy from;
     private Date createdAt;
     private String body;
+    private MessageType messageType;
 
     /**
      * Creates new Message and maps data from Message details
@@ -39,7 +40,13 @@ public class Message {
         message.messageId = details.getMessageId();
         message.from = Buddy.fromBuddyDetails(details.getFrom());
         message.createdAt = details.getCreatedAt();
-        message.body = message.getBody();
+        message.body = details.getBody();
+
+        // Relations
+        if (details.getMessageType() != null) {
+            message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
+        }
+
 
         return message;
     }
@@ -57,6 +64,11 @@ public class Message {
         details.setFrom(from.toBuddyDetails());
         details.setCreatedAt(createdAt);
         details.setBody(body);
+
+        // Relations
+        if (messageType != null) {
+            details.setMessageType(messageType.toMessageTypeDetails());
+        }
 
         return details;
     }
