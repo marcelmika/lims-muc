@@ -108,12 +108,10 @@ public class SingleUserConversation implements MessageListener {
 
         // Create new conversation
         SingleUserConversation conversation = new SingleUserConversation();
-        // Todo: order alphabetically
-        String conversationId = String.format("%s_%s", from.getScreenName(), to.getScreenName());
 
         // Properties
         conversation.conversationType = ConversationType.SINGLE_USER;
-        conversation.conversationId = conversationId;
+        conversation.conversationId = createConversationId(from.getScreenName(), to.getScreenName());
 
         // Relations
         conversation.buddy = from;
@@ -140,6 +138,10 @@ public class SingleUserConversation implements MessageListener {
         details.setConversationId(conversationId);
 
         // Relations
+        if (buddy != null) {
+            details.setBuddy(buddy.toBuddyDetails());
+        }
+
         if (conversationType != null) {
             details.setConversationType(conversationType.toConversationTypeDetails());
         }
@@ -175,6 +177,44 @@ public class SingleUserConversation implements MessageListener {
         log.debug(String.format("From: %s, Body: %s", message.getFrom().getScreenName(), message.getBody()));
 
         messages.add(message);
+    }
+
+
+    // -------------------------------------------------------------------------------------------
+    // Private Methods
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * Creates conversation id based on the users ids. Returns null if no conversation id can be created
+     *
+     * @param fromUser from user
+     * @param toUser   to user
+     * @return conversation id or null if no conversation id can be created
+     */
+    private static String createConversationId(String fromUser, String toUser) {
+
+        if (fromUser == null || toUser == null) {
+            return null; // No users were found
+        }
+
+        // Create the conversation id from the users
+        int comparison = fromUser.compareToIgnoreCase(toUser);
+        String conversationId;
+
+        // Cannot have conversation with yourself
+        if (comparison == 0) {
+            return null;
+        }
+        // From user is lexicographically after To user
+        else if (comparison < 0) {
+            conversationId = String.format("%s_%s", fromUser, toUser);
+        }
+        // To user is lexicographically after To user
+        else {
+            conversationId = String.format("%s_%s", toUser, fromUser);
+        }
+
+        return conversationId;
     }
 
 
