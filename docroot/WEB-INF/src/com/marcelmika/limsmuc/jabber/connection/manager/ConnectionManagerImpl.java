@@ -152,7 +152,7 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
                 );
             } else {
                 // Login with username and password
-                connection.login(buddy.getScreenName(), buddy.getPassword());
+                connection.login(buddy.getScreenName(), buddy.getPassword(), Environment.getJabberResource());
             }
         }
         // Failure

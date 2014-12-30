@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.jabber.JabberException;
 import com.marcelmika.limsmuc.jabber.conversation.manager.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
@@ -165,6 +166,21 @@ public class SingleUserConversationManagerImpl
      */
     @Override
     public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message smackMessage) {
+
+        // Don't notify about the message if the user sent message from LIMS to avoid
+        // unnecessary duplicates
+        String resource = Jid.getResource(smackMessage.getFrom());
+        
+        if (Environment.getJabberResource().toLowerCase().equals(resource)) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug("Received message from the same resource: " + resource + ". Skipping...");
+            }
+            // End here
+            return;
+        }
+
+
         // Parse message
         Message message = Message.fromSmackMessage(smackMessage);
 
