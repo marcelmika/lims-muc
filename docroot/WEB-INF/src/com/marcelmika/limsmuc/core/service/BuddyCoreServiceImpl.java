@@ -66,6 +66,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             ConnectBuddyResponseEvent connectResponseEvent = buddyJabberService.connectBuddy(
                     new ConnectBuddyRequestEvent(event.getDetails())
             );
+
             // [1.1] Return error on failure
             if (!connectResponseEvent.isSuccess()) {
                 return LoginBuddyResponseEvent.failure(
@@ -149,6 +150,22 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         }
 
         return responseEvent;
+    }
+
+    /**
+     * Updates buddy's password
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event) {
+        // Only if the jabber is enabled
+        if (Environment.isJabberEnabled()) {
+            return buddyJabberService.updatePassword(event);
+        }
+
+        return UpdatePasswordResponseEvent.success();
     }
 
     /**

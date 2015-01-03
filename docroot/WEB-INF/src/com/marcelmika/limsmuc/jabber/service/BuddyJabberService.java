@@ -52,4 +52,12 @@ public interface BuddyJabberService {
      */
     public UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
 
+    /**
+     * Updates buddy's password
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
+
 }

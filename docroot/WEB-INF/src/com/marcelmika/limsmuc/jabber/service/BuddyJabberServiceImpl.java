@@ -193,4 +193,50 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         }
     }
 
+    /**
+     * Updates buddy's password
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event) {
+
+        // Get parameters
+        Long buddyId = event.getBuddy().getBuddyId();
+        String password = event.getBuddy().getPassword();
+
+        // Check parameters
+        if (buddyId == null || password == null) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
+        // We need the jabber connection manager to update the password
+        ConnectionManager connectionManager = userSession.getConnectionManager();
+
+        try {
+            // Update password
+            connectionManager.updatePassword(password);
+            // Success
+            return UpdatePasswordResponseEvent.success();
+        }
+        // Failure
+        catch (JabberException e) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_JABBER
+            );
+        }
+    }
+
 }

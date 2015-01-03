@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.jabber.connection.manager;
 
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.Roster;
@@ -62,6 +62,14 @@ public interface ConnectionManager {
      * @return ChatManager
      */
     public ChatManager getChatManager();
+
+    /**
+     * Updates user's password
+     *
+     * @param password String
+     * @throws JabberException
+     */
+    public void updatePassword(String password) throws JabberException;
 
     /**
      * Set or updates buddy's presence

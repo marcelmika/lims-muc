@@ -13,9 +13,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.connection.sasl.LiferaySaslMechanism;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Presence;
 
@@ -122,6 +122,27 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     @Override
     public ChatManager getChatManager() {
         return connection.getChatManager();
+    }
+
+    /**
+     * Updates user's password
+     *
+     * @param password String
+     * @throws JabberException
+     */
+    @Override
+    public void updatePassword(String password) throws JabberException {
+        // Get account manager
+        AccountManager accountManager = connection.getAccountManager();
+
+        try {
+            // Update password
+            accountManager.changePassword(password);
+        }
+        // Failure
+        catch (XMPPException e) {
+            throw new JabberException("Password cannot be updated", e);
+        }
     }
 
     /**

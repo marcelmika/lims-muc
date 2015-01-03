@@ -43,6 +43,7 @@ public class LoginPostAction extends Action {
         try {
             // Create buddy from portal request
             Buddy buddy = Buddy.fromPortalServletRequest(request);
+
             // Login buddy
             LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(
                     new LoginBuddyRequestEvent(buddy.toBuddyDetails())

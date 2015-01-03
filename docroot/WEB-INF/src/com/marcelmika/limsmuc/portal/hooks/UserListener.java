@@ -15,6 +15,8 @@ import com.liferay.portal.model.BaseModelListener;
 import com.liferay.portal.model.User;
 import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordResponseEvent;
 import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
@@ -34,8 +36,18 @@ public class UserListener extends BaseModelListener<User> {
     // Services
     BuddyCoreService coreService = BuddyCoreServiceUtil.getBuddyCoreService();
 
+    /**
+     * Called whenever the user is removed from the portal
+     *
+     * @param user User
+     */
     @Override
     public void onAfterRemove(User user) {
+        // Log
+        if (log.isDebugEnabled()) {
+            log.debug("Removing user: " + user.getScreenName());
+        }
+
         // Create buddy from portal user
         Buddy buddy = Buddy.fromPortalUser(user);
         // Logout buddy
@@ -45,7 +57,47 @@ public class UserListener extends BaseModelListener<User> {
 
         // Log result
         if (!responseEvent.isSuccess()) {
-            log.error(responseEvent.getException());
+            if (log.isErrorEnabled()) {
+                log.error(responseEvent.getException());
+            }
         }
     }
+
+    /**
+     * Called whenever the user is updated
+     *
+     * @param user User
+     */
+    @Override
+    public void onAfterUpdate(User user) {
+
+        // Create buddy from portal user
+        Buddy buddy = Buddy.fromPortalUser(user);
+
+        // If the password is null there is no need to update it. Since password is always mandatory.
+        // Furthermore, if the password is null it means that some other property was updated.
+        if (buddy.getPassword() != null) {
+
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug("Updating " + user.getScreenName() + "'s password");
+            }
+
+            // Update password
+            UpdatePasswordResponseEvent responseEvent = coreService.updatePassword(
+                    new UpdatePasswordRequestEvent(buddy.toBuddyDetails())
+            );
+
+            // Log the result
+            if (!responseEvent.isSuccess()) {
+                UpdatePasswordResponseEvent.Status status = responseEvent.getStatus();
+                // Log the error
+                if (log.isErrorEnabled()) {
+                    log.error(status);
+                    log.error(responseEvent.getException());
+                }
+            }
+        }
+    }
+
 }
