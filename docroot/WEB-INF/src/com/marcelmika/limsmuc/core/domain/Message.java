@@ -11,7 +11,9 @@ package com.marcelmika.limsmuc.core.domain;
 
 import com.marcelmika.limsmuc.api.entity.MessageDetails;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -47,8 +49,23 @@ public class Message {
             message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
         }
 
-
         return message;
+    }
+
+    /**
+     * Creates a list of messages from the list of message details
+     *
+     * @param details list of message details
+     * @return list of messages
+     */
+    public static List<Message> fromMessageDetails(List<MessageDetails> details) {
+        // Create new message list
+        List<Message> messages = new ArrayList<Message>();
+        // Map
+        for (MessageDetails messageDetails : details) {
+            messages.add(Message.fromMessageDetails(messageDetails));
+        }
+        return messages;
     }
 
     /**
