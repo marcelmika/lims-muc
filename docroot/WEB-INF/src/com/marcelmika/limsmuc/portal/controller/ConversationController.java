@@ -814,6 +814,7 @@ public class ConversationController {
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 // Log
+                log.error(responseEvent.getStatus());
                 log.error(responseEvent.getException());
             }
         }

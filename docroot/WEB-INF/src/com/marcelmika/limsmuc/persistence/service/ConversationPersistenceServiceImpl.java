@@ -236,6 +236,9 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                     conversationModel.getCid()
             );
 
+            // Map from model
+            Conversation fetchedConversation = Conversation.fromConversationModel(conversationModel);
+
             // Map participants to buddies
             List<Buddy> buddies = new LinkedList<Buddy>();
             for (Participant participant : participants) {
@@ -254,11 +257,12 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             // Add buddies to conversation
-            conversation.setParticipants(buddies);
+            fetchedConversation.setParticipants(buddies);
+            fetchedConversation.setBuddy(conversation.getBuddy());
 
             // Success
             return GetConversationParticipantsResponseEvent.success(
-                    conversation.toConversationDetails()
+                    fetchedConversation.toConversationDetails()
             );
         }
         // Failure

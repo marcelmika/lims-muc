@@ -215,9 +215,6 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
 
         // Send message to Jabber if enabled
         if (Environment.isJabberEnabled()) {
-            // TODO: Move away
-            ConversationDetails conversationDetails = participantListEvent.getConversation();
-            conversationDetails.setConversationType(ConversationTypeDetails.SINGLE_USER);
 
             // Send message via jabber service
             SendMessageResponseEvent jabberResponseEvent = conversationJabberService.sendMessage(
@@ -229,9 +226,12 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
 
             // Failure
             if (!jabberResponseEvent.isSuccess()) {
-                return SendMessageResponseEvent.failure(
-                        SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
-                );
+                // TODO: Remove after MUC in jabber is implemented
+                if (jabberResponseEvent.getStatus() != SendMessageResponseEvent.Status.ERROR_NOT_IMPLEMENTED) {
+                    return SendMessageResponseEvent.failure(
+                            SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
+                    );
+                }
             }
         }
 
