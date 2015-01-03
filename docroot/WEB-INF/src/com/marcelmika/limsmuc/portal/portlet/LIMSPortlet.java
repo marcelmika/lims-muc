@@ -261,8 +261,10 @@ public class LIMSPortlet extends MVCPortlet {
         // Check if the user is signed in
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-        // Check for params
         if (themeDisplay == null) {
+            if (log.isErrorEnabled()) {
+                log.error("Theme display is null");
+            }
             return false;
         }
 
@@ -284,6 +286,9 @@ public class LIMSPortlet extends MVCPortlet {
 
         // Check for params
         if (themeDisplay == null) {
+            if (log.isErrorEnabled()) {
+                log.error("Theme display is null");
+            }
             return true;
         }
 
