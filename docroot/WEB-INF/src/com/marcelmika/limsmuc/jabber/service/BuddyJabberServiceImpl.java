@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory;
@@ -143,10 +144,14 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
                     "Cannot find session for buddy.", event.getDetails()
             );
         }
-        // We need connection manager to login
-        ConnectionManager connectionManager = userSession.getConnectionManager();
-        // Logout
-        connectionManager.logout();
+
+        // Clear the single user conversation manager
+        userSession.getSingleUserConversationManager().destroy();
+        // Clear the group manager
+        userSession.getGroupManager().destroy();
+        // Clear the connection manager
+        userSession.getConnectionManager().logout();
+
         // Destroy user session
         userSessionStore.removeUserSession(buddyId);
 

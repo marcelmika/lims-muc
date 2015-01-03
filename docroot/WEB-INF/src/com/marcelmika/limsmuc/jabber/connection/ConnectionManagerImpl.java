@@ -30,7 +30,7 @@ import java.util.Map;
  * Date: 11/24/13
  * Time: 11:18 PM
  */
-public class ConnectionManagerImpl implements ConnectionManager, ConnectionListener {
+public class ConnectionManagerImpl implements ConnectionManager {
 
     // Log
     private static Log log = LogFactoryUtil.getLog(ConnectionManagerImpl.class);
@@ -61,8 +61,6 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
         try {
             // Connect
             connection.connect();
-            // Register connection listener
-            connection.addConnectionListener(this);
         }
         // Failure
         catch (Exception e) {
@@ -91,6 +89,10 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     @Override
     public void logout() {
         try {
+            if (log.isDebugEnabled()) {
+                log.debug("Disconnecting connection");
+            }
+
             // Disconnect
             connection.disconnect();
         }
@@ -100,9 +102,6 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
                 log.debug(e);
             }
         }
-
-        // Un-register connection listener
-        connection.removeConnectionListener(this);
     }
 
     /**
@@ -268,61 +267,6 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
             throw new JabberException("New account cannot be created", e);
         }
     }
-
-
-    // -------------------------------------------------------------------------------------------
-    // Override: ConnectionListener
-    // -------------------------------------------------------------------------------------------
-
-    @Override
-    public void connected(XMPPConnection xmppConnection) {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Connected");
-        }
-    }
-
-    @Override
-    public void authenticated(XMPPConnection xmppConnection) {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Authenticated");
-        }
-    }
-
-    @Override
-    public void connectionClosed() {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Connection Closed");
-        }
-    }
-
-    @Override
-    public void connectionClosedOnError(Exception e) {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Connection closed on error");
-        }
-    }
-
-    @Override
-    public void reconnectingIn(int i) {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Reconnecting in: " + i);
-        }
-    }
-
-    @Override
-    public void reconnectionSuccessful() {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Reconnection Successful");
-        }
-    }
-
-    @Override
-    public void reconnectionFailed(Exception e) {
-        if (log.isDebugEnabled()) {
-            log.debug("Jabber: Reconnection Failed");
-        }
-    }
-
 
     // -------------------------------------------------------------------------------------------
     // Private methods

@@ -53,4 +53,9 @@ public interface SingleUserConversationManager {
     public void sendMessage(SingleUserConversation conversation,
                             Message message) throws JabberException;
 
+    /**
+     * Destroys manager
+     */
+    public void destroy();
+
 }

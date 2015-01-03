@@ -41,4 +41,9 @@ public interface GroupManager {
      */
     public GroupCollection getGroupCollection();
 
+    /**
+     * Destroys groups manager
+     */
+    public void destroy();
+
 }

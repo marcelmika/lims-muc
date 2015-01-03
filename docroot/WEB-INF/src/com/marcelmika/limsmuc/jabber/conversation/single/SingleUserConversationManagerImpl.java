@@ -122,6 +122,14 @@ public class SingleUserConversationManagerImpl
         }
     }
 
+    /**
+     * Destroys manager
+     */
+    @Override
+    public void destroy() {
+       chatManager.removeChatListener(this);
+    }
+
 
     // -------------------------------------------------------------------------------------------
     // Chat Manager Listener

@@ -94,6 +94,14 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         return groupCollection;
     }
 
+    /**
+     * Destroys groups manager
+     */
+    @Override
+    public void destroy() {
+        roster.removeRosterListener(this);
+    }
+
     // -------------------------------------------------------------------------------------------
     // Override: RosterListener
     // -------------------------------------------------------------------------------------------
