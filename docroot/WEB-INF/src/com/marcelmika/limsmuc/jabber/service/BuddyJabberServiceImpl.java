@@ -10,8 +10,8 @@
 package com.marcelmika.limsmuc.jabber.service;
 
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager;
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerFactory;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
 import com.marcelmika.limsmuc.jabber.session.UserSession;

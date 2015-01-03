@@ -7,17 +7,17 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.connection.manager;
+package com.marcelmika.limsmuc.jabber.connection;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.jabber.connection.sasl.LiferaySaslMechanism;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     // Configuration to use while establishing the connection to the server.
     private ConnectionConfiguration connectionConfiguration;
     // Connection to the server
-    private Connection connection;
+    private XMPPConnection connection;
 
     // -------------------------------------------------------------------------------------------
     // Override: ConnectionManager
@@ -51,11 +51,10 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     @Override
     public void createConnection() throws JabberException {
         // Create new connection from the connection configuration
-        connection = new XMPPConnection(getConnectionConfiguration());
+        connection = new XMPPTCPConnection(getConnectionConfiguration());
 
         // Register for SASL Mechanism if enabled
         if (Environment.isSaslPlainEnabled()) {
-            SASLAuthentication.registerSASLMechanism("PLAIN", LiferaySaslMechanism.class);
             SASLAuthentication.supportSASLMechanism("PLAIN", 0);
         }
 
@@ -64,9 +63,10 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
             connection.connect();
             // Register connection listener
             connection.addConnectionListener(this);
-        } catch (XMPPException e) {
-            // Disconnect
-            connection.disconnect();
+        }
+        // Failure
+        catch (Exception e) {
+            log.error(e);
             throw new JabberException("Cannot connect to the jabber server", e);
         }
     }
@@ -90,8 +90,17 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
      */
     @Override
     public void logout() {
-        // Disconnect
-        connection.disconnect();
+        try {
+            // Disconnect
+            connection.disconnect();
+        }
+        // Failure
+        catch (SmackException.NotConnectedException e) {
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
+        }
+
         // Un-register connection listener
         connection.removeConnectionListener(this);
     }
@@ -100,7 +109,7 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
      * Returns connection of the user
      */
     @Override
-    public Connection getConnection() {
+    public XMPPConnection getConnection() {
         return connection;
     }
 
@@ -121,7 +130,7 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
      */
     @Override
     public ChatManager getChatManager() {
-        return connection.getChatManager();
+        return ChatManager.getInstanceFor(connection);
     }
 
     /**
@@ -133,14 +142,14 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     @Override
     public void updatePassword(String password) throws JabberException {
         // Get account manager
-        AccountManager accountManager = connection.getAccountManager();
+        AccountManager accountManager = AccountManager.getInstance(connection);
 
         try {
             // Update password
             accountManager.changePassword(password);
         }
         // Failure
-        catch (XMPPException e) {
+        catch (Exception e) {
             throw new JabberException("Password cannot be updated", e);
         }
     }
@@ -149,10 +158,18 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
      * Set or updates buddy's presence
      *
      * @param presence Presence of the concrete buddy.
+     * @throws JabberException
      */
     @Override
-    public void setPresence(Presence presence) {
-        connection.sendPacket(presence);
+    public void setPresence(Presence presence) throws JabberException {
+        try {
+            // Send the presence packet
+            connection.sendPacket(presence);
+        }
+        // Failure
+        catch (SmackException.NotConnectedException e) {
+            throw new JabberException("Presence cannot be updated", e);
+        }
     }
 
     /**
@@ -210,13 +227,20 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
      * @param buddy Buddy
      * @throws JabberException
      */
-    private void importUser(Buddy buddy, Connection connection) throws JabberException {
+    private void importUser(Buddy buddy, XMPPConnection connection) throws JabberException {
 
         // Get account manager
-        AccountManager accountManager = connection.getAccountManager();
+        AccountManager accountManager = AccountManager.getInstance(connection);
+
         // Check if the server supports account creation
-        if (!accountManager.supportsAccountCreation()) {
-            throw new JabberException("Jabber server does not support account creation");
+        try {
+            if (!accountManager.supportsAccountCreation()) {
+                throw new JabberException("Jabber server does not support account creation");
+            }
+        }
+        // Failure
+        catch (Exception e) {
+            throw new JabberException(e);
         }
 
         // Map params
@@ -232,7 +256,7 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
             accountManager.createAccount(buddy.getScreenName(), buddy.getPassword(), attributes);
         }
         // Failure
-        catch (XMPPException e) {
+        catch (Exception e) {
             String message = e.getMessage();
             // Conflict
             if (Validator.isNotNull(message) && message.contains("conflict(409)")) {
@@ -251,28 +275,52 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
     // -------------------------------------------------------------------------------------------
 
     @Override
-    public void connectionClosed() {
+    public void connected(XMPPConnection xmppConnection) {
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Connected");
+        }
+    }
 
+    @Override
+    public void authenticated(XMPPConnection xmppConnection) {
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Authenticated");
+        }
+    }
+
+    @Override
+    public void connectionClosed() {
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Connection Closed");
+        }
     }
 
     @Override
     public void connectionClosedOnError(Exception e) {
-
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Connection closed on error");
+        }
     }
 
     @Override
     public void reconnectingIn(int i) {
-
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Reconnecting in: " + i);
+        }
     }
 
     @Override
     public void reconnectionSuccessful() {
-
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Reconnection Successful");
+        }
     }
 
     @Override
     public void reconnectionFailed(Exception e) {
-
+        if (log.isDebugEnabled()) {
+            log.debug("Jabber: Reconnection Failed");
+        }
     }
 
 
@@ -299,15 +347,13 @@ public class ConnectionManagerImpl implements ConnectionManager, ConnectionListe
                 Environment.getJabberServiceName());
 
         // Init configuration values
-        // SASL Plain auth
-        connectionConfiguration.setSASLAuthenticationEnabled(Environment.isSaslPlainEnabled());
+
+        // Disable the security mode since we have no certificate
+        connectionConfiguration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+        // Enable reconnection
+        connectionConfiguration.setReconnectionAllowed(true);
         // Is the initial available presence going to be send to the server?
         connectionConfiguration.setSendPresence(true);
-
-        // Sets the socket factory used to create new xmppConnection sockets.
-        // This is useful when connecting through SOCKS5 proxies.
-        SmackConfiguration.setLocalSocks5ProxyEnabled(Environment.isJabberSock5ProxyEnabled());
-        SmackConfiguration.setLocalSocks5ProxyPort(Environment.getJabberSock5ProxyPort());
 
         return connectionConfiguration;
     }

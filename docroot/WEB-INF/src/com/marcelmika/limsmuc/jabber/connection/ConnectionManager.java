@@ -7,12 +7,12 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.jabber.connection.manager;
+package com.marcelmika.limsmuc.jabber.connection;
 
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.packet.Presence;
 
@@ -47,7 +47,7 @@ public interface ConnectionManager {
     /**
      * Returns connection of the user
      */
-    public Connection getConnection();
+    public XMPPConnection getConnection();
 
     /**
      * Returns buddy's roster
@@ -75,7 +75,8 @@ public interface ConnectionManager {
      * Set or updates buddy's presence
      *
      * @param presence Presence of the concrete buddy.
+     * @throws JabberException
      */
-    public void setPresence(final Presence presence);
+    public void setPresence(final Presence presence) throws JabberException;
 
 }

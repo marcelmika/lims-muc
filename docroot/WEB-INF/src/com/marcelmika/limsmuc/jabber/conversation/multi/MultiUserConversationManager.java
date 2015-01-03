@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.conversation.multi;
 
-import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.XMPPConnection;
 
 /**
  * @author Ing. Marcel Mika
@@ -24,7 +24,7 @@ public interface MultiUserConversationManager {
      *
      * @param connection Connection
      */
-    public void setConnection(Connection connection);
+    public void setConnection(XMPPConnection connection);
 
     /**
      * Sets company id to the group manager

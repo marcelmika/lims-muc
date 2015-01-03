@@ -4330,7 +4330,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManager</name>
-		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>createConnection</name>
@@ -4402,7 +4402,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManagerFactory</name>
-		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerFactory</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>buildManager</name>
@@ -4413,7 +4413,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ConnectionManagerImpl</name>
-		<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerImpl</type>
+		<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManagerImpl</type>
 		<comment><![CDATA[Manages user's connection to the server]]></comment>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
@@ -6770,7 +6770,7 @@
 			<comment><![CDATA[JabberSessionManager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerImpl</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManagerImpl</type>
 				<required>true</required>
 				<comment><![CDATA[JabberConnectionManager]]></comment>
 			</param>
@@ -6987,7 +6987,7 @@
 			</param>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create session manager]]></comment>
 			</param>
@@ -7001,7 +7001,7 @@
 			<comment><![CDATA[Creates new group manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create group manager]]></comment>
 			</param>
@@ -7015,7 +7015,7 @@
 			<comment><![CDATA[Create new single user conversation manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create single user conversation manager]]></comment>
 			</param>
@@ -7029,7 +7029,7 @@
 			<comment><![CDATA[Create new multi user conversation manager]]></comment>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 				<required>true</required>
 				<comment><![CDATA[used to create multi user conversation manager]]></comment>
 			</param>
@@ -7054,7 +7054,7 @@
 			<name>setConnectionManager</name>
 			<param>
 				<name>connectionManager</name>
-				<type>com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager</type>
+				<type>com.marcelmika.limsmuc.jabber.connection.ConnectionManager</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 		</method>

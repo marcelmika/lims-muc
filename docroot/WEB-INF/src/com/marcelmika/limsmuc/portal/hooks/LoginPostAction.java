@@ -51,6 +51,7 @@ public class LoginPostAction extends Action {
 
             // Log error
             if (!responseEvent.isSuccess()) {
+                log.error(responseEvent.getStatus());
                 log.error(responseEvent.getException());
             }
 

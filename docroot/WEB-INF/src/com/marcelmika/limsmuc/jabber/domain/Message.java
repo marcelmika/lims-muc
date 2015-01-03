@@ -9,8 +9,10 @@
 
 package com.marcelmika.limsmuc.jabber.domain;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.MessageDetails;
-import org.jivesoftware.smackx.packet.DelayInformation;
+import org.jivesoftware.smackx.delay.packet.DelayInformation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -147,7 +149,7 @@ public class Message {
 
     /**
      * Method which calculates smack message timestamp.
-     * Message creation date can be retrieved from the offline messages.
+     * Message creation date can be retrieved from the offline messages only.
      *
      * @param message from smack
      * @return Date
@@ -156,13 +158,15 @@ public class Message {
 
         try {
             // Get the timestamp from message extension
-            DelayInformation inf = (DelayInformation) message.getExtension("x", "jabber:x:delay");
+            DelayInformation information = message.getExtension("x", "jabber:x:delay");
             // Return offline message timestamp
-            if (inf != null) {
-                return inf.getStamp();
+            if (information != null) {
+                return information.getStamp();
             }
+
             // Message is not offline -> return current timestamp
             Calendar calendar = Calendar.getInstance();
+
             return calendar.getTime();
 
         } catch (Exception e) {

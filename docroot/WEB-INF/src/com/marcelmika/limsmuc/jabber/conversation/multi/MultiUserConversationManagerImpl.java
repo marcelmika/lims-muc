@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.conversation.multi;
 
-import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.XMPPConnection;
 
 /**
  * @author Ing. Marcel Mika
@@ -21,10 +21,10 @@ public class MultiUserConversationManagerImpl implements MultiUserConversationMa
     /**
      * Sets connection
      *
-     * @param connection Connection
+     * @param connection XMPPConnection
      */
     @Override
-    public void setConnection(Connection connection) {
+    public void setConnection(XMPPConnection connection) {
 
     }
 

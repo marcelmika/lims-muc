@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.session;
 
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
 import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManager;
 import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManagerFactory;
 import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
@@ -30,7 +30,6 @@ public class UserSession {
     private GroupManager groupManager;
     private SingleUserConversationManager singleUserConversationManager;
     private MultiUserConversationManager multiUserConversationManager;
-
 
     /**
      * Constructor
@@ -61,8 +60,10 @@ public class UserSession {
         userSession.groupManager = createGroupManager(companyId, connectionManager);
         // Single User Conversation manager
         userSession.singleUserConversationManager = createSingleUserConversationManager(companyId, connectionManager);
+
+        // TODO: Multi user conversation is not implemented yet
         // Multi User Conversation manager
-        userSession.multiUserConversationManager = createMultiUserConversationManager(companyId, connectionManager);
+        // userSession.multiUserConversationManager = createMultiUserConversationManager(companyId, connectionManager);
 
         return userSession;
     }

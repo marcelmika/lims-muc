@@ -180,7 +180,6 @@ public class SingleUserConversationManagerImpl
             return;
         }
 
-
         // Parse message
         Message message = Message.fromSmackMessage(smackMessage);
 
