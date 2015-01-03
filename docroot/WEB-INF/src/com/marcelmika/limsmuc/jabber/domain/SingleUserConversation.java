@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.ConversationDetails;
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
  * Date: 4/4/14
  * Time: 1:07 AM
  */
-public class SingleUserConversation implements MessageListener {
+public class SingleUserConversation {
 
     // Log
     private static Log log = LogFactoryUtil.getLog(SingleUserConversation.class);
@@ -55,9 +54,6 @@ public class SingleUserConversation implements MessageListener {
         // Map relationships
         conversation.participant = Buddy.fromChat(chat);
         conversation.conversationType = ConversationType.SINGLE_USER;
-        // Set conversation as a message listener. Thanks to that it
-        // will be able to change inner content
-        chat.addMessageListener(conversation);
 
         return conversation;
     }
@@ -78,8 +74,10 @@ public class SingleUserConversation implements MessageListener {
             // However, we should fail gracefully here. So we just take the first participant in the list
             // which isn't the owner of conversation and show a log message that should warn us.
             if (details.getParticipants().size() > 2) {
-                log.error("The size of participants list for a single user conversation is bigger than 2." +
-                        "This shouldn't normally happen.");
+                if (log.isErrorEnabled()) {
+                    log.error("The size of participants list for a single user conversation is bigger than 2." +
+                            "This shouldn't normally happen.");
+                }
             }
 
             // Get from by listing the participants
@@ -158,27 +156,6 @@ public class SingleUserConversation implements MessageListener {
 
         return details;
     }
-
-
-    // -------------------------------------------------------------------------------------------
-    // Message Listener
-    // -------------------------------------------------------------------------------------------
-
-    /**
-     * Called whenever the buddy receives message
-     *
-     * @param smackMessage which was received
-     */
-    @Override
-    public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message smackMessage) {
-        // Create new message from smack message
-        Message message = Message.fromSmackMessage(smackMessage);
-
-        log.debug(String.format("From: %s, Body: %s", message.getFrom().getScreenName(), message.getBody()));
-
-        messages.add(message);
-    }
-
 
     // -------------------------------------------------------------------------------------------
     // Private Methods
