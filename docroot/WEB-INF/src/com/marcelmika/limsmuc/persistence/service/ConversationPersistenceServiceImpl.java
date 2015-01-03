@@ -61,7 +61,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
         try {
             // Try to find a conversation with the same id
             com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
-                    ConversationLocalServiceUtil.fetchByConversationId(event.getConversationId());
+                    ConversationLocalServiceUtil.fetchByConversationId(event.getConversationId(), false);
 
             // Conversation exists only if it's not null
             boolean exists = conversationModel != null;

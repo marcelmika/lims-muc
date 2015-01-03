@@ -18,6 +18,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException;
+import com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException;
+import com.marcelmika.limsmuc.persistence.generated.model.Conversation;
+import com.marcelmika.limsmuc.persistence.generated.model.Panel;
 import com.marcelmika.limsmuc.persistence.generated.model.Participant;
 import com.marcelmika.limsmuc.persistence.generated.model.impl.ParticipantImpl;
 import com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil;
@@ -50,7 +54,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
 	/*
      * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this interface directly. Always use {@link com.marcelmika.limsmuc.persistence.generated.service.ParticipantLocalServiceUtil} to access the participant local service.
+	 * Never reference this interface directly. Always use {@link service.ParticipantLocalServiceUtil} to access the participant local service.
 	 */
 
     /**
@@ -81,9 +85,14 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
 
         for (Participant participant : participantList) {
 
+            // We need to retrieve the participant from the database and thus avoid the cache
+            // Otherwise if we call this method from a different thread an old value
+            // is used
+            participant = getParticipant(cid, participant.getParticipantId(), false);
+
             // We don't want to increase a count of unread messages of the user who
             // actually sent the message
-            if (participant.getParticipantId() == senderId) {
+            if (participant == null || participant.getParticipantId() == senderId) {
                 continue;
             }
 
@@ -113,16 +122,16 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param conversationId Conversation which should be closed
      * @param participantId  Participant whose conversation should be closed
-     * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+     * @throws NoSuchConversationException
      * @throws SystemException
-     * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+     * @throws NoSuchParticipantException
      */
     @Override
     public void closeConversation(String conversationId, Long participantId)
-            throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException, SystemException, com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException {
+            throws NoSuchConversationException, SystemException, NoSuchParticipantException {
 
         // Find conversation
-        com.marcelmika.limsmuc.persistence.generated.model.Conversation conversation = conversationPersistence.findByConversationId(conversationId);
+        Conversation conversation = conversationPersistence.findByConversationId(conversationId);
 
         // Find participant
         Participant participant = participantPersistence.findByCidParticipantId(conversation.getCid(), participantId);
@@ -131,7 +140,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
         participant.setIsOpened(false);
 
         // Since the panel was closed no active panel is currently there
-        com.marcelmika.limsmuc.persistence.generated.model.Panel panel = PanelLocalServiceUtil.getPanelByUser(participant.getParticipantId());
+        Panel panel = PanelLocalServiceUtil.getPanelByUser(participant.getParticipantId());
         panel.setActivePanelId("");
         panelPersistence.update(panel, false);
 
@@ -144,16 +153,16 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param conversationId Conversation where the counter should be reset
      * @param participantId  Participant whose counter should be reset
-     * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+     * @throws NoSuchParticipantException
      * @throws SystemException
-     * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+     * @throws NoSuchConversationException
      */
     @Override
     public void resetUnreadMessagesCounter(String conversationId, Long participantId)
-            throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException, SystemException, com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException {
+            throws NoSuchParticipantException, SystemException, NoSuchConversationException {
 
         // Find conversation
-        com.marcelmika.limsmuc.persistence.generated.model.Conversation conversation = conversationPersistence.findByConversationId(conversationId);
+        Conversation conversation = conversationPersistence.findByConversationId(conversationId);
 
         // Find participant
         Participant participant = participantPersistence.findByCidParticipantId(conversation.getCid(), participantId);
@@ -206,11 +215,11 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      *
      * @param cid Id of the conversation related to the participants
      * @return list of participants
-     * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+     * @throws NoSuchParticipantException
      * @throws SystemException
      */
     @Override
-    public List<Participant> getConversationParticipants(Long cid) throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException, SystemException {
+    public List<Participant> getConversationParticipants(Long cid) throws NoSuchParticipantException, SystemException {
         return participantPersistence.findByCid(cid);
     }
 
@@ -230,7 +239,7 @@ public class ParticipantLocalServiceImpl extends ParticipantLocalServiceBaseImpl
      * Returns particular participant based on the id
      *
      * @param participantId Id of the participant
-     * @param useCache true if the cache should be used
+     * @param useCache      true if the cache should be used
      * @return participant or null if no participant was found
      * @throws SystemException
      */
