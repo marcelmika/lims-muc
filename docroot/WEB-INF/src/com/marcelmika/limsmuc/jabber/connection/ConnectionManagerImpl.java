@@ -64,7 +64,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // Failure
         catch (Exception e) {
-            log.error(e);
             throw new JabberException("Cannot connect to the jabber server", e);
         }
     }
@@ -208,6 +207,8 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 }
                 // Try to import user
                 importUser(buddy, connection);
+                // We need to recreate the connection here
+                createConnection();
                 // ... and login again. The second parameter must be false otherwise we could end up in the
                 // infinite recursion
                 login(buddy, false);
@@ -289,8 +290,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 Environment.getJabberHost(),
                 Environment.getJabberPort(),
                 Environment.getJabberServiceName());
-
-        // Init configuration values
 
         // Disable the security mode since we have no certificate
         connectionConfiguration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
