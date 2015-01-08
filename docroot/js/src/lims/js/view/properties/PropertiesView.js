@@ -65,6 +65,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
             jabberEnabled = this.get('jabberEnabled'),
+            jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -82,6 +83,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
         jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
+        jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -480,6 +482,35 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         // Prepare the model
         model = new Y.LIMS.Model.PropertiesModel({
            jabberEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+           if (err) {
+               // Return everything to the previous state
+               switchView.toggle();
+           }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the jabber import user enabled switch
+     *
+     * @private
+     */
+    _onJabberImportUserEnabledClick: function () {
+      // Vars
+        var switchView = this.get('jabberImportUserEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberImportUserEnabled: switchView.isOn()
         });
 
         // Disable view
@@ -941,6 +972,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.jabber-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber import user enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        jabberImportUserEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-import-user-enabled');
 
                 return new Y.LIMS.View.SwitchElementView({
                     container: container

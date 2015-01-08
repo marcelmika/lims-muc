@@ -118,6 +118,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
             // Set jabber related properties
             setupJabberEnabled(preferences);
+            setupJabberImportUserEnabled(preferences);
             setupJabberProperties();
         }
     }
@@ -192,6 +193,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber enabled
         if (properties.getJabberEnabled() != null) {
             updateJabberEnabled(preferences, properties);
+        }
+
+        // Jabber import user enabled
+        if (properties.getJabberImportUserEnabled() != null) {
+            updateJabberImportUserEnabled(preferences, properties);
         }
     }
 
@@ -1087,6 +1093,56 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Updates jabber import user enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberImportUserEnabled(PortletPreferences preferences,
+                                               Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED,
+                String.valueOf(properties.getJabberImportUserEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberImportUserEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber import user enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberImportUserEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberImportUserEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberImportUserEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberImportUserEnabled = PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberImportUserEnabled(jabberImportUserEnabled);
+    }
+
+    /**
      * Sets jabber related properties
      */
     private void setupJabberProperties() {
@@ -1098,7 +1154,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         Environment.setJabberResource(PortletPropertiesValues.JABBER_RESOURCE);
         Environment.setJabberSock5ProxyEnabled(PortletPropertiesValues.JABBER_SOCK5_PROXY_ENABLED);
         Environment.setJabberSock5ProxyPort(PortletPropertiesValues.JABBER_SOCK5_PROXY_PORT);
-        Environment.setJabberImportUserEnabled(PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED);
         Environment.setSaslPlainEnabled(PortletPropertiesValues.JABBER_SASL_PLAIN_ENABLED);
         Environment.setSaslPlainAuthId(PortletPropertiesValues.JABBER_SASL_PLAIN_AUTHID);
         Environment.setSaslPlainPassword(PortletPropertiesValues.JABBER_SASL_PLAIN_PASSWORD);
