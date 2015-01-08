@@ -102,6 +102,9 @@
                             <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                            <li class="category">Jabber</li>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-enabled.jspf" %>
+                            <li class="category">Synchronization</li>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
                         </ul>

@@ -47,6 +47,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
 
     /**
      * Attach event to elements
+     *
      * @private
      */
     _attachEvents: function () {
@@ -63,6 +64,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
+            jabberEnabled = this.get('jabberEnabled'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -79,6 +81,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
+        jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -461,6 +464,35 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             // function token input looses it's focus. So if we enable it
             // we need to re-enable the focus again.
             buddyListGroupExcludes.focus();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the jabber enabled switch
+     *
+     * @private
+     */
+    _onJabberEnabledClick: function () {
+      // Vars
+        var switchView = this.get('jabberEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+           jabberEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+           if (err) {
+               // Return everything to the previous state
+               switchView.toggle();
+           }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
         });
     },
 
@@ -895,6 +927,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.buddy-list-group-excludes');
 
                 return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        jabberEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
                     container: container
                 });
             }

@@ -182,6 +182,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          */
         buddyListGroupExcludes: {
             value: null // to be set
+        },
+
+        /**
+         * Jabber enabled
+         *
+         * {boolean}
+         */
+        jabberEnabled: {
+            value: null // to be set
         }
     }
 });

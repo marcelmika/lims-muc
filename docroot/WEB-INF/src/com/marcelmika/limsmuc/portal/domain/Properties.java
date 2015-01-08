@@ -36,6 +36,7 @@ public class Properties {
     private String[] buddyListGroupExcludes;
     private String urlHelp;
     private String urlUnsupportedBrowser;
+    private Boolean jabberEnabled;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -61,6 +62,7 @@ public class Properties {
         properties.buddyListGroupExcludes = Environment.getBuddyListGroupExcludes();
         properties.urlHelp = Environment.getUrlHelp();
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
+        properties.jabberEnabled = Environment.isJabberEnabled();
 
         return properties;
     }
@@ -189,6 +191,14 @@ public class Properties {
         this.urlUnsupportedBrowser = urlUnsupportedBrowser;
     }
 
+    public Boolean getJabberEnabled() {
+        return jabberEnabled;
+    }
+
+    public void setJabberEnabled(Boolean jabberEnabled) {
+        this.jabberEnabled = jabberEnabled;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -206,6 +216,7 @@ public class Properties {
                 ", buddyListGroupExcludes=" + Arrays.toString(buddyListGroupExcludes) +
                 ", urlHelp='" + urlHelp + '\'' +
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
+                ", jabberEnabled=" + jabberEnabled +
                 '}';
     }
 }
