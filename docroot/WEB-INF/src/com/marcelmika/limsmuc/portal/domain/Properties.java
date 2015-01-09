@@ -39,6 +39,7 @@ public class Properties {
     private Boolean jabberEnabled;
     private Boolean jabberImportUserEnabled;
     private String jabberHost;
+    private Integer jabberPort;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -67,6 +68,7 @@ public class Properties {
         properties.jabberEnabled = Environment.isJabberEnabled();
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
         properties.jabberHost = Environment.getJabberHost();
+        properties.jabberPort = Environment.getJabberPort();
 
         return properties;
     }
@@ -219,6 +221,14 @@ public class Properties {
         this.jabberHost = jabberHost;
     }
 
+    public Integer getJabberPort() {
+        return jabberPort;
+    }
+
+    public void setJabberPort(Integer jabberPort) {
+        this.jabberPort = jabberPort;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -239,6 +249,7 @@ public class Properties {
                 ", jabberEnabled=" + jabberEnabled +
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +
                 ", jabberHost='" + jabberHost + '\'' +
+                ", jabberPort=" + jabberPort +
                 '}';
     }
 }

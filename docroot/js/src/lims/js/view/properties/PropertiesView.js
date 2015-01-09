@@ -67,6 +67,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberEnabled = this.get('jabberEnabled'),
             jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
             jabberHost = this.get('jabberHost'),
+            jabberPort = this.get('jabberPort'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -86,6 +87,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
         jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
         jabberHost.on('inputUpdate', this._onJabberHostUpdate, this);
+        jabberPort.on('inputUpdate', this._onJabberPortUpdate, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -570,6 +572,46 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     },
 
     /**
+     * Called when the jabber port input is updated
+     *
+     * @private
+     */
+    _onJabberPortUpdate: function (event) {
+        // Vars
+        var jabberPort = this.get('jabberPort'),
+            preValue = event.preValue,      // Previously selected value
+            postValue = event.postValue,    // Currently selected value
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberPort: postValue
+        });
+
+        // Disable view
+        jabberPort.disable();
+        // Show activity
+        jabberPort.showActivityIndicator();
+
+        // Save the model
+        model.save(function (err) {
+            // Hide activity
+            jabberPort.hideActivityIndicator();
+
+            if (err) {
+                // Return everything to the previous state
+                jabberPort.setValue(preValue);
+            }
+            // Re-enable the view so the user can interact with it again
+            jabberPort.enable();
+            // Since if we called the disable()
+            // function token input looses it's focus. So if we enable it
+            // we need to re-enable the focus again.
+            jabberPort.focus();
+        });
+    },
+
+    /**
      * Called when user confirms synchronization with SUC
      *
      * @private
@@ -1046,6 +1088,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.jabber-host');
+
+                return new Y.LIMS.View.InputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber port
+         *
+         * {Y.LIMS.View.InputElementView}
+         */
+        jabberPort: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-port');
 
                 return new Y.LIMS.View.InputElementView({
                     container: container
