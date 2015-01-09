@@ -1385,8 +1385,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private void setupJabberProperties() {
 
         // Set jabber properties to Environment
-        Environment.setJabberSock5ProxyEnabled(PortletPropertiesValues.JABBER_SOCK5_PROXY_ENABLED);
-        Environment.setJabberSock5ProxyPort(PortletPropertiesValues.JABBER_SOCK5_PROXY_PORT);
         Environment.setSaslPlainEnabled(PortletPropertiesValues.JABBER_SASL_PLAIN_ENABLED);
         Environment.setSaslPlainAuthId(PortletPropertiesValues.JABBER_SASL_PLAIN_AUTHID);
         Environment.setSaslPlainPassword(PortletPropertiesValues.JABBER_SASL_PLAIN_PASSWORD);

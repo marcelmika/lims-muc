@@ -40,8 +40,6 @@ public class Environment {
     private static Integer jabberPort = 0;
     private static String jabberServiceName = "";
     private static String jabberResource = "";
-    private static Boolean jabberSock5ProxyEnabled = false;
-    private static Integer jabberSock5ProxyPort = 0;
     private static Boolean jabberImportUserEnabled = false;
     private static Boolean saslPlainEnabled = false;
     private static String saslPlainAuthId = "";
@@ -583,42 +581,6 @@ public class Environment {
      */
     public static void setJabberResource(String jabberResource) {
         Environment.jabberResource = jabberResource;
-    }
-
-    /**
-     * Returns true if jabber SOCK5 proxy mechanism is enabled
-     *
-     * @return boolean
-     */
-    public static boolean isJabberSock5ProxyEnabled() {
-        return jabberSock5ProxyEnabled;
-    }
-
-    /**
-     * Sets jabber SOCK5 proxy enabled property
-     *
-     * @param jabberSock5ProxyEnabled Integer
-     */
-    public static void setJabberSock5ProxyEnabled(Boolean jabberSock5ProxyEnabled) {
-        Environment.jabberSock5ProxyEnabled = jabberSock5ProxyEnabled;
-    }
-
-    /**
-     * Returns jabber SOCK5 port
-     *
-     * @return int jabber SOCK5 port
-     */
-    public static int getJabberSock5ProxyPort() {
-        return jabberSock5ProxyPort;
-    }
-
-    /**
-     * Sets jabber SOCK5 proxy port property
-     *
-     * @param jabberSock5ProxyPort Integer
-     */
-    public static void setJabberSock5ProxyPort(Integer jabberSock5ProxyPort) {
-        Environment.jabberSock5ProxyPort = jabberSock5ProxyPort;
     }
 
     /**

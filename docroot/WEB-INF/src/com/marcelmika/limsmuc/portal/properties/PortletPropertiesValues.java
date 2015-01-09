@@ -125,16 +125,6 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_RESOURCE
     );
 
-    // Jabber - SOCK5 (Disabled by default)
-    public static final boolean JABBER_SOCK5_PROXY_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_SOCK5_PROXY_ENABLED
-    );
-
-    // Jabber - SOCK5 - Port
-    public static final int JABBER_SOCK5_PROXY_PORT = getInteger(
-            PortletPropertiesKeys.JABBER_SOCK5_PROXY_PORT
-    );
-
     // Jabber - User Import
     public static final boolean JABBER_IMPORT_USER_ENABLED = getBoolean(
             PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED

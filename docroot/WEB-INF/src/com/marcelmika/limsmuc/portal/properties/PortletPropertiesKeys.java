@@ -56,10 +56,6 @@ public interface PortletPropertiesKeys {
     public static final String JABBER_RESOURCE = "jabber.resource";
     public static final String JABBER_SERVICE_NAME = "jabber.service.name";
 
-    // Sock5
-    public static final String JABBER_SOCK5_PROXY_ENABLED = "jabber.sock5.proxy.enabled";
-    public static final String JABBER_SOCK5_PROXY_PORT = "jabber.sock5.proxy.port";
-
     // User import
     public static final String JABBER_IMPORT_USER_ENABLED = "jabber.import.user.enabled";
 
