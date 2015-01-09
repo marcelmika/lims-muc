@@ -200,6 +200,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          */
         jabberImportUserEnabled: {
             value: null // to be set
+        },
+
+        /**
+         * Jabber host
+         *
+         * {string}
+         */
+        jabberHost: {
+            value: null // to be set
         }
     }
 });

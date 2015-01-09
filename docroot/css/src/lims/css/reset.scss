@@ -44,7 +44,10 @@
   }
 
   input,
-  input[type="text"] {
+  input[type="text"],
+  input[type="text"]:focus {
+    outline: none;
+    transform: none;
     @include box-shadow(none);
   }
 }

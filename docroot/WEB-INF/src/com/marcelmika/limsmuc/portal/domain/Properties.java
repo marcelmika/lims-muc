@@ -38,6 +38,7 @@ public class Properties {
     private String urlUnsupportedBrowser;
     private Boolean jabberEnabled;
     private Boolean jabberImportUserEnabled;
+    private String jabberHost;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -65,6 +66,7 @@ public class Properties {
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
         properties.jabberEnabled = Environment.isJabberEnabled();
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
+        properties.jabberHost = Environment.getJabberHost();
 
         return properties;
     }
@@ -209,6 +211,14 @@ public class Properties {
         this.jabberImportUserEnabled = jabberImportUserEnabled;
     }
 
+    public String getJabberHost() {
+        return jabberHost;
+    }
+
+    public void setJabberHost(String jabberHost) {
+        this.jabberHost = jabberHost;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -228,6 +238,7 @@ public class Properties {
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
                 ", jabberEnabled=" + jabberEnabled +
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +
+                ", jabberHost='" + jabberHost + '\'' +
                 '}';
     }
 }

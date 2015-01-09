@@ -145,6 +145,44 @@
     button {
       font-size: 12px;
       margin-bottom: 13px;
+      @include border-radius(0);
+    }
+
+    input[type="text"] {
+      border: 1px solid #ddd;
+      @include border-radius(0);
+
+      &:focus {
+        @include box-shadow(none);
+        border-color: #009AE5;
+      }
+
+      &:disabled {
+        background: inherit;
+      }
+
+      // Token input doesn't have a border
+      &.token-input-plugin-input {
+        border: none;
+      }
+    }
+
+    .text-input {
+
+      // All text input should have the same size
+      input[type="text"] {
+        width: 250px;
+      }
+
+      .preloader {
+        position: absolute;
+        top: 21px;
+        right: 0;
+        margin: 0;
+        width: 17px;
+        background-size: 17px;
+        left: 250px;
+      }
     }
 
     .category {
