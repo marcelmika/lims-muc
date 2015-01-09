@@ -68,6 +68,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
             jabberHost = this.get('jabberHost'),
             jabberPort = this.get('jabberPort'),
+            jabberServiceName = this.get('jabberServiceName'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -88,6 +89,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
         jabberHost.on('inputUpdate', this._onJabberHostUpdate, this);
         jabberPort.on('inputUpdate', this._onJabberPortUpdate, this);
+        jabberServiceName.on('inputUpdate', this._onJabberServiceNameUpdate, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -611,6 +613,47 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         });
     },
 
+
+    /**
+     * Called when the jabber service name input is updated
+     *
+     * @private
+     */
+    _onJabberServiceNameUpdate: function (event) {
+        // Vars
+        var jabberServiceName = this.get('jabberServiceName'),
+            preValue = event.preValue,      // Previously selected value
+            postValue = event.postValue,    // Currently selected value
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberServiceName: postValue
+        });
+
+        // Disable view
+        jabberServiceName.disable();
+        // Show activity
+        jabberServiceName.showActivityIndicator();
+
+        // Save the model
+        model.save(function (err) {
+            // Hide activity
+            jabberServiceName.hideActivityIndicator();
+
+            if (err) {
+                // Return everything to the previous state
+                jabberServiceName.setValue(preValue);
+            }
+            // Re-enable the view so the user can interact with it again
+            jabberServiceName.enable();
+            // Since if we called the disable()
+            // function token input looses it's focus. So if we enable it
+            // we need to re-enable the focus again.
+            jabberServiceName.focus();
+        });
+    },
+
     /**
      * Called when user confirms synchronization with SUC
      *
@@ -1104,6 +1147,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.jabber-port');
+
+                return new Y.LIMS.View.InputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber service name
+         *
+         * {Y.LIMS.View.InputElementView}
+         */
+        jabberServiceName: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-service-name');
 
                 return new Y.LIMS.View.InputElementView({
                     container: container

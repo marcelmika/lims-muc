@@ -40,6 +40,7 @@ public class Properties {
     private Boolean jabberImportUserEnabled;
     private String jabberHost;
     private Integer jabberPort;
+    private String jabberServiceName;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -69,6 +70,7 @@ public class Properties {
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
         properties.jabberHost = Environment.getJabberHost();
         properties.jabberPort = Environment.getJabberPort();
+        properties.jabberServiceName = Environment.getJabberServiceName();
 
         return properties;
     }
@@ -229,6 +231,14 @@ public class Properties {
         this.jabberPort = jabberPort;
     }
 
+    public String getJabberServiceName() {
+        return jabberServiceName;
+    }
+
+    public void setJabberServiceName(String jabberServiceName) {
+        this.jabberServiceName = jabberServiceName;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -250,6 +260,7 @@ public class Properties {
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +
                 ", jabberHost='" + jabberHost + '\'' +
                 ", jabberPort=" + jabberPort +
+                ", jabberServiceName='" + jabberServiceName + '\'' +
                 '}';
     }
 }

@@ -107,6 +107,7 @@
                             <%@ include file="/WEB-INF/jspf/settings/jabber-import-user-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-host.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-port.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-service-name.jspf" %>
                             <li class="category">Synchronization</li>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>

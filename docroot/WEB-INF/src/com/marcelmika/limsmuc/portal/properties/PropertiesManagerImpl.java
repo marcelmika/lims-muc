@@ -121,6 +121,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberImportUserEnabled(preferences);
             setupJabberHost(preferences);
             setupJabberPort(preferences);
+            setupJabberServiceName(preferences);
             setupJabberProperties();
         }
     }
@@ -210,6 +211,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber port
         if (properties.getJabberPort() != null) {
             updateJabberPort(preferences, properties);
+        }
+
+        // Jabber service name
+        if (properties.getJabberServiceName() != null) {
+            updateJabberServiceName(preferences, properties);
         }
     }
 
@@ -1255,12 +1261,61 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Updates jabber service name property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberServiceName(PortletPreferences preferences,
+                                  Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                properties.getJabberServiceName()
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberServiceName(preferences);
+    }
+
+    /**
+     * Sets the jabber host property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberServiceName(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        String jabberServiceName;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberServiceName = preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                    PortletPropertiesValues.JABBER_SERVICE_NAME
+            );
+        }
+        // Properties
+        else {
+            jabberServiceName = PortletPropertiesValues.JABBER_SERVICE_NAME;
+        }
+
+        // Save in Environment
+        Environment.setJabberServiceName(jabberServiceName);
+    }
+
+    /**
      * Sets jabber related properties
      */
     private void setupJabberProperties() {
 
         // Set jabber properties to Environment
-        Environment.setJabberServiceName(PortletPropertiesValues.JABBER_SERVICE_NAME);
         Environment.setJabberResource(PortletPropertiesValues.JABBER_RESOURCE);
         Environment.setJabberSock5ProxyEnabled(PortletPropertiesValues.JABBER_SOCK5_PROXY_ENABLED);
         Environment.setJabberSock5ProxyPort(PortletPropertiesValues.JABBER_SOCK5_PROXY_PORT);
