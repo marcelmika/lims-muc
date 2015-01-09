@@ -203,7 +203,7 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
          * {integer}
          */
         timerDelayInterval: {
-            value: 500 // half a second
+            value: 1500 // one and a half second
         }
     }
 });

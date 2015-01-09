@@ -12,10 +12,10 @@
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Render --%>
-<li class="jabber-port text-input">
+<li class="jabber-resource text-input">
 
     <div class="settings-category-title">
-        <span><liferay-ui:message key="panel-settings-admin-area-jabber-port-title"/></span>
+        <span><liferay-ui:message key="panel-settings-admin-area-jabber-resource-title"/></span>
     </div>
-    <input type="text" placeholder="e.g. 5222" maxlength="5" value="${properties.jabberPort}"/>
+    <input type="text" placeholder="e.g. LIMS" value="${properties.jabberResource}"/>
 </li>

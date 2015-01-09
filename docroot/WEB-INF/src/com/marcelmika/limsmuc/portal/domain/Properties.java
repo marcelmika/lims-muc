@@ -41,6 +41,7 @@ public class Properties {
     private String jabberHost;
     private Integer jabberPort;
     private String jabberServiceName;
+    private String jabberResource;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -71,6 +72,7 @@ public class Properties {
         properties.jabberHost = Environment.getJabberHost();
         properties.jabberPort = Environment.getJabberPort();
         properties.jabberServiceName = Environment.getJabberServiceName();
+        properties.jabberResource = Environment.getJabberResource();
 
         return properties;
     }
@@ -239,6 +241,14 @@ public class Properties {
         this.jabberServiceName = jabberServiceName;
     }
 
+    public String getJabberResource() {
+        return jabberResource;
+    }
+
+    public void setJabberResource(String jabberResource) {
+        this.jabberResource = jabberResource;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -261,6 +271,7 @@ public class Properties {
                 ", jabberHost='" + jabberHost + '\'' +
                 ", jabberPort=" + jabberPort +
                 ", jabberServiceName='" + jabberServiceName + '\'' +
+                ", jabberResource='" + jabberResource + '\'' +
                 '}';
     }
 }

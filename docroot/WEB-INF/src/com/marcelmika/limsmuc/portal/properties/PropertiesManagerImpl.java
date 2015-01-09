@@ -60,6 +60,8 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static final int POLLING_SLOW_DOWN_THRESHOLD_MAX = 5000;
     private static final int POLLING_SLOW_DOWN_THRESHOLD_DEFAULT = 1000;
 
+    private static final String JABBER_RESOURCE_DEFAULT = "LIMS";
+
     // Set to true if the environment was already set up
     private boolean isSetup = false;
 
@@ -122,6 +124,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberHost(preferences);
             setupJabberPort(preferences);
             setupJabberServiceName(preferences);
+            setupJabberResource(preferences);
             setupJabberProperties();
         }
     }
@@ -216,6 +219,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber service name
         if (properties.getJabberServiceName() != null) {
             updateJabberServiceName(preferences, properties);
+        }
+
+        // Jabber resource
+        if (properties.getJabberResource() != null) {
+            updateJabberResource(preferences, properties);
         }
     }
 
@@ -1268,7 +1276,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
      * @throws Exception
      */
     private void updateJabberServiceName(PortletPreferences preferences,
-                                  Properties properties) throws Exception {
+                                         Properties properties) throws Exception {
 
         // Set the value in portlet preferences
         preferences.setValue(
@@ -1283,7 +1291,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Sets the jabber host property
+     * Sets the jabber service name property
      *
      * @param preferences PortletPreferences
      */
@@ -1311,18 +1319,77 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Updates jabber resource property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberResource(PortletPreferences preferences,
+                                      Properties properties) throws Exception {
+
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberResource(),
+                PortletPropertiesKeys.JABBER_RESOURCE,
+                JABBER_RESOURCE_DEFAULT
+        );
+
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_RESOURCE, value
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberResource(preferences);
+    }
+
+    /**
+     * Sets the jabber resource property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberResource(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Get the value from properties
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_RESOURCE,
+                PortletPropertiesKeys.JABBER_RESOURCE,
+                JABBER_RESOURCE_DEFAULT
+        );
+
+        String jabberResource;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberResource = preferences.getValue(PortletPropertiesKeys.JABBER_RESOURCE, value);
+        }
+        // Properties
+        else {
+            jabberResource = value;
+        }
+
+        // Save in Environment
+        Environment.setJabberResource(jabberResource);
+    }
+
+    /**
      * Sets jabber related properties
      */
     private void setupJabberProperties() {
 
         // Set jabber properties to Environment
-        Environment.setJabberResource(PortletPropertiesValues.JABBER_RESOURCE);
         Environment.setJabberSock5ProxyEnabled(PortletPropertiesValues.JABBER_SOCK5_PROXY_ENABLED);
         Environment.setJabberSock5ProxyPort(PortletPropertiesValues.JABBER_SOCK5_PROXY_PORT);
         Environment.setSaslPlainEnabled(PortletPropertiesValues.JABBER_SASL_PLAIN_ENABLED);
         Environment.setSaslPlainAuthId(PortletPropertiesValues.JABBER_SASL_PLAIN_AUTHID);
         Environment.setSaslPlainPassword(PortletPropertiesValues.JABBER_SASL_PLAIN_PASSWORD);
-
     }
 
     /**
@@ -1340,7 +1407,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Set url properties
         Environment.setUrlHelp(PortletPropertiesValues.URL_HELP);
         Environment.setUrlUnsupportedBrowser(PortletPropertiesValues.URL_UNSUPPORTED_BROWSER);
-
     }
 
     /**
@@ -1364,6 +1430,34 @@ public class PropertiesManagerImpl implements PropertiesManager {
                                 " the %s value to default: %d. To get rid of the message check the" +
                                 " portlet.properties file and update the value.",
                         name, value, min, max, name, defaultValue));
+            }
+
+            // Return default
+            return defaultValue;
+        }
+
+        // Value is ok
+        return value;
+    }
+
+    /**
+     * Validates the value. Returns the default value if the provided value is empty or null.
+     *
+     * @param value        that is examined
+     * @param name         of the property that is represented by the value
+     * @param defaultValue which is returned if the value is not set
+     * @return validated value
+     */
+    private String validateDefaultString(String value, String name, String defaultValue) {
+        // Check the value
+        if (value == null || value.length() == 0) {
+            // Log
+            if (log.isInfoEnabled()) {
+                log.info(String.format(
+                        "The value of %s property is empty. Setting the %s value to default: %s. To get rid of the" +
+                                " message check the portlet.properties file and update the value.",
+                        name, name, defaultValue
+                ));
             }
 
             // Return default
