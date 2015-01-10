@@ -16,6 +16,9 @@ Y.namespace('LIMS.View');
 
 Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
 
+    // Holds all errors
+    errorContainerTemplate: '<div class="panel-error"/>',
+
     // The template property holds the contents of the #lims-conversation-item-error-template
     // element, which will be used as the HTML template for an error message
     // Check the templates.jspf to see all templates
@@ -106,18 +109,27 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     /**
      * Shows the error message notification in the panel
      *
-     * @param errorMessage
+     * @param errorId Each error message must have an id
+     * @param errorMessage Content of the error
      */
-    showError: function (errorMessage) {
+    showError: function (errorId, errorMessage) {
         // Vars
         var panelTitle = this.get('panelTitle'),                        // Title of the panel node
+            errorView,                                                  // Single error view
             errorContainer = this.get('errorContainer'),                // Container with error
-            errorMessageNode = errorContainer.one('.error-message'),    // Error message node
             animation;                                                  // Animation that will make it nicer
 
+        // The error is new
+        if (!this._findErrorNode(errorId)) {
+            // Add it to error view collection
+            errorView = Y.Node.create(Y.Lang.sub(this.errorTemplate, {
+                errorId: errorId,
+                errorMessage: errorMessage
+            }));
 
-        // Set the error message
-        errorMessageNode.set('innerHTML', errorMessage);
+            // If it's not in the error container yet add it
+            errorContainer.append(errorView);
+        }
 
         // If the error container is already in the document don't animate it
         if (!errorContainer.inDoc()) {
@@ -139,35 +151,24 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             // Run the effect animation
             animation.run();
         }
+
     },
 
     /**
      * Hides the error message notification
+     *
+     * @param errorId Each error message must have an id
      */
-    hideError: function () {
+    hideError: function (errorId) {
         // Vars
-        var errorContainer = this.get('errorContainer'),
-            animation;
+        var errorNode;
 
-        // Run the animation only if the error container is in DOM
-        if (errorContainer.inDoc()) {
+        // Find the error node based on the error id
+        errorNode = this._findErrorNode(errorId);
 
-            // Create the animation instance
-            animation = new Y.Anim({
-                node: errorContainer,
-                duration: 0.5,
-                from: {opacity: 1},
-                to: {opacity: 0}
-            });
-
-            // Listen to the end of the animation
-            animation.on('end', function () {
-                // Remove container from DOM at the end of the animation
-                animation.get('node').remove();
-            });
-
-            // Run!
-            animation.run();
+        // If such node exists remove it
+        if (errorNode) {
+            errorNode.remove();
         }
     },
 
@@ -392,6 +393,29 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     },
 
     /**
+     * Returns error node based on the error id, null otherwise
+     *
+     * @param errorId
+     * @return {Node|null}
+     * @private
+     */
+    _findErrorNode: function (errorId) {
+        // Vars
+        var errorContainer = this.get('errorContainer'),
+            errorNode = null;
+
+        // Iterate over child node
+        errorContainer.get('childNodes').each(function (node) {
+            // Find the error node
+            if (node.attr('data-id') === errorId) {
+                errorNode = node;
+            }
+        }, this);
+
+        return errorNode;
+    },
+
+    /**
      * Trigger click handler
      *
      * @private
@@ -454,36 +478,60 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     // Specify attributes and static properties for your View here.
     ATTRS: {
 
-        // Panel container
+        /**
+         * Panel container
+         *
+         * {Node}
+         */
         container: {
             value: null // To be set in initializer
         },
 
-        // Id of the panel
+        /**
+         * Id of the panel
+         *
+         * {string}
+         */
         panelId: {
             value: null // To be set in initializer
         },
 
-        // Indicates if the panel is opened
+        /**
+         * Indicates if the panel is opened
+         *
+         * {boolean}
+         */
         isOpened: {
             value: false // default value
         },
 
-        // Panel title
+        /**
+         * Panel title
+         *
+         * {Node}
+         */
         panelTitle: {
             valueFn: function () {
                 return this.get('container').one('.panel-title');
             }
         },
 
-        // Tab bar item which shows/hides panel
+        /**
+         * Tab bar item which shows/hides panel
+         *
+         * {Node}
+         */
         trigger: {
             valueFn: function () {
                 return this.get('container').one('.panel-trigger');
             }
         },
 
-        // All buttons related to panel like e.g. minimize or close button
+        /**
+         * All buttons related to panel like e.g. minimize or close button
+         *
+         * [Node]
+         */
         panelButtons: {
             valueFn: function () {
                 return this.get('container').all('.panel-button');
@@ -535,17 +583,25 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             }
         },
 
-        // Search container
+        /**
+         * Search container node
+         *
+         * {Node}
+         */
         searchContainer: {
             valueFn: function () {
                 return this.get('container').one('.panel-search');
             }
         },
 
-        // Error container
+        /**
+         * Error container node
+         *
+         * {Node}
+         */
         errorContainer: {
             valueFn: function () {
-                return  Y.Node.create(this.errorTemplate);
+                return Y.Node.create(this.errorContainerTemplate);
             }
         },
 
@@ -560,6 +616,8 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
 
         /**
          * Length of the blinking title period
+         *
+         * {integer}
          */
         blinkingTitleInterval: {
             value: 2000 // 1 second

@@ -121,6 +121,16 @@ public class ConnectionManagerImpl implements ConnectionManager {
     }
 
     /**
+     * Returns true if the connection is connected
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isConnected() {
+        return connection != null && connection.isConnected();
+    }
+
+    /**
      * Returns buddy's roster
      *
      * @return Roster

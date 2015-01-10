@@ -27,26 +27,29 @@ public class Settings {
     private boolean isChatEnabled;
     @JSON(include = false)
     private boolean isAdminAreaOpened;
+    @JSON(include = false)
+    private boolean isJabberDisconnected;
 
 
     /**
      * Create new settings and maps data from settings details
      *
-     * @param settingsDetails SettingsDetails
+     * @param details SettingsDetails
      * @return Settings
      */
-    public static Settings fromSettingsDetails(SettingsDetails settingsDetails) {
+    public static Settings fromSettingsDetails(SettingsDetails details) {
         // Create new Settings
         Settings settings = new Settings();
         // Map data to settings details
-        settings.activePanelId = settingsDetails.getActivePanelId();
-        settings.isMute = settingsDetails.isMute();
-        settings.isChatEnabled = settingsDetails.isChatEnabled();
-        settings.isAdminAreaOpened = settingsDetails.isAdminAreaOpened();
+        settings.activePanelId = details.getActivePanelId();
+        settings.isMute = details.isMute();
+        settings.isChatEnabled = details.isChatEnabled();
+        settings.isAdminAreaOpened = details.isAdminAreaOpened();
+        settings.isJabberDisconnected = details.isJabberDisconnected();
 
         // Relations
-        if (settingsDetails.getPresenceDetails() != null) {
-            settings.presence = Presence.fromPresenceDetails(settingsDetails.getPresenceDetails());
+        if (details.getPresenceDetails() != null) {
+            settings.presence = Presence.fromPresenceDetails(details.getPresenceDetails());
         }
 
         return settings;
@@ -65,6 +68,7 @@ public class Settings {
         details.setMute(isMute);
         details.setChatEnabled(isChatEnabled);
         details.setAdminAreaOpened(isAdminAreaOpened);
+        details.setJabberDisconnected(isJabberDisconnected);
 
         // Relations
         if (presence != null) {
@@ -134,6 +138,18 @@ public class Settings {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
 
+    public boolean getIsJabberDisconnected() {
+        return isJabberDisconnected;
+    }
+
+    public boolean isJabberDisconnected() {
+        return isJabberDisconnected;
+    }
+
+    public void setIsJabberDisconnected(boolean isJabberDisconnected) {
+        this.isJabberDisconnected = isJabberDisconnected;
+    }
+
     @Override
     public String toString() {
         return "Settings{" +
@@ -143,6 +159,7 @@ public class Settings {
                 ", isMute=" + isMute +
                 ", isChatEnabled=" + isChatEnabled +
                 ", isAdminAreaOpened=" + isAdminAreaOpened +
+                ", isJabberDisconnected=" + isJabberDisconnected +
                 '}';
     }
 }

@@ -10,6 +10,7 @@
 package com.marcelmika.limsmuc.api.events.settings;
 
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.events.RequestEvent;
 
 /**
@@ -21,12 +22,22 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
 public class ReadSettingsRequestEvent extends RequestEvent {
 
     private BuddyDetails buddyDetails;
+    private SettingsDetails settingsDetails;
 
     public ReadSettingsRequestEvent(BuddyDetails buddyDetails) {
         this.buddyDetails = buddyDetails;
     }
 
+    public ReadSettingsRequestEvent(SettingsDetails settingsDetails, BuddyDetails buddyDetails) {
+        this.settingsDetails = settingsDetails;
+        this.buddyDetails = buddyDetails;
+    }
+
     public BuddyDetails getBuddyDetails() {
         return buddyDetails;
+    }
+
+    public SettingsDetails getSettingsDetails() {
+        return settingsDetails;
     }
 }

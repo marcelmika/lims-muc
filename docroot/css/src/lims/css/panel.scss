@@ -254,14 +254,19 @@
 .lims-muc .panel-error {
   position: absolute;
   @include transparent(#000000, 0.7);
-  top: 25px;
+  top: 26px;
   z-index: 2;
   width: 100%;
 
+  .error-content {
+    clear: both;
+    margin: 15px 0 20px;
+  }
+
   .error-message {
-    margin: 15px 20px;
-    font-weight: 500;
-    line-height: 13px;
+    margin: 0 15px 0 37px;
+    font-weight: 300;
+    line-height: 15px;
     color: #ffffff;
   }
 
@@ -270,7 +275,7 @@
     @include image-2x('/images/icon-warning-white@2x.png', auto, 21px);
     width: 21px;
     height: 21px;
-    margin: 18px 7px;
+    margin: 3px 7px 0;
     float: left;
   }
 }

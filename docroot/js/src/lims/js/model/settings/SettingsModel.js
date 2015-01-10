@@ -147,6 +147,15 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
                                 }
                             }
 
+                            // Check if the jabber disconnected property was changed
+                            if (response.jabberDisconnected !== instance.get('jabberDisconnected')) {
+                                if (response.jabberDisconnected === true) {
+                                    Y.fire("jabberDisconnected");
+                                } else {
+                                    Y.fire("jabberConnected");
+                                }
+                            }
+
                             // Callback
                             callback(null, response);
 
@@ -225,6 +234,15 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
          */
         presence: {
             value: "OFFLINE"
+        },
+
+        /**
+         * True if the jabber connection is disconnected
+         *
+         * {boolean}
+         */
+        jabberDisconnected: {
+            value: null // to be set
         }
     }
 });

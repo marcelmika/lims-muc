@@ -21,6 +21,7 @@
 <script type="text/x-template" id="limsmuc-i18n">
     {
     "connectionErrorMessage":"<liferay-ui:message key="connection-error"/>",
+    "jabberDisconnectedMessage":"<liferay-ui:message key="jabber-disconnected"/>",
     "searchNoResultsMessage":"<liferay-ui:message key="panel-search-no-results-text"/>",
     "searchErrorMessage":"<liferay-ui:message key="panel-search-error-text"/>",
     "groupListEmptyInfoMessage":"<liferay-ui:message key="panel-group-list-empty-info-text"/>",

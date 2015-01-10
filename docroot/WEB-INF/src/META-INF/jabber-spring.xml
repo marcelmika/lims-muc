@@ -95,7 +95,9 @@
     <!-- Settings Jabber Service -->
 
     <bean id="com.marcelmika.limsmuc.jabber.service.SettingsJabberService"
-          class="com.marcelmika.limsmuc.jabber.service.SettingsJabberServiceImpl"/>
+          class="com.marcelmika.limsmuc.jabber.service.SettingsJabberServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+    </bean>
 
     <!-- Synchronization Core Service -->
 
@@ -106,7 +108,8 @@
 
     <bean id="com.marcelmika.limsmuc.core.service.SynchronizationCoreServiceUtil"
           class="com.marcelmika.limsmuc.core.service.SynchronizationCoreServiceUtil">
-        <property name="synchronizationCoreService" ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
+        <property name="synchronizationCoreService"
+                  ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
     </bean>
 
     <!-- Synchronization Persistence Service -->
@@ -158,8 +161,10 @@
 
     <bean id="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil"
           class="com.marcelmika.limsmuc.persistence.synchronization.QueryFactoryUtil">
-        <property name="sucQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
-        <property name="chatPortletQueryFactory" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
+        <property name="sucQueryFactory"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"/>
+        <property name="chatPortletQueryFactory"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.chp.query.QueryFactoryImpl"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.query.QueryFactoryImpl"
@@ -172,10 +177,14 @@
 
     <bean id="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil"
           class="com.marcelmika.limsmuc.persistence.synchronization.SynchronizerUtil">
-        <property name="suc_1_2_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
-        <property name="suc_1_1_0" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
-        <property name="suc_1_0_1" ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
-        <property name="chatPortlet_2_0_5" ref="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
+        <property name="suc_1_2_0"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"/>
+        <property name="suc_1_1_0"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_1_0.SynchronizerImpl"/>
+        <property name="suc_1_0_1"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_0_1.SynchronizerImpl"/>
+        <property name="chatPortlet_2_0_5"
+                  ref="com.marcelmika.limsmuc.persistence.synchronization.chp.version.v2_0_5.SynchronizerImpl"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.persistence.synchronization.suc.version.v1_2_0.SynchronizerImpl"

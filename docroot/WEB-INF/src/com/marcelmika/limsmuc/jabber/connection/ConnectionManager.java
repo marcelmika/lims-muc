@@ -12,8 +12,8 @@ package com.marcelmika.limsmuc.jabber.connection;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Presence;
 
 /**
@@ -48,6 +48,13 @@ public interface ConnectionManager {
      * Returns connection of the user
      */
     public XMPPConnection getConnection();
+
+    /**
+     * Returns true if the connection is connected
+     *
+     * @return boolean
+     */
+    public boolean isConnected();
 
     /**
      * Returns buddy's roster

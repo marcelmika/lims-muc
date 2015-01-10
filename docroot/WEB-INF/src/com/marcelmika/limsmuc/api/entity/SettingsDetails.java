@@ -22,6 +22,7 @@ public class SettingsDetails {
     private boolean isMute;
     private boolean isChatEnabled;
     private boolean isAdminAreaOpened;
+    private boolean isJabberDisconnected;
 
     public PresenceDetails getPresenceDetails() {
         return presenceDetails;
@@ -63,6 +64,15 @@ public class SettingsDetails {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
 
+
+    public boolean isJabberDisconnected() {
+        return isJabberDisconnected;
+    }
+
+    public void setJabberDisconnected(boolean isJabberDisconnected) {
+        this.isJabberDisconnected = isJabberDisconnected;
+    }
+
     @Override
     public String toString() {
         return "SettingsDetails{" +
@@ -71,6 +81,7 @@ public class SettingsDetails {
                 ", isMute=" + isMute +
                 ", isChatEnabled=" + isChatEnabled +
                 ", isAdminAreaOpened=" + isAdminAreaOpened +
+                ", isJabberDisconnected=" + isJabberDisconnected +
                 '}';
     }
 }

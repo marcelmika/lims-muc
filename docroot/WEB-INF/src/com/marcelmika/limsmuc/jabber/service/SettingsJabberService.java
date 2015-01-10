@@ -9,6 +9,8 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.TestConnectionRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.TestConnectionResponseEvent;
 
@@ -27,5 +29,13 @@ public interface SettingsJabberService {
      * @return Response event
      */
     public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
+
+    /**
+     * Reads buddy's settings
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
 }

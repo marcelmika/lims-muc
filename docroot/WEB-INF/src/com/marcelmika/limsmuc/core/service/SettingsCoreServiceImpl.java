@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
 import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
@@ -54,7 +55,23 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event) {
-        return settingsPersistenceService.readSettings(event);
+        // Read settings from persistence
+        ReadSettingsResponseEvent persistenceResponseEvent = settingsPersistenceService.readSettings(event);
+
+        // Failure
+        if (!persistenceResponseEvent.isSuccess()) {
+            return persistenceResponseEvent;
+        }
+
+        // Jabber is not enabled
+        if (!Environment.isJabberEnabled()) {
+            return persistenceResponseEvent;
+        }
+
+        // Read settings from jabber
+        return settingsJabberService.readSettings(
+                new ReadSettingsRequestEvent(persistenceResponseEvent.getSettingsDetails(), event.getBuddyDetails())
+        );
     }
 
     /**
