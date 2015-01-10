@@ -255,7 +255,7 @@
   position: absolute;
   @include transparent(#000000, 0.7);
   top: 26px;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
 
   .error-content {
