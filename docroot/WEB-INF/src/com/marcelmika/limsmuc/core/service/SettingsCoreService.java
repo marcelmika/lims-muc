@@ -71,4 +71,12 @@ public interface SettingsCoreService {
      */
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
 
+    /**
+     * Tests connection with the jabber server
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
+
 }

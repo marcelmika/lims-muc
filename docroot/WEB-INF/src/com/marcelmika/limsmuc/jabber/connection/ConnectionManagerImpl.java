@@ -19,6 +19,7 @@ import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,13 +59,21 @@ public class ConnectionManagerImpl implements ConnectionManager {
             SASLAuthentication.supportSASLMechanism("PLAIN", 0);
         }
 
+        // Connect
         try {
-            // Connect
             connection.connect();
         }
-        // Failure
-        catch (Exception e) {
-            throw new JabberException("Cannot connect to the jabber server", e);
+        // Error occurs somewhere else besides XMPP protocol level.
+        catch (SmackException e) {
+            throw new JabberException("Cannot connect to Jabber server", e);
+        }
+        // Fatal error
+        catch (IOException e) {
+            throw new JabberException("Fatal error", e);
+        }
+        // Error occurs on the XMPP protocol level
+        catch (XMPPException e) {
+            throw new JabberException("XMPP error occurred", e);
         }
     }
 

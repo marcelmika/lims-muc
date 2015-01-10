@@ -21,6 +21,11 @@
 
 <%-- Render --%>
 <li class="jabber-enabled">
+
+    <div class="note">
+        <liferay-ui:message key="panel-settings-admin-area-jabber-note"/>
+    </div>
+
     <label class="switch">
         <input ${checked} type="checkbox"/>
         <span></span>

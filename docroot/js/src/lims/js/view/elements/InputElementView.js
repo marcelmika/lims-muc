@@ -38,6 +38,16 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
     },
 
     /**
+     * Returns input value
+     */
+    getValue: function () {
+        // Vars
+        var input = this.get('input');
+
+        return input.get('value');
+    },
+
+    /**
      * Enables the input
      */
     enable: function () {

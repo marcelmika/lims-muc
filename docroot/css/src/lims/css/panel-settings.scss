@@ -216,6 +216,48 @@
     .buddy-list-group-excludes {
       margin-bottom: 20px;
     }
+
+    .jabber-enabled {
+
+      .note {
+        margin: -5px 0 10px;
+        line-height: 16px;
+        color: #A09F9F;
+      }
+    }
+
+    .jabber-test-connection {
+      margin-top: 20px;
+
+      button {
+        display: inline-block;
+      }
+
+      .preloader {
+        position: relative;
+        width: 20px;
+        display: inline-block;
+        height: 20px;
+        margin: 0 0 0 10px;
+        background-size: 20px;
+      }
+
+      .message {
+        display: inline-block;
+        margin-lefT: 10px;
+        padding-bottom: 9px;
+        max-width: 215px;
+        line-height: 13px;
+
+        &.success {
+          color: #39B87E;
+        }
+
+        &.failure {
+          color: #d26767;
+        }
+      }
+    }
   }
 }
 

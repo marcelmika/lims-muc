@@ -36,6 +36,7 @@
     <bean id="com.marcelmika.limsmuc.portal.controller.PropertiesController"
           class="com.marcelmika.limsmuc.portal.controller.PropertiesController">
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.portal.properties.PropertiesManager"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.core.service.SettingsCoreService"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.portal.controller.SynchronizationController"
@@ -77,6 +78,7 @@
     <bean id="com.marcelmika.limsmuc.core.service.SettingsCoreService"
           class="com.marcelmika.limsmuc.core.service.SettingsCoreServiceImpl">
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.jabber.service.SettingsJabberService"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil"
@@ -87,9 +89,13 @@
     <!-- Settings Persistence Service -->
 
     <bean id="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService"
-          class="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceServiceImpl">
+          class="com.marcelmika.limsmuc.persistence.service.SettingsPersistenceServiceImpl"/>
 
-    </bean>
+
+    <!-- Settings Jabber Service -->
+
+    <bean id="com.marcelmika.limsmuc.jabber.service.SettingsJabberService"
+          class="com.marcelmika.limsmuc.jabber.service.SettingsJabberServiceImpl"/>
 
     <!-- Synchronization Core Service -->
 

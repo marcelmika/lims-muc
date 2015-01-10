@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
 import com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService;
 
 /**
@@ -32,14 +33,17 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
 
     // Dependencies
     SettingsPersistenceService settingsPersistenceService;
+    SettingsJabberService settingsJabberService;
 
     /**
      * Constructor
      *
      * @param settingsPersistenceService persistence service
      */
-    public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService) {
+    public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService,
+                                   final SettingsJabberService settingsJabberService) {
         this.settingsPersistenceService = settingsPersistenceService;
+        this.settingsJabberService = settingsJabberService;
     }
 
     /**
@@ -135,4 +139,17 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
 
         return DisableChatResponseEvent.success("Chat was successfully disabled");
     }
+
+    /**
+     * Tests connection with the jabber server
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event) {
+        return settingsJabberService.testConnection(event);
+    }
+
+
 }

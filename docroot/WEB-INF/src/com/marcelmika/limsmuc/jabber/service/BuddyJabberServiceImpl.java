@@ -9,15 +9,14 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
-import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.api.events.buddy.*;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
-import com.marcelmika.limsmuc.api.events.buddy.*;
 
 /**
  * @author Ing. Marcel Mika

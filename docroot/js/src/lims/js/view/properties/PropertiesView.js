@@ -70,6 +70,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberPort = this.get('jabberPort'),
             jabberServiceName = this.get('jabberServiceName'),
             jabberResource = this.get('jabberResource'),
+            jabberTestConnectionButton = this.get('jabberTestConnectionButton'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -92,6 +93,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberPort.on('inputUpdate', this._onJabberPortUpdate, this);
         jabberServiceName.on('inputUpdate', this._onJabberServiceNameUpdate, this);
         jabberResource.on('inputUpdate', this._onJabberResourceUpdate, this);
+        jabberTestConnectionButton.on('click', this._onJabberTestConnectionButtonClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -696,6 +698,66 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     },
 
     /**
+     * Called when the user clicks on the jabber test connection button
+     * @private
+     */
+    _onJabberTestConnectionButtonClick: function () {
+        // Vars
+        var button = this.get('jabberTestConnectionButton'),
+            preloader = this.get('jabberTestConnectionPreloader'),
+            message = this.get('jabberTestConnectionMessage'),
+            jabberHost = this.get('jabberHost').getValue(),
+            jabberPort = this.get('jabberPort').getValue(),
+            jabberServiceName = this.get('jabberServiceName').getValue(),
+            jabberResource = this.get('jabberResource').getValue(),
+            model;
+
+        // Create model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberHost: jabberHost,
+            jabberPort: jabberPort,
+            jabberServiceName: jabberServiceName,
+            jabberResource: jabberResource
+        });
+
+        // Disable the button
+        button.set('disabled', true);
+        // Show the preloader
+        Y.LIMS.Core.Util.show(preloader);
+        // Hide the message
+        Y.LIMS.Core.Util.hide(message);
+        // Remove extra classes
+        message.removeClass('success');
+        message.removeClass('failure');
+
+        // Test the connection
+        model.testConnection(function (err) {
+            // Re-enable the button
+            button.set('disabled', null);
+            // Hide the preloader
+            Y.LIMS.Core.Util.hide(preloader);
+
+            if (err) {
+                // Set the error text
+                message.set('innerHTML', "Test error: " + err);
+                // Set the failure class
+                message.addClass('failure');
+                // Show the message
+                Y.LIMS.Core.Util.show(message);
+                // End here
+                return;
+            }
+
+            // Set the success text
+            message.set('innerHTML', Y.LIMS.Core.i18n.values.testConnectionSuccess);
+            // Set the success class
+            message.addClass('success');
+            // Show the message
+            Y.LIMS.Core.Util.show(message);
+        });
+    },
+
+    /**
      * Called when user confirms synchronization with SUC
      *
      * @private
@@ -1224,6 +1286,42 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 return new Y.LIMS.View.InputElementView({
                     container: container
                 });
+            }
+        },
+
+        /**
+         * Button node for jabber test connection
+         *
+         * {Node}
+         */
+        jabberTestConnectionButton: {
+            valueFn: function () {
+                // Vars
+                return this.get('container').one('.jabber-test-connection button');
+            }
+        },
+
+        /**
+         * Jabber test connection preloader node
+         *
+         * {Node}
+         */
+        jabberTestConnectionPreloader: {
+            valueFn: function () {
+                // Vars
+                return this.get('container').one('.jabber-test-connection .preloader');
+            }
+        },
+
+        /**
+         * Jabber test connection message
+         *
+         * {Node}
+         */
+        jabberTestConnectionMessage: {
+            valueFn: function () {
+                // Vars
+                return this.get('container').one('.jabber-test-connection .message');
             }
         },
 
