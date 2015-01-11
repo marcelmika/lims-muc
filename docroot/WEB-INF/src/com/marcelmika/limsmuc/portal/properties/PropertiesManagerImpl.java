@@ -13,7 +13,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation;
-import com.marcelmika.limsmuc.api.environment.Environment.BuddyListSource;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.api.environment.Environment.PropertiesSource;
 import com.marcelmika.limsmuc.portal.domain.Properties;
@@ -99,7 +98,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupPropertiesSource();
 
             // Set the whole environment
-            setupBuddyListSource();
             setupExcludedSites(preferences);
             setupBuddyListStrategy(preferences);
             setupBuddyListSocialRelations(preferences);
@@ -309,38 +307,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Sets buddy list source
-     */
-    private void setupBuddyListSource() {
-        String value = PortletPropertiesValues.BUDDY_LIST_SOURCE;
-
-        BuddyListSource buddyListSource;
-
-        // Liferay
-        if (value.equals("liferay")) {
-            buddyListSource = BuddyListSource.LIFERAY;
-        }
-        // Jabber
-        else if (value.equals("jabber")) {
-            buddyListSource = BuddyListSource.JABBER;
-        }
-        // Unknown value
-        else {
-            log.error(String.format(
-                    "Unknown buddy list source: %s. Valid values are \"liferay\" or \"jabber\". Since no valid " +
-                            "property was provided \"liferay\" was chosen as a default. The value can be " +
-                            "set in portlet-ext.properties file related to the LIMS portlet.", value
-            ));
-
-            // Fallback to default
-            buddyListSource = BuddyListSource.LIFERAY;
-        }
-
-        // Save to Environment
-        Environment.setBuddyListSource(buddyListSource);
-    }
-
-    /**
      * Updates buddy list strategy preferences
      *
      * @param preferences PortletPreferences
@@ -411,6 +377,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         else if (value.equals(BuddyListStrategy.USER_GROUPS.getDescription())) {
             buddyListStrategy = BuddyListStrategy.USER_GROUPS;
         }
+        // Jabber
+        else if (value.equals(BuddyListStrategy.JABBER.getDescription())) {
+            buddyListStrategy = BuddyListStrategy.JABBER;
+        }
+
         // Unknown value
         else {
             log.error(String.format(

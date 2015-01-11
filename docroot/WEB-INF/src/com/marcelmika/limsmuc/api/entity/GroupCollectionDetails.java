@@ -52,4 +52,12 @@ public class GroupCollectionDetails {
         this.listStrategy = listStrategy;
     }
 
+    @Override
+    public String toString() {
+        return "GroupCollectionDetails{" +
+                "groups=" + groups +
+                ", lastModified=" + lastModified +
+                ", listStrategy=" + listStrategy +
+                '}';
+    }
 }

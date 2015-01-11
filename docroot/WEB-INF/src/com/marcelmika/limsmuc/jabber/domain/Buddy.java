@@ -16,6 +16,7 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.RosterEntry;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,8 @@ public class Buddy {
     private String screenName;
     private String password;
     private Presence presence;
+    private Boolean connected;
+    private Date connectedAt;
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -133,6 +136,8 @@ public class Buddy {
         buddy.fullName = buddyDetails.getFullName();
         buddy.screenName = buddyDetails.getScreenName();
         buddy.password = buddyDetails.getPassword();
+        buddy.connected = buddyDetails.getConnected();
+        buddy.connectedAt = buddyDetails.getConnectedAt();
 
         if (buddyDetails.getPresenceDetails() != null) {
             buddy.presence = Presence.fromPresenceDetails(buddyDetails.getPresenceDetails());
@@ -155,6 +160,8 @@ public class Buddy {
         details.setFullName(fullName);
         details.setScreenName(screenName);
         details.setPassword(password);
+        details.setConnected(connected);
+        details.setConnectedAt(connectedAt);
 
         if (presence != null) {
             details.setPresenceDetails(presence.toPresenceDetails());
@@ -216,6 +223,22 @@ public class Buddy {
         this.presence = presence;
     }
 
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
+    }
+
+    public Date getConnectedAt() {
+        return connectedAt;
+    }
+
+    public void setConnectedAt(Date connectedAt) {
+        this.connectedAt = connectedAt;
+    }
+
     @Override
     public String toString() {
         return "Buddy{" +
@@ -225,6 +248,8 @@ public class Buddy {
                 ", screenName='" + screenName + '\'' +
                 ", password='" + password + '\'' +
                 ", presence=" + presence +
+                ", connected=" + connected +
+                ", connectedAt=" + connectedAt +
                 '}';
     }
 }

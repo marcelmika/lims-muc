@@ -22,7 +22,6 @@ public class Environment {
     // Environment properties
     private static PropertiesSource propertiesSource = PropertiesSource.PREFERENCES;
     private static String[] excludedSites = new String[]{};
-    private static BuddyListSource buddyListSource = BuddyListSource.LIFERAY;
     private static BuddyListStrategy buddyListStrategy = BuddyListStrategy.ALL;
     private static BuddyListSocialRelation[] buddyListSocialRelations = new BuddyListSocialRelation[]{};
     private static Boolean buddyListIgnoreDefaultUser = false;
@@ -100,39 +99,6 @@ public class Environment {
     }
 
     /**
-     * Enum for source of buddy list
-     */
-    public enum BuddyListSource {
-
-        /**
-         * Buddies are loaded from the Liferay database
-         */
-        LIFERAY,
-        /**
-         * Buddies are loaded from the Jabber server
-         */
-        JABBER
-    }
-
-    /**
-     * Returns source of the buddy list property
-     *
-     * @return BuddyListSource
-     */
-    public static BuddyListSource getBuddyListSource() {
-        return buddyListSource;
-    }
-
-    /**
-     * Sets buddy list source
-     *
-     * @param buddyListSource BuddyListSource
-     */
-    public static void setBuddyListSource(BuddyListSource buddyListSource) {
-        Environment.buddyListSource = buddyListSource;
-    }
-
-    /**
      * Enum for buddy list strategy
      */
     public enum BuddyListStrategy {
@@ -159,7 +125,12 @@ public class Environment {
         /**
          * Buddies shown based on the user groups where the user belongs
          */
-        USER_GROUPS("groups");
+        USER_GROUPS("groups"),
+
+        /**
+         * Buddies loaded from jabber
+         */
+        JABBER("jabber");
 
 
         // String description of relation type

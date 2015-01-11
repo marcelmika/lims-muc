@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
@@ -23,6 +24,7 @@ import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.RosterListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,6 +53,15 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     // Log
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(GroupManagerImpl.class);
+
+    /**
+     * Constructor
+     */
+    public GroupManagerImpl() {
+        // This is a jabber list strategy group collection
+        this.groupCollection.setListStrategy(Environment.BuddyListStrategy.JABBER);
+    }
+
 
     // -------------------------------------------------------------------------------------------
     // Override: GroupManager
@@ -113,6 +124,12 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         synchronized (this) {
             wasModified = true;
         }
+
+        // Log
+        if (log.isDebugEnabled()) {
+            log.info("Jabber entries added");
+            log.info(strings);
+        }
     }
 
     @Override
@@ -122,6 +139,12 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         synchronized (this) {
             wasModified = true;
         }
+
+        // Log
+        if (log.isDebugEnabled()) {
+            log.info("Jabber entries updated");
+            log.info(strings);
+        }
     }
 
     @Override
@@ -130,6 +153,12 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         // getGroups() method is called
         synchronized (this) {
             wasModified = true;
+        }
+
+        // Log
+        if (log.isDebugEnabled()) {
+            log.info("Jabber entries deleted");
+            log.info(strings);
         }
     }
 
@@ -156,6 +185,12 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         synchronized (this) {
             wasModified = true;
         }
+
+        // Log
+        if (log.isDebugEnabled()) {
+            log.info("Presence changed");
+            log.info(presence);
+        }
     }
 
     // -------------------------------------------------------------------------------------------
@@ -168,11 +203,16 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     private void mapGroupsFromRoster() {
         // Create temporary group list
         List<Group> groups = new ArrayList<Group>();
+
         // Go over all groups in roster
         for (RosterGroup rosterGroup : roster.getGroups()) {
             // Create new Group
             Group group = new Group();
             group.setName(rosterGroup.getName());
+
+            // There is a mex number of buddies that are going to be displayed
+            int buddiesCount = 0;
+            int buddiesMaxCount = Environment.getBuddyListMaxBuddies();
 
             // Add buddies to Group
             for (RosterEntry entry : rosterGroup.getEntries()) {
@@ -193,12 +233,28 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
                 // Map presence
                 Presence presence = Presence.fromSmackPresence(roster.getPresence(entry.getUser()));
                 buddy.setPresence(presence);
+                // Map connection
+                if (presence != Presence.STATE_OFFLINE && presence != Presence.STATE_UNRECOGNIZED) {
+                    buddy.setConnected(true);
+                    buddy.setConnectedAt(Calendar.getInstance().getTime());
+                } else {
+                    buddy.setConnected(false);
+                }
+
                 // Add buddy to the group
                 group.addBuddy(buddy);
+
+                // Increment the buddies count
+                buddiesCount++;
+                // Stop at max buddies per collection
+                if (buddiesCount >= buddiesMaxCount) {
+                    break;
+                }
             }
             // Add Group to the collection
             groups.add(group);
         }
+
         // Clear global groups
         groupCollection.addGroups(groups);
 

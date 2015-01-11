@@ -20,6 +20,7 @@
 <c:set var="SOCIAL" value="<%= BuddyListStrategy.SOCIAL %>"/>
 <c:set var="SITES_AND_SOCIAL" value="<%= BuddyListStrategy.SITES_AND_SOCIAL %>"/>
 <c:set var="USER_GROUPS" value="<%= BuddyListStrategy.USER_GROUPS %>"/>
+<c:set var="JABBER" value="<%= BuddyListStrategy.JABBER %>"/>
 
 <%-- Defaults --%>
 <c:set var="allActiveClass" value=""/>
@@ -45,6 +46,9 @@
     <c:when test="${properties.buddyListStrategy == USER_GROUPS}">
         <c:set var="userGroupsActiveClass" value="active"/>
     </c:when>
+    <c:when test="${properties.buddyListStrategy == JABBER}">
+        <c:set var="jabberActiveClass" value="active"/>
+    </c:when>
 </c:choose>
 
 <%-- Rendered --%>
@@ -67,6 +71,9 @@
         </label>
         <label data-choice="${USER_GROUPS}" class="button button-primary ${userGroupsActiveClass}">
             <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-user-groups"/></span>
+        </label>
+        <label data-choice="${JABBER}" class="button button-primary ${jabberActiveClass}">
+            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-jabber"/></span>
         </label>
 
         <div class="clear"></div>

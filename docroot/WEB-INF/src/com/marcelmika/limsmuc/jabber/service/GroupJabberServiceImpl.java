@@ -55,7 +55,7 @@ public class GroupJabberServiceImpl implements GroupJabberService {
         // No session
         if (userSession == null) {
             return GetGroupsResponseEvent.failure(
-                    GetGroupsResponseEvent.Status.ERROR_JABBER,
+                    GetGroupsResponseEvent.Status.ERROR_NO_SESSION,
                     new JabberException(String.format("No session for user %d found", buddyId))
             );
         }

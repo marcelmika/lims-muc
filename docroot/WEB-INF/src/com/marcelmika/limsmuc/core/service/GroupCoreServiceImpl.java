@@ -47,10 +47,11 @@ public class GroupCoreServiceImpl implements GroupCoreService {
     @Override
     public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event) {
 
-        Environment.BuddyListSource source = Environment.getBuddyListSource();
+        boolean isJabber = Environment.getBuddyListStrategy() == Environment.BuddyListStrategy.JABBER
+                && Environment.isJabberEnabled();
 
         // Take the groups from jabber only if the jabber is enabled
-        if (source == Environment.BuddyListSource.JABBER && Environment.isJabberEnabled()) {
+        if (isJabber) {
             return groupJabberService.getGroups(event);
         }
         // Otherwise, take them from Liferay

@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.jabber.domain;
 
 import com.marcelmika.limsmuc.api.entity.GroupCollectionDetails;
 import com.marcelmika.limsmuc.api.entity.GroupDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public class GroupCollection {
 
     private Date lastModified = Calendar.getInstance().getTime();
     private List<Group> groups = Collections.synchronizedList(new ArrayList<Group>());
+    private BuddyListStrategy listStrategy;
 
     /**
      * Maps a list of groups to a list of group details
@@ -43,6 +46,7 @@ public class GroupCollection {
             groups.add(group.toGroupDetails());
         }
         details.setGroups(groups);
+        details.setListStrategy(listStrategy);
 
         // Modification date
         details.setLastModified(lastModified);
@@ -62,5 +66,13 @@ public class GroupCollection {
 
     public Date getLastModified() {
         return lastModified;
+    }
+
+    public BuddyListStrategy getListStrategy() {
+        return listStrategy;
+    }
+
+    public void setListStrategy(BuddyListStrategy listStrategy) {
+        this.listStrategy = listStrategy;
     }
 }

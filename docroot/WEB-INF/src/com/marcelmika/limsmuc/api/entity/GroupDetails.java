@@ -59,4 +59,14 @@ public class GroupDetails {
     public void setSocialRelation(Environment.BuddyListSocialRelation socialRelation) {
         this.socialRelation = socialRelation;
     }
+
+    @Override
+    public String toString() {
+        return "GroupDetails{" +
+                "name='" + name + '\'' +
+                ", buddies=" + buddies +
+                ", lastModified=" + lastModified +
+                ", socialRelation=" + socialRelation +
+                '}';
+    }
 }
