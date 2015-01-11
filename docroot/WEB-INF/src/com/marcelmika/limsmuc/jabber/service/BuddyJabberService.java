@@ -19,7 +19,6 @@ import com.marcelmika.limsmuc.api.events.buddy.*;
  */
 public interface BuddyJabberService {
 
-
     /**
      * Connect buddy to the Jabber server
      *
@@ -59,5 +58,13 @@ public interface BuddyJabberService {
      * @return Response event
      */
     public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
+
+    /**
+     * Search buddies in the system
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
 }

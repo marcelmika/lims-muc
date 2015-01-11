@@ -18,15 +18,13 @@ import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
+import com.marcelmika.limsmuc.jabber.utils.Jid;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.RosterListener;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Group manager is responsible for the synchronization of groups and their entries. It keeps
@@ -103,6 +101,49 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         }
 
         return groupCollection;
+    }
+
+    /**
+     * Search buddies from all groups based on the search query
+     *
+     * @param searchQuery String
+     * @param size        size of the result
+     * @return list of found buddies
+     */
+    @Override
+    public List<Buddy> searchBuddies(String searchQuery, Integer size) {
+
+        List<Buddy> buddies = new LinkedList<Buddy>();
+
+        for (RosterEntry rosterEntry : roster.getEntries()) {
+            // Get the user name
+            String userName = rosterEntry.getName();
+
+            // Ignore null user names, just to be sure
+            if (userName == null) {
+                continue;
+            }
+
+            // Check if the name matches search query
+            boolean matches = userName.toLowerCase().matches(String.format(".*%s.*", searchQuery.toLowerCase()));
+
+            if (matches) {
+                // Map the user
+                Buddy buddy = mapFromRosterEntry(rosterEntry);
+
+                // If buddy exists add it to result
+                if (buddy != null) {
+                    buddies.add(buddy);
+
+                    // Stop the search if we already excited the limit
+                    if (buddies.size() >= size) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return buddies;
     }
 
     /**
@@ -217,28 +258,11 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
             // Add buddies to Group
             for (RosterEntry entry : rosterGroup.getEntries()) {
                 // Map buddy
-                Buddy buddy = Buddy.fromRosterEntry(entry);
+                Buddy buddy = mapFromRosterEntry(entry);
 
-                // Important: This is a leaking of the business logic. However there is no better place where
-                // such call can be added. Thus we simply ignore this fact.
-                try {
-                    User user = UserLocalServiceUtil.getUserByScreenName(companyId, buddy.getScreenName());
-                    // Map the user
-                    buddy = Buddy.fromPortalUser(user);
-                } catch (Exception e) {
-                    // No such user was found, thus simply ignore this fact and don't add it to the list
-                    continue;
-                }
-
-                // Map presence
-                Presence presence = Presence.fromSmackPresence(roster.getPresence(entry.getUser()));
-                buddy.setPresence(presence);
-                // Map connection
-                if (presence != Presence.STATE_OFFLINE && presence != Presence.STATE_UNRECOGNIZED) {
-                    buddy.setConnected(true);
-                    buddy.setConnectedAt(Calendar.getInstance().getTime());
-                } else {
-                    buddy.setConnected(false);
+                // No such buddy was found
+                if (buddy == null) {
+                    continue; // Ignore the fact
                 }
 
                 // Add buddy to the group
@@ -260,5 +284,40 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Return modify flag
         wasModified = false;
+    }
+
+    /**
+     * Maps buddy from roster entry. Returns null if no buddy was found
+     *
+     * @param entry RosterEntry
+     * @return Buddy
+     */
+    private Buddy mapFromRosterEntry(RosterEntry entry) {
+        // Map buddy
+        Buddy buddy = Buddy.fromRosterEntry(entry);
+
+        // Important: This is a leaking of the business logic. However there is no better place where
+        // such call can be added. Thus we simply ignore this fact.
+        try {
+            User user = UserLocalServiceUtil.getUserByScreenName(companyId, buddy.getScreenName());
+            // Map the user
+            buddy = Buddy.fromPortalUser(user);
+        } catch (Exception e) {
+            // No such user was found, thus simply ignore this fact and don't add it to the list
+            return null;
+        }
+
+        // Map presence
+        Presence presence = Presence.fromSmackPresence(roster.getPresence(entry.getUser()));
+        buddy.setPresence(presence);
+        // Map connection
+        if (presence != Presence.STATE_OFFLINE && presence != Presence.STATE_UNRECOGNIZED) {
+            buddy.setConnected(true);
+            buddy.setConnectedAt(Calendar.getInstance().getTime());
+        } else {
+            buddy.setConnected(false);
+        }
+
+        return buddy;
     }
 }

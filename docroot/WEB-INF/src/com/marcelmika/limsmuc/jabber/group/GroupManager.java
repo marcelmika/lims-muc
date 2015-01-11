@@ -9,8 +9,11 @@
 
 package com.marcelmika.limsmuc.jabber.group;
 
+import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import org.jivesoftware.smack.Roster;
+
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -40,6 +43,15 @@ public interface GroupManager {
      * @return Buddy's collection of groups.
      */
     public GroupCollection getGroupCollection();
+
+    /**
+     * Search buddies from all groups based on the search query
+     *
+     * @param searchQuery String
+     * @param size        size of the result
+     * @return list of found buddies
+     */
+    public List<Buddy> searchBuddies(String searchQuery, Integer size);
 
     /**
      * Destroys groups manager

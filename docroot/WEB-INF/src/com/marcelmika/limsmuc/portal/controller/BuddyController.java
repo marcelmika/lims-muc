@@ -185,6 +185,10 @@ public class BuddyController {
             if (status == SearchBuddiesResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
+            // No session
+            else if (status == SearchBuddiesResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
             // Everything else is server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);

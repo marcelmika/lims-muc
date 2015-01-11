@@ -9,14 +9,19 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
+import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.*;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
 import com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
+
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -241,6 +246,52 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
                     UpdatePasswordResponseEvent.Status.ERROR_JABBER
             );
         }
+    }
+
+    /**
+     * Search buddies in the system
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event) {
+
+        // Map buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
+        // We use buddy ID as an identification
+        Long buddyId = buddy.getBuddyId();
+
+        // Check params
+        if (buddyId == null) {
+            return SearchBuddiesResponseEvent.failure(
+                    SearchBuddiesResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return SearchBuddiesResponseEvent.failure(
+                    SearchBuddiesResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
+        // Get the group manager
+        GroupManager groupManager = userSession.getGroupManager();
+
+        // Get the size of the result
+        int size = Environment.getBuddyListMaxSearch();
+
+        // Search via the search manager
+        List<Buddy> buddies = groupManager.searchBuddies(event.getSearchQuery(), size);
+
+        // Map to details
+        List<BuddyDetails> details = Buddy.toBuddyDetails(buddies);
+
+        // Success
+        return SearchBuddiesResponseEvent.success(details);
     }
 
 }

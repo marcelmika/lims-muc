@@ -17,6 +17,7 @@ import org.jivesoftware.smack.RosterEntry;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -170,6 +171,21 @@ public class Buddy {
         return details;
     }
 
+    /**
+     * Mapping method
+     *
+     * @param buddies list of Buddies
+     * @return list of BuddyDetails
+     */
+    public static List<BuddyDetails> toBuddyDetails(List<Buddy> buddies) {
+        List<BuddyDetails> details = new LinkedList<BuddyDetails>();
+
+        for (Buddy buddy : buddies) {
+            details.add(buddy.toBuddyDetails());
+        }
+
+        return details;
+    }
 
     // -------------------------------------------------------------------------------------------
     // Getters/Setters

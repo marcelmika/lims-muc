@@ -176,6 +176,18 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      */
     @Override
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event) {
-        return buddyPersistenceService.searchBuddies(event);
+
+        // Decide if search in jabber or persistence
+        boolean isJabber = Environment.getBuddyListStrategy() == Environment.BuddyListStrategy.JABBER &&
+                Environment.isJabberEnabled();
+
+        // Jabber
+        if (isJabber) {
+            return buddyJabberService.searchBuddies(event);
+        }
+        // Persistence
+        else {
+            return buddyPersistenceService.searchBuddies(event);
+        }
     }
 }
