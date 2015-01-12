@@ -795,7 +795,7 @@ public class ConversationController {
             SendMessageResponseEvent.Status status = responseEvent.getStatus();
             // Unauthorized
             if (status == SendMessageResponseEvent.Status.ERROR_NO_SESSION) {
-                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
             // Forbidden
             else if (status == SendMessageResponseEvent.Status.ERROR_FORBIDDEN) {

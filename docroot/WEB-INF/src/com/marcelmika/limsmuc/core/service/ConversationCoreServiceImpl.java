@@ -228,9 +228,7 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             if (!jabberResponseEvent.isSuccess()) {
                 // TODO: Remove after MUC in jabber is implemented
                 if (jabberResponseEvent.getStatus() != SendMessageResponseEvent.Status.ERROR_NOT_IMPLEMENTED) {
-                    return SendMessageResponseEvent.failure(
-                            SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
-                    );
+                    return jabberResponseEvent;
                 }
             }
         }
