@@ -20,27 +20,75 @@ import com.marcelmika.limsmuc.api.events.ResponseEvent;
  */
 public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
 
-    private PresenceDetails presenceDetails;
+    private PresenceDetails presence;
+    private Status status;
 
-    public static ReadPresenceBuddyResponseEvent success(String result, PresenceDetails presenceDetails) {
+    public enum Status {
+        SUCCESS,                // Event was successful
+        ERROR_PERSISTENCE,      // Error with persistence occurred
+    }
+
+    /**
+     * Constructor is private. Use factory methods to create new success or failure instances
+     */
+    private ReadPresenceBuddyResponseEvent() {
+        // No params
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @return ResponseEvent
+     */
+    public static ReadPresenceBuddyResponseEvent success(final PresenceDetails presence) {
         ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
-        event.result = result;
+
         event.success = true;
-        event.presenceDetails = presenceDetails;
+        event.status = Status.SUCCESS;
+        event.presence = presence;
 
         return event;
     }
 
-    public static ReadPresenceBuddyResponseEvent failure(Throwable exception) {
+    /**
+     * Factory method for failure status
+     *
+     * @param status Status
+     * @return ResponseEvent
+     */
+    public static ReadPresenceBuddyResponseEvent failure(final Status status) {
         ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
-        event.result = exception.getMessage();
+
         event.success = false;
+        event.status = status;
+
+        return event;
+    }
+
+    /**
+     * Factory method for failure status
+     *
+     * @param status    Status
+     * @param exception Exception
+     * @return ResponseEvent
+     */
+    public static ReadPresenceBuddyResponseEvent failure(final Status status,
+                                                         final Throwable exception) {
+
+        ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
+
+        event.success = false;
+        event.status = status;
         event.exception = exception;
 
         return event;
     }
 
-    public PresenceDetails getPresenceDetails() {
-        return presenceDetails;
+    public Status getStatus() {
+        return status;
+    }
+
+    public PresenceDetails getPresence() {
+        return presence;
     }
 }

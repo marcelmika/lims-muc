@@ -61,7 +61,8 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // buddyId and companyId cannot be null
         if (buddyId == null || companyId == null) {
             return ConnectBuddyResponseEvent.failure(
-                    "Cannot connect buddy without buddy id or company id", event.getDetails()
+                    ConnectBuddyResponseEvent.Status.ERROR_WRONG_PARAMETERS,
+                    new JabberException(String.format("Either buddy or company id wasn't set"))
             );
         }
 
@@ -71,9 +72,11 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         try {
             // Connect
             connectionManager.createConnection();
-        } catch (JabberException e) {
+        } catch (JabberException exception) {
             // Failure
-            return ConnectBuddyResponseEvent.failure(e.getMessage(), buddy.toBuddyDetails());
+            return ConnectBuddyResponseEvent.failure(
+                    ConnectBuddyResponseEvent.Status.ERROR_JABBER, exception
+            );
         }
 
         // Connection with jabber server was successfully created. Consequently, we should
@@ -82,12 +85,8 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // Add user session to store so it can be queried later
         userSessionStore.addUserSession(userSession);
 
-
         // Success
-        return ConnectBuddyResponseEvent.success(
-                "User " + buddy.getBuddyId() + " successfully created connection to jabber server.",
-                buddy.toBuddyDetails()
-        );
+        return ConnectBuddyResponseEvent.success(buddy.toBuddyDetails());
     }
 
     /**
@@ -107,9 +106,8 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // No session
         if (userSession == null) {
             return LoginBuddyResponseEvent.failure(
-                    LoginBuddyResponseEvent.Status.ERROR_JABBER,
-                    new JabberException(String.format("Cannot find session for buddy %s",
-                            event.getDetails().getScreenName()))
+                    LoginBuddyResponseEvent.Status.ERROR_NO_SESSION,
+                    new JabberException("User cannot login because there is no Jabber session")
             );
         }
         // We need connection manager to login
@@ -118,10 +116,12 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         try {
             // Login
             connectionManager.login(buddy);
-        } catch (JabberException exception) {
-            // Failure
+        }
+        // Failure
+        catch (JabberException exception) {
             return LoginBuddyResponseEvent.failure(
-                    LoginBuddyResponseEvent.Status.ERROR_JABBER, exception);
+                    LoginBuddyResponseEvent.Status.ERROR_JABBER, exception
+            );
         }
 
         // Success
@@ -145,7 +145,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // No session
         if (userSession == null) {
             return LogoutBuddyResponseEvent.failure(
-                    "Cannot find session for buddy.", event.getDetails()
+                    LogoutBuddyResponseEvent.Status.ERROR_NO_SESSION
             );
         }
 
@@ -160,10 +160,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         userSessionStore.removeUserSession(buddyId);
 
         // Success
-        return LogoutBuddyResponseEvent.success(
-                "User " + buddy.getBuddyId() + " successfully signed out",
-                buddy.toBuddyDetails()
-        );
+        return LogoutBuddyResponseEvent.success(buddy.toBuddyDetails());
     }
 
     /**
@@ -243,7 +240,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // Failure
         catch (JabberException e) {
             return UpdatePasswordResponseEvent.failure(
-                    UpdatePasswordResponseEvent.Status.ERROR_JABBER
+                    UpdatePasswordResponseEvent.Status.ERROR_JABBER, e
             );
         }
     }

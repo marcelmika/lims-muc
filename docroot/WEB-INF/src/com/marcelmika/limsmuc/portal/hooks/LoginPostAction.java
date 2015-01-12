@@ -32,10 +32,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoginPostAction extends Action {
 
-    // Log
-    private static Log log = LogFactoryUtil.getLog(LoginPostAction.class);
     // Services
     BuddyCoreService coreService = BuddyCoreServiceUtil.getBuddyCoreService();
+
+    // Log
+    private static Log log = LogFactoryUtil.getLog(LoginPostAction.class);
 
     @Override
     public void run(HttpServletRequest request, HttpServletResponse response) {
@@ -44,20 +45,45 @@ public class LoginPostAction extends Action {
             // Create buddy from portal request
             Buddy buddy = Buddy.fromPortalServletRequest(request);
 
-            // Login buddy
-            LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(
-                    new LoginBuddyRequestEvent(buddy.toBuddyDetails())
-            );
+            // Login
+            loginBuddy(buddy);
 
+        }
+        // Failure
+        catch (Exception e) {
             // Log error
-            if (!responseEvent.isSuccess()) {
-                log.error(responseEvent.getStatus());
-                log.error(responseEvent.getException());
+            if (log.isErrorEnabled()) {
+                log.error(e);
+            }
+        }
+    }
+
+    /**
+     * Login buddy
+     *
+     * @param buddy Buddy
+     */
+    private void loginBuddy(Buddy buddy) {
+
+        // Login buddy
+        LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(
+                new LoginBuddyRequestEvent(buddy.toBuddyDetails())
+        );
+
+        // Failure
+        if (!responseEvent.isSuccess()) {
+
+            // Notify the admin about the error
+            if (log.isWarnEnabled()) {
+                log.warn(String.format(
+                        "Login error " + responseEvent.getStatus() + ": " + responseEvent.getExceptionMessage()
+                ));
             }
 
-        } catch (Exception e) {
-            // Log error
-            log.error(e);
+            // Provide more detailed description of the issue by printing the exception
+            if (log.isDebugEnabled()) {
+                log.debug(responseEvent.getException());
+            }
         }
     }
 }

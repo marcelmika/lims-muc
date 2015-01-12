@@ -12,7 +12,6 @@ package com.marcelmika.limsmuc.core.service;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.api.events.ResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
 import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
 import com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService;
@@ -55,6 +54,7 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event) {
+
         // Read settings from persistence
         ReadSettingsResponseEvent persistenceResponseEvent = settingsPersistenceService.readSettings(event);
 
@@ -115,21 +115,29 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public EnableChatResponseEvent enableChat(EnableChatRequestEvent event) {
-        // Chat is enabled
-        ResponseEvent responseEvent = settingsPersistenceService.enableChat(event);
+
+        // Enable chat
+        EnableChatResponseEvent responseEvent = settingsPersistenceService.enableChat(event);
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
+            return responseEvent;
         }
 
-        // No active panel
-        responseEvent = settingsPersistenceService.updateActivePanel(
+        // No panels are opened when the chat is being enabled
+        UpdateActivePanelResponseEvent updatePanelResponseEvent = settingsPersistenceService.updateActivePanel(
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
-        if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
+
+        // Failure
+        if (!updatePanelResponseEvent.isSuccess()) {
+            return EnableChatResponseEvent.failure(
+                    EnableChatResponseEvent.Status.ERROR_PERSISTENCE, updatePanelResponseEvent.getException()
+            );
         }
 
-        return EnableChatResponseEvent.success("Chat was successfully enabled");
+        // Success
+        return EnableChatResponseEvent.success();
     }
 
     /**
@@ -140,21 +148,29 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event) {
-        // Chat is disabled
-        ResponseEvent responseEvent = settingsPersistenceService.disableChat(event);
+
+        // Disable chat
+        DisableChatResponseEvent responseEvent = settingsPersistenceService.disableChat(event);
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
+            return responseEvent;
         }
 
-        // No active panel
-        responseEvent = settingsPersistenceService.updateActivePanel(
+        // No panels are opened when the chat is being disabled
+        UpdateActivePanelResponseEvent updatePanelResponseEvent = settingsPersistenceService.updateActivePanel(
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
+            return DisableChatResponseEvent.failure(
+                    DisableChatResponseEvent.Status.ERROR_PERSISTENCE, updatePanelResponseEvent.getException()
+            );
         }
 
-        return DisableChatResponseEvent.success("Chat was successfully disabled");
+        // Success
+        return DisableChatResponseEvent.success();
     }
 
     /**
@@ -167,6 +183,4 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
     public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event) {
         return settingsJabberService.testConnection(event);
     }
-
-
 }

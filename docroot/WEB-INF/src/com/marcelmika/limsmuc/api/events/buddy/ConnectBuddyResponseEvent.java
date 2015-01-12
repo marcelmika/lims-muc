@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.api.events.buddy;
 
-import com.marcelmika.limsmuc.api.events.ResponseEvent;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.events.ResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -20,41 +20,77 @@ import com.marcelmika.limsmuc.api.entity.BuddyDetails;
  */
 public class ConnectBuddyResponseEvent extends ResponseEvent {
 
+    private Status status;
     private BuddyDetails details;
 
+    public enum Status {
+        SUCCESS,                // Event was successful
+        ERROR_WRONG_PARAMETERS, // Wrong input parameters
+        ERROR_JABBER,           // Error with jabber occurred
+    }
+
     /**
-     * Factory method which creates new success response object
-     *
-     * @param result textual description of the success
-     * @param details  related to the event
-     * @return ConnectBuddyResponseEvent
+     * Constructor is private. Use factory methods to create new success or failure instances
      */
-    public static ConnectBuddyResponseEvent failure(String result, BuddyDetails details) {
+    private ConnectBuddyResponseEvent() {
+        // No params
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @return ResponseEvent
+     */
+    public static ConnectBuddyResponseEvent success(final BuddyDetails buddyDetails) {
         ConnectBuddyResponseEvent event = new ConnectBuddyResponseEvent();
-        event.result = result;
-        event.details = details;
-        event.success = false;
+
+        event.success = true;
+        event.status = Status.SUCCESS;
+        event.details = buddyDetails;
 
         return event;
     }
 
     /**
-     * Factory method which creates new failure response object
+     * Factory method for failure status
      *
-     * @param result textual description of the failure
-     * @param details related to the event
-     * @return ConnectBuddyResponseEvent
+     * @param status Status
+     * @return ResponseEvent
      */
-    public static ConnectBuddyResponseEvent success(String result, BuddyDetails details) {
+    public static ConnectBuddyResponseEvent failure(final Status status) {
         ConnectBuddyResponseEvent event = new ConnectBuddyResponseEvent();
-        event.result = result;
-        event.details = details;
-        event.success = true;
+
+        event.success = false;
+        event.status = status;
 
         return event;
+    }
+
+    /**
+     * Factory method for failure status
+     *
+     * @param status    Status
+     * @param exception Exception
+     * @return ResponseEvent
+     */
+    public static ConnectBuddyResponseEvent failure(final Status status,
+                                                    final Throwable exception) {
+
+        ConnectBuddyResponseEvent event = new ConnectBuddyResponseEvent();
+
+        event.success = false;
+        event.status = status;
+        event.exception = exception;
+
+        return event;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public BuddyDetails getDetails() {
         return details;
     }
+
 }

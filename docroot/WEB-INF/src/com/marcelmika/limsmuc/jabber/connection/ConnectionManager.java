@@ -57,6 +57,13 @@ public interface ConnectionManager {
     public boolean isConnected();
 
     /**
+     * Returns true if the connection is authenticated
+     *
+     * @return boolean
+     */
+    public boolean isAuthenticated();
+
+    /**
      * Returns buddy's roster
      *
      * @return Roster

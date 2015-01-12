@@ -292,7 +292,7 @@
   position: absolute;
   width: 100%;
   top: 26px;
-  z-index: 2;
+  z-index: 3;
   @include transparent(#ffffff, 0.9);
   border-bottom: 1px solid #dddad8;
   @include box-shadow(#bcbcbc 0px 0px 1px);

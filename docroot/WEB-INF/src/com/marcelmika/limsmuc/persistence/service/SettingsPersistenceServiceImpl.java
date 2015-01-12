@@ -39,7 +39,8 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
@@ -52,8 +53,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Success
             return ReadSettingsResponseEvent.success(settings.toSettingsDetails());
 
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return ReadSettingsResponseEvent.failure(
                     ReadSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -82,9 +84,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
             // Success
             return UpdateActivePanelResponseEvent.success(event.getActivePanel());
-
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return UpdateActivePanelResponseEvent.failure(
                     UpdateActivePanelResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -123,9 +125,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
             // Success
             return UpdateSettingsResponseEvent.success(details);
-
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return UpdateSettingsResponseEvent.failure(
                     UpdateSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -164,18 +166,22 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public EnableChatResponseEvent enableChat(EnableChatRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), true);
-            // Success
-            return EnableChatResponseEvent.success("User chat enabled");
 
-        } catch (Exception e) {
-            // Failure
-            return EnableChatResponseEvent.failure("Cannot enable chat", e);
+            // Success
+            return EnableChatResponseEvent.success();
+        }
+        // Failure
+        catch (Exception e) {
+            return EnableChatResponseEvent.failure(
+                    EnableChatResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 
@@ -187,18 +193,22 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), false);
-            // Success
-            return DisableChatResponseEvent.success("Chat disabled");
 
-        } catch (Exception e) {
-            // Failure
-            return DisableChatResponseEvent.failure("Cannot disable chat", e);
+            // Success
+            return DisableChatResponseEvent.success();
+        }
+        // Failure
+        catch (Exception e) {
+            return DisableChatResponseEvent.failure(
+                    DisableChatResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 }

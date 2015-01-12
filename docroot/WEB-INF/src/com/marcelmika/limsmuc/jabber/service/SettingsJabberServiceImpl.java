@@ -98,7 +98,7 @@ public class SettingsJabberServiceImpl implements SettingsJabberService {
         ConnectionManager connectionManager = userSession.getConnectionManager();
 
         // Set jabber settings
-        settings.setJabberDisconnected(!connectionManager.isConnected());
+        settings.setJabberDisconnected(!connectionManager.isAuthenticated());
 
         // Success
         return ReadSettingsResponseEvent.success(settings);

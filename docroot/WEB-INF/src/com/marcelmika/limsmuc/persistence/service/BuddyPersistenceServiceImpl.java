@@ -79,16 +79,26 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         // Get buddy from buddy details
         Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
+        // Check parameters
+        if (buddy.getBuddyId() == null) {
+            return LogoutBuddyResponseEvent.failure(
+                    LogoutBuddyResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
         try {
             // Update user's connection
             SettingsLocalServiceUtil.updateConnection(buddy.getBuddyId(), false);
 
-            // Call success
-            return LogoutBuddyResponseEvent.success("User successfully logged out", buddy.toBuddyDetails());
-
-        } catch (Exception e) {
+            // Success
+            return LogoutBuddyResponseEvent.success(buddy.toBuddyDetails());
+        }
+        // Failure
+        catch (Exception e) {
             // Call failure
-            return LogoutBuddyResponseEvent.failure(e.getLocalizedMessage(), buddy.toBuddyDetails());
+            return LogoutBuddyResponseEvent.failure(
+                    LogoutBuddyResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 
@@ -111,13 +121,12 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 SettingsLocalServiceUtil.deleteSettings(settings);
             }
             // Success
-            return DeleteBuddyResponseEvent.success("Buddy " + buddy.getBuddyId() + " has been successfully " +
-                    "removed from the persistence layer", buddy.toBuddyDetails());
-        } catch (Exception e) {
-            // Failure
+            return DeleteBuddyResponseEvent.success(buddy.toBuddyDetails());
+        }
+        // Failure
+        catch (Exception e) {
             return DeleteBuddyResponseEvent.failure(
-                    "Cannot remove buddy from persistence layer.",
-                    buddy.toBuddyDetails()
+                    DeleteBuddyResponseEvent.Status.ERROR_PERSISTENCE, e
             );
         }
     }
@@ -150,19 +159,20 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 }
 
                 // Success
-                return ReadPresenceBuddyResponseEvent.success(
-                        "Presence successfully read", presence.toPresenceDetails()
-                );
-            } else {
-                // Failure
+                return ReadPresenceBuddyResponseEvent.success(presence.toPresenceDetails());
+            }
+            // Failure
+            else {
                 return ReadPresenceBuddyResponseEvent.failure(
-                        new Exception(String.format("Cannot find settings for buddy with ID: %s", buddy.getBuddyId()))
+                        ReadPresenceBuddyResponseEvent.Status.ERROR_PERSISTENCE
                 );
             }
 
         } catch (Exception e) {
             // Failure
-            return ReadPresenceBuddyResponseEvent.failure(e);
+            return ReadPresenceBuddyResponseEvent.failure(
+                    ReadPresenceBuddyResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 

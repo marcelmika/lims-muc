@@ -94,7 +94,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             if (readPresenceEvent.isSuccess()) {
                 buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
                                 loginResponseEvent.getDetails().getBuddyId(),
-                                readPresenceEvent.getPresenceDetails())
+                                readPresenceEvent.getPresence())
                 );
             }
         }
@@ -103,7 +103,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     }
 
     /**
-     * Logout buddy from System
+     * Logout buddy
      *
      * @param event Request event
      * @return Response event

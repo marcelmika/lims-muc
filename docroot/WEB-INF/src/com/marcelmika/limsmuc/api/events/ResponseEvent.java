@@ -16,20 +16,38 @@ package com.marcelmika.limsmuc.api.events;
  * Time: 10:42 PM
  */
 public class ResponseEvent {
-
-    protected String result;
+    
     protected boolean success;
     protected Throwable exception;
 
-    public String getResult() {
-        return result;
-    }
-
+    /**
+     * Returns true if the request was successful
+     *
+     * @return boolean
+     */
     public boolean isSuccess() {
         return success;
     }
 
+    /**
+     * Returns response exception if set. Null otherwise
+     *
+     * @return Throwable
+     */
     public Throwable getException() {
         return exception;
+    }
+
+    /**
+     * Returns exception message if set. Empty string otherwise
+     *
+     * @return String
+     */
+    public String getExceptionMessage() {
+        if (exception == null) {
+            return "";
+        }
+
+        return exception.getLocalizedMessage();
     }
 }

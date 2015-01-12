@@ -65,15 +65,17 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // Error occurs somewhere else besides XMPP protocol level.
         catch (SmackException e) {
-            throw new JabberException("Cannot connect to Jabber server", e);
+            throw new JabberException(
+                    "LIMS can't connect to Jabber server. Either the server is down or you provided wrong" +
+                            " host, port or service name.", e);
         }
         // Fatal error
         catch (IOException e) {
-            throw new JabberException("Fatal error", e);
+            throw new JabberException("LIMS can't connect to Jabber server. Fatal I/O error.", e);
         }
         // Error occurs on the XMPP protocol level
         catch (XMPPException e) {
-            throw new JabberException("XMPP error occurred", e);
+            throw new JabberException("LIMS can't connect to Jabber server. XMPP error occurred.", e);
         }
     }
 
@@ -131,6 +133,16 @@ public class ConnectionManagerImpl implements ConnectionManager {
     }
 
     /**
+     * Returns true if the connection is authenticated
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isAuthenticated() {
+        return connection != null && connection.isAuthenticated();
+    }
+
+    /**
      * Returns buddy's roster
      *
      * @return Roster
@@ -165,10 +177,21 @@ public class ConnectionManagerImpl implements ConnectionManager {
             // Update password
             accountManager.changePassword(password);
         }
-        // Failure
-        catch (Exception e) {
-            throw new JabberException("Password cannot be updated", e);
+        // Error occurs on the XMPP protocol level
+        catch (XMPPException.XMPPErrorException e) {
+            throw new JabberException("LIMS can't update user's password on Jabber server. XMPP error occurred.", e);
         }
+        // User is not connected
+        catch (SmackException.NotConnectedException e) {
+            throw new JabberException("LIMS can't update user's password on Jabber server because the user is " +
+                    "not connected", e);
+        }
+        // No response from server
+        catch (SmackException.NoResponseException e) {
+            throw new JabberException("LIMS can't update user's password on Jabber server because we are not " +
+                    "receiving any response from the server", e);
+        }
+
     }
 
     /**
@@ -185,7 +208,7 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // Failure
         catch (SmackException.NotConnectedException e) {
-            throw new JabberException("Presence cannot be updated", e);
+            throw new JabberException("Presence cannot be updated because the user is not connected to Jabber", e);
         }
     }
 
@@ -218,9 +241,10 @@ public class ConnectionManagerImpl implements ConnectionManager {
             // Import user to server
             if (shouldImportUser && Validator.isNotNull(message) && message.contains("not-authorized")) {
                 // Log
-                if (log.isDebugEnabled()) {
-                    log.debug(String.format(
-                            "Session for user %s did not authorize. Trying to import a user to Jabber.",
+                if (log.isInfoEnabled()) {
+                    log.info(String.format(
+                            "User %s wasn't authenticated against the Jabber server. " +
+                                    "LIMS will now try to import the user to Jabber.",
                             buddy.getScreenName()
                     ));
                 }
@@ -232,10 +256,20 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 // infinite recursion
                 login(buddy, false);
             }
+            // Provide not authorized info
+            else if (message.contains("not-authorized")) {
+                throw new JabberException(String.format(
+                        "User %s wasn't authenticated against the Jabber server. It is possible that the user " +
+                                "does not exist in Jabber or the password used to login " +
+                                "to Liferay is different than the one used to login to Jabber. " +
+                                "Try to enable the Jabber User Import. If the problem remains contact LIMS support.",
+                        buddy.getScreenName()
+                ));
+            }
             // Failure
             else {
                 // Session Did Not Login
-                throw new JabberException(String.format("Cannot log in user %s", buddy.getScreenName()), e);
+                throw new JabberException(e);
             }
         }
     }
@@ -277,14 +311,19 @@ public class ConnectionManagerImpl implements ConnectionManager {
         // Failure
         catch (Exception e) {
             String message = e.getMessage();
-            // Conflict
-            if (Validator.isNotNull(message) && message.contains("conflict(409)")) {
-                throw new JabberException(String.format(
-                        "User %s already exists but has a different password", buddy.getScreenName()
-                ));
-            }
 
-            throw new JabberException("New account cannot be created", e);
+            // Conflict
+            if (Validator.isNotNull(message) && message.contains("conflict")) {
+                throw new JabberException(String.format(
+                        "User %s cannot be imported to Jabber because such user already exists " +
+                                "but has a different password.",
+                        buddy.getScreenName()
+                ), e);
+            }
+            // Any other error message
+            else {
+                throw new JabberException(e);
+            }
         }
     }
 

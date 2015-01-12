@@ -18,7 +18,6 @@ import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
-import com.marcelmika.limsmuc.jabber.utils.Jid;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
@@ -300,10 +299,18 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         // such call can be added. Thus we simply ignore this fact.
         try {
             User user = UserLocalServiceUtil.getUserByScreenName(companyId, buddy.getScreenName());
+
+            // No such user was found, thus simply ignore this fact and return null
+            if (user == null) {
+                return null;
+            }
+
             // Map the user
             buddy = Buddy.fromPortalUser(user);
-        } catch (Exception e) {
-            // No such user was found, thus simply ignore this fact and don't add it to the list
+        }
+        // Failure
+        catch (Exception e) {
+            // Some error occurred, thus simply ignore this fact and return null
             return null;
         }
 
