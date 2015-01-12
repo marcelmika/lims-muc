@@ -310,6 +310,9 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         }
         // Failure
         catch (Exception e) {
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
             // Some error occurred, thus simply ignore this fact and return null
             return null;
         }
