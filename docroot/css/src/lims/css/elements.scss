@@ -121,6 +121,16 @@
       // Rounded corners
       @include border-radius(0);
       @include box-shadow(none);
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      &.disabled:hover {
+        color: #333333;
+        background-color: #ffffff;
+        border-color: #cccccc;
+      }
     }
 
     > .button {

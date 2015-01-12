@@ -39,6 +39,20 @@ Y.LIMS.View.ChoiceElementView = Y.Base.create('choiceElementView', Y.View, [], {
     },
 
     /**
+     * Enables choice button
+     *
+     * @param choice
+     */
+    enableChoice: function (choice) {
+        // Vars
+        var choiceNode = this._getChoiceNode(choice);
+
+        if (choiceNode) {
+            choiceNode.removeClass('disabled');
+        }
+    },
+
+    /**
      * Disables view
      */
     disable: function () {
@@ -50,6 +64,20 @@ Y.LIMS.View.ChoiceElementView = Y.Base.create('choiceElementView', Y.View, [], {
 
         // Add disabled class to buttons
         buttonGroup.addClass('disabled');
+    },
+
+    /**
+     * Disables choice button
+     *
+     * @param choice
+     */
+    disableChoice: function (choice) {
+        // Vars
+        var choiceNode = this._getChoiceNode(choice);
+
+        if (choiceNode) {
+            choiceNode.addClass('disabled');
+        }
     },
 
     /**
@@ -290,7 +318,10 @@ Y.LIMS.View.ChoiceElementView = Y.Base.create('choiceElementView', Y.View, [], {
         var choiceNode = event.currentTarget,                           // Choice a is a target in event
             preSelectedChoices = this.get('selectedChoices').slice(0),  // Get a copy of selected choices
             choice = choiceNode.getAttribute('data-choice'),            // Get choice from choice node
-            isDisabled = this.get('buttonGroup').hasClass('disabled');  // Check if node is disabled
+            isDisabled;
+
+        // True if the whole button group or a particular choice button is disabled
+        isDisabled = this.get('buttonGroup').hasClass('disabled') || choiceNode.hasClass('disabled');
 
         // Don't do anything if the choice is disabled
         if (!isDisabled) {

@@ -487,15 +487,39 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     _onJabberEnabledClick: function () {
         // Vars
         var switchView = this.get('jabberEnabled'),
+            buddyListStrategy = this.get('buddyListStrategy'),
+            selectedChoices = buddyListStrategy.get('selectedChoices'),
             model;
-
-        // Prepare the model
-        model = new Y.LIMS.Model.PropertiesModel({
-            jabberEnabled: switchView.isOn()
-        });
 
         // Disable view
         switchView.disable();
+
+        // Enabling jabber
+        if (switchView.isOn()) {
+            buddyListStrategy.enableChoice('JABBER');
+
+            // Prepare the model
+            model = new Y.LIMS.Model.PropertiesModel({
+                jabberEnabled: switchView.isOn()
+            });
+        }
+        // Disabling jabber
+        else {
+            // Don't let the user to select jabber buddy list strategy
+            if (selectedChoices.length > 0 && selectedChoices[0] === 'JABBER') {
+                // Select ALL as default
+                buddyListStrategy.selectChoice('ALL');
+            }
+            // Disable the jabber choice
+            buddyListStrategy.disableChoice('JABBER');
+
+            // Prepare the model
+            model = new Y.LIMS.Model.PropertiesModel({
+                jabberEnabled: switchView.isOn(),
+                buddyListStrategy: "ALL"
+            });
+        }
+
 
         // Save the model
         model.save(function (err) {
