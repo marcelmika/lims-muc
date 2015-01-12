@@ -115,29 +115,28 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         List<Buddy> buddies = new LinkedList<Buddy>();
 
         for (RosterEntry rosterEntry : roster.getEntries()) {
-            // Get the user name
-            String userName = rosterEntry.getName();
 
-            // Ignore null user names, just to be sure
-            if (userName == null) {
+            // Map the user
+            Buddy buddy = mapFromRosterEntry(rosterEntry);
+
+            // If no such buddy exist in Liferay ignore the entry
+            if (buddy == null) {
                 continue;
             }
 
+            // Search based on the full name
+            String fullName = buddy.getFullName().toLowerCase();
             // Check if the name matches search query
-            boolean matches = userName.toLowerCase().matches(String.format(".*%s.*", searchQuery.toLowerCase()));
+            boolean matches = fullName.matches(String.format(".*%s.*", searchQuery.toLowerCase()));
 
             if (matches) {
-                // Map the user
-                Buddy buddy = mapFromRosterEntry(rosterEntry);
 
-                // If buddy exists add it to result
-                if (buddy != null) {
-                    buddies.add(buddy);
+                // Add buddy to result
+                buddies.add(buddy);
 
-                    // Stop the search if we already excited the limit
-                    if (buddies.size() >= size) {
-                        break;
-                    }
+                // Stop the search if we already excited the limit
+                if (buddies.size() >= size) {
+                    break;
                 }
             }
         }
@@ -250,7 +249,7 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
             Group group = new Group();
             group.setName(rosterGroup.getName());
 
-            // There is a mex number of buddies that are going to be displayed
+            // There is a max number of buddies that are going to be displayed
             int buddiesCount = 0;
             int buddiesMaxCount = Environment.getBuddyListMaxBuddies();
 
@@ -295,9 +294,10 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         // Map buddy
         Buddy buddy = Buddy.fromRosterEntry(entry);
 
-        // Important: This is a leaking of the business logic. However there is no better place where
-        // such call can be added. Thus we simply ignore this fact.
         try {
+
+            // Important: This is a leaking of the business logic (calling Liferay util).
+            // Unfortunately there is no better place where such call can be added.
             User user = UserLocalServiceUtil.getUserByScreenName(companyId, buddy.getScreenName());
 
             // No such user was found, thus simply ignore this fact and return null
@@ -317,12 +317,13 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         // Map presence
         Presence presence = Presence.fromSmackPresence(roster.getPresence(entry.getUser()));
         buddy.setPresence(presence);
+
         // Map connection
-        if (presence != Presence.STATE_OFFLINE && presence != Presence.STATE_UNRECOGNIZED) {
-            buddy.setConnected(true);
+        boolean isConnected = presence != Presence.STATE_OFFLINE && presence != Presence.STATE_UNRECOGNIZED;
+        buddy.setConnected(isConnected);
+        // Set the connection timestamp
+        if (isConnected) {
             buddy.setConnectedAt(Calendar.getInstance().getTime());
-        } else {
-            buddy.setConnected(false);
         }
 
         return buddy;

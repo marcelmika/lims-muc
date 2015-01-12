@@ -98,6 +98,7 @@ public class Buddy {
 
         buddy.buddyId = user.getUserId();
         buddy.companyId = user.getCompanyId();
+        buddy.fullName = user.getFullName();
         buddy.screenName = user.getScreenName();
         buddy.password = user.getPassword();
 
