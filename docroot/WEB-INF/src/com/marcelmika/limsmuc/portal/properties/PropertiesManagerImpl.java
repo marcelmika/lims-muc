@@ -31,38 +31,55 @@ import java.util.Set;
  */
 public class PropertiesManagerImpl implements PropertiesManager {
 
-    // Log
-    private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
+    // Set to true if the environment was already set up
+    private boolean isSetup = false;
 
-    // Constants
+    // Buddy List Max Buddies
     private static final int BUDDY_LIST_MAX_BUDDIES_MIN = 10;
     private static final int BUDDY_LIST_MAX_BUDDIES_MAX = 500;
     private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 200;
 
+    // Buddy List Max Search
     private static final int BUDDY_LIST_MAX_SEARCH_MIN = 7;
     private static final int BUDDY_LIST_MAX_SEARCH_MAX = 30;
     private static final int BUDDY_LIST_MAX_SEARCH_DEFAULT = 10;
 
+    // Connection Lost
     private static final int CONNECTION_LOST_THRESHOLD_MIN = 0;
     private static final int CONNECTION_LOST_THRESHOLD_MAX = 1440;
     private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 2;
 
+    // Conversation List Max Messages
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MIN = 10;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 50;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_DEFAULT = 10;
 
+    // Conversation Feed Max Conversations
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MIN = 6;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MAX = 20;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT = 7;
 
+    // Polling Slow Down Threshold
     private static final int POLLING_SLOW_DOWN_THRESHOLD_MIN = 100;
     private static final int POLLING_SLOW_DOWN_THRESHOLD_MAX = 5000;
     private static final int POLLING_SLOW_DOWN_THRESHOLD_DEFAULT = 1000;
 
+    // Jabber Host
+    private static final String JABBER_HOST_DEFAULT = "127.0.0.1";
+
+    // Jabber Port
+    private static final int JABBER_PORT_MIN = 1;
+    private static final int JABBER_PORT_MAX = 65536;
+    private static final int JABBER_PORT_DEFAULT = 5222;
+
+    // Jabber Service Name
+    private static final String JABBER_SERVICE_NAME_DEFAULT = "jabber-service";
+
+    // Jabber Resource
     private static final String JABBER_RESOURCE_DEFAULT = "LIMS";
 
-    // Set to true if the environment was already set up
-    private boolean isSetup = false;
+    // Log
+    private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
 
     /**
      * Sets up all portlet properties. Decides which source of properties should be taken into account.
@@ -1149,10 +1166,16 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private void updateJabberHost(PortletPreferences preferences,
                                   Properties properties) throws Exception {
 
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberHost(),
+                PortletPropertiesKeys.JABBER_HOST,
+                JABBER_HOST_DEFAULT
+        );
+
         // Set the value in portlet preferences
         preferences.setValue(
-                PortletPropertiesKeys.JABBER_HOST,
-                properties.getJabberHost()
+                PortletPropertiesKeys.JABBER_HOST, value
         );
         // Persist
         preferences.store();
@@ -1170,19 +1193,25 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Get the properties source
         PropertiesSource source = Environment.getPropertiesSource();
 
+        // Validate the value
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_HOST,
+                PortletPropertiesKeys.JABBER_HOST,
+                JABBER_HOST_DEFAULT
+        );
+
         String jabberHost;
 
         // Preferences
         if (source == PropertiesSource.PREFERENCES) {
             // Take the value from preferences
             jabberHost = preferences.getValue(
-                    PortletPropertiesKeys.JABBER_HOST,
-                    PortletPropertiesValues.JABBER_HOST
+                    PortletPropertiesKeys.JABBER_HOST, value
             );
         }
         // Properties
         else {
-            jabberHost = PortletPropertiesValues.JABBER_HOST;
+            jabberHost = value;
         }
 
         // Save in Environment
@@ -1199,10 +1228,19 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private void updateJabberPort(PortletPreferences preferences,
                                   Properties properties) throws Exception {
 
+        // Get the value from properties
+        Integer value = validateValueScope(
+                properties.getJabberPort(),
+                PortletPropertiesKeys.JABBER_PORT,
+                JABBER_PORT_MIN,
+                JABBER_PORT_MAX,
+                JABBER_PORT_DEFAULT
+        );
+
         // Set the value in portlet preferences
         preferences.setValue(
                 PortletPropertiesKeys.JABBER_PORT,
-                String.valueOf(properties.getJabberPort())
+                String.valueOf(value)
         );
         // Persist
         preferences.store();
@@ -1220,6 +1258,15 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Get the properties source
         PropertiesSource source = Environment.getPropertiesSource();
 
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.JABBER_PORT,
+                PortletPropertiesKeys.JABBER_PORT,
+                JABBER_PORT_MIN,
+                JABBER_PORT_MAX,
+                JABBER_PORT_DEFAULT
+        );
+
         Integer jabberPort;
 
         // Preferences
@@ -1227,12 +1274,12 @@ public class PropertiesManagerImpl implements PropertiesManager {
             // Take the value from preferences
             jabberPort = Integer.parseInt(preferences.getValue(
                     PortletPropertiesKeys.JABBER_PORT,
-                    String.valueOf(PortletPropertiesValues.JABBER_PORT)
+                    String.valueOf(value)
             ));
         }
         // Properties
         else {
-            jabberPort = PortletPropertiesValues.JABBER_PORT;
+            jabberPort = value;
         }
 
         // Save in Environment
@@ -1249,10 +1296,16 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private void updateJabberServiceName(PortletPreferences preferences,
                                          Properties properties) throws Exception {
 
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberServiceName(),
+                PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                JABBER_SERVICE_NAME_DEFAULT
+        );
+
         // Set the value in portlet preferences
         preferences.setValue(
-                PortletPropertiesKeys.JABBER_SERVICE_NAME,
-                properties.getJabberServiceName()
+                PortletPropertiesKeys.JABBER_SERVICE_NAME, value
         );
         // Persist
         preferences.store();
@@ -1270,19 +1323,25 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Get the properties source
         PropertiesSource source = Environment.getPropertiesSource();
 
+        // Get the value from properties
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_SERVICE_NAME,
+                PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                JABBER_SERVICE_NAME_DEFAULT
+        );
+
         String jabberServiceName;
 
         // Preferences
         if (source == PropertiesSource.PREFERENCES) {
             // Take the value from preferences
             jabberServiceName = preferences.getValue(
-                    PortletPropertiesKeys.JABBER_SERVICE_NAME,
-                    PortletPropertiesValues.JABBER_SERVICE_NAME
+                    PortletPropertiesKeys.JABBER_SERVICE_NAME, value
             );
         }
         // Properties
         else {
-            jabberServiceName = PortletPropertiesValues.JABBER_SERVICE_NAME;
+            jabberServiceName = value;
         }
 
         // Save in Environment

@@ -17,6 +17,9 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
     // Activity indicator template
     activityIndicatorTemplate: '<div class="preloader"/>',
 
+    // Error message template
+    errorMessageTemplate: '<div class="error-message" />',
+
     /**
      * Called on initialization
      */
@@ -45,6 +48,15 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
         var input = this.get('input');
 
         return input.get('value');
+    },
+
+    /**
+     * Validates the input. Returns true if the input value is valid.
+     *
+     * @return {boolean}
+     */
+    validate: function () {
+        return this._validate(this.getValue());
     },
 
     /**
@@ -118,6 +130,52 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
     },
 
     /**
+     * Shows error message
+     *
+     * @param message
+     * @private
+     */
+    showError: function (message) {
+        // Vars
+        var errorMessage = this.get('errorMessage'),
+            input = this.get('input'),
+            container = this.get('container');
+
+        // Add error class to input
+        input.addClass('error');
+
+        // Update error message
+        errorMessage.set('innerHTML', message);
+
+        // Add to container if not presented
+        if (!errorMessage.inDoc()) {
+            container.append(errorMessage);
+        }
+    },
+
+    /**
+     * Hides error message
+     *
+     * @private
+     */
+    hideError: function () {
+        // Vars
+        var errorMessage = this.get('errorMessage'),
+            input = this.get('input');
+
+        // Remove error class
+        input.removeClass('error');
+
+        // Empty the message
+        errorMessage.set('innerHTML', '');
+
+        // Remove from doc
+        if (errorMessage.inDoc()) {
+            errorMessage.remove();
+        }
+    },
+
+    /**
      * Attach events to elements
      *
      * @private
@@ -127,6 +185,51 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
         var input = this.get('input');
 
         input.on('valuechange', this._onInputValueChanged, this);
+    },
+
+    /**
+     * Validates the input. Shows the proper error message. Returns true if the validation was successful.
+     *
+     * @param value validated value
+     * @return {boolean} true if the validation was successful
+     * @private
+     */
+    _validate: function (value) {
+        // Vars
+        var notEmpty = this.get('notEmpty'),
+            isInteger = this.get('isInteger'),
+            minValue = this.get('minValue'),
+            maxValue = this.get('maxValue');
+
+        // Hide previous error message
+        this.hideError();
+
+        // Validate not empty
+        if (notEmpty && value.length === 0) {
+            // Show error message
+            this.showError(Y.LIMS.Core.i18n.values.validationRequired);
+            // Failure
+            return false;
+        }
+
+        // Validate is number
+        if (isInteger && !Y.LIMS.Core.Util.isInteger(value)) {
+            // Show error message
+            this.showError(Y.LIMS.Core.i18n.values.validationIsInteger);
+            // Failure
+            return false;
+        }
+
+        // Validate min and max value
+        if ((minValue !== null || maxValue !== null) && (value < minValue || value > maxValue)) {
+            // Show error message
+            this.showError(Y.LIMS.Core.i18n.values.validationInterval + " " + minValue + " - " + maxValue);
+            // Failure
+            return false;
+        }
+
+        // Success
+        return true;
     },
 
     /**
@@ -147,11 +250,15 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
 
         // Set a new timer
         this.set('timer', setTimeout(function () {
-            // Fire the event
-            instance.fire('inputUpdate', {
-                preValue: event.prevVal,
-                postValue: event.newVal
-            }, instance);
+
+            // Validate the value
+            if (instance._validate(event.newVal)) {
+                // Fire the event
+                instance.fire('inputUpdate', {
+                    preValue: event.prevVal,
+                    postValue: event.newVal
+                }, instance);
+            }
 
         }, timerDelayInterval));
     }
@@ -194,6 +301,53 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
             valueFn: function () {
                 return Y.Node.create(this.activityIndicatorTemplate);
             }
+        },
+
+        /**
+         * Error message template
+         *
+         * {Node}
+         */
+        errorMessage: {
+            valueFn: function () {
+                return Y.Node.create(this.errorMessageTemplate);
+            }
+        },
+
+        /**
+         * Indicates if the input should be integer
+         *
+         * {boolean}
+         */
+        isInteger: {
+            value: false // default value
+        },
+
+        /**
+         * Indicates min possible value of input (only works if isInteger is set to true)
+         *
+         * {number}
+         */
+        minValue: {
+            value: null // default value
+        },
+
+        /**
+         * Indicates max possible value of input (only works if isInteger is set to false)
+         *
+         * {number}
+         */
+        maxValue: {
+            value: null // default value
+        },
+
+        /**
+         * Indicates if the input cannot be empty
+         *
+         * {boolean}
+         */
+        notEmpty: {
+            value: false // default value
         },
 
         /**

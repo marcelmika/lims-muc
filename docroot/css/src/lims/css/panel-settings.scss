@@ -173,6 +173,16 @@
       input[type="text"] {
         width: 250px;
         margin-bottom: 0;
+
+        &.error {
+          border: 1px solid #d26767;
+        }
+      }
+
+      .error-message {
+        display: inline-block;
+        margin-left: 7px;
+        color: #d26767;
       }
 
       .preloader {

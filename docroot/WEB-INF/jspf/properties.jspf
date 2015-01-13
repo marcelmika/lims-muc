@@ -52,13 +52,18 @@
     "mucTitleTwoParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-two-participants"/>",
     "mucTitleOthersParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-others-participants"/>",
     "testConnectionSuccess" : "<liferay-ui:message key="panel-settings-admin-area-jabber-test-connection-success"/>",
+    "testConnectionValidationError" : "<liferay-ui:message key="panel-settings-admin-area-jabber-test-connection-validation-error"/>",
     "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>",
     "sucSynchronizationInProgress" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-in-progress-note"/>",
     "sucSynchronizationError" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-error-note"/>",
     "sucSynchronizationSuccess" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-success-note"/>",
     "chatPortletSynchronizationInProgress" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-in-progress-note"/>",
     "chatPortletSynchronizationError" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-error-note"/>",
-    "chatPortletSynchronizationSuccess" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-success-note"/>"
+    "chatPortletSynchronizationSuccess" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-success-note"/>",
+    "valueUpdateError":"<liferay-ui:message key="panel-settings-admin-area-value-update-error"/>",
+    "validationRequired":"<liferay-ui:message key="panel-settings-admin-area-validation-required"/>",
+    "validationIsInteger":"<liferay-ui:message key="panel-settings-admin-area-validation-is-integer"/>",
+    "validationInterval":"<liferay-ui:message key="panel-settings-admin-area-validation-interval"/>"
     }
 </script>
 

@@ -591,6 +591,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             if (err) {
                 // Return everything to the previous state
                 jabberHost.setValue(preValue);
+                // Show error
+                jabberHost.showError(Y.LIMS.Core.i18n.values.valueUpdateError);
             }
             // Re-enable the view so the user can interact with it again
             jabberHost.enable();
@@ -631,6 +633,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             if (err) {
                 // Return everything to the previous state
                 jabberPort.setValue(preValue);
+                // Show error
+                jabberPort.showError(Y.LIMS.Core.i18n.values.valueUpdateError);
             }
             // Re-enable the view so the user can interact with it again
             jabberPort.enable();
@@ -671,6 +675,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             if (err) {
                 // Return everything to the previous state
                 jabberServiceName.setValue(preValue);
+                // Show error
+                jabberServiceName.showError(Y.LIMS.Core.i18n.values.valueUpdateError);
             }
             // Re-enable the view so the user can interact with it again
             jabberServiceName.enable();
@@ -711,6 +717,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             if (err) {
                 // Return everything to the previous state
                 jabberResource.setValue(preValue);
+                // Show error
+                jabberResource.showError(Y.LIMS.Core.i18n.values.valueUpdateError);
             }
             // Re-enable the view so the user can interact with it again
             jabberResource.enable();
@@ -730,18 +738,38 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         var button = this.get('jabberTestConnectionButton'),
             preloader = this.get('jabberTestConnectionPreloader'),
             message = this.get('jabberTestConnectionMessage'),
-            jabberHost = this.get('jabberHost').getValue(),
-            jabberPort = this.get('jabberPort').getValue(),
-            jabberServiceName = this.get('jabberServiceName').getValue(),
-            jabberResource = this.get('jabberResource').getValue(),
+            jabberHost = this.get('jabberHost'),
+            jabberPort = this.get('jabberPort'),
+            jabberServiceName = this.get('jabberServiceName'),
+            jabberResource = this.get('jabberResource'),
+            isValid,
             model;
+
+
+        // Validate all mandatory fields
+        isValid =
+            jabberHost.validate() &&
+            jabberPort.validate() &&
+            jabberServiceName.validate() &&
+            jabberResource.validate();
+
+        if (!isValid) {
+            // Set the error text
+            message.set('innerHTML', Y.LIMS.Core.i18n.values.testConnectionValidationError);
+            // Set the failure class
+            message.addClass('failure');
+            // Show the message
+            Y.LIMS.Core.Util.show(message);
+            // End here
+            return;
+        }
 
         // Create model
         model = new Y.LIMS.Model.PropertiesModel({
-            jabberHost: jabberHost,
-            jabberPort: jabberPort,
-            jabberServiceName: jabberServiceName,
-            jabberResource: jabberResource
+            jabberHost: jabberHost.getValue(),
+            jabberPort: jabberPort.getValue(),
+            jabberServiceName: jabberServiceName.getValue(),
+            jabberResource: jabberResource.getValue()
         });
 
         // Disable the button
@@ -763,7 +791,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
 
             if (err) {
                 // Set the error text
-                message.set('innerHTML', "Test error: " + err);
+                message.set('innerHTML', err);
                 // Set the failure class
                 message.addClass('failure');
                 // Show the message
@@ -1260,7 +1288,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.jabber-host');
 
                 return new Y.LIMS.View.InputElementView({
-                    container: container
+                    container: container,
+                    notEmpty: true  // Host cannot be empty
                 });
             }
         },
@@ -1276,7 +1305,11 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.jabber-port');
 
                 return new Y.LIMS.View.InputElementView({
-                    container: container
+                    container: container,
+                    notEmpty: true,  // Port cannot be empty
+                    isInteger: true, // Must be an integer
+                    minValue: 1,     // Ports start with 1
+                    maxValue: 65536  // Ports end with 65536
                 });
             }
         },
@@ -1292,7 +1325,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.jabber-service-name');
 
                 return new Y.LIMS.View.InputElementView({
-                    container: container
+                    container: container,
+                    notEmpty: true  // Service name cannot be empty
                 });
             }
         },
@@ -1308,7 +1342,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.jabber-resource');
 
                 return new Y.LIMS.View.InputElementView({
-                    container: container
+                    container: container,
+                    notEmpty: true  // Resource cannot be empty
                 });
             }
         },

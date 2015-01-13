@@ -94,6 +94,16 @@ var Util = {
     },
 
     /**
+     * Returns true if the value is integer
+     *
+     * @param value
+     * @return {boolean}
+     */
+    isInteger: function (value) {
+        return !isNaN(value) && (parseInt(value, 10) === parseFloat(value));
+    },
+
+    /**
      * Shows node
      *
      * @param node {Node}

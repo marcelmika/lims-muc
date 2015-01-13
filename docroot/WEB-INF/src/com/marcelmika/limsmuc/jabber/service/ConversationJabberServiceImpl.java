@@ -142,6 +142,13 @@ public class ConversationJabberServiceImpl
             );
         }
 
+        // User is not authenticated
+        if (!userSession.getConnectionManager().isAuthenticated()) {
+            return SendMessageResponseEvent.failure(
+                    SendMessageResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
         // Decide where to go based on the conversation type
         ConversationType conversationType = ConversationType.fromConversationTypeDetails(
                 event.getConversationDetails().getConversationType()
