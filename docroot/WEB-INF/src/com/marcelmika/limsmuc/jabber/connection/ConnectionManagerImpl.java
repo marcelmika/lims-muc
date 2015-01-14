@@ -39,6 +39,8 @@ public class ConnectionManagerImpl implements ConnectionManager {
     private ConnectionConfiguration connectionConfiguration;
     // Connection to the server
     private XMPPConnection connection;
+    // Remembered user presence
+    private Presence presence;
 
     // -------------------------------------------------------------------------------------------
     // Override: ConnectionManager
@@ -211,8 +213,15 @@ public class ConnectionManagerImpl implements ConnectionManager {
     @Override
     public void setPresence(Presence presence) throws JabberException {
         try {
-            // Send the presence packet
-            connection.sendPacket(presence);
+
+            if (this.presence == null ||
+                    presence.getMode() != this.presence.getMode() ||
+                    presence.getType() != this.presence.getType()) {
+                // Send the presence packet
+                connection.sendPacket(presence);
+                // Remember the presence
+                this.presence = presence;
+            }
         }
         // Failure
         catch (SmackException.NotConnectedException e) {

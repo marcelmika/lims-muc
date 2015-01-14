@@ -321,9 +321,9 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	*
 	* @param conversationId Conversation which should be closed
 	* @param participantId  Participant whose conversation should be closed
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+	* @throws NoSuchConversationException
 	* @throws SystemException
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	*/
 	@Override
 	public void closeConversation(java.lang.String conversationId,
@@ -339,9 +339,9 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	*
 	* @param conversationId Conversation where the counter should be reset
 	* @param participantId  Participant whose counter should be reset
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	* @throws SystemException
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+	* @throws NoSuchConversationException
 	*/
 	@Override
 	public void resetUnreadMessagesCounter(java.lang.String conversationId,
@@ -388,7 +388,7 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	*
 	* @param cid Id of the conversation related to the participants
 	* @return list of participants
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	* @throws SystemException
 	*/
 	@Override
@@ -417,7 +417,7 @@ public class ParticipantLocalServiceWrapper implements ParticipantLocalService,
 	* Returns particular participant based on the id
 	*
 	* @param participantId Id of the participant
-	* @param useCache true if the cache should be used
+	* @param useCache      true if the cache should be used
 	* @return participant or null if no participant was found
 	* @throws SystemException
 	*/

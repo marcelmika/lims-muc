@@ -384,9 +384,10 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* Updates connections that have the connected at value below the threshold
 	*/
 	@Override
-	public void updateAllConnections(int connectionThreshold)
+	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> updateAllConnections(
+		int connectionThreshold)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_settingsLocalService.updateAllConnections(connectionThreshold);
+		return _settingsLocalService.updateAllConnections(connectionThreshold);
 	}
 
 	/**

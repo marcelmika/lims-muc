@@ -9,7 +9,10 @@
 
 package com.marcelmika.limsmuc.api.events.settings;
 
+import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
+
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -19,6 +22,7 @@ import com.marcelmika.limsmuc.api.events.ResponseEvent;
  */
 public class UpdateAllConnectionsResponseEvent extends ResponseEvent {
 
+    private List<SettingsDetails> settings;
     private Status status;
 
     public enum Status {
@@ -38,11 +42,12 @@ public class UpdateAllConnectionsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static UpdateAllConnectionsResponseEvent success() {
+    public static UpdateAllConnectionsResponseEvent success(List<SettingsDetails> settings) {
         UpdateAllConnectionsResponseEvent event = new UpdateAllConnectionsResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
+        event.settings = settings;
 
         return event;
     }
@@ -70,7 +75,7 @@ public class UpdateAllConnectionsResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static UpdateAllConnectionsResponseEvent failure(final Status status,
-                                                         final Throwable exception) {
+                                                            final Throwable exception) {
 
         UpdateAllConnectionsResponseEvent event = new UpdateAllConnectionsResponseEvent();
 
@@ -79,6 +84,10 @@ public class UpdateAllConnectionsResponseEvent extends ResponseEvent {
         event.exception = exception;
 
         return event;
+    }
+
+    public List<SettingsDetails> getSettings() {
+        return settings;
     }
 
     public Status getStatus() {

@@ -11,8 +11,12 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.entity.PresenceDetails;
+import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
 import com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService;
 
@@ -34,6 +38,7 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
     // Dependencies
     SettingsPersistenceService settingsPersistenceService;
     SettingsJabberService settingsJabberService;
+    BuddyJabberService buddyJabberService;
 
     /**
      * Constructor
@@ -41,9 +46,11 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      * @param settingsPersistenceService persistence service
      */
     public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService,
-                                   final SettingsJabberService settingsJabberService) {
+                                   final SettingsJabberService settingsJabberService,
+                                   final BuddyJabberService buddyJabberService) {
         this.settingsPersistenceService = settingsPersistenceService;
         this.settingsJabberService = settingsJabberService;
+        this.buddyJabberService = buddyJabberService;
     }
 
     /**
@@ -67,6 +74,12 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         if (!Environment.isJabberEnabled()) {
             return persistenceResponseEvent;
         }
+
+        // Update the presence
+        buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
+                persistenceResponseEvent.getSettingsDetails().getBuddyId(),
+                persistenceResponseEvent.getSettingsDetails().getPresenceDetails()
+        ));
 
         // Read settings from jabber
         return settingsJabberService.readSettings(
@@ -104,7 +117,26 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
-        return settingsPersistenceService.updateAllConnections(event);
+
+        // Update connections
+        UpdateAllConnectionsResponseEvent responseEvent = settingsPersistenceService.updateAllConnections(event);
+
+        // Failure
+        if (!responseEvent.isSuccess()) {
+            return responseEvent;
+        }
+
+        // Update user presence in jabber
+        if (Environment.isJabberEnabled()) {
+            for (SettingsDetails settings : responseEvent.getSettings()) {
+                buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
+                        settings.getBuddyId(), PresenceDetails.OFFLINE
+                ));
+            }
+        }
+
+        // Success
+        return responseEvent;
     }
 
     /**

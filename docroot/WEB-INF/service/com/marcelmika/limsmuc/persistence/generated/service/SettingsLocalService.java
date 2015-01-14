@@ -328,7 +328,8 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Updates connections that have the connected at value below the threshold
 	*/
-	public void updateAllConnections(int connectionThreshold)
+	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> updateAllConnections(
+		int connectionThreshold)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

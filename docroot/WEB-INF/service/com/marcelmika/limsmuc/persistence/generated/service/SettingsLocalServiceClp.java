@@ -959,11 +959,15 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public void updateAllConnections(int connectionThreshold)
+	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> updateAllConnections(
+		int connectionThreshold)
 		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
 		try {
-			_invokableLocalService.invokeMethod(_methodName26,
-				_methodParameterTypes26, new Object[] { connectionThreshold });
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26,
+					new Object[] { connectionThreshold });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -980,6 +984,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 					" is not a valid exception");
 			}
 		}
+
+		return (java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override

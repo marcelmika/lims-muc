@@ -18,6 +18,8 @@ import com.marcelmika.limsmuc.persistence.domain.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
+import java.util.List;
+
 
 /**
  * @author Ing. Marcel Mika
@@ -143,9 +145,18 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
     @Override
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
 
-        // Update all connections
         try {
-            SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold());
+
+            // Update all connections
+            List<Settings> settings = Settings.fromSettingsModel(
+                    SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold())
+            );
+
+            // Map updated settings to settings details
+            List<SettingsDetails> settingsDetails = Settings.toSettingsDetails(settings);
+
+            // Success
+            return UpdateAllConnectionsResponseEvent.success(settingsDetails);
         }
         // Failure
         catch (Exception exception) {
@@ -153,9 +164,6 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
                     UpdateAllConnectionsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
-
-        // Success
-        return UpdateAllConnectionsResponseEvent.success();
     }
 
     /**

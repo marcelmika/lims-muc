@@ -189,7 +189,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * Updates connections that have the connected at value below the threshold
      */
     @Override
-    public void updateAllConnections(int connectionThreshold) throws SystemException {
+    public List<Settings> updateAllConnections(int connectionThreshold) throws SystemException {
 
         // Check the input
         if (connectionThreshold < 1) {
@@ -211,14 +211,16 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         query.add(RestrictionsFactoryUtil.eq("connected", true));
 
         // Get the results
-        List results = dynamicQuery(query);
+        List<Settings> results = dynamicQuery(query);
 
         // Set the connected flag to false for all found settings
-        for (Object setting : results) {
-            ((Settings) setting).setConnected(false);
-            ((Settings) setting).setPresenceUpdatedAt(now);
-            settingsPersistence.update((Settings) setting, false);
+        for (Settings setting : results) {
+            setting.setConnected(false);
+            setting.setPresenceUpdatedAt(now);
+            settingsPersistence.update(setting, false);
         }
+
+        return results;
     }
 
     /**

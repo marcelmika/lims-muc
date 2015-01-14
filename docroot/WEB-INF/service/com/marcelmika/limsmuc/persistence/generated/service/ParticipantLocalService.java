@@ -277,9 +277,9 @@ public interface ParticipantLocalService extends BaseLocalService,
 	*
 	* @param conversationId Conversation which should be closed
 	* @param participantId  Participant whose conversation should be closed
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+	* @throws NoSuchConversationException
 	* @throws SystemException
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	*/
 	public void closeConversation(java.lang.String conversationId,
 		java.lang.Long participantId)
@@ -292,9 +292,9 @@ public interface ParticipantLocalService extends BaseLocalService,
 	*
 	* @param conversationId Conversation where the counter should be reset
 	* @param participantId  Participant whose counter should be reset
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	* @throws SystemException
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchConversationException
+	* @throws NoSuchConversationException
 	*/
 	public void resetUnreadMessagesCounter(java.lang.String conversationId,
 		java.lang.Long participantId)
@@ -331,7 +331,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	*
 	* @param cid Id of the conversation related to the participants
 	* @return list of participants
-	* @throws com.marcelmika.limsmuc.persistence.generated.NoSuchParticipantException
+	* @throws NoSuchParticipantException
 	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -356,7 +356,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	* Returns particular participant based on the id
 	*
 	* @param participantId Id of the participant
-	* @param useCache true if the cache should be used
+	* @param useCache      true if the cache should be used
 	* @return participant or null if no participant was found
 	* @throws SystemException
 	*/
