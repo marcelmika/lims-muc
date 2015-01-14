@@ -166,8 +166,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Log
         if (log.isDebugEnabled()) {
-            log.info("Jabber entries added");
-            log.info(strings);
+            log.debug("Jabber entries added");
+            log.debug(strings);
         }
     }
 
@@ -181,8 +181,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Log
         if (log.isDebugEnabled()) {
-            log.info("Jabber entries updated");
-            log.info(strings);
+            log.debug("Jabber entries updated");
+            log.debug(strings);
         }
     }
 
@@ -196,8 +196,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Log
         if (log.isDebugEnabled()) {
-            log.info("Jabber entries deleted");
-            log.info(strings);
+            log.debug("Jabber entries deleted");
+            log.debug(strings);
         }
     }
 
@@ -227,8 +227,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Log
         if (log.isDebugEnabled()) {
-            log.info("Presence changed");
-            log.info(presence);
+            log.debug("Presence changed");
+            log.debug(presence);
         }
     }
 

@@ -50,18 +50,12 @@ public interface PortletPropertiesKeys {
 
     // Jabber
     public static final String JABBER_ENABLED = "jabber.enabled";
+    public static final String JABBER_SECURITY_ENABLED = "jabber.security.enabled";
+    public static final String JABBER_IMPORT_USER_ENABLED = "jabber.import.user.enabled";
     public static final String JABBER_HOST = "jabber.host";
     public static final String JABBER_PORT = "jabber.port";
     public static final String JABBER_RESOURCE = "jabber.resource";
     public static final String JABBER_SERVICE_NAME = "jabber.service.name";
-
-    // User import
-    public static final String JABBER_IMPORT_USER_ENABLED = "jabber.import.user.enabled";
-
-    // SASL
-    public static final String JABBER_SASL_PLAIN_ENABLED = "jabber.sasl.plain.enabled";
-    public static final String JABBER_SASL_PLAIN_AUTHID = "jabber.sasl.plain.authId";
-    public static final String JABBER_SASL_PLAIN_PASSWORD = "jabber.sasl.plain.password";
 
     // URLs
     public static final String URL_HELP = "url.help";

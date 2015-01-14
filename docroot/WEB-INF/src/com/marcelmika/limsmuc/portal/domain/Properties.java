@@ -37,6 +37,7 @@ public class Properties {
     private String urlHelp;
     private String urlUnsupportedBrowser;
     private Boolean jabberEnabled;
+    private Boolean jabberSecurityEnabled;
     private Boolean jabberImportUserEnabled;
     private String jabberHost;
     private Integer jabberPort;
@@ -68,6 +69,7 @@ public class Properties {
         properties.urlHelp = Environment.getUrlHelp();
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
         properties.jabberEnabled = Environment.isJabberEnabled();
+        properties.jabberSecurityEnabled = Environment.getJabberSecurityEnabled();
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
         properties.jabberHost = Environment.getJabberHost();
         properties.jabberPort = Environment.getJabberPort();
@@ -209,6 +211,14 @@ public class Properties {
         this.jabberEnabled = jabberEnabled;
     }
 
+    public Boolean getJabberSecurityEnabled() {
+        return jabberSecurityEnabled;
+    }
+
+    public void setJabberSecurityEnabled(Boolean jabberSecurityEnabled) {
+        this.jabberSecurityEnabled = jabberSecurityEnabled;
+    }
+
     public Boolean getJabberImportUserEnabled() {
         return jabberImportUserEnabled;
     }
@@ -267,6 +277,7 @@ public class Properties {
                 ", urlHelp='" + urlHelp + '\'' +
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
                 ", jabberEnabled=" + jabberEnabled +
+                ", jabberSecurityEnabled=" + jabberSecurityEnabled +
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +
                 ", jabberHost='" + jabberHost + '\'' +
                 ", jabberPort=" + jabberPort +

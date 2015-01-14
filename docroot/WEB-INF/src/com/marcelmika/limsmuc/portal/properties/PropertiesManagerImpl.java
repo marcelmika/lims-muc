@@ -135,12 +135,12 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
             // Set jabber
             setupJabberEnabled(preferences);
+            setupJabberSecurityEnabled(preferences);
             setupJabberImportUserEnabled(preferences);
             setupJabberHost(preferences);
             setupJabberPort(preferences);
             setupJabberServiceName(preferences);
             setupJabberResource(preferences);
-            setupJabberProperties();
         }
     }
 
@@ -214,6 +214,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber enabled
         if (properties.getJabberEnabled() != null) {
             updateJabberEnabled(preferences, properties);
+        }
+
+        // Jabber security enabled
+        if (properties.getJabberSecurityEnabled() != null) {
+            updateJabberSecurityEnabled(preferences, properties);
         }
 
         // Jabber import user enabled
@@ -1129,6 +1134,56 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Sets the jabber security enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberSecurityEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberSecurityEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberSecurityEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SECURITY_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_SECURITY_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberSecurityEnabled = PortletPropertiesValues.JABBER_SECURITY_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberSecurityEnabled(jabberSecurityEnabled);
+    }
+
+    /**
+     * Updates jabber security enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberSecurityEnabled(PortletPreferences preferences,
+                                             Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SECURITY_ENABLED,
+                String.valueOf(properties.getJabberSecurityEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberSecurityEnabled(preferences);
+    }
+
+    /**
      * Sets the jabber import user enabled property
      *
      * @param preferences PortletPreferences
@@ -1407,17 +1462,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save in Environment
         Environment.setJabberResource(jabberResource);
-    }
-
-    /**
-     * Sets jabber related properties
-     */
-    private void setupJabberProperties() {
-
-        // Set jabber properties to Environment
-        Environment.setSaslPlainEnabled(PortletPropertiesValues.JABBER_SASL_PLAIN_ENABLED);
-        Environment.setSaslPlainAuthId(PortletPropertiesValues.JABBER_SASL_PLAIN_AUTHID);
-        Environment.setSaslPlainPassword(PortletPropertiesValues.JABBER_SASL_PLAIN_PASSWORD);
     }
 
     /**

@@ -104,6 +104,7 @@
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
                             <li class="category">Jabber</li>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-security-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-import-user-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-host.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-port.jspf" %>

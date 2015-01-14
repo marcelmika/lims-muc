@@ -35,14 +35,12 @@ public class Environment {
     private static String[] buddyListGroupExcludes = new String[]{};
     private static Integer pollingSlowDownThreshold = 0;
     private static Boolean jabberEnabled = false;
+    private static Boolean jabberSecurityEnabled = true;
     private static String jabberHost = "";
     private static Integer jabberPort = 0;
     private static String jabberServiceName = "";
     private static String jabberResource = "";
     private static Boolean jabberImportUserEnabled = false;
-    private static Boolean saslPlainEnabled = false;
-    private static String saslPlainAuthId = "";
-    private static String saslPlainPassword = "";
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static Boolean errorModeEnabled = false;
@@ -483,6 +481,24 @@ public class Environment {
     }
 
     /**
+     * Returns true if jabber security mode is enabled
+     *
+     * @return boolean
+     */
+    public static boolean getJabberSecurityEnabled() {
+        return jabberSecurityEnabled;
+    }
+
+    /**
+     * Sets jabber security enabled property
+     *
+     * @param jabberSecurityEnabled boolean
+     */
+    public static void setJabberSecurityEnabled(Boolean jabberSecurityEnabled) {
+        Environment.jabberSecurityEnabled = jabberSecurityEnabled;
+    }
+
+    /**
      * Returns jabber server host property
      *
      * @return String jabber host
@@ -570,60 +586,6 @@ public class Environment {
      */
     public static void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
         Environment.jabberImportUserEnabled = jabberImportUserEnabled;
-    }
-
-    /**
-     * Returns true if SASL authentication mechanism is enabled
-     *
-     * @return boolean
-     */
-    public static boolean isSaslPlainEnabled() {
-        return saslPlainEnabled;
-    }
-
-    /**
-     * Sets SASL plain enabled property
-     *
-     * @param saslPlainEnabled Boolean
-     */
-    public static void setSaslPlainEnabled(Boolean saslPlainEnabled) {
-        Environment.saslPlainEnabled = saslPlainEnabled;
-    }
-
-    /**
-     * Returns SASL Authentication ID
-     *
-     * @return String auth ID
-     */
-    public static String getSaslPlainAuthId() {
-        return saslPlainAuthId;
-    }
-
-    /**
-     * Sets SASL plain auth id property
-     *
-     * @param saslPlainAuthId String
-     */
-    public static void setSaslPlainAuthId(String saslPlainAuthId) {
-        Environment.saslPlainAuthId = saslPlainAuthId;
-    }
-
-    /**
-     * Returns password for SASL authentication property
-     *
-     * @return String password
-     */
-    public static String getSaslPlainPassword() {
-        return saslPlainPassword;
-    }
-
-    /**
-     * Sets SASL plain password property
-     *
-     * @param saslPlainPassword String
-     */
-    public static void setSaslPlainPassword(String saslPlainPassword) {
-        Environment.saslPlainPassword = saslPlainPassword;
     }
 
     /**

@@ -141,6 +141,16 @@ public class PropertiesController {
         // Failure
         else {
             ResponseUtil.writeResponse(responseEvent.getMessage(), HttpStatus.EXPECTATION_FAILED, response);
+
+            // Log warn
+            if (log.isWarnEnabled()) {
+                log.warn(responseEvent.getMessage());
+            }
+
+            // Log debug
+            if (log.isDebugEnabled()) {
+                log.debug(responseEvent.getException());
+            }
         }
     }
 }

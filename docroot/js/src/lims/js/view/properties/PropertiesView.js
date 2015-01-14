@@ -65,6 +65,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
             jabberEnabled = this.get('jabberEnabled'),
+            jabberSecurityEnabled = this.get('jabberSecurityEnabled'),
             jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
             jabberHost = this.get('jabberHost'),
             jabberPort = this.get('jabberPort'),
@@ -88,6 +89,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
         jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
+        jabberSecurityEnabled.on('switchClick', this._onJabberSecurityEnabledClick, this);
         jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
         jabberHost.on('inputUpdate', this._onJabberHostUpdate, this);
         jabberPort.on('inputUpdate', this._onJabberPortUpdate, this);
@@ -520,6 +522,35 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             });
         }
 
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the jabber security enabled switch
+     *
+     * @private
+     */
+    _onJabberSecurityEnabledClick: function () {
+        // Vars
+        var switchView = this.get('jabberSecurityEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberSecurityEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
 
         // Save the model
         model.save(function (err) {
@@ -1254,6 +1285,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.jabber-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber security enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        jabberSecurityEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-security-enabled');
 
                 return new Y.LIMS.View.SwitchElementView({
                     container: container

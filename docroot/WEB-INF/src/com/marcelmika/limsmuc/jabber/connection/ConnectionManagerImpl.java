@@ -54,11 +54,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
         // Create new connection from the connection configuration
         connection = new XMPPTCPConnection(getConnectionConfiguration());
 
-        // Register for SASL Mechanism if enabled
-        if (Environment.isSaslPlainEnabled()) {
-            SASLAuthentication.supportSASLMechanism("PLAIN", 0);
-        }
-
         // Connect
         try {
             connection.connect();
@@ -71,11 +66,24 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // Fatal error
         catch (IOException e) {
-            throw new JabberException("LIMS can't connect to Jabber server. Fatal I/O error.", e);
+
+            String message = e.getMessage();
+
+            // Certificate error
+            if (Validator.isNotNull(message) &&
+                    message.contains("unable to find valid certification path to requested target")) {
+
+                throw new JabberException("Unable to find valid certification path to request target. Either turn " +
+                        "the Security via TLS encryption off or enable TLS encryption on the Jabber server.", e);
+            }
+            // Other error
+            else {
+                throw new JabberException("LIMS can't connect to Jabber server. Fatal I/O error. Check the log.", e);
+            }
         }
         // Error occurs on the XMPP protocol level
         catch (XMPPException e) {
-            throw new JabberException("LIMS can't connect to Jabber server. XMPP error occurred.", e);
+            throw new JabberException("LIMS can't connect to Jabber server. XMPP error occurred. Check the log.", e);
         }
     }
 
@@ -222,16 +230,8 @@ public class ConnectionManagerImpl implements ConnectionManager {
     private void login(Buddy buddy, boolean shouldImportUser) throws JabberException {
 
         try {
-            // If the SASL is enabled login with username, password and resource
-            if (Environment.isSaslPlainEnabled()) {
-                // Login via SASL
-                connection.login(
-                        buddy.getScreenName(), Environment.getSaslPlainPassword(), Environment.getJabberResource()
-                );
-            } else {
-                // Login with username and password
-                connection.login(buddy.getScreenName(), buddy.getPassword(), Environment.getJabberResource());
-            }
+            // Login with username and password
+            connection.login(buddy.getScreenName(), buddy.getPassword(), Environment.getJabberResource());
         }
         // Failure
         catch (Exception e) {
@@ -257,7 +257,7 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 login(buddy, false);
             }
             // Provide not authorized info
-            else if (message.contains("not-authorized")) {
+            else if (Validator.isNotNull(message) && message.contains("not-authorized")) {
                 throw new JabberException(String.format(
                         "User %s wasn't authenticated against the Jabber server. It is possible that the user " +
                                 "does not exist in Jabber or the password used to login " +
@@ -349,8 +349,10 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 Environment.getJabberPort(),
                 Environment.getJabberServiceName());
 
-        // Disable the security mode since we have no certificate
-        connectionConfiguration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+        // Disable the security mode if requested
+        if (!Environment.getJabberSecurityEnabled()) {
+            connectionConfiguration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+        }
         // Enable reconnection
         connectionConfiguration.setReconnectionAllowed(true);
         // Is the initial available presence going to be send to the server?

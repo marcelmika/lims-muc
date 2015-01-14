@@ -125,19 +125,9 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED
     );
 
-    // Jabber - SASL (Disabled by default)
-    public static final Boolean JABBER_SASL_PLAIN_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_ENABLED
-    );
-
-    // Jabber - SASL - Authentication ID
-    public static final String JABBER_SASL_PLAIN_AUTHID = getString(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_AUTHID
-    );
-
-    // Jabber - SASL - Password
-    public static final String JABBER_SASL_PLAIN_PASSWORD = getString(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_PASSWORD
+    // Jabber - Security Enabled
+    public static final boolean JABBER_SECURITY_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_SECURITY_ENABLED
     );
 
     // URL - Help

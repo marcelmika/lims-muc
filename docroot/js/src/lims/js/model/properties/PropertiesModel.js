@@ -239,6 +239,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
         },
 
         /**
+         * Jabber security enabled
+         *
+         * {boolean}
+         */
+        jabberSecurityEnabled: {
+            value: null // to be set
+        },
+
+        /**
          * Jabber import user enabled
          *
          * {boolean}
