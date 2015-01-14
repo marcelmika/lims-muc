@@ -18,10 +18,7 @@ import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.RosterGroup;
-import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.*;
 
 import java.util.*;
 
@@ -46,6 +43,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     // Flag that describes if the groups were modified. Default is true because the groups are always
     // modified at the beginning
     private boolean wasModified = true;
+    // Roaster is lazy loaded. So we need to set a flag that will show us if the roaster was already reloaded.
+    private boolean rosterReloaded = false;
 
     // Log
     @SuppressWarnings("unused")
@@ -56,7 +55,10 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
      */
     public GroupManagerImpl() {
         // This is a jabber list strategy group collection
-        this.groupCollection.setListStrategy(Environment.BuddyListStrategy.JABBER);
+        groupCollection.setListStrategy(Environment.BuddyListStrategy.JABBER);
+        // Since the roaster is lazy loaded, set the flag to true.
+        // It will be set to false whenever the roster is loaded
+        groupCollection.setLoading(true);
     }
 
 
@@ -94,6 +96,14 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
      */
     @Override
     public GroupCollection getGroupCollection() {
+
+        // Lazy load the roaster
+        if (!rosterReloaded) {
+            reloadRoaster();
+            rosterReloaded = true;
+        }
+
+
         // Map groups only if they were somehow modified
         if (wasModified) {
             mapGroupsFromRoster();
@@ -163,6 +173,9 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         synchronized (this) {
             wasModified = true;
         }
+
+        // Roaster is loaded
+        groupCollection.setLoading(false);
 
         // Log
         if (log.isDebugEnabled()) {
@@ -330,5 +343,29 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         }
 
         return buddy;
+    }
+
+    /**
+     * Reloads roaster. If fails does nothing.
+     */
+    private void reloadRoaster() {
+        try {
+            // Reload roaster
+            this.roster.reload();
+        }
+        // User not logged in
+        catch (SmackException.NotLoggedInException e) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
+        }
+        // User not connected
+        catch (SmackException.NotConnectedException e) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
+        }
     }
 }

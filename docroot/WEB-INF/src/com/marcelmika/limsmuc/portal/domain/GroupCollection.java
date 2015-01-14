@@ -29,6 +29,7 @@ public class GroupCollection {
     private List<Group> groups = Collections.synchronizedList(new ArrayList<Group>());
     private Date lastModified;
     private BuddyListStrategy listStrategy;
+    private boolean loading;
     private int etag;
 
     /**
@@ -43,6 +44,7 @@ public class GroupCollection {
         // Map data to group details
         groupCollection.lastModified = details.getLastModified();
         groupCollection.listStrategy = details.getListStrategy();
+        groupCollection.loading = details.isLoading();
 
         if (details.getLastModified() != null) {
             // Etag is made of the last modification date and the list strategy type. Thus if the group collection
@@ -75,6 +77,14 @@ public class GroupCollection {
 
     public void setEtag(int etag) {
         this.etag = etag;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
     }
 
     public Date getLastModified() {

@@ -366,6 +366,8 @@ public class ConnectionManagerImpl implements ConnectionManager {
         connectionConfiguration.setReconnectionAllowed(true);
         // Is the initial available presence going to be send to the server?
         connectionConfiguration.setSendPresence(true);
+        // There is no need to load the whole roaster at login. Let's load it whenever it's needed
+        connectionConfiguration.setRosterLoadedAtLogin(false);
 
         return connectionConfiguration;
     }

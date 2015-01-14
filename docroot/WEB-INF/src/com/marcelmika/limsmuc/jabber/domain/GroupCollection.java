@@ -31,6 +31,7 @@ public class GroupCollection {
     private Date lastModified = Calendar.getInstance().getTime();
     private List<Group> groups = Collections.synchronizedList(new ArrayList<Group>());
     private BuddyListStrategy listStrategy;
+    private boolean loading;
 
     /**
      * Maps a list of groups to a list of group details
@@ -47,6 +48,7 @@ public class GroupCollection {
         }
         details.setGroups(groups);
         details.setListStrategy(listStrategy);
+        details.setLoading(loading);
 
         // Modification date
         details.setLastModified(lastModified);
@@ -62,6 +64,14 @@ public class GroupCollection {
         // Update modification date
         Calendar calendar = Calendar.getInstance();
         this.lastModified = calendar.getTime();
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
     }
 
     public Date getLastModified() {
