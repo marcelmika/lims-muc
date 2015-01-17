@@ -118,6 +118,12 @@
       margin-right: 10px;
     }
 
+    .note {
+      margin: -5px 0 10px;
+      line-height: 16px;
+      color: #A09F9F;
+    }
+
     .help:hover {
       opacity: 0.7;
     }
@@ -141,6 +147,8 @@
     button {
       font-size: 12px;
       margin-bottom: 13px;
+      padding: 4px 7px;
+      line-height: 20px;
       @include border-radius(0);
     }
 
@@ -167,8 +175,10 @@
 
       // All text input should have the same size
       input[type="text"] {
-        width: 250px;
+        width: 240px;
         margin-bottom: 0;
+        background: #ffffff;
+        padding: 7px;
 
         &.error {
           border: 1px solid #d26767;
@@ -185,7 +195,7 @@
         position: absolute;
         top: 21px;
         right: 0;
-        margin: 0;
+        margin: 3px 0 0 25px;
         width: 17px;
         background-size: 17px;
         left: 250px;
@@ -223,20 +233,13 @@
       margin-bottom: 20px;
     }
 
-    .jabber-enabled {
-
-      .note {
-        margin: -5px 0 10px;
-        line-height: 16px;
-        color: #A09F9F;
-      }
-    }
-
     .jabber-test-connection {
       margin-top: 20px;
 
       button {
         display: inline-block;
+        float: left;
+        margin-bottom: 30px;
       }
 
       .preloader {
@@ -244,15 +247,16 @@
         width: 20px;
         display: inline-block;
         height: 20px;
-        margin: 0 0 0 10px;
+        margin: 5px 0 0 10px;
         background-size: 20px;
       }
 
       .message {
         display: inline-block;
-        margin-lefT: 10px;
+        float: left;
+        margin-left: 10px;
         padding-bottom: 9px;
-        max-width: 215px;
+        max-width: 260px;
         line-height: 13px;
 
         &.success {
