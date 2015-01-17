@@ -4,7 +4,6 @@ AUI().use(
     'limsmuc-view',
     'limsmuc-controller',
     'limsmuc-plugin',
-    'liferay-portlet-base',
     'liferay-portlet-url',
     function (A) {
 
@@ -52,7 +51,7 @@ AUI().use(
                     resourceURL;
 
                 // This will create resource URL used in AJAX
-                resourceURL = Liferay.PortletURL.createResourceURL("");
+                resourceURL = Liferay.PortletURL.createResourceURL();
                 // Set the id of the portlet so the resource will point to the correct portlet
                 resourceURL.setPortletId('1_WAR_limsmucportlet');
 
