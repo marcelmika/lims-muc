@@ -70,7 +70,6 @@
         "js/view/elements/ConfirmElementView.js",
         "js/view/elements/InputElementView.js",
         "js/view/elements/SwitchElementView.js",
-        "js/view/elements/SliderElementView.js",
         "js/view/elements/TokenInputElementView.js",
         "js/view/notification/ErrorNotificationView.js",
         "js/view/notification/InfoNotificationView.js",
@@ -91,7 +90,6 @@
           "view",
           "node",
           "anim",
-          "slider",
           "datatype-number"
         ]
       }

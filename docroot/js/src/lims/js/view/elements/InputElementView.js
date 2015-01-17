@@ -360,7 +360,7 @@ Y.LIMS.View.InputElementView = Y.Base.create('inputElementView', Y.View, [Y.LIMS
         },
 
         /**
-         * Delayed interval. Slider updated event is fired after the delay.
+         * Delayed interval. Updated event is fired after the delay.
          * This is useful because we don't want to overwhelm the server with many
          * request.
          *
