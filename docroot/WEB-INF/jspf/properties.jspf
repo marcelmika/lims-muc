@@ -14,9 +14,6 @@
 <%-- Libraries --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<%-- Resource URL --%>
-<portlet:resourceURL var="limsPortletURL" id="view.jsp" escapeXml="false"/>
-
 <%-- This template HTML will be used to render localization messages --%>
 <script type="text/x-template" id="limsmuc-i18n">
     {
@@ -80,7 +77,6 @@
     "lastName":"${fn:escapeXml(currentUser.lastName)}",
     "portletEnabled": ${settings.chatEnabled},
     "activePanelId": "${settings.activePanelId}",
-    "portletResourceURL":"<%= renderResponse.encodeURL(limsPortletURL.toString()) %>",
     "contextPath":"<%= request.getContextPath() %>",
     "currentServerTime":<%= System.currentTimeMillis() %>
     }

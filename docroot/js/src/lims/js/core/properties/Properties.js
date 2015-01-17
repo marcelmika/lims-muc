@@ -18,6 +18,7 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
 
     pathImage: null,   // This is set in main.js, to access it use Y.LIMS.Core.Properties.pathImage
     isIE: false,       // This is set in main.js, to access it use Y.LIMS.Core.Properties.isIE
+    resourceURL: null,  // This is set in main.js, to access it use Y.LIMS.Core.Properties.resourceURL
 
     /**
      * Values are parsed from HTML in main.js.
