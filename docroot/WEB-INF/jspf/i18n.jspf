@@ -1,0 +1,29 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%-- Variables --%>
+<%--@elvariable id="currentUser" type="com.marcelmika.limsmuc.portal.domain.Buddy"--%>
+
+<%-- This template HTML will be used to render localization messages --%>
+<script type="text/x-template" id="limsmuc-properties">
+    {
+    "userId":${currentUser.buddyId},
+    "companyId":${currentUser.companyId},
+    "portraitId":${currentUser.portraitId},
+    "screenName":"${fn:escapeXml(currentUser.screenName)}",
+    "fullName":"${fn:escapeXml(currentUser.fullName)}",
+    "firstName":"${fn:escapeXml(currentUser.firstName)}",
+    "middleName":"${fn:escapeXml(currentUser.middleName)}",
+    "lastName":"${fn:escapeXml(currentUser.lastName)}",
+    "portletEnabled": ${settings.chatEnabled},
+    "activePanelId": "${settings.activePanelId}",
+    "contextPath":"<%= request.getContextPath() %>",
+    "currentServerTime":<%= System.currentTimeMillis() %>
+    }
+</script>

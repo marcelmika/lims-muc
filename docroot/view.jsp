@@ -53,6 +53,9 @@
             <%-- Rendered properties passed to client --%>
             <%@ include file="/WEB-INF/jspf/properties.jspf" %>
 
+            <%-- Rendered i18n string used on client --%>
+            <%@ include file="/WEB-INF/jspf/i18n.jspf" %>
+
         </c:if>
 
             <%-- Browser is not supported--%>
