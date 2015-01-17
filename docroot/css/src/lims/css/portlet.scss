@@ -134,3 +134,22 @@
   }
 
 }
+
+/********************************************************************************
+/ NOTIFICATION - OVER LIMIT
+/********************************************************************************/
+
+.lims-muc .over-limit {
+  position: fixed;
+  right: 50px;
+  bottom: 0;
+  background: #e4f0ff;
+  padding: 10px;
+  max-width: 210px;
+  line-height: 15px;
+  border: 1px solid #c0deff;
+  border-bottom: none;
+  font-weight: normal;
+  color: #666;
+  @include box-shadow(0 0 1px #79b7ca);
+}

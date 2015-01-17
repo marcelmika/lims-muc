@@ -19,6 +19,8 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
 import com.marcelmika.limsmuc.core.service.ConversationCoreService;
@@ -72,6 +74,7 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_SETTINGS = "settings";
     private static final String VARIABLE_CONVERSATIONS = "conversations";
     private static final String VARIABLE_IS_ENABLED = "isEnabled";
+    private static final String VARIABLE_IS_OVER_LIMIT = "isOverLimit";
     private static final String VARIABLE_CURRENT_USER = "currentUser";
     private static final String VARIABLE_VERSION = "version";
     private static final String VARIABLE_PRELOADED_IMAGES = "preloadedImages";
@@ -115,10 +118,22 @@ public class LIMSPortlet extends MVCPortlet {
 
             // Render portlet only if the browser is supported
             if (isSupportedBrowser) {
-                // Settings pane
-                renderSettings(renderRequest);
-                // Conversations pane
-                renderConversations(renderRequest);
+
+                // Render only if the user is not over the session limit
+                if (isOverSessionLimit(renderRequest)) {
+                    // Disable portlet
+                    renderRequest.setAttribute(VARIABLE_IS_ENABLED, false);
+                    // Notify about over limit reason
+                    renderRequest.setAttribute(VARIABLE_IS_OVER_LIMIT, true);
+                }
+
+                // Render the portlet
+                else {
+                    // Settings pane
+                    renderSettings(renderRequest);
+                    // Conversations pane
+                    renderConversations(renderRequest);
+                }
             }
 
             // Set correct content type
@@ -146,6 +161,15 @@ public class LIMSPortlet extends MVCPortlet {
         if (!isCorrectAttempt(request)) {
             // Return unauthorized response code
             response.setProperty(ResourceResponse.HTTP_STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
+            // End here
+            return;
+        }
+
+        // Do not continue if the user is over session limit
+        if (isOverSessionLimit(request)) {
+            // Return unauthorized response code
+            response.setProperty(ResourceResponse.HTTP_STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
+            // End here
             return;
         }
 
@@ -328,6 +352,54 @@ public class LIMSPortlet extends MVCPortlet {
             // Cannot get the site name -> exclude portlet
             return true;
         }
+    }
+
+    /**
+     * Returns true if the user is not allowed the have the session
+     *
+     * @param renderRequest RenderRequest
+     * @return boolean
+     */
+    private boolean isOverSessionLimit(RenderRequest renderRequest) {
+        // If the user is not logged he can't be over the limit either
+        if(!isCorrectAttempt(renderRequest)) {
+            return false;
+        }
+
+        // Get the buddy from request
+        Buddy buddy = Buddy.fromRenderRequest(renderRequest);
+
+        // Check the session availability
+        ReadSessionLimitResponseEvent responseEvent = settingsCoreService.readSessionLimit(
+                new ReadSessionLimitRequestEvent(buddy.getBuddyId())
+        );
+
+
+        return responseEvent.isOverLimit();
+    }
+
+    /**
+     * Returns true if the user is not allowed the have the session
+     *
+     * @param resourceRequest ResourceRequest
+     * @return boolean
+     */
+    private boolean isOverSessionLimit(ResourceRequest resourceRequest) {
+        // If the user is not logged he can't be over the limit either
+        if(!isCorrectAttempt(resourceRequest)) {
+            return false;
+        }
+
+        // Get the buddy from request
+        Buddy buddy = Buddy.fromResourceRequest(resourceRequest);
+
+        // Check the session availability
+        ReadSessionLimitResponseEvent responseEvent = settingsCoreService.readSessionLimit(
+                new ReadSessionLimitRequestEvent(buddy.getBuddyId())
+        );
+
+
+        return responseEvent.isOverLimit();
     }
 
     /**

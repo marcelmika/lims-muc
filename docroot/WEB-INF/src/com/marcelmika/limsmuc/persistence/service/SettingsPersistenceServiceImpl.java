@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
@@ -146,7 +147,6 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
 
         try {
-
             // Update all connections
             List<Settings> settings = Settings.fromSettingsModel(
                     SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold())
@@ -162,6 +162,30 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
         catch (Exception exception) {
             return UpdateAllConnectionsResponseEvent.failure(
                     UpdateAllConnectionsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Returns a list of buddies that are currently connected
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event) {
+
+        try {
+            // Read connected buddies
+            List<Long> connectedUsers = SettingsLocalServiceUtil.getConnectedUsers();
+
+            // Success
+            return GetConnectedBuddiesResponseEvent.success(connectedUsers);
+        }
+        // Failure
+        catch (SystemException e) {
+            return GetConnectedBuddiesResponseEvent.failure(
+                    GetConnectedBuddiesResponseEvent.Status.ERROR_PERSISTENCE, e
             );
         }
     }

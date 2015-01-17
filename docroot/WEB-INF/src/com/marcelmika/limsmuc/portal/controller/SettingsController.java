@@ -90,10 +90,15 @@ public class SettingsController {
         // Failure
         else {
             ReadSettingsResponseEvent.Status status = responseEvent.getStatus();
+            // Unauthorized
+            if (status == ReadSettingsResponseEvent.Status.ERROR_UNAUTHORIZED) {
+                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+            }
             // Everything else is a server fault
-            if (status == ReadSettingsResponseEvent.Status.ERROR_PERSISTENCE) {
+            else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
             }
+
             // Log
             if (log.isErrorEnabled()) {
                 log.error(responseEvent.getException());

@@ -16,6 +16,8 @@ import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.core.domain.Buddy;
+import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
 import com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService;
@@ -39,6 +41,7 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
     SettingsPersistenceService settingsPersistenceService;
     SettingsJabberService settingsJabberService;
     BuddyJabberService buddyJabberService;
+    BuddySessionStore buddySessionStore;
 
     /**
      * Constructor
@@ -47,10 +50,12 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService,
                                    final SettingsJabberService settingsJabberService,
-                                   final BuddyJabberService buddyJabberService) {
+                                   final BuddyJabberService buddyJabberService,
+                                   final BuddySessionStore buddySessionStore) {
         this.settingsPersistenceService = settingsPersistenceService;
         this.settingsJabberService = settingsJabberService;
         this.buddyJabberService = buddyJabberService;
+        this.buddySessionStore = buddySessionStore;
     }
 
     /**
@@ -85,6 +90,24 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         return settingsJabberService.readSettings(
                 new ReadSettingsRequestEvent(persistenceResponseEvent.getSettingsDetails(), event.getBuddyDetails())
         );
+    }
+
+    /**
+     * Reads buddy's session limit
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event) {
+        // Get the buddy id
+        Long buddyId = event.getBuddyId();
+
+        // Check if the user is over the session limit
+        boolean isOverLimit = buddySessionStore.isOverSessionLimit(buddyId);
+
+        // Success
+        return ReadSessionLimitResponseEvent.success(isOverLimit);
     }
 
     /**
@@ -124,6 +147,32 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         // Failure
         if (!responseEvent.isSuccess()) {
             return responseEvent;
+        }
+
+        // Get the list of connected users
+        GetConnectedBuddiesResponseEvent connectedBuddiesResponseEvent = settingsPersistenceService.getConnectedBuddies(
+                new GetConnectedBuddiesRequestEvent()
+        );
+
+        // Success
+        if (connectedBuddiesResponseEvent.isSuccess()) {
+            // Add connected users to store
+            buddySessionStore.addBuddies(connectedBuddiesResponseEvent.getBuddies());
+
+            if (log.isDebugEnabled()) {
+                log.debug(buddySessionStore);
+            }
+        }
+        // Failure
+        else {
+            // Log warning
+            if (log.isWarnEnabled()) {
+                log.warn("Session store cannot be updated. This may cause incorrect limit session behaviour.");
+            }
+            // Log error
+            if (log.isDebugEnabled()) {
+                log.debug(connectedBuddiesResponseEvent.getException());
+            }
         }
 
         // Update user presence in jabber

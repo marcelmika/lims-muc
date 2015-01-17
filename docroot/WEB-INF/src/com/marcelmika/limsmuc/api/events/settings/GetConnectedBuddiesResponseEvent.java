@@ -9,30 +9,30 @@
 
 package com.marcelmika.limsmuc.api.events.settings;
 
-import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
+
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 5/4/14
- * Time: 4:04 PM
+ * Date: 17/01/15
+ * Time: 21:03
  */
-public class ReadSettingsResponseEvent extends ResponseEvent {
+public class GetConnectedBuddiesResponseEvent extends ResponseEvent {
 
     private Status status;
-    private SettingsDetails settingsDetails;
+    private List<Long> buddies;
 
     public enum Status {
         SUCCESS, // Event was successful
-        ERROR_UNAUTHORIZED, // User is not authorized to read settings
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 
     /**
      * Constructor is private. Use factory methods to create new success or failure instances
      */
-    private ReadSettingsResponseEvent() {
+    private GetConnectedBuddiesResponseEvent() {
         // No params
     }
 
@@ -41,12 +41,12 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent success(SettingsDetails settingsDetails) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static GetConnectedBuddiesResponseEvent success(List<Long> buddies) {
+        GetConnectedBuddiesResponseEvent event = new GetConnectedBuddiesResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
-        event.settingsDetails = settingsDetails;
+        event.buddies = buddies;
 
         return event;
     }
@@ -57,8 +57,8 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent failure(final Status status) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static GetConnectedBuddiesResponseEvent failure(final Status status) {
+        GetConnectedBuddiesResponseEvent event = new GetConnectedBuddiesResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -73,9 +73,9 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent failure(final Status status,
-                                                    final Throwable exception) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static GetConnectedBuddiesResponseEvent failure(final Status status,
+                                                           final Throwable exception) {
+        GetConnectedBuddiesResponseEvent event = new GetConnectedBuddiesResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -88,8 +88,7 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
         return status;
     }
 
-    public SettingsDetails getSettingsDetails() {
-        return settingsDetails;
+    public List<Long> getBuddies() {
+        return buddies;
     }
 }
-

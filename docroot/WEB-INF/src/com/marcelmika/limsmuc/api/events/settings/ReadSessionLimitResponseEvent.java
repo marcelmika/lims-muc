@@ -9,30 +9,28 @@
 
 package com.marcelmika.limsmuc.api.events.settings;
 
-import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 5/4/14
- * Time: 4:04 PM
+ * Date: 17/01/15
+ * Time: 22:16
  */
-public class ReadSettingsResponseEvent extends ResponseEvent {
+public class ReadSessionLimitResponseEvent extends ResponseEvent {
 
     private Status status;
-    private SettingsDetails settingsDetails;
+    private boolean overLimit;
 
     public enum Status {
         SUCCESS, // Event was successful
-        ERROR_UNAUTHORIZED, // User is not authorized to read settings
-        ERROR_PERSISTENCE, // Error with persistence occurred
+        ERROR,   // Error occurred
     }
 
     /**
      * Constructor is private. Use factory methods to create new success or failure instances
      */
-    private ReadSettingsResponseEvent() {
+    private ReadSessionLimitResponseEvent() {
         // No params
     }
 
@@ -41,12 +39,12 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent success(SettingsDetails settingsDetails) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static ReadSessionLimitResponseEvent success(boolean overLimit) {
+        ReadSessionLimitResponseEvent event = new ReadSessionLimitResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
-        event.settingsDetails = settingsDetails;
+        event.overLimit = overLimit;
 
         return event;
     }
@@ -57,8 +55,8 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent failure(final Status status) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static ReadSessionLimitResponseEvent failure(final Status status) {
+        ReadSessionLimitResponseEvent event = new ReadSessionLimitResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -73,9 +71,9 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadSettingsResponseEvent failure(final Status status,
-                                                    final Throwable exception) {
-        ReadSettingsResponseEvent event = new ReadSettingsResponseEvent();
+    public static ReadSessionLimitResponseEvent failure(final Status status,
+                                                        final Throwable exception) {
+        ReadSessionLimitResponseEvent event = new ReadSessionLimitResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -88,8 +86,7 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
         return status;
     }
 
-    public SettingsDetails getSettingsDetails() {
-        return settingsDetails;
+    public boolean isOverLimit() {
+        return overLimit;
     }
 }
-

@@ -52,6 +52,14 @@ public interface SettingsPersistenceService {
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
 
     /**
+     * Returns a list of buddies that are currently connected
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event);
+
+    /**
      * Enables chat for buddy
      *
      * @param event Request event for logout method

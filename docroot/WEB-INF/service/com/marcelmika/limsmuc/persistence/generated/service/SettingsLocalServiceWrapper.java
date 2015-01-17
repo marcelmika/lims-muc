@@ -391,6 +391,17 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
+	* Returns a list of userIds of connected users
+	*
+	* @return List of ids
+	*/
+	@Override
+	public java.util.List<java.lang.Long> getConnectedUsers()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.getConnectedUsers();
+	}
+
+	/**
 	* Updates chat enabled value. If set to true the portlet is fully functional. If set to
 	* false the chat will be disabled.
 	*

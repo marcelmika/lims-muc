@@ -32,6 +32,14 @@ public interface SettingsCoreService {
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
     /**
+     * Reads buddy's session limit
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event);
+
+    /**
      * Update buddy's active panel (panel which is open)
      *
      * @param event Request event
