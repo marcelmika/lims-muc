@@ -29,8 +29,6 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
     initializer: function () {
         // Attach events
         this._attachEvents();
-        // Start the unread messages timer
-        this._startUnreadMessagesTimer();
     },
 
     /**
@@ -80,6 +78,7 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
         // Global events
         Y.one(Y.config.win).on('focus', this._onWindowFocus, this);
         Y.one(Y.config.win).on('blur', this._onWindowBlur, this);
+        Y.on('badgeUpdated', this._updatePageTitleUnreadMessages, this);
     },
 
     /**
@@ -234,29 +233,6 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
         if (!this.get('isBlinking')) {
             Y.config.doc.title = unreadMessagesPageTitle;
         }
-    },
-
-    /**
-     * Starts the timer that takes care of the number of unread messages in the title
-     *
-     * @private
-     */
-    _startUnreadMessagesTimer: function () {
-        // Vars
-        var unreadReadInterval = this.get('unreadReadInterval'),
-            properties = this.get('properties'),
-            instance = this;
-
-        // Chat is not enabled
-        if (!properties.isChatEnabled()) {
-            // End here
-            return;
-        }
-
-        // Start the timer
-        setInterval(function () {
-            instance._updatePageTitleUnreadMessages();
-        }, unreadReadInterval);
     },
 
     /**
@@ -416,15 +392,6 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
          */
         timerInterval: {
             value: 1500 // 1,5 seconds
-        },
-
-        /**
-         * Interval used to read number of unread messages
-         *
-         * {integer}
-         */
-        unreadReadInterval: {
-            value: 1000 // 1 second
         }
     }
 });

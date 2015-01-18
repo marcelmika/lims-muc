@@ -241,7 +241,11 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
      */
     updateBadge: function (value, animated) {
         // Vars
-        var badge = this.get('badge');
+        var badge = this.get('badge'),
+            currentValue = parseInt(badge.get('innerHTML'), 10);
+
+        // Just to be sure that the value is number
+        value = parseInt(value, 10);
 
         // No unread messages
         if (value === 0) {
@@ -255,6 +259,12 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             }
             // Show badge
             this.showBadge(animated);
+        }
+
+        // Fire event only if the number was changed
+        if (value !== currentValue) {
+            // Fire the event
+            Y.fire('badgeUpdated');
         }
     },
 
