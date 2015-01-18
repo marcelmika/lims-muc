@@ -16,7 +16,6 @@ import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
-import com.marcelmika.limsmuc.core.domain.Buddy;
 import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
@@ -158,10 +157,6 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
         if (connectedBuddiesResponseEvent.isSuccess()) {
             // Add connected users to store
             buddySessionStore.addBuddies(connectedBuddiesResponseEvent.getBuddies());
-
-            if (log.isDebugEnabled()) {
-                log.debug(buddySessionStore);
-            }
         }
         // Failure
         else {

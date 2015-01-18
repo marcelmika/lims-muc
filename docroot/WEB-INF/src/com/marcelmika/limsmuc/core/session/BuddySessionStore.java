@@ -20,11 +20,25 @@ import java.util.List;
 public interface BuddySessionStore {
 
     /**
+     * Adds a single buddy id to the store
+     *
+     * @param buddyId Long
+     */
+    public void addBuddy(Long buddyId);
+
+    /**
      * Adds a list of buddy ids to the store
      *
      * @param buddies list of buddy ids
      */
     public void addBuddies(List<Long> buddies);
+
+    /**
+     * Removes buddy id from the session store
+     *
+     * @param buddyId Long
+     */
+    public void removeBuddy(Long buddyId);
 
     /**
      * Returns true if the buddy is shouldn't be allowed to get the session

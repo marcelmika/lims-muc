@@ -12,6 +12,9 @@ package com.marcelmika.limsmuc.core.service;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
+import com.marcelmika.limsmuc.core.domain.Buddy;
+import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService;
 import com.marcelmika.limsmuc.api.events.buddy.*;
@@ -33,6 +36,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     // Dependencies
     BuddyJabberService buddyJabberService;
     BuddyPersistenceService buddyPersistenceService;
+    BuddySessionStore buddySessionStore;
 
     /**
      * Constructor
@@ -41,10 +45,12 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      * @param buddyPersistenceService persistence service
      */
     public BuddyCoreServiceImpl(final BuddyJabberService buddyJabberService,
-                                final BuddyPersistenceService buddyPersistenceService) {
+                                final BuddyPersistenceService buddyPersistenceService,
+                                final BuddySessionStore buddySessionStore) {
 
         this.buddyJabberService = buddyJabberService;
         this.buddyPersistenceService = buddyPersistenceService;
+        this.buddySessionStore = buddySessionStore;
     }
 
     /**
@@ -56,8 +62,8 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     @Override
     public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event) {
 
-        // Login locally
-        LoginBuddyResponseEvent responseEvent = buddyPersistenceService.loginBuddy(event);
+        // Get the buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
         // Login to Jabber if enabled
         if (Environment.isJabberEnabled()) {
@@ -99,7 +105,24 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             }
         }
 
-        return responseEvent;
+        // Login user locally only if not over the session limit
+        if(!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
+            // Login locally
+            LoginBuddyResponseEvent loginResponseEvent = buddyPersistenceService.loginBuddy(event);
+
+            // Add buddy to session store
+            if (loginResponseEvent.isSuccess()) {
+                buddySessionStore.addBuddy(buddy.getBuddyId());
+            }
+
+            return loginResponseEvent;
+        }
+        // User is over the limit
+        else {
+            // However, we return the success anyway because the same values will be set whenever the user first
+            // sends read settings event
+            return LoginBuddyResponseEvent.success(buddy.toBuddyDetails());
+        }
     }
 
     /**
@@ -110,12 +133,24 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      */
     @Override
     public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event) {
-        // Logout from jabber as well if enabled
+
+        // Get the buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
+
+        // Logout from jabber
         if (Environment.isJabberEnabled()) {
             buddyJabberService.logoutBuddy(event);
         }
 
-        return buddyPersistenceService.logoutBuddy(event);
+        // Logout locally
+        LogoutBuddyResponseEvent responseEvent = buddyPersistenceService.logoutBuddy(event);
+
+        if (responseEvent.isSuccess()) {
+            // Remove buddy from session store
+            buddySessionStore.removeBuddy(buddy.getBuddyId());
+        }
+
+        return responseEvent;
     }
 
     /**
