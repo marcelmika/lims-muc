@@ -265,8 +265,17 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 // infinite recursion
                 login(buddy, false);
             }
-            // Provide not authorized info
+            // User cannot be imported
             else if (Validator.isNotNull(message) && message.contains("not-authorized")) {
+
+                // User wasn't authenticated because the password was empty
+                if (buddy.getPassword() == null) {
+                    // Log warning
+                    if (log.isWarnEnabled()) {
+                        log.warn("User password was null during the login to Jabber");
+                    }
+                }
+
                 throw new JabberException(String.format(
                         "User %s wasn't authenticated against the Jabber server. It is possible that the user " +
                                 "does not exist in Jabber or the password used to login " +
@@ -277,6 +286,14 @@ public class ConnectionManagerImpl implements ConnectionManager {
             }
             // Failure
             else {
+                // User wasn't authenticated because the password was empty
+                if (buddy.getPassword() == null) {
+                    // Log warning
+                    if (log.isWarnEnabled()) {
+                        log.warn("User password was null during the login to Jabber");
+                    }
+                }
+
                 // Session Did Not Login
                 throw new JabberException(e);
             }
