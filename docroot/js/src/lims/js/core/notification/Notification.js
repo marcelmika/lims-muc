@@ -51,6 +51,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             this._playSound();
         }
 
+        // Unread messages
+        this._updatePageTitleUnreadMessages();
         // Update title
         this._updatePageTitleMessage();
     },

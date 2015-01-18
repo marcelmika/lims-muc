@@ -99,10 +99,13 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         onPanelDidUnload: function () {
             // Vars
-            var model = this.get('model');
+            var model = this.get('model'),
+                panel = this.get('panel');
 
             // Close conversation
             model.closeConversation();
+            // Update badge count
+            panel.updateBadge(0, false);
         },
 
         /**
