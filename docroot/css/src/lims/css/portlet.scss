@@ -125,9 +125,11 @@
 .lims-muc .conflict-notification {
   max-width: 300px;
   padding: 10px;
-  background: rgb(240, 209, 213);
-  border: 1px solid rgb(171, 134, 134);
+  border: 1px solid #D7B1B1;
   border-bottom: none;
+  background: rgba(240, 209, 213, 0.83);
+  @include box-shadow(0 0 1px #D25954);
+  @include text-shadow(1px 1px 1px #ffffff);
 
   strong {
     font-weight: bold;
@@ -143,13 +145,23 @@
   position: fixed;
   right: 50px;
   bottom: 0;
-  background: #e4f0ff;
+  background: rgba(228, 240, 255, 0.83);
   padding: 10px;
-  max-width: 210px;
+  max-width: 250px;
   line-height: 15px;
   border: 1px solid #c0deff;
   border-bottom: none;
   font-weight: normal;
   color: #666;
   @include box-shadow(0 0 1px #79b7ca);
+  @include text-shadow(1px 1px 1px #ffffff);
+
+  .close-notification {
+    width: 18px;
+    height: 18px;
+    float: right;
+    margin: 0 0 0 10px;
+    background: url(/images/close-button.png) center center no-repeat;
+    @include image-2x('/images/close-button@2x.png', auto, 18px);
+  }
 }

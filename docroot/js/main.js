@@ -8,7 +8,18 @@ AUI().use(
     function (A) {
 
         // Vars
-        var conflictMessage;
+        var conflictMessage,
+            overLimitNotification;
+
+        // Check if over limit notification exists
+        overLimitNotification = A.one('.lims-muc .over-limit');
+
+        if (overLimitNotification) {
+            // Hide the notification on close button click
+            overLimitNotification.one('.close-notification').on('click', function () {
+                overLimitNotification.remove();
+            });
+        }
 
         // If there is no chat bar do nothing
         if (!A.one('#limsmuc-container .lims-bar')) {
@@ -26,7 +37,6 @@ AUI().use(
             }
 
             return; // Stop the app
-
         }
 
         // There is an instance of Chat Portlet already running

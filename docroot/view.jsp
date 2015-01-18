@@ -81,6 +81,7 @@
 <c:if test="${isOverLimit}">
 
     <div class="over-limit">
+        <button class="close-notification"></button>
         LIMS session limit has been exceeded. Wait until some other user logs out.
     </div>
 
