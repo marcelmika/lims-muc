@@ -4,6 +4,7 @@
     "limsmuc-core": {
       "jsfiles": [
         "js/bootstrap.js",
+        "js/core/CoreExtension.js",
         "js/core/date/DateFormatter.js",
         "js/core/localization/i18n.js",
         "js/core/controller/ViewController.js",

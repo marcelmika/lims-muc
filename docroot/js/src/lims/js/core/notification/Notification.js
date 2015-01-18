@@ -12,7 +12,7 @@
  */
 Y.namespace('LIMS.Core');
 
-Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
+Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.CoreExtension], {
 
     // Templates
     audioSoundTemplate: Y.one('#limsmuc-notification-audio-template').get('innerHTML'),
@@ -29,6 +29,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
     initializer: function () {
         // Attach events
         this._attachEvents();
+        // Start the unread messages timer
+        this._startUnreadMessagesTimer();
     },
 
     /**
@@ -62,8 +64,10 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
 
         // Clear refresh timer
         clearTimeout(timer);
+        // Turn off the blinking
+        this.set('isBlinking', false);
         // Return to the default page title
-        Y.config.doc.title = this.get('defaultPageTitle');
+        Y.config.doc.title = this.get('unreadMessagesPageTitle');
     },
 
     /**
@@ -142,7 +146,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
             timerInterval = this.get('timerInterval'),
             timer = this.get('timer'),
             windowHasFocus = this.get('windowHasFocus'),
-            properties = this.get('properties');
+            properties = this.get('properties'),
+            instance = this;
 
         // Chat is not enabled
         if (!properties.isChatEnabled()) {
@@ -157,15 +162,101 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
             this.set('timer', setInterval(function () {
                 // Vars
                 var title = Y.config.doc.title,
+                    unreadMessagesPageTitle = instance.get('unreadMessagesPageTitle'),
                     notificationTitle = Y.Lang.sub(Y.LIMS.Core.i18n.values.incomingMessageTitleText, {
                         0: lastMessage.get('from').get('fullName')
                     });
 
+                // Set the blinking flag
+                instance.set('isBlinking', true);
+
                 // Update the title
-                Y.config.doc.title = (title === defaultPageTitle ? notificationTitle : defaultPageTitle);
+                Y.config.doc.title = (title === unreadMessagesPageTitle ? notificationTitle : unreadMessagesPageTitle);
 
             }, timerInterval));
         }
+    },
+
+    /**
+     * Adds number of unread messages to the title if there are any
+     *
+     * @private
+     */
+    _updatePageTitleUnreadMessages: function () {
+        // Vars
+        var defaultPageTitle = this.get('defaultPageTitle'),
+            unreadMessagesPageTitle,
+            portletContainer = this.getPortletContainer(),
+            properties = this.get('properties'),
+            unreadBadges,
+            unreadSum = 0;
+
+        // Chat is not enabled
+        if (!properties.isChatEnabled()) {
+            Y.config.doc.title = defaultPageTitle;
+            // End here
+            return;
+        }
+
+        // Find all the unread badges
+        unreadBadges = portletContainer.all('.conversation .unread');
+
+        // Count the sum
+        unreadBadges.each(function (badge) {
+            // Vars
+            var unreadCount = badge.get('innerHTML');
+
+            if (Y.LIMS.Core.Util.isHidden(badge)) {
+                unreadCount = 0;
+            }
+
+            if (!isNaN(unreadCount)) {
+                // Add to sum
+                unreadSum += parseInt(unreadCount, 10);
+            }
+        });
+
+        // There are some unread messages
+        if (unreadSum > 0) {
+            // Add the number of unread messages to the title
+            unreadMessagesPageTitle = '(' + unreadSum + ') ' + defaultPageTitle;
+        }
+        // No unread messages
+        else {
+            // Set the title to default
+            unreadMessagesPageTitle = defaultPageTitle;
+        }
+
+        // Save the new title
+        this.set('unreadMessagesPageTitle', unreadMessagesPageTitle);
+
+        // Update the title only if it's not currently blinking
+        if (!this.get('isBlinking')) {
+            Y.config.doc.title = unreadMessagesPageTitle;
+        }
+    },
+
+    /**
+     * Starts the timer that takes care of the number of unread messages in the title
+     *
+     * @private
+     */
+    _startUnreadMessagesTimer: function () {
+        // Vars
+        var unreadReadInterval = this.get('unreadReadInterval'),
+            properties = this.get('properties'),
+            instance = this;
+
+        // Chat is not enabled
+        if (!properties.isChatEnabled()) {
+            // End here
+            return;
+        }
+
+        // Start the timer
+        setInterval(function () {
+            instance._updatePageTitleUnreadMessages();
+        }, unreadReadInterval);
     },
 
     /**
@@ -281,6 +372,26 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
         },
 
         /**
+         * Default page title plus unread messages counter
+         *
+         * {string}
+         */
+        unreadMessagesPageTitle: {
+            valueFn: function () {
+                return Y.config.doc.title;
+            }
+        },
+
+        /**
+         * Set to true if the blinking title notification is on
+         *
+         * {boolean}
+         */
+        isBlinking: {
+            value: false // default value
+        },
+
+        /**
          * True if the window has the focus
          *
          * {boolean}
@@ -305,6 +416,15 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [], {
          */
         timerInterval: {
             value: 1500 // 1,5 seconds
+        },
+
+        /**
+         * Interval used to read number of unread messages
+         *
+         * {integer}
+         */
+        unreadReadInterval: {
+            value: 1000 // 1 second
         }
     }
 });
