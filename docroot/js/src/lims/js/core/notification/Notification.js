@@ -29,6 +29,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
     initializer: function () {
         // Attach events
         this._attachEvents();
+        // Update when created
+        this._updatePageTitleUnreadMessages();
     },
 
     /**
