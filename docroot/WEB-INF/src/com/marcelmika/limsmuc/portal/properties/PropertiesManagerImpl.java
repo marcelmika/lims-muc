@@ -45,7 +45,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static final int BUDDY_LIST_MAX_SEARCH_DEFAULT = 10;
 
     // Connection Lost
-    private static final int CONNECTION_LOST_THRESHOLD_MIN = 0;
+    private static final int CONNECTION_LOST_THRESHOLD_MIN = 1;
     private static final int CONNECTION_LOST_THRESHOLD_MAX = 1440;
     private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 2;
 
