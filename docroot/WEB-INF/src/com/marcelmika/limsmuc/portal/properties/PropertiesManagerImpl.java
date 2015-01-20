@@ -78,6 +78,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
     // Jabber Resource
     private static final String JABBER_RESOURCE_DEFAULT = "LIMS";
 
+    // Jabber Resource Priority
+    private static final int JABBER_RESOURCE_PRIORITY_MIN = -128;
+    private static final int JABBER_RESOURCE_PRIORITY_MAX = 128;
+    private static final int JABBER_RESOURCE_PRIORITY_DEFAULT = 0;
+
     // Log
     private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
 
@@ -141,6 +146,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberPort(preferences);
             setupJabberServiceName(preferences);
             setupJabberResource(preferences);
+            setupJabberResourcePriority();
         }
     }
 
@@ -1237,6 +1243,24 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save in Environment
         Environment.setJabberResource(jabberResource);
+    }
+
+    /**
+     * Sets the jabber resource priority property
+     */
+    private void setupJabberResourcePriority() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.JABBER_RESOURCE_PRIORITY,
+                PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY,
+                JABBER_RESOURCE_PRIORITY_MIN,
+                JABBER_RESOURCE_PRIORITY_MAX,
+                JABBER_RESOURCE_PRIORITY_DEFAULT
+        );
+
+        // Save in Environment
+        Environment.setJabberResourcePriority(value);
     }
 
     /**

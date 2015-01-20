@@ -100,6 +100,16 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_ENABLED
     );
 
+    // Jabber - Security Enabled
+    public static final boolean JABBER_SECURITY_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_SECURITY_ENABLED
+    );
+
+    // Jabber - User Import
+    public static final boolean JABBER_IMPORT_USER_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED
+    );
+
     // Jabber - Host
     public static final String JABBER_HOST = getString(
             PortletPropertiesKeys.JABBER_HOST
@@ -115,19 +125,14 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_SERVICE_NAME
     );
 
-    // Jabber - Resource name
+    // Jabber - Resource
     public static final String JABBER_RESOURCE = getString(
             PortletPropertiesKeys.JABBER_RESOURCE
     );
 
-    // Jabber - User Import
-    public static final boolean JABBER_IMPORT_USER_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED
-    );
-
-    // Jabber - Security Enabled
-    public static final boolean JABBER_SECURITY_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_SECURITY_ENABLED
+    // Jabber - Resource priority
+    public static final Integer JABBER_RESOURCE_PRIORITY = getInteger(
+            PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY
     );
 
     // URL - Help

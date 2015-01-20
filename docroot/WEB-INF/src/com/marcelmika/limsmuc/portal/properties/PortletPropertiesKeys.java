@@ -54,8 +54,9 @@ public interface PortletPropertiesKeys {
     public static final String JABBER_IMPORT_USER_ENABLED = "jabber.import.user.enabled";
     public static final String JABBER_HOST = "jabber.host";
     public static final String JABBER_PORT = "jabber.port";
-    public static final String JABBER_RESOURCE = "jabber.resource";
     public static final String JABBER_SERVICE_NAME = "jabber.service.name";
+    public static final String JABBER_RESOURCE = "jabber.resource";
+    public static final String JABBER_RESOURCE_PRIORITY = "jabber.resource.priority";
 
     // URLs
     public static final String URL_HELP = "url.help";

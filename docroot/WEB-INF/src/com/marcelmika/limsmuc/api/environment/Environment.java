@@ -36,11 +36,12 @@ public class Environment {
     private static Integer pollingSlowDownThreshold = 0;
     private static Boolean jabberEnabled = false;
     private static Boolean jabberSecurityEnabled = true;
+    private static Boolean jabberImportUserEnabled = false;
     private static String jabberHost = "";
     private static Integer jabberPort = 0;
     private static String jabberServiceName = "";
     private static String jabberResource = "";
-    private static Boolean jabberImportUserEnabled = false;
+    private static Integer jabberResourcePriority = 0;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static Boolean errorModeEnabled = false;
@@ -568,6 +569,24 @@ public class Environment {
      */
     public static void setJabberResource(String jabberResource) {
         Environment.jabberResource = jabberResource;
+    }
+
+    /**
+     * Returns jabber resource priority
+     *
+     * @return Integer
+     */
+    public static Integer getJabberResourcePriority() {
+        return jabberResourcePriority;
+    }
+
+    /**
+     * Sets jabber resource priority property
+     *
+     * @param jabberResourcePriority Integer
+     */
+    public static void setJabberResourcePriority(Integer jabberResourcePriority) {
+        Environment.jabberResourcePriority = jabberResourcePriority;
     }
 
     /**
