@@ -122,6 +122,12 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     @Override
     public List<Buddy> searchBuddies(String searchQuery, Integer size) {
 
+        // Lazy load the roaster
+        if (!rosterReloaded) {
+            reloadRoaster();
+            rosterReloaded = true;
+        }
+
         List<Buddy> buddies = new LinkedList<Buddy>();
 
         for (RosterEntry rosterEntry : roster.getEntries()) {
