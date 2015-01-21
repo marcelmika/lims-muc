@@ -109,10 +109,10 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
             }
 
             // Store is already full. Deny the access.
-            if (buddySessions.size() >= 2) {
-                // TODO: Set to false to turn of the session mechanism
-                return true;
-            }
+            // TODO: Comment to turn off the limit mechanism
+//            if (buddySessions.size() >= 10) {
+//                return true;
+//            }
 
             // Add the user to the session store because the store is not full yet.
             buddySessions.add(buddyId);
