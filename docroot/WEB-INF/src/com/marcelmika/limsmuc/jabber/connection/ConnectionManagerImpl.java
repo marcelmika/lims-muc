@@ -53,6 +53,19 @@ public class ConnectionManagerImpl implements ConnectionManager {
      */
     @Override
     public void createConnection() throws JabberException {
+
+        // There is no need to connect the user since the connection is already created and works
+        if (connection != null && connection.isConnected()) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(String.format(
+                        "User %s was already connected, skipping creation of connection", connection.getUser()
+                ));
+            }
+            // End here
+            return;
+        }
+
         // Create new connection from the connection configuration
         connection = new XMPPTCPConnection(getConnectionConfiguration());
 
@@ -237,6 +250,18 @@ public class ConnectionManagerImpl implements ConnectionManager {
      * @throws JabberException
      */
     private void login(Buddy buddy, boolean shouldImportUser) throws JabberException {
+
+        // There is no need to login the user again if he was already authenticated
+        if (connection != null && connection.isAuthenticated()) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(String.format(
+                        "Skipping login of user %s. User was already authenticated.", buddy.getScreenName()
+                ));
+            }
+            // End here
+            return;
+        }
 
         try {
             // Login with username and password

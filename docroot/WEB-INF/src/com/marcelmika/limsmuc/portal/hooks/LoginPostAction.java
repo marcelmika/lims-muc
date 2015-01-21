@@ -47,7 +47,6 @@ public class LoginPostAction extends Action {
 
             // Login
             loginBuddy(buddy);
-
         }
         // Failure
         catch (Exception e) {
@@ -64,6 +63,11 @@ public class LoginPostAction extends Action {
      * @param buddy Buddy
      */
     private void loginBuddy(Buddy buddy) {
+
+        // Log
+        if(log.isDebugEnabled()) {
+            log.debug("Login user " + buddy.getScreenName());
+        }
 
         // Login buddy
         LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(

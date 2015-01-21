@@ -66,24 +66,41 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
             );
         }
 
-        // Create new connection manager (screen name is the ID)
-        ConnectionManager connectionManager = ConnectionManagerFactory.buildManager();
+        // Connection manager that holds the connection to jabber
+        ConnectionManager connectionManager;
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+
+        // There is no user session yet
+        if (userSession == null) {
+            // Create new connection manager (screen name is the ID)
+            connectionManager = ConnectionManagerFactory.buildManager();
+        }
+        // Session already exists
+        else {
+            // Get it from user session
+            connectionManager = userSession.getConnectionManager();
+        }
 
         try {
             // Connect
             connectionManager.createConnection();
-        } catch (JabberException exception) {
-            // Failure
+        }
+        // Failure
+        catch (JabberException exception) {
             return ConnectBuddyResponseEvent.failure(
                     ConnectBuddyResponseEvent.Status.ERROR_JABBER, exception
             );
         }
 
-        // Connection with jabber server was successfully created. Consequently, we should
-        // create a session in memory
-        UserSession userSession = UserSession.fromConnectionManager(buddyId, companyId, connectionManager);
-        // Add user session to store so it can be queried later
-        userSessionStore.addUserSession(userSession);
+        // Create use session if it wasn't already created
+        if (userSession == null) {
+            // Connection with jabber server was successfully created. Consequently, we should
+            // create a session in memory
+            userSession = UserSession.fromConnectionManager(buddyId, companyId, connectionManager);
+            // Add user session to store so it can be queried later
+            userSessionStore.addUserSession(userSession);
+        }
 
         // Success
         return ConnectBuddyResponseEvent.success(buddy.toBuddyDetails());
