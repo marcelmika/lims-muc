@@ -84,6 +84,8 @@
     clear: left;
     word-wrap: break-word;
     opacity: 0.6;
+    font-weight: 300;
+    @include font-smoothing();
   }
 
   .conversation-item-left-message,
@@ -121,6 +123,8 @@
     font-size: 12px;
     line-height: 14px;
     color: #545454;
+    font-weight: 500;
+    @include font-smoothing();
     @include border-radius(0px);
   }
 
