@@ -52,7 +52,7 @@
         <!-- CSS -->
         <header-portlet-css>/css/build/limsmuc/limsmuc.css</header-portlet-css>
         <!-- JS -->
-        <footer-portlet-javascript>/js/build/limsmuc/limsmuc-min.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/build/limsmuc/limsmuc-debug.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 
         <css-class-wrapper>lims-muc</css-class-wrapper>
