@@ -202,9 +202,9 @@
     <div class="conversation-item-message">
         <span class="conversation-item-name">{fullName}</span>
         <span class="conversation-item-date" title="{created}">{createdPrettified}</span>
-        <span class="conversation-item-text">{content}</span>
-
+        <div class="conversation-item-bubble-corner"></div>
         <div class="clear"></div>
+        <div class="conversation-item-text">{content}</div>
     </div>
     <div class="clear"></div>
 </script>

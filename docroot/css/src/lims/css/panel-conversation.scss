@@ -75,17 +75,43 @@
     padding-top: 3px;
   }
 
+  .conversation-item-bubble-corner {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: transparent url('/images/background-message-bubble.png') center center no-repeat;
+    @include image-2x('/images/background-message-bubble@2x.png', 10px, auto);
+    background-size: 10px;
+    top: 20px;
+    left: 3px;
+
+    &.own {
+      background-image: url('/images/background-message-bubble-own.png');
+      @include image-2x('/images/background-message-bubble-own@2x.png', 10px, auto);
+    }
+  }
+
   .conversation-item-text {
-    display: block;
+    display: inline-block;
     text-align: left;
     line-height: 14px;
-    padding: 2px 8px;
+    margin-top: 4px;
+    margin-left: 8px;
+    padding: 8px 12px;
     color: #222;
     clear: left;
     word-wrap: break-word;
     opacity: 0.6;
     font-weight: 300;
+    background: #f2f2f2;
+    border-radius: 14px;
+    min-width: 20px;
+    width: auto;
     @include font-smoothing();
+
+    &.own {
+      background: #e6f3fc;
+    }
   }
 
   .conversation-item-left-message,
