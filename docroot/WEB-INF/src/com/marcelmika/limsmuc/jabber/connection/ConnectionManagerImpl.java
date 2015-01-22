@@ -66,40 +66,8 @@ public class ConnectionManagerImpl implements ConnectionManager {
             return;
         }
 
-        // Create new connection from the connection configuration
-        connection = new XMPPTCPConnection(getConnectionConfiguration());
-
-        // Connect
-        try {
-            connection.connect();
-        }
-        // Error occurs somewhere else besides XMPP protocol level.
-        catch (SmackException e) {
-            throw new JabberException(
-                    "LIMS can't connect to Jabber server. Either the server is down or you provided wrong" +
-                            " host, port or service name.", e);
-        }
-        // Fatal error
-        catch (IOException e) {
-
-            String message = e.getMessage();
-
-            // Certificate error
-            if (Validator.isNotNull(message) &&
-                    message.contains("unable to find valid certification path to requested target")) {
-
-                throw new JabberException("Unable to find valid certification path to request target. Either turn " +
-                        "the Security via TLS encryption off or enable TLS encryption on the Jabber server.", e);
-            }
-            // Other error
-            else {
-                throw new JabberException("LIMS can't connect to Jabber server. Fatal I/O error. Check the log.", e);
-            }
-        }
-        // Error occurs on the XMPP protocol level
-        catch (XMPPException e) {
-            throw new JabberException("LIMS can't connect to Jabber server. XMPP error occurred. Check the log.", e);
-        }
+        // Connect to jabber
+        connect();
     }
 
     /**
@@ -243,6 +211,49 @@ public class ConnectionManagerImpl implements ConnectionManager {
     }
 
     /**
+     * Creates new connection and connects to it
+     *
+     * @throws JabberException
+     */
+    private void connect() throws JabberException {
+
+        // Create new connection from the connection configuration
+        connection = new XMPPTCPConnection(getConnectionConfiguration());
+
+        // Connect
+        try {
+            connection.connect();
+        }
+        // Error occurs somewhere else besides XMPP protocol level.
+        catch (SmackException e) {
+            throw new JabberException(
+                    "LIMS can't connect to Jabber server. Either the server is down or you provided wrong" +
+                            " host, port or service name.", e);
+        }
+        // Fatal error
+        catch (IOException e) {
+
+            String message = e.getMessage();
+
+            // Certificate error
+            if (Validator.isNotNull(message) &&
+                    message.contains("unable to find valid certification path to requested target")) {
+
+                throw new JabberException("Unable to find valid certification path to request target. Either turn " +
+                        "the Security via TLS encryption off or enable TLS encryption on the Jabber server.", e);
+            }
+            // Other error
+            else {
+                throw new JabberException("LIMS can't connect to Jabber server. Fatal I/O error. Check the log.", e);
+            }
+        }
+        // Error occurs on the XMPP protocol level
+        catch (XMPPException e) {
+            throw new JabberException("LIMS can't connect to Jabber server. XMPP error occurred. Check the log.", e);
+        }
+    }
+
+    /**
      * Login user with username and password
      *
      * @param buddy            Buddy
@@ -251,8 +262,17 @@ public class ConnectionManagerImpl implements ConnectionManager {
      */
     private void login(Buddy buddy, boolean shouldImportUser) throws JabberException {
 
+        // Connection cannot be empty
+        if (connection == null) {
+            if (log.isErrorEnabled()) {
+                log.error("Connection was empty during login");
+            }
+            // End here
+            return;
+        }
+
         // There is no need to login the user again if he was already authenticated
-        if (connection != null && connection.isAuthenticated()) {
+        if (connection.isAuthenticated()) {
             // Log
             if (log.isDebugEnabled()) {
                 log.debug(String.format(
@@ -285,7 +305,7 @@ public class ConnectionManagerImpl implements ConnectionManager {
                 // Try to import user
                 importUser(buddy, connection);
                 // We need to recreate the connection here
-                createConnection();
+                connect();
                 // ... and login again. The second parameter must be false otherwise we could end up in the
                 // infinite recursion
                 login(buddy, false);
