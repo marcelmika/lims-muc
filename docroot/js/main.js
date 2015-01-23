@@ -85,6 +85,12 @@ AUI().use(
                 Liferay.bind('sessionExpired', function () {
                     mainController.sessionExpired();
                 });
+
+                // Start the Inter Portlet Communication Controller
+                new A.LIMS.Core.IPCController({
+                    publisher: Liferay
+                });
+
             },
             fireOnce: true
         });
