@@ -254,6 +254,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          */
         jabberResource: {
             value: null // to be set
+        },
+
+        /**
+         * IPC enabled
+         *
+         * {boolean}
+         */
+        ipcEnabled: {
+            value: null // to be set
         }
     }
 });

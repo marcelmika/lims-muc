@@ -43,6 +43,7 @@ public class Properties {
     private Integer jabberPort;
     private String jabberServiceName;
     private String jabberResource;
+    private Boolean ipcEnabled;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -75,6 +76,7 @@ public class Properties {
         properties.jabberPort = Environment.getJabberPort();
         properties.jabberServiceName = Environment.getJabberServiceName();
         properties.jabberResource = Environment.getJabberResource();
+        properties.ipcEnabled = Environment.getIpcEnabled();
 
         return properties;
     }
@@ -259,6 +261,14 @@ public class Properties {
         this.jabberResource = jabberResource;
     }
 
+    public Boolean getIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    public void setIpcEnabled(Boolean ipcEnabled) {
+        this.ipcEnabled = ipcEnabled;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -283,6 +293,7 @@ public class Properties {
                 ", jabberPort=" + jabberPort +
                 ", jabberServiceName='" + jabberServiceName + '\'' +
                 ", jabberResource='" + jabberResource + '\'' +
+                ", ipcEnabled=" + ipcEnabled +
                 '}';
     }
 }

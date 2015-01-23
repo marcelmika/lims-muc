@@ -147,6 +147,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberServiceName(preferences);
             setupJabberResource(preferences);
             setupJabberResourcePriority();
+
+            // Set IPC
+            setupIPCEnabled(preferences);
         }
     }
 
@@ -230,6 +233,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber resource
         if (properties.getJabberResource() != null) {
             updateJabberResource(preferences, properties);
+        }
+
+        // IPC enabled
+        if (properties.getIpcEnabled() != null) {
+            updateIPCEnabled(preferences, properties);
         }
     }
 
@@ -1261,6 +1269,56 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save in Environment
         Environment.setJabberResourcePriority(value);
+    }
+
+
+    /**
+     * Updates IPC enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateIPCEnabled(PortletPreferences preferences, Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.IPC_ENABLED,
+                String.valueOf(properties.getIpcEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupIPCEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupIPCEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean ipcEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            ipcEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.IPC_ENABLED,
+                    String.valueOf(PortletPropertiesValues.IPC_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            ipcEnabled = PortletPropertiesValues.IPC_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setIpcEnabled(ipcEnabled);
     }
 
     /**

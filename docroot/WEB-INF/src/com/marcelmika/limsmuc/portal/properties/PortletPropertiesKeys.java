@@ -58,6 +58,9 @@ public interface PortletPropertiesKeys {
     public static final String JABBER_RESOURCE = "jabber.resource";
     public static final String JABBER_RESOURCE_PRIORITY = "jabber.resource.priority";
 
+    // IPC
+    public static final String IPC_ENABLED = "ipc.enabled";
+
     // URLs
     public static final String URL_HELP = "url.help";
     public static final String URL_UNSUPPORTED_BROWSER = "url.unsupported.browser";

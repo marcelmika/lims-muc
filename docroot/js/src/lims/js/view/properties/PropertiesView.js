@@ -68,6 +68,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberServiceName = this.get('jabberServiceName'),
             jabberResource = this.get('jabberResource'),
             jabberTestConnectionButton = this.get('jabberTestConnectionButton'),
+            ipcEnabled = this.get('ipcEnabled'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -88,6 +89,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberServiceName.on('inputUpdate', this._onJabberServiceNameUpdate, this);
         jabberResource.on('inputUpdate', this._onJabberResourceUpdate, this);
         jabberTestConnectionButton.on('click', this._onJabberTestConnectionButtonClick, this);
+        ipcEnabled.on('switchClick', this._onIpcEnabledClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -702,6 +704,35 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             Y.LIMS.Core.Util.show(message);
         });
     },
+    
+    /**
+     * Called when the user clicks on the ipc enabled switch
+     *
+     * @private
+     */
+    _onIpcEnabledClick: function () {
+        // Vars
+        var switchView = this.get('ipcEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            ipcEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
 
     /**
      * Called when user confirms synchronization with SUC
@@ -1199,6 +1230,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 return this.get('container').one('.jabber-test-connection .message');
+            }
+        },
+
+        /**
+         * View for ipc enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        ipcEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.ipc-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
             }
         },
 

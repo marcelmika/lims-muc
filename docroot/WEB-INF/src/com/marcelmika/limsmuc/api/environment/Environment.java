@@ -42,6 +42,7 @@ public class Environment {
     private static String jabberServiceName = "";
     private static String jabberResource = "";
     private static Integer jabberResourcePriority = 0;
+    private static Boolean ipcEnabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static Boolean errorModeEnabled = false;
@@ -605,6 +606,24 @@ public class Environment {
      */
     public static void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
         Environment.jabberImportUserEnabled = jabberImportUserEnabled;
+    }
+
+    /**
+     * Return true if the Inter Portlet Communication is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean getIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    /**
+     * Sets the Inter Portlet Communication enabled property
+     *
+     * @param ipcEnabled Boolean
+     */
+    public static void setIpcEnabled(Boolean ipcEnabled) {
+        Environment.ipcEnabled = ipcEnabled;
     }
 
     /**

@@ -135,6 +135,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY
     );
 
+    // IPC - Enabled
+    public static final boolean IPC_ENABLED = getBoolean(
+            PortletPropertiesKeys.IPC_ENABLED
+    );
+
     // URL - Help
     public static final String URL_HELP = getString(
             PortletPropertiesKeys.URL_HELP
