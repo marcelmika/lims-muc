@@ -241,4 +241,9 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
             );
         }
     }
+
+    @Override
+    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event) {
+        throw new RuntimeException("Not implemented");
+    }
 }

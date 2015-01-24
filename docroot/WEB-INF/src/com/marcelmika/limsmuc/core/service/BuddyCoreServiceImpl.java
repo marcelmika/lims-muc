@@ -12,12 +12,11 @@ package com.marcelmika.limsmuc.core.service;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.*;
 import com.marcelmika.limsmuc.core.domain.Buddy;
 import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService;
-import com.marcelmika.limsmuc.api.events.buddy.*;
 
 /**
  * Implementation of BuddyCoreService
@@ -106,7 +105,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         }
 
         // Login user locally only if not over the session limit
-        if(!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
+        if (!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
             // Login locally
             LoginBuddyResponseEvent loginResponseEvent = buddyPersistenceService.loginBuddy(event);
 
@@ -224,5 +223,16 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         else {
             return buddyPersistenceService.searchBuddies(event);
         }
+    }
+
+    /**
+     * Reads buddies from the system
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event) {
+        throw new RuntimeException("Not implemented");
     }
 }

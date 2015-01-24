@@ -26,10 +26,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Ing. Marcel Mika
@@ -130,6 +127,10 @@ public class Buddy {
         buddy.buddyId = user.getUserId();
         buddy.companyId = user.getCompanyId();
         buddy.screenName = user.getScreenName();
+        buddy.fullName = user.getFullName();
+        buddy.firstName = user.getFirstName();
+        buddy.middleName = user.getMiddleName();
+        buddy.lastName = user.getLastName();
         buddy.password = user.getPasswordUnencrypted();
 
         return buddy;
@@ -274,6 +275,22 @@ public class Buddy {
 
         if (settings != null) {
             details.setSettingsDetails(settings.toSettingsDetails());
+        }
+
+        return details;
+    }
+
+    /**
+     * Mapping method
+     *
+     * @param buddies list of Buddies
+     * @return list of BuddyDetails
+     */
+    public static List<BuddyDetails> toBuddyDetails(List<Buddy> buddies) {
+        List<BuddyDetails> details = new LinkedList<BuddyDetails>();
+
+        for(Buddy buddy : buddies) {
+            details.add(buddy.toBuddyDetails());
         }
 
         return details;

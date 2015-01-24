@@ -19,6 +19,19 @@ Y.namespace('LIMS.Core');
 var Util = {
 
     /**
+     * Takes function as parameter. If the parameter is null, returns empty function.
+     * Otherwise returns the function
+     *
+     * @param func
+     * @return {Function}
+     */
+    validateFunction: function (func) {
+        return func || function () {
+                // Empty function
+            };
+    },
+
+    /**
      * Decodes html entities
      *
      * @param html

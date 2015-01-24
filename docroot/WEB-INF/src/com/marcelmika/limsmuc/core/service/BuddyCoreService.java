@@ -69,4 +69,12 @@ public interface BuddyCoreService {
      */
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
+    /**
+     * Reads buddies from the system
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event);
+
 }

@@ -28,6 +28,7 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             properties = this.get('properties'),
             serverTime = this.get('serverTimeModel'),
             poller = this.get('poller'),
+            publisher = this.get('publisher'),
             rootNode = this.getRootNode();
 
         // Attach events
@@ -49,12 +50,14 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 properties: properties,
                 poller: poller
             });
+
             // Presence
             new Y.LIMS.Controller.PresenceViewController({
                 container: rootNode.one('.status-panel'),
                 model: settingsModel,
                 buddyDetails: buddyDetails
             });
+
             // Settings
             new Y.LIMS.Controller.SettingsViewController({
                 container: rootNode.one('.chat-settings'),
@@ -62,6 +65,7 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 properties: properties,
                 poller: poller
             });
+
             // Conversation
             new Y.LIMS.Controller.ConversationsController({
                 container: rootNode.one('.lims-tabs'),
@@ -77,6 +81,12 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 container: rootNode.one('.conversation-feed'),
                 properties: properties,
                 poller: poller,
+                buddyDetails: buddyDetails
+            });
+
+            // IPC Controller
+            new Y.LIMS.Core.IPCController({
+                publisher: publisher,
                 buddyDetails: buddyDetails
             });
         });
@@ -242,6 +252,13 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             valueFn: function () {
                 return new Y.LIMS.Core.Properties();
             }
+        },
+
+        /**
+         * Publisher object user to send IPC calls
+         */
+        publisher: {
+            value: null // to be set
         },
 
         /**

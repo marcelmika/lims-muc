@@ -44,6 +44,11 @@
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
     </bean>
 
+    <bean id="com.marcelmika.limsmuc.portal.controller.IPCController"
+          class="com.marcelmika.limsmuc.portal.controller.IPCController">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.BuddyCoreService"/>
+    </bean>
+
     <!-- Properties -->
 
     <bean id="com.marcelmika.limsmuc.portal.properties.PropertiesManager"
@@ -65,6 +70,7 @@
         <constructor-arg index="4" ref="com.marcelmika.limsmuc.portal.controller.ServerController"/>
         <constructor-arg index="5" ref="com.marcelmika.limsmuc.portal.controller.PropertiesController"/>
         <constructor-arg index="6" ref="com.marcelmika.limsmuc.portal.controller.SynchronizationController"/>
+        <constructor-arg index="7" ref="com.marcelmika.limsmuc.portal.controller.IPCController"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.portal.processor.PortletProcessorUtil"

@@ -704,7 +704,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             Y.LIMS.Core.Util.show(message);
         });
     },
-    
+
     /**
      * Called when the user clicks on the ipc enabled switch
      *
