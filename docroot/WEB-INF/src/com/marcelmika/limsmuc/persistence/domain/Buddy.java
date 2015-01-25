@@ -119,7 +119,8 @@ public class Buddy {
         String middleName = fixNullValue((String) object[firstElement++]);
         String lastName = fixNullValue((String) object[firstElement++]);
 
-        buddy.fullName = String.format("%s %s %s", firstName, middleName, lastName);
+        // Compose full name and replace more than one space with a single one
+        buddy.fullName = String.format("%s %s %s", firstName, middleName, lastName).replaceAll("\\s+", " ").trim();
 
         String presence = String.format("%s", object[firstElement++]);
         if (presence != null) {
