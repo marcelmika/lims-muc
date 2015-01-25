@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.portal.controller.*;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
@@ -179,8 +180,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // IPC requests must be turned on
         if (!Environment.getIpcEnabled() && query.contains(PREFIX_IPC)) {
             // Not allowed
-            // TODO: Add error message
-            ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            ResponseUtil.writeResponse(
+                    ErrorMessage.forbidden("IPC mechanism is turned off.").serialize(),
+                    HttpStatus.FORBIDDEN,
+                    response);
             // End here
             return;
         }

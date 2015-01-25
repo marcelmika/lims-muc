@@ -21,6 +21,7 @@ import com.marcelmika.limsmuc.portal.http.HttpStatus;
  */
 public class ErrorMessage {
 
+    @JSON(include = false)
     private HttpStatus httpStatus;
     private String message;
 
@@ -31,6 +32,7 @@ public class ErrorMessage {
     private static final String NOT_FOUND = "Resource you have request hasn't been found";
     private static final String CONFLICT = "Conflict. Such entity already exists.";
     private static final String REQUEST_ENTITY_TOO_LARGE = "Request entity too large";
+    private static final String EXPECTATION_FAILED = "Request expectation failed";
     private static final String INTERNAL_SERVER_ERROR = "Internal server error";
 
     /**
@@ -178,6 +180,30 @@ public class ErrorMessage {
     }
 
     /**
+     * Create error message for expectation failed
+     *
+     * @return ErrorMessage
+     */
+    public static ErrorMessage expectationFailed() {
+        return expectationFailed(EXPECTATION_FAILED);
+    }
+
+    /**
+     * Create error message for expectation failed
+     *
+     * @param message String
+     * @return ErrorMessage
+     */
+    public static ErrorMessage expectationFailed(String message) {
+        ErrorMessage errorMessage = new ErrorMessage();
+
+        errorMessage.message = message;
+        errorMessage.httpStatus = HttpStatus.EXPECTATION_FAILED;
+
+        return errorMessage;
+    }
+
+    /**
      * Creates error message for the internal server error
      *
      * @return ErrorMessage
@@ -195,7 +221,7 @@ public class ErrorMessage {
     public static ErrorMessage internalServerError(String message) {
         ErrorMessage errorMessage = new ErrorMessage();
 
-        errorMessage.message = INTERNAL_SERVER_ERROR;
+        errorMessage.message = message;
         errorMessage.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
         return errorMessage;
@@ -210,7 +236,6 @@ public class ErrorMessage {
         return JSONFactoryUtil.looseSerialize(this);
     }
 
-
     public String getMessage() {
         return message;
     }
@@ -219,17 +244,9 @@ public class ErrorMessage {
         this.message = message;
     }
 
-    @JSON(include = false)
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
     @JSON(include = true)
     public int getCode() {
         return httpStatus.value();
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
-    }
 }

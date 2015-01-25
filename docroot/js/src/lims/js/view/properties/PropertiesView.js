@@ -687,7 +687,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
 
             if (err) {
                 // Set the error text
-                message.set('innerHTML', err);
+                message.set('innerHTML', err.get('message'));
                 // Set the failure class
                 message.addClass('failure');
                 // Show the message

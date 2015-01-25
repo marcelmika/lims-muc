@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.events.settings.TestConnectionRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.TestConnectionResponseEvent;
 import com.marcelmika.limsmuc.core.service.SettingsCoreService;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.domain.Properties;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.portlet.PermissionDetector;
@@ -140,8 +141,12 @@ public class PropertiesController {
         }
         // Failure
         else {
-            // TODO: Refactor to new error message convention
-            ResponseUtil.writeResponse(responseEvent.getMessage(), HttpStatus.EXPECTATION_FAILED, response);
+            // Send expectation failed with the reason to the client
+            ResponseUtil.writeResponse(
+                    ErrorMessage.expectationFailed(responseEvent.getMessage()).serialize(),
+                    HttpStatus.EXPECTATION_FAILED,
+                    response
+            );
 
             // Log warn
             if (log.isWarnEnabled()) {

@@ -187,7 +187,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
                 if (serverError) {
                     // Call failure
-                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError);
+                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError.get('message'));
                     // End here
                     return;
                 }
