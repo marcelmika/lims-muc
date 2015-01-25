@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.*;
@@ -132,13 +133,13 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
     }
 
     /**
-     * Reads buddy's presence
+     * Reads presence of a single buddy
      *
      * @param event Request event
      * @return Response event
      */
     @Override
-    public ReadPresenceBuddyResponseEvent readPresence(ReadPresenceBuddyRequestEvent event) {
+    public ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event) {
         // Get buddy from buddy details
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
 
@@ -159,19 +160,77 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 }
 
                 // Success
-                return ReadPresenceBuddyResponseEvent.success(presence.toPresenceDetails());
+                return ReadBuddyPresenceResponseEvent.success(presence.toPresenceDetails());
             }
             // Failure
             else {
-                return ReadPresenceBuddyResponseEvent.failure(
-                        ReadPresenceBuddyResponseEvent.Status.ERROR_PERSISTENCE
+                return ReadBuddyPresenceResponseEvent.failure(
+                        ReadBuddyPresenceResponseEvent.Status.ERROR_PERSISTENCE
                 );
             }
 
         } catch (Exception e) {
             // Failure
-            return ReadPresenceBuddyResponseEvent.failure(
-                    ReadPresenceBuddyResponseEvent.Status.ERROR_PERSISTENCE, e
+            return ReadBuddyPresenceResponseEvent.failure(
+                    ReadBuddyPresenceResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
+        }
+    }
+
+    /**
+     * Reads presence of buddies
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
+        // Map the list of buddies
+        List<Long> buddies = event.getBuddies();
+        List<BuddyDetails> details = new LinkedList<BuddyDetails>();
+
+        try {
+
+            // Read their settings
+            for (Long buddyId : buddies) {
+                // Take presence form user settings
+                Settings settings = SettingsLocalServiceUtil.fetchByUserId(buddyId);
+                // Prepare the presence
+                Presence presence;
+
+                // User has already logged in
+                if (settings != null) {
+                    // User is connected
+                    if (settings.isConnected()) {
+                        // Create Presence from string
+                        presence = Presence.fromDescription(settings.getPresence());
+                    }
+                    // User is offline
+                    else {
+                        presence = Presence.OFFLINE;
+                    }
+                }
+                // User never logged to the portal
+                else {
+                    presence = Presence.UNRECOGNIZED;
+                }
+
+                // Create new buddy
+                BuddyDetails buddy = new BuddyDetails();
+                buddy.setBuddyId(buddyId);
+                buddy.setPresenceDetails(presence.toPresenceDetails());
+
+                // Add to details
+                details.add(buddy);
+            }
+
+            // Success
+            return ReadBuddiesPresenceResponseEvent.success(details);
+        }
+        // Failure
+        catch (SystemException e) {
+            return ReadBuddiesPresenceResponseEvent.failure(
+                    ReadBuddiesPresenceResponseEvent.Status.ERROR_PERSISTENCE, e
             );
         }
     }
@@ -240,10 +299,5 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                     SearchBuddiesResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
-    }
-
-    @Override
-    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event) {
-        throw new RuntimeException("Not implemented");
     }
 }

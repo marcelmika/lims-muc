@@ -90,8 +90,8 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             // [3] Get buddy's stored presence. Thanks to that we can send buddy's last presence to the server.
             // Imagine that user logged out when he/she was e.g. DND. If they login again DND presence will be
             // sent to the jabber server.
-            ReadPresenceBuddyResponseEvent readPresenceEvent = buddyPersistenceService.readPresence(
-                    new ReadPresenceBuddyRequestEvent(loginResponseEvent.getDetails())
+            ReadBuddyPresenceResponseEvent readPresenceEvent = buddyPersistenceService.readBuddyPresence(
+                    new ReadBuddyPresenceRequestEvent(loginResponseEvent.getDetails())
             );
             // [3.1] Update it on server. However, this will be done only if the  buddy's presence read request
             // ended with success. If it fails we simply do nothing. We don't want to interrupt login process
@@ -226,13 +226,13 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     }
 
     /**
-     * Reads buddies from the system
+     * Reads presence of buddies
      *
      * @param event Request event
      * @return Response event
      */
     @Override
-    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event) {
-        throw new RuntimeException("Not implemented");
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
+        return buddyPersistenceService.readBuddiesPresence(event);
     }
 }

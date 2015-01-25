@@ -70,11 +70,11 @@ public interface BuddyCoreService {
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
     /**
-     * Reads buddies from the system
+     * Reads presence of buddies
      *
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event);
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
 
 }

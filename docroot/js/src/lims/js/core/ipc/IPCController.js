@@ -17,6 +17,10 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     // Event ids
     readyEventId: 'lims:ready',
     createConversationEventId: 'lims:createConversation',
+    readPresenceEventId: 'lims:readPresence',
+
+    // Max # of buddies for the read presence request
+    maxReadPresence: 100,
 
     /**
      * Called on initialization
@@ -41,6 +45,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
         // IPC events
         publisher.on(this.createConversationEventId, this._onCreateConversation, this);
+        publisher.on(this.readPresenceEventId, this._onReadPresence, this);
     },
 
     /**
@@ -53,10 +58,22 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
-            failure = Y.LIMS.Core.Util.validateFunction(event.failure);
+            failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            data = event.data || null;
+
+        // Validate
+        if (!data || data.length === 0) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.wrongInput,
+                'Pass an object with data property that contains list of user ids'
+            );
+            // End here
+            return;
+        }
 
         // First create buddy list form the array of ids
-        this._mapBuddyListFromData(event.data, function (err, participantList) {
+        this._mapBuddyListFromData(data, function (err, participantList) {
 
             // Error during mapping
             if (err) {
@@ -71,7 +88,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
                 if (serverError) {
                     // Call failure
-                    failure(5000, serverError);
+                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError);
                     // End here
                     return;
                 }
@@ -93,7 +110,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                         // Failure
                         failure: function (err) {
                             // Call failure
-                            failure(5001, err);
+                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err);
                         }
                     });
                 }
@@ -112,10 +129,81 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                         // Failure
                         failure: function (err) {
                             // Call failure
-                            failure(5001, err);
+                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err);
                         }
                     });
                 }
+            });
+        });
+    },
+
+    /**
+     * Called on readPresence IPC event
+     *
+     * @param event
+     * @private
+     */
+    _onReadPresence: function (event) {
+        // Vars
+        var success = Y.LIMS.Core.Util.validateFunction(event.success),
+            failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            data = event.data || null;
+
+        // Validate
+        if (!data || data.length === 0) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.wrongInput,
+                'Pass an object with data property that contains list of user ids'
+            );
+            // End here
+            return;
+        }
+
+        // Check threshold
+        if (data.length > this.maxReadPresence) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.inputToBig,
+                'Max number of user ids is ' + this.maxReadPresence + '. You passed ' + data.length + '.'
+            );
+            // End here
+            return;
+        }
+
+        // First create buddy list form the array of ids
+        this._mapBuddyListFromData(data, function (err, participantList) {
+
+            // Error during mapping
+            if (err) {
+                // Call failure
+                failure(err.code, err.reason);
+                // End here
+                return;
+            }
+
+            // Load the participant list from server, include presence
+            participantList.load({readPresence: true}, function (serverError) {
+
+                if (serverError) {
+                    // Call failure
+                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError);
+                    // End here
+                    return;
+                }
+
+                // Create response
+                var response = [];
+                // Map to response
+                Y.Array.each(participantList.toArray(), function (participant) {
+                    response.push({
+                        userId: participant.get('buddyId'),
+                        presence: participant.get('presence')
+                    });
+                });
+
+                // Success
+                success(response);
             });
         });
     },
@@ -131,18 +219,8 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var index,
             participantList,
+            value,
             buddyId = this.get('buddyDetails').get('buddyId');
-
-        // Validate
-        if (!data || data.length === 0) {
-            // Failure
-            callback({
-                code: 4000,
-                reason: 'Wrong input parameters. Pass an object with data property that contains list of user ids'
-            });
-            // End here
-            return;
-        }
 
         // Prepare participants
         participantList = new Y.LIMS.Model.BuddyModelList();
@@ -150,22 +228,25 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Map input to a list of buddies
         for (index = 0; index < data.length; index++) {
 
+            // Get a user id
+            value = Y.LIMS.Core.Util.toInteger(data[index]);
+
             // Validate user id
-            if (!Y.LIMS.Core.Util.isInteger(data[index])) {
+            if (!Y.LIMS.Core.Util.isInteger(value)) {
                 // Failure
                 callback({
-                    code: 4001,
+                    code: Y.LIMS.Core.IPCErrorCode.wrongInput,
                     reason: 'Wrong input parameters. All values must be integers. Passed value: ' + data[index]
                 });
                 // End here
                 return;
             }
 
-            // Check if the user is not in the list
-            if (data[index] === buddyId) {
+            // Check if the logged user is not in the list
+            if (value === buddyId) {
                 // Failure
                 callback({
-                    code: 4002,
+                    code: Y.LIMS.Core.IPCErrorCode.wrongAssumption,
                     reason: 'You cannot create conversation with yourself.'
                 });
                 // End here
@@ -174,7 +255,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
             // Add buddy to list
             participantList.add({
-                buddyId: data[index]
+                buddyId: value
             });
         }
 

@@ -44,12 +44,20 @@ public interface BuddyPersistenceService {
     public DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
 
     /**
-     * Reads buddy's presence
+     * Reads presence of a single buddy
      *
      * @param event Request event
      * @return Response event
      */
-    public ReadPresenceBuddyResponseEvent readPresence(ReadPresenceBuddyRequestEvent event);
+    public ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event);
+
+    /**
+     * Reads presence of buddies
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
 
     /**
      * Change buddy's presence
@@ -67,12 +75,5 @@ public interface BuddyPersistenceService {
      */
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
-    /**
-     * Reads buddies from the system
-     *
-     * @param event Request event
-     * @return Response event
-     */
-    public ReadBuddiesResponseEvent readBuddies(ReadBuddiesRequestEvent event);
 
 }

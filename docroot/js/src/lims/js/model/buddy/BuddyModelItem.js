@@ -73,7 +73,18 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
          * {integer|null}
          */
         buddyId: {
-            value: null // default value
+            value: null, // default value
+
+            // Setter
+            setter: function (val) {
+                // Just to be sure that the value will be an integer
+                return Y.LIMS.Core.Util.toInteger(val);
+            },
+
+            // Validate value
+            validator: function (val) {
+                return val === null || Y.LIMS.Core.Util.isInteger(val);
+            }
         },
 
         /**

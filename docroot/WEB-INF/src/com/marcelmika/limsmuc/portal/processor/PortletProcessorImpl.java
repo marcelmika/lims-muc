@@ -79,6 +79,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_SYNCHRONIZE_CHAT_PORTLET = "SynchronizeChatPortlet";
     private static final String QUERY_TEST_CONNECTION = "TestConnection";
     private static final String QUERY_IPC_READ_BUDDIES = PREFIX_IPC + "ReadBuddies";
+    private static final String QUERY_IPC_READ_PRESENCES = PREFIX_IPC + "ReadPresences";
 
     /**
      * Constructor
@@ -271,6 +272,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // IPC: Read buddies
         else if (query.equals(QUERY_IPC_READ_BUDDIES)) {
             ipcController.readBuddies(request, response);
+        }
+        // IPC: Read presences
+        else if (query.equals(QUERY_IPC_READ_PRESENCES)) {
+            ipcController.readPresences(request, response);
         }
         // No such query was found
         else {

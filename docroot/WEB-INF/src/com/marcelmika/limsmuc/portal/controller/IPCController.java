@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
 import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
@@ -42,6 +44,9 @@ public class IPCController {
     // Dependencies
     BuddyCoreService buddyCoreService;
 
+    // Constants
+    private final static int MAX_BUDDIES_COUNT = 100; // Max number of buddies for one request
+
     /**
      * Constructor
      *
@@ -65,6 +70,8 @@ public class IPCController {
         try {
             // Create deserializer for a list of buddies
             JSONDeserializer<List<Long>> deserializer = JSONFactoryUtil.createJSONDeserializer();
+            // Values must be numbers
+            deserializer.use("values", Long.class);
             // Deserialize buddies
             buddies = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
         }
@@ -100,6 +107,83 @@ public class IPCController {
             ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
         }
     }
+
+    /**
+     * Read buddies presences
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void readPresences(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy;            // Authorized user
+        List<Long> buddyIds;    // List of deserialized buddies
+
+        // Deserialize
+        try {
+            // Get buddy from request
+            buddy = Buddy.fromResourceRequest(request);
+            // Create deserializer for a list of buddies
+            JSONDeserializer<List<Long>> deserializer = JSONFactoryUtil.createJSONDeserializer();
+            // Values must be numbers
+            deserializer.use("values", Long.class);
+            // Deserialize buddies
+            buddyIds = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Check the length
+        if (buddyIds.size() > MAX_BUDDIES_COUNT) {
+            // Tell client that the request entity is to large
+            ResponseUtil.writeResponse(HttpStatus.REQUEST_ENTITY_TOO_LARGE, response);
+            // End here
+            return;
+        }
+
+        // Read presences
+        ReadBuddiesPresenceResponseEvent responseEvent = buddyCoreService.readBuddiesPresence(
+                new ReadBuddiesPresenceRequestEvent(buddy.toBuddyDetails(), buddyIds)
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Get buddies from response event
+            List<Buddy> buddies = Buddy.fromBuddyDetailsList(responseEvent.getBuddies());
+
+            // Serialize
+            String serialized = JSONFactoryUtil.looseSerialize(buddies);
+
+            // Write success to response
+            ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+        }
+        // Failure
+        else {
+            ReadBuddiesPresenceResponseEvent.Status status = responseEvent.getStatus();
+            // Wrong params
+            if (status == ReadBuddiesPresenceResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Forbidden
+            else if (status == ReadBuddiesPresenceResponseEvent.Status.ERROR_FORBIDDEN) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
+            // Everything else is a server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+            }
+        }
+    }
+
 
     /**
      * Appends extra data from portal to the list of buddies

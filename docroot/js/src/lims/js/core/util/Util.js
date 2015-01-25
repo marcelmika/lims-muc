@@ -117,6 +117,16 @@ var Util = {
     },
 
     /**
+     * Creates integer from value
+     *
+     * @param value
+     * @return {Number}
+     */
+    toInteger: function (value) {
+        return parseInt(value, 10);
+    },
+
+    /**
      * Shows node
      *
      * @param node {Node}

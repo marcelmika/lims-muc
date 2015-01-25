@@ -20,12 +20,12 @@ import java.util.List;
  * Date: 23/01/15
  * Time: 19:59
  */
-public class ReadBuddiesRequestEvent extends RequestEvent {
+public class ReadBuddiesPresenceRequestEvent extends RequestEvent {
 
     private final BuddyDetails buddy;
-    private final List<BuddyDetails> buddies;
+    private final List<Long> buddies;
 
-    public ReadBuddiesRequestEvent(BuddyDetails buddy, List<BuddyDetails> buddies) {
+    public ReadBuddiesPresenceRequestEvent(BuddyDetails buddy, List<Long> buddies) {
         this.buddy = buddy;
         this.buddies = buddies;
     }
@@ -34,7 +34,7 @@ public class ReadBuddiesRequestEvent extends RequestEvent {
         return buddy;
     }
 
-    public List<BuddyDetails> getBuddies() {
+    public List<Long> getBuddies() {
         return buddies;
     }
 }

@@ -7,6 +7,7 @@
         "js/core/CoreExtension.js",
         "js/core/date/DateFormatter.js",
         "js/core/ipc/IPCController.js",
+        "js/core/ipc/IPCErrorCode.js",
         "js/core/localization/i18n.js",
         "js/core/controller/ViewController.js",
         "js/core/notification/Notification.js",

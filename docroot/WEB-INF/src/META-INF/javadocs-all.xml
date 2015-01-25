@@ -1118,7 +1118,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadPresenceBuddyRequestEvent</name>
-		<type>com.marcelmika.limsmuc.api.events.buddy.ReadPresenceBuddyRequestEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceRequestEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>ReadPresenceBuddyRequestEvent</name>
@@ -1140,7 +1140,7 @@
 	</javadoc>
 	<javadoc>
 		<name>ReadPresenceBuddyResponseEvent</name>
-		<type>com.marcelmika.limsmuc.api.events.buddy.ReadPresenceBuddyResponseEvent</type>
+		<type>com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceResponseEvent</type>
 		<author><![CDATA[Ing. Marcel Mika]]></author>
 		<method>
 			<name>readPresenceSuccess</name>

@@ -40,7 +40,10 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
     sync: function (action, options, callback) {
 
         // Vars
-        var response, content;
+        var response,
+            content,
+            readPresence = options.readPresence || false,
+            query;
 
         switch (action) {
 
@@ -49,11 +52,14 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
                 // Deserialize
                 content = Y.JSON.stringify(this.toIdArray());
 
+                // Get the correct URL
+                query = readPresence ? 'IPC:ReadPresences' : 'IPC:ReadBuddies';
+
                 // Read from server
                 Y.io(this.getServerRequestUrl(), {
                     method: "POST",
                     data: {
-                        query: "IPC:ReadBuddies",
+                        query: query,
                         content: content
                     },
                     on: {
@@ -70,7 +76,7 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
                                 // End here
                                 return;
                             }
-                            
+
                             // Callback success
                             callback(null, response);
                         },

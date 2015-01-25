@@ -20,7 +20,7 @@ import java.util.List;
  * Date: 23/01/15
  * Time: 20:00
  */
-public class ReadBuddiesResponseEvent extends ResponseEvent {
+public class ReadBuddiesPresenceResponseEvent extends ResponseEvent {
 
     private Status status;
     private List<BuddyDetails> buddies;
@@ -35,7 +35,7 @@ public class ReadBuddiesResponseEvent extends ResponseEvent {
     /**
      * Constructor is private. Use factory methods to create new success or failure instances
      */
-    private ReadBuddiesResponseEvent() {
+    private ReadBuddiesPresenceResponseEvent() {
         // No params
     }
 
@@ -44,8 +44,8 @@ public class ReadBuddiesResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadBuddiesResponseEvent success(final List<BuddyDetails> buddies) {
-        ReadBuddiesResponseEvent event = new ReadBuddiesResponseEvent();
+    public static ReadBuddiesPresenceResponseEvent success(final List<BuddyDetails> buddies) {
+        ReadBuddiesPresenceResponseEvent event = new ReadBuddiesPresenceResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
@@ -60,8 +60,8 @@ public class ReadBuddiesResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadBuddiesResponseEvent failure(final Status status) {
-        ReadBuddiesResponseEvent event = new ReadBuddiesResponseEvent();
+    public static ReadBuddiesPresenceResponseEvent failure(final Status status) {
+        ReadBuddiesPresenceResponseEvent event = new ReadBuddiesPresenceResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -76,10 +76,10 @@ public class ReadBuddiesResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadBuddiesResponseEvent failure(final Status status,
+    public static ReadBuddiesPresenceResponseEvent failure(final Status status,
                                                    final Throwable exception) {
 
-        ReadBuddiesResponseEvent event = new ReadBuddiesResponseEvent();
+        ReadBuddiesPresenceResponseEvent event = new ReadBuddiesPresenceResponseEvent();
 
         event.success = false;
         event.status = status;
