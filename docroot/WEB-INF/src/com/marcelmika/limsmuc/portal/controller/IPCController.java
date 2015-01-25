@@ -114,6 +114,10 @@ public class IPCController {
         catch (SystemException e) {
             // Server fault
             ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
         }
     }
 
@@ -199,6 +203,10 @@ public class IPCController {
             // Everything else is a server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug(responseEvent.getException());
+                }
             }
         }
     }
