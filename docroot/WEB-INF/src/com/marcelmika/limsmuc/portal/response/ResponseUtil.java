@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.portal.response;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 
 import javax.portlet.ResourceResponse;
@@ -35,7 +36,41 @@ public class ResponseUtil {
      * @param response   Resource response
      */
     public static void writeResponse(HttpStatus statusCode, ResourceResponse response) {
-        writeResponse(null, statusCode, response);
+
+        // We will pass additional error message as a content to make the server API more readable
+        String content = null;
+
+        // 400
+        if (statusCode == HttpStatus.BAD_REQUEST) {
+            content = ErrorMessage.badRequest().serialize();
+        }
+        // 401
+        else if (statusCode == HttpStatus.UNAUTHORIZED) {
+            content = ErrorMessage.unauthorized().serialize();
+        }
+        // 403
+        else if (statusCode == HttpStatus.FORBIDDEN) {
+            content = ErrorMessage.forbidden().serialize();
+        }
+        // 404
+        else if (statusCode == HttpStatus.NOT_FOUND) {
+            content = ErrorMessage.notFound().serialize();
+        }
+        // 409
+        else if (statusCode == HttpStatus.CONFLICT) {
+            content = ErrorMessage.conflict().serialize();
+        }
+        // 417
+        else if (statusCode == HttpStatus.REQUEST_ENTITY_TOO_LARGE) {
+            content = ErrorMessage.requestEntityTooLarge().serialize();
+        }
+        // 500
+        else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
+            content = ErrorMessage.internalServerError().serialize();
+        }
+
+        // Write content to the response
+        writeResponse(content, statusCode, response);
     }
 
     /**

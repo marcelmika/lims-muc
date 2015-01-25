@@ -87,10 +87,11 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
                                 Y.fire('userSessionExpired');
                             }
 
+                            // Deserialize
+                            response = Y.JSON.parse(o.responseText);
+
                             // Callback the error
-                            if (callback) {
-                                callback(o.status, o.responseText);
-                            }
+                            callback(new Y.LIMS.Model.ErrorMessage(response));
                         }
                     }
                 });
@@ -100,6 +101,7 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
             case 'create':
             case 'update':
             case 'delete':
+                // Not implemented
                 return;
 
             default:

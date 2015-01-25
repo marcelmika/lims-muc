@@ -140,6 +140,7 @@ public class PropertiesController {
         }
         // Failure
         else {
+            // TODO: Refactor to new error message convention
             ResponseUtil.writeResponse(responseEvent.getMessage(), HttpStatus.EXPECTATION_FAILED, response);
 
             // Log warn

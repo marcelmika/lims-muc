@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.portal.controller;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.NoSuchUserException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -21,6 +21,7 @@ import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
 import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
@@ -97,13 +98,16 @@ public class IPCController {
             // Write success to response
             ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
         }
-        // Failure
-        catch (Exception e) {
-            // Log
-            if (log.isErrorEnabled()) {
-                log.error(e);
-            }
-            // Return error
+        // No user found
+        catch (NoSuchUserException e) {
+            // Bad request
+            ResponseUtil.writeResponse(
+                    ErrorMessage.badRequest("Such user doesn't exits").serialize(), HttpStatus.BAD_REQUEST, response
+            );
+        }
+        // General error
+        catch (SystemException e) {
+            // Server fault
             ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
         }
     }
@@ -144,8 +148,15 @@ public class IPCController {
 
         // Check the length
         if (buddyIds.size() > MAX_BUDDIES_COUNT) {
+            // Compose error message
+            String message = String.format("You wanted to read presence for %d users. However, only %d can be" +
+                    "read at once.", buddyIds.size(), MAX_BUDDIES_COUNT);
             // Tell client that the request entity is to large
-            ResponseUtil.writeResponse(HttpStatus.REQUEST_ENTITY_TOO_LARGE, response);
+            ResponseUtil.writeResponse(
+                    ErrorMessage.requestEntityTooLarge(message).serialize(),
+                    HttpStatus.REQUEST_ENTITY_TOO_LARGE,
+                    response
+            );
             // End here
             return;
         }
@@ -191,14 +202,18 @@ public class IPCController {
      * @param buddies list of buddies
      * @return list of buddies
      * @throws SystemException
-     * @throws PortalException
+     * @throws NoSuchUserException
      */
-    private List<Buddy> readBuddies(List<Long> buddies) throws SystemException, PortalException {
+    private List<Buddy> readBuddies(List<Long> buddies) throws SystemException, NoSuchUserException {
         List<Buddy> readBuddies = new LinkedList<Buddy>();
 
         for (Long buddyId : buddies) {
             // Add extra info about user
-            User user = UserLocalServiceUtil.getUser(buddyId);
+            User user = UserLocalServiceUtil.fetchUser(buddyId);
+
+            if (user == null) {
+                throw new NoSuchUserException();
+            }
 
             // Read user from portal
             readBuddies.add(Buddy.fromPortalUser(user));

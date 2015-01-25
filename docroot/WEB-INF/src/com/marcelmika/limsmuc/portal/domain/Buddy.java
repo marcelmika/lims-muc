@@ -195,30 +195,37 @@ public class Buddy {
         buddy.connected = buddyDetails.getConnected();
         buddy.connectedAt = buddyDetails.getConnectedAt();
 
-        // Add additional info from local service util if it's not set in buddy details
         if (buddyDetails.getBuddyId() != null) {
             try {
-                User user = UserLocalServiceUtil.getUserById(buddyDetails.getBuddyId());
-                if (buddy.screenName == null) {
-                    buddy.screenName = user.getScreenName();
+                // Add additional info from local service util if it's not set in buddy details
+                User user = UserLocalServiceUtil.fetchUser(buddyDetails.getBuddyId());
+
+                if (user != null) {
+                    if (buddy.screenName == null) {
+                        buddy.screenName = user.getScreenName();
+                    }
+
+                    if (buddy.companyId == null) {
+                        buddy.companyId = user.getCompanyId();
+                    }
+
+                    if (buddy.fullName == null) {
+                        buddy.fullName = user.getFullName();
+                    }
+
+                    buddy.portraitId = user.getPortraitId();
+                    buddy.firstName = user.getFirstName();
+                    buddy.middleName = user.getMiddleName();
+                    buddy.lastName = user.getLastName();
                 }
-
-                if (buddy.companyId == null) {
-                    buddy.companyId = user.getCompanyId();
+            }
+            // Failure
+            catch (Exception e) {
+                // Debug
+                if (log.isDebugEnabled()) {
+                    // Do nothing
+                    log.debug(e);
                 }
-
-                if (buddy.fullName == null) {
-                    buddy.fullName = user.getFullName();
-                }
-
-                buddy.portraitId = user.getPortraitId();
-                buddy.firstName = user.getFirstName();
-                buddy.middleName = user.getMiddleName();
-                buddy.lastName = user.getLastName();
-
-            } catch (Exception e) {
-                // Do nothing
-                log.error(e);
             }
         }
 
@@ -289,7 +296,7 @@ public class Buddy {
     public static List<BuddyDetails> toBuddyDetails(List<Buddy> buddies) {
         List<BuddyDetails> details = new LinkedList<BuddyDetails>();
 
-        for(Buddy buddy : buddies) {
+        for (Buddy buddy : buddies) {
             details.add(buddy.toBuddyDetails());
         }
 

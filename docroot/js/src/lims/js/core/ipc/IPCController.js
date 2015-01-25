@@ -88,7 +88,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
                 if (serverError) {
                     // Call failure
-                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError);
+                    failure(Y.LIMS.Core.IPCErrorCode.serverError, serverError.get('message'));
                     // End here
                     return;
                 }
@@ -110,7 +110,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                         // Failure
                         failure: function (err) {
                             // Call failure
-                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err);
+                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err.get('message'));
                         }
                     });
                 }
@@ -129,7 +129,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                         // Failure
                         failure: function (err) {
                             // Call failure
-                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err);
+                            failure(Y.LIMS.Core.IPCErrorCode.serverError, err.get('message'));
                         }
                     });
                 }
@@ -219,8 +219,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var index,
             participantList,
-            value,
-            buddyId = this.get('buddyDetails').get('buddyId');
+            value;
 
         // Prepare participants
         participantList = new Y.LIMS.Model.BuddyModelList();
@@ -236,18 +235,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                 // Failure
                 callback({
                     code: Y.LIMS.Core.IPCErrorCode.wrongInput,
-                    reason: 'Wrong input parameters. All values must be integers. Passed value: ' + data[index]
-                });
-                // End here
-                return;
-            }
-
-            // Check if the logged user is not in the list
-            if (value === buddyId) {
-                // Failure
-                callback({
-                    code: Y.LIMS.Core.IPCErrorCode.wrongAssumption,
-                    reason: 'You cannot create conversation with yourself.'
+                    reason: 'Wrong input parameters. All values must be integers.'
                 });
                 // End here
                 return;

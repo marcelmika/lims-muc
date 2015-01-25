@@ -98,11 +98,6 @@ public class SettingsController {
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
             }
-
-            // Log
-            if (log.isErrorEnabled()) {
-                log.error(responseEvent.getException());
-            }
         }
     }
 

@@ -115,18 +115,32 @@ public class ConversationController {
             if (status == CreateConversationResponseEvent.Status.ERROR_NO_SESSION) {
                 ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
             }
-            // Bad request
-            else if (status == CreateConversationResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE ||
-                    status == CreateConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+            // Unknown conversation type
+            else if (status == CreateConversationResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.badRequest("You must provide conversation type").serialize(),
+                        HttpStatus.BAD_REQUEST,
+                        response);
+            }
+            // Wrong parameters
+            else if (status == CreateConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
             // MUC Collision
             else if (status == CreateConversationResponseEvent.Status.ERROR_MUC_COLLISION) {
-                ResponseUtil.writeResponse(HttpStatus.CONFLICT, response);
+                ResponseUtil.writeResponse(
+                        ErrorMessage.conflict("MUC Conversation with such ID already exists").serialize(),
+                        HttpStatus.CONFLICT,
+                        response
+                );
             }
             // SUC Collision
             else if (status == CreateConversationResponseEvent.Status.ERROR_SUC_COLLISION) {
-                ResponseUtil.writeResponse(HttpStatus.CONFLICT, response);
+                ResponseUtil.writeResponse(
+                        ErrorMessage.conflict("You can't create conversation with yourself").serialize(),
+                        HttpStatus.CONFLICT,
+                        response
+                );
             }
             // Everything else is server fault
             else {
@@ -276,10 +290,21 @@ public class ConversationController {
         // Failure
         else {
             CloseConversationResponseEvent.Status status = responseEvent.getStatus();
-            // Not found
-            if (status == CloseConversationResponseEvent.Status.ERROR_NO_CONVERSATION_FOUND ||
-                    status == CloseConversationResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND) {
-                ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            // Conversation not found
+            if (status == CloseConversationResponseEvent.Status.ERROR_NO_CONVERSATION_FOUND) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.notFound("No such conversation has been found").serialize(),
+                        HttpStatus.NOT_FOUND,
+                        response
+                );
+            }
+            // Participant not found
+            else if (status == CloseConversationResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.notFound("No such participant has been found").serialize(),
+                        HttpStatus.NOT_FOUND,
+                        response
+                );
             }
             // Everything else is server fault
             else {
@@ -332,10 +357,21 @@ public class ConversationController {
         // Failure
         else {
             ResetUnreadMessagesCounterResponseEvent.Status status = responseEvent.getStatus();
-            // Not found
-            if (status == ResetUnreadMessagesCounterResponseEvent.Status.ERROR_NO_CONVERSATION_FOUND ||
-                    status == ResetUnreadMessagesCounterResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND) {
-                ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            // Conversation not found
+            if (status == ResetUnreadMessagesCounterResponseEvent.Status.ERROR_NO_CONVERSATION_FOUND) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.notFound("No such conversation has been found").serialize(),
+                        HttpStatus.NOT_FOUND,
+                        response
+                );
+            }
+            // Participant not found
+            else if (status == ResetUnreadMessagesCounterResponseEvent.Status.ERROR_NO_PARTICIPANT_FOUND) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.notFound("No such participant has been found").serialize(),
+                        HttpStatus.NOT_FOUND,
+                        response
+                );
             }
             // Everything else is server fault
             else {
@@ -570,9 +606,15 @@ public class ConversationController {
             else if (status == AddParticipantsResponseEvent.Status.ERROR_NOT_FOUND) {
                 ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
             }
-            // Bad Request
-            else if (status == AddParticipantsResponseEvent.Status.ERROR_NOT_MUC ||
-                    status == AddParticipantsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+            // Not MUC
+            else if (status == AddParticipantsResponseEvent.Status.ERROR_NOT_MUC) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.badRequest("Participants can be added to SUC conversation only").serialize(),
+                        HttpStatus.BAD_REQUEST,
+                        response);
+            }
+            // Wrong parameters
+            else if (status == AddParticipantsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
             // Everything else is a server fault
@@ -645,9 +687,15 @@ public class ConversationController {
             else if (status == LeaveConversationResponseEvent.Status.ERROR_NOT_FOUND) {
                 ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
             }
-            // Bad Request
-            else if (status == LeaveConversationResponseEvent.Status.ERROR_NOT_MUC ||
-                    status == LeaveConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+            // Not MUC
+            else if (status == LeaveConversationResponseEvent.Status.ERROR_NOT_MUC) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.badRequest("Participants can be added to SUC conversation only").serialize(),
+                        HttpStatus.BAD_REQUEST,
+                        response);
+            }
+            // Wrong parameters
+            else if (status == LeaveConversationResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
             // Everything else is a server fault
@@ -809,9 +857,16 @@ public class ConversationController {
             else if (status == SendMessageResponseEvent.Status.ERROR_NOT_FOUND) {
                 ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
             }
-            // Bad Request
-            else if (status == SendMessageResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE ||
-                    status == SendMessageResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+            // Unknown conversation type
+            else if (status == SendMessageResponseEvent.Status.ERROR_UNKNOWN_CONVERSATION_TYPE) {
+                ResponseUtil.writeResponse(
+                        ErrorMessage.badRequest("Unknown conversation type").serialize(),
+                        HttpStatus.BAD_REQUEST,
+                        response
+                );
+            }
+            // Wrong parameters
+            else if (status == SendMessageResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
             // Everything else is a server fault

@@ -408,8 +408,11 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             // Fire failure event
                             instance.fire('createError');
 
+                            // Deserialize response
+                            response = Y.JSON.parse(o.responseText);
+
                             // Call failure
-                            callback("Cannot create new conversation", o);
+                            callback(new Y.LIMS.Model.ErrorMessage(response));
                         }
                     }
                 });
