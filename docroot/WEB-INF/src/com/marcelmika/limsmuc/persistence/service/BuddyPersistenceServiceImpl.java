@@ -21,6 +21,7 @@ import com.marcelmika.limsmuc.persistence.manager.SearchManager;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ing. Marcel Mika
@@ -186,7 +187,7 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
     @Override
     public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
         // Map the list of buddies
-        List<Long> buddies = event.getBuddies();
+        Set<Long> buddies = event.getBuddies();
         List<BuddyDetails> details = new LinkedList<BuddyDetails>();
 
         try {

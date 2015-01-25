@@ -12,7 +12,7 @@ package com.marcelmika.limsmuc.api.events.buddy;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.events.RequestEvent;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ing. Marcel Mika
@@ -23,9 +23,9 @@ import java.util.List;
 public class ReadBuddiesPresenceRequestEvent extends RequestEvent {
 
     private final BuddyDetails buddy;
-    private final List<Long> buddies;
+    private final Set<Long> buddies;
 
-    public ReadBuddiesPresenceRequestEvent(BuddyDetails buddy, List<Long> buddies) {
+    public ReadBuddiesPresenceRequestEvent(BuddyDetails buddy, Set<Long> buddies) {
         this.buddy = buddy;
         this.buddies = buddies;
     }
@@ -34,7 +34,7 @@ public class ReadBuddiesPresenceRequestEvent extends RequestEvent {
         return buddy;
     }
 
-    public List<Long> getBuddies() {
+    public Set<Long> getBuddies() {
         return buddies;
     }
 }

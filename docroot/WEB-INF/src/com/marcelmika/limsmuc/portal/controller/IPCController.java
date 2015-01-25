@@ -28,8 +28,10 @@ import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ing. Marcel Mika
@@ -65,7 +67,7 @@ public class IPCController {
      */
     public void readBuddies(ResourceRequest request, ResourceResponse response) {
 
-        List<Long> buddies;    // List of deserialized buddies
+        Set<Long> buddyIdsSet;      // Set of deserialized buddies (no duplicates)
 
         // Deserialize
         try {
@@ -74,7 +76,10 @@ public class IPCController {
             // Values must be numbers
             deserializer.use("values", Long.class);
             // Deserialize buddies
-            buddies = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
+            List<Long> buddyIdsList = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
+
+            // We need to get rid of the duplicates
+            buddyIdsSet = new HashSet<Long>(buddyIdsList);
         }
         // Failure
         catch (Exception exception) {
@@ -90,7 +95,7 @@ public class IPCController {
 
         try {
             // Appends extra data like screen name, full name etc.
-            List<Buddy> readBuddies = readBuddies(buddies);
+            List<Buddy> readBuddies = readBuddies(buddyIdsSet);
 
             // Serialize
             String serialized = JSONFactoryUtil.looseSerialize(readBuddies);
@@ -120,8 +125,8 @@ public class IPCController {
      */
     public void readPresences(ResourceRequest request, ResourceResponse response) {
 
-        Buddy buddy;            // Authorized user
-        List<Long> buddyIds;    // List of deserialized buddies
+        Buddy buddy;                // Authorized user
+        Set<Long> buddyIdsSet;      // Set of deserialized buddies (no duplicates)
 
         // Deserialize
         try {
@@ -132,7 +137,10 @@ public class IPCController {
             // Values must be numbers
             deserializer.use("values", Long.class);
             // Deserialize buddies
-            buddyIds = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
+            List<Long> buddyIdsList = deserializer.deserialize(request.getParameter(RequestParameterKeys.KEY_CONTENT));
+
+            // We need to get rid of the duplicates
+            buddyIdsSet = new HashSet<Long>(buddyIdsList);
         }
         // Failure
         catch (Exception exception) {
@@ -147,10 +155,10 @@ public class IPCController {
         }
 
         // Check the length
-        if (buddyIds.size() > MAX_BUDDIES_COUNT) {
+        if (buddyIdsSet.size() > MAX_BUDDIES_COUNT) {
             // Compose error message
             String message = String.format("You wanted to read presence for %d users. However, only %d can be" +
-                    "read at once.", buddyIds.size(), MAX_BUDDIES_COUNT);
+                    "read at once.", buddyIdsSet.size(), MAX_BUDDIES_COUNT);
             // Tell client that the request entity is to large
             ResponseUtil.writeResponse(
                     ErrorMessage.requestEntityTooLarge(message).serialize(),
@@ -163,7 +171,7 @@ public class IPCController {
 
         // Read presences
         ReadBuddiesPresenceResponseEvent responseEvent = buddyCoreService.readBuddiesPresence(
-                new ReadBuddiesPresenceRequestEvent(buddy.toBuddyDetails(), buddyIds)
+                new ReadBuddiesPresenceRequestEvent(buddy.toBuddyDetails(), buddyIdsSet)
         );
 
         // Success
@@ -200,11 +208,11 @@ public class IPCController {
      * Appends extra data from portal to the list of buddies
      *
      * @param buddies list of buddies
-     * @return list of buddies
+     * @return set of buddies
      * @throws SystemException
      * @throws NoSuchUserException
      */
-    private List<Buddy> readBuddies(List<Long> buddies) throws SystemException, NoSuchUserException {
+    private List<Buddy> readBuddies(Set<Long> buddies) throws SystemException, NoSuchUserException {
         List<Buddy> readBuddies = new LinkedList<Buddy>();
 
         for (Long buddyId : buddies) {
