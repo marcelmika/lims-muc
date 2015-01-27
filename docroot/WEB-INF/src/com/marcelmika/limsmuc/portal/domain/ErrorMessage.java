@@ -26,7 +26,7 @@ public class ErrorMessage {
     private String message;
 
     // Constants
-    private static final String BAD_REQUEST = "Client provided wrong data";
+    private static final String BAD_REQUEST = "You provided wrong input data";
     private static final String UNAUTHORIZED = "You are not authorized. Your session has expired.";
     private static final String FORBIDDEN = "You are not allowed to perform such operation";
     private static final String NOT_FOUND = "Resource you have request hasn't been found";
