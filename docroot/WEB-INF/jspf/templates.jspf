@@ -216,6 +216,12 @@
     </div>
 </script>
 
+<%-- This template HTML will be used to portlet notification --%>
+<script type="text/x-template" id="limsmuc-portlet-notification-template">
+    <button class="close-notification" title="{buttonTitle}"></button>
+    <span class="notification-content">{content}</span>
+</script>
+
 <%-- This template HTML will be used to render conversation item added message --%>
 <script type="text/x-template" id="limsmuc-conversation-item-added-template">
     <div class="conversation-item-added-message">

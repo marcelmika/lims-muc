@@ -80,9 +80,11 @@
 <%-- Show over limit info --%>
 <c:if test="${isOverLimit}">
 
-    <div class="over-limit">
+    <div class="portlet-notification over-limit">
         <button class="close-notification"></button>
-        <liferay-ui:message key="over-limit-message"/>
+        <span class="notification-content">
+            <liferay-ui:message key="over-limit-message"/>
+        </span>
     </div>
 
 </c:if>

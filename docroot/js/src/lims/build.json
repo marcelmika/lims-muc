@@ -77,6 +77,7 @@
         "js/view/elements/TokenInputElementView.js",
         "js/view/notification/ErrorNotificationView.js",
         "js/view/notification/InfoNotificationView.js",
+        "js/view/notification/PortletNotificationView.js",
         "js/view/group/GroupBuddyViewItem.js",
         "js/view/group/GroupBuddyViewList.js",
         "js/view/group/GroupSearchView.js",

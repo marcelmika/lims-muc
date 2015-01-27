@@ -56,6 +56,8 @@
     "valueUpdateError":"<liferay-ui:message key="panel-settings-admin-area-value-update-error"/>",
     "validationRequired":"<liferay-ui:message key="panel-settings-admin-area-validation-required"/>",
     "validationIsInteger":"<liferay-ui:message key="panel-settings-admin-area-validation-is-integer"/>",
-    "validationInterval":"<liferay-ui:message key="panel-settings-admin-area-validation-interval"/>"
+    "validationInterval":"<liferay-ui:message key="panel-settings-admin-area-validation-interval"/>",
+    "sessionExpiredNotificationContent":"<liferay-ui:message key="session-expired-notification-content"/>",
+    "portletNotificationCloseButtonTitle":"<liferay-ui:message key="portlet-notification-close-button-title"/>"
     }
 </script>

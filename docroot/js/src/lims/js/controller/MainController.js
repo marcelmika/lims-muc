@@ -115,6 +115,20 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
     },
 
     /**
+     * Shows notification about the expired session to the user
+     *
+     * @private
+     */
+    _showSessionExpiredNotification: function () {
+        // Vars
+        var portletNotification = this.get('portletNotification');
+        // Render the notification
+        portletNotification.render();
+        // Show the notification
+        portletNotification.show();
+    },
+
+    /**
      * Called when the initialization is finished
      *
      * @private
@@ -160,6 +174,8 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
     _onSessionExpired: function () {
         // Hide the whole portlet
         this.hidePortlet();
+        // Show the notification
+        this._showSessionExpiredNotification();
     }
 
 }, {
@@ -228,6 +244,23 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                     settings: this.get('settingsModel'),
                     container: this.getRootNode().one('.lims-sound'),
                     properties: this.get('properties')
+                });
+            }
+        },
+
+        /**
+         * Portlet notification
+         *
+         * {Y.LIMS.View.PortletNotificationView}
+         */
+        portletNotification: {
+            valueFn: function () {
+                // Vars
+                var container = this.getPortletContainer();
+
+                return new Y.LIMS.View.PortletNotificationView({
+                    content: Y.LIMS.Core.i18n.values.sessionExpiredNotificationContent,
+                    container: container
                 });
             }
         },
