@@ -14,12 +14,15 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.webserver.WebServerServletTokenUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 
 import javax.portlet.RenderRequest;
@@ -48,6 +51,9 @@ public class Buddy {
     private Long buddyId;
     private Long companyId;
     private Long portraitId;
+    private String portraitImageToken;
+    private String portraitToken;
+    private Boolean male;
     private String fullName;
     private String screenName;
     private String firstName;
@@ -69,14 +75,15 @@ public class Buddy {
     public static Buddy fromRenderRequest(RenderRequest request) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         Buddy buddy = new Buddy();
-        buddy.buddyId = themeDisplay.getUser().getUserId();
-        buddy.companyId = themeDisplay.getUser().getCompanyId();
-        buddy.portraitId = themeDisplay.getUser().getPortraitId();
-        buddy.screenName = themeDisplay.getUser().getScreenName();
-        buddy.fullName = themeDisplay.getUser().getFullName();
-        buddy.firstName = themeDisplay.getUser().getFirstName();
-        buddy.middleName = themeDisplay.getUser().getMiddleName();
-        buddy.lastName = themeDisplay.getUser().getLastName();
+        User user = themeDisplay.getUser();
+        buddy.buddyId = user.getUserId();
+        buddy.companyId = user.getCompanyId();
+        buddy.portraitId = user.getPortraitId();
+        buddy.screenName = user.getScreenName();
+        buddy.fullName = user.getFullName();
+        buddy.firstName = user.getFirstName();
+        buddy.middleName = user.getMiddleName();
+        buddy.lastName = user.getLastName();
 
         return buddy;
     }
@@ -213,7 +220,10 @@ public class Buddy {
                         buddy.fullName = user.getFullName();
                     }
 
+                    buddy.male = user.getMale();
                     buddy.portraitId = user.getPortraitId();
+                    buddy.portraitImageToken = HttpUtil.encodeURL(DigesterUtil.digest(user.getUserUuid()));
+                    buddy.portraitToken = WebServerServletTokenUtil.getToken(user.getPortraitId());
                     buddy.firstName = user.getFirstName();
                     buddy.middleName = user.getMiddleName();
                     buddy.lastName = user.getLastName();
@@ -328,6 +338,30 @@ public class Buddy {
         this.portraitId = portraitId;
     }
 
+    public String getPortraitToken() {
+        return portraitToken;
+    }
+
+    public void setPortraitToken(String portraitToken) {
+        this.portraitToken = portraitToken;
+    }
+
+    public String getPortraitImageToken() {
+        return portraitImageToken;
+    }
+
+    public void setPortraitImageToken(String portraitImageToken) {
+        this.portraitImageToken = portraitImageToken;
+    }
+
+    public Boolean getMale() {
+        return male;
+    }
+
+    public void setMale(Boolean male) {
+        this.male = male;
+    }
+
     public String getScreenName() {
         return screenName;
     }
@@ -416,6 +450,7 @@ public class Buddy {
                 "buddyId=" + buddyId +
                 ", companyId=" + companyId +
                 ", portraitId=" + portraitId +
+                ", portraitToken='" + portraitToken + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", firstName='" + firstName + '\'' +
