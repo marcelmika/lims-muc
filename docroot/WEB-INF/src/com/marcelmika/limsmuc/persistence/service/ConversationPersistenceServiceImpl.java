@@ -109,13 +109,17 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
             // Validate single user
             if (conversation.getConversationType() == ConversationType.SINGLE_USER) {
-                // Get the participant
-                Buddy participant = conversation.getParticipants().get(0);
-                // User cannot create conversation with himself
-                if (participant.getBuddyId().equals(creator.getBuddyId())) {
-                    return CreateConversationResponseEvent.failure(
-                            CreateConversationResponseEvent.Status.ERROR_SUC_COLLISION
-                    );
+
+                // If there are any participants to be created
+                if (conversation.getParticipants().size() > 0) {
+                    // Get the participant
+                    Buddy participant = conversation.getParticipants().get(0);
+                    // User cannot create conversation with himself
+                    if (participant.getBuddyId().equals(creator.getBuddyId())) {
+                        return CreateConversationResponseEvent.failure(
+                                CreateConversationResponseEvent.Status.ERROR_SUC_COLLISION
+                        );
+                    }
                 }
             }
 
