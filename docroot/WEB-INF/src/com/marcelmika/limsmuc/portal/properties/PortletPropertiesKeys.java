@@ -63,6 +63,9 @@ public interface PortletPropertiesKeys {
 
     // URLs
     public static final String URL_HELP = "url.help";
+    public static final String URL_JABBER_HELP = "url.jabber.help";
+    public static final String URL_IPC_HELP = "url.ipc.help";
+    public static final String URL_SYNCHRONIZATION_HELP = "url.synchronization.help";
     public static final String URL_UNSUPPORTED_BROWSER = "url.unsupported.browser";
 
     // Error mode

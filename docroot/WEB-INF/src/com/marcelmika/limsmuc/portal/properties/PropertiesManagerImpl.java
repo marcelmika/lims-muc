@@ -1335,6 +1335,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Set url properties
         Environment.setUrlHelp(PortletPropertiesValues.URL_HELP);
+        Environment.setUrlJabberHelp(PortletPropertiesValues.URL_JABBER_HELP);
+        Environment.setUrlIpcHelp(PortletPropertiesValues.URL_IPC_HELP);
+        Environment.setUrlSynchronizationHelp(PortletPropertiesValues.URL_SYNCHRONIZATION_HELP);
         Environment.setUrlUnsupportedBrowser(PortletPropertiesValues.URL_UNSUPPORTED_BROWSER);
     }
 

@@ -36,6 +36,9 @@ public class Properties {
     private String[] buddyListGroupExcludes;
     private String urlHelp;
     private String urlUnsupportedBrowser;
+    private String urlIpcHelp;
+    private String urlSynchronizationHelp;
+    private String urlJabberHelp;
     private Boolean jabberEnabled;
     private Boolean jabberSecurityEnabled;
     private Boolean jabberImportUserEnabled;
@@ -69,6 +72,9 @@ public class Properties {
         properties.buddyListGroupExcludes = Environment.getBuddyListGroupExcludes();
         properties.urlHelp = Environment.getUrlHelp();
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
+        properties.urlJabberHelp = Environment.getUrlJabberHelp();
+        properties.urlIpcHelp = Environment.getUrlIpcHelp();
+        properties.urlSynchronizationHelp = Environment.getUrlSynchronizationHelp();
         properties.jabberEnabled = Environment.isJabberEnabled();
         properties.jabberSecurityEnabled = Environment.getJabberSecurityEnabled();
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
@@ -205,6 +211,30 @@ public class Properties {
         this.urlUnsupportedBrowser = urlUnsupportedBrowser;
     }
 
+    public String getUrlIpcHelp() {
+        return urlIpcHelp;
+    }
+
+    public void setUrlIpcHelp(String urlIpcHelp) {
+        this.urlIpcHelp = urlIpcHelp;
+    }
+
+    public String getUrlSynchronizationHelp() {
+        return urlSynchronizationHelp;
+    }
+
+    public void setUrlSynchronizationHelp(String urlSynchronizationHelp) {
+        this.urlSynchronizationHelp = urlSynchronizationHelp;
+    }
+
+    public String getUrlJabberHelp() {
+        return urlJabberHelp;
+    }
+
+    public void setUrlJabberHelp(String urlJabberHelp) {
+        this.urlJabberHelp = urlJabberHelp;
+    }
+
     public Boolean getJabberEnabled() {
         return jabberEnabled;
     }
@@ -286,6 +316,9 @@ public class Properties {
                 ", buddyListGroupExcludes=" + Arrays.toString(buddyListGroupExcludes) +
                 ", urlHelp='" + urlHelp + '\'' +
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
+                ", urlIpcHelp='" + urlIpcHelp + '\'' +
+                ", urlSynchronizationHelp='" + urlSynchronizationHelp + '\'' +
+                ", urlJabberHelp='" + urlJabberHelp + '\'' +
                 ", jabberEnabled=" + jabberEnabled +
                 ", jabberSecurityEnabled=" + jabberSecurityEnabled +
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +

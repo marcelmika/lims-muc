@@ -45,6 +45,9 @@ public class Environment {
     private static Boolean ipcEnabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
+    private static String urlJabberHelp = "";
+    private static String urlIpcHelp = "";
+    private static String urlSynchronizationHelp = "";
     private static Boolean errorModeEnabled = false;
 
     /**
@@ -660,6 +663,60 @@ public class Environment {
      */
     public static void setUrlHelp(String urlHelp) {
         Environment.urlHelp = urlHelp;
+    }
+
+    /**
+     * Returns url string for the Jabber help
+     *
+     * @return String
+     */
+    public static String getUrlJabberHelp() {
+        return urlJabberHelp;
+    }
+
+    /**
+     * Set the url string for the Jabber help
+     *
+     * @param urlJabberHelp String
+     */
+    public static void setUrlJabberHelp(String urlJabberHelp) {
+        Environment.urlJabberHelp = urlJabberHelp;
+    }
+
+    /**
+     * Returns url string for the IPC help
+     *
+     * @return String
+     */
+    public static String getUrlIpcHelp() {
+        return urlIpcHelp;
+    }
+
+    /**
+     * Set the url string for the IPC help
+     *
+     * @param urlIpcHelp String
+     */
+    public static void setUrlIpcHelp(String urlIpcHelp) {
+        Environment.urlIpcHelp = urlIpcHelp;
+    }
+
+    /**
+     * Returns url string for the Synchronization help
+     *
+     * @return String
+     */
+    public static String getUrlSynchronizationHelp() {
+        return urlSynchronizationHelp;
+    }
+
+    /**
+     * Set the url string for the Synchronization help
+     *
+     * @param urlSynchronizationHelp String
+     */
+    public static void setUrlSynchronizationHelp(String urlSynchronizationHelp) {
+        Environment.urlSynchronizationHelp = urlSynchronizationHelp;
     }
 
     /**

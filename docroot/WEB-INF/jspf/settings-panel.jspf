@@ -98,7 +98,13 @@
                             <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
-                            <li class="category">Jabber</li>
+
+                                <%-- Jabber --%>
+                            <li class="category">
+                                <span><liferay-ui:message key="panel-settings-admin-area-jabber-category-title"/></span>
+                                <a class="help" href="${properties.urlJabberHelp}" target="_blank"
+                                   title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
+                            </li>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-security-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-import-user-enabled.jspf" %>
@@ -107,9 +113,23 @@
                             <%@ include file="/WEB-INF/jspf/settings/jabber-service-name.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-resource.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-test-connection.jspf" %>
-                            <li class="category">Inter Portlet Communication</li>
+
+                                <%-- IPC --%>
+                            <li class="category">
+                                <span><liferay-ui:message key="panel-settings-admin-area-ipc-category-title"/></span>
+                                <a class="help" href="${properties.urlIpcHelp}" target="_blank"
+                                   title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
+                            </li>
                             <%@ include file="/WEB-INF/jspf/settings/ipc-enabled.jspf" %>
-                            <li class="category">Synchronization</li>
+
+                                <%-- Synchrozniation --%>
+                            <li class="category">
+                                <span>
+                                    <liferay-ui:message key="panel-settings-admin-area-synchronization-category-title"/>
+                                </span>
+                                <a class="help" href="${properties.urlSynchronizationHelp}" target="_blank"
+                                   title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
+                            </li>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
                         </ul>

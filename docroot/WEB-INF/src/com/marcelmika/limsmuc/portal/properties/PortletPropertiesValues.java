@@ -145,6 +145,21 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.URL_HELP
     );
 
+    // URL - Jabber Help
+    public static final String URL_JABBER_HELP = getString(
+            PortletPropertiesKeys.URL_JABBER_HELP
+    );
+
+    // URL - IPC Help
+    public static final String URL_IPC_HELP = getString(
+            PortletPropertiesKeys.URL_IPC_HELP
+    );
+
+    // URL - Synchronization Help
+    public static final String URL_SYNCHRONIZATION_HELP = getString(
+            PortletPropertiesKeys.URL_SYNCHRONIZATION_HELP
+    );
+
     // URL - Unsupported browser
     public static final String URL_UNSUPPORTED_BROWSER = getString(
             PortletPropertiesKeys.URL_UNSUPPORTED_BROWSER
