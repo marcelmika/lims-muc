@@ -18,7 +18,10 @@
     {
     "userId":${currentUser.buddyId},
     "companyId":${currentUser.companyId},
+    "male":${currentUser.male},
     "portraitId":${currentUser.portraitId},
+    "portraitImageToken":"${currentUser.portraitImageToken}",
+    "portraitToken":"${currentUser.portraitToken}",
     "screenName":"${fn:escapeXml(currentUser.screenName)}",
     "fullName":"${fn:escapeXml(currentUser.fullName)}",
     "firstName":"${fn:escapeXml(currentUser.firstName)}",

@@ -203,7 +203,10 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 return new Y.LIMS.Model.BuddyModelItem({
                     buddyId: properties.getCurrentUserId(),
                     companyId: properties.getCurrentUserCompanyId(),
+                    male: properties.getCurrentUserMale(),
                     portraitId: properties.getCurrentUserPortraitId(),
+                    portraitImageToken: properties.getCurrentUserPortraitImageToken(),
+                    portraitToken: properties.getCurrentUserPortraitToken(),
                     screenName: properties.getCurrentUserScreenName(),
                     fullName: properties.getCurrentUserFullName(),
                     firstName: properties.getCurrentUserFirstName(),
