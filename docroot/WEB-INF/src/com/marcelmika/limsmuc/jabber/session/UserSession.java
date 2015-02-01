@@ -9,13 +9,13 @@
 
 package com.marcelmika.limsmuc.jabber.session;
 
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.multi.MultiUserConversationManagerFactory;
-import com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManager;
-import com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManagerFactory;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManager;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManagerFactory;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
+import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManager;
+import com.marcelmika.limsmuc.jabber.conversation.multi.MultiUserConversationManagerFactory;
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManagerFactory;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
+import com.marcelmika.limsmuc.jabber.group.GroupManagerFactory;
 
 /**
  * @author Ing. Marcel Mika
@@ -30,7 +30,6 @@ public class UserSession {
     private GroupManager groupManager;
     private SingleUserConversationManager singleUserConversationManager;
     private MultiUserConversationManager multiUserConversationManager;
-
 
     /**
      * Constructor
@@ -60,9 +59,11 @@ public class UserSession {
         // Group manager
         userSession.groupManager = createGroupManager(companyId, connectionManager);
         // Single User Conversation manager
-        userSession.singleUserConversationManager = createSingleUserConversationManager(connectionManager);
+        userSession.singleUserConversationManager = createSingleUserConversationManager(companyId, connectionManager);
+
+        // TODO: Multi user conversation is not implemented yet
         // Multi User Conversation manager
-        userSession.multiUserConversationManager = createMultiUserConversationManager(connectionManager);
+        // userSession.multiUserConversationManager = createMultiUserConversationManager(companyId, connectionManager);
 
         return userSession;
     }
@@ -70,6 +71,7 @@ public class UserSession {
     /**
      * Creates new group manager
      *
+     * @param companyId Long
      * @param connectionManager used to create group manager
      * @return Group manager
      */
@@ -85,14 +87,16 @@ public class UserSession {
     /**
      * Create new single user conversation manager
      *
+     * @param companyId Long
      * @param connectionManager used to create single user conversation manager
      * @return SingleUserConversationManager
      */
-    private static SingleUserConversationManager createSingleUserConversationManager(
-            ConnectionManager connectionManager) {
+    private static SingleUserConversationManager createSingleUserConversationManager(Long companyId,
+                                                                                     ConnectionManager connectionManager) {
 
         // Build SUC manager
         SingleUserConversationManager singleManager = SingleUserConversationManagerFactory.buildManager();
+        singleManager.setCompanyId(companyId);
         singleManager.setChatManager(connectionManager.getChatManager());
 
         return singleManager;
@@ -101,14 +105,16 @@ public class UserSession {
     /**
      * Create new multi user conversation manager
      *
+     * @param companyId Long
      * @param connectionManager used to create multi user conversation manager
      * @return MultiUserConversationManager
      */
-    private static MultiUserConversationManager createMultiUserConversationManager(
-            ConnectionManager connectionManager) {
+    private static MultiUserConversationManager createMultiUserConversationManager(Long companyId,
+                                                                                   ConnectionManager connectionManager) {
 
         // Build MUC manager
         MultiUserConversationManager multiManager = MultiUserConversationManagerFactory.buildManager();
+        multiManager.setCompanyId(companyId);
         multiManager.setConnection(connectionManager.getConnection());
 
         return multiManager;

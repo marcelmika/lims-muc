@@ -121,6 +121,16 @@
       // Rounded corners
       @include border-radius(0);
       @include box-shadow(none);
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      &.disabled:hover {
+        color: #333333;
+        background-color: #ffffff;
+        border-color: #cccccc;
+      }
     }
 
     > .button {
@@ -142,36 +152,6 @@
       @include border-top-left-radius(0);
       @include border-bottom-left-radius(0);
     }
-  }
-
-}
-
-/********************************************************************************
-/ SLIDER
-/********************************************************************************/
-
-.lims-muc .slider {
-
-  .yui3-slider-x .yui3-slider-thumb {
-    width: 22px;
-  }
-
-  .yui3-slider-x .yui3-slider-thumb-shadow {
-    left: -2px;
-    top: -46px;
-    width: 22px;
-  }
-
-  .yui3-slider-x .yui3-slider-thumb-image {
-    top: -8px;
-    width: 22px;
-  }
-
-  // Overwrite the default rail
-  .yui3-slider-x .yui3-slider-rail,
-  .yui3-slider-x .yui3-slider-rail-cap-left,
-  .yui3-slider-x .yui3-slider-rail-cap-right {
-    background-image: url(/images/rail-x.png);
   }
 
 }

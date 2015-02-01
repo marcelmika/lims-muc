@@ -276,7 +276,6 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
             value: null // to be set
         },
 
-
         /**
          * Currently logged user
          *

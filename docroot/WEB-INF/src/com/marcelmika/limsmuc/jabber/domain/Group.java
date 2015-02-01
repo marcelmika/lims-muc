@@ -91,15 +91,11 @@ public class Group {
         this.name = name;
     }
 
-    /**
-     * String representation of the Group.
-     *
-     * @return A String representation of the Group.
-     */
     @Override
     public String toString() {
-        return String.format("Group: %s:", name);
+        return "Group{" +
+                "name='" + name + '\'' +
+                ", buddies=" + buddies +
+                '}';
     }
-
-
 }

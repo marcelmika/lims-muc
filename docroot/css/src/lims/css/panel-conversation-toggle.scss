@@ -110,6 +110,7 @@
       outline: none;
       filter: none;
       background: url(/images/close-button.png) center center no-repeat;
+      @include image-2x('/images/close-button@2x.png', auto, 18px);
       border: none;
       padding: 0;
       margin: 0;

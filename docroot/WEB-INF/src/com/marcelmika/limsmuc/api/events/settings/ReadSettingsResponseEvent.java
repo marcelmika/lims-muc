@@ -25,6 +25,7 @@ public class ReadSettingsResponseEvent extends ResponseEvent {
 
     public enum Status {
         SUCCESS, // Event was successful
+        ERROR_UNAUTHORIZED, // User is not authorized to read settings
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 

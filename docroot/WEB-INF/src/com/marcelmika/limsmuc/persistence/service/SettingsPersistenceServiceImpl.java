@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
@@ -17,6 +18,8 @@ import com.marcelmika.limsmuc.api.events.settings.*;
 import com.marcelmika.limsmuc.persistence.domain.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
+
+import java.util.List;
 
 
 /**
@@ -39,7 +42,8 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
@@ -52,8 +56,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Success
             return ReadSettingsResponseEvent.success(settings.toSettingsDetails());
 
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return ReadSettingsResponseEvent.failure(
                     ReadSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -82,9 +87,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
             // Success
             return UpdateActivePanelResponseEvent.success(event.getActivePanel());
-
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return UpdateActivePanelResponseEvent.failure(
                     UpdateActivePanelResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -123,9 +128,9 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
 
             // Success
             return UpdateSettingsResponseEvent.success(details);
-
-        } catch (Exception exception) {
-            // Failure
+        }
+        // Failure
+        catch (Exception exception) {
             return UpdateSettingsResponseEvent.failure(
                     UpdateSettingsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
@@ -141,9 +146,17 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
     @Override
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
 
-        // Update all connections
         try {
-            SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold());
+            // Update all connections
+            List<Settings> settings = Settings.fromSettingsModel(
+                    SettingsLocalServiceUtil.updateAllConnections(event.getConnectionThreshold())
+            );
+
+            // Map updated settings to settings details
+            List<SettingsDetails> settingsDetails = Settings.toSettingsDetails(settings);
+
+            // Success
+            return UpdateAllConnectionsResponseEvent.success(settingsDetails);
         }
         // Failure
         catch (Exception exception) {
@@ -151,9 +164,30 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
                     UpdateAllConnectionsResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
+    }
 
-        // Success
-        return UpdateAllConnectionsResponseEvent.success();
+    /**
+     * Returns a list of buddies that are currently connected
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event) {
+
+        try {
+            // Read connected buddies
+            List<Long> connectedUsers = SettingsLocalServiceUtil.getConnectedUsers();
+
+            // Success
+            return GetConnectedBuddiesResponseEvent.success(connectedUsers);
+        }
+        // Failure
+        catch (SystemException e) {
+            return GetConnectedBuddiesResponseEvent.failure(
+                    GetConnectedBuddiesResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
+        }
     }
 
     /**
@@ -164,18 +198,22 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public EnableChatResponseEvent enableChat(EnableChatRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), true);
-            // Success
-            return EnableChatResponseEvent.success("User chat enabled");
 
-        } catch (Exception e) {
-            // Failure
-            return EnableChatResponseEvent.failure("Cannot enable chat", e);
+            // Success
+            return EnableChatResponseEvent.success();
+        }
+        // Failure
+        catch (Exception e) {
+            return EnableChatResponseEvent.failure(
+                    EnableChatResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 
@@ -187,18 +225,22 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
      */
     @Override
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event) {
-        // Get buddy
+
+        // Get buddy from details
         BuddyDetails buddy = event.getBuddyDetails();
 
         try {
             // Save
             SettingsLocalServiceUtil.setChatEnabled(buddy.getBuddyId(), false);
-            // Success
-            return DisableChatResponseEvent.success("Chat disabled");
 
-        } catch (Exception e) {
-            // Failure
-            return DisableChatResponseEvent.failure("Cannot disable chat", e);
+            // Success
+            return DisableChatResponseEvent.success();
+        }
+        // Failure
+        catch (Exception e) {
+            return DisableChatResponseEvent.failure(
+                    DisableChatResponseEvent.Status.ERROR_PERSISTENCE, e
+            );
         }
     }
 }

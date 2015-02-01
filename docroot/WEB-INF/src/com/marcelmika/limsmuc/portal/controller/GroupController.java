@@ -113,11 +113,17 @@ public class GroupController {
             if (status == GetGroupsResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
                 ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
             }
+            // No session
+            if (status == GetGroupsResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
             // Everything else is server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 // Log
-                log.error(responseEvent.getException());
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getException());
+                }
             }
         }
     }

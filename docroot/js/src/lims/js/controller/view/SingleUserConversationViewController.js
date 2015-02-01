@@ -99,10 +99,13 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          */
         onPanelDidUnload: function () {
             // Vars
-            var model = this.get('model');
+            var model = this.get('model'),
+                panel = this.get('panel');
 
             // Close conversation
             model.closeConversation();
+            // Update badge count
+            panel.updateBadge(0, false);
         },
 
         /**
@@ -194,6 +197,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Remote events
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
+            Y.on('jabberConnected', this._onJabberConnected, this);
+            Y.on('jabberDisconnected', this._onJabberDisconnected, this);
         },
 
         /**
@@ -639,7 +644,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onConnectionError: function () {
-            this.showError(Y.LIMS.Core.i18n.values.connectionErrorMessage);
+            this.showError('connectionError', Y.LIMS.Core.i18n.values.connectionErrorMessage);
         },
 
         /**
@@ -648,7 +653,25 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onConnectionOK: function () {
-            this.hideError();
+            this.hideError('connectionError');
+        },
+
+        /**
+         * Called when the jabber is connected
+         *
+         * @private
+         */
+        _onJabberConnected: function () {
+            this.hideError('jabberError');
+        },
+
+        /**
+         * Called when the jabber is disconnected
+         *
+         * @private
+         */
+        _onJabberDisconnected: function () {
+            this.showError('jabberError', Y.LIMS.Core.i18n.values.jabberDisconnectedMessage);
         }
 
     }, {

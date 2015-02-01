@@ -795,10 +795,10 @@ public class ConversationController {
             SendMessageResponseEvent.Status status = responseEvent.getStatus();
             // Unauthorized
             if (status == SendMessageResponseEvent.Status.ERROR_NO_SESSION) {
-                ResponseUtil.writeResponse(HttpStatus.UNAUTHORIZED, response);
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
             // Forbidden
-            if (status == SendMessageResponseEvent.Status.ERROR_FORBIDDEN) {
+            else if (status == SendMessageResponseEvent.Status.ERROR_FORBIDDEN) {
                 ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
             // Not found
@@ -814,6 +814,7 @@ public class ConversationController {
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 // Log
+                log.error(responseEvent.getStatus());
                 log.error(responseEvent.getException());
             }
         }

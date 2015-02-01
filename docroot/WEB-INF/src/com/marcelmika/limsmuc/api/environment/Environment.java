@@ -22,7 +22,6 @@ public class Environment {
     // Environment properties
     private static PropertiesSource propertiesSource = PropertiesSource.PREFERENCES;
     private static String[] excludedSites = new String[]{};
-    private static BuddyListSource buddyListSource = BuddyListSource.LIFERAY;
     private static BuddyListStrategy buddyListStrategy = BuddyListStrategy.ALL;
     private static BuddyListSocialRelation[] buddyListSocialRelations = new BuddyListSocialRelation[]{};
     private static Boolean buddyListIgnoreDefaultUser = false;
@@ -36,16 +35,13 @@ public class Environment {
     private static String[] buddyListGroupExcludes = new String[]{};
     private static Integer pollingSlowDownThreshold = 0;
     private static Boolean jabberEnabled = false;
+    private static Boolean jabberSecurityEnabled = true;
+    private static Boolean jabberImportUserEnabled = false;
     private static String jabberHost = "";
     private static Integer jabberPort = 0;
     private static String jabberServiceName = "";
     private static String jabberResource = "";
-    private static Boolean jabberSock5ProxyEnabled = false;
-    private static Integer jabberSock5ProxyPort = 0;
-    private static Boolean jabberImportUserEnabled = false;
-    private static Boolean saslPlainEnabled = false;
-    private static String saslPlainAuthId = "";
-    private static String saslPlainPassword = "";
+    private static Integer jabberResourcePriority = 0;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static Boolean errorModeEnabled = false;
@@ -102,39 +98,6 @@ public class Environment {
     }
 
     /**
-     * Enum for source of buddy list
-     */
-    public enum BuddyListSource {
-
-        /**
-         * Buddies are loaded from the Liferay database
-         */
-        LIFERAY,
-        /**
-         * Buddies are loaded from the Jabber server
-         */
-        JABBER
-    }
-
-    /**
-     * Returns source of the buddy list property
-     *
-     * @return BuddyListSource
-     */
-    public static BuddyListSource getBuddyListSource() {
-        return buddyListSource;
-    }
-
-    /**
-     * Sets buddy list source
-     *
-     * @param buddyListSource BuddyListSource
-     */
-    public static void setBuddyListSource(BuddyListSource buddyListSource) {
-        Environment.buddyListSource = buddyListSource;
-    }
-
-    /**
      * Enum for buddy list strategy
      */
     public enum BuddyListStrategy {
@@ -161,7 +124,12 @@ public class Environment {
         /**
          * Buddies shown based on the user groups where the user belongs
          */
-        USER_GROUPS("groups");
+        USER_GROUPS("groups"),
+
+        /**
+         * Buddies loaded from jabber
+         */
+        JABBER("jabber");
 
 
         // String description of relation type
@@ -514,6 +482,24 @@ public class Environment {
     }
 
     /**
+     * Returns true if jabber security mode is enabled
+     *
+     * @return boolean
+     */
+    public static boolean getJabberSecurityEnabled() {
+        return jabberSecurityEnabled;
+    }
+
+    /**
+     * Sets jabber security enabled property
+     *
+     * @param jabberSecurityEnabled boolean
+     */
+    public static void setJabberSecurityEnabled(Boolean jabberSecurityEnabled) {
+        Environment.jabberSecurityEnabled = jabberSecurityEnabled;
+    }
+
+    /**
      * Returns jabber server host property
      *
      * @return String jabber host
@@ -586,39 +572,21 @@ public class Environment {
     }
 
     /**
-     * Returns true if jabber SOCK5 proxy mechanism is enabled
+     * Returns jabber resource priority
      *
-     * @return boolean
+     * @return Integer
      */
-    public static boolean isJabberSock5ProxyEnabled() {
-        return jabberSock5ProxyEnabled;
+    public static Integer getJabberResourcePriority() {
+        return jabberResourcePriority;
     }
 
     /**
-     * Sets jabber SOCK5 proxy enabled property
+     * Sets jabber resource priority property
      *
-     * @param jabberSock5ProxyEnabled Integer
+     * @param jabberResourcePriority Integer
      */
-    public static void setJabberSock5ProxyEnabled(Boolean jabberSock5ProxyEnabled) {
-        Environment.jabberSock5ProxyEnabled = jabberSock5ProxyEnabled;
-    }
-
-    /**
-     * Returns jabber SOCK5 port
-     *
-     * @return int jabber SOCK5 port
-     */
-    public static int getJabberSock5ProxyPort() {
-        return jabberSock5ProxyPort;
-    }
-
-    /**
-     * Sets jabber SOCK5 proxy port property
-     *
-     * @param jabberSock5ProxyPort Integer
-     */
-    public static void setJabberSock5ProxyPort(Integer jabberSock5ProxyPort) {
-        Environment.jabberSock5ProxyPort = jabberSock5ProxyPort;
+    public static void setJabberResourcePriority(Integer jabberResourcePriority) {
+        Environment.jabberResourcePriority = jabberResourcePriority;
     }
 
     /**
@@ -637,60 +605,6 @@ public class Environment {
      */
     public static void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
         Environment.jabberImportUserEnabled = jabberImportUserEnabled;
-    }
-
-    /**
-     * Returns true if SASL authentication mechanism is enabled
-     *
-     * @return boolean
-     */
-    public static boolean isSaslPlainEnabled() {
-        return saslPlainEnabled;
-    }
-
-    /**
-     * Sets SASL plain enabled property
-     *
-     * @param saslPlainEnabled Boolean
-     */
-    public static void setSaslPlainEnabled(Boolean saslPlainEnabled) {
-        Environment.saslPlainEnabled = saslPlainEnabled;
-    }
-
-    /**
-     * Returns SASL Authentication ID
-     *
-     * @return String auth ID
-     */
-    public static String getSaslPlainAuthId() {
-        return saslPlainAuthId;
-    }
-
-    /**
-     * Sets SASL plain auth id property
-     *
-     * @param saslPlainAuthId String
-     */
-    public static void setSaslPlainAuthId(String saslPlainAuthId) {
-        Environment.saslPlainAuthId = saslPlainAuthId;
-    }
-
-    /**
-     * Returns password for SASL authentication property
-     *
-     * @return String password
-     */
-    public static String getSaslPlainPassword() {
-        return saslPlainPassword;
-    }
-
-    /**
-     * Sets SASL plain password property
-     *
-     * @param saslPlainPassword String
-     */
-    public static void setSaslPlainPassword(String saslPlainPassword) {
-        Environment.saslPlainPassword = saslPlainPassword;
     }
 
     /**

@@ -10,14 +10,16 @@
 package com.marcelmika.limsmuc.jabber.domain;
 
 import com.marcelmika.limsmuc.api.entity.PresenceDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
 
 /**
+ * Presence enum describes user's current presence type
+ *
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
  * Date: 3/30/14
  * Time: 3:11 PM
  */
-
 public enum Presence {
     STATE_ACTIVE(0),
     STATE_AWAY(1),
@@ -27,6 +29,11 @@ public enum Presence {
 
     private int code;
 
+    /**
+     * Private Constructor
+     *
+     * @param code int
+     */
     private Presence(int code) {
         this.code = code;
     }
@@ -52,6 +59,12 @@ public enum Presence {
         }
     }
 
+    /**
+     * Factory method
+     *
+     * @param smackPresence Smack Presence
+     * @return Presence
+     */
     public static Presence fromSmackPresence(org.jivesoftware.smack.packet.Presence smackPresence) {
         // Offline
         if (smackPresence.getType().equals(org.jivesoftware.smack.packet.Presence.Type.unavailable)) {
@@ -72,13 +85,13 @@ public enum Presence {
         // Available
         if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.available)) {
             return Presence.STATE_ACTIVE;
-        // Away
+            // Away
         } else if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.away)) {
             return Presence.STATE_AWAY;
-        // Dnd
+            // Dnd
         } else if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.dnd)) {
             return Presence.STATE_DND;
-        // Unrecognized
+            // Unrecognized
         } else {
             return Presence.STATE_UNRECOGNIZED;
         }
@@ -107,13 +120,21 @@ public enum Presence {
         }
     }
 
+    /**
+     * Mapping method
+     *
+     * @return Smack Presence
+     */
     public org.jivesoftware.smack.packet.Presence toSmackPresence() {
 
-        // Get connection manager from store
+        // Available is the default presence type
         org.jivesoftware.smack.packet.Presence.Type type = org.jivesoftware.smack.packet.Presence.Type.available;
-        String statusDescription = "";
-        int priority = 100;
+        // XA is the default mode
         org.jivesoftware.smack.packet.Presence.Mode mode = org.jivesoftware.smack.packet.Presence.Mode.xa;
+        // Get the priority from environment
+        int priority = Environment.getJabberResourcePriority();
+        // We are not using status description
+        String statusDescription = "";
 
         // If the Status is OFFLINE, the getPresence() method
         // returns null, because Presence hasn't state for OFFLINE

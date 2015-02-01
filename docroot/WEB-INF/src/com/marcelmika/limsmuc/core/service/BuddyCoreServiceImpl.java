@@ -12,6 +12,9 @@ package com.marcelmika.limsmuc.core.service;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
+import com.marcelmika.limsmuc.core.domain.Buddy;
+import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService;
 import com.marcelmika.limsmuc.api.events.buddy.*;
@@ -27,11 +30,13 @@ import com.marcelmika.limsmuc.api.events.buddy.*;
 public class BuddyCoreServiceImpl implements BuddyCoreService {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(BuddyCoreServiceImpl.class);
 
     // Dependencies
     BuddyJabberService buddyJabberService;
     BuddyPersistenceService buddyPersistenceService;
+    BuddySessionStore buddySessionStore;
 
     /**
      * Constructor
@@ -40,10 +45,12 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      * @param buddyPersistenceService persistence service
      */
     public BuddyCoreServiceImpl(final BuddyJabberService buddyJabberService,
-                                final BuddyPersistenceService buddyPersistenceService) {
+                                final BuddyPersistenceService buddyPersistenceService,
+                                final BuddySessionStore buddySessionStore) {
 
         this.buddyJabberService = buddyJabberService;
         this.buddyPersistenceService = buddyPersistenceService;
+        this.buddySessionStore = buddySessionStore;
     }
 
     /**
@@ -55,8 +62,8 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     @Override
     public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event) {
 
-        // Login locally
-        LoginBuddyResponseEvent responseEvent = buddyPersistenceService.loginBuddy(event);
+        // Get the buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
         // Login to Jabber if enabled
         if (Environment.isJabberEnabled()) {
@@ -65,6 +72,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             ConnectBuddyResponseEvent connectResponseEvent = buddyJabberService.connectBuddy(
                     new ConnectBuddyRequestEvent(event.getDetails())
             );
+
             // [1.1] Return error on failure
             if (!connectResponseEvent.isSuccess()) {
                 return LoginBuddyResponseEvent.failure(
@@ -92,28 +100,57 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             if (readPresenceEvent.isSuccess()) {
                 buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
                                 loginResponseEvent.getDetails().getBuddyId(),
-                                readPresenceEvent.getPresenceDetails())
+                                readPresenceEvent.getPresence())
                 );
             }
         }
 
-        return responseEvent;
+        // Login user locally only if not over the session limit
+        if(!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
+            // Login locally
+            LoginBuddyResponseEvent loginResponseEvent = buddyPersistenceService.loginBuddy(event);
+
+            // Add buddy to session store
+            if (loginResponseEvent.isSuccess()) {
+                buddySessionStore.addBuddy(buddy.getBuddyId());
+            }
+
+            return loginResponseEvent;
+        }
+        // User is over the limit
+        else {
+            // However, we return the success anyway because the same values will be set whenever the user first
+            // sends read settings event
+            return LoginBuddyResponseEvent.success(buddy.toBuddyDetails());
+        }
     }
 
     /**
-     * Logout buddy from System
+     * Logout buddy
      *
      * @param event Request event
      * @return Response event
      */
     @Override
     public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event) {
-        // Logout from jabber as well if enabled
+
+        // Get the buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
+
+        // Logout from jabber
         if (Environment.isJabberEnabled()) {
             buddyJabberService.logoutBuddy(event);
         }
 
-        return buddyPersistenceService.logoutBuddy(event);
+        // Logout locally
+        LogoutBuddyResponseEvent responseEvent = buddyPersistenceService.logoutBuddy(event);
+
+        if (responseEvent.isSuccess()) {
+            // Remove buddy from session store
+            buddySessionStore.removeBuddy(buddy.getBuddyId());
+        }
+
+        return responseEvent;
     }
 
     /**
@@ -151,6 +188,22 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     }
 
     /**
+     * Updates buddy's password
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event) {
+        // Only if the jabber is enabled
+        if (Environment.isJabberEnabled()) {
+            return buddyJabberService.updatePassword(event);
+        }
+
+        return UpdatePasswordResponseEvent.success();
+    }
+
+    /**
      * Search buddies in the system
      *
      * @param event Request event
@@ -158,6 +211,18 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      */
     @Override
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event) {
-        return buddyPersistenceService.searchBuddies(event);
+
+        // Decide if search in jabber or persistence
+        boolean isJabber = Environment.getBuddyListStrategy() == Environment.BuddyListStrategy.JABBER &&
+                Environment.isJabberEnabled();
+
+        // Jabber
+        if (isJabber) {
+            return buddyJabberService.searchBuddies(event);
+        }
+        // Persistence
+        else {
+            return buddyPersistenceService.searchBuddies(event);
+        }
     }
 }

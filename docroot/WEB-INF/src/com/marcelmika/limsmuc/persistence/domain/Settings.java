@@ -12,6 +12,9 @@ package com.marcelmika.limsmuc.persistence.domain;
 import com.marcelmika.limsmuc.api.entity.SettingsDetails;
 import com.marcelmika.limsmuc.persistence.generated.model.Panel;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
@@ -20,6 +23,7 @@ import com.marcelmika.limsmuc.persistence.generated.model.Panel;
  */
 public class Settings {
 
+    private Long buddyId;
     private Presence presence;
     private String activePanel;
     private boolean isMute;
@@ -45,11 +49,47 @@ public class Settings {
         }
         // Map Settings
         if (settingsModel != null) {
+            settings.buddyId = settingsModel.getUserId();
             settings.isMute = settingsModel.getMute();
             settings.isChatEnabled = settingsModel.getChatEnabled();
             settings.isAdminAreaOpened = settingsModel.isAdminAreaOpened();
             // Relations
             settings.presence = Presence.fromDescription(settingsModel.getPresence());
+        }
+
+        return settings;
+    }
+
+    /**
+     * Maps settings from service model
+     *
+     * @param model Settings
+     * @return Settings
+     */
+    public static Settings fromSettingsModel(com.marcelmika.limsmuc.persistence.generated.model.Settings model) {
+        // Create new settings
+        Settings settings = new Settings();
+
+        settings.buddyId = model.getUserId();
+        settings.isMute = model.getMute();
+        settings.isChatEnabled = model.getChatEnabled();
+        settings.isAdminAreaOpened = model.isAdminAreaOpened();
+        settings.presence = Presence.fromDescription(model.getPresence());
+
+        return settings;
+    }
+
+    /**
+     * Maps a list of settings models to a list of settings
+     *
+     * @param models list of Settings models
+     * @return list of Settings
+     */
+    public static List<Settings> fromSettingsModel(List<com.marcelmika.limsmuc.persistence.generated.model.Settings> models) {
+        List<Settings> settings = new LinkedList<Settings>();
+
+        for (com.marcelmika.limsmuc.persistence.generated.model.Settings model : models) {
+            settings.add(Settings.fromSettingsModel(model));
         }
 
         return settings;
@@ -65,6 +105,7 @@ public class Settings {
         // Create new Settings
         Settings settings = new Settings();
         // Map data to settings details
+        settings.buddyId = settingsDetails.getBuddyId();
         settings.activePanel = settingsDetails.getActivePanelId();
         settings.isMute = settingsDetails.isMute();
         settings.isChatEnabled = settingsDetails.isChatEnabled();
@@ -87,6 +128,7 @@ public class Settings {
         // Create new user details
         SettingsDetails details = new SettingsDetails();
         // Map data from user
+        details.setBuddyId(buddyId);
         details.setActivePanelId(activePanel);
         details.setMute(isMute);
         details.setChatEnabled(isChatEnabled);
@@ -98,6 +140,30 @@ public class Settings {
         }
 
         return details;
+    }
+
+    /**
+     * Mapping method
+     *
+     * @param settings list of Settings
+     * @return list of SettingsDetails
+     */
+    public static List<SettingsDetails> toSettingsDetails(List<Settings> settings) {
+        List<SettingsDetails> details = new LinkedList<SettingsDetails>();
+
+        for (Settings setting : settings) {
+            details.add(setting.toSettingsDetails());
+        }
+
+        return details;
+    }
+
+    public Long getBuddyId() {
+        return buddyId;
+    }
+
+    public void setBuddyId(Long buddyId) {
+        this.buddyId = buddyId;
     }
 
     public Presence getPresence() {
@@ -143,7 +209,8 @@ public class Settings {
     @Override
     public String toString() {
         return "Settings{" +
-                "presence=" + presence +
+                "buddyId=" + buddyId +
+                ", presence=" + presence +
                 ", activePanel='" + activePanel + '\'' +
                 ", isMute=" + isMute +
                 ", isChatEnabled=" + isChatEnabled +

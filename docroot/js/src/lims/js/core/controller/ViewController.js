@@ -150,25 +150,28 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
     /**
      * Shows error message
      *
+     * @param errorId
      * @param errorMessage
      */
-    showError: function (errorMessage) {
+    showError: function (errorId, errorMessage) {
         // Vars
         var panel = this.get('panel');
 
         // Show the error
-        panel.showError(errorMessage);
+        panel.showError(errorId, errorMessage);
     },
 
     /**
      * Hides error message
+     *
+     * @param errorId
      */
-    hideError: function () {
+    hideError: function (errorId) {
         // Vars
         var panel = this.get('panel');
 
         // Hide the error
-        panel.hideError();
+        panel.hideError(errorId);
     },
 
     /**

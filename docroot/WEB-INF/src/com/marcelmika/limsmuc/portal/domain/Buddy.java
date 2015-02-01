@@ -130,7 +130,7 @@ public class Buddy {
         buddy.buddyId = user.getUserId();
         buddy.companyId = user.getCompanyId();
         buddy.screenName = user.getScreenName();
-        buddy.password = user.getPassword();
+        buddy.password = user.getPasswordUnencrypted();
 
         return buddy;
     }

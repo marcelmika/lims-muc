@@ -20,6 +20,7 @@
     outline: none;
     text-shadow: none;
     opacity: 1 !important;
+    line-height: 20px;
   }
 
   label {
@@ -30,6 +31,17 @@
 
   button:hover {
     opacity: 0.6 !important;
+  }
+
+  a.link {
+    color: #009AE5;
+    font-weight: 200;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
 
 }

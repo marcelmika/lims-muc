@@ -84,7 +84,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
             animation;
 
         // If the group list is already in the document don't animate it
-        if (!groupList.inDoc()) {
+        if (groupList && !groupList.inDoc()) {
 
             // Create an instance of animation
             animation = new Y.Anim({
@@ -117,7 +117,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
             animation;
 
         // Run the animation only if the group list is in DOM
-        if (groupList.inDoc()) {
+        if (groupList && groupList.inDoc()) {
 
             // Create the animation instance
             animation = new Y.Anim({
@@ -153,21 +153,27 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         // If there was any error, hide it
         errorView.hideErrorMessage(true);
 
+        // Model is still being loaded
+        if (model.get('loading')) {
+            // Hide indicator
+            Y.LIMS.Core.Util.show(activityIndicator);
+        }
         // No groups found
-        if (model.isEmpty()) {
+        else if (model.isEmpty()) {
             // Show info message
             infoView.showInfoMessage(true);
             // Hide groups
             this._hideGroups();
+            // Hide indicator
+            Y.LIMS.Core.Util.hide(activityIndicator);
         } else {
             // Show groups
             this._showGroups();
             // Hide info message
             infoView.hideInfoMessage(true);
+            // Hide indicator
+            Y.LIMS.Core.Util.hide(activityIndicator);
         }
-
-        // Hide indicator
-        Y.LIMS.Core.Util.hide(activityIndicator);
     },
 
     /**
@@ -200,8 +206,10 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         // Vars
         var groupList = this.get('groupList');
 
-        // Empty node
-        groupList.set('innerHTML', '');
+        if (groupList) {
+            // Empty node
+            groupList.set('innerHTML', '');
+        }
     },
 
     /**
@@ -216,10 +224,12 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         var groupView = new Y.LIMS.View.GroupViewItem({model: e.model}),
             groupList = this.get('groupList');
 
-        // Render group
-        groupView.render();
-        // Add it to group list
-        groupList.append(groupView.get('container'));
+        if (groupList && groupView) {
+            // Render group
+            groupView.render();
+            // Add it to group list
+            groupList.append(groupView.get('container'));
+        }
     },
 
     /**

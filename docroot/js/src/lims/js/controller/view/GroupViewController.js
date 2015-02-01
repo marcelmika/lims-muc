@@ -80,6 +80,10 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
 
         // Global events
         Y.on('buddySelected', this._onBuddySelected, this);
+        Y.on('connectionError', this._onConnectionError, this);
+        Y.on('connectionOK', this._onConnectionOK, this);
+        Y.on('jabberConnected', this._onJabberConnected, this);
+        Y.on('jabberDisconnected', this._onJabberDisconnected, this);
     },
 
     /**
@@ -298,6 +302,42 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
             // Hide the search panel
             this._hideSearchPanel();
         }
+    },
+
+    /**
+     * Called whenever an error with connection occurred
+     *
+     * @private
+     */
+    _onConnectionError: function () {
+        this.showError('connectionError', Y.LIMS.Core.i18n.values.connectionErrorMessage);
+    },
+
+    /**
+     * Called when there are no more connection errors
+     *
+     * @private
+     */
+    _onConnectionOK: function () {
+        this.hideError('connectionError');
+    },
+
+    /**
+     * Called when the jabber is connected
+     *
+     * @private
+     */
+    _onJabberConnected: function () {
+        this.hideError('jabberError');
+    },
+
+    /**
+     * Called when the jabber is disconnected
+     *
+     * @private
+     */
+    _onJabberDisconnected: function () {
+        this.showError('jabberError', Y.LIMS.Core.i18n.values.jabberDisconnectedMessage);
     }
 
 }, {

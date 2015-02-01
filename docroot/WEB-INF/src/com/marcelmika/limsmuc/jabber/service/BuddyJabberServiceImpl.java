@@ -9,14 +9,19 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
-import com.marcelmika.limsmuc.jabber.JabberException;
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManager;
-import com.marcelmika.limsmuc.jabber.connection.manager.ConnectionManagerFactory;
+import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.buddy.*;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManager;
+import com.marcelmika.limsmuc.jabber.connection.ConnectionManagerFactory;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
-import com.marcelmika.limsmuc.api.events.buddy.*;
+
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -56,33 +61,49 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // buddyId and companyId cannot be null
         if (buddyId == null || companyId == null) {
             return ConnectBuddyResponseEvent.failure(
-                    "Cannot connect buddy without buddy id or company id", event.getDetails()
+                    ConnectBuddyResponseEvent.Status.ERROR_WRONG_PARAMETERS,
+                    new JabberException(String.format("Either buddy or company id wasn't set"))
             );
         }
 
-        // Create new connection manager (screen name is the ID)
-        ConnectionManager connectionManager = ConnectionManagerFactory.buildManager();
+        // Connection manager that holds the connection to jabber
+        ConnectionManager connectionManager;
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+
+        // There is no user session yet
+        if (userSession == null) {
+            // Create new connection manager (screen name is the ID)
+            connectionManager = ConnectionManagerFactory.buildManager();
+        }
+        // Session already exists
+        else {
+            // Get it from user session
+            connectionManager = userSession.getConnectionManager();
+        }
 
         try {
             // Connect
             connectionManager.createConnection();
-        } catch (JabberException e) {
-            // Failure
-            return ConnectBuddyResponseEvent.failure(e.getMessage(), buddy.toBuddyDetails());
+        }
+        // Failure
+        catch (JabberException exception) {
+            return ConnectBuddyResponseEvent.failure(
+                    ConnectBuddyResponseEvent.Status.ERROR_JABBER, exception
+            );
         }
 
-        // Connection with jabber server was successfully created. Consequently, we should
-        // create a session in memory
-        UserSession userSession = UserSession.fromConnectionManager(buddyId, companyId, connectionManager);
-        // Add user session to store so it can be queried later
-        userSessionStore.addUserSession(userSession);
-
+        // Create use session if it wasn't already created
+        if (userSession == null) {
+            // Connection with jabber server was successfully created. Consequently, we should
+            // create a session in memory
+            userSession = UserSession.fromConnectionManager(buddyId, companyId, connectionManager);
+            // Add user session to store so it can be queried later
+            userSessionStore.addUserSession(userSession);
+        }
 
         // Success
-        return ConnectBuddyResponseEvent.success(
-                "User " + buddy.getBuddyId() + " successfully created connection to jabber server.",
-                buddy.toBuddyDetails()
-        );
+        return ConnectBuddyResponseEvent.success(buddy.toBuddyDetails());
     }
 
     /**
@@ -102,9 +123,8 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // No session
         if (userSession == null) {
             return LoginBuddyResponseEvent.failure(
-                    LoginBuddyResponseEvent.Status.ERROR_JABBER,
-                    new JabberException(String.format("Cannot find session for buddy %s",
-                            event.getDetails().getScreenName()))
+                    LoginBuddyResponseEvent.Status.ERROR_NO_SESSION,
+                    new JabberException("User cannot login because there is no Jabber session")
             );
         }
         // We need connection manager to login
@@ -113,10 +133,12 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         try {
             // Login
             connectionManager.login(buddy);
-        } catch (JabberException exception) {
-            // Failure
+        }
+        // Failure
+        catch (JabberException exception) {
             return LoginBuddyResponseEvent.failure(
-                    LoginBuddyResponseEvent.Status.ERROR_JABBER, exception);
+                    LoginBuddyResponseEvent.Status.ERROR_JABBER, exception
+            );
         }
 
         // Success
@@ -140,21 +162,22 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         // No session
         if (userSession == null) {
             return LogoutBuddyResponseEvent.failure(
-                    "Cannot find session for buddy.", event.getDetails()
+                    LogoutBuddyResponseEvent.Status.ERROR_NO_SESSION
             );
         }
-        // We need connection manager to login
-        ConnectionManager connectionManager = userSession.getConnectionManager();
-        // Logout
-        connectionManager.logout();
+
+        // Clear the single user conversation manager
+        userSession.getSingleUserConversationManager().destroy();
+        // Clear the group manager
+        userSession.getGroupManager().destroy();
+        // Clear the connection manager
+        userSession.getConnectionManager().logout();
+
         // Destroy user session
         userSessionStore.removeUserSession(buddyId);
 
         // Success
-        return LogoutBuddyResponseEvent.success(
-                "User " + buddy.getBuddyId() + " successfully signed out",
-                buddy.toBuddyDetails()
-        );
+        return LogoutBuddyResponseEvent.success(buddy.toBuddyDetails());
     }
 
     /**
@@ -191,6 +214,98 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
                     UpdatePresenceBuddyResponseEvent.Status.ERROR_JABBER, exception
             );
         }
+    }
+
+    /**
+     * Updates buddy's password
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event) {
+
+        // Get parameters
+        Long buddyId = event.getBuddy().getBuddyId();
+        String password = event.getBuddy().getPassword();
+
+        // Check parameters
+        if (buddyId == null || password == null) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
+        // We need the jabber connection manager to update the password
+        ConnectionManager connectionManager = userSession.getConnectionManager();
+
+        try {
+            // Update password
+            connectionManager.updatePassword(password);
+            // Success
+            return UpdatePasswordResponseEvent.success();
+        }
+        // Failure
+        catch (JabberException e) {
+            return UpdatePasswordResponseEvent.failure(
+                    UpdatePasswordResponseEvent.Status.ERROR_JABBER, e
+            );
+        }
+    }
+
+    /**
+     * Search buddies in the system
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event) {
+
+        // Map buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
+        // We use buddy ID as an identification
+        Long buddyId = buddy.getBuddyId();
+
+        // Check params
+        if (buddyId == null) {
+            return SearchBuddiesResponseEvent.failure(
+                    SearchBuddiesResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return SearchBuddiesResponseEvent.failure(
+                    SearchBuddiesResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
+        // Get the group manager
+        GroupManager groupManager = userSession.getGroupManager();
+
+        // Get the size of the result
+        int size = Environment.getBuddyListMaxSearch();
+
+        // Search via the search manager
+        List<Buddy> buddies = groupManager.searchBuddies(event.getSearchQuery(), size);
+
+        // Map to details
+        List<BuddyDetails> details = Buddy.toBuddyDetails(buddies);
+
+        // Success
+        return SearchBuddiesResponseEvent.success(details);
     }
 
 }

@@ -19,21 +19,70 @@ import com.marcelmika.limsmuc.api.events.ResponseEvent;
  */
 public class EnableChatResponseEvent extends ResponseEvent {
 
-    public static EnableChatResponseEvent success(String result) {
+    private Status status;
+
+    public enum Status {
+        SUCCESS,                // Event was successful
+        ERROR_PERSISTENCE,      // Error with persistence occurred
+    }
+
+    /**
+     * Constructor is private. Use factory methods to create new success or failure instances
+     */
+    private EnableChatResponseEvent() {
+        // No params
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @return ResponseEvent
+     */
+    public static EnableChatResponseEvent success() {
         EnableChatResponseEvent event = new EnableChatResponseEvent();
-        event.result = result;
+
         event.success = true;
+        event.status = Status.SUCCESS;
 
         return event;
     }
 
-    public static EnableChatResponseEvent failure(String result, Throwable exception) {
+    /**
+     * Factory method for failure status
+     *
+     * @param status Status
+     * @return ResponseEvent
+     */
+    public static EnableChatResponseEvent failure(final Status status) {
         EnableChatResponseEvent event = new EnableChatResponseEvent();
-        event.result = result;
+
         event.success = false;
+        event.status = status;
+
+        return event;
+    }
+
+    /**
+     * Factory method for failure status
+     *
+     * @param status    Status
+     * @param exception Exception
+     * @return ResponseEvent
+     */
+    public static EnableChatResponseEvent failure(final Status status,
+                                                  final Throwable exception) {
+
+        EnableChatResponseEvent event = new EnableChatResponseEvent();
+
+        event.success = false;
+        event.status = status;
         event.exception = exception;
 
         return event;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
 }

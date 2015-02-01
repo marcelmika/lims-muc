@@ -27,6 +27,7 @@ public class GroupCollectionDetails {
     private List<GroupDetails> groups;
     private Date lastModified;
     private BuddyListStrategy listStrategy;
+    private boolean loading;
 
     public List<GroupDetails> getGroups() {
         return groups;
@@ -52,4 +53,21 @@ public class GroupCollectionDetails {
         this.listStrategy = listStrategy;
     }
 
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupCollectionDetails{" +
+                "groups=" + groups +
+                ", lastModified=" + lastModified +
+                ", listStrategy=" + listStrategy +
+                ", loading=" + loading +
+                '}';
+    }
 }

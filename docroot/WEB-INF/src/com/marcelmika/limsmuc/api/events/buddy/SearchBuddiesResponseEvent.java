@@ -29,6 +29,7 @@ public class SearchBuddiesResponseEvent extends ResponseEvent {
         SUCCESS,                // Event was successful
         ERROR_WRONG_PARAMETERS, // Wrong input parameters
         ERROR_PERSISTENCE,      // Error with persistence occurred
+        ERROR_NO_SESSION,       // User doesn't have a jabber sessions
         ERROR_JABBER,           // Error with jabber occurred
     }
 

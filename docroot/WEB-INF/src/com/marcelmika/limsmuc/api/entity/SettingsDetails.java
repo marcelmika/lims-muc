@@ -17,11 +17,21 @@ package com.marcelmika.limsmuc.api.entity;
  */
 public class SettingsDetails {
 
+    private Long buddyId;
     private PresenceDetails presenceDetails;
     private String activePanelId;
     private boolean isMute;
     private boolean isChatEnabled;
     private boolean isAdminAreaOpened;
+    private boolean isJabberDisconnected;
+
+    public Long getBuddyId() {
+        return buddyId;
+    }
+
+    public void setBuddyId(Long buddyId) {
+        this.buddyId = buddyId;
+    }
 
     public PresenceDetails getPresenceDetails() {
         return presenceDetails;
@@ -63,14 +73,25 @@ public class SettingsDetails {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
 
+
+    public boolean isJabberDisconnected() {
+        return isJabberDisconnected;
+    }
+
+    public void setJabberDisconnected(boolean isJabberDisconnected) {
+        this.isJabberDisconnected = isJabberDisconnected;
+    }
+
     @Override
     public String toString() {
         return "SettingsDetails{" +
-                "presenceDetails=" + presenceDetails +
+                "buddyId=" + buddyId +
+                ", presenceDetails=" + presenceDetails +
                 ", activePanelId='" + activePanelId + '\'' +
                 ", isMute=" + isMute +
                 ", isChatEnabled=" + isChatEnabled +
                 ", isAdminAreaOpened=" + isAdminAreaOpened +
+                ", isJabberDisconnected=" + isJabberDisconnected +
                 '}';
     }
 }

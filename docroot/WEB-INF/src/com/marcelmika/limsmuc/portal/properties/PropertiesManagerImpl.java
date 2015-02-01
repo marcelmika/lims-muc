@@ -13,7 +13,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation;
-import com.marcelmika.limsmuc.api.environment.Environment.BuddyListSource;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.api.environment.Environment.PropertiesSource;
 import com.marcelmika.limsmuc.portal.domain.Properties;
@@ -32,36 +31,60 @@ import java.util.Set;
  */
 public class PropertiesManagerImpl implements PropertiesManager {
 
-    // Log
-    private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
+    // Set to true if the environment was already set up
+    private boolean isSetup = false;
 
-    // Constants
+    // Buddy List Max Buddies
     private static final int BUDDY_LIST_MAX_BUDDIES_MIN = 10;
     private static final int BUDDY_LIST_MAX_BUDDIES_MAX = 500;
     private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 200;
 
+    // Buddy List Max Search
     private static final int BUDDY_LIST_MAX_SEARCH_MIN = 7;
     private static final int BUDDY_LIST_MAX_SEARCH_MAX = 30;
     private static final int BUDDY_LIST_MAX_SEARCH_DEFAULT = 10;
 
-    private static final int CONNECTION_LOST_THRESHOLD_MIN = 0;
+    // Connection Lost
+    private static final int CONNECTION_LOST_THRESHOLD_MIN = 1;
     private static final int CONNECTION_LOST_THRESHOLD_MAX = 1440;
     private static final int CONNECTION_LOST_THRESHOLD_DEFAULT = 2;
 
+    // Conversation List Max Messages
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MIN = 10;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_MAX = 50;
     private static final int CONVERSATION_LIST_MAX_MESSAGES_DEFAULT = 10;
 
+    // Conversation Feed Max Conversations
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MIN = 6;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_MAX = 20;
     private static final int CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT = 7;
 
+    // Polling Slow Down Threshold
     private static final int POLLING_SLOW_DOWN_THRESHOLD_MIN = 100;
     private static final int POLLING_SLOW_DOWN_THRESHOLD_MAX = 5000;
     private static final int POLLING_SLOW_DOWN_THRESHOLD_DEFAULT = 1000;
 
-    // Set to true if the environment was already set up
-    private boolean isSetup = false;
+    // Jabber Host
+    private static final String JABBER_HOST_DEFAULT = "127.0.0.1";
+
+    // Jabber Port
+    private static final int JABBER_PORT_MIN = 1;
+    private static final int JABBER_PORT_MAX = 65536;
+    private static final int JABBER_PORT_DEFAULT = 5222;
+
+    // Jabber Service Name
+    private static final String JABBER_SERVICE_NAME_DEFAULT = "jabber-service";
+
+    // Jabber Resource
+    private static final String JABBER_RESOURCE_DEFAULT = "LIMS";
+
+    // Jabber Resource Priority
+    private static final int JABBER_RESOURCE_PRIORITY_MIN = -128;
+    private static final int JABBER_RESOURCE_PRIORITY_MAX = 128;
+    private static final int JABBER_RESOURCE_PRIORITY_DEFAULT = 0;
+
+    // Log
+    private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
 
     /**
      * Sets up all portlet properties. Decides which source of properties should be taken into account.
@@ -97,16 +120,15 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupPropertiesSource();
 
             // Set the whole environment
-            setupBuddyListSource();
             setupExcludedSites(preferences);
             setupBuddyListStrategy(preferences);
             setupBuddyListSocialRelations(preferences);
             setupBuddyListIgnoreDefaultUser(preferences);
             setupBuddyListIgnoreDeactivatedUser(preferences);
-            setupBuddyListMaxBuddies(preferences);
-            setupBuddyListMaxSearch(preferences);
-            setupConversationListMaxMessages(preferences);
-            setupConversationFeedMaxConversations(preferences);
+            setupBuddyListMaxBuddies();
+            setupBuddyListMaxSearch();
+            setupConversationListMaxMessages();
+            setupConversationFeedMaxConversations();
             setupBuddyListSiteExcludes(preferences);
             setupBuddyListGroupExcludes(preferences);
             setupConnectionLostThreshold();
@@ -116,8 +138,15 @@ public class PropertiesManagerImpl implements PropertiesManager {
             // Set url properties
             setupUrlProperties();
 
-            // Set jabber related properties
-            setupJabberProperties();
+            // Set jabber
+            setupJabberEnabled(preferences);
+            setupJabberSecurityEnabled(preferences);
+            setupJabberImportUserEnabled(preferences);
+            setupJabberHost(preferences);
+            setupJabberPort(preferences);
+            setupJabberServiceName(preferences);
+            setupJabberResource(preferences);
+            setupJabberResourcePriority();
         }
     }
 
@@ -158,26 +187,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
             updateBuddyListIgnoreDeactivatedUser(preferences, properties);
         }
 
-        // Buddy list max buddies
-        if (properties.getBuddyListMaxBuddies() != null) {
-            updateBuddyListMaxBuddies(preferences, properties);
-        }
-
-        // Buddy list max search
-        if (properties.getBuddyListMaxSearch() != null) {
-            updateBuddyListMaxSearch(preferences, properties);
-        }
-
-        // Conversation list max messages
-        if (properties.getConversationListMaxMessages() != null) {
-            updateConversationListMaxMessages(preferences, properties);
-        }
-
-        // conversation feed max conversations
-        if (properties.getConversationFeedMaxConversations() != null) {
-            updateConversationFeedMaxConversations(preferences, properties);
-        }
-
         // Buddy list site excludes
         if (properties.getBuddyListSiteExcludes() != null) {
             updateBuddyListSiteExcludes(preferences, properties);
@@ -186,6 +195,41 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Buddy list group excludes
         if (properties.getBuddyListGroupExcludes() != null) {
             updateBuddyListGroupExcludes(preferences, properties);
+        }
+
+        // Jabber enabled
+        if (properties.getJabberEnabled() != null) {
+            updateJabberEnabled(preferences, properties);
+        }
+
+        // Jabber security enabled
+        if (properties.getJabberSecurityEnabled() != null) {
+            updateJabberSecurityEnabled(preferences, properties);
+        }
+
+        // Jabber import user enabled
+        if (properties.getJabberImportUserEnabled() != null) {
+            updateJabberImportUserEnabled(preferences, properties);
+        }
+
+        // Jabber host
+        if (properties.getJabberHost() != null) {
+            updateJabberHost(preferences, properties);
+        }
+
+        // Jabber port
+        if (properties.getJabberPort() != null) {
+            updateJabberPort(preferences, properties);
+        }
+
+        // Jabber service name
+        if (properties.getJabberServiceName() != null) {
+            updateJabberServiceName(preferences, properties);
+        }
+
+        // Jabber resource
+        if (properties.getJabberResource() != null) {
+            updateJabberResource(preferences, properties);
         }
     }
 
@@ -271,38 +315,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Sets buddy list source
-     */
-    private void setupBuddyListSource() {
-        String value = PortletPropertiesValues.BUDDY_LIST_SOURCE;
-
-        BuddyListSource buddyListSource;
-
-        // Liferay
-        if (value.equals("liferay")) {
-            buddyListSource = BuddyListSource.LIFERAY;
-        }
-        // Jabber
-        else if (value.equals("jabber")) {
-            buddyListSource = BuddyListSource.JABBER;
-        }
-        // Unknown value
-        else {
-            log.error(String.format(
-                    "Unknown buddy list source: %s. Valid values are \"liferay\" or \"jabber\". Since no valid " +
-                            "property was provided \"liferay\" was chosen as a default. The value can be " +
-                            "set in portlet-ext.properties file related to the LIMS portlet.", value
-            ));
-
-            // Fallback to default
-            buddyListSource = BuddyListSource.LIFERAY;
-        }
-
-        // Save to Environment
-        Environment.setBuddyListSource(buddyListSource);
-    }
-
-    /**
      * Updates buddy list strategy preferences
      *
      * @param preferences PortletPreferences
@@ -373,6 +385,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         else if (value.equals(BuddyListStrategy.USER_GROUPS.getDescription())) {
             buddyListStrategy = BuddyListStrategy.USER_GROUPS;
         }
+        // Jabber
+        else if (value.equals(BuddyListStrategy.JABBER.getDescription())) {
+            buddyListStrategy = BuddyListStrategy.JABBER;
+        }
+
         // Unknown value
         else {
             log.error(String.format(
@@ -620,44 +637,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Updates the buddy list max buddies property
-     *
-     * @param preferences PortletPreferences
-     * @param properties  Properties
-     * @throws Exception
-     */
-    private void updateBuddyListMaxBuddies(PortletPreferences preferences, Properties properties) throws Exception {
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                properties.getBuddyListMaxBuddies(),
-                PortletPropertiesKeys.BUDDY_LIST_MAX_BUDDIES,
-                BUDDY_LIST_MAX_BUDDIES_MIN,
-                BUDDY_LIST_MAX_BUDDIES_MAX,
-                BUDDY_LIST_MAX_BUDDIES_DEFAULT
-        );
-
-        // Set the value in portlet preferences
-        preferences.setValue(
-                PortletPropertiesKeys.BUDDY_LIST_MAX_BUDDIES,
-                String.valueOf(value)
-        );
-
-        // Persists
-        preferences.store();
-
-        // Save in Environment
-        setupBuddyListMaxBuddies(preferences);
-    }
-
-    /**
      * Sets the buddy list max buddies property
-     *
-     * @param preferences PortletPreferences
      */
-    private void setupBuddyListMaxBuddies(PortletPreferences preferences) {
-        // Get the properties source
-        PropertiesSource source = Environment.getPropertiesSource();
+    private void setupBuddyListMaxBuddies() {
 
         // Get the value from properties
         Integer value = validateValueScope(
@@ -668,65 +650,14 @@ public class PropertiesManagerImpl implements PropertiesManager {
                 BUDDY_LIST_MAX_BUDDIES_DEFAULT
         );
 
-        // Prepare the value that will be returned
-        Integer buddyListMaxBuddies;
-
-        // Preferences
-        if (source == PropertiesSource.PREFERENCES) {
-            // Take the value from preferences
-            buddyListMaxBuddies = Integer.parseInt(preferences.getValue(
-                    PortletPropertiesKeys.BUDDY_LIST_MAX_BUDDIES,
-                    String.valueOf(value)
-            ));
-        }
-        // Properties
-        else {
-            buddyListMaxBuddies = value;
-        }
-
         // Save in Environment
-        Environment.setBuddyListMaxBuddies(buddyListMaxBuddies);
-    }
-
-    /**
-     * Updates the buddy list max search property
-     *
-     * @param preferences PortletPreferences
-     * @param properties  Properties
-     * @throws Exception
-     */
-    private void updateBuddyListMaxSearch(PortletPreferences preferences, Properties properties) throws Exception {
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                properties.getBuddyListMaxSearch(),
-                PortletPropertiesKeys.BUDDY_LIST_MAX_SEARCH,
-                BUDDY_LIST_MAX_SEARCH_MIN,
-                BUDDY_LIST_MAX_SEARCH_MAX,
-                BUDDY_LIST_MAX_SEARCH_DEFAULT
-        );
-
-        // Set the value in portlet preferences
-        preferences.setValue(
-                PortletPropertiesKeys.BUDDY_LIST_MAX_SEARCH,
-                String.valueOf(value)
-        );
-
-        // Persist
-        preferences.store();
-
-        // Save in Environment
-        setupBuddyListMaxSearch(preferences);
+        Environment.setBuddyListMaxBuddies(value);
     }
 
     /**
      * Sets the buddy list max search property
-     *
-     * @param preferences PortletPreferences
      */
-    private void setupBuddyListMaxSearch(PortletPreferences preferences) {
-        // Get the properties source
-        PropertiesSource source = Environment.getPropertiesSource();
+    private void setupBuddyListMaxSearch() {
 
         // Get the value from properties
         Integer value = validateValueScope(
@@ -737,24 +668,43 @@ public class PropertiesManagerImpl implements PropertiesManager {
                 BUDDY_LIST_MAX_SEARCH_DEFAULT
         );
 
-        // Prepare the value that will be returned
-        Integer buddyListMaxSearch;
+        // Save in Environment
+        Environment.setBuddyListMaxSearch(value);
+    }
 
-        // Preferences
-        if (source == PropertiesSource.PREFERENCES) {
-            // Take the value from preferences
-            buddyListMaxSearch = Integer.parseInt(preferences.getValue(
-                    PortletPropertiesKeys.BUDDY_LIST_MAX_SEARCH,
-                    String.valueOf(value)
-            ));
-        }
-        // Properties
-        else {
-            buddyListMaxSearch = value;
-        }
+    /**
+     * Sets the conversation list max messages property
+     */
+    private void setupConversationListMaxMessages() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.CONVERSATION_LIST_MAX_MESSAGES,
+                PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES,
+                CONVERSATION_LIST_MAX_MESSAGES_MIN,
+                CONVERSATION_LIST_MAX_MESSAGES_MAX,
+                CONVERSATION_LIST_MAX_MESSAGES_DEFAULT
+        );
 
         // Save in Environment
-        Environment.setBuddyListMaxSearch(buddyListMaxSearch);
+        Environment.setConversationListMaxMessages(value);
+    }
+
+    /**
+     * Sets the conversation list max conversations property
+     */
+    private void setupConversationFeedMaxConversations() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
+                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
+        );
+
+        Environment.setConversationFeedMaxConversations(value);
     }
 
     /**
@@ -791,144 +741,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Set url properties
         Environment.setPollingSlowDownThreshold(value);
-    }
-
-    /**
-     * Updates conversation list max messages property
-     *
-     * @param preferences PortletPreferences
-     * @param properties  Properties
-     * @throws Exception
-     */
-    private void updateConversationListMaxMessages(PortletPreferences preferences, Properties properties) throws Exception {
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                properties.getConversationListMaxMessages(),
-                PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES,
-                CONVERSATION_LIST_MAX_MESSAGES_MIN,
-                CONVERSATION_LIST_MAX_MESSAGES_MAX,
-                CONVERSATION_LIST_MAX_MESSAGES_DEFAULT
-        );
-
-        // Set the value in portlet preferences
-        preferences.setValue(
-                PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES,
-                String.valueOf(value)
-        );
-
-        // Persist
-        preferences.store();
-
-        // Save in Environment
-        setupConversationListMaxMessages(preferences);
-    }
-
-    /**
-     * Sets the conversation list max messages property
-     *
-     * @param preferences PortletPreferences
-     */
-    private void setupConversationListMaxMessages(PortletPreferences preferences) {
-        // Get the properties source
-        PropertiesSource source = Environment.getPropertiesSource();
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                PortletPropertiesValues.CONVERSATION_LIST_MAX_MESSAGES,
-                PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES,
-                CONVERSATION_LIST_MAX_MESSAGES_MIN,
-                CONVERSATION_LIST_MAX_MESSAGES_MAX,
-                CONVERSATION_LIST_MAX_MESSAGES_DEFAULT
-        );
-
-        // Prepare the value that will be returned
-        Integer conversationListMaxMessages;
-
-        // Preferences
-        if (source == PropertiesSource.PREFERENCES) {
-            // Take the value from preferences
-            conversationListMaxMessages = Integer.parseInt(preferences.getValue(
-                    PortletPropertiesKeys.CONVERSATION_LIST_MAX_MESSAGES,
-                    String.valueOf(value)
-            ));
-        }
-        // Properties
-        else {
-            conversationListMaxMessages = value;
-        }
-
-        // Save in Environment
-        Environment.setConversationListMaxMessages(conversationListMaxMessages);
-    }
-
-    /**
-     * Updates conversation feed max conversations property
-     *
-     * @param preferences PortletPreferences
-     * @param properties  Properties
-     * @throws Exception
-     */
-    private void updateConversationFeedMaxConversations(PortletPreferences preferences,
-                                                        Properties properties) throws Exception {
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                properties.getConversationFeedMaxConversations(),
-                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
-        );
-
-        // Set the value in portlet preferences
-        preferences.setValue(
-                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                String.valueOf(value)
-        );
-
-        // Persist
-        preferences.store();
-
-        // Save in Environment
-        setupConversationFeedMaxConversations(preferences);
-    }
-
-    /**
-     * Sets the conversation list max conversations property
-     *
-     * @param preferences PortletPreferences
-     */
-    private void setupConversationFeedMaxConversations(PortletPreferences preferences) {
-        // Get the properties source
-        PropertiesSource source = Environment.getPropertiesSource();
-
-        // Get the value from properties
-        Integer value = validateValueScope(
-                PortletPropertiesValues.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MIN,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_MAX,
-                CONVERSATION_FEED_MAX_CONVERSATIONS_DEFAULT
-        );
-
-        // Prepare the value that will be returned
-        Integer conversationFeedMaxConversations;
-
-        // Preferences
-        if (source == PropertiesSource.PREFERENCES) {
-            // Take the value from preferences
-            conversationFeedMaxConversations = Integer.parseInt(preferences.getValue(
-                    PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS,
-                    String.valueOf(value)
-            ));
-        }
-        // Properties
-        else {
-            conversationFeedMaxConversations = value;
-        }
-
-        Environment.setConversationFeedMaxConversations(conversationFeedMaxConversations);
     }
 
     /**
@@ -1032,25 +844,423 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Sets jabber related properties
+     * Updates jabber enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
      */
-    private void setupJabberProperties() {
+    private void updateJabberEnabled(PortletPreferences preferences, Properties properties) throws Exception {
 
-        // Set jabber properties to Environment
-        // TODO: Uncomment when implemented
-//        Environment.setJabberEnabled(PortletPropertiesValues.JABBER_ENABLED);
-        Environment.setJabberEnabled(false);
-        Environment.setJabberHost(PortletPropertiesValues.JABBER_HOST);
-        Environment.setJabberPort(PortletPropertiesValues.JABBER_PORT);
-        Environment.setJabberServiceName(PortletPropertiesValues.JABBER_SERVICE_NAME);
-        Environment.setJabberResource(PortletPropertiesValues.JABBER_RESOURCE);
-        Environment.setJabberSock5ProxyEnabled(PortletPropertiesValues.JABBER_SOCK5_PROXY_ENABLED);
-        Environment.setJabberSock5ProxyPort(PortletPropertiesValues.JABBER_SOCK5_PROXY_PORT);
-        Environment.setJabberImportUserEnabled(PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED);
-        Environment.setSaslPlainEnabled(PortletPropertiesValues.JABBER_SASL_PLAIN_ENABLED);
-        Environment.setSaslPlainAuthId(PortletPropertiesValues.JABBER_SASL_PLAIN_AUTHID);
-        Environment.setSaslPlainPassword(PortletPropertiesValues.JABBER_SASL_PLAIN_PASSWORD);
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_ENABLED,
+                String.valueOf(properties.getJabberEnabled())
+        );
+        // Persist
+        preferences.store();
 
+        // Setup Environment
+        setupJabberEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberEnabled = PortletPropertiesValues.JABBER_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberEnabled(jabberEnabled);
+    }
+
+    /**
+     * Updates jabber import user enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberImportUserEnabled(PortletPreferences preferences,
+                                               Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED,
+                String.valueOf(properties.getJabberImportUserEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberImportUserEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber security enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberSecurityEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberSecurityEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberSecurityEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SECURITY_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_SECURITY_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberSecurityEnabled = PortletPropertiesValues.JABBER_SECURITY_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberSecurityEnabled(jabberSecurityEnabled);
+    }
+
+    /**
+     * Updates jabber security enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberSecurityEnabled(PortletPreferences preferences,
+                                             Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SECURITY_ENABLED,
+                String.valueOf(properties.getJabberSecurityEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberSecurityEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber import user enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberImportUserEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberImportUserEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberImportUserEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberImportUserEnabled = PortletPropertiesValues.JABBER_IMPORT_USER_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberImportUserEnabled(jabberImportUserEnabled);
+    }
+
+    /**
+     * Updates jabber host property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberHost(PortletPreferences preferences,
+                                  Properties properties) throws Exception {
+
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberHost(),
+                PortletPropertiesKeys.JABBER_HOST,
+                JABBER_HOST_DEFAULT
+        );
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_HOST, value
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberHost(preferences);
+    }
+
+    /**
+     * Sets the jabber host property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberHost(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Validate the value
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_HOST,
+                PortletPropertiesKeys.JABBER_HOST,
+                JABBER_HOST_DEFAULT
+        );
+
+        String jabberHost;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberHost = preferences.getValue(
+                    PortletPropertiesKeys.JABBER_HOST, value
+            );
+        }
+        // Properties
+        else {
+            jabberHost = value;
+        }
+
+        // Save in Environment
+        Environment.setJabberHost(jabberHost);
+    }
+
+    /**
+     * Updates jabber port property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberPort(PortletPreferences preferences,
+                                  Properties properties) throws Exception {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                properties.getJabberPort(),
+                PortletPropertiesKeys.JABBER_PORT,
+                JABBER_PORT_MIN,
+                JABBER_PORT_MAX,
+                JABBER_PORT_DEFAULT
+        );
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_PORT,
+                String.valueOf(value)
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberPort(preferences);
+    }
+
+    /**
+     * Sets the jabber port property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberPort(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.JABBER_PORT,
+                PortletPropertiesKeys.JABBER_PORT,
+                JABBER_PORT_MIN,
+                JABBER_PORT_MAX,
+                JABBER_PORT_DEFAULT
+        );
+
+        Integer jabberPort;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberPort = Integer.parseInt(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_PORT,
+                    String.valueOf(value)
+            ));
+        }
+        // Properties
+        else {
+            jabberPort = value;
+        }
+
+        // Save in Environment
+        Environment.setJabberPort(jabberPort);
+    }
+
+    /**
+     * Updates jabber service name property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberServiceName(PortletPreferences preferences,
+                                         Properties properties) throws Exception {
+
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberServiceName(),
+                PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                JABBER_SERVICE_NAME_DEFAULT
+        );
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SERVICE_NAME, value
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberServiceName(preferences);
+    }
+
+    /**
+     * Sets the jabber service name property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberServiceName(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Get the value from properties
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_SERVICE_NAME,
+                PortletPropertiesKeys.JABBER_SERVICE_NAME,
+                JABBER_SERVICE_NAME_DEFAULT
+        );
+
+        String jabberServiceName;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberServiceName = preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SERVICE_NAME, value
+            );
+        }
+        // Properties
+        else {
+            jabberServiceName = value;
+        }
+
+        // Save in Environment
+        Environment.setJabberServiceName(jabberServiceName);
+    }
+
+    /**
+     * Updates jabber resource property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberResource(PortletPreferences preferences,
+                                      Properties properties) throws Exception {
+
+        // Validate the value
+        String value = validateDefaultString(
+                properties.getJabberResource(),
+                PortletPropertiesKeys.JABBER_RESOURCE,
+                JABBER_RESOURCE_DEFAULT
+        );
+
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_RESOURCE, value
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberResource(preferences);
+    }
+
+    /**
+     * Sets the jabber resource property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberResource(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // Get the value from properties
+        String value = validateDefaultString(
+                PortletPropertiesValues.JABBER_RESOURCE,
+                PortletPropertiesKeys.JABBER_RESOURCE,
+                JABBER_RESOURCE_DEFAULT
+        );
+
+        String jabberResource;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberResource = preferences.getValue(PortletPropertiesKeys.JABBER_RESOURCE, value);
+        }
+        // Properties
+        else {
+            jabberResource = value;
+        }
+
+        // Save in Environment
+        Environment.setJabberResource(jabberResource);
+    }
+
+    /**
+     * Sets the jabber resource priority property
+     */
+    private void setupJabberResourcePriority() {
+
+        // Get the value from properties
+        Integer value = validateValueScope(
+                PortletPropertiesValues.JABBER_RESOURCE_PRIORITY,
+                PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY,
+                JABBER_RESOURCE_PRIORITY_MIN,
+                JABBER_RESOURCE_PRIORITY_MAX,
+                JABBER_RESOURCE_PRIORITY_DEFAULT
+        );
+
+        // Save in Environment
+        Environment.setJabberResourcePriority(value);
     }
 
     /**
@@ -1068,7 +1278,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Set url properties
         Environment.setUrlHelp(PortletPropertiesValues.URL_HELP);
         Environment.setUrlUnsupportedBrowser(PortletPropertiesValues.URL_UNSUPPORTED_BROWSER);
-
     }
 
     /**
@@ -1092,6 +1301,34 @@ public class PropertiesManagerImpl implements PropertiesManager {
                                 " the %s value to default: %d. To get rid of the message check the" +
                                 " portlet.properties file and update the value.",
                         name, value, min, max, name, defaultValue));
+            }
+
+            // Return default
+            return defaultValue;
+        }
+
+        // Value is ok
+        return value;
+    }
+
+    /**
+     * Validates the value. Returns the default value if the provided value is empty or null.
+     *
+     * @param value        that is examined
+     * @param name         of the property that is represented by the value
+     * @param defaultValue which is returned if the value is not set
+     * @return validated value
+     */
+    private String validateDefaultString(String value, String name, String defaultValue) {
+        // Check the value
+        if (value == null || value.length() == 0) {
+            // Log
+            if (log.isInfoEnabled()) {
+                log.info(String.format(
+                        "The value of %s property is empty. Setting the %s value to default: %s. To get rid of the" +
+                                " message check the portlet.properties file and update the value.",
+                        name, name, defaultValue
+                ));
             }
 
             // Return default

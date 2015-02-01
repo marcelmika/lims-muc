@@ -94,6 +94,16 @@ var Util = {
     },
 
     /**
+     * Returns true if the value is integer
+     *
+     * @param value
+     * @return {boolean}
+     */
+    isInteger: function (value) {
+        return !isNaN(value) && (parseInt(value, 10) === parseFloat(value));
+    },
+
+    /**
      * Shows node
      *
      * @param node {Node}
@@ -109,6 +119,24 @@ var Util = {
      */
     hide: function (node) {
         node.addClass('hide');
+    },
+
+    /**
+     * Takes the string and makes all links clickable
+     *
+     * @param text
+     * @return {string}
+     */
+    linkify: function (text) {
+
+        // http://, https://, ftp://
+        var urlPattern = /\b(?:https?|ftp):&#x2F;&#x2F;[a-z0-9-+&@#&#x2F;%?=~_|!:,.;]*[a-z0-9-+&@#&#x2F;%=~_|]/gim,
+        // Email addresses
+            emailAddressPattern = /[\w.]+@[a-zA-Z_\-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+
+        return text
+            .replace(urlPattern, '<a class="link" target="_blank" href="$&">$&</a>')
+            .replace(emailAddressPattern, '<a class="link" target="_blank" href="mailto:$&">$&</a>');
     },
 
     /**

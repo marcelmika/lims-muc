@@ -36,6 +36,13 @@ public class Properties {
     private String[] buddyListGroupExcludes;
     private String urlHelp;
     private String urlUnsupportedBrowser;
+    private Boolean jabberEnabled;
+    private Boolean jabberSecurityEnabled;
+    private Boolean jabberImportUserEnabled;
+    private String jabberHost;
+    private Integer jabberPort;
+    private String jabberServiceName;
+    private String jabberResource;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -61,6 +68,13 @@ public class Properties {
         properties.buddyListGroupExcludes = Environment.getBuddyListGroupExcludes();
         properties.urlHelp = Environment.getUrlHelp();
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
+        properties.jabberEnabled = Environment.isJabberEnabled();
+        properties.jabberSecurityEnabled = Environment.getJabberSecurityEnabled();
+        properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
+        properties.jabberHost = Environment.getJabberHost();
+        properties.jabberPort = Environment.getJabberPort();
+        properties.jabberServiceName = Environment.getJabberServiceName();
+        properties.jabberResource = Environment.getJabberResource();
 
         return properties;
     }
@@ -189,6 +203,62 @@ public class Properties {
         this.urlUnsupportedBrowser = urlUnsupportedBrowser;
     }
 
+    public Boolean getJabberEnabled() {
+        return jabberEnabled;
+    }
+
+    public void setJabberEnabled(Boolean jabberEnabled) {
+        this.jabberEnabled = jabberEnabled;
+    }
+
+    public Boolean getJabberSecurityEnabled() {
+        return jabberSecurityEnabled;
+    }
+
+    public void setJabberSecurityEnabled(Boolean jabberSecurityEnabled) {
+        this.jabberSecurityEnabled = jabberSecurityEnabled;
+    }
+
+    public Boolean getJabberImportUserEnabled() {
+        return jabberImportUserEnabled;
+    }
+
+    public void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
+        this.jabberImportUserEnabled = jabberImportUserEnabled;
+    }
+
+    public String getJabberHost() {
+        return jabberHost;
+    }
+
+    public void setJabberHost(String jabberHost) {
+        this.jabberHost = jabberHost;
+    }
+
+    public Integer getJabberPort() {
+        return jabberPort;
+    }
+
+    public void setJabberPort(Integer jabberPort) {
+        this.jabberPort = jabberPort;
+    }
+
+    public String getJabberServiceName() {
+        return jabberServiceName;
+    }
+
+    public void setJabberServiceName(String jabberServiceName) {
+        this.jabberServiceName = jabberServiceName;
+    }
+
+    public String getJabberResource() {
+        return jabberResource;
+    }
+
+    public void setJabberResource(String jabberResource) {
+        this.jabberResource = jabberResource;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -206,6 +276,13 @@ public class Properties {
                 ", buddyListGroupExcludes=" + Arrays.toString(buddyListGroupExcludes) +
                 ", urlHelp='" + urlHelp + '\'' +
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
+                ", jabberEnabled=" + jabberEnabled +
+                ", jabberSecurityEnabled=" + jabberSecurityEnabled +
+                ", jabberImportUserEnabled=" + jabberImportUserEnabled +
+                ", jabberHost='" + jabberHost + '\'' +
+                ", jabberPort=" + jabberPort +
+                ", jabberServiceName='" + jabberServiceName + '\'' +
+                ", jabberResource='" + jabberResource + '\'' +
                 '}';
     }
 }

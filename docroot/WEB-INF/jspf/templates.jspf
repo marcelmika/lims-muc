@@ -285,9 +285,9 @@
 
 <%-- This template HTML will be used as a error notification in panel (the black one) --%>
 <script type="text/x-template" id="limsmuc-panel-error-template">
-    <div class="panel-error">
+    <div class="error-content" data-id="{errorId}">
         <div class="warning-icon"></div>
-        <div class="error-message"></div>
+        <div class="error-message">{errorMessage}</div>
     </div>
 </script>
 

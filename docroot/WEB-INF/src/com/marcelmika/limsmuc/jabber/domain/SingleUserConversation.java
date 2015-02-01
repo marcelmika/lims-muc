@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.ConversationDetails;
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
  * Date: 4/4/14
  * Time: 1:07 AM
  */
-public class SingleUserConversation implements MessageListener {
+public class SingleUserConversation {
 
     // Log
     private static Log log = LogFactoryUtil.getLog(SingleUserConversation.class);
@@ -55,9 +54,6 @@ public class SingleUserConversation implements MessageListener {
         // Map relationships
         conversation.participant = Buddy.fromChat(chat);
         conversation.conversationType = ConversationType.SINGLE_USER;
-        // Set conversation as a message listener. Thanks to that it
-        // will be able to change inner content
-        chat.addMessageListener(conversation);
 
         return conversation;
     }
@@ -78,8 +74,10 @@ public class SingleUserConversation implements MessageListener {
             // However, we should fail gracefully here. So we just take the first participant in the list
             // which isn't the owner of conversation and show a log message that should warn us.
             if (details.getParticipants().size() > 2) {
-                log.error("The size of participants list for a single user conversation is bigger than 2." +
-                        "This shouldn't normally happen.");
+                if (log.isErrorEnabled()) {
+                    log.error("The size of participants list for a single user conversation is bigger than 2." +
+                            "This shouldn't normally happen.");
+                }
             }
 
             // Get from by listing the participants
@@ -108,12 +106,10 @@ public class SingleUserConversation implements MessageListener {
 
         // Create new conversation
         SingleUserConversation conversation = new SingleUserConversation();
-        // Todo: order alphabetically
-        String conversationId = String.format("%s_%s", from.getScreenName(), to.getScreenName());
 
         // Properties
         conversation.conversationType = ConversationType.SINGLE_USER;
-        conversation.conversationId = conversationId;
+        conversation.conversationId = createConversationId(from.getScreenName(), to.getScreenName());
 
         // Relations
         conversation.buddy = from;
@@ -140,6 +136,10 @@ public class SingleUserConversation implements MessageListener {
         details.setConversationId(conversationId);
 
         // Relations
+        if (buddy != null) {
+            details.setBuddy(buddy.toBuddyDetails());
+        }
+
         if (conversationType != null) {
             details.setConversationType(conversationType.toConversationTypeDetails());
         }
@@ -157,24 +157,41 @@ public class SingleUserConversation implements MessageListener {
         return details;
     }
 
-
     // -------------------------------------------------------------------------------------------
-    // Message Listener
+    // Private Methods
     // -------------------------------------------------------------------------------------------
 
     /**
-     * Called whenever the buddy receives message
+     * Creates conversation id based on the users ids. Returns null if no conversation id can be created
      *
-     * @param smackMessage which was received
+     * @param fromUser from user
+     * @param toUser   to user
+     * @return conversation id or null if no conversation id can be created
      */
-    @Override
-    public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message smackMessage) {
-        // Create new message from smack message
-        Message message = Message.fromSmackMessage(smackMessage);
+    private static String createConversationId(String fromUser, String toUser) {
 
-        log.debug(String.format("From: %s, Body: %s", message.getFrom().getScreenName(), message.getBody()));
+        if (fromUser == null || toUser == null) {
+            return null; // No users were found
+        }
 
-        messages.add(message);
+        // Create the conversation id from the users
+        int comparison = fromUser.compareToIgnoreCase(toUser);
+        String conversationId;
+
+        // Cannot have conversation with yourself
+        if (comparison == 0) {
+            return null;
+        }
+        // From user is lexicographically after To user
+        else if (comparison < 0) {
+            conversationId = String.format("%s_%s", fromUser, toUser);
+        }
+        // To user is lexicographically after To user
+        else {
+            conversationId = String.format("%s_%s", toUser, fromUser);
+        }
+
+        return conversationId;
     }
 
 

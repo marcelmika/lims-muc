@@ -11,8 +11,14 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.events.ResponseEvent;
+import com.marcelmika.limsmuc.api.entity.PresenceDetails;
+import com.marcelmika.limsmuc.api.entity.SettingsDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.core.session.BuddySessionStore;
+import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
+import com.marcelmika.limsmuc.jabber.service.SettingsJabberService;
 import com.marcelmika.limsmuc.persistence.service.SettingsPersistenceService;
 
 /**
@@ -32,14 +38,23 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
 
     // Dependencies
     SettingsPersistenceService settingsPersistenceService;
+    SettingsJabberService settingsJabberService;
+    BuddyJabberService buddyJabberService;
+    BuddySessionStore buddySessionStore;
 
     /**
      * Constructor
      *
      * @param settingsPersistenceService persistence service
      */
-    public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService) {
+    public SettingsCoreServiceImpl(final SettingsPersistenceService settingsPersistenceService,
+                                   final SettingsJabberService settingsJabberService,
+                                   final BuddyJabberService buddyJabberService,
+                                   final BuddySessionStore buddySessionStore) {
         this.settingsPersistenceService = settingsPersistenceService;
+        this.settingsJabberService = settingsJabberService;
+        this.buddyJabberService = buddyJabberService;
+        this.buddySessionStore = buddySessionStore;
     }
 
     /**
@@ -50,7 +65,48 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event) {
-        return settingsPersistenceService.readSettings(event);
+
+        // Read settings from persistence
+        ReadSettingsResponseEvent persistenceResponseEvent = settingsPersistenceService.readSettings(event);
+
+        // Failure
+        if (!persistenceResponseEvent.isSuccess()) {
+            return persistenceResponseEvent;
+        }
+
+        // Jabber is not enabled
+        if (!Environment.isJabberEnabled()) {
+            return persistenceResponseEvent;
+        }
+
+        // Update the presence
+        buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
+                persistenceResponseEvent.getSettingsDetails().getBuddyId(),
+                persistenceResponseEvent.getSettingsDetails().getPresenceDetails()
+        ));
+
+        // Read settings from jabber
+        return settingsJabberService.readSettings(
+                new ReadSettingsRequestEvent(persistenceResponseEvent.getSettingsDetails(), event.getBuddyDetails())
+        );
+    }
+
+    /**
+     * Reads buddy's session limit
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event) {
+        // Get the buddy id
+        Long buddyId = event.getBuddyId();
+
+        // Check if the user is over the session limit
+        boolean isOverLimit = buddySessionStore.isOverSessionLimit(buddyId);
+
+        // Success
+        return ReadSessionLimitResponseEvent.success(isOverLimit);
     }
 
     /**
@@ -83,7 +139,48 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event) {
-        return settingsPersistenceService.updateAllConnections(event);
+
+        // Update connections
+        UpdateAllConnectionsResponseEvent responseEvent = settingsPersistenceService.updateAllConnections(event);
+
+        // Failure
+        if (!responseEvent.isSuccess()) {
+            return responseEvent;
+        }
+
+        // Get the list of connected users
+        GetConnectedBuddiesResponseEvent connectedBuddiesResponseEvent = settingsPersistenceService.getConnectedBuddies(
+                new GetConnectedBuddiesRequestEvent()
+        );
+
+        // Success
+        if (connectedBuddiesResponseEvent.isSuccess()) {
+            // Add connected users to store
+            buddySessionStore.addBuddies(connectedBuddiesResponseEvent.getBuddies());
+        }
+        // Failure
+        else {
+            // Log warning
+            if (log.isWarnEnabled()) {
+                log.warn("Session store cannot be updated. This may cause incorrect limit session behaviour.");
+            }
+            // Log error
+            if (log.isDebugEnabled()) {
+                log.debug(connectedBuddiesResponseEvent.getException());
+            }
+        }
+
+        // Update user presence in jabber
+        if (Environment.isJabberEnabled()) {
+            for (SettingsDetails settings : responseEvent.getSettings()) {
+                buddyJabberService.updatePresence(new UpdatePresenceBuddyRequestEvent(
+                        settings.getBuddyId(), PresenceDetails.OFFLINE
+                ));
+            }
+        }
+
+        // Success
+        return responseEvent;
     }
 
     /**
@@ -94,21 +191,29 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public EnableChatResponseEvent enableChat(EnableChatRequestEvent event) {
-        // Chat is enabled
-        ResponseEvent responseEvent = settingsPersistenceService.enableChat(event);
+
+        // Enable chat
+        EnableChatResponseEvent responseEvent = settingsPersistenceService.enableChat(event);
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
+            return responseEvent;
         }
 
-        // No active panel
-        responseEvent = settingsPersistenceService.updateActivePanel(
+        // No panels are opened when the chat is being enabled
+        UpdateActivePanelResponseEvent updatePanelResponseEvent = settingsPersistenceService.updateActivePanel(
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
-        if (!responseEvent.isSuccess()) {
-            return EnableChatResponseEvent.failure("Cannot enable chat", responseEvent.getException());
+
+        // Failure
+        if (!updatePanelResponseEvent.isSuccess()) {
+            return EnableChatResponseEvent.failure(
+                    EnableChatResponseEvent.Status.ERROR_PERSISTENCE, updatePanelResponseEvent.getException()
+            );
         }
 
-        return EnableChatResponseEvent.success("Chat was successfully enabled");
+        // Success
+        return EnableChatResponseEvent.success();
     }
 
     /**
@@ -119,20 +224,39 @@ public class SettingsCoreServiceImpl implements SettingsCoreService {
      */
     @Override
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event) {
-        // Chat is disabled
-        ResponseEvent responseEvent = settingsPersistenceService.disableChat(event);
+
+        // Disable chat
+        DisableChatResponseEvent responseEvent = settingsPersistenceService.disableChat(event);
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
+            return responseEvent;
         }
 
-        // No active panel
-        responseEvent = settingsPersistenceService.updateActivePanel(
+        // No panels are opened when the chat is being disabled
+        UpdateActivePanelResponseEvent updatePanelResponseEvent = settingsPersistenceService.updateActivePanel(
                 new UpdateActivePanelRequestEvent(event.getBuddyDetails().getBuddyId(), "")
         );
+
+        // Failure
         if (!responseEvent.isSuccess()) {
-            return DisableChatResponseEvent.failure("Cannot disable chat", responseEvent.getException());
+            return DisableChatResponseEvent.failure(
+                    DisableChatResponseEvent.Status.ERROR_PERSISTENCE, updatePanelResponseEvent.getException()
+            );
         }
 
-        return DisableChatResponseEvent.success("Chat was successfully disabled");
+        // Success
+        return DisableChatResponseEvent.success();
+    }
+
+    /**
+     * Tests connection with the jabber server
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event) {
+        return settingsJabberService.testConnection(event);
     }
 }

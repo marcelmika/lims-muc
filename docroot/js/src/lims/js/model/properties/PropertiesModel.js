@@ -16,6 +16,51 @@ Y.namespace('LIMS.Model');
 Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS.Model.ModelExtension], {
 
     /**
+     * Tests connection with the jabber server
+     *
+     * @param callback
+     */
+    testConnection: function (callback) {
+
+        // Vars
+        var url = this.getServerRequestUrl();
+
+        // First, save the properties
+        this.save(function (err) {
+
+            // The properties cannot be saved
+            if (err) {
+                callback(err);
+                // End here
+                return;
+            }
+
+            // Do the test request
+            Y.io(url, {
+                method: "POST",
+                data: {
+                    query: "TestConnection"
+                },
+                on: {
+                    success: function () {
+                        callback(null);
+                    },
+                    failure: function (x, o) {
+
+                        // If the attempt is unauthorized session has expired
+                        if (o.status === 401) {
+                            // Notify everybody else
+                            Y.fire('userSessionExpired');
+                        }
+
+                        callback(o.responseText);
+                    }
+                }
+            });
+        });
+    },
+
+    /**
      * Custom sync layer
      *
      * @param action  [create|read|update|delete]
@@ -122,42 +167,6 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
         },
 
         /**
-         * Buddy list max buddies
-         *
-         * {Number}
-         */
-        buddyListMaxBuddies: {
-            value: null // to be set
-        },
-
-        /**
-         * Buddy list max search
-         *
-         * {Number}
-         */
-        buddyListMaxSearch: {
-            value: null // to be set
-        },
-
-        /**
-         * Conversation list max messages
-         *
-         * {Number}
-         */
-        conversationListMaxMessages: {
-            value: null // to be set
-        },
-
-        /**
-         * Conversation feed max conversations
-         *
-         * {Number}
-         */
-        conversationFeedMaxConversations: {
-            value: null // to be set
-        },
-
-        /**
          * Excluded sites
          *
          * []
@@ -181,6 +190,69 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          * []
          */
         buddyListGroupExcludes: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber enabled
+         *
+         * {boolean}
+         */
+        jabberEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber security enabled
+         *
+         * {boolean}
+         */
+        jabberSecurityEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber import user enabled
+         *
+         * {boolean}
+         */
+        jabberImportUserEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber host
+         *
+         * {string}
+         */
+        jabberHost: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber port
+         *
+         * {integer}
+         */
+        jabberPort: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber service name
+         *
+         * {string}
+         */
+        jabberServiceName: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber resource
+         *
+         * {string}
+         */
+        jabberResource: {
             value: null // to be set
         }
     }

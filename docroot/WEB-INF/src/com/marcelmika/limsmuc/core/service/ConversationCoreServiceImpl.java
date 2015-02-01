@@ -11,13 +11,16 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.ConversationDetails;
-import com.marcelmika.limsmuc.api.entity.MessageDetails;
+import com.marcelmika.limsmuc.api.entity.ConversationTypeDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.*;
+import com.marcelmika.limsmuc.core.bus.ConversationEventBus;
+import com.marcelmika.limsmuc.core.bus.ConversationEventBusListener;
+import com.marcelmika.limsmuc.core.domain.Buddy;
+import com.marcelmika.limsmuc.core.domain.Conversation;
+import com.marcelmika.limsmuc.core.domain.Message;
 import com.marcelmika.limsmuc.jabber.service.ConversationJabberService;
-import com.marcelmika.limsmuc.jabber.service.ConversationJabberServiceListener;
 import com.marcelmika.limsmuc.persistence.service.ConversationPersistenceService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -29,11 +32,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Date: 2/19/14
  * Time: 11:03 PM
  */
-public class ConversationCoreServiceImpl implements ConversationCoreService, ConversationJabberServiceListener {
+public class ConversationCoreServiceImpl implements ConversationCoreService, ConversationEventBusListener {
 
     // Dependencies
     ConversationJabberService conversationJabberService;
     ConversationPersistenceService conversationPersistenceService;
+    ConversationEventBus conversationEventBus;
 
     // Log
     private static Log log = LogFactoryUtil.getLog(ConversationCoreServiceImpl.class);
@@ -44,12 +48,14 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
      * @param conversationJabberService jabber service
      */
     public ConversationCoreServiceImpl(final ConversationJabberService conversationJabberService,
-                                       final ConversationPersistenceService conversationPersistenceService) {
+                                       final ConversationPersistenceService conversationPersistenceService,
+                                       final ConversationEventBus conversationEventBus) {
         this.conversationJabberService = conversationJabberService;
         this.conversationPersistenceService = conversationPersistenceService;
+        this.conversationEventBus = conversationEventBus;
 
         // Listeners
-        conversationJabberService.addConversationJabberServiceListener(this);
+        conversationEventBus.register(this);
     }
 
     /**
@@ -207,20 +213,9 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             );
         }
 
-        // Send message locally
-        SendMessageResponseEvent persistenceResponseEvent = conversationPersistenceService.sendMessage(
-                new SendMessageRequestEvent(
-                        event.getBuddyDetails(),
-                        participantListEvent.getConversation(),
-                        event.getMessageDetails())
-        );
-        // Failure
-        if (!persistenceResponseEvent.isSuccess()) {
-            return persistenceResponseEvent;
-        }
-
-        // Send message to Jabber
+        // Send message to Jabber if enabled
         if (Environment.isJabberEnabled()) {
+
             // Send message via jabber service
             SendMessageResponseEvent jabberResponseEvent = conversationJabberService.sendMessage(
                     new SendMessageRequestEvent(
@@ -228,12 +223,27 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
                             participantListEvent.getConversation(),
                             event.getMessageDetails())
             );
+
             // Failure
             if (!jabberResponseEvent.isSuccess()) {
-                return SendMessageResponseEvent.failure(
-                        SendMessageResponseEvent.Status.ERROR_JABBER, jabberResponseEvent.getException()
-                );
+                // TODO: Remove after MUC in jabber is implemented
+                if (jabberResponseEvent.getStatus() != SendMessageResponseEvent.Status.ERROR_NOT_IMPLEMENTED) {
+                    return jabberResponseEvent;
+                }
             }
+        }
+
+        // Send message locally
+        SendMessageResponseEvent persistenceResponseEvent = conversationPersistenceService.sendMessage(
+                new SendMessageRequestEvent(
+                        event.getBuddyDetails(),
+                        participantListEvent.getConversation(),
+                        event.getMessageDetails())
+        );
+
+        // Failure
+        if (!persistenceResponseEvent.isSuccess()) {
+            return persistenceResponseEvent;
         }
 
         // Return persistence event
@@ -244,30 +254,75 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
 
 
     // -------------------------------------------------------------------------------------------
-    // Conversation Jabber Service Listener
+    // Conversation Bus
     // -------------------------------------------------------------------------------------------
 
     @Override
-    public void messageReceived(ConversationDetails conversation, MessageDetails message) {
-        log.info("## CORE MESSAGE RECEIVED: " + message);
+    public void messageReceived(MessageReceivedBusEvent event) {
 
-        // Conversation holds the creator
-        BuddyDetails creator = conversation.getBuddy();
-
-        // Create the conversation
-        CreateConversationResponseEvent responseEvent = conversationPersistenceService.createConversation(
-                new CreateConversationRequestEvent(creator, conversation, message)
-        );
-
-        if (!responseEvent.isSuccess()) {
-            // TODO log
-            log.error(responseEvent.getException());
+        // Log
+        if (log.isDebugEnabled()){
+            log.debug("Message received" + event);
         }
 
-        SendMessageResponseEvent sendMessageResponse = conversationPersistenceService.sendMessage(
-                new SendMessageRequestEvent(creator, conversation, message)
+        // Map from api objects
+        Conversation conversation = Conversation.fromConversationDetails(event.getConversation());
+        Message message = Message.fromMessageDetails(event.getMessage());
+
+        // Check if the conversation exists
+        ExistsConversationResponseEvent existsConversationRequest = conversationPersistenceService.existsConversation(
+                new ExistsConversationRequestEvent(conversation.getConversationId())
         );
 
+        // Failure
+        if (!existsConversationRequest.isSuccess()) {
+            // Log error
+            if (log.isErrorEnabled()) {
+                log.error(existsConversationRequest.getException());
+            }
+        }
+
+        // Conversation holds the creator
+        Buddy creator = conversation.getBuddy();
+
+        // If no such conversation exists create a new one
+        if (!existsConversationRequest.isExists()) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug("Creating new conversation" + conversation);
+            }
+
+            // Create new conversation
+            CreateConversationResponseEvent responseEvent = conversationPersistenceService.createConversation(
+                    new CreateConversationRequestEvent(
+                            creator.toBuddyDetails(), conversation.toConversationDetails(), message.toMessageDetails()
+                    ));
+
+            // Failure
+            if (!responseEvent.isSuccess()) {
+                // Log error
+                if (log.isErrorEnabled()) {
+                    log.error(responseEvent.getStatus());
+                    log.error(responseEvent.getException());
+                }
+                // End here
+                return;
+            }
+        }
+
+        // Send a message
+        SendMessageResponseEvent sendMessageResponse = conversationPersistenceService.sendMessage(
+                new SendMessageRequestEvent(
+                        creator.toBuddyDetails(), conversation.toConversationDetails(), message.toMessageDetails()
+                ));
+
         // Send message
+        if (!sendMessageResponse.isSuccess()) {
+            // Log error
+            if (log.isErrorEnabled()) {
+                log.error(sendMessageResponse.getStatus());
+                log.error(sendMessageResponse.getException());
+            }
+        }
     }
 }

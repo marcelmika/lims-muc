@@ -20,11 +20,13 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.model.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.base.SettingsLocalServiceBaseImpl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -189,7 +191,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * Updates connections that have the connected at value below the threshold
      */
     @Override
-    public void updateAllConnections(int connectionThreshold) throws SystemException {
+    public List<Settings> updateAllConnections(int connectionThreshold) throws SystemException {
 
         // Check the input
         if (connectionThreshold < 1) {
@@ -211,14 +213,45 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         query.add(RestrictionsFactoryUtil.eq("connected", true));
 
         // Get the results
-        List results = dynamicQuery(query);
+        @SuppressWarnings("unchecked")
+        List<Settings> results = dynamicQuery(query);
 
         // Set the connected flag to false for all found settings
-        for (Object setting : results) {
-            ((Settings) setting).setConnected(false);
-            ((Settings) setting).setPresenceUpdatedAt(now);
-            settingsPersistence.update((Settings) setting, false);
+        for (Settings setting : results) {
+            setting.setConnected(false);
+            setting.setPresenceUpdatedAt(now);
+            settingsPersistence.update(setting, false);
         }
+
+        return results;
+    }
+
+    /**
+     * Returns a list of userIds of connected users
+     *
+     * @return List of ids
+     */
+    @Override
+    public List<Long> getConnectedUsers() throws SystemException {
+        // Create dynamic query
+        DynamicQuery query = DynamicQueryFactoryUtil.forClass(Settings.class);
+        // Add the restrictions that will find all connected user ids
+        query.add(RestrictionsFactoryUtil.eq("connected", true));
+
+        // Get the results
+        @SuppressWarnings("unchecked")
+        List<Settings> results = dynamicQuery(query);
+
+        // Create a list of ids
+        List<Long> connectedUsers = new LinkedList<Long>();
+
+        // Map to list of ids
+        for(Settings settings : results) {
+            //
+            connectedUsers.add(settings.getUserId());
+        }
+
+        return connectedUsers;
     }
 
     /**

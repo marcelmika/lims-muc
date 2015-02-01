@@ -25,6 +25,6 @@ Y.LIMS.Model.ModelExtension.prototype = {
      * @returns {URL}
      */
     getServerRequestUrl: function () {
-        return Y.LIMS.Core.Properties.values.portletResourceURL;
+        return Y.LIMS.Core.Properties.resourceURL;
     }
 };

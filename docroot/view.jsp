@@ -1,5 +1,6 @@
 <%-- Variables --%>
 <%--@elvariable id="isEnabled" type="boolean"--%>
+<%--@elvariable id="isOverLimit" type="boolean"--%>
 <%--@elvariable id="isSupportedBrowser" type="boolean"--%>
 <%--@elvariable id="needsIESupport" type="boolean"--%>
 
@@ -24,8 +25,8 @@
     </c:otherwise>
 </c:choose>
 
+<%-- Render only if the portlet is enabled --%>
 <c:if test="${isEnabled}">
-
 
     <%-- LIMS bar --%>
     <div id="limsmuc-container" class="covered ${ieSupportClass}">
@@ -53,6 +54,9 @@
             <%-- Rendered properties passed to client --%>
             <%@ include file="/WEB-INF/jspf/properties.jspf" %>
 
+            <%-- Rendered i18n string used on client --%>
+            <%@ include file="/WEB-INF/jspf/i18n.jspf" %>
+
         </c:if>
 
             <%-- Browser is not supported--%>
@@ -70,5 +74,15 @@
 
     <%-- Conflict notifications --%>
     <%@ include file="/WEB-INF/jspf/conflict.jspf" %>
+
+</c:if>
+
+<%-- Show over limit info --%>
+<c:if test="${isOverLimit}">
+
+    <div class="over-limit">
+        <button class="close-notification"></button>
+        <liferay-ui:message key="over-limit-message"/>
+    </div>
 
 </c:if>

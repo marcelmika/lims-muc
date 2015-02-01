@@ -23,25 +23,29 @@ public class Settings {
     private String activePanelId;
     private boolean isMute;
     private boolean isChatEnabled;
+    private boolean isAdminAreaOpened;
+    private boolean isJabberDisconnected;
 
 
     /**
      * Create new settings and maps data from settings details
      *
-     * @param settingsDetails SettingsDetails
+     * @param details SettingsDetails
      * @return Settings
      */
-    public static Settings fromSettingsDetails(SettingsDetails settingsDetails) {
+    public static Settings fromSettingsDetails(SettingsDetails details) {
         // Create new Settings
         Settings settings = new Settings();
         // Map data to settings details
-        settings.activePanelId = settingsDetails.getActivePanelId();
-        settings.isMute = settingsDetails.isMute();
-        settings.isChatEnabled = settingsDetails.isChatEnabled();
+        settings.activePanelId = details.getActivePanelId();
+        settings.isMute = details.isMute();
+        settings.isChatEnabled = details.isChatEnabled();
+        settings.isAdminAreaOpened = details.isAdminAreaOpened();
+        settings.isJabberDisconnected = details.isJabberDisconnected();
 
         // Relations
-        if (settingsDetails.getPresenceDetails() != null) {
-            settings.presence = Presence.fromPresenceDetails(settingsDetails.getPresenceDetails());
+        if (details.getPresenceDetails() != null) {
+            settings.presence = Presence.fromPresenceDetails(details.getPresenceDetails());
         }
 
         return settings;
@@ -59,6 +63,8 @@ public class Settings {
         details.setActivePanelId(activePanelId);
         details.setMute(isMute);
         details.setChatEnabled(isChatEnabled);
+        details.setAdminAreaOpened(isAdminAreaOpened);
+        details.setJabberDisconnected(isJabberDisconnected);
 
         if (presence != null) {
             details.setPresenceDetails(presence.toPresenceDetails());
@@ -89,5 +95,29 @@ public class Settings {
 
     public void setChatEnabled(boolean isChatEnabled) {
         this.isChatEnabled = isChatEnabled;
+    }
+
+    public Presence getPresence() {
+        return presence;
+    }
+
+    public void setPresence(Presence presence) {
+        this.presence = presence;
+    }
+
+    public boolean isAdminAreaOpened() {
+        return isAdminAreaOpened;
+    }
+
+    public void setAdminAreaOpened(boolean isAdminAreaOpened) {
+        this.isAdminAreaOpened = isAdminAreaOpened;
+    }
+
+    public boolean isJabberDisconnected() {
+        return isJabberDisconnected;
+    }
+
+    public void setJabberDisconnected(boolean isJabberDisconnected) {
+        this.isJabberDisconnected = isJabberDisconnected;
     }
 }

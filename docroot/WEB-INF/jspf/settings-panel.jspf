@@ -95,13 +95,19 @@
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-buddies.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-max-search.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/conversation-list-max-messages.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/conversation-feed-max-conversations.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                            <li class="category">Jabber</li>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-security-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-import-user-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-host.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-port.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-service-name.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-resource.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-test-connection.jspf" %>
+                            <li class="category">Synchronization</li>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
                         </ul>

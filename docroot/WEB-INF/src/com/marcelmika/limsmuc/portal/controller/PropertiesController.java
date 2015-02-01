@@ -12,6 +12,9 @@ package com.marcelmika.limsmuc.portal.controller;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.settings.TestConnectionRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.TestConnectionResponseEvent;
+import com.marcelmika.limsmuc.core.service.SettingsCoreService;
 import com.marcelmika.limsmuc.portal.domain.Properties;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.portlet.PermissionDetector;
@@ -35,14 +38,17 @@ public class PropertiesController {
 
     // Dependencies
     PropertiesManager propertiesManager;
+    SettingsCoreService settingsCoreService;
 
     /**
      * Constructor
      *
      * @param propertiesManager Preferences
      */
-    public PropertiesController(final PropertiesManager propertiesManager) {
+    public PropertiesController(final PropertiesManager propertiesManager,
+                                final SettingsCoreService settingsCoreService) {
         this.propertiesManager = propertiesManager;
+        this.settingsCoreService = settingsCoreService;
     }
 
     /**
@@ -100,6 +106,50 @@ public class PropertiesController {
             // Log
             if (log.isErrorEnabled()) {
                 log.error(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Write success to response
+        ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
+    }
+
+    /**
+     * Tests connection to the jabber server
+     *
+     * @param request  ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void testConnection(ResourceRequest request, ResourceResponse response) {
+        // Check if the user is an admin
+        if (!PermissionDetector.isAdmin(request)) {
+            ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            return;
+        }
+
+        // Test the connection
+        TestConnectionResponseEvent responseEvent = settingsCoreService.testConnection(
+                new TestConnectionRequestEvent()
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Write success to response
+            ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
+        }
+        // Failure
+        else {
+            ResponseUtil.writeResponse(responseEvent.getMessage(), HttpStatus.EXPECTATION_FAILED, response);
+
+            // Log warn
+            if (log.isWarnEnabled()) {
+                log.warn(responseEvent.getMessage());
+            }
+
+            // Log debug
+            if (log.isDebugEnabled()) {
+                log.debug(responseEvent.getException());
             }
         }
     }

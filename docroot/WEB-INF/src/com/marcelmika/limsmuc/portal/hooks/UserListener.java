@@ -15,6 +15,8 @@ import com.liferay.portal.model.BaseModelListener;
 import com.liferay.portal.model.User;
 import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordResponseEvent;
 import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
@@ -29,23 +31,95 @@ import com.marcelmika.limsmuc.portal.domain.Buddy;
  */
 public class UserListener extends BaseModelListener<User> {
 
-    // Log
-    private static Log log = LogFactoryUtil.getLog(UserListener.class);
     // Services
     BuddyCoreService coreService = BuddyCoreServiceUtil.getBuddyCoreService();
 
+    // Log
+    private static Log log = LogFactoryUtil.getLog(UserListener.class);
+
+    /**
+     * Called whenever the user is removed from the portal
+     *
+     * @param user User
+     */
     @Override
     public void onAfterRemove(User user) {
+
         // Create buddy from portal user
         Buddy buddy = Buddy.fromPortalUser(user);
-        // Logout buddy
+
+        // Delete the user
+        deleteBuddy(buddy);
+    }
+
+    /**
+     * Called whenever the user is updated
+     *
+     * @param user User
+     */
+    @Override
+    public void onAfterUpdate(User user) {
+
+        // Create buddy from portal user
+        Buddy buddy = Buddy.fromPortalUser(user);
+
+        // If the password is null there is no need to update it. Since password is always mandatory.
+        // Furthermore, if the password is null it means that some other property was updated.
+        if (buddy.getPassword() != null) {
+            updatePassword(buddy);
+        }
+    }
+
+    /**
+     * Updates buddy's password
+     *
+     * @param buddy Buddy
+     */
+    private void updatePassword(Buddy buddy) {
+
+        // Update password
+        UpdatePasswordResponseEvent responseEvent = coreService.updatePassword(
+                new UpdatePasswordRequestEvent(buddy.toBuddyDetails())
+        );
+
+        // Failure
+        if (!responseEvent.isSuccess()) {
+
+            // Notify the admin about the error
+            if (log.isWarnEnabled()) {
+                log.warn(String.format("Update password %s: %s",
+                        responseEvent.getStatus(), responseEvent.getExceptionMessage()
+                ));
+            }
+
+            // Provide more detailed description of the issue by printing the exception
+            if (log.isDebugEnabled()) {
+                log.debug(responseEvent.getException());
+            }
+        }
+    }
+
+    /**
+     * Removes buddy from the system
+     *
+     * @param buddy Buddy
+     */
+    private void deleteBuddy(Buddy buddy) {
+
+        // Remove buddy
         DeleteBuddyResponseEvent responseEvent = coreService.removeBuddy(
                 new DeleteBuddyRequestEvent(buddy.toBuddyDetails())
         );
 
-        // Log result
+        // Failure
         if (!responseEvent.isSuccess()) {
-            log.error(responseEvent.getException());
+
+            // Notify the admin about the error
+            if (log.isWarnEnabled()) {
+                log.warn(String.format("Remove user %s: %s",
+                        responseEvent.getStatus(), responseEvent.getExceptionMessage()
+                ));
+            }
         }
     }
 }

@@ -11,10 +11,10 @@ package com.marcelmika.limsmuc.jabber.service;
 
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
-import com.marcelmika.limsmuc.jabber.JabberException;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
-import com.marcelmika.limsmuc.jabber.group.manager.GroupManager;
+import com.marcelmika.limsmuc.jabber.group.GroupManager;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
 
@@ -55,7 +55,7 @@ public class GroupJabberServiceImpl implements GroupJabberService {
         // No session
         if (userSession == null) {
             return GetGroupsResponseEvent.failure(
-                    GetGroupsResponseEvent.Status.ERROR_JABBER,
+                    GetGroupsResponseEvent.Status.ERROR_NO_SESSION,
                     new JabberException(String.format("No session for user %d found", buddyId))
             );
         }

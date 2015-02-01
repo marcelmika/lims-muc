@@ -95,6 +95,7 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                                 instance.fire('groupReset');
 
                                 instance.set('etag', response.etag);
+                                instance.set('loading', response.loading);
 
                                 // Add groups to list
                                 for (i = 0; i < groups.length; i++) {
@@ -132,6 +133,7 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                             // Clear etag otherwise when we load the data again it
                             // might still be cached
                             instance.set('etag', -1);
+                            instance.set('loading', false);
 
                             // Fire error event
                             instance.fire('groupsReadError');
@@ -167,9 +169,20 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
          * Etag of the groups. This is used for caching. If the requested etag
          * is the same like the one currently cached there is no need to send
          * the data.
+         *
+         * {number}
          */
         etag: {
             value: -1 // default value
+        },
+
+        /**
+         * Set to true if the group model is still being retrieved from jabber on the server
+         *
+         * {boolean}
+         */
+        loading: {
+          value: false // default value
         }
     }
 });

@@ -365,9 +365,20 @@ public class SettingsLocalServiceUtil {
 	/**
 	* Updates connections that have the connected at value below the threshold
 	*/
-	public static void updateAllConnections(int connectionThreshold)
+	public static java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> updateAllConnections(
+		int connectionThreshold)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().updateAllConnections(connectionThreshold);
+		return getService().updateAllConnections(connectionThreshold);
+	}
+
+	/**
+	* Returns a list of userIds of connected users
+	*
+	* @return List of ids
+	*/
+	public static java.util.List<java.lang.Long> getConnectedUsers()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getConnectedUsers();
 	}
 
 	/**

@@ -88,7 +88,7 @@ Y.LIMS.View.TokenInputElementView = Y.Base.create('tokenInputElementView', Y.Vie
         // Vars
         var tokenInputNode = this.get('tokenInputNode');
 
-        // Take th focus away
+        // Take the focus away
         tokenInputNode.blur();
     },
 

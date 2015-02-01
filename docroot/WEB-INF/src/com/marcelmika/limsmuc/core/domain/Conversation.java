@@ -9,9 +9,12 @@
 
 package com.marcelmika.limsmuc.core.domain;
 
+import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.ConversationDetails;
+import com.marcelmika.limsmuc.api.entity.MessageDetails;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +33,9 @@ public class Conversation {
     private List<Buddy> participants;
     private List<Message> messages;
     private Date updatedAt;
-
+    private Date openedAt;
+    private Message firstMessage;
+    private Message lastMessage;
 
     // -------------------------------------------------------------------------------------------
     // Factory Methods
@@ -43,17 +48,41 @@ public class Conversation {
      * @return Conversation
      */
     public static Conversation fromConversationDetails(ConversationDetails details) {
-        // Create new Conversation
+        // Create new conversation
         Conversation conversation = new Conversation();
-
-        // Parameters
+        // Map parameters
         conversation.conversationId = details.getConversationId();
         conversation.unreadMessagesCount = details.getUnreadMessagesCount();
         conversation.updatedAt = details.getUpdatedAt();
+        conversation.openedAt = details.getOpenedAt();
 
         // Relations
+        if (details.getParticipants() != null) {
+            List<Buddy> participants = new LinkedList<Buddy>();
+            for (BuddyDetails participant : details.getParticipants()) {
+                participants.add(Buddy.fromBuddyDetails(participant));
+            }
+            conversation.participants = participants;
+        }
+
         if (details.getBuddy() != null) {
             conversation.buddy = Buddy.fromBuddyDetails(details.getBuddy());
+        }
+
+        if (details.getMessages() != null) {
+            conversation.messages = Message.fromMessageDetails(details.getMessages());
+        }
+
+        if (details.getConversationType() != null) {
+            conversation.conversationType = ConversationType.fromConversationTypeDetails(details.getConversationType());
+        }
+
+        if (details.getFirstMessage() != null) {
+            conversation.firstMessage = Message.fromMessageDetails(details.getFirstMessage());
+        }
+
+        if (details.getLastMessage() != null) {
+            conversation.lastMessage = Message.fromMessageDetails(details.getLastMessage());
         }
 
         return conversation;
@@ -69,7 +98,42 @@ public class Conversation {
         ConversationDetails details = new ConversationDetails();
         // Map data from conversation
         details.setConversationId(conversationId);
+        details.setUnreadMessagesCount(unreadMessagesCount);
         details.setUpdatedAt(updatedAt);
+        details.setOpenedAt(openedAt);
+
+        // Relations
+        if (conversationType != null) {
+            details.setConversationType(conversationType.toConversationTypeDetails());
+        }
+
+        if (participants != null) {
+            List<BuddyDetails> participantDetails = new LinkedList<BuddyDetails>();
+            for (Buddy participant : participants) {
+                participantDetails.add(participant.toBuddyDetails());
+            }
+            details.setParticipants(participantDetails);
+        }
+
+        if (buddy != null) {
+            details.setBuddy(buddy.toBuddyDetails());
+        }
+
+        if (messages != null) {
+            List<MessageDetails> messageDetails = new LinkedList<MessageDetails>();
+            for (Message message : messages) {
+                messageDetails.add(message.toMessageDetails());
+            }
+            details.setMessages(messageDetails);
+        }
+
+        if (firstMessage != null) {
+            details.setFirstMessage(firstMessage.toMessageDetails());
+        }
+
+        if (lastMessage != null) {
+            details.setLastMessage(lastMessage.toMessageDetails());
+        }
 
         return details;
     }
@@ -105,6 +169,30 @@ public class Conversation {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Date getOpenedAt() {
+        return openedAt;
+    }
+
+    public void setOpenedAt(Date openedAt) {
+        this.openedAt = openedAt;
+    }
+
+    public Message getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(Message firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public ConversationType getConversationType() {

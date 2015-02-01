@@ -35,11 +35,6 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.EXCLUDED_SITES
     );
 
-    // Buddy List - Source
-    public static final String BUDDY_LIST_SOURCE = getString(
-            PortletPropertiesKeys.BUDDY_LIST_SOURCE
-    );
-
     // Buddy List - Social Relation Types
     public static final int[] BUDDY_LIST_ALLOWED_SOCIAL_RELATION_TYPES = getIntegerValues(
             PortletPropertiesKeys.BUDDY_LIST_ALLOWED_SOCIAL_RELATION_TYPES
@@ -105,6 +100,16 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_ENABLED
     );
 
+    // Jabber - Security Enabled
+    public static final boolean JABBER_SECURITY_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_SECURITY_ENABLED
+    );
+
+    // Jabber - User Import
+    public static final boolean JABBER_IMPORT_USER_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED
+    );
+
     // Jabber - Host
     public static final String JABBER_HOST = getString(
             PortletPropertiesKeys.JABBER_HOST
@@ -120,39 +125,14 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_SERVICE_NAME
     );
 
-    // Jabber - Resource name
+    // Jabber - Resource
     public static final String JABBER_RESOURCE = getString(
             PortletPropertiesKeys.JABBER_RESOURCE
     );
 
-    // Jabber - SOCK5 (Disabled by default)
-    public static final boolean JABBER_SOCK5_PROXY_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_SOCK5_PROXY_ENABLED
-    );
-
-    // Jabber - SOCK5 - Port
-    public static final int JABBER_SOCK5_PROXY_PORT = getInteger(
-            PortletPropertiesKeys.JABBER_SOCK5_PROXY_PORT
-    );
-
-    // Jabber - User Import
-    public static final boolean JABBER_IMPORT_USER_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_IMPORT_USER_ENABLED
-    );
-
-    // Jabber - SASL (Disabled by default)
-    public static final Boolean JABBER_SASL_PLAIN_ENABLED = getBoolean(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_ENABLED
-    );
-
-    // Jabber - SASL - Authentication ID
-    public static final String JABBER_SASL_PLAIN_AUTHID = getString(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_AUTHID
-    );
-
-    // Jabber - SASL - Password
-    public static final String JABBER_SASL_PLAIN_PASSWORD = getString(
-            PortletPropertiesKeys.JABBER_SASL_PLAIN_PASSWORD
+    // Jabber - Resource priority
+    public static final Integer JABBER_RESOURCE_PRIORITY = getInteger(
+            PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY
     );
 
     // URL - Help

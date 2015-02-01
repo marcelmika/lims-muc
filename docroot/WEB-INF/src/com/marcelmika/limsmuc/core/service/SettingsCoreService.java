@@ -32,6 +32,14 @@ public interface SettingsCoreService {
     public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
     /**
+     * Reads buddy's session limit
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event);
+
+    /**
      * Update buddy's active panel (panel which is open)
      *
      * @param event Request event
@@ -70,5 +78,13 @@ public interface SettingsCoreService {
      * @return Response event
      */
     public DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
+
+    /**
+     * Tests connection with the jabber server
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
 
 }

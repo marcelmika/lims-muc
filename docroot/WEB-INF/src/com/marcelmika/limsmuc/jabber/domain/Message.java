@@ -9,8 +9,10 @@
 
 package com.marcelmika.limsmuc.jabber.domain;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.MessageDetails;
-import org.jivesoftware.smackx.packet.DelayInformation;
+import org.jivesoftware.smackx.delay.packet.DelayInformation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,17 +32,20 @@ public class Message {
     private Buddy from;
     private Date createdAt;
     private String body;
+    private MessageType messageType;
 
-
-    // -------------------------------------------------------------------------------------------
-    // Factory Methods
-    // -------------------------------------------------------------------------------------------
-
+    /**
+     * Factory method creates message form Smack message
+     *
+     * @param smackMessage Message
+     * @return Message
+     */
     public static Message fromSmackMessage(org.jivesoftware.smack.packet.Message smackMessage) {
         // Create new message
         Message message = new Message();
         // Map properties
         message.body = smackMessage.getBody();
+        message.messageType = MessageType.REGULAR;
         message.createdAt = getMessageTimestamp(smackMessage);
         // Map relations
         message.from = Buddy.fromSmackUser(smackMessage.getFrom());
@@ -49,6 +54,12 @@ public class Message {
         return message;
     }
 
+    /**
+     * Factory method creates message from message details
+     *
+     * @param details MessageDetails
+     * @return Message
+     */
     public static Message fromMessageDetails(MessageDetails details) {
         // Create new message
         Message message = new Message();
@@ -57,15 +68,24 @@ public class Message {
         message.body = details.getBody();
         message.createdAt = details.getCreatedAt();
 
-        // Relations:
-        // From
+        // Relations
         if (details.getFrom() != null) {
             message.from = Buddy.fromBuddyDetails(details.getFrom());
+        }
+
+        if (details.getMessageType() != null) {
+            message.messageType = MessageType.fromMessageTypeDetails(details.getMessageType());
         }
 
         return message;
     }
 
+    /**
+     * Maps a list of message details to a list of messages
+     *
+     * @param details list of message details
+     * @return list of messages
+     */
     public static List<Message> fromMessageDetails(List<MessageDetails> details) {
         // Create new message list
         List<Message> messages = new ArrayList<Message>();
@@ -77,31 +97,11 @@ public class Message {
     }
 
     /**
-     * Method which calculates smack message timestamp.
-     * Message creation date can be retrieved from the offline messages.
+     * Maps a list of messages to a list of message details
      *
-     * @param message from smack
-     * @return Date
+     * @param messages list of messages
+     * @return list fo message details
      */
-    private static Date getMessageTimestamp(org.jivesoftware.smack.packet.Message message) {
-
-        try {
-            // Get the timestamp from message extension
-            DelayInformation inf = (DelayInformation) message.getExtension("x", "jabber:x:delay");
-            // Return offline message timestamp
-            if (inf != null) {
-                return inf.getStamp();
-            }
-            // Message is not offline -> return current timestamp
-            Calendar calendar = Calendar.getInstance();
-            return calendar.getTime();
-
-        } catch (Exception e) {
-            // Extension isn't provided so return empty date
-            return new Date(0);
-        }
-    }
-
     public static List<MessageDetails> toMessageDetailsList(List<Message> messages) {
         // Create new list
         List<MessageDetails> details = new ArrayList<MessageDetails>();
@@ -113,7 +113,11 @@ public class Message {
         return details;
     }
 
-
+    /**
+     * Creates message details from message
+     *
+     * @return MessageDetails
+     */
     public MessageDetails toMessageDetails() {
         // Create new message details
         MessageDetails details = new MessageDetails();
@@ -131,7 +135,44 @@ public class Message {
             details.setTo(to.toBuddyDetails());
         }
 
+        if (messageType != null) {
+            details.setMessageType(messageType.toMessageTypeDetails());
+        }
+
         return details;
+    }
+
+
+    // -------------------------------------------------------------------------------------------
+    // Private Methods
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * Method which calculates smack message timestamp.
+     * Message creation date can be retrieved from the offline messages only.
+     *
+     * @param message from smack
+     * @return Date
+     */
+    private static Date getMessageTimestamp(org.jivesoftware.smack.packet.Message message) {
+
+        try {
+            // Get the timestamp from message extension
+            DelayInformation information = message.getExtension("x", "jabber:x:delay");
+            // Return offline message timestamp
+            if (information != null) {
+                return information.getStamp();
+            }
+
+            // Message is not offline -> return current timestamp
+            Calendar calendar = Calendar.getInstance();
+
+            return calendar.getTime();
+
+        } catch (Exception e) {
+            // Extension isn't provided so return empty date
+            return new Date(0);
+        }
     }
 
 
@@ -180,6 +221,14 @@ public class Message {
         this.body = body;
     }
 
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -188,6 +237,7 @@ public class Message {
                 ", from=" + from +
                 ", createdAt=" + createdAt +
                 ", body='" + body + '\'' +
+                ", messageType=" + messageType +
                 '}';
     }
 }

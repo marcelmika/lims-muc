@@ -11,13 +11,11 @@ package com.marcelmika.limsmuc.jabber.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.events.conversation.CreateConversationRequestEvent;
-import com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent;
-import com.marcelmika.limsmuc.api.events.conversation.SendMessageRequestEvent;
-import com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent;
-import com.marcelmika.limsmuc.jabber.JabberException;
-import com.marcelmika.limsmuc.jabber.conversation.manager.ConversationListener;
-import com.marcelmika.limsmuc.jabber.conversation.manager.single.SingleUserConversationManager;
+import com.marcelmika.limsmuc.api.events.conversation.*;
+import com.marcelmika.limsmuc.core.bus.ConversationEventBus;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
+import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
+import com.marcelmika.limsmuc.jabber.conversation.single.SingleUserConversationManager;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.ConversationType;
 import com.marcelmika.limsmuc.jabber.domain.Message;
@@ -25,10 +23,6 @@ import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
 import com.marcelmika.limsmuc.jabber.session.UserSession;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStore;
 import com.marcelmika.limsmuc.jabber.session.store.UserSessionStoreListener;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -40,35 +34,25 @@ public class ConversationJabberServiceImpl
         implements ConversationJabberService, UserSessionStoreListener, ConversationListener {
 
     // Log
+    @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(ConversationJabberServiceImpl.class);
 
     // Dependencies
     private UserSessionStore userSessionStore;
-
-    // Listener
-    private List<ConversationJabberServiceListener> listeners = Collections.synchronizedList(
-            new LinkedList<ConversationJabberServiceListener>()
-    );
+    private ConversationEventBus conversationEventBus;
 
     /**
      * Constructor
      *
      * @param userSessionStore UserSessionStore
      */
-    public ConversationJabberServiceImpl(final UserSessionStore userSessionStore) {
+    public ConversationJabberServiceImpl(final UserSessionStore userSessionStore,
+                                         final ConversationEventBus conversationEventBus) {
+        // Set
         this.userSessionStore = userSessionStore;
+        this.conversationEventBus = conversationEventBus;
         // Add listeners
         userSessionStore.addUserSessionStoreListener(this);
-    }
-
-
-    // -------------------------------------------------------------------------------------------
-    // Conversation Jabber Service
-    // -------------------------------------------------------------------------------------------
-
-    @Override
-    public void addConversationJabberServiceListener(ConversationJabberServiceListener listener) {
-        listeners.add(listener);
     }
 
     /**
@@ -158,6 +142,13 @@ public class ConversationJabberServiceImpl
             );
         }
 
+        // User is not authenticated
+        if (!userSession.getConnectionManager().isAuthenticated()) {
+            return SendMessageResponseEvent.failure(
+                    SendMessageResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
         // Decide where to go based on the conversation type
         ConversationType conversationType = ConversationType.fromConversationTypeDetails(
                 event.getConversationDetails().getConversationType()
@@ -204,6 +195,27 @@ public class ConversationJabberServiceImpl
 
 
     // -------------------------------------------------------------------------------------------
+    // Conversation Listener
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * Called whenever the user receives a message within any
+     * of the conversations
+     *
+     * @param message received message
+     */
+    @Override
+    public void messageReceived(Message message) {
+        // Create conversation from message
+        SingleUserConversation conversation = SingleUserConversation.fromMessage(message);
+
+        // Publish the event to the conversation bus
+        conversationEventBus.publish(
+                new MessageReceivedBusEvent(conversation.toConversationDetails(), message.toMessageDetails())
+        );
+    }
+
+    // -------------------------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------------------------
 
@@ -235,20 +247,4 @@ public class ConversationJabberServiceImpl
         return SendMessageResponseEvent.success(message.toMessageDetails());
     }
 
-
-    // -------------------------------------------------------------------------------------------
-    // Conversation Listener
-    // -------------------------------------------------------------------------------------------
-
-    @Override
-    public void messageReceived(Message message) {
-
-        // Create conversation from message
-        SingleUserConversation conversation = SingleUserConversation.fromMessage(message);
-
-        // Notify listeners
-        for (ConversationJabberServiceListener listener : listeners) {
-            listener.messageReceived(conversation.toConversationDetails(), message.toMessageDetails());
-        }
-    }
 }

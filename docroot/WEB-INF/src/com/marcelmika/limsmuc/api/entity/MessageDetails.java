@@ -84,7 +84,7 @@ public class MessageDetails {
                 ", from=" + from +
                 ", body='" + body + '\'' +
                 ", createdAt=" + createdAt +
-                ", messageType=" + messageType.getDescription() +
+                ", messageType=" + messageType +
                 '}';
     }
 }
