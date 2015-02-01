@@ -59,7 +59,7 @@
 <%-- Rendered --%>
 <li class="buddy-list-social-relations">
     <div class="settings-category-title">
-        <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-title"/>
+        <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-title"/>
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-help"/>">i</i>
         </span>

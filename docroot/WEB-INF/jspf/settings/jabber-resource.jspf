@@ -15,7 +15,7 @@
 <li class="jabber-resource text-input">
 
     <div class="settings-category-title">
-        <span>
+        <span class="title-text">
             <liferay-ui:message key="panel-settings-admin-area-jabber-resource-title"/>
             <i class="tooltip-button"
                data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-resource-help"/>">i</i>

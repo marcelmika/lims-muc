@@ -25,7 +25,7 @@
         <input ${checked} type="checkbox"/>
         <span></span>
     </label>
-    <span>
+    <span class="title-text">
         <liferay-ui:message key="panel-settings-admin-area-buddy-list-ignore-deactivated-user-title"/>
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-ignore-deactivated-user-help"/>">i</i>
