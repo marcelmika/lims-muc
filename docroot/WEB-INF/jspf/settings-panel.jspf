@@ -93,11 +93,10 @@
                         <ul class="lfr-component list">
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-default-user.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
 
                                 <%-- Jabber --%>
                             <li class="category">

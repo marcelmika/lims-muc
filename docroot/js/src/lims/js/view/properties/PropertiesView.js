@@ -55,7 +55,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         var openButton = this.get('openButton'),
             buddyListStrategy = this.get('buddyListStrategy'),
             buddyListSocialRelations = this.get('buddyListSocialRelations'),
-            buddyListIgnoreDefaultUser = this.get('buddyListIgnoreDefaultUser'),
             buddyListIgnoreDeactivatedUser = this.get('buddyListIgnoreDeactivatedUser'),
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
@@ -76,7 +75,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         openButton.on('click', this._onOpenButtonClick, this);
         buddyListStrategy.on('choiceClick', this._onBuddyListStrategySelected, this);
         buddyListSocialRelations.on('choiceClick', this._onBuddyListSocialRelationsSelected, this);
-        buddyListIgnoreDefaultUser.on('switchClick', this._onBuddyListIgnoreDefaultUserClick, this);
         buddyListIgnoreDeactivatedUser.on('switchClick', this._onBuddyListIgnoreDeactivatedUserClick, this);
         excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
@@ -176,35 +174,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             }
             // Re-enable the view so the user can interact with it again
             buddyListSocialRelations.enable();
-        });
-    },
-
-    /**
-     * Called when the user click on the buddy list ignore default user switch
-     *
-     * @private
-     */
-    _onBuddyListIgnoreDefaultUserClick: function () {
-        // Vars
-        var switchView = this.get('buddyListIgnoreDefaultUser'),
-            model;
-
-        // Prepare the model
-        model = new Y.LIMS.Model.PropertiesModel({
-            buddyListIgnoreDefaultUser: switchView.isOn()
-        });
-
-        // Disable view
-        switchView.disable();
-
-        // Save the model
-        model.save(function (err) {
-            if (err) {
-                // Return everything to the previous state
-                switchView.toggle();
-            }
-            // Re-enable the view so the user can interact with it again
-            switchView.enable();
         });
     },
 
@@ -994,22 +963,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 return new Y.LIMS.View.ChoiceElementView({
                     container: container,
                     isExclusive: false
-                });
-            }
-        },
-
-        /**
-         * View for buddy list ignore default user
-         *
-         * {Y.LIMS.View.SwitchElementView}
-         */
-        buddyListIgnoreDefaultUser: {
-            valueFn: function () {
-                // Vars
-                var container = this.get('container').one('.buddy-list-ignore-default-user');
-
-                return new Y.LIMS.View.SwitchElementView({
-                    container: container
                 });
             }
         },

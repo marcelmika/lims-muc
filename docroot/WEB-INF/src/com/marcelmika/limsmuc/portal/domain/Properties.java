@@ -26,7 +26,6 @@ public class Properties {
     private String[] excludedSites;
     private Environment.BuddyListStrategy buddyListStrategy;
     private Environment.BuddyListSocialRelation[] buddyListSocialRelations;
-    private Boolean buddyListIgnoreDefaultUser;
     private Boolean buddyListIgnoreDeactivatedUser;
     private Integer buddyListMaxBuddies;
     private Integer buddyListMaxSearch;
@@ -62,7 +61,6 @@ public class Properties {
         properties.excludedSites = Environment.getExcludedSites();
         properties.buddyListStrategy = Environment.getBuddyListStrategy();
         properties.buddyListSocialRelations = Environment.getBuddyListSocialRelations();
-        properties.buddyListIgnoreDefaultUser = Environment.getBuddyListIgnoreDefaultUser();
         properties.buddyListIgnoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
         properties.buddyListMaxBuddies = Environment.getBuddyListMaxBuddies();
         properties.buddyListMaxSearch = Environment.getBuddyListMaxSearch();
@@ -121,14 +119,6 @@ public class Properties {
 
     public void setBuddyListSocialRelations(Environment.BuddyListSocialRelation[] buddyListSocialRelations) {
         this.buddyListSocialRelations = buddyListSocialRelations;
-    }
-
-    public Boolean getBuddyListIgnoreDefaultUser() {
-        return buddyListIgnoreDefaultUser;
-    }
-
-    public void setBuddyListIgnoreDefaultUser(Boolean buddyListIgnoreDefaultUser) {
-        this.buddyListIgnoreDefaultUser = buddyListIgnoreDefaultUser;
     }
 
     public Boolean getBuddyListIgnoreDeactivatedUser() {
@@ -306,7 +296,6 @@ public class Properties {
                 ", excludedSites=" + Arrays.toString(excludedSites) +
                 ", buddyListStrategy=" + buddyListStrategy +
                 ", buddyListSocialRelations=" + Arrays.toString(buddyListSocialRelations) +
-                ", buddyListIgnoreDefaultUser=" + buddyListIgnoreDefaultUser +
                 ", buddyListIgnoreDeactivatedUser=" + buddyListIgnoreDeactivatedUser +
                 ", buddyListMaxBuddies=" + buddyListMaxBuddies +
                 ", buddyListMaxSearch=" + buddyListMaxSearch +

@@ -24,7 +24,6 @@ public class Environment {
     private static String[] excludedSites = new String[]{};
     private static BuddyListStrategy buddyListStrategy = BuddyListStrategy.ALL;
     private static BuddyListSocialRelation[] buddyListSocialRelations = new BuddyListSocialRelation[]{};
-    private static Boolean buddyListIgnoreDefaultUser = false;
     private static Boolean buddyListIgnoreDeactivatedUser = false;
     private static Integer buddyListMaxBuddies = 0;
     private static Integer buddyListMaxSearch = 0;
@@ -355,25 +354,6 @@ public class Environment {
      */
     public static void setBuddyListGroupExcludes(String[] buddyListGroupExcludes) {
         Environment.buddyListGroupExcludes = buddyListGroupExcludes;
-    }
-
-    /**
-     * Returns true if the default user should be ignored. Default user is the user which has
-     * the defaultUser flag in database set to true.
-     *
-     * @return boolean
-     */
-    public static boolean getBuddyListIgnoreDefaultUser() {
-        return buddyListIgnoreDefaultUser;
-    }
-
-    /**
-     * Sets the buddy list ignore default user property
-     *
-     * @param buddyListIgnoreDefaultUser Boolean
-     */
-    public static void setBuddyListIgnoreDefaultUser(Boolean buddyListIgnoreDefaultUser) {
-        Environment.buddyListIgnoreDefaultUser = buddyListIgnoreDefaultUser;
     }
 
     /**
