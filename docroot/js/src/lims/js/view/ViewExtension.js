@@ -24,6 +24,9 @@ Y.LIMS.View.ViewExtension.prototype = {
     // Container of the whole portlet
     portletContainer: '.lims-muc',
 
+    // Bar node
+    bar: '.lims-bar',
+
     /**
      * Returns url of the portrait for the given buddy
      *
@@ -80,9 +83,20 @@ Y.LIMS.View.ViewExtension.prototype = {
 
     /**
      * Returns portlet's container
+     *
+     * {Node}
      */
     getPortletContainer: function () {
         return Y.one(this.portletContainer);
+    },
+
+    /**
+     * Returns lims bar node
+     *
+     * @return {Node}
+     */
+    getBar: function () {
+        return Y.one(this.rootNode).one(this.bar);
     },
 
     /**

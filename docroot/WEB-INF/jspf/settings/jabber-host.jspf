@@ -15,7 +15,9 @@
 <li class="jabber-host text-input">
 
     <div class="settings-category-title">
-        <span><liferay-ui:message key="panel-settings-admin-area-jabber-host-title"/></span>
+        <span><liferay-ui:message key="panel-settings-admin-area-jabber-host-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-host-help"/>">i</i></span>
     </div>
     <input type="text" placeholder="e.g. 127.0.0.1" value="${properties.jabberHost}"/>
 </li>

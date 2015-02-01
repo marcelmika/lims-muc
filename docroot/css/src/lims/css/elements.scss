@@ -23,6 +23,41 @@
 }
 
 /********************************************************************************
+/ TOOLTIP
+/********************************************************************************/
+
+.lims-muc {
+
+  .tooltip-container {
+    background: rgba(0, 0, 0, 0.77);
+    @include border-radius(15px);
+    color: #ffffff;
+    padding: 10px;
+    max-width: 250px;
+    margin-left: 5px;
+    line-height: 14px;
+  }
+
+  .tooltip-button {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0 5px;
+    background: #fff;
+    border: 1px solid #949494;
+    @include border-radius(15px);
+    color: #868686;
+    line-height: 13px;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: left;
+    @include font-smoothing;
+    @include no-select();
+  }
+
+}
+
+/********************************************************************************
 / BUTTON
 /********************************************************************************/
 
@@ -36,7 +71,7 @@
     @include border-radius(5px);
     // Make the button unselectable
     @include no-select();
-    @include box-shadow(0 1px 0 rgba(255,255,255,0.75) inset,0 -1px 0 rgba(0,0,0,0.15) inset);
+    @include box-shadow(0 1px 0 rgba(255, 255, 255, 0.75) inset, 0 -1px 0 rgba(0, 0, 0, 0.15) inset);
 
     &:hover,
     &:focus {

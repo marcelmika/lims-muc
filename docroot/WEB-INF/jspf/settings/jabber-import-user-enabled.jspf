@@ -27,5 +27,7 @@
     </label>
     <span>
         <liferay-ui:message key="panel-settings-admin-area-jabber-import-user-enabled-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-import-user-enabled-help"/>">i</i>
     </span>
 </li>

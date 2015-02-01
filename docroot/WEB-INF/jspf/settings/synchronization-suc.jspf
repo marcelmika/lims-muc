@@ -9,6 +9,10 @@
 
 <li class="synchronization-suc">
 
+    <div class="note">
+        <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-note"/>
+    </div>
+
     <div class="confirm">
         <button class="open button button-secondary">
             <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-open-title"/>

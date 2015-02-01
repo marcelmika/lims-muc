@@ -89,6 +89,10 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 publisher: publisher,
                 buddyDetails: buddyDetails
             });
+
+            // Render tooltips
+            var tooltip = new Y.LIMS.View.Tooltip();
+            tooltip.render();
         });
     },
 

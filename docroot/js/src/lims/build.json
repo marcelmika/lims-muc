@@ -87,6 +87,7 @@
         "js/view/presence/PresenceView.js",
         "js/view/properties/PropertiesView.js",
         "js/view/properties/SettingsView.js",
+        "js/view/tooltip/Tooltip.js",
         "js/view/panel/PanelView.js"
       ],
       "config": {
@@ -95,6 +96,9 @@
           "view",
           "node",
           "anim",
+          "widget-anim",
+          "overlay",
+          "event",
           "datatype-number"
         ]
       }
