@@ -3,6 +3,9 @@
 /********************************************************************************/
 
 .lims-muc {
+  // Add the global font-smoothing to avoid issues
+  // with wrong font rendering in Chrome
+  @include font-smoothing;
 
   li {
     line-height: 15px;
@@ -35,7 +38,7 @@
 
   a.link {
     color: #009AE5;
-    font-weight: 200;
+    font-weight: 400;
     text-decoration: none;
 
     &:hover,
