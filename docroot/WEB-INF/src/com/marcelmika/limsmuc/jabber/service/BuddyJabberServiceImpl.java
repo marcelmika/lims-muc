@@ -308,4 +308,54 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         return SearchBuddiesResponseEvent.success(details);
     }
 
+    /**
+     * Reads presence of buddies
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
+        // Map buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+        // We use buddy ID as an identification
+        Long buddyId = buddy.getBuddyId();
+
+        // Check params
+        if (buddyId == null) {
+            return ReadBuddiesPresenceResponseEvent.failure(
+                    ReadBuddiesPresenceResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return ReadBuddiesPresenceResponseEvent.failure(
+                    ReadBuddiesPresenceResponseEvent.Status.ERROR_NO_SESSION
+            );
+        }
+
+        // Get the group manager
+        GroupManager groupManager = userSession.getGroupManager();
+
+        // If the roster haven't been loaded yet
+        if (!groupManager.isRosterLoaded()) {
+            // Load the roster
+            groupManager.loadRoster();
+            return ReadBuddiesPresenceResponseEvent.success(
+                    ReadBuddiesPresenceResponseEvent.Status.SUCCESS_LOADING
+            );
+        }
+
+        // Get the presences via the group manager
+        List<Buddy> buddies = groupManager.readPresences(event.getBuddies());
+
+        // Map to details
+        List<BuddyDetails> details = Buddy.toBuddyDetails(buddies);
+
+        // Success
+        return ReadBuddiesPresenceResponseEvent.success(details);
+    }
 }

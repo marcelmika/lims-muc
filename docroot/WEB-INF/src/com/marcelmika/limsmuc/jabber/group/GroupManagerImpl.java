@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.jabber.group;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
@@ -18,6 +19,7 @@ import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
+import com.marcelmika.limsmuc.jabber.utils.Jid;
 import org.jivesoftware.smack.*;
 
 import java.util.*;
@@ -90,6 +92,24 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     }
 
     /**
+     * Returns true if the roster has been loaded
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isRosterLoaded() {
+        return rosterReloaded;
+    }
+
+    /**
+     * Loads user's roster
+     */
+    @Override
+    public void loadRoster() {
+        reloadRoster();
+    }
+
+    /**
      * Get buddy's collection of groups.
      *
      * @return Buddy's collection of groups.
@@ -99,8 +119,7 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Lazy load the roaster
         if (!rosterReloaded) {
-            reloadRoaster();
-            rosterReloaded = true;
+            reloadRoster();
         }
 
 
@@ -124,8 +143,7 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
         // Lazy load the roaster
         if (!rosterReloaded) {
-            reloadRoaster();
-            rosterReloaded = true;
+            reloadRoster();
         }
 
         List<Buddy> buddies = new LinkedList<Buddy>();
@@ -155,6 +173,62 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
                     break;
                 }
             }
+        }
+
+        return buddies;
+    }
+
+    /**
+     * Reads presences for the given buddies
+     *
+     * @param buddyIds set of buddy ids
+     * @return list of buddies with presences
+     */
+    @Override
+    public List<Buddy> readPresences(Set<Long> buddyIds) {
+        // Lazy load the roaster
+        if (!rosterReloaded) {
+            reloadRoster();
+        }
+
+        List<Buddy> buddies = new LinkedList<Buddy>();
+
+        // Fetch presence for all buddies
+        for (Long buddyId : buddyIds) {
+
+            // Create buddy
+            Buddy buddy = new Buddy();
+            buddy.setBuddyId(buddyId);
+            buddy.setPresence(Presence.STATE_UNRECOGNIZED); // Unrecognized by default
+
+            try {
+                // Fetch user based on the id
+                User user = UserLocalServiceUtil.fetchUser(buddyId);
+
+                // Do nothing if the user wasn't found
+                if (user != null) {
+                    // We need a JID to be able to search the roster
+                    String jid = Jid.getJid(user.getScreenName());
+
+                    // Check if such user was found in the roster
+                    if (roster.contains(jid)) {
+                        // Map the presence
+                        Presence presence = Presence.fromSmackPresence(roster.getPresence(jid));
+                        // Add presence to buddy
+                        buddy.setPresence(presence);
+                    }
+                }
+            }
+            // Failure
+            catch (SystemException e) {
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug(e);
+                }
+            }
+
+            // Add to list
+            buddies.add(buddy);
         }
 
         return buddies;
@@ -354,10 +428,13 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     /**
      * Reloads roaster. If fails does nothing.
      */
-    private void reloadRoaster() {
+    private void reloadRoster() {
         try {
             // Reload roaster
             this.roster.reload();
+
+            // Set the flag
+            rosterReloaded = true;
         }
         // User not logged in
         catch (SmackException.NotLoggedInException e) {

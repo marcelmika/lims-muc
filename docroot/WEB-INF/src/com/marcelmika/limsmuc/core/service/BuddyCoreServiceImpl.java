@@ -233,6 +233,13 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      */
     @Override
     public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
-        return buddyPersistenceService.readBuddiesPresence(event);
+        // Jabber
+        if (Environment.isJabberEnabled()) {
+            return buddyJabberService.readBuddiesPresence(event);
+        }
+        // Persistence
+        else {
+            return buddyPersistenceService.readBuddiesPresence(event);
+        }
     }
 }

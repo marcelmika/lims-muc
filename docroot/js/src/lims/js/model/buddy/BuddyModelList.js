@@ -43,6 +43,7 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
         var response,
             content,
             readPresence = options.readPresence || false,
+            instance = this,
             query;
 
         switch (action) {
@@ -65,20 +66,55 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
                     on: {
                         success: function (id, o) {
 
-                            // Deserialize
-                            try {
-                                // Deserialize response
-                                response = Y.JSON.parse(o.responseText);
-                            }
-                            catch (exception) {
-                                // JSON.parse throws a SyntaxError when passed invalid JSON
-                                callback(exception);
-                                // End here
-                                return;
-                            }
+                            // Server is still processing the request
+                            if (o.status === 206) {
+                                // Add the number of attempts to options
+                                if (!options.attempts) {
+                                    options.attempts = 1;
+                                }
+                                // This is not the first attempt
+                                else {
+                                    // Increase attempt count
+                                    options.attempts = options.attempts + 1;
+                                }
 
-                            // Callback success
-                            callback(null, response);
+                                // If the number of attempts is more than the limit end with failure
+                                if (options.attempts > 10) {
+                                    callback(new Y.LIMS.Model.ErrorMessage({
+                                        code: 500,
+                                        message: "Too many attempts to read the presence"
+                                    }));
+                                    // End here
+                                    return;
+                                }
+
+                                // Wait a second and call it again
+                                setTimeout(function () {
+                                    instance.sync(action, options, callback);
+                                }, 1000);
+
+                            }
+                            // Server finished loading
+                            else {
+
+                                // Deserialize
+                                try {
+                                    // Deserialize response
+                                    response = Y.JSON.parse(o.responseText);
+                                }
+                                catch (exception) {
+                                    // JSON.parse throws a SyntaxError when passed invalid JSON
+                                    callback(new Y.LIMS.Model.ErrorMessage({
+                                        code: 400,
+                                        message: exception
+                                    }));
+                                    // End here
+                                    return;
+                                }
+
+                                // Callback success
+                                callback(null, response);
+                            }
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -105,7 +141,11 @@ Y.LIMS.Model.BuddyModelList = Y.Base.create('buddyModelList', Y.ModelList, [Y.LI
                 return;
 
             default:
-                callback('Invalid action');
+                // JSON.parse throws a SyntaxError when passed invalid JSON
+                callback(new Y.LIMS.Model.ErrorMessage({
+                    code: 400,
+                    message: "Invalid action"
+                }));
         }
     }
 

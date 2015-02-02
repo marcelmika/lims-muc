@@ -180,14 +180,22 @@ public class IPCController {
 
         // Success
         if (responseEvent.isSuccess()) {
-            // Get buddies from response event
-            List<Buddy> buddies = Buddy.fromBuddyDetailsList(responseEvent.getBuddies());
+            ReadBuddiesPresenceResponseEvent.Status status = responseEvent.getStatus();
+            // Success
+            if (status == ReadBuddiesPresenceResponseEvent.Status.SUCCESS) {
+                // Get buddies from response event
+                List<Buddy> buddies = Buddy.fromBuddyDetailsList(responseEvent.getBuddies());
 
-            // Serialize
-            String serialized = JSONFactoryUtil.looseSerialize(buddies);
+                // Serialize
+                String serialized = JSONFactoryUtil.looseSerialize(buddies);
 
-            // Write success to response
-            ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+                // Write success to response
+                ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+            }
+            // Loading
+            else {
+                ResponseUtil.writeResponse(HttpStatus.PARTIAL_CONTENT, response);
+            }
         }
         // Failure
         else {
@@ -199,6 +207,11 @@ public class IPCController {
             // Forbidden
             else if (status == ReadBuddiesPresenceResponseEvent.Status.ERROR_FORBIDDEN) {
                 ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
+            // No session
+            else if (status == ReadBuddiesPresenceResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(ErrorMessage.forbidden("User is not connected to Jabber").serialize(),
+                        HttpStatus.FORBIDDEN, response);
             }
             // Everything else is a server fault
             else {

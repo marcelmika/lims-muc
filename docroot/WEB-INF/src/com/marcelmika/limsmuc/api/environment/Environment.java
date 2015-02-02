@@ -596,6 +596,15 @@ public class Environment {
      *
      * @return Boolean
      */
+    public static Boolean isIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    /**
+     * Return true if the Inter Portlet Communication is enabled
+     *
+     * @return Boolean
+     */
     public static Boolean getIpcEnabled() {
         return ipcEnabled;
     }

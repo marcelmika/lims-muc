@@ -67,4 +67,12 @@ public interface BuddyJabberService {
      */
     public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
+    /**
+     * Reads presence of buddies
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+
 }

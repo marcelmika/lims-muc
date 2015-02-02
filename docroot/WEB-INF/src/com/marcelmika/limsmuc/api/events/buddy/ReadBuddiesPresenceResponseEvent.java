@@ -27,8 +27,10 @@ public class ReadBuddiesPresenceResponseEvent extends ResponseEvent {
 
     public enum Status {
         SUCCESS,                // Event was successful
+        SUCCESS_LOADING,        // Event was successful but the presences are still loading
         ERROR_WRONG_PARAMETERS, // Wrong input parameters
         ERROR_FORBIDDEN,        // User is not allowed to perform this action
+        ERROR_NO_SESSION,       // User doesn't have a jabber session
         ERROR_PERSISTENCE,      // Error with persistence occurred
     }
 
@@ -37,6 +39,21 @@ public class ReadBuddiesPresenceResponseEvent extends ResponseEvent {
      */
     private ReadBuddiesPresenceResponseEvent() {
         // No params
+    }
+
+    /**
+     * Factory method for success status
+     *
+     * @return ResponseEvent
+     */
+    public static ReadBuddiesPresenceResponseEvent success(final Status status) {
+        ReadBuddiesPresenceResponseEvent event = new ReadBuddiesPresenceResponseEvent();
+
+        event.success = true;
+        event.status = status;
+        event.buddies = null;
+
+        return event;
     }
 
     /**
