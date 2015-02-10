@@ -4,8 +4,13 @@
 
 .lims-muc .conversation {
 
+  .panel-window {
+    max-width: 270px;
+  }
+  
   .panel-content {
     height: 250px;
+    max-width: 270px;
     overflow-y: auto;
     background: #fff;
     margin-top: 0;
