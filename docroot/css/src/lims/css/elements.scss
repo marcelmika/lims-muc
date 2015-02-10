@@ -29,7 +29,7 @@
 .lims-muc {
 
   .tooltip-container {
-    background: rgba(0, 0, 0, 0.77);
+    @include transparent(#000000, 0.77);
     @include border-radius(15px);
     color: #ffffff;
     padding: 10px;

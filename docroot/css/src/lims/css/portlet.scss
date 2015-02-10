@@ -126,7 +126,7 @@
   padding: 10px;
   border: 1px solid #D7B1B1;
   border-bottom: none;
-  background: rgba(240, 209, 213, 0.83);
+  @include transparent(#f0d1d5, 0.83);
   @include box-shadow(0 0 1px #D25954);
   @include text-shadow(1px 1px 1px #ffffff);
 
@@ -144,7 +144,7 @@
   position: fixed;
   right: 50px;
   bottom: 0;
-  background: rgba(228, 240, 255, 0.83);
+  @include transparent(#e4f0ff, 0.83);
   padding: 10px;
   max-width: 250px;
   line-height: 15px;
