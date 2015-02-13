@@ -73,7 +73,18 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
          * {integer|null}
          */
         buddyId: {
-            value: null // default value
+            value: null, // default value
+
+            // Setter
+            setter: function (val) {
+                // Just to be sure that the value will be an integer
+                return Y.LIMS.Core.Util.toInteger(val);
+            },
+
+            // Validate value
+            validator: function (val) {
+                return val === null || Y.LIMS.Core.Util.isInteger(val);
+            }
         },
 
         /**
@@ -95,12 +106,39 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
         },
 
         /**
+         * Set to true if the buddy is male
+         *
+         * {boolean|null}
+         */
+        male: {
+            value: null // default value
+        },
+
+        /**
          * Portrait id of the buddy
          *
          * {integer}
          */
         portraitId: {
             value: 0 // default value
+        },
+
+        /**
+         * Portrait token of the buddy
+         *
+         * {string|null}
+         */
+        portraitToken: {
+            value: null // default value
+        },
+
+        /**
+         * Portrait image token of the buddy
+         *
+         * {string | null}
+         */
+        portraitImageToken: {
+            value: null // default value
         },
 
         /**

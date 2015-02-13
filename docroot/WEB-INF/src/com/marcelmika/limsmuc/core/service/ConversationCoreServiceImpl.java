@@ -277,8 +277,8 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
         // Failure
         if (!existsConversationRequest.isSuccess()) {
             // Log error
-            if (log.isErrorEnabled()) {
-                log.error(existsConversationRequest.getException());
+            if (log.isDebugEnabled()) {
+                log.debug(existsConversationRequest.getException());
             }
         }
 
@@ -301,9 +301,9 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
             // Failure
             if (!responseEvent.isSuccess()) {
                 // Log error
-                if (log.isErrorEnabled()) {
-                    log.error(responseEvent.getStatus());
-                    log.error(responseEvent.getException());
+                if (log.isDebugEnabled()) {
+                    log.debug(responseEvent.getStatus());
+                    log.debug(responseEvent.getException());
                 }
                 // End here
                 return;
@@ -319,9 +319,9 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
         // Send message
         if (!sendMessageResponse.isSuccess()) {
             // Log error
-            if (log.isErrorEnabled()) {
-                log.error(sendMessageResponse.getStatus());
-                log.error(sendMessageResponse.getException());
+            if (log.isDebugEnabled()) {
+                log.debug(sendMessageResponse.getStatus());
+                log.debug(sendMessageResponse.getException());
             }
         }
     }

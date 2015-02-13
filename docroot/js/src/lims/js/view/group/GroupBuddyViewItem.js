@@ -57,6 +57,9 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         presence = container.one('.group-buddy-item-presence');
         presence.append(this._getPresence(model.get('presence'), model.get('connected')));
 
+        // Add title
+        container.set('title', model.get('fullName') + ' (' + model.get('screenName') + ')');
+
         // Attach events to newly created container
         this._attachEvents();
 

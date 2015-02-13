@@ -24,7 +24,6 @@ public class Environment {
     private static String[] excludedSites = new String[]{};
     private static BuddyListStrategy buddyListStrategy = BuddyListStrategy.ALL;
     private static BuddyListSocialRelation[] buddyListSocialRelations = new BuddyListSocialRelation[]{};
-    private static Boolean buddyListIgnoreDefaultUser = false;
     private static Boolean buddyListIgnoreDeactivatedUser = false;
     private static Integer buddyListMaxBuddies = 0;
     private static Integer buddyListMaxSearch = 0;
@@ -42,8 +41,12 @@ public class Environment {
     private static String jabberServiceName = "";
     private static String jabberResource = "";
     private static Integer jabberResourcePriority = 0;
+    private static Boolean ipcEnabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
+    private static String urlJabberHelp = "";
+    private static String urlIpcHelp = "";
+    private static String urlSynchronizationHelp = "";
     private static Boolean errorModeEnabled = false;
 
     /**
@@ -354,25 +357,6 @@ public class Environment {
     }
 
     /**
-     * Returns true if the default user should be ignored. Default user is the user which has
-     * the defaultUser flag in database set to true.
-     *
-     * @return boolean
-     */
-    public static boolean getBuddyListIgnoreDefaultUser() {
-        return buddyListIgnoreDefaultUser;
-    }
-
-    /**
-     * Sets the buddy list ignore default user property
-     *
-     * @param buddyListIgnoreDefaultUser Boolean
-     */
-    public static void setBuddyListIgnoreDefaultUser(Boolean buddyListIgnoreDefaultUser) {
-        Environment.buddyListIgnoreDefaultUser = buddyListIgnoreDefaultUser;
-    }
-
-    /**
      * Returns true if the deactivated user should be ignored. Deactivated user is the user which has
      * the status column set to 0 in database.
      *
@@ -608,6 +592,33 @@ public class Environment {
     }
 
     /**
+     * Return true if the Inter Portlet Communication is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean isIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    /**
+     * Return true if the Inter Portlet Communication is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean getIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    /**
+     * Sets the Inter Portlet Communication enabled property
+     *
+     * @param ipcEnabled Boolean
+     */
+    public static void setIpcEnabled(Boolean ipcEnabled) {
+        Environment.ipcEnabled = ipcEnabled;
+    }
+
+    /**
      * Returns url string for the unsupported browser message
      *
      * @return String
@@ -641,6 +652,60 @@ public class Environment {
      */
     public static void setUrlHelp(String urlHelp) {
         Environment.urlHelp = urlHelp;
+    }
+
+    /**
+     * Returns url string for the Jabber help
+     *
+     * @return String
+     */
+    public static String getUrlJabberHelp() {
+        return urlJabberHelp;
+    }
+
+    /**
+     * Set the url string for the Jabber help
+     *
+     * @param urlJabberHelp String
+     */
+    public static void setUrlJabberHelp(String urlJabberHelp) {
+        Environment.urlJabberHelp = urlJabberHelp;
+    }
+
+    /**
+     * Returns url string for the IPC help
+     *
+     * @return String
+     */
+    public static String getUrlIpcHelp() {
+        return urlIpcHelp;
+    }
+
+    /**
+     * Set the url string for the IPC help
+     *
+     * @param urlIpcHelp String
+     */
+    public static void setUrlIpcHelp(String urlIpcHelp) {
+        Environment.urlIpcHelp = urlIpcHelp;
+    }
+
+    /**
+     * Returns url string for the Synchronization help
+     *
+     * @return String
+     */
+    public static String getUrlSynchronizationHelp() {
+        return urlSynchronizationHelp;
+    }
+
+    /**
+     * Set the url string for the Synchronization help
+     *
+     * @param urlSynchronizationHelp String
+     */
+    public static void setUrlSynchronizationHelp(String urlSynchronizationHelp) {
+        Environment.urlSynchronizationHelp = urlSynchronizationHelp;
     }
 
     /**

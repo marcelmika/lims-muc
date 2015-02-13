@@ -55,12 +55,39 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns true if the current user is male
+     *
+     * @return {boolean}
+     */
+    getCurrentUserMale: function () {
+        return this.get('male');
+    },
+
+    /**
      * Returns portraitId of the currently connected user
      *
      * @return {number}
      */
     getCurrentUserPortraitId: function () {
         return this.get('portraitId');
+    },
+
+    /**
+     * Returns portrait image token of the currently connected user
+     *
+     * @return {string}
+     */
+    getCurrentUserPortraitImageToken: function () {
+        return this.get('portraitImageToken');
+    },
+
+    /**
+     * Returns portrait token of the currently connected user
+     *
+     * @return {string}
+     */
+    getCurrentUserPortraitToken: function () {
+        return this.get('portraitToken');
     },
 
     /**
@@ -200,6 +227,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         },
 
         /**
+         * Set to true if the user is male
+         *
+         * {boolean}
+         */
+        male: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.male;
+            }
+        },
+
+        /**
          * Portrait id of the currently logged user
          *
          * {integer}
@@ -207,6 +245,28 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         portraitId: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.portraitId;
+            }
+        },
+
+        /**
+         * Portrait image token of the currently logged user
+         *
+         * {string}
+         */
+        portraitImageToken: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.portraitImageToken;
+            }
+        },
+
+        /**
+         * Portrait token of the currently logged user
+         *
+         * {string}
+         */
+        portraitToken: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.portraitToken;
             }
         },
 

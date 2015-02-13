@@ -90,6 +90,10 @@ public class SynchronizationController {
             // Everything else is a server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug(responseEvent.getException());
+                }
             }
         }
     }
@@ -136,6 +140,10 @@ public class SynchronizationController {
             // Everything else is a server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug(responseEvent.getException());
+                }
             }
         }
     }

@@ -18,11 +18,11 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
  * Date: 5/4/14
  * Time: 8:29 AM
  */
-public class ReadPresenceBuddyRequestEvent extends RequestEvent {
+public class ReadBuddyPresenceRequestEvent extends RequestEvent {
 
     private final BuddyDetails buddyDetails;
 
-    public ReadPresenceBuddyRequestEvent(BuddyDetails buddyDetails) {
+    public ReadBuddyPresenceRequestEvent(BuddyDetails buddyDetails) {
         this.buddyDetails = buddyDetails;
     }
 

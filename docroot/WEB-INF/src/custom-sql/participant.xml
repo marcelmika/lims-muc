@@ -42,7 +42,7 @@
                     )
                 )
             ORDER BY
-                Limsmuc_conversation.updatedAt DESC
+                Limsmuc_Conversation.updatedAt DESC
 		]]>
     </sql>
 

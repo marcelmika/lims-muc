@@ -76,9 +76,7 @@ AUI().use(
 
                 // Start the app!
                 mainController = new A.LIMS.Controller.MainController({
-                    userId: Liferay.ThemeDisplay.getUserId(),
-                    companyId: Liferay.ThemeDisplay.getCompanyId(),
-                    pathImage: Liferay.ThemeDisplay.getPathImage()
+                    publisher: Liferay
                 });
 
                 // Notify main controller when the user session expires

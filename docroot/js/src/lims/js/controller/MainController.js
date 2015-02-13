@@ -28,6 +28,7 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             properties = this.get('properties'),
             serverTime = this.get('serverTimeModel'),
             poller = this.get('poller'),
+            publisher = this.get('publisher'),
             rootNode = this.getRootNode();
 
         // Attach events
@@ -49,12 +50,14 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 properties: properties,
                 poller: poller
             });
+
             // Presence
             new Y.LIMS.Controller.PresenceViewController({
                 container: rootNode.one('.status-panel'),
                 model: settingsModel,
                 buddyDetails: buddyDetails
             });
+
             // Settings
             new Y.LIMS.Controller.SettingsViewController({
                 container: rootNode.one('.chat-settings'),
@@ -62,6 +65,7 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 properties: properties,
                 poller: poller
             });
+
             // Conversation
             new Y.LIMS.Controller.ConversationsController({
                 container: rootNode.one('.lims-tabs'),
@@ -79,6 +83,16 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 poller: poller,
                 buddyDetails: buddyDetails
             });
+
+            // IPC Controller
+            new Y.LIMS.Core.IPCController({
+                publisher: publisher,
+                buddyDetails: buddyDetails
+            });
+
+            // Render tooltips
+            var tooltip = new Y.LIMS.View.Tooltip();
+            tooltip.render();
         });
     },
 
@@ -102,6 +116,20 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
         Y.on('panelShown', this._onPanelShown, this);
         Y.on('panelHidden', this._onPanelHidden, this);
         Y.on('userSessionExpired', this._onSessionExpired, this);
+    },
+
+    /**
+     * Shows notification about the expired session to the user
+     *
+     * @private
+     */
+    _showSessionExpiredNotification: function () {
+        // Vars
+        var portletNotification = this.get('portletNotification');
+        // Render the notification
+        portletNotification.render();
+        // Show the notification
+        portletNotification.show();
     },
 
     /**
@@ -150,6 +178,8 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
     _onSessionExpired: function () {
         // Hide the whole portlet
         this.hidePortlet();
+        // Show the notification
+        this._showSessionExpiredNotification();
     }
 
 }, {
@@ -173,7 +203,10 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 return new Y.LIMS.Model.BuddyModelItem({
                     buddyId: properties.getCurrentUserId(),
                     companyId: properties.getCurrentUserCompanyId(),
+                    male: properties.getCurrentUserMale(),
                     portraitId: properties.getCurrentUserPortraitId(),
+                    portraitImageToken: properties.getCurrentUserPortraitImageToken(),
+                    portraitToken: properties.getCurrentUserPortraitToken(),
                     screenName: properties.getCurrentUserScreenName(),
                     fullName: properties.getCurrentUserFullName(),
                     firstName: properties.getCurrentUserFirstName(),
@@ -223,6 +256,23 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
         },
 
         /**
+         * Portlet notification
+         *
+         * {Y.LIMS.View.PortletNotificationView}
+         */
+        portletNotification: {
+            valueFn: function () {
+                // Vars
+                var container = this.getPortletContainer();
+
+                return new Y.LIMS.View.PortletNotificationView({
+                    content: Y.LIMS.Core.i18n.values.sessionExpiredNotificationContent,
+                    container: container
+                });
+            }
+        },
+
+        /**
          * An instance of poller that periodically refreshes models that are subscribed
          *
          * {Y.LIMS.Core.Poller}
@@ -242,6 +292,13 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             valueFn: function () {
                 return new Y.LIMS.Core.Properties();
             }
+        },
+
+        /**
+         * Publisher object user to send IPC calls
+         */
+        publisher: {
+            value: null // to be set
         },
 
         /**

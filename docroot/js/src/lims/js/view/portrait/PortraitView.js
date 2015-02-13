@@ -191,7 +191,7 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
         var imagePortrait = Y.Node.create(this.imageTemplate);
 
         // Set portrait image src attribute based on the screen name
-        imagePortrait.set('src', this.getPortraitUrl(user.get('portraitId')));
+        imagePortrait.set('src', this.getPortraitUrl(user));
 
         return imagePortrait;
     },

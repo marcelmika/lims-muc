@@ -23,7 +23,7 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
     testConnection: function (callback) {
 
         // Vars
-        var url = this.getServerRequestUrl();
+        var url = this.getServerRequestUrl(), response;
 
         // First, save the properties
         this.save(function (err) {
@@ -53,7 +53,11 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
                             Y.fire('userSessionExpired');
                         }
 
-                        callback(o.responseText);
+                        // Deserialize
+                        response = Y.JSON.parse(o.responseText);
+
+                        // Callback the error
+                        callback(new Y.LIMS.Model.ErrorMessage(response));
                     }
                 }
             });
@@ -145,15 +149,6 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          * []
          */
         buddyListSocialRelations: {
-            value: null // to be set
-        },
-
-        /**
-         * Buddy list ignore default user
-         *
-         * {boolean}
-         */
-        buddyListIgnoreDefaultUser: {
             value: null // to be set
         },
 
@@ -253,6 +248,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          * {string}
          */
         jabberResource: {
+            value: null // to be set
+        },
+
+        /**
+         * IPC enabled
+         *
+         * {boolean}
+         */
+        ipcEnabled: {
             value: null // to be set
         }
     }

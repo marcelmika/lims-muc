@@ -198,13 +198,13 @@
 
 <%-- This template HTML will be used to render each conversation item (i.e. message). --%>
 <script type="text/x-template" id="limsmuc-conversation-item-regular-template">
-    <div class="conversation-item-portrait"></div>
+    <div class="conversation-item-portrait" title="{fullNameExtended}"></div>
     <div class="conversation-item-message">
-        <span class="conversation-item-name">{fullName}</span>
+        <span class="conversation-item-name" title="{fullNameExtended}">{fullName}</span>
         <span class="conversation-item-date" title="{created}">{createdPrettified}</span>
-        <span class="conversation-item-text">{content}</span>
-
+        <div class="conversation-item-bubble-corner"></div>
         <div class="clear"></div>
+        <div class="conversation-item-text">{content}</div>
     </div>
     <div class="clear"></div>
 </script>
@@ -214,6 +214,12 @@
     <div class="conversation-item-left-message">
         <liferay-ui:message key="panel-conversation-item-left-message"/>
     </div>
+</script>
+
+<%-- This template HTML will be used to portlet notification --%>
+<script type="text/x-template" id="limsmuc-portlet-notification-template">
+    <button class="close-notification" title="{buttonTitle}"></button>
+    <span class="notification-content">{content}</span>
 </script>
 
 <%-- This template HTML will be used to render conversation item added message --%>

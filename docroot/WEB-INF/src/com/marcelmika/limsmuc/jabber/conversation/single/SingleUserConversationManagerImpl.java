@@ -202,8 +202,8 @@ public class SingleUserConversationManagerImpl
 
         } catch (Exception e) {
             // No such user was found, thus simply ignore this fact and don't add it to the list
-            if (log.isErrorEnabled()) {
-                log.error(e);
+            if (log.isDebugEnabled()) {
+                log.debug(e);
             }
             return;
         }

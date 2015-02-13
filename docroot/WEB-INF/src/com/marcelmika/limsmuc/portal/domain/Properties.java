@@ -26,7 +26,6 @@ public class Properties {
     private String[] excludedSites;
     private Environment.BuddyListStrategy buddyListStrategy;
     private Environment.BuddyListSocialRelation[] buddyListSocialRelations;
-    private Boolean buddyListIgnoreDefaultUser;
     private Boolean buddyListIgnoreDeactivatedUser;
     private Integer buddyListMaxBuddies;
     private Integer buddyListMaxSearch;
@@ -36,6 +35,9 @@ public class Properties {
     private String[] buddyListGroupExcludes;
     private String urlHelp;
     private String urlUnsupportedBrowser;
+    private String urlIpcHelp;
+    private String urlSynchronizationHelp;
+    private String urlJabberHelp;
     private Boolean jabberEnabled;
     private Boolean jabberSecurityEnabled;
     private Boolean jabberImportUserEnabled;
@@ -43,6 +45,7 @@ public class Properties {
     private Integer jabberPort;
     private String jabberServiceName;
     private String jabberResource;
+    private Boolean ipcEnabled;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -58,7 +61,6 @@ public class Properties {
         properties.excludedSites = Environment.getExcludedSites();
         properties.buddyListStrategy = Environment.getBuddyListStrategy();
         properties.buddyListSocialRelations = Environment.getBuddyListSocialRelations();
-        properties.buddyListIgnoreDefaultUser = Environment.getBuddyListIgnoreDefaultUser();
         properties.buddyListIgnoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
         properties.buddyListMaxBuddies = Environment.getBuddyListMaxBuddies();
         properties.buddyListMaxSearch = Environment.getBuddyListMaxSearch();
@@ -68,6 +70,9 @@ public class Properties {
         properties.buddyListGroupExcludes = Environment.getBuddyListGroupExcludes();
         properties.urlHelp = Environment.getUrlHelp();
         properties.urlUnsupportedBrowser = Environment.getUrlUnsupportedBrowser();
+        properties.urlJabberHelp = Environment.getUrlJabberHelp();
+        properties.urlIpcHelp = Environment.getUrlIpcHelp();
+        properties.urlSynchronizationHelp = Environment.getUrlSynchronizationHelp();
         properties.jabberEnabled = Environment.isJabberEnabled();
         properties.jabberSecurityEnabled = Environment.getJabberSecurityEnabled();
         properties.jabberImportUserEnabled = Environment.isJabberImportUserEnabled();
@@ -75,6 +80,7 @@ public class Properties {
         properties.jabberPort = Environment.getJabberPort();
         properties.jabberServiceName = Environment.getJabberServiceName();
         properties.jabberResource = Environment.getJabberResource();
+        properties.ipcEnabled = Environment.getIpcEnabled();
 
         return properties;
     }
@@ -113,14 +119,6 @@ public class Properties {
 
     public void setBuddyListSocialRelations(Environment.BuddyListSocialRelation[] buddyListSocialRelations) {
         this.buddyListSocialRelations = buddyListSocialRelations;
-    }
-
-    public Boolean getBuddyListIgnoreDefaultUser() {
-        return buddyListIgnoreDefaultUser;
-    }
-
-    public void setBuddyListIgnoreDefaultUser(Boolean buddyListIgnoreDefaultUser) {
-        this.buddyListIgnoreDefaultUser = buddyListIgnoreDefaultUser;
     }
 
     public Boolean getBuddyListIgnoreDeactivatedUser() {
@@ -203,6 +201,30 @@ public class Properties {
         this.urlUnsupportedBrowser = urlUnsupportedBrowser;
     }
 
+    public String getUrlIpcHelp() {
+        return urlIpcHelp;
+    }
+
+    public void setUrlIpcHelp(String urlIpcHelp) {
+        this.urlIpcHelp = urlIpcHelp;
+    }
+
+    public String getUrlSynchronizationHelp() {
+        return urlSynchronizationHelp;
+    }
+
+    public void setUrlSynchronizationHelp(String urlSynchronizationHelp) {
+        this.urlSynchronizationHelp = urlSynchronizationHelp;
+    }
+
+    public String getUrlJabberHelp() {
+        return urlJabberHelp;
+    }
+
+    public void setUrlJabberHelp(String urlJabberHelp) {
+        this.urlJabberHelp = urlJabberHelp;
+    }
+
     public Boolean getJabberEnabled() {
         return jabberEnabled;
     }
@@ -259,6 +281,14 @@ public class Properties {
         this.jabberResource = jabberResource;
     }
 
+    public Boolean getIpcEnabled() {
+        return ipcEnabled;
+    }
+
+    public void setIpcEnabled(Boolean ipcEnabled) {
+        this.ipcEnabled = ipcEnabled;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -266,7 +296,6 @@ public class Properties {
                 ", excludedSites=" + Arrays.toString(excludedSites) +
                 ", buddyListStrategy=" + buddyListStrategy +
                 ", buddyListSocialRelations=" + Arrays.toString(buddyListSocialRelations) +
-                ", buddyListIgnoreDefaultUser=" + buddyListIgnoreDefaultUser +
                 ", buddyListIgnoreDeactivatedUser=" + buddyListIgnoreDeactivatedUser +
                 ", buddyListMaxBuddies=" + buddyListMaxBuddies +
                 ", buddyListMaxSearch=" + buddyListMaxSearch +
@@ -276,6 +305,9 @@ public class Properties {
                 ", buddyListGroupExcludes=" + Arrays.toString(buddyListGroupExcludes) +
                 ", urlHelp='" + urlHelp + '\'' +
                 ", urlUnsupportedBrowser='" + urlUnsupportedBrowser + '\'' +
+                ", urlIpcHelp='" + urlIpcHelp + '\'' +
+                ", urlSynchronizationHelp='" + urlSynchronizationHelp + '\'' +
+                ", urlJabberHelp='" + urlJabberHelp + '\'' +
                 ", jabberEnabled=" + jabberEnabled +
                 ", jabberSecurityEnabled=" + jabberSecurityEnabled +
                 ", jabberImportUserEnabled=" + jabberImportUserEnabled +
@@ -283,6 +315,7 @@ public class Properties {
                 ", jabberPort=" + jabberPort +
                 ", jabberServiceName='" + jabberServiceName + '\'' +
                 ", jabberResource='" + jabberResource + '\'' +
+                ", ipcEnabled=" + ipcEnabled +
                 '}';
     }
 }

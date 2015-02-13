@@ -23,6 +23,43 @@
 }
 
 /********************************************************************************
+/ TOOLTIP
+/********************************************************************************/
+
+.lims-muc {
+
+  .tooltip-container {
+    @include transparent(#000000, 0.77);
+    @include border-radius(15px);
+    color: #ffffff;
+    padding: 10px;
+    max-width: 250px;
+    margin-left: 5px;
+    line-height: 14px;
+    font-weight: 500;
+  }
+
+  .tooltip-button {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0 5px;
+    background: #fff;
+    border: 1px solid #689DCA;
+    @include border-radius(15px);
+    color: #689DCA;
+    line-height: 13px;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: left;
+    opacity: 0.7;
+    text-transform: lowercase;
+    @include no-select();
+  }
+
+}
+
+/********************************************************************************
 / BUTTON
 /********************************************************************************/
 
@@ -36,7 +73,7 @@
     @include border-radius(5px);
     // Make the button unselectable
     @include no-select();
-    @include box-shadow(0 1px 0 rgba(255,255,255,0.75) inset,0 -1px 0 rgba(0,0,0,0.15) inset);
+    @include box-shadow(0 1px 0 rgba(255, 255, 255, 0.75) inset, 0 -1px 0 rgba(0, 0, 0, 0.15) inset);
 
     &:hover,
     &:focus {
@@ -292,6 +329,7 @@
     color: white;
     padding: 1px 11px 2px;
     position: relative;
+    font-weight: 500;
   }
 
   .token-input-plugin-hasremove {
@@ -317,7 +355,7 @@
     top: 4px;
     right: 4px;
     font-size: 18px;
-    font-weight: lighter;
+    font-weight: 500;
     text-decoration: none;
   }
 
@@ -634,7 +672,7 @@
       color: white;
       top: 16px;
       font-size: 17px;
-      font-weight: 200;
+      font-weight: 400;
     }
   }
 

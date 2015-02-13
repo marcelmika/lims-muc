@@ -9,13 +9,13 @@
   z-index: 1000;
   font-family: $font-family;
   font-size: 12px;
-  font-weight: 200;
+  font-weight: 400;
   padding: 0;
   margin: 0;
   opacity: 1;
 
   textarea, pre, input {
-    font-weight: 200;
+    font-weight: 400;
     font-family: $font-family;
   }
 
@@ -117,7 +117,6 @@
 
 }
 
-
 /********************************************************************************
 / NOTIFICATION - CONFLICT
 /********************************************************************************/
@@ -127,7 +126,7 @@
   padding: 10px;
   border: 1px solid #D7B1B1;
   border-bottom: none;
-  background: rgba(240, 209, 213, 0.83);
+  @include transparent(#f0d1d5, 0.83);
   @include box-shadow(0 0 1px #D25954);
   @include text-shadow(1px 1px 1px #ffffff);
 
@@ -141,11 +140,11 @@
 / NOTIFICATION - OVER LIMIT
 /********************************************************************************/
 
-.lims-muc .over-limit {
+.lims-muc .portlet-notification {
   position: fixed;
   right: 50px;
   bottom: 0;
-  background: rgba(228, 240, 255, 0.83);
+  @include transparent(#e4f0ff, 0.83);
   padding: 10px;
   max-width: 250px;
   line-height: 15px;
@@ -156,7 +155,16 @@
   @include box-shadow(0 0 1px #79b7ca);
   @include text-shadow(1px 1px 1px #ffffff);
 
+  .notification-content {
+    display: block;
+    padding-right: 23px;
+    color: #6793cd;
+  }
+
   .close-notification {
+    position: absolute;
+    top: 7px;
+    right: 7px;
     width: 18px;
     height: 18px;
     float: right;

@@ -4,8 +4,13 @@
 
 .lims-muc .conversation {
 
+  .panel-window {
+    max-width: 270px;
+  }
+  
   .panel-content {
     height: 250px;
+    max-width: 270px;
     overflow-y: auto;
     background: #fff;
     margin-top: 0;
@@ -35,6 +40,7 @@
     border-radius: 10px;
     line-height: 14px;
     font-size: 11px;
+    font-weight: 500;
     max-height: 225px;
     overflow-y: auto;
   }
@@ -75,17 +81,43 @@
     padding-top: 3px;
   }
 
+  .conversation-item-bubble-corner {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: transparent url('/images/background-message-bubble.png') center center no-repeat;
+    @include image-2x('/images/background-message-bubble@2x.png', 10px, auto);
+    background-size: 10px;
+    top: 20px;
+    left: 3px;
+
+    &.own {
+      background-image: url('/images/background-message-bubble-own.png');
+      @include image-2x('/images/background-message-bubble-own@2x.png', 10px, auto);
+    }
+  }
+
   .conversation-item-text {
-    display: block;
+    display: inline-block;
     text-align: left;
     line-height: 14px;
-    padding: 2px 8px;
-    color: #222;
+    margin-top: 4px;
+    margin-left: 8px;
+    padding: 8px 12px;
+    color: #4c4c4c;
     clear: left;
     word-wrap: break-word;
     opacity: 0.6;
-    font-weight: 300;
-    @include font-smoothing();
+    font-weight: 400;
+    background: #f2f2f2;
+    border-radius: 14px;
+    max-width: 84%;
+    min-width: 20px;
+    width: auto;
+
+    &.own {
+      background: #e6f3fc;
+    }
   }
 
   .conversation-item-left-message,
@@ -110,7 +142,7 @@
   .panel-input textarea {
     width: 249px;
     height: 22px;
-    padding: 5px 10px 5px;
+    padding: 9px 10px 1px;
     background: #f8f8f8;
     border: 1px solid #dedede;
     border-left: none;
@@ -124,7 +156,6 @@
     line-height: 14px;
     color: #545454;
     font-weight: 500;
-    @include font-smoothing();
     @include border-radius(0px);
   }
 
@@ -149,7 +180,7 @@
     word-wrap: break-word;
     left: -10000em;
     top: -10000em;
-    padding: 5px 10px 5px;
+    padding: 9px 10px 1px;
     font-size: 12px;
     line-height: 14px;
     position: absolute;

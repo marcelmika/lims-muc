@@ -7,23 +7,54 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
-<%-- Variables --%>
-<%--@elvariable id="currentUser" type="com.marcelmika.limsmuc.portal.domain.Buddy"--%>
-
 <%-- This template HTML will be used to render localization messages --%>
-<script type="text/x-template" id="limsmuc-properties">
+<script type="text/x-template" id="limsmuc-i18n">
     {
-    "userId":${currentUser.buddyId},
-    "companyId":${currentUser.companyId},
-    "portraitId":${currentUser.portraitId},
-    "screenName":"${fn:escapeXml(currentUser.screenName)}",
-    "fullName":"${fn:escapeXml(currentUser.fullName)}",
-    "firstName":"${fn:escapeXml(currentUser.firstName)}",
-    "middleName":"${fn:escapeXml(currentUser.middleName)}",
-    "lastName":"${fn:escapeXml(currentUser.lastName)}",
-    "portletEnabled": ${settings.chatEnabled},
-    "activePanelId": "${settings.activePanelId}",
-    "contextPath":"<%= request.getContextPath() %>",
-    "currentServerTime":<%= System.currentTimeMillis() %>
+    "connectionErrorMessage":"<liferay-ui:message key="connection-error"/>",
+    "jabberDisconnectedMessage":"<liferay-ui:message key="jabber-disconnected"/>",
+    "searchNoResultsMessage":"<liferay-ui:message key="panel-search-no-results-text"/>",
+    "searchErrorMessage":"<liferay-ui:message key="panel-search-error-text"/>",
+    "groupListEmptyInfoMessage":"<liferay-ui:message key="panel-group-list-empty-info-text"/>",
+    "groupListErrorMessage":"<liferay-ui:message key="panel-group-list-error-text"/>",
+    "conversationCreateErrorMessage":"<liferay-ui:message key="panel-conversation-create-error-text"/>",
+    "conversationReadErrorMessage":"<liferay-ui:message key="panel-conversation-read-error-text"/>",
+    "socialRelationUnknown":"<liferay-ui:message key="social-relation-unknown"/>",
+    "socialRelationConnection":"<liferay-ui:message key="social-relation-connection"/>",
+    "socialRelationCoworker":"<liferay-ui:message key="social-relation-coworker"/>",
+    "socialRelationFriend":"<liferay-ui:message key="social-relation-friend"/>",
+    "socialRelationRomanticPartner":"<liferay-ui:message key="social-relation-romantic-partner"/>",
+    "socialRelationSibling":"<liferay-ui:message key="social-relation-sibling"/>",
+    "timeRangeJustNow":"<liferay-ui:message key="time-range-just-now"/>",
+    "timeRangeMinuteAgo":"<liferay-ui:message key="time-range-minute-ago"/>",
+    "timeRangeMinutesAgo":"<liferay-ui:message key="time-range-minutes-ago"/>",
+    "timeRangeHourAgo":"<liferay-ui:message key="time-range-hour-ago"/>",
+    "timeRangeHoursAgo":"<liferay-ui:message key="time-range-hours-ago"/>",
+    "timeRangeYesterday":"<liferay-ui:message key="time-range-yesterday"/>",
+    "timeRangeDaysAgo":"<liferay-ui:message key="time-range-days-ago"/>",
+    "timeRangeWeeksAgo":"<liferay-ui:message key="time-range-weeks-ago"/>",
+    "dateFormat":"<liferay-ui:message key="date-format"/>",
+    "adminAreaOpen": "<liferay-ui:message key="panel-settings-admin-area-open"/>",
+    "adminAreaClose": "<liferay-ui:message key="panel-settings-admin-area-close"/>",
+    "conversationFeedReadErrorMessage" : "<liferay-ui:message key="panel-conversation-feed-read-error-text"/>",
+    "conversationFeedEmptyInfoMessage" : "<liferay-ui:message key="panel-conversation-feed-empty-info-text"/>",
+    "conversationConversationOptionsLeaveError" : "<liferay-ui:message key="panel-conversation-options-leave-conversation-error"/>",
+    "incomingMessageTitleText" : "<liferay-ui:message key="incoming-message-title-text"/>",
+    "mucTitleTwoParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-two-participants"/>",
+    "mucTitleOthersParticipants" : "<liferay-ui:message key="panel-conversation-muc-title-others-participants"/>",
+    "testConnectionSuccess" : "<liferay-ui:message key="panel-settings-admin-area-jabber-test-connection-success"/>",
+    "testConnectionValidationError" : "<liferay-ui:message key="panel-settings-admin-area-jabber-test-connection-validation-error"/>",
+    "conversationLoading" : "<liferay-ui:message key="panel-conversation-loading"/>",
+    "sucSynchronizationInProgress" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-in-progress-note"/>",
+    "sucSynchronizationError" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-error-note"/>",
+    "sucSynchronizationSuccess" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-suc-success-note"/>",
+    "chatPortletSynchronizationInProgress" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-in-progress-note"/>",
+    "chatPortletSynchronizationError" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-error-note"/>",
+    "chatPortletSynchronizationSuccess" : "<liferay-ui:message key="panel-settings-admin-area-synchronization-chat-portlet-success-note"/>",
+    "valueUpdateError":"<liferay-ui:message key="panel-settings-admin-area-value-update-error"/>",
+    "validationRequired":"<liferay-ui:message key="panel-settings-admin-area-validation-required"/>",
+    "validationIsInteger":"<liferay-ui:message key="panel-settings-admin-area-validation-is-integer"/>",
+    "validationInterval":"<liferay-ui:message key="panel-settings-admin-area-validation-interval"/>",
+    "sessionExpiredNotificationContent":"<liferay-ui:message key="session-expired-notification-content"/>",
+    "portletNotificationCloseButtonTitle":"<liferay-ui:message key="portlet-notification-close-button-title"/>"
     }
 </script>

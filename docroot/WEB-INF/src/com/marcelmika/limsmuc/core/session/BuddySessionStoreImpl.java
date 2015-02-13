@@ -39,10 +39,10 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void addBuddy(Long buddyId) {
 
-        synchronized (buddySessions) {
+//        synchronized (buddySessions) {
             // Add a single buddy
             buddySessions.add(buddyId);
-        }
+//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -58,12 +58,12 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void addBuddies(List<Long> buddies) {
 
-        synchronized (buddySessions) {
+//        synchronized (buddySessions) {
             // Clear the old values
             buddySessions.clear();
             // Add new ones
             buddySessions.addAll(buddies);
-        }
+//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -79,10 +79,10 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void removeBuddy(Long buddyId) {
 
-        synchronized (buddySessions) {
+//        synchronized (buddySessions) {
             // Remove specific buddy
             buddySessions.remove(buddyId);
-        }
+//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -99,7 +99,7 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public boolean isOverSessionLimit(Long buddyId) {
 
-        synchronized (buddySessions) {
+//        synchronized (buddySessions) {
 
             // Buddy id is already registered in the buddy session store. It means that
             // the user was registered in the store thus he has the access.
@@ -119,7 +119,7 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
 
             // User is allowed to obtain the session
             return false;
-        }
+//        }
     }
 
     @Override

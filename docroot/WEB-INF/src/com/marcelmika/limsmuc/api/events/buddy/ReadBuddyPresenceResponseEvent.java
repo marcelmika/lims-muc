@@ -18,7 +18,7 @@ import com.marcelmika.limsmuc.api.events.ResponseEvent;
  * Date: 5/4/14
  * Time: 8:29 AM
  */
-public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
+public class ReadBuddyPresenceResponseEvent extends ResponseEvent {
 
     private PresenceDetails presence;
     private Status status;
@@ -31,7 +31,7 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
     /**
      * Constructor is private. Use factory methods to create new success or failure instances
      */
-    private ReadPresenceBuddyResponseEvent() {
+    private ReadBuddyPresenceResponseEvent() {
         // No params
     }
 
@@ -40,8 +40,8 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static ReadPresenceBuddyResponseEvent success(final PresenceDetails presence) {
-        ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
+    public static ReadBuddyPresenceResponseEvent success(final PresenceDetails presence) {
+        ReadBuddyPresenceResponseEvent event = new ReadBuddyPresenceResponseEvent();
 
         event.success = true;
         event.status = Status.SUCCESS;
@@ -56,8 +56,8 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
      * @param status Status
      * @return ResponseEvent
      */
-    public static ReadPresenceBuddyResponseEvent failure(final Status status) {
-        ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
+    public static ReadBuddyPresenceResponseEvent failure(final Status status) {
+        ReadBuddyPresenceResponseEvent event = new ReadBuddyPresenceResponseEvent();
 
         event.success = false;
         event.status = status;
@@ -72,10 +72,10 @@ public class ReadPresenceBuddyResponseEvent extends ResponseEvent {
      * @param exception Exception
      * @return ResponseEvent
      */
-    public static ReadPresenceBuddyResponseEvent failure(final Status status,
+    public static ReadBuddyPresenceResponseEvent failure(final Status status,
                                                          final Throwable exception) {
 
-        ReadPresenceBuddyResponseEvent event = new ReadPresenceBuddyResponseEvent();
+        ReadBuddyPresenceResponseEvent event = new ReadBuddyPresenceResponseEvent();
 
         event.success = false;
         event.status = status;

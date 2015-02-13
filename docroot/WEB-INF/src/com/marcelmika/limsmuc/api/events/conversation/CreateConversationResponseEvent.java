@@ -31,6 +31,7 @@ public class CreateConversationResponseEvent extends ResponseEvent {
         ERROR_NOT_IMPLEMENTED, // Functionality is not implemented yet
         ERROR_JABBER, // Error with jabber occurred
         ERROR_MUC_COLLISION, // Such multi user conversation already exists
+        ERROR_SUC_COLLISION, // Cannot create conversation with yourself
         ERROR_PERSISTENCE, // Error with persistence occurred
     }
 

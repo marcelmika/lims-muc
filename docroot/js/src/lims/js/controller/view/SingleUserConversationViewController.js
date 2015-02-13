@@ -797,11 +797,14 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 valueFn: function () {
                     // Vars
                     var panelWindow = this.get('panelWindow'),
-                        model = this.get('model');
+                        model = this.get('model'),
+                        buddyDetails = this.get('buddyDetails');
+
                     // Create new view
                     return new Y.LIMS.View.ConversationListView({
                         container: panelWindow,
-                        model: model
+                        model: model,
+                        buddyDetails: buddyDetails
                     });
                 }
             },

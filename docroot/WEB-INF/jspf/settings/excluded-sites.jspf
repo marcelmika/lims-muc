@@ -15,7 +15,10 @@
 <li class="excluded-sites token-input">
 
     <div class="settings-category-title">
-        <span><liferay-ui:message key="panel-settings-admin-area-excluded-sites-title"/></span>
+        <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-excluded-sites-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-excluded-sites-help"/>">i</i>
+        </span>
     </div>
     <input type="text" placeholder="" value="${properties.excludedSitesFlatten}"/>
 

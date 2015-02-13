@@ -15,7 +15,11 @@
 <li class="jabber-service-name text-input">
 
     <div class="settings-category-title">
-        <span><liferay-ui:message key="panel-settings-admin-area-jabber-service-name-title"/></span>
+        <span class="title-text">
+            <liferay-ui:message key="panel-settings-admin-area-jabber-service-name-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-service-name-help"/>">i</i>
+        </span>
     </div>
     <input type="text" placeholder="e.g. jabber-service" value="${properties.jabberServiceName}"/>
 </li>

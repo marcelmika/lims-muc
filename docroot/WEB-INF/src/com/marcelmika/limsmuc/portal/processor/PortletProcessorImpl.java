@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.portal.controller.*;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
@@ -45,9 +46,13 @@ public class PortletProcessorImpl implements PortletProcessor {
     ServerController serverController;
     PropertiesController propertiesController;
     SynchronizationController synchronizationController;
+    IPCController ipcController;
 
     // Private properties
     private Random random = new Random();
+
+    // Prefix used to determine IPC call
+    private static final String PREFIX_IPC = "IPC:";
 
     // Client returns query parameter. Thanks to this we can decide which method should be called.
     // If we were RESTFul we would be using resources at different urls. However, since liferay gives us
@@ -74,6 +79,8 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_SYNCHRONIZE_SUC = "SynchronizeSuc";
     private static final String QUERY_SYNCHRONIZE_CHAT_PORTLET = "SynchronizeChatPortlet";
     private static final String QUERY_TEST_CONNECTION = "TestConnection";
+    private static final String QUERY_IPC_READ_BUDDIES = PREFIX_IPC + "ReadBuddies";
+    private static final String QUERY_IPC_READ_PRESENCES = PREFIX_IPC + "ReadPresences";
 
     /**
      * Constructor
@@ -85,6 +92,7 @@ public class PortletProcessorImpl implements PortletProcessor {
      * @param serverController          ServerController
      * @param propertiesController      PropertiesController
      * @param synchronizationController SynchronizationController
+     * @param ipcController             IPCController
      */
     public PortletProcessorImpl(final BuddyController buddyController,
                                 final ConversationController conversationController,
@@ -92,7 +100,8 @@ public class PortletProcessorImpl implements PortletProcessor {
                                 final SettingsController settingsController,
                                 final ServerController serverController,
                                 final PropertiesController propertiesController,
-                                final SynchronizationController synchronizationController) {
+                                final SynchronizationController synchronizationController,
+                                final IPCController ipcController) {
 
         this.buddyController = buddyController;
         this.conversationController = conversationController;
@@ -101,6 +110,7 @@ public class PortletProcessorImpl implements PortletProcessor {
         this.serverController = serverController;
         this.propertiesController = propertiesController;
         this.synchronizationController = synchronizationController;
+        this.ipcController = ipcController;
     }
 
     /**
@@ -131,7 +141,12 @@ public class PortletProcessorImpl implements PortletProcessor {
 
         // Return error response if no query was set
         if (query == null) {
-            ResponseUtil.writeResponse(null, HttpStatus.BAD_REQUEST, response);
+            ResponseUtil.writeResponse(
+                    ErrorMessage.badRequest("Query parameter is missing").serialize(),
+                    HttpStatus.BAD_REQUEST,
+                    response
+            );
+            // End here
             return;
         }
 
@@ -166,6 +181,17 @@ public class PortletProcessorImpl implements PortletProcessor {
     private void dispatchRequest(ResourceRequest request,
                                  ResourceResponse response,
                                  String query) {
+
+        // IPC requests must be turned on
+        if (!Environment.getIpcEnabled() && query.contains(PREFIX_IPC)) {
+            // Not allowed
+            ResponseUtil.writeResponse(
+                    ErrorMessage.forbidden("IPC mechanism is turned off.").serialize(),
+                    HttpStatus.FORBIDDEN,
+                    response);
+            // End here
+            return;
+        }
 
         // Create Single User Conversation
         if (query.equals(QUERY_CREATE_SINGLE_USER_CONVERSATION)) {
@@ -251,10 +277,22 @@ public class PortletProcessorImpl implements PortletProcessor {
         else if (query.equals(QUERY_TEST_CONNECTION)) {
             propertiesController.testConnection(request, response);
         }
+        // IPC: Read buddies
+        else if (query.equals(QUERY_IPC_READ_BUDDIES)) {
+            ipcController.readBuddies(request, response);
+        }
+        // IPC: Read presences
+        else if (query.equals(QUERY_IPC_READ_PRESENCES)) {
+            ipcController.readPresences(request, response);
+        }
         // No such query was found
         else {
             // Write 404 to response
-            ResponseUtil.writeResponse(HttpStatus.NOT_FOUND, response);
+            ResponseUtil.writeResponse(
+                    ErrorMessage.notFound(String.format("Unknown query (%s) was passed", query)).serialize(),
+                    HttpStatus.NOT_FOUND,
+                    response
+            );
         }
     }
 

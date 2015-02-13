@@ -91,8 +91,10 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
 
         // Save to persistence
         try {
-            // User cannot create a multi user conversation that already exists
+
+            // Validate multi user
             if (conversation.getConversationType() == ConversationType.MULTI_USER) {
+                // User cannot create a multi user conversation that already exists
                 // Try to find a conversation with the same id
                 com.marcelmika.limsmuc.persistence.generated.model.Conversation conversationModel =
                         ConversationLocalServiceUtil.fetchByConversationId(conversation.getConversationId());
@@ -102,6 +104,22 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                     return CreateConversationResponseEvent.failure(
                             CreateConversationResponseEvent.Status.ERROR_MUC_COLLISION
                     );
+                }
+            }
+
+            // Validate single user
+            if (conversation.getConversationType() == ConversationType.SINGLE_USER) {
+
+                // If there are any participants to be created
+                if (conversation.getParticipants().size() > 0) {
+                    // Get the participant
+                    Buddy participant = conversation.getParticipants().get(0);
+                    // User cannot create conversation with himself
+                    if (participant.getBuddyId().equals(creator.getBuddyId())) {
+                        return CreateConversationResponseEvent.failure(
+                                CreateConversationResponseEvent.Status.ERROR_SUC_COLLISION
+                        );
+                    }
                 }
             }
 

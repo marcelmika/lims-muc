@@ -14,6 +14,7 @@ import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
 import org.jivesoftware.smack.Roster;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ing. Marcel Mika
@@ -38,6 +39,18 @@ public interface GroupManager {
     public void setCompanyId(Long companyId);
 
     /**
+     * Returns true if the roster has been loaded
+     *
+     * @return boolean
+     */
+    public boolean isRosterLoaded();
+
+    /**
+     * Reloads user's roster
+     */
+    public void loadRoster();
+
+    /**
      * Get buddy's collection of groups.
      *
      * @return Buddy's collection of groups.
@@ -52,6 +65,14 @@ public interface GroupManager {
      * @return list of found buddies
      */
     public List<Buddy> searchBuddies(String searchQuery, Integer size);
+
+    /**
+     * Reads presences for the given buddies
+     *
+     * @param buddyIds set of buddy ids
+     * @return list of buddies with presences
+     */
+    public List<Buddy> readPresences(Set<Long> buddyIds);
 
     /**
      * Destroys groups manager

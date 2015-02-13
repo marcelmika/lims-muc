@@ -15,17 +15,19 @@
 <c:set var="checked" value=""/>
 
 <%-- Decide if the swtich should be checked --%>
-<c:if test="${properties.buddyListIgnoreDefaultUser}">
+<c:if test="${properties.ipcEnabled}">
     <c:set var="checked" value="checked"/>
 </c:if>
 
 <%-- Render --%>
-<li class="buddy-list-ignore-default-user">
+<li class="ipc-enabled">
     <label class="switch">
         <input ${checked} type="checkbox"/>
         <span></span>
     </label>
-    <span>
-        <liferay-ui:message key="panel-settings-admin-area-buddy-list-ignore-default-user-title"/>
+    <span class="title-text">
+        <liferay-ui:message key="panel-settings-admin-area-ipc-enabled-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-ipc-enabled-help"/>">i</i>
     </span>
 </li>

@@ -12,12 +12,11 @@ package com.marcelmika.limsmuc.core.service;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.*;
 import com.marcelmika.limsmuc.core.domain.Buddy;
 import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
 import com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService;
-import com.marcelmika.limsmuc.api.events.buddy.*;
 
 /**
  * Implementation of BuddyCoreService
@@ -91,8 +90,8 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             // [3] Get buddy's stored presence. Thanks to that we can send buddy's last presence to the server.
             // Imagine that user logged out when he/she was e.g. DND. If they login again DND presence will be
             // sent to the jabber server.
-            ReadPresenceBuddyResponseEvent readPresenceEvent = buddyPersistenceService.readPresence(
-                    new ReadPresenceBuddyRequestEvent(loginResponseEvent.getDetails())
+            ReadBuddyPresenceResponseEvent readPresenceEvent = buddyPersistenceService.readBuddyPresence(
+                    new ReadBuddyPresenceRequestEvent(loginResponseEvent.getDetails())
             );
             // [3.1] Update it on server. However, this will be done only if the  buddy's presence read request
             // ended with success. If it fails we simply do nothing. We don't want to interrupt login process
@@ -106,7 +105,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         }
 
         // Login user locally only if not over the session limit
-        if(!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
+        if (!buddySessionStore.isOverSessionLimit(buddy.getBuddyId())) {
             // Login locally
             LoginBuddyResponseEvent loginResponseEvent = buddyPersistenceService.loginBuddy(event);
 
@@ -223,6 +222,24 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         // Persistence
         else {
             return buddyPersistenceService.searchBuddies(event);
+        }
+    }
+
+    /**
+     * Reads presence of buddies
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event) {
+        // Jabber
+        if (Environment.isJabberEnabled()) {
+            return buddyJabberService.readBuddiesPresence(event);
+        }
+        // Persistence
+        else {
+            return buddyPersistenceService.readBuddiesPresence(event);
         }
     }
 }

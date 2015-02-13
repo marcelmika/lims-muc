@@ -55,7 +55,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         var openButton = this.get('openButton'),
             buddyListStrategy = this.get('buddyListStrategy'),
             buddyListSocialRelations = this.get('buddyListSocialRelations'),
-            buddyListIgnoreDefaultUser = this.get('buddyListIgnoreDefaultUser'),
             buddyListIgnoreDeactivatedUser = this.get('buddyListIgnoreDeactivatedUser'),
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
@@ -68,6 +67,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberServiceName = this.get('jabberServiceName'),
             jabberResource = this.get('jabberResource'),
             jabberTestConnectionButton = this.get('jabberTestConnectionButton'),
+            ipcEnabled = this.get('ipcEnabled'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
 
@@ -75,7 +75,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         openButton.on('click', this._onOpenButtonClick, this);
         buddyListStrategy.on('choiceClick', this._onBuddyListStrategySelected, this);
         buddyListSocialRelations.on('choiceClick', this._onBuddyListSocialRelationsSelected, this);
-        buddyListIgnoreDefaultUser.on('switchClick', this._onBuddyListIgnoreDefaultUserClick, this);
         buddyListIgnoreDeactivatedUser.on('switchClick', this._onBuddyListIgnoreDeactivatedUserClick, this);
         excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
@@ -88,6 +87,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberServiceName.on('inputUpdate', this._onJabberServiceNameUpdate, this);
         jabberResource.on('inputUpdate', this._onJabberResourceUpdate, this);
         jabberTestConnectionButton.on('click', this._onJabberTestConnectionButtonClick, this);
+        ipcEnabled.on('switchClick', this._onIpcEnabledClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
     },
@@ -174,35 +174,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             }
             // Re-enable the view so the user can interact with it again
             buddyListSocialRelations.enable();
-        });
-    },
-
-    /**
-     * Called when the user click on the buddy list ignore default user switch
-     *
-     * @private
-     */
-    _onBuddyListIgnoreDefaultUserClick: function () {
-        // Vars
-        var switchView = this.get('buddyListIgnoreDefaultUser'),
-            model;
-
-        // Prepare the model
-        model = new Y.LIMS.Model.PropertiesModel({
-            buddyListIgnoreDefaultUser: switchView.isOn()
-        });
-
-        // Disable view
-        switchView.disable();
-
-        // Save the model
-        model.save(function (err) {
-            if (err) {
-                // Return everything to the previous state
-                switchView.toggle();
-            }
-            // Re-enable the view so the user can interact with it again
-            switchView.enable();
         });
     },
 
@@ -685,7 +656,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
 
             if (err) {
                 // Set the error text
-                message.set('innerHTML', err);
+                message.set('innerHTML', err.get('message'));
                 // Set the failure class
                 message.addClass('failure');
                 // Show the message
@@ -700,6 +671,35 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             message.addClass('success');
             // Show the message
             Y.LIMS.Core.Util.show(message);
+        });
+    },
+
+    /**
+     * Called when the user clicks on the ipc enabled switch
+     *
+     * @private
+     */
+    _onIpcEnabledClick: function () {
+        // Vars
+        var switchView = this.get('ipcEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            ipcEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
         });
     },
 
@@ -968,22 +968,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         },
 
         /**
-         * View for buddy list ignore default user
-         *
-         * {Y.LIMS.View.SwitchElementView}
-         */
-        buddyListIgnoreDefaultUser: {
-            valueFn: function () {
-                // Vars
-                var container = this.get('container').one('.buddy-list-ignore-default-user');
-
-                return new Y.LIMS.View.SwitchElementView({
-                    container: container
-                });
-            }
-        },
-
-        /**
          * View for buddy list ignore deactivated user
          *
          * {Y.LIMS.View.SwitchElementView}
@@ -1199,6 +1183,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 return this.get('container').one('.jabber-test-connection .message');
+            }
+        },
+
+        /**
+         * View for ipc enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        ipcEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.ipc-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
             }
         },
 

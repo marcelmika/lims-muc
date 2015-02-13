@@ -98,6 +98,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
             from = model.get('from'),               // Creator of the message
             portrait,                               // User portrait
             body,                                   // Message body
+            isOwn = this.get('isOwn'),              // Message created by currently logged user
             formatter = this.get('dateFormatter');  // Prettify date formatter
 
         // Get the message body
@@ -112,6 +113,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
                 createdPrettified: formatter.prettyDate(model.get('createdAt')),
                 created: formatter.formatDate(new Date(model.get('createdAt'))),
                 fullName: from.get('fullName'),
+                fullNameExtended: from.get('fullName') + ' (' + from.get('screenName') + ')',
                 content: body
             })
         );
@@ -123,6 +125,12 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
         // Set date node
         this.set('dateNode', container.one('.conversation-item-date'));
         this.set('messageTextNode', container.one('.conversation-item-text'));
+
+        // Set own class if the message was created by current user
+        if (isOwn) {
+            container.one('.conversation-item-text').addClass('own');
+            container.one('.conversation-item-bubble-corner').addClass('own');
+        }
 
         // Add subviews to the view
         this._addSubviews();
@@ -418,6 +426,15 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
          */
         model: {
             value: null // default value
+        },
+
+        /**
+         * Set to true if the message was created by the currently logged user
+         *
+         * {boolean}
+         */
+        isOwn: {
+            value: false // default value
         },
 
         /**

@@ -209,7 +209,9 @@ public class LIMSPortlet extends MVCPortlet {
         }
         // Log failure
         else {
-            log.error(responseEvent.getException());
+            if (log.isErrorEnabled()) {
+                log.error(responseEvent.getException());
+            }
         }
     }
 
@@ -245,7 +247,9 @@ public class LIMSPortlet extends MVCPortlet {
         }
         // Log failure
         else {
-            log.error(responseEvent.getException());
+            if (log.isErrorEnabled()) {
+                log.error(responseEvent.getException());
+            }
         }
     }
 

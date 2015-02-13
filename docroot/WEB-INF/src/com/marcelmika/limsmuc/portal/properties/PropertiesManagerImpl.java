@@ -123,7 +123,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupExcludedSites(preferences);
             setupBuddyListStrategy(preferences);
             setupBuddyListSocialRelations(preferences);
-            setupBuddyListIgnoreDefaultUser(preferences);
             setupBuddyListIgnoreDeactivatedUser(preferences);
             setupBuddyListMaxBuddies();
             setupBuddyListMaxSearch();
@@ -147,6 +146,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberServiceName(preferences);
             setupJabberResource(preferences);
             setupJabberResourcePriority();
+
+            // Set IPC
+            setupIPCEnabled(preferences);
         }
     }
 
@@ -175,11 +177,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Buddy list social relations
         if (properties.getBuddyListSocialRelations() != null) {
             updateBuddyListSocialRelations(preferences, properties);
-        }
-
-        // Buddy list ignore default user
-        if (properties.getBuddyListIgnoreDefaultUser() != null) {
-            updateBuddyListIgnoreDefaultUser(preferences, properties);
         }
 
         // Buddy list ignore deactivated user
@@ -230,6 +227,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber resource
         if (properties.getJabberResource() != null) {
             updateJabberResource(preferences, properties);
+        }
+
+        // IPC enabled
+        if (properties.getIpcEnabled() != null) {
+            updateIPCEnabled(preferences, properties);
         }
     }
 
@@ -534,56 +536,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save to environment
         Environment.setBuddyListSocialRelations(buddyListSocialRelations);
-    }
-
-    /**
-     * Updates the buddy list default user property
-     *
-     * @param preferences PortletPreferences
-     * @param properties  Properties
-     * @throws Exception
-     */
-    private void updateBuddyListIgnoreDefaultUser(PortletPreferences preferences,
-                                                  Properties properties) throws Exception {
-
-        // Set the value in portlet preferences
-        preferences.setValue(
-                PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEFAULT_USER,
-                String.valueOf(properties.getBuddyListIgnoreDefaultUser())
-        );
-        // Persist
-        preferences.store();
-
-        // Save in Environment
-        setupBuddyListIgnoreDefaultUser(preferences);
-    }
-
-    /**
-     * Sets the buddy list ignore default user property
-     *
-     * @param preferences PortletPreferences
-     */
-    private void setupBuddyListIgnoreDefaultUser(PortletPreferences preferences) {
-        // Get the properties source
-        PropertiesSource source = Environment.getPropertiesSource();
-
-        Boolean buddyListIgnoreDefaultUser;
-
-        // Preferences
-        if (source == PropertiesSource.PREFERENCES) {
-            // Take the value from preferences
-            buddyListIgnoreDefaultUser = Boolean.parseBoolean(preferences.getValue(
-                    PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEFAULT_USER,
-                    String.valueOf(PortletPropertiesValues.BUDDY_LIST_IGNORE_DEFAULT_USER)
-            ));
-        }
-        // Properties
-        else {
-            buddyListIgnoreDefaultUser = PortletPropertiesValues.BUDDY_LIST_IGNORE_DEFAULT_USER;
-        }
-
-        // Save in environment
-        Environment.setBuddyListIgnoreDefaultUser(buddyListIgnoreDefaultUser);
     }
 
     /**
@@ -1263,6 +1215,56 @@ public class PropertiesManagerImpl implements PropertiesManager {
         Environment.setJabberResourcePriority(value);
     }
 
+
+    /**
+     * Updates IPC enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateIPCEnabled(PortletPreferences preferences, Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.IPC_ENABLED,
+                String.valueOf(properties.getIpcEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupIPCEnabled(preferences);
+    }
+
+    /**
+     * Sets the jabber enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupIPCEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean ipcEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            ipcEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.IPC_ENABLED,
+                    String.valueOf(PortletPropertiesValues.IPC_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            ipcEnabled = PortletPropertiesValues.IPC_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setIpcEnabled(ipcEnabled);
+    }
+
     /**
      * Setups the error mode
      */
@@ -1277,6 +1279,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Set url properties
         Environment.setUrlHelp(PortletPropertiesValues.URL_HELP);
+        Environment.setUrlJabberHelp(PortletPropertiesValues.URL_JABBER_HELP);
+        Environment.setUrlIpcHelp(PortletPropertiesValues.URL_IPC_HELP);
+        Environment.setUrlSynchronizationHelp(PortletPropertiesValues.URL_SYNCHRONIZATION_HELP);
         Environment.setUrlUnsupportedBrowser(PortletPropertiesValues.URL_UNSUPPORTED_BROWSER);
     }
 

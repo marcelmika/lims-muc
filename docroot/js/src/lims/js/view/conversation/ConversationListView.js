@@ -203,12 +203,20 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     _addMessage: function (message) {
 
         // Vars
-        var conversationItemView,                                           // Newly created conversation
+        var conversationItemView,                                   // Newly created conversation
             panelContentList = this.get('panelContentList'),        // The place where are messages will be rendered to
-            conversationList = this.get('conversationItemViews');   // List of conversation views
+            conversationList = this.get('conversationItemViews'),   // List of conversation views
+            buddyDetails = this.get('buddyDetails');                // Currently logged user
 
         // New conversation item
         conversationItemView = new Y.LIMS.View.ConversationItemView({model: message});
+
+        // Check if the conversation item belongs to the current user
+        if (message.get('from').get('buddyId') === buddyDetails.get('buddyId')) {
+            // This message was created by the current user
+            conversationItemView.set('isOwn', true);
+        }
+
         conversationList.push(conversationItemView);
         // Render it
         conversationItemView.render();
@@ -758,6 +766,15 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
          */
         stopperView: {
             value: null // to be set
+        },
+
+        /**
+         * An instance of buddy details related to the currently logged user
+         *
+         * {Y.LIMS.Model.BuddyModelItem}
+         */
+        buddyDetails: {
+            value: null
         },
 
         /**

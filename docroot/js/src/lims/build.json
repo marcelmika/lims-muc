@@ -6,6 +6,8 @@
         "js/bootstrap.js",
         "js/core/CoreExtension.js",
         "js/core/date/DateFormatter.js",
+        "js/core/ipc/IPCController.js",
+        "js/core/ipc/IPCErrorCode.js",
         "js/core/localization/i18n.js",
         "js/core/controller/ViewController.js",
         "js/core/notification/Notification.js",
@@ -29,6 +31,7 @@
         "js/model/buddy/BuddyModelItem.js",
         "js/model/buddy/BuddyModelList.js",
         "js/model/buddy/BuddySearchListModel.js",
+        "js/model/error/ErrorMessage.js",
         "js/model/conversation/ConversationModel.js",
         "js/model/conversation/ConversationModelUtil.js",
         "js/model/conversation/ConversationFeedList.js",
@@ -74,6 +77,7 @@
         "js/view/elements/TokenInputElementView.js",
         "js/view/notification/ErrorNotificationView.js",
         "js/view/notification/InfoNotificationView.js",
+        "js/view/notification/PortletNotificationView.js",
         "js/view/group/GroupBuddyViewItem.js",
         "js/view/group/GroupBuddyViewList.js",
         "js/view/group/GroupSearchView.js",
@@ -83,6 +87,7 @@
         "js/view/presence/PresenceView.js",
         "js/view/properties/PropertiesView.js",
         "js/view/properties/SettingsView.js",
+        "js/view/tooltip/Tooltip.js",
         "js/view/panel/PanelView.js"
       ],
       "config": {
@@ -91,6 +96,9 @@
           "view",
           "node",
           "anim",
+          "widget-anim",
+          "overlay",
+          "event",
           "datatype-number"
         ]
       }

@@ -25,7 +25,9 @@
         <input ${checked} type="checkbox"/>
         <span></span>
     </label>
-    <span>
+    <span class="title-text">
         <liferay-ui:message key="panel-settings-admin-area-jabber-import-user-enabled-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-import-user-enabled-help"/>">i</i>
     </span>
 </li>

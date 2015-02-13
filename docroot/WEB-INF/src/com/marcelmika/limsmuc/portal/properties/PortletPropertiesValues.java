@@ -65,11 +65,6 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.BUDDY_LIST_STRATEGY
     );
 
-    // Buddy List - Ignore default user
-    public static final boolean BUDDY_LIST_IGNORE_DEFAULT_USER = getBoolean(
-            PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEFAULT_USER
-    );
-
     // Buddy List - Ignore deactivated user
     public static final boolean BUDDY_LIST_IGNORE_DEACTIVATED_USER = getBoolean(
             PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEACTIVATED_USER
@@ -135,9 +130,29 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY
     );
 
+    // IPC - Enabled
+    public static final boolean IPC_ENABLED = getBoolean(
+            PortletPropertiesKeys.IPC_ENABLED
+    );
+
     // URL - Help
     public static final String URL_HELP = getString(
             PortletPropertiesKeys.URL_HELP
+    );
+
+    // URL - Jabber Help
+    public static final String URL_JABBER_HELP = getString(
+            PortletPropertiesKeys.URL_JABBER_HELP
+    );
+
+    // URL - IPC Help
+    public static final String URL_IPC_HELP = getString(
+            PortletPropertiesKeys.URL_IPC_HELP
+    );
+
+    // URL - Synchronization Help
+    public static final String URL_SYNCHRONIZATION_HELP = getString(
+            PortletPropertiesKeys.URL_SYNCHRONIZATION_HELP
     );
 
     // URL - Unsupported browser

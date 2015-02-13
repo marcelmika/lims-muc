@@ -14,22 +14,22 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.webserver.WebServerServletTokenUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Ing. Marcel Mika
@@ -51,6 +51,9 @@ public class Buddy {
     private Long buddyId;
     private Long companyId;
     private Long portraitId;
+    private String portraitImageToken;
+    private String portraitToken;
+    private Boolean male;
     private String fullName;
     private String screenName;
     private String firstName;
@@ -72,14 +75,26 @@ public class Buddy {
     public static Buddy fromRenderRequest(RenderRequest request) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         Buddy buddy = new Buddy();
-        buddy.buddyId = themeDisplay.getUser().getUserId();
-        buddy.companyId = themeDisplay.getUser().getCompanyId();
-        buddy.portraitId = themeDisplay.getUser().getPortraitId();
-        buddy.screenName = themeDisplay.getUser().getScreenName();
-        buddy.fullName = themeDisplay.getUser().getFullName();
-        buddy.firstName = themeDisplay.getUser().getFirstName();
-        buddy.middleName = themeDisplay.getUser().getMiddleName();
-        buddy.lastName = themeDisplay.getUser().getLastName();
+        User user = themeDisplay.getUser();
+        buddy.buddyId = user.getUserId();
+        buddy.companyId = user.getCompanyId();
+        try {
+            buddy.male = user.isMale();
+        } catch (Exception e) {
+            buddy.male = true;
+        }
+        buddy.portraitId = user.getPortraitId();
+        try {
+            buddy.portraitImageToken = HttpUtil.encodeURL(DigesterUtil.digest(user.getUserUuid()));
+        } catch (SystemException e) {
+            buddy.portraitImageToken = "";
+        }
+        buddy.portraitToken = WebServerServletTokenUtil.getToken(user.getPortraitId());
+        buddy.screenName = user.getScreenName();
+        buddy.fullName = user.getFullName();
+        buddy.firstName = user.getFirstName();
+        buddy.middleName = user.getMiddleName();
+        buddy.lastName = user.getLastName();
 
         return buddy;
     }
@@ -130,6 +145,10 @@ public class Buddy {
         buddy.buddyId = user.getUserId();
         buddy.companyId = user.getCompanyId();
         buddy.screenName = user.getScreenName();
+        buddy.fullName = user.getFullName();
+        buddy.firstName = user.getFirstName();
+        buddy.middleName = user.getMiddleName();
+        buddy.lastName = user.getLastName();
         buddy.password = user.getPasswordUnencrypted();
 
         return buddy;
@@ -194,30 +213,40 @@ public class Buddy {
         buddy.connected = buddyDetails.getConnected();
         buddy.connectedAt = buddyDetails.getConnectedAt();
 
-        // Add additional info from local service util if it's not set in buddy details
         if (buddyDetails.getBuddyId() != null) {
             try {
-                User user = UserLocalServiceUtil.getUserById(buddyDetails.getBuddyId());
-                if (buddy.screenName == null) {
-                    buddy.screenName = user.getScreenName();
+                // Add additional info from local service util if it's not set in buddy details
+                User user = UserLocalServiceUtil.fetchUser(buddyDetails.getBuddyId());
+
+                if (user != null) {
+                    if (buddy.screenName == null) {
+                        buddy.screenName = user.getScreenName();
+                    }
+
+                    if (buddy.companyId == null) {
+                        buddy.companyId = user.getCompanyId();
+                    }
+
+                    if (buddy.fullName == null) {
+                        buddy.fullName = user.getFullName();
+                    }
+
+                    buddy.male = user.getMale();
+                    buddy.portraitId = user.getPortraitId();
+                    buddy.portraitImageToken = HttpUtil.encodeURL(DigesterUtil.digest(user.getUserUuid()));
+                    buddy.portraitToken = WebServerServletTokenUtil.getToken(user.getPortraitId());
+                    buddy.firstName = user.getFirstName();
+                    buddy.middleName = user.getMiddleName();
+                    buddy.lastName = user.getLastName();
                 }
-
-                if (buddy.companyId == null) {
-                    buddy.companyId = user.getCompanyId();
+            }
+            // Failure
+            catch (Exception e) {
+                // Debug
+                if (log.isDebugEnabled()) {
+                    // Do nothing
+                    log.debug(e);
                 }
-
-                if (buddy.fullName == null) {
-                    buddy.fullName = user.getFullName();
-                }
-
-                buddy.portraitId = user.getPortraitId();
-                buddy.firstName = user.getFirstName();
-                buddy.middleName = user.getMiddleName();
-                buddy.lastName = user.getLastName();
-
-            } catch (Exception e) {
-                // Do nothing
-                log.error(e);
             }
         }
 
@@ -279,6 +308,22 @@ public class Buddy {
         return details;
     }
 
+    /**
+     * Mapping method
+     *
+     * @param buddies list of Buddies
+     * @return list of BuddyDetails
+     */
+    public static List<BuddyDetails> toBuddyDetails(List<Buddy> buddies) {
+        List<BuddyDetails> details = new LinkedList<BuddyDetails>();
+
+        for (Buddy buddy : buddies) {
+            details.add(buddy.toBuddyDetails());
+        }
+
+        return details;
+    }
+
 
     public Long getBuddyId() {
         return buddyId;
@@ -302,6 +347,30 @@ public class Buddy {
 
     public void setPortraitId(Long portraitId) {
         this.portraitId = portraitId;
+    }
+
+    public String getPortraitToken() {
+        return portraitToken;
+    }
+
+    public void setPortraitToken(String portraitToken) {
+        this.portraitToken = portraitToken;
+    }
+
+    public String getPortraitImageToken() {
+        return portraitImageToken;
+    }
+
+    public void setPortraitImageToken(String portraitImageToken) {
+        this.portraitImageToken = portraitImageToken;
+    }
+
+    public Boolean getMale() {
+        return male;
+    }
+
+    public void setMale(Boolean male) {
+        this.male = male;
     }
 
     public String getScreenName() {
@@ -392,6 +461,7 @@ public class Buddy {
                 "buddyId=" + buddyId +
                 ", companyId=" + companyId +
                 ", portraitId=" + portraitId +
+                ", portraitToken='" + portraitToken + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", firstName='" + firstName + '\'' +
