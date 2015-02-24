@@ -59,6 +59,86 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
                 }
             }
         });
+    },
+
+    /**
+     * Returns printable name of the buddy
+     *
+     * @return {string}
+     */
+    printableName: function () {
+        // Vars
+        var fullName = this.get('fullName'),
+            screenName = this.get('screenName');
+
+        // Full name
+        if (fullName && fullName.length > 0) {
+            return fullName;
+        }
+        // If the full name is not set return the screen name
+        if (screenName && screenName.length > 0) {
+            return screenName;
+        }
+
+        // Otherwise return default
+        return Y.LIMS.Core.i18n.values.unknownUserPlaceholder;
+    },
+
+    /**
+     * Returns printable screen name of the buddy
+     *
+     * @return {string}
+     */
+    printableScreenName: function () {
+        // Vars
+        var screenName = this.get('screenName');
+
+        // Return printable screen name
+        if (screenName && screenName.length > 0) {
+            return '(' + screenName + ')';
+        }
+
+        // User doesn't have a screen name
+        return '';
+    },
+
+    /**
+     * Returns printable user initials
+     *
+     * @return {string}
+     */
+    printableInitials: function () {
+        // Vars
+        var fullName = this.get('fullName'),
+            firstName = this.get('firstName'),
+            lastName = this.get('lastName'),
+            screenName = this.get('screenName'),
+            initials = '?'; // Default value
+
+        // First initial
+        //
+        // If no first name was set take the screen name
+        if (firstName === '' && screenName !== '') {
+            initials = Y.LIMS.Core.Util.firstCharacter(screenName);
+        }
+        // If no first name of screen name was set take full name
+        else {
+            initials = Y.LIMS.Core.Util.firstCharacter(fullName);
+        }
+
+        // Second initial
+        //
+        // Add last name if set
+        if (lastName !== '') {
+            initials = initials.concat(Y.LIMS.Core.Util.firstCharacter(lastName));
+        }
+
+        // If no initials were composed, set the default
+        if (initials === '') {
+            initials = '?';
+        }
+
+        return initials;
     }
 
 }, {

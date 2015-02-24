@@ -45,7 +45,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.template, {
-                name: model.get('fullName')
+                name: model.printableName()
             })
         );
 
@@ -58,7 +58,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         presence.append(this._getPresence(model.get('presence'), model.get('connected')));
 
         // Add title
-        container.set('title', model.get('fullName') + ' (' + model.get('screenName') + ')');
+        container.set('title', (model.printableName() + ' ' + model.printableScreenName()).trim());
 
         // Attach events to newly created container
         this._attachEvents();

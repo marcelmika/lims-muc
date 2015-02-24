@@ -238,6 +238,8 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             model = this.get('model'),
             participants,
             innerHTML = '',
+            fullName,
+            screenName,
             index;
 
         // If the list is not yet rendered, add it to the container
@@ -252,8 +254,22 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         participants = model.get('participants');
 
         for (index = 0; index < participants.length; index++) {
-            // Compose all participants names
-            innerHTML += participants[index].get('fullName');
+            fullName = participants[index].get('fullName');
+            screenName = participants[index].get('screenName');
+
+            // Set the full name
+            if (fullName && fullName.length > 0) {
+                innerHTML += fullName;
+            }
+            // If no full name use screen name
+            else if (screenName && screenName.length > 0) {
+                innerHTML += screenName;
+            }
+            // Don't include
+            else {
+                continue;
+            }
+
             // Add new line at the end of each participant except for the last one
             if (index < participants.length - 1) {
                 innerHTML += '<br/>';

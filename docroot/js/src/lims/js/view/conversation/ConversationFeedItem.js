@@ -129,7 +129,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         container.set('innerHTML',
             Y.Lang.sub(this.leftTemplate, {
                 title: model.get('title'),
-                fullName: '<span class="name">' + from.get('fullName') + '</span>',
+                fullName: '<span class="name">' + from.printableName() + '</span>',
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })
@@ -158,7 +158,7 @@ Y.LIMS.View.ConversationFeedItem = Y.Base.create('conversationFeedItem', Y.View,
         container.set('innerHTML',
             Y.Lang.sub(this.addedTemplate, {
                 title: model.get('title'),
-                fullName: '<span class="name">' + from.get('fullName') + '</span>',
+                fullName: '<span class="name">' + from.printableName() + '</span>',
                 timestampPrettified: formatter.prettyDate(lastMessage.get('createdAt')),
                 timestamp: formatter.formatDate(new Date(lastMessage.get('createdAt')))
             })

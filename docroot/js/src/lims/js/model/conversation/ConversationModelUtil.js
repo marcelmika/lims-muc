@@ -130,7 +130,7 @@ var ConversationModelUtil = {
     generateBuddyTitleName: function (buddy) {
 
         // Vars
-        var name;
+        var name = '?'; // Default name
 
         // If the user has first name, use that
         if (buddy.get('firstName')) {
@@ -141,7 +141,7 @@ var ConversationModelUtil = {
             name = buddy.get('lastName');
         }
         // If none of those were set, use the full name
-        else {
+        else if (buddy.get('fullName')) {
             name = buddy.get('fullName');
         }
 

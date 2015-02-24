@@ -11,8 +11,6 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.entity.ConversationDetails;
-import com.marcelmika.limsmuc.api.entity.ConversationTypeDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.*;
 import com.marcelmika.limsmuc.core.bus.ConversationEventBus;
@@ -261,7 +259,7 @@ public class ConversationCoreServiceImpl implements ConversationCoreService, Con
     public void messageReceived(MessageReceivedBusEvent event) {
 
         // Log
-        if (log.isDebugEnabled()){
+        if (log.isDebugEnabled()) {
             log.debug("Message received" + event);
         }
 
