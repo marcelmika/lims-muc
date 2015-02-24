@@ -113,7 +113,7 @@ Y.LIMS.View.ConversationItemView = Y.Base.create('conversationViewItem', Y.View,
                 createdPrettified: formatter.prettyDate(model.get('createdAt')),
                 created: formatter.formatDate(new Date(model.get('createdAt'))),
                 fullName: from.printableName(),
-                fullNameExtended: (from.printableName() + ' ' + from.printableScreenName()).trim(),
+                fullNameExtended: Y.Lang.trim(from.printableName() + ' ' + from.printableScreenName()),
                 content: body
             })
         );
