@@ -167,9 +167,13 @@
     right: 7px;
     width: 18px;
     height: 18px;
+    padding: 0;
+    margin: 0;
     float: right;
-    margin: 0 0 0 10px;
     background: url(/images/close-button.png) center center no-repeat;
     @include image-2x('/images/close-button@2x.png', auto, 18px);
+    @include box-shadow(none);
+    border: none;
+    filter: none;
   }
 }
