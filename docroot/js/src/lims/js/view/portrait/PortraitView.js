@@ -153,24 +153,10 @@ Y.LIMS.View.PortraitView = Y.Base.create('portraitView', Y.View, [Y.LIMS.View.Vi
     _renderDefaultPortrait: function (user) {
         // Vars
         var defaultPortrait = Y.Node.create(this.defaultTemplate),
-            initials = Y.Node.create(this.initialsTemplate),
-            initialText = '';
-
-        // If no first name was set take the screen name
-        if (user.get('firstName') === '' && user.get('screenName') !== '') {
-            initialText = Y.LIMS.Core.Util.firstCharacter(user.get('screenName'));
-        }
-        // If no first name of screen name was set take full name
-        else {
-            initialText = Y.LIMS.Core.Util.firstCharacter(user.get('fullName'));
-        }
-        // Add last name if set
-        if (user.get('lastName') !== '') {
-            initialText = initialText.concat(Y.LIMS.Core.Util.firstCharacter(user.get('lastName')));
-        }
+            initials = Y.Node.create(this.initialsTemplate);
 
         // Set initials
-        initials.set('innerHTML', initialText);
+        initials.set('innerHTML', user.printableInitials());
 
         // Set color
         defaultPortrait.addClass(this._getUserColor(user));

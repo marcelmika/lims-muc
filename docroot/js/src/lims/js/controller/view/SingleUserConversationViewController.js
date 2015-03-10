@@ -292,7 +292,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // The logged user is the only remaining participant
             if (filteredParticipants.length === 0) {
-                conversationTitle = buddyDetails.get('fullName');
+                conversationTitle = buddyDetails.printableName();
             }
             // There some participants
             else {

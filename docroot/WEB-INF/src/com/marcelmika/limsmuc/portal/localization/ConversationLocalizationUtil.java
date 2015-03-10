@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.StringPool;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
 import com.marcelmika.limsmuc.portal.domain.Conversation;
 import com.marcelmika.limsmuc.portal.domain.ConversationType;
@@ -134,8 +135,12 @@ public class ConversationLocalizationUtil {
         // Current user needs to be filtered of the list of participants
         List<Buddy> filteredParticipants = filterParticipants(conversation.getParticipants(), conversation.getBuddy());
 
+        // If the conversation has no participants return the current user
+        if (filteredParticipants.size() == 0) {
+            title = conversation.getBuddy().getFullName();
+        }
         // Single user conversation title
-        if (conversation.getConversationType() == ConversationType.SINGLE_USER) {
+        else if (conversation.getConversationType() == ConversationType.SINGLE_USER) {
             title = generateSUCTitle(filteredParticipants);
         }
         // Multi user conversation title
@@ -239,7 +244,8 @@ public class ConversationLocalizationUtil {
      * @return title
      */
     private static String generateBuddyTitleName(Buddy buddy) {
-        String name;
+        // Default dash if no name is set
+        String name = StringPool.QUESTION;
 
         // If the user has first name, use that
         if (buddy.getFirstName() != null) {
@@ -250,7 +256,7 @@ public class ConversationLocalizationUtil {
             name = buddy.getLastName();
         }
         // If none of those were set, use the full name
-        else {
+        else if (buddy.getFullName() != null) {
             name = buddy.getFullName();
         }
 

@@ -7,7 +7,7 @@
   .panel-window {
     max-width: 270px;
   }
-  
+
   .panel-content {
     height: 250px;
     max-width: 270px;
@@ -67,8 +67,11 @@
     display: block;
     padding: 3px 5px 3px;
     color: #7e7e7e;
-    max-width: 120px;
-    line-height: 10px
+    line-height: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 130px;
   }
 
   .conversation-item-date {
@@ -79,6 +82,10 @@
     max-width: 75px;
     line-height: 10px;
     padding-top: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: right;
   }
 
   .conversation-item-bubble-corner {

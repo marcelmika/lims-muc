@@ -167,7 +167,7 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
                 var title = Y.config.doc.title,
                     unreadMessagesPageTitle = instance.get('unreadMessagesPageTitle'),
                     notificationTitle = Y.Lang.sub(Y.LIMS.Core.i18n.values.incomingMessageTitleText, {
-                        0: lastMessage.get('from').get('fullName')
+                        0: lastMessage.get('from').printableName()
                     });
 
                 // Set the blinking flag

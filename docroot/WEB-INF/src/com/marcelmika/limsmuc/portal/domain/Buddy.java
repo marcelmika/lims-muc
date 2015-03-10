@@ -238,6 +238,7 @@ public class Buddy {
                     buddy.firstName = user.getFirstName();
                     buddy.middleName = user.getMiddleName();
                     buddy.lastName = user.getLastName();
+                    buddy.fullName = user.getFullName();
                 }
             }
             // Failure

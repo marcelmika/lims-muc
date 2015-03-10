@@ -120,6 +120,11 @@ public class UserListener extends BaseModelListener<User> {
                         responseEvent.getStatus(), responseEvent.getExceptionMessage()
                 ));
             }
+
+            // Provide more detailed description of the issue by printing the exception
+            if (log.isDebugEnabled()) {
+                log.debug(responseEvent.getException());
+            }
         }
     }
 }

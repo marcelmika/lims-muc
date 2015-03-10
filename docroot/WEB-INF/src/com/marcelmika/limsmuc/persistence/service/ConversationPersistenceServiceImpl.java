@@ -267,7 +267,13 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 }
 
                 // Find user in Liferay
-                User user = UserLocalServiceUtil.getUser(participant.getParticipantId());
+                User user = UserLocalServiceUtil.fetchUser(participant.getParticipantId());
+
+                // If the user is no longer in the liferay don't include him
+                if (user == null) {
+                    continue;
+                }
+
                 // Map Liferay user to buddy
                 Buddy buddy = Buddy.fromUser(user);
                 // Add to list
@@ -836,9 +842,7 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
      */
     private List<Buddy> readParticipants(Long cid) throws Exception {
         // Get participants
-        List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(
-                cid
-        );
+        List<Participant> participantModels = ParticipantLocalServiceUtil.getConversationParticipants(cid);
 
         // Map to persistence
         List<Buddy> participants = new LinkedList<Buddy>();
@@ -849,7 +853,15 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
                 continue;
             }
 
-            Buddy buddy = Buddy.fromParticipantModel(participantModel);
+            // Fetch the participant in Liferay
+            User user = UserLocalServiceUtil.fetchUser(participantModel.getParticipantId());
+
+            // If the user is no longer in the liferay don't include him
+            if (user == null) {
+                continue;
+            }
+
+            Buddy buddy = Buddy.fromUser(user);
             participants.add(buddy);
         }
 

@@ -65,8 +65,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent
-                                                                                      event);
+    public ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent event);
 
     /**
      * Adds buddies to the conversation
