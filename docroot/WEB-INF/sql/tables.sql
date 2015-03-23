@@ -1,6 +1,6 @@
 create table Limsmuc_Conversation (
 	cid LONG not null primary key,
-	conversationId VARCHAR(256) null,
+	conversationId VARCHAR(255) null,
 	conversationType INTEGER,
 	updatedAt DATE null,
 	syncIdSUC LONG
@@ -20,7 +20,7 @@ create table Limsmuc_Message (
 create table Limsmuc_Panel (
 	pid LONG not null primary key,
 	userId LONG,
-	activePanelId VARCHAR(256) null
+	activePanelId VARCHAR(255) null
 );
 
 create table Limsmuc_Participant (
