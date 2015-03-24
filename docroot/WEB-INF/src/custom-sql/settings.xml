@@ -11,6 +11,22 @@
 
 <custom-sql>
 
+    <!-- Counts all users in the database and joins them with settings table -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countAllUsers">
+        <![CDATA[
+			SELECT
+			    COUNT(Limsmuc_Settings.userId) AS userCount
+			FROM
+				Limsmuc_Settings
+            INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			WHERE
+				User_.userId != ?
+				[$DEFAULT_USER$]
+				[$DEACTIVATED_USER$]
+		]]>
+    </sql>
+
     <!-- Finds all users in the database and joins them with settings table -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findAllUsers">
         <![CDATA[

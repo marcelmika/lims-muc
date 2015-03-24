@@ -23,10 +23,30 @@ import java.util.List;
  */
 public class GroupDetails {
 
+    // -------------------------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------------------------
+
+    private String groupId;
     private String name;
     private List<BuddyDetails> buddies = new ArrayList<BuddyDetails>();
+    private PageDetails page;
     private Date lastModified;
+    private Environment.BuddyListStrategy listStrategy;
     private Environment.BuddyListSocialRelation socialRelation;
+
+
+    // -------------------------------------------------------------------------------------------
+    // Getters/Setters
+    // -------------------------------------------------------------------------------------------
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 
     public List<BuddyDetails> getBuddies() {
         return buddies;
@@ -34,6 +54,14 @@ public class GroupDetails {
 
     public void addBuddyDetails(BuddyDetails buddy) {
         buddies.add(buddy);
+    }
+
+    public PageDetails getPage() {
+        return page;
+    }
+
+    public void setPage(PageDetails page) {
+        this.page = page;
     }
 
     public String getName() {
@@ -60,12 +88,27 @@ public class GroupDetails {
         this.socialRelation = socialRelation;
     }
 
+    public Environment.BuddyListStrategy getListStrategy() {
+        return listStrategy;
+    }
+
+    public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
+        this.listStrategy = listStrategy;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // Override
+    // -------------------------------------------------------------------------------------------
+
     @Override
     public String toString() {
         return "GroupDetails{" +
-                "name='" + name + '\'' +
+                "groupId='" + groupId + '\'' +
+                ", name='" + name + '\'' +
                 ", buddies=" + buddies +
+                ", page=" + page +
                 ", lastModified=" + lastModified +
+                ", listStrategy=" + listStrategy +
                 ", socialRelation=" + socialRelation +
                 '}';
     }

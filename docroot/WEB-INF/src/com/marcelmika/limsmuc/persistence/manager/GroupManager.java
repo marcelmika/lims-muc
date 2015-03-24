@@ -9,7 +9,10 @@
 
 package com.marcelmika.limsmuc.persistence.manager;
 
+import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
+import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
+import com.marcelmika.limsmuc.persistence.domain.Page;
 
 /**
  * @author Ing. Marcel Mika
@@ -22,12 +25,23 @@ public interface GroupManager {
     /**
      * Returns Group Collection of all groups related to the user
      *
-     * @param userId Long
-     * @param start  of the list
-     * @param end    of the list
+     * @param userId Long id of the user
+     * @param page   Page pagination object
      * @return GroupCollection of groups related to the user
      * @throws Exception
      */
-    public GroupCollection getGroups(Long userId, int start, int end) throws Exception;
+    public GroupCollection getGroups(Long userId, Page page) throws Exception;
+
+    /**
+     * Returns Group
+     *
+     * @param userId       Long id of the user
+     * @param groupId      Long id of the group
+     * @param listStrategy String group list strategy
+     * @param page         Page pagination object
+     * @return Group
+     * @throws Exception
+     */
+    public Group getGroup(Long userId, String groupId, BuddyListStrategy listStrategy, Page page) throws Exception;
 
 }

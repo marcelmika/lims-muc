@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.api.events.group;
 
+import com.marcelmika.limsmuc.api.entity.PageDetails;
 import com.marcelmika.limsmuc.api.events.RequestEvent;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 
@@ -22,12 +23,11 @@ public class GetGroupsRequestEvent extends RequestEvent {
 
     private BuddyDetails buddyDetails;
 
-    public GetGroupsRequestEvent(BuddyDetails buddyDetails) {
+    public GetGroupsRequestEvent(final BuddyDetails buddyDetails) {
         this.buddyDetails = buddyDetails;
     }
 
     public BuddyDetails getBuddyDetails() {
         return buddyDetails;
     }
-
 }

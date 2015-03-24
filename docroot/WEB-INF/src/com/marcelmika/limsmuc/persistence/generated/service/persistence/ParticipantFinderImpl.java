@@ -9,7 +9,11 @@
 
 package com.marcelmika.limsmuc.persistence.generated.service.persistence;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -90,7 +94,7 @@ public class ParticipantFinderImpl extends BasePersistenceImpl<Participant> impl
      * Conversations where there is no message yet are not included.
      *
      * @param participantId id of the participant
-     * @return a list of participant objects
+     * @return number of participated conversations
      * @throws SystemException
      */
     @Override

@@ -358,6 +358,19 @@ public interface SettingsLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Counts all buddies in the system who have the settings
+	*
+	* @param userId                of excluded user
+	* @param ignoreDefaultUser     true if default users should be ignored
+	* @param ignoreDeactivatedUser true if deactivated users should be ignored
+	* @return number of users
+	* @throws SystemException
+	*/
+	public java.lang.Integer countAllUsers(java.lang.Long userId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns all buddies in the system
 	*
 	* @param userId                of excluded user

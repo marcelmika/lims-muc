@@ -17,9 +17,14 @@ import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.persistence.domain.Buddy;
 import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
+import com.marcelmika.limsmuc.persistence.domain.Page;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ing. Marcel Mika
@@ -36,13 +41,17 @@ public class GroupManagerImpl implements GroupManager {
     /**
      * Returns Group Collection of all groups related to the user
      *
-     * @param userId Long
-     * @param start  of the list
-     * @param end    of the list
+     * @param userId Long id of the user
+     * @param page   Page pagination object
      * @return GroupCollection of groups related to the user
+     * @throws Exception
      */
     @Override
-    public GroupCollection getGroups(Long userId, int start, int end) throws Exception {
+    public GroupCollection getGroups(Long userId, Page page) throws Exception {
+        // TODO: REMOVE
+        int start = 0;
+        int end = Environment.getBuddyListMaxBuddies();
+
         // Get selected list strategy
         Environment.BuddyListStrategy strategy = Environment.getBuddyListStrategy();
         // Get the info if the deactivated user should be ignored
@@ -55,9 +64,7 @@ public class GroupManagerImpl implements GroupManager {
 
         // All buddies
         if (strategy == BuddyListStrategy.ALL) {
-            return getAllGroup(
-                    userId, true, ignoreDeactivatedUser, start, end
-            );
+            return getAllGroup(userId, true, ignoreDeactivatedUser, page);
         }
         // Buddies from sites
         else if (strategy == BuddyListStrategy.SITES) {
@@ -88,21 +95,66 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     /**
+     * Returns Group
+     *
+     * @param userId       Long id of the user
+     * @param groupId      Long id of the group
+     * @param listStrategy String group list strategy
+     * @param page         Page pagination object
+     * @return Group
+     * @throws Exception
+     */
+    @Override
+    public Group getGroup(Long userId, String groupId, BuddyListStrategy listStrategy, Page page) throws Exception {
+
+        // Get the info if the deactivated user should be ignored
+        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
+
+        // All buddies
+        if (listStrategy == BuddyListStrategy.ALL) {
+            GroupCollection groupCollection = getAllGroup(userId, true, ignoreDeactivatedUser, page);
+            // Since getAllGroup only returns a group collection we need to take the first group
+            return groupCollection.getGroups().get(0);
+        }
+
+
+        throw new RuntimeException("NOT IMPLEMENTED YET");
+    }
+
+    /**
      * Returns group collection which contains all buddies in the system.
      *
      * @param userId                which should be excluded from the list
      * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param page                  pagination object
      * @return GroupCollection
      * @throws Exception
      */
     private GroupCollection getAllGroup(Long userId,
                                         boolean ignoreDefaultUser,
                                         boolean ignoreDeactivatedUser,
-                                        int start,
-                                        int end) throws Exception {
+                                        Page page) throws Exception {
+
+        // Count the size of the all group
+        Integer totalElements = SettingsLocalServiceUtil.countAllUsers(
+                userId, ignoreDefaultUser, ignoreDeactivatedUser
+        );
+
+        // Get number and size
+        int number = page.getNumber();
+        int size = page.getSize();
+
+        // Calculated start and end
+        int start = number * size;
+        int end = start + size;
+
+        // Add info to the page
+        page.setTotalElements(totalElements);
+        page.setTotalPages((int) Math.ceil(totalElements / (double) size));
+
+        // TODO: LOG
+        log.info(page);
 
         // Get users from persistence
         List<Object[]> users = SettingsLocalServiceUtil.getAllGroups(
@@ -111,6 +163,10 @@ public class GroupManagerImpl implements GroupManager {
 
         // Create group which will contain all users
         Group group = new Group();
+
+        // Add page to group
+        group.setPage(page);
+        group.setListStrategy(BuddyListStrategy.ALL);
 
         // Because all group requests are cached we need to determine what was the latest modified
         // date. If the user modifies his presence we need to change the etag so the client will load
@@ -133,9 +189,7 @@ public class GroupManagerImpl implements GroupManager {
         // Create group collection which will hold the only group that holds all users
         GroupCollection groupCollection = new GroupCollection();
         // Add group to collection only if there are any buddies
-        if (group.getBuddies().size() > 0) {
-            groupCollection.addGroup(group);
-        }
+        groupCollection.addGroup(group);
         // Set list strategy
         groupCollection.setListStrategy(BuddyListStrategy.ALL);
         // Add last modified date
@@ -189,13 +243,15 @@ public class GroupManagerImpl implements GroupManager {
 
             // Check if the group is already cached
             if (groupMap.get(group.getName()) == null) {
+                // TODO: Get the real group id not name
+                group.setGroupId(group.getName());
+                group.setListStrategy(BuddyListStrategy.SITES);
+
                 // Cache it
                 groupMap.put(group.getName(), group);
             }
-            // Take the cached one
-            else {
-                group = groupMap.get(group.getName());
-            }
+
+            group = groupMap.get(group.getName());
 
             // Deserialize buddy from object, buddy starts at 1
             Buddy buddy = Buddy.fromPlainObject(object, 1);
@@ -278,11 +334,17 @@ public class GroupManagerImpl implements GroupManager {
             // Get cached group
             Group group = groupMap.get(groupName);
 
-            // If no group was created build a new one
+            // Check if the group is already cached
             if (groupMap.get(groupName) == null) {
                 group = new Group();
+
+                // TODO: Take real group id
+                group.setGroupId(groupName);
                 group.setName(groupName);
+                group.setListStrategy(BuddyListStrategy.SOCIAL);
                 group.setSocialRelation(relationType);
+
+                // Cache it
                 groupMap.put(groupName, group);
             }
 
@@ -410,13 +472,16 @@ public class GroupManagerImpl implements GroupManager {
 
             // Check if the group is already cached
             if (groupMap.get(group.getName()) == null) {
+
+                // TODO: Take the real group id
+                group.setGroupId(group.getName());
+                group.setListStrategy(BuddyListStrategy.USER_GROUPS);
+
                 // Cache it
                 groupMap.put(group.getName(), group);
             }
-            // Take the cached one
-            else {
-                group = groupMap.get(group.getName());
-            }
+
+            group = groupMap.get(group.getName());
 
             // Deserialize buddy from object, buddy starts at 1
             Buddy buddy = Buddy.fromPlainObject(object, 1);

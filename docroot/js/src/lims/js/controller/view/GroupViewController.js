@@ -121,22 +121,26 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      */
     _startPolling: function () {
 
-        // Vars
-        var model = this.get('model'),
-            poller = this.get('poller'),
-            properties = this.get('properties');
+        this.get('model').load();
 
-        // Start only if the chat is enabled
-        if (properties.isChatEnabled()) {
+        //// Vars
+        //var model = this.get('model'),
+        //    poller = this.get('poller'),
+        //    properties = this.get('properties');
+        //
+        //// Start only if the chat is enabled
+        //if (properties.isChatEnabled()) {
+        //
 
+// TODO: Ask for presence
             // Register model to the poller
-            poller.register('groupViewController:model', new Y.LIMS.Core.PollerEntry({
-                model: model,        // Model that will be periodically refreshed
-                interval: 10000,     // 10 seconds period
-                maxInterval: 20000,  // 20 seconds period
-                minInterval: 10000   // 10 seconds period
-            }));
-        }
+            //poller.register('groupViewController:model', new Y.LIMS.Core.PollerEntry({
+            //    model: model,        // Model that will be periodically refreshed
+            //    interval: 10000,     // 10 seconds period
+            //    maxInterval: 20000,  // 20 seconds period
+            //    minInterval: 10000   // 10 seconds period
+            //}));
+        //}
     },
 
     /**
@@ -366,11 +370,11 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         /**
          * Controller model
          *
-         * {Y.LIMS.Model.GroupModelList}
+         * {Y.LIMS.Model.GroupListModel}
          */
         model: {
             valueFn: function () {
-                return new Y.LIMS.Model.GroupModelList();
+                return new Y.LIMS.Model.GroupListModel();
             }
         },
 

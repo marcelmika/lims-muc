@@ -11,15 +11,15 @@
  * Group Model List
  *
  * The class extends Y.ModelList and customizes it to hold a list of
- * GroupModelItem instances, and to provide some convenience methods for getting
+ * GroupModel instances, and to provide some convenience methods for getting
  * information about the Group items in the list.
  */
 Y.namespace('LIMS.Model');
 
-Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LIMS.Model.ModelExtension], {
+Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LIMS.Model.ModelExtension], {
 
-    // This tells the list that it will hold instances of the GroupModelItem class.
-    model: Y.LIMS.Model.GroupModelItem,
+    // This tells the list that it will hold instances of the GroupModel class.
+    model: Y.LIMS.Model.GroupModel,
 
     // Custom sync layer.
     sync: function (action, options, callback) {
@@ -85,43 +85,43 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                                 return;
                             }
 
-                            var i, groups, group, buddies;
+                            var i, groups, group;
+                                //buddies
+
                             // Parse groups
                             groups = response.groups;
 
-                            if (response.etag && etag.toString() !== response.etag.toString()) {
+                            //if (response.etag && etag.toString() !== response.etag.toString()) {
 
-                                // Empty the list
-                                instance.fire('groupReset');
+                            // Empty the list
+                            instance.fire('groupReset');
 
-                                instance.set('etag', response.etag);
-                                instance.set('loading', response.loading);
+                            instance.set('etag', response.etag);
+                            instance.set('loading', response.loading);
+                            instance.set('listStrategy', response.listStrategy);
 
-                                // Add groups to list
-                                for (i = 0; i < groups.length; i++) {
-                                    // Create new group
-                                    group = new Y.LIMS.Model.GroupModelItem(groups[i]);
+                            // Add groups to list
+                            for (i = 0; i < groups.length; i++) {
+                                // Create new group
+                                group = new Y.LIMS.Model.GroupModel(groups[i]);
 
-                                    // List of buddies
-                                    buddies = new Y.LIMS.Model.BuddyModelList();
-                                    buddies.add(groups[i].buddies);
+                                // Add buddies to group
+                                group.set('buddies', groups[i].buddies);
 
-                                    // Add buddies to group
-                                    group.set('buddies', buddies);
-
-                                    // Add group to group list
-                                    instance.add(group);
-                                }
-
-                                // Fire success event
-                                instance.fire('groupsReadSuccess', {
-                                    groupsList: instance
-                                });
+                                // Add group to group list
+                                instance.add(group);
                             }
 
-                            if (callback) {
-                                callback(null);
-                            }
+                            // Fire success event
+                            instance.fire('groupsReadSuccess', {
+                                groupsList: instance
+                            });
+
+
+                            // TODO: Causes problem if uncommented
+                            //if (callback) {
+                            //    callback(null, response);
+                            //}
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -177,12 +177,21 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
         },
 
         /**
+         * Buddy list strategy
+         *
+         * {string}
+         */
+        listStrategy: {
+            value: null // to be set
+        },
+
+        /**
          * Set to true if the group model is still being retrieved from jabber on the server
          *
          * {boolean}
          */
         loading: {
-          value: false // default value
+            value: false // default value
         }
     }
 });

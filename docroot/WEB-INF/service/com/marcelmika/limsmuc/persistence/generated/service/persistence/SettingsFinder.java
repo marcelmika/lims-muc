@@ -18,6 +18,10 @@ package com.marcelmika.limsmuc.persistence.generated.service.persistence;
  * @author Brian Wing Shun Chan
  */
 public interface SettingsFinder {
+	public java.lang.Integer countAllUsers(java.lang.Long userId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<java.lang.Object[]> findAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)

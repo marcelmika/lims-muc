@@ -17,7 +17,10 @@ Y.namespace('LIMS.View');
 Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.ViewExtension], {
 
     // Specify a model to associate with the view.
-    model: Y.LIMS.Model.GroupModelList,
+    model: Y.LIMS.Model.GroupListModel,
+
+    // Template for the activity indicator
+    readMoreActivityIndicator: '<div class="preloader read-more-preloader" />',
 
     /**
      * The initializer runs when the instance is created, and gives
@@ -47,6 +50,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
         container.after('mouseenter', this._onContainerContentMouseEnter, this);
         container.before('mouseleave', this._onContainerContentMouseLeave, this);
+        container.on('scroll', this._onContentScroll, this);
     },
 
     /**
@@ -134,6 +138,35 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
 
             // Run!
             animation.run();
+        }
+    },
+
+    /**
+     * Shows read more activity indicator
+     *
+     * @private
+     */
+    _showReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator'),
+            container = this.get('container');
+
+        if (!indicator.inDoc()) {
+            container.append(indicator);
+        }
+    },
+
+    /**
+     * Hide read more activity indicator
+     *
+     * @private
+     */
+    _hideReadMoreActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('readMoreActivityIndicator');
+
+        if (indicator.inDoc()) {
+            indicator.remove();
         }
     },
 
@@ -267,6 +300,62 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     },
 
     /**
+     * Called when user scrolls with the content
+     *
+     * @private
+     */
+    _onContentScroll: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            readMoreScrollOffset = this.get('readMoreScrollOffset'),
+            group,
+            instance = this;
+
+        // Auto loading is only available when the list
+        // strategy is set to ALL
+        if (model.get('listStrategy') === 'ALL') {
+
+            // If the user scrolled to bottom and if we aren't already reading more
+            if (this.hasScrolledToBottom(container, readMoreScrollOffset) && !this.get('isReadingMore')) {
+
+                // Get the 'all' group
+                group = model.item(0);
+
+                // If the group exists and it's not yet reached the bottom
+                if (group && !group.hasReachedBottom()) {
+                    // Set the flag so we are not going to read multiple times
+                    this.set('isReadingMore', true);
+                    // Show the activity indicator
+                    this._showReadMoreActivityIndicator();
+
+                    // Load more
+                    group.load({readMore: true}, function () {
+                        // We are not reading anymore
+                        instance.set('isReadingMore', false);
+                        // Hide the preloader
+                        instance._hideReadMoreActivityIndicator();
+
+                        // TODO: Move to render
+
+                        instance._onGroupReset();
+                        // Vars
+                        var groupView = new Y.LIMS.View.GroupViewItem({model: group}),
+                            groupList = instance.get('groupList');
+
+                        if (groupList && groupView) {
+                            // Render group
+                            groupView.render();
+                            // Add it to group list
+                            groupList.append(groupView.get('container'));
+                        }
+                    });
+                }
+            }
+        }
+    },
+
+    /**
      * Called when the user scrolls with mouse wheel over the container
      *
      * @param event
@@ -299,7 +388,7 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         /**
          * Group list model
          *
-         * {Y.LIMS.Model.GroupModelList}
+         * {Y.LIMS.Model.GroupListModel}
          */
         model: {
             value: null // to be set
@@ -341,6 +430,37 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
          */
         mouseWheelSubscription: {
             value: null
+        },
+
+        /**
+         * Read more activity indicator node
+         *
+         * {Node}
+         */
+        readMoreActivityIndicator: {
+            valueFn: function () {
+                return Y.Node.create(this.readMoreActivityIndicator);
+            }
+        },
+
+        /**
+         * Set to true if the user scrolled to bottom and more
+         * group buddies are being loaded from server
+         *
+         * {boolean}
+         */
+        isReadingMore: {
+            value: false
+        },
+
+        /**
+         * Offset from the bottom when the
+         * read more loading starts
+         *
+         * {number}
+         */
+        readMoreScrollOffset: {
+            value: 50
         },
 
         /**

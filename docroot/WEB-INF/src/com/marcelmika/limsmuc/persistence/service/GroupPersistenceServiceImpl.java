@@ -11,11 +11,14 @@ package com.marcelmika.limsmuc.persistence.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
+import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
 import com.marcelmika.limsmuc.persistence.domain.Buddy;
+import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
+import com.marcelmika.limsmuc.persistence.domain.Page;
 import com.marcelmika.limsmuc.persistence.manager.GroupManager;
 
 /**
@@ -50,7 +53,8 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
      */
     @Override
     public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event) {
-        // Map buddy from details
+
+        // Map entities
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
 
         // Check params
@@ -58,22 +62,61 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
             return GetGroupsResponseEvent.failure(GetGroupsResponseEvent.Status.ERROR_WRONG_PARAMETERS);
         }
 
+        // Create page
+        Page page = new Page();
+        page.setNumber(0); // We are always starting from the beginning
+        // TODO: Take from Environment.getBuddyListMaxBuddies();
+        page.setSize(10);
+
         try {
-            // TODO: Implement pagination
-            int start = 0;
-            int end = Environment.getBuddyListMaxBuddies();
-
             // Get groups from manager
-            GroupCollection groupCollection = groupManager.getGroups(buddy.getBuddyId(), start, end);
+            GroupCollection groupCollection = groupManager.getGroups(buddy.getBuddyId(), page);
 
-            // Call success
+            // Success
             return GetGroupsResponseEvent.success(groupCollection.toGroupCollectionDetails());
         }
-        // Something went wrong
+        // Failure
         catch (Exception exception) {
-            // Failure
             return GetGroupsResponseEvent.failure(
                     GetGroupsResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Returns a particular group
+     *
+     * @param event RequestEvent
+     * @return ResponseEvent
+     */
+    @Override
+    public GetGroupResponseEvent getGroup(GetGroupRequestEvent event) {
+
+        // Map entities
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+
+        // Check params
+        if (buddy.getBuddyId() == null || event.getNumber() == null) {
+            return GetGroupResponseEvent.failure(GetGroupResponseEvent.Status.ERROR_WRONG_PARAMETERS);
+        }
+
+        // Create page
+        Page page = new Page();
+        page.setNumber(event.getNumber());
+        // TODO: Take from Environment.getBuddyListMaxBuddies();
+        page.setSize(10);
+
+        // Get group from manager
+        try {
+            Group group = groupManager.getGroup(buddy.getBuddyId(), event.getGroupId(), event.getListStrategy(), page);
+
+            // Success
+            return GetGroupResponseEvent.success(group.toGroupDetails());
+        }
+        // Failure
+        catch (Exception exception) {
+            return GetGroupResponseEvent.failure(
+                    GetGroupResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
     }

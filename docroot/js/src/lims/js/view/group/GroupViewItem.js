@@ -20,7 +20,7 @@ Y.LIMS.View.GroupViewItem = Y.Base.create('groupViewItem', Y.View, [], {
     containerTemplate: '<li class="group-item"/>',
 
     // Specify an optional model to associate with the view.
-    model: Y.LIMS.Model.GroupModelItem,
+    model: Y.LIMS.Model.GroupModel,
 
     // The template property holds the contents of the #lims-group-item-template
     // element, which will be used as the HTML template for each group item.
@@ -91,7 +91,7 @@ Y.LIMS.View.GroupViewItem = Y.Base.create('groupViewItem', Y.View, [], {
         /**
          * Model
          *
-         * {Y.LIMS.Model.GroupModelItem}
+         * {Y.LIMS.Model.GroupModel}
          */
         model: {
             value: null // to be set

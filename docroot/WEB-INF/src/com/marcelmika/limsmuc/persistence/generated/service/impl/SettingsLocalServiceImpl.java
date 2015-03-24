@@ -274,6 +274,23 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Counts all buddies in the system who have the settings
+     *
+     * @param userId                of excluded user
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countAllUsers(Long userId,
+                                  boolean ignoreDefaultUser,
+                                  boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countAllUsers(userId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
      * Returns all buddies in the system
      *
      * @param userId                of excluded user

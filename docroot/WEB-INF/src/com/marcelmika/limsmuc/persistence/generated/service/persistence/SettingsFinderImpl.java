@@ -9,7 +9,11 @@
 
 package com.marcelmika.limsmuc.persistence.generated.service.persistence;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -34,6 +38,9 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(SettingsFinderImpl.class);
 
+    // Count users SQL
+    private static final String COUNT_ALL_USERS = SettingsFinder.class.getName() + ".countAllUsers";
+
     // Find users SQL
     private static final String FIND_ALL_USERS = SettingsFinder.class.getName() + ".findAllUsers";
     private static final String FIND_BY_SITES_GROUPS = SettingsFinder.class.getName() + ".findBySitesGroups";
@@ -55,6 +62,51 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     private static final String PLACEHOLDER_USERS_GROUPS_JOIN = "[$USERS_GROUPS_JOIN$]";
     private static final String PLACEHOLDER_USERS_GROUPS_WHERE = "[$USERS_GROUPS_WHERE$]";
     private static final String PLACEHOLDER_SOCIAL_RELATION_TYPES = "[$SOCIAL_RELATION_TYPES$]";
+
+    /**
+     * Counts all users except the one given in the parameter and their settings
+     *
+     * @param userId                of excluded user
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of all users
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
+    public Integer countAllUsers(Long userId,
+                                 boolean ignoreDefaultUser,
+                                 boolean ignoreDeactivatedUser) throws SystemException {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getCountAllUsersSQL(ignoreDefaultUser, ignoreDeactivatedUser);
+
+            // Create query from SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("userCount", Type.INTEGER);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(userId);
+
+            // Get the result
+            List<Integer> result = (List<Integer>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the count
+            return result.get(0);
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
 
     /**
      * Finds all users except the one given in the parameter and their settings
@@ -587,6 +639,26 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             // Session needs to be closed if something goes wrong
             closeSession(session);
         }
+    }
+
+    /**
+     * Generates SQL for count all users query
+     *
+     * @param ignoreDefaultUser     determines if the default user should be ignored
+     * @param ignoreDeactivatedUser determines if the deactivated user should be ignored
+     * @return SQL string for count all users query
+     */
+    private String getCountAllUsersSQL(boolean ignoreDefaultUser,
+                                       boolean ignoreDeactivatedUser) {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        String sql = CustomSQLUtil.get(COUNT_ALL_USERS);
+
+        // Add ignored users queries if needed
+        sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
+        sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
+
+        return sql;
     }
 
     /**

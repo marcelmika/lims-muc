@@ -109,6 +109,24 @@ Y.LIMS.View.ViewExtension.prototype = {
     },
 
     /**
+     * Returns true if the node has scrolled to bottom
+     *
+     * @param node Scrolled node
+     * @param offset Offset from the bottom
+     * @return {boolean}
+     */
+    hasScrolledToBottom: function (node, offset) {
+        // Defaults
+        offset = offset || 0; // Default
+
+        if (!node) {
+            return false;
+        }
+
+        return node.get('scrollTop') + node.get('clientHeight') >= node.get('scrollHeight') - offset;
+    },
+
+    /**
      * Prevents scrolling of descendant nodes
      *
      * @param event {Y.EventFacade} mouse wheel event
