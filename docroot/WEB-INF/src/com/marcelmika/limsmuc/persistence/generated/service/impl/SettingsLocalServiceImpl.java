@@ -314,6 +314,25 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Counts a number of users who belong to the particular site
+     *
+     * @param userId                of excluded user
+     * @param groupId               of the group
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countSitesGroupUsers(Long userId,
+                                        Long groupId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countSitesGroupUsers(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
      * Returns all groups where the user participates
      *
      * @param userId                of the user whose groups are we looking for

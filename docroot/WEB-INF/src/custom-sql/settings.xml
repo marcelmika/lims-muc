@@ -89,10 +89,32 @@
 		]]>
     </sql>
 
+    <!-- Counts all users in the given sites group -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countSitesGroupUsers">
+        <![CDATA[
+			SELECT
+                COUNT(Limsmuc_Settings.userId) AS userCount
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				Users_Groups ON (Users_Groups.userId = User_.userId)
+			INNER JOIN
+			    Group_ ON (Users_Groups.groupId = Group_.groupId)
+			WHERE
+				(User_.userId != ?)
+				AND (Group_.groupId = ?)
+				[$DEFAULT_USER$]
+				[$DEACTIVATED_USER$]
+		]]>
+    </sql>
+
     <!-- Finds all users and attaches groups to them -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findBySitesGroups">
         <![CDATA[
 			SELECT DISTINCT
+			    Group_.groupId AS groupId,
 			    Group_.name AS groupName,
 				User_.userId AS userId,
 				User_.screenName AS screenName,

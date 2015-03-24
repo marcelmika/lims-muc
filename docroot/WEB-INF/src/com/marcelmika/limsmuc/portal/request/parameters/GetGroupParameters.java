@@ -19,15 +19,15 @@ import com.marcelmika.limsmuc.api.environment.Environment;
  */
 public class GetGroupParameters {
 
-    private String groupId;
+    private Long groupId;
     private Environment.BuddyListStrategy listStrategy;
     private Integer number;
 
-    public String getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

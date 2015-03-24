@@ -16,7 +16,6 @@ package com.marcelmika.limsmuc.persistence.generated.service;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -53,7 +52,6 @@ public interface SynchronizationLocalService extends BaseLocalService,
 	* @return the synchronization that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization addSynchronization(
 		com.marcelmika.limsmuc.persistence.generated.model.Synchronization synchronization)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -75,7 +73,6 @@ public interface SynchronizationLocalService extends BaseLocalService,
 	* @throws PortalException if a synchronization with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization deleteSynchronization(
 		long sid)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -88,7 +85,6 @@ public interface SynchronizationLocalService extends BaseLocalService,
 	* @return the synchronization that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization deleteSynchronization(
 		com.marcelmika.limsmuc.persistence.generated.model.Synchronization synchronization)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -229,7 +225,6 @@ public interface SynchronizationLocalService extends BaseLocalService,
 	* @return the synchronization that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization updateSynchronization(
 		com.marcelmika.limsmuc.persistence.generated.model.Synchronization synchronization)
 		throws com.liferay.portal.kernel.exception.SystemException;

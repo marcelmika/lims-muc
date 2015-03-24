@@ -348,10 +348,6 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 		}
 	}
 
-	public Class<?> getClpSerializerClass() {
-		return _clpSerializerClass;
-	}
-
 	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
@@ -417,5 +413,4 @@ public class ConversationClp extends BaseModelImpl<Conversation>
 	private Date _updatedAt;
 	private long _syncIdSUC;
 	private BaseModel<?> _conversationRemoteModel;
-	private Class<?> _clpSerializerClass = com.marcelmika.limsmuc.persistence.generated.service.ClpSerializer.class;
 }

@@ -20,7 +20,6 @@ import com.marcelmika.limsmuc.core.service.GroupCoreService;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
 import com.marcelmika.limsmuc.portal.domain.Group;
 import com.marcelmika.limsmuc.portal.domain.GroupCollection;
-import com.marcelmika.limsmuc.portal.domain.Page;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.request.parameters.GetGroupListParameters;
@@ -29,7 +28,6 @@ import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.xml.ws.Response;
 
 /**
  * @author Ing. Marcel Mika

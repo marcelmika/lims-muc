@@ -259,10 +259,6 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 		}
 	}
 
-	public Class<?> getClpSerializerClass() {
-		return _clpSerializerClass;
-	}
-
 	@Override
 	public int hashCode() {
 		return (int)getPrimaryKey();
@@ -307,5 +303,4 @@ public class SynchronizationClp extends BaseModelImpl<Synchronization>
 	private long _sid;
 	private boolean _sucSync;
 	private BaseModel<?> _synchronizationRemoteModel;
-	private Class<?> _clpSerializerClass = com.marcelmika.limsmuc.persistence.generated.service.ClpSerializer.class;
 }

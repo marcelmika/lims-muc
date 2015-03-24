@@ -40,6 +40,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
 
     // Count users SQL
     private static final String COUNT_ALL_USERS = SettingsFinder.class.getName() + ".countAllUsers";
+    private static final String COUNT_SITES_GROUP_USERS = SettingsFinder.class.getName() + ".countSitesGroupUsers";
 
     // Find users SQL
     private static final String FIND_ALL_USERS = SettingsFinder.class.getName() + ".findAllUsers";
@@ -162,6 +163,55 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     }
 
     /**
+     * Counts a number of users who belong to the particular site
+     *
+     * @param userId                of excluded user
+     * @param groupId               of the group
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
+    public Integer countSitesGroupUsers(Long userId,
+                                        Long groupId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser) throws SystemException {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getCountSitesGroupUsersSQL(ignoreDefaultUser, ignoreDeactivatedUser);
+
+            // Create query from SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("userCount", Type.INTEGER);
+
+            // Add parameters to query
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(userId);
+            queryPos.add(groupId);
+
+            // Get the result
+            List<Integer> result = (List<Integer>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the count
+            return result.get(0);
+
+        } finally {
+            // Session needs to be closed at the end
+            closeSession(session);
+        }
+    }
+
+    /**
      * Returns all groups where the user participates
      *
      * @param userId                of excluded user
@@ -193,6 +243,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             SQLQuery query = session.createSQLQuery(sql);
 
             // Now we need to map types to columns
+            query.addScalar("groupId", Type.LONG);
             query.addScalar("groupName", Type.STRING);
             query.addScalar("userId", Type.LONG);
             query.addScalar("screenName", Type.STRING);
@@ -768,6 +819,25 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
         return sql;
     }
 
+    /**
+     * Generates SQL for count sites group users query
+     *
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return SQL string for the query
+     */
+    private String getCountSitesGroupUsersSQL(boolean ignoreDefaultUser,
+                                              boolean ignoreDeactivatedUser) {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        String sql = CustomSQLUtil.get(COUNT_SITES_GROUP_USERS);
+
+        // Add ignore default user query if needed
+        sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
+        sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
+
+        return sql;
+    }
 
     /**
      * Generates SQL for find by sites groups query

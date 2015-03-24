@@ -431,6 +431,15 @@ public class SettingsLocalServiceUtil {
 			ignoreDeactivatedUser, start, end);
 	}
 
+	public static java.lang.Integer countSitesGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countSitesGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
 	/**
 	* Returns all groups where the user participates
 	*

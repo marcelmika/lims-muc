@@ -29,7 +29,7 @@ public class Group {
     // -------------------------------------------------------------------------------------------
 
     // Group id
-    private String groupId;
+    private Long groupId;
     // Name of the group
     private String name;
     // Buddies related to the group
@@ -84,6 +84,7 @@ public class Group {
         Group group = new Group();
 
         // Properties
+        group.groupId = (Long) object[firstElement++];
         group.name = (String) object[firstElement];
 
         return group;
@@ -136,11 +137,11 @@ public class Group {
     // Getters/Setters
     // -------------------------------------------------------------------------------------------
 
-    public String getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

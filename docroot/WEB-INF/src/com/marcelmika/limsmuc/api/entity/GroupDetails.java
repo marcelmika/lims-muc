@@ -27,7 +27,7 @@ public class GroupDetails {
     // Properties
     // -------------------------------------------------------------------------------------------
 
-    private String groupId;
+    private Long groupId;
     private String name;
     private List<BuddyDetails> buddies = new ArrayList<BuddyDetails>();
     private PageDetails page;
@@ -40,11 +40,11 @@ public class GroupDetails {
     // Getters/Setters
     // -------------------------------------------------------------------------------------------
 
-    public String getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

@@ -91,7 +91,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
 
         // Local events
         model.after('load', this._onGroupReadSuccess, this);
-        model.after('error', this._onGroupReadError, this)
+        model.after('error', this._onGroupReadError, this);
     },
 
     /**
@@ -110,7 +110,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
      */
     _onGroupReadError: function () {
         // TODO: Decide what to do
-        console.log(error);
+        console.log('error');
     }
 
 }, {

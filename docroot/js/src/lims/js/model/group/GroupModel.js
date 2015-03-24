@@ -141,10 +141,10 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
         /**
          * Id of the group
          *
-         * {string}
+         * {number}
          */
         groupId: {
-            value: "" // default value
+            value: null // default value
         },
 
         /**

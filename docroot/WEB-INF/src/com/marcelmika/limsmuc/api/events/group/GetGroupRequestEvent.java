@@ -22,12 +22,12 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
 public class GetGroupRequestEvent extends RequestEvent {
 
     private BuddyDetails buddy;
-    private String groupId;
+    private Long groupId;
     private Environment.BuddyListStrategy listStrategy;
     private Integer number;
 
     public GetGroupRequestEvent(final BuddyDetails buddy,
-                                final String groupId,
+                                final Long groupId,
                                 final Environment.BuddyListStrategy listStrategy,
                                 final Integer number) {
         this.buddy = buddy;
@@ -40,7 +40,7 @@ public class GetGroupRequestEvent extends RequestEvent {
         return buddy;
     }
 
-    public String getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 

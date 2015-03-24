@@ -38,6 +38,15 @@ public class SettingsFinderUtil {
 			ignoreDeactivatedUser, start, end);
 	}
 
+	public static java.lang.Integer countSitesGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .countSitesGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
 	public static java.util.List<java.lang.Object[]> findSitesGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,

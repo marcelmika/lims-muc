@@ -42,6 +42,6 @@ public interface GroupManager {
      * @return Group
      * @throws Exception
      */
-    public Group getGroup(Long userId, String groupId, BuddyListStrategy listStrategy, Page page) throws Exception;
+    public Group getGroup(Long userId, Long groupId, BuddyListStrategy listStrategy, Page page) throws Exception;
 
 }

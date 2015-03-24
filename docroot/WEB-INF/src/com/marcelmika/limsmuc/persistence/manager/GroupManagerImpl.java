@@ -68,9 +68,7 @@ public class GroupManagerImpl implements GroupManager {
         }
         // Buddies from sites
         else if (strategy == BuddyListStrategy.SITES) {
-            return getSitesGroups(
-                    userId, true, ignoreDeactivatedUser, excludedSites, start, end
-            );
+            return getSitesGroups(userId, true, ignoreDeactivatedUser, excludedSites, page);
         }
         // Socialized buddies
         else if (strategy == BuddyListStrategy.SOCIAL) {
@@ -105,7 +103,7 @@ public class GroupManagerImpl implements GroupManager {
      * @throws Exception
      */
     @Override
-    public Group getGroup(Long userId, String groupId, BuddyListStrategy listStrategy, Page page) throws Exception {
+    public Group getGroup(Long userId, Long groupId, BuddyListStrategy listStrategy, Page page) throws Exception {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -152,9 +150,6 @@ public class GroupManagerImpl implements GroupManager {
         // Add info to the page
         page.setTotalElements(totalElements);
         page.setTotalPages((int) Math.ceil(totalElements / (double) size));
-
-        // TODO: LOG
-        log.info(page);
 
         // Get users from persistence
         List<Object[]> users = SettingsLocalServiceUtil.getAllGroups(
@@ -206,8 +201,7 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param excludedSites         names of sites (groups) that should be excluded from the group collection
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param page                  pagination object
      * @return GroupCollection
      * @throws Exception
      */
@@ -215,8 +209,15 @@ public class GroupManagerImpl implements GroupManager {
                                            boolean ignoreDefaultUser,
                                            boolean ignoreDeactivatedUser,
                                            String[] excludedSites,
-                                           int start,
-                                           int end) throws Exception {
+                                           Page page) throws Exception {
+
+        // Get number and size
+        int number = page.getNumber();
+        int size = page.getSize();
+
+        // Calculated start and end
+        int start = number * size;
+        int end = start + size;
 
         // Get sites groups
         List<Object[]> groupObjects = SettingsLocalServiceUtil.getSitesGroups(
@@ -243,8 +244,19 @@ public class GroupManagerImpl implements GroupManager {
 
             // Check if the group is already cached
             if (groupMap.get(group.getName()) == null) {
-                // TODO: Get the real group id not name
-                group.setGroupId(group.getName());
+
+                // TODO: Group id should be Long
+                // Count the size of the sites group
+                Integer totalElements = SettingsLocalServiceUtil.countSitesGroupUsers(
+                        userId, group.getGroupId(), ignoreDefaultUser, ignoreDeactivatedUser
+                );
+
+                // Add info to the page
+                page.setTotalElements(totalElements);
+                page.setTotalPages((int) Math.ceil(totalElements / (double) size));
+                group.setPage(page);
+
+                group.setGroupId(group.getGroupId());
                 group.setListStrategy(BuddyListStrategy.SITES);
 
                 // Cache it
@@ -254,7 +266,7 @@ public class GroupManagerImpl implements GroupManager {
             group = groupMap.get(group.getName());
 
             // Deserialize buddy from object, buddy starts at 1
-            Buddy buddy = Buddy.fromPlainObject(object, 1);
+            Buddy buddy = Buddy.fromPlainObject(object, 2);
 
             // Add it to group
             group.addBuddy(buddy);
@@ -339,7 +351,7 @@ public class GroupManagerImpl implements GroupManager {
                 group = new Group();
 
                 // TODO: Take real group id
-                group.setGroupId(groupName);
+//                group.setGroupId(1);
                 group.setName(groupName);
                 group.setListStrategy(BuddyListStrategy.SOCIAL);
                 group.setSocialRelation(relationType);
@@ -397,9 +409,9 @@ public class GroupManagerImpl implements GroupManager {
                                                     int start,
                                                     int end) throws Exception {
         // Get site groups
-        GroupCollection sitesGroupCollection = getSitesGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
-        );
+//        GroupCollection sitesGroupCollection = getSitesGroups(
+//                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
+//        );
         // Get social groups
         GroupCollection socialGroupCollection = getSocialGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
@@ -407,7 +419,7 @@ public class GroupManagerImpl implements GroupManager {
 
         // Merge site and social groups
         List<Group> mergedGroups = new LinkedList<Group>();
-        mergedGroups.addAll(sitesGroupCollection.getGroups());
+//        mergedGroups.addAll(sitesGroupCollection.getGroups());
         mergedGroups.addAll(socialGroupCollection.getGroups());
 
         // Merge
@@ -415,11 +427,11 @@ public class GroupManagerImpl implements GroupManager {
         groupCollection.setGroups(mergedGroups);
 
         // Decide which group is "newer"
-        if (sitesGroupCollection.getLastModified().after(socialGroupCollection.getLastModified())) {
-            groupCollection.setLastModified(sitesGroupCollection.getLastModified());
-        } else {
-            groupCollection.setLastModified(socialGroupCollection.getLastModified());
-        }
+//        if (sitesGroupCollection.getLastModified().after(socialGroupCollection.getLastModified())) {
+//            groupCollection.setLastModified(sitesGroupCollection.getLastModified());
+//        } else {
+//            groupCollection.setLastModified(socialGroupCollection.getLastModified());
+//        }
 
         // Set list strategy
         groupCollection.setListStrategy(BuddyListStrategy.SITES_AND_SOCIAL);
@@ -474,7 +486,7 @@ public class GroupManagerImpl implements GroupManager {
             if (groupMap.get(group.getName()) == null) {
 
                 // TODO: Take the real group id
-                group.setGroupId(group.getName());
+//                group.setGroupId(group.getName());
                 group.setListStrategy(BuddyListStrategy.USER_GROUPS);
 
                 // Cache it

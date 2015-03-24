@@ -452,6 +452,15 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 			ignoreDeactivatedUser, start, end);
 	}
 
+	@Override
+	public java.lang.Integer countSitesGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.countSitesGroupUsers(userId, groupId,
+			ignoreDefaultUser, ignoreDeactivatedUser);
+	}
+
 	/**
 	* Returns all groups where the user participates
 	*
