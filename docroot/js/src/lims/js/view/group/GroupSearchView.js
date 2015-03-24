@@ -75,7 +75,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
             // Get buddy from the list
             buddy = model.item(index);
             // Build view
-            buddyView = new Y.LIMS.View.GroupBuddyViewItem({model: buddy});
+            buddyView = new Y.LIMS.View.GroupBuddyView({model: buddy});
             // Render view
             buddyView.render();
             // Append to container

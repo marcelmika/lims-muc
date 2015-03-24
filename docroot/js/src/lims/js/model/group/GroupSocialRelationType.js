@@ -16,7 +16,6 @@ Y.namespace('LIMS.Model');
 
 Y.LIMS.Model.GroupSocialRelationType = Y.Base.create('groupSocialRelationType', Y.Model, [], {
 
-
     /**
      * Returns localized name of the social relation type. Empty string is returned if
      * unknown relation types is set

@@ -474,9 +474,9 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         /**
          * View for the group list
          *
-         * {Y.LIMS.View.GroupViewList}
+         * {Y.LIMS.View.GroupListView}
          */
-        groupViewList: {
+        groupListView: {
             valueFn: function () {
                 // Vars
                 var container = this.get('panelContentContainer'),
@@ -484,7 +484,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
                     activityIndicator = this.get('activityIndicator');
 
                 // Create view
-                return new Y.LIMS.View.GroupViewList({
+                return new Y.LIMS.View.GroupListView({
                     container: container,
                     model: model,
                     activityIndicator: activityIndicator

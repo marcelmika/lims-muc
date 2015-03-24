@@ -52,18 +52,9 @@ Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LI
                     on: {
                         success: function (id, o) {
 
-                            // Check if the poller should slow down
-                            if (o.getResponseHeader('X-Slow-Down')) {
-                                instance.fire('slowDown', {slowDown: true});
-                            } else {
-                                instance.fire('slowDown', {slowDown: false});
-                            }
-
                             // If nothing has change the server returns 304 (not modified)
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {
-                                // Return callback
-                                callback(null);
                                 // End here
                                 return;
                             }
@@ -77,51 +68,19 @@ Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LI
                                 // Clear etag otherwise when we load the data again it
                                 // might still be cached
                                 instance.set('etag', -1);
-                                // Fire error event
-                                instance.fire('groupsReadError');
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
                                 callback(exception);
                                 // End here
                                 return;
                             }
 
-                            var i, groups, group;
-                                //buddies
-
-                            // Parse groups
-                            groups = response.groups;
-
-                            //if (response.etag && etag.toString() !== response.etag.toString()) {
-
-                            // Empty the list
-                            instance.fire('groupReset');
-
+                            // We need to set list properties manually
                             instance.set('etag', response.etag);
                             instance.set('loading', response.loading);
                             instance.set('listStrategy', response.listStrategy);
 
-                            // Add groups to list
-                            for (i = 0; i < groups.length; i++) {
-                                // Create new group
-                                group = new Y.LIMS.Model.GroupModel(groups[i]);
-
-                                // Add buddies to group
-                                group.set('buddies', groups[i].buddies);
-
-                                // Add group to group list
-                                instance.add(group);
-                            }
-
-                            // Fire success event
-                            instance.fire('groupsReadSuccess', {
-                                groupsList: instance
-                            });
-
-
-                            // TODO: Causes problem if uncommented
-                            //if (callback) {
-                            //    callback(null, response);
-                            //}
+                            // Callback
+                            callback(null, response);
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -135,12 +94,8 @@ Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LI
                             instance.set('etag', -1);
                             instance.set('loading', false);
 
-                            // Fire error event
-                            instance.fire('groupsReadError');
-
-                            if (callback) {
-                                callback("group model error", o.responseText);
-                            }
+                            // Callback
+                            callback("Group List Model Error");
                         }
                     }
                 });
@@ -157,6 +112,17 @@ Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LI
             default:
                 callback('Invalid action');
         }
+    },
+
+    /**
+     * Parse method is called after sync
+     *
+     * @param response
+     * @return {*}
+     */
+    parse: function (response) {
+        // Groups are items for the list
+        return response.groups;
     }
 
 }, {

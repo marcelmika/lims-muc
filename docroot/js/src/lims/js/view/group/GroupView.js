@@ -8,13 +8,13 @@
  */
 
 /**
- * Group View Item
+ * Group View
  *
  * The class extends Y.View. It represents the view for a single group item.
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.GroupViewItem = Y.Base.create('groupViewItem', Y.View, [], {
+Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
 
     // This customizes the HTML used for this view's container node.
     containerTemplate: '<li class="group-item"/>',
@@ -27,9 +27,18 @@ Y.LIMS.View.GroupViewItem = Y.Base.create('groupViewItem', Y.View, [], {
     template: Y.one('#limsmuc-group-item-template').get('innerHTML'),
 
     /**
+     * The initializer runs when the instance is created, and gives
+     * us an opportunity to set up the view.
+     */
+    initializer: function () {
+        // Attach events
+        this._attachEvents();
+    },
+
+    /**
      * Renders the view
      *
-     * @returns {Y.LIMS.View.GroupViewItem}
+     * @returns {Y.LIMS.View.GroupView}
      */
     render: function () {
         // Vars
@@ -64,11 +73,44 @@ Y.LIMS.View.GroupViewItem = Y.Base.create('groupViewItem', Y.View, [], {
         }
 
         // Render Buddies
-        buddiesView = new Y.LIMS.View.GroupBuddyViewList({model: model.get('buddies')});
+        buddiesView = new Y.LIMS.View.GroupBuddyListView({model: model.get('buddies')});
         buddiesView.render();
         container.append(buddiesView.get("container"));
 
         return this;
+    },
+
+    /**
+     * Attaches listeners to events
+     *
+     * @private
+     */
+    _attachEvents: function () {
+        // Vars
+        var model = this.get('model');
+
+        // Local events
+        model.after('load', this._onGroupReadSuccess, this);
+        model.after('error', this._onGroupReadError, this)
+    },
+
+    /**
+     * Called when the group is successfully read
+     *
+     * @private
+     */
+    _onGroupReadSuccess: function () {
+        // Render the view
+        this.render();
+    },
+
+    /**
+     * Called when the group is not read
+     * @private
+     */
+    _onGroupReadError: function () {
+        // TODO: Decide what to do
+        console.log(error);
     }
 
 }, {

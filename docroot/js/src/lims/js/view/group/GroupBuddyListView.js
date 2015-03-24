@@ -14,7 +14,7 @@
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.GroupBuddyViewList = Y.Base.create('groupBuddyViewList', Y.View, [], {
+Y.LIMS.View.GroupBuddyListView = Y.Base.create('groupBuddyListView', Y.View, [], {
 
     // This customizes the HTML used for this view's container node.
     containerTemplate: '<ul class="group-buddy-list"/>',
@@ -25,7 +25,7 @@ Y.LIMS.View.GroupBuddyViewList = Y.Base.create('groupBuddyViewList', Y.View, [],
     /**
      * Renders view
      *
-     * @returns {Y.LIMS.View.GroupBuddyViewList}
+     * @returns {Y.LIMS.View.GroupBuddyListView}
      */
     render: function () {
         // Vars
@@ -38,7 +38,7 @@ Y.LIMS.View.GroupBuddyViewList = Y.Base.create('groupBuddyViewList', Y.View, [],
             // Get buddy from model list
             buddy = buddies.item(buddyIndex);
             // Build view from buddy
-            buddyView = new Y.LIMS.View.GroupBuddyViewItem({model: buddy});
+            buddyView = new Y.LIMS.View.GroupBuddyView({model: buddy});
             // Render view
             buddyView.render();
             // Append to container
