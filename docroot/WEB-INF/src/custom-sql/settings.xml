@@ -138,7 +138,6 @@
 		]]>
     </sql>
 
-
     <!-- Reads all users attached to sites group  -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.readSitesGroup">
         <![CDATA[

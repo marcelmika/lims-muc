@@ -20,6 +20,7 @@ import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
 import com.marcelmika.limsmuc.persistence.domain.Page;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -64,7 +65,7 @@ public class GroupManagerImpl implements GroupManager {
 
         // All buddies
         if (strategy == BuddyListStrategy.ALL) {
-            return getAllGroup(userId, true, ignoreDeactivatedUser, page);
+            return findAllGroup(userId, true, ignoreDeactivatedUser, page);
         }
         // Buddies from sites
         else if (strategy == BuddyListStrategy.SITES) {
@@ -108,25 +109,18 @@ public class GroupManagerImpl implements GroupManager {
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
 
-        GroupCollection groupCollection = new GroupCollection();
-
         // All buddies
         if (listStrategy == BuddyListStrategy.ALL) {
-            groupCollection = getAllGroup(userId, true, ignoreDeactivatedUser, page);
+            return readAllGroup(userId, true, ignoreDeactivatedUser, page);
         }
         // Sites group
         else if (listStrategy == BuddyListStrategy.SITES) {
             return readSitesGroup(userId, groupId, true, ignoreDeactivatedUser, page);
         }
-
-        // TODO: REMOVE
-        // No group was found
-        if (groupCollection.getGroups().size() == 0) {
-            return null;
+        // Unknown
+        else {
+            throw new Exception("Unknown buddy list strategy");
         }
-
-        // Since all the method only returns a group collection we need to take the first group
-        return groupCollection.getGroups().get(0);
     }
 
     /**
@@ -139,10 +133,29 @@ public class GroupManagerImpl implements GroupManager {
      * @return GroupCollection
      * @throws Exception
      */
-    private GroupCollection getAllGroup(Long userId,
-                                        boolean ignoreDefaultUser,
-                                        boolean ignoreDeactivatedUser,
-                                        Page page) throws Exception {
+    private GroupCollection findAllGroup(Long userId,
+                                         boolean ignoreDefaultUser,
+                                         boolean ignoreDeactivatedUser,
+                                         Page page) throws Exception {
+
+        // Read the group
+        Group group = readAllGroup(userId, ignoreDefaultUser, ignoreDeactivatedUser, page);
+        // Create group collection which will hold the only group that holds all users
+        GroupCollection groupCollection = new GroupCollection();
+        // Add group to collection only if there are any buddies
+        groupCollection.addGroup(group);
+        // Set list strategy
+        groupCollection.setListStrategy(BuddyListStrategy.ALL);
+        // Add last modified date
+        groupCollection.setLastModified(Calendar.getInstance().getTime());
+
+        return groupCollection;
+    }
+
+    private Group readAllGroup(Long userId,
+                               boolean ignoreDefaultUser,
+                               boolean ignoreDeactivatedUser,
+                               Page page) throws Exception {
 
         // Count the size of the ALL group
         Integer totalElements = SettingsLocalServiceUtil.countAllUsers(
@@ -173,34 +186,15 @@ public class GroupManagerImpl implements GroupManager {
         group.setPage(page);
         group.setListStrategy(BuddyListStrategy.ALL);
 
-        // Because all group requests are cached we need to determine what was the latest modified
-        // date. If the user modifies his presence we need to change the etag so the client will load
-        // it from server.
-        Date lastModifiedDate = new Date(0);
-
         // Since we get an Object[] from persistence we need to map it to the persistence Buddy object
         for (Object[] userObject : users) {
             // Deserialize
             Buddy buddy = Buddy.fromPlainObject(userObject, 0);
             // Add to group
             group.addBuddy(buddy);
-
-            // If the presence was updated later then the last one overwrite the counter
-            if (buddy.getPresenceUpdatedAt().after(lastModifiedDate)) {
-                lastModifiedDate = buddy.getPresenceUpdatedAt();
-            }
         }
 
-        // Create group collection which will hold the only group that holds all users
-        GroupCollection groupCollection = new GroupCollection();
-        // Add group to collection only if there are any buddies
-        groupCollection.addGroup(group);
-        // Set list strategy
-        groupCollection.setListStrategy(BuddyListStrategy.ALL);
-        // Add last modified date
-        groupCollection.setLastModified(lastModifiedDate);
-
-        return groupCollection;
+        return group;
     }
 
     /**
@@ -224,11 +218,6 @@ public class GroupManagerImpl implements GroupManager {
         // Get sites groups
         List<Object[]> groupIds = SettingsLocalServiceUtil.findSitesGroups(userId, excludedSites);
 
-        // Because all group requests are cached we need to determine what was the latest modified
-        // date. If the user modifies his presence we need to change the etag so the client will load
-        // it from server.
-        Date lastModifiedDate = new Date(0);
-
         // Create group collection
         GroupCollection groupCollection = new GroupCollection();
 
@@ -244,7 +233,7 @@ public class GroupManagerImpl implements GroupManager {
         }
 
         // Add last modified date
-        groupCollection.setLastModified(lastModifiedDate);
+        groupCollection.setLastModified(Calendar.getInstance().getTime());
         // Set list strategy
         groupCollection.setListStrategy(BuddyListStrategy.SITES);
 

@@ -22,6 +22,9 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
     // Template for read more button
     loadMoreButtonTemplate: '<div class="load-more" />',
 
+    // Template for the activity indicator
+    activityIndicator: '<div class="preloader read-more-preloader" />',
+
     // Specify an optional model to associate with the view.
     model: Y.LIMS.Model.GroupModel,
 
@@ -48,7 +51,6 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         var container = this.get('container'),
             model = this.get('model'),
             socialRelation = model.get('socialRelation'),
-            loadMoreButton = this.get('loadMoreButton'),
             buddiesView,
             name;
 
@@ -61,7 +63,6 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         else {
             name = model.get('name');
         }
-
 
         // Render Group:
         // Fill data from model to template and set it to container
@@ -81,12 +82,70 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         buddiesView.render();
         container.append(buddiesView.get("container"));
 
-        // Read more button
-        if (!model.hasReachedBottom()) {
-            container.append(loadMoreButton);
+        // Load more button
+        if (!model.hasReachedBottom() && model.get('listStrategy') !== 'ALL') {
+            this._showLoadMoreButton();
         }
 
         return this;
+    },
+
+    /**
+     * Shows activity indicator
+     *
+     * @private
+     */
+    _showActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('activityIndicator'),
+            container = this.get('container');
+
+        if (!indicator.inDoc()) {
+            container.append(indicator);
+        }
+    },
+
+    /**
+     * Hide activity indicator
+     *
+     * @private
+     */
+    _hideActivityIndicator: function () {
+        // Vars
+        var indicator = this.get('activityIndicator');
+
+        if (indicator.inDoc()) {
+            indicator.remove();
+        }
+    },
+
+    /**
+     * Shows the load more button
+     *
+     * @private
+     */
+    _showLoadMoreButton: function () {
+        // Vars
+        var loadMoreButton = this.get('loadMoreButton'),
+            container = this.get('container');
+
+        if (!loadMoreButton.inDoc()) {
+            container.append(loadMoreButton);
+        }
+    },
+
+    /**
+     * Hides the load more button
+     *
+     * @private
+     */
+    _hideLoadMoreButton: function () {
+        // Vars
+        var loadMoreButton = this.get('loadMoreButton');
+
+        if (loadMoreButton.inDoc()) {
+            loadMoreButton.remove();
+        }
     },
 
     /**
@@ -100,9 +159,22 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
             loadMoreButton = this.get('loadMoreButton');
 
         // Local events
+        model.on('beforeLoad', this._onBeforeGroupRead, this);
         model.after('load', this._onGroupReadSuccess, this);
         model.after('error', this._onGroupReadError, this);
         loadMoreButton.on('click', this._onLoadMoreButtonClick, this);
+    },
+
+    /**
+     * Called before the model is loaded
+     *
+     * @private
+     */
+    _onBeforeGroupRead: function () {
+        // Hide button
+        this._hideLoadMoreButton();
+        // Show activity indicator
+        this._showActivityIndicator();
     },
 
     /**
@@ -163,6 +235,17 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * Read more activity indicator node
+         *
+         * {Node}
+         */
+        activityIndicator: {
+            valueFn: function () {
+                return Y.Node.create(this.activityIndicator);
+            }
         },
 
         /**

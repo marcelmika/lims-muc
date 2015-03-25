@@ -49,13 +49,15 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
             page = this.get('page'),
             instance = this;
 
+        // Fire the event
+        this.fire('beforeLoad');
+
         switch (action) {
 
 
             ////////////////////////////////////////////////////////////////////////
             // READ
             ///////////////////////////////////////////////////////////////////////
-
             case 'read':
 
                 // Increase page number if read more options is set to true,

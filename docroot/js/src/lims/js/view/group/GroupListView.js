@@ -17,9 +17,6 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
     // Specify a model to associate with the view.
     model: Y.LIMS.Model.GroupListModel,
 
-    // Template for the activity indicator
-    readMoreActivityIndicator: '<div class="preloader read-more-preloader" />',
-
     /**
      * The initializer runs when the instance is created, and gives
      * us an opportunity to set up the view.
@@ -166,35 +163,6 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
     },
 
     /**
-     * Shows read more activity indicator
-     *
-     * @private
-     */
-    _showReadMoreActivityIndicator: function () {
-        // Vars
-        var indicator = this.get('readMoreActivityIndicator'),
-            container = this.get('container');
-
-        if (!indicator.inDoc()) {
-            container.append(indicator);
-        }
-    },
-
-    /**
-     * Hide read more activity indicator
-     *
-     * @private
-     */
-    _hideReadMoreActivityIndicator: function () {
-        // Vars
-        var indicator = this.get('readMoreActivityIndicator');
-
-        if (indicator.inDoc()) {
-            indicator.remove();
-        }
-    },
-
-    /**
      * Called when the groups model is read
      *
      * @private
@@ -319,15 +287,10 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
                 if (group && !group.hasReachedBottom()) {
                     // Set the flag so we are not going to read multiple times
                     this.set('isReadingMore', true);
-                    // Show the activity indicator
-                    this._showReadMoreActivityIndicator();
-
                     // Load more
                     group.load({readMore: true}, function () {
                         // We are not reading anymore
                         instance.set('isReadingMore', false);
-                        // Hide the preloader
-                        instance._hideReadMoreActivityIndicator();
                     });
                 }
             }
@@ -409,17 +372,6 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
          */
         mouseWheelSubscription: {
             value: null
-        },
-
-        /**
-         * Read more activity indicator node
-         *
-         * {Node}
-         */
-        readMoreActivityIndicator: {
-            valueFn: function () {
-                return Y.Node.create(this.readMoreActivityIndicator);
-            }
         },
 
         /**

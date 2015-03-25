@@ -994,7 +994,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
 
         return sql;
     }
-    
+
     /**
      * Takes sql string from parameter and replaces default user placeholder
      * if set to true in ignoreDefaultUser parameter
