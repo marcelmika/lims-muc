@@ -292,20 +292,32 @@
 		]]>
     </sql>
 
+    <!-- Count all users in the group -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countUserGroupUsers">
+        <![CDATA[
+			SELECT DISTINCT
+				COUNT(Limsmuc_Settings.userId) AS userCount
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				Users_UserGroups ON (Users_UserGroups.userId = User_.userId)
+			INNER JOIN
+			    UserGroup ON (Users_UserGroups.userGroupId = UserGroup.userGroupId)
+			WHERE
+				(User_.userId != ?)
+				AND (UserGroup.userGroupId = ?)
+				[$DEFAULT_USER$]
+				[$DEACTIVATED_USER$]
+		]]>
+    </sql>
+
     <!-- Finds all users and attaches groups to them -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findByUserGroups">
         <![CDATA[
 			SELECT DISTINCT
-			    UserGroup.name AS groupName,
-				User_.userId AS userId,
-				User_.screenName AS screenName,
-				User_.firstName AS firstName,
-				User_.middleName AS middleName,
-				User_.lastName AS lastName,
-				Limsmuc_Settings.presence AS presence,
-				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
-				Limsmuc_Settings.connected AS connected,
-				Limsmuc_Settings.connectedAt AS connectedAt
+				UserGroup.userGroupId AS groupId
 			FROM
 				Limsmuc_Settings
 			INNER JOIN
@@ -325,6 +337,35 @@
 							(Users_UserGroups.userId = ?) [$USERS_GROUPS_WHERE$]
 					)
 				)
+				AND	(User_.userId != ?)
+		]]>
+    </sql>
+
+    <!-- Finds all users and attaches groups to them -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.readUserGroup">
+        <![CDATA[
+			SELECT DISTINCT
+				UserGroup.userGroupId AS groupId,
+			    UserGroup.name AS groupName,
+				User_.userId AS userId,
+				User_.screenName AS screenName,
+				User_.firstName AS firstName,
+				User_.middleName AS middleName,
+				User_.lastName AS lastName,
+				Limsmuc_Settings.presence AS presence,
+				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
+				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedAt AS connectedAt
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				Users_UserGroups ON (Users_UserGroups.userId = User_.userId)
+			INNER JOIN
+			    UserGroup ON (Users_UserGroups.userGroupId = UserGroup.userGroupId)
+			WHERE
+				(UserGroup.userGroupId = ?)
 				AND	(User_.userId != ?)
 				[$DEFAULT_USER$]
 				[$DEACTIVATED_USER$]

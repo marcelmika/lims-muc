@@ -47,10 +47,18 @@ public interface SettingsFinder {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> findUserGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end)
+		java.lang.Long userId, java.lang.String[] excludedGroups)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,

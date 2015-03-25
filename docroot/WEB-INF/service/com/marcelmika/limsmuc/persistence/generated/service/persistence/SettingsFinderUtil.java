@@ -72,13 +72,27 @@ public class SettingsFinderUtil {
 	}
 
 	public static java.util.List<java.lang.Object[]> findUserGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end)
+		java.lang.Long userId, java.lang.String[] excludedGroups)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findUserGroups(userId, excludedGroups);
+	}
+
+	public static java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findUserGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedGroups, start, end);
+				   .countUserGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	public static java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .readUserGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
 	}
 
 	public static java.util.List<java.lang.Object[]> searchSitesBuddies(

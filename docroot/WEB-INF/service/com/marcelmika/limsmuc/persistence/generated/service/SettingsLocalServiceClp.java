@@ -162,68 +162,80 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 				"java.lang.Long", "boolean", "boolean"
 			};
 
-		_methodName30 = "getAllGroups";
+		_methodName30 = "findAllGroups";
 
 		_methodParameterTypes30 = new String[] {
 				"java.lang.Long", "boolean", "boolean", "int", "int"
 			};
 
-		_methodName31 = "countSitesGroupUsers";
+		_methodName31 = "searchAllBuddies";
 
 		_methodParameterTypes31 = new String[] {
+				"java.lang.Long", "java.lang.String", "boolean", "boolean",
+				"int", "int"
+			};
+
+		_methodName32 = "countSitesGroupUsers";
+
+		_methodParameterTypes32 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean"
 			};
 
-		_methodName32 = "findSitesGroups";
+		_methodName33 = "findSitesGroups";
 
-		_methodParameterTypes32 = new String[] {
+		_methodParameterTypes33 = new String[] {
 				"java.lang.Long", "java.lang.String[][]"
 			};
 
-		_methodName33 = "readSitesGroup";
+		_methodName34 = "readSitesGroup";
 
-		_methodParameterTypes33 = new String[] {
+		_methodParameterTypes34 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean", "int",
 				"int"
 			};
 
-		_methodName34 = "getSocialGroups";
-
-		_methodParameterTypes34 = new String[] {
-				"java.lang.Long", "boolean", "boolean", "int[][]", "int", "int"
-			};
-
-		_methodName35 = "getUserGroups";
+		_methodName35 = "searchSitesBuddies";
 
 		_methodParameterTypes35 = new String[] {
-				"java.lang.Long", "boolean", "boolean", "java.lang.String[][]",
-				"int", "int"
-			};
-
-		_methodName36 = "searchSitesBuddies";
-
-		_methodParameterTypes36 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
 
-		_methodName37 = "searchAllBuddies";
+		_methodName36 = "getSocialGroups";
 
-		_methodParameterTypes37 = new String[] {
-				"java.lang.Long", "java.lang.String", "boolean", "boolean",
-				"int", "int"
+		_methodParameterTypes36 = new String[] {
+				"java.lang.Long", "boolean", "boolean", "int[][]", "int", "int"
 			};
 
-		_methodName38 = "searchSocialBuddies";
+		_methodName37 = "searchSocialBuddies";
 
-		_methodParameterTypes38 = new String[] {
+		_methodParameterTypes37 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"int[][]", "int", "int"
 			};
 
-		_methodName39 = "searchUserGroupsBuddies";
+		_methodName38 = "countUserGroupUsers";
+
+		_methodParameterTypes38 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean", "boolean"
+			};
+
+		_methodName39 = "findUserGroups";
 
 		_methodParameterTypes39 = new String[] {
+				"java.lang.Long", "java.lang.String[][]"
+			};
+
+		_methodName40 = "readUserGroup";
+
+		_methodParameterTypes40 = new String[] {
+				"java.lang.Long", "java.lang.Long", "boolean", "boolean", "int",
+				"int"
+			};
+
+		_methodName41 = "searchUserGroupsBuddies";
+
+		_methodParameterTypes41 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
@@ -1099,7 +1111,7 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public java.util.List<java.lang.Object[]> getAllGroups(
+	public java.util.List<java.lang.Object[]> findAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -1140,6 +1152,49 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
+	public java.util.List<java.lang.Object[]> searchAllBuddies(
+		java.lang.Long userId, java.lang.String searchQuery,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName31,
+					_methodParameterTypes31,
+					new Object[] {
+						ClpSerializer.translateInput(userId),
+						
+					ClpSerializer.translateInput(searchQuery),
+						
+					ignoreDefaultUser,
+						
+					ignoreDeactivatedUser,
+						
+					start,
+						
+					end
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
 	public java.lang.Integer countSitesGroupUsers(java.lang.Long userId,
 		java.lang.Long groupId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser)
@@ -1147,8 +1202,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName31,
-					_methodParameterTypes31,
+			returnObj = _invokableLocalService.invokeMethod(_methodName32,
+					_methodParameterTypes32,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1185,8 +1240,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName32,
-					_methodParameterTypes32,
+			returnObj = _invokableLocalService.invokeMethod(_methodName33,
+					_methodParameterTypes33,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1220,8 +1275,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName33,
-					_methodParameterTypes33,
+			returnObj = _invokableLocalService.invokeMethod(_methodName34,
+					_methodParameterTypes34,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1256,93 +1311,6 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public java.util.List<java.lang.Object[]> getSocialGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName34,
-					_methodParameterTypes34,
-					new Object[] {
-						ClpSerializer.translateInput(userId),
-						
-					ignoreDefaultUser,
-						
-					ignoreDeactivatedUser,
-						
-					ClpSerializer.translateInput(relationTypes),
-						
-					start,
-						
-					end
-					});
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public java.util.List<java.lang.Object[]> getUserGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName35,
-					_methodParameterTypes35,
-					new Object[] {
-						ClpSerializer.translateInput(userId),
-						
-					ignoreDefaultUser,
-						
-					ignoreDeactivatedUser,
-						
-					ClpSerializer.translateInput(excludedGroups),
-						
-					start,
-						
-					end
-					});
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
@@ -1351,8 +1319,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName36,
-					_methodParameterTypes36,
+			returnObj = _invokableLocalService.invokeMethod(_methodName35,
+					_methodParameterTypes35,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1389,23 +1357,23 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
-	public java.util.List<java.lang.Object[]> searchAllBuddies(
-		java.lang.Long userId, java.lang.String searchQuery,
-		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<java.lang.Object[]> getSocialGroups(
+		java.lang.Long userId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName37,
-					_methodParameterTypes37,
+			returnObj = _invokableLocalService.invokeMethod(_methodName36,
+					_methodParameterTypes36,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
-						
-					ClpSerializer.translateInput(searchQuery),
 						
 					ignoreDefaultUser,
 						
 					ignoreDeactivatedUser,
+						
+					ClpSerializer.translateInput(relationTypes),
 						
 					start,
 						
@@ -1440,8 +1408,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName38,
-					_methodParameterTypes38,
+			returnObj = _invokableLocalService.invokeMethod(_methodName37,
+					_methodParameterTypes37,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1478,6 +1446,122 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	}
 
 	@Override
+	public java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName38,
+					_methodParameterTypes38,
+					new Object[] {
+						ClpSerializer.translateInput(userId),
+						
+					ClpSerializer.translateInput(groupId),
+						
+					ignoreDefaultUser,
+						
+					ignoreDeactivatedUser
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.Integer)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.util.List<java.lang.Object[]> findUserGroups(
+		java.lang.Long userId, java.lang.String[] excludedGroups)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName39,
+					_methodParameterTypes39,
+					new Object[] {
+						ClpSerializer.translateInput(userId),
+						
+					ClpSerializer.translateInput(excludedGroups)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName40,
+					_methodParameterTypes40,
+					new Object[] {
+						ClpSerializer.translateInput(userId),
+						
+					ClpSerializer.translateInput(groupId),
+						
+					ignoreDefaultUser,
+						
+					ignoreDeactivatedUser,
+						
+					start,
+						
+					end
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<java.lang.Object[]>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
@@ -1486,8 +1570,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName39,
-					_methodParameterTypes39,
+			returnObj = _invokableLocalService.invokeMethod(_methodName41,
+					_methodParameterTypes41,
 					new Object[] {
 						ClpSerializer.translateInput(userId),
 						
@@ -1602,4 +1686,8 @@ public class SettingsLocalServiceClp implements SettingsLocalService {
 	private String[] _methodParameterTypes38;
 	private String _methodName39;
 	private String[] _methodParameterTypes39;
+	private String _methodName40;
+	private String[] _methodParameterTypes40;
+	private String _methodName41;
+	private String[] _methodParameterTypes41;
 }

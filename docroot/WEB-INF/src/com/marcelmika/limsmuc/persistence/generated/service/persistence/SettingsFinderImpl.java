@@ -41,9 +41,11 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     // Count users SQL
     private static final String COUNT_ALL_USERS = SettingsFinder.class.getName() + ".countAllUsers";
     private static final String COUNT_SITES_GROUP_USERS = SettingsFinder.class.getName() + ".countSitesGroupUsers";
+    private static final String COUNT_USER_GROUP_USERS = SettingsFinder.class.getName() + ".countUserGroupUsers";
 
     // Read users SQL
-    private static final String READ_SITES_GROUP_USERS = SettingsFinder.class.getName() + ".readSitesGroup";
+    private static final String READ_SITES_GROUP = SettingsFinder.class.getName() + ".readSitesGroup";
+    private static final String READ_USER_GROUP = SettingsFinder.class.getName() + ".readUserGroup";
 
     // Find users SQL
     private static final String FIND_ALL_USERS = SettingsFinder.class.getName() + ".findAllUsers";
@@ -224,6 +226,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
     public List<Object[]> findSitesGroups(Long userId, String[] excludedSites) throws SystemException {
+
         Session session = null;
 
         try {
@@ -379,22 +382,14 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     /**
      * Returns all user groups where the user belongs
      *
-     * @param userId                of the user whose social relations are we looking for
-     * @param ignoreDefaultUser     true if default users should be ignored
-     * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param excludedGroups        list of names of groups which should be excluded
-     * @param start                 value of the list
-     * @param end                   value of the list
+     * @param userId         of the user whose social relations are we looking for
+     * @param excludedGroups list of names of groups which should be excluded
      * @return List objects where each object contains group name and user info
      * @throws SystemException
      */
+    @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findUserGroups(Long userId,
-                                         boolean ignoreDefaultUser,
-                                         boolean ignoreDeactivatedUser,
-                                         String[] excludedGroups,
-                                         int start,
-                                         int end) throws SystemException {
+    public List<Object[]> findUserGroups(Long userId, String[] excludedGroups) throws SystemException {
 
         Session session = null;
 
@@ -402,12 +397,113 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             // Open database session
             session = openSession();
             // Generate SQL
-            String sql = getFindByUserGroupsSQL(ignoreDefaultUser, ignoreDeactivatedUser, excludedGroups);
+            String sql = getFindByUserGroupsSQL(excludedGroups);
 
             // Create query from sql
             SQLQuery query = session.createSQLQuery(sql);
 
             // Now we need to map types to columns
+            query.addScalar("groupId", Type.LONG);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(userId);
+            if (excludedGroups.length > 0) {
+                queryPos.add(excludedGroups);
+            }
+            queryPos.add(userId);
+
+            // Return the result
+            return (List<Object[]>) QueryUtil.list(query, getDialect(), 0, 100);
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
+    /**
+     * Counts a number of users who belong to the particular user group
+     *
+     * @param userId                of excluded user
+     * @param groupId               of the group
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Integer> is unchecked
+    public Integer countUserGroupUsers(Long userId,
+                                       Long groupId,
+                                       boolean ignoreDefaultUser,
+                                       boolean ignoreDeactivatedUser) throws SystemException {
+
+        Session session = null;
+
+        try {
+            // Open the database session
+            session = openSession();
+            // Generate SQL
+            String sql = getCountUserGroupUsersSQL(ignoreDefaultUser, ignoreDeactivatedUser);
+
+            // Create query from SQL
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now we need to map types to columns
+            query.addScalar("userCount", Type.INTEGER);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(userId);
+            queryPos.add(groupId);
+
+            // Get the result
+            List<Integer> result = (List<Integer>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // Return the count
+            return result.get(0);
+
+        } finally {
+            // Session needs to be closed at the end
+            closeSession(session);
+        }
+    }
+
+    /**
+     * Returns user group and their users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public List<Object[]> readUserGroup(Long userId,
+                                        Long groupId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser,
+                                        int start,
+                                        int end) throws SystemException {
+
+        Session session = null;
+
+        try {
+
+            // Open database session
+            session = openSession();
+            // Generate SQL
+            String sql = getReadUserGroupSQL(ignoreDefaultUser, ignoreDeactivatedUser);
+
+            // Create query from sql
+            SQLQuery query = session.createSQLQuery(sql);
+
+            query.addScalar("groupId", Type.LONG);
             query.addScalar("groupName", Type.STRING);
             query.addScalar("userId", Type.LONG);
             query.addScalar("screenName", Type.STRING);
@@ -421,10 +517,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
 
             // Add parameters to query
             QueryPos queryPos = QueryPos.getInstance(query);
-            queryPos.add(userId);
-            if (excludedGroups.length > 0) {
-                queryPos.add(excludedGroups);
-            }
+            queryPos.add(groupId);
             queryPos.add(userId);
 
             // Return the result
@@ -863,6 +956,27 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     }
 
     /**
+     * Generates SQL for count user group users query
+     *
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return SQL string for the query
+     */
+    private String getCountUserGroupUsersSQL(boolean ignoreDefaultUser,
+                                             boolean ignoreDeactivatedUser) {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        String sql = CustomSQLUtil.get(COUNT_USER_GROUP_USERS);
+
+        // Add ignore default user query if needed
+        sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
+        sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
+
+        return sql;
+    }
+
+
+    /**
      * Generates SQL for count sites group users query
      *
      * @param ignoreDefaultUser     true if default users should be ignored
@@ -910,7 +1024,28 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
                                         boolean ignoreDeactivatedUser) {
 
         // Get custom query sql (check /src/custom-sql/default.xml)
-        String sql = CustomSQLUtil.get(READ_SITES_GROUP_USERS);
+        String sql = CustomSQLUtil.get(READ_SITES_GROUP);
+
+        // Map properties to sql
+        sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
+        sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
+
+        return sql;
+    }
+
+
+    /**
+     * Generates SQL for read user group query
+     *
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return SQL string for read user group query
+     */
+    private String getReadUserGroupSQL(boolean ignoreDefaultUser,
+                                       boolean ignoreDeactivatedUser) {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        String sql = CustomSQLUtil.get(READ_USER_GROUP);
 
         // Map properties to sql
         sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
@@ -945,21 +1080,15 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     /**
      * Generates SQL for find by user groups query
      *
-     * @param ignoreDefaultUser     true if default users should be ignored
-     * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param excludedGroups        names of groups that should be excluded from the query
+     * @param excludedGroups names of groups that should be excluded from the query
      * @return SQL string for find by sites groups query
      */
-    private String getFindByUserGroupsSQL(boolean ignoreDefaultUser,
-                                          boolean ignoreDeactivatedUser,
-                                          String[] excludedGroups) {
+    private String getFindByUserGroupsSQL(String[] excludedGroups) {
 
         // Get custom query sql (check /src/custom-sql/default.xml)
         String sql = CustomSQLUtil.get(FIND_BY_USER_GROUPS);
 
         // Add ignore user queries if needed
-        sql = addIgnoreDefaultUserToSql(sql, ignoreDefaultUser);
-        sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
         sql = addExcludedUserGroupsToSQL(sql, excludedGroups);
 
         return sql;

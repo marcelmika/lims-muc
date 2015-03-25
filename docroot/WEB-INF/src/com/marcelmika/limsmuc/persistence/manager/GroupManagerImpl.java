@@ -85,7 +85,7 @@ public class GroupManagerImpl implements GroupManager {
         }
         // User Groups
         else if (strategy == BuddyListStrategy.USER_GROUPS) {
-            return getUserGroups(userId, true, ignoreDeactivatedUser, excludedGroups, start, end);
+            return findUserGroups(userId, true, ignoreDeactivatedUser, excludedGroups, page);
         }
         // Unknown
         else {
@@ -116,6 +116,10 @@ public class GroupManagerImpl implements GroupManager {
         // Sites group
         else if (listStrategy == BuddyListStrategy.SITES) {
             return readSitesGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+        }
+        // User group
+        else if (listStrategy == BuddyListStrategy.USER_GROUPS) {
+            return readUserGroup(userId, groupId, true, ignoreDeactivatedUser, page);
         }
         // Unknown
         else {
@@ -175,7 +179,7 @@ public class GroupManagerImpl implements GroupManager {
         page.setTotalPages((int) Math.ceil(totalElements / (double) size));
 
         // Get users from persistence
-        List<Object[]> users = SettingsLocalServiceUtil.getAllGroups(
+        List<Object[]> users = SettingsLocalServiceUtil.findAllGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
 
@@ -223,7 +227,7 @@ public class GroupManagerImpl implements GroupManager {
 
         for (Object object : groupIds) {
 
-            // Get the group Id
+            // Get the group id
             Long groupId = (Long) object;
             // Read the group
             Group group = readSitesGroup(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, page);
@@ -265,7 +269,7 @@ public class GroupManagerImpl implements GroupManager {
         int start = number * size;
         int end = start + size;
 
-        // Get sites groups
+        // Get sites group
         List<Object[]> objects = SettingsLocalServiceUtil.readSitesGroup(
                 userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
@@ -301,7 +305,7 @@ public class GroupManagerImpl implements GroupManager {
                 group.setListStrategy(BuddyListStrategy.SITES);
             }
 
-            // Deserialize buddy from object, buddy starts at 1
+            // Deserialize buddy from object, buddy starts at 2
             Buddy buddy = Buddy.fromPlainObject(object, 2);
 
             // Add it to group
@@ -472,56 +476,103 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param excludedGroups        names of groups that should be excluded from the group collection
-     * @param start                 of the list
-     * @param end                   of the list
      * @return GroupCollection
      * @throws Exception
      */
-    private GroupCollection getUserGroups(Long userId,
-                                          boolean ignoreDefaultUser,
-                                          boolean ignoreDeactivatedUser,
-                                          String[] excludedGroups,
-                                          int start,
-                                          int end) throws Exception {
+    private GroupCollection findUserGroups(Long userId,
+                                           boolean ignoreDefaultUser,
+                                           boolean ignoreDeactivatedUser,
+                                           String[] excludedGroups,
+                                           Page page) throws Exception {
 
         // Get user groups
-        List<Object[]> groupObjects = SettingsLocalServiceUtil.getUserGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedGroups, start, end
+        List<Object[]> groupIds = SettingsLocalServiceUtil.findUserGroups(userId, excludedGroups);
+
+        // Create group collection
+        GroupCollection groupCollection = new GroupCollection();
+
+        for (Object object : groupIds) {
+
+            // Get the group id
+            Long groupId = (Long) object;
+            // Read the group
+            Group group = readUserGroup(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, page);
+
+            // Add to collection
+            groupCollection.addGroup(group);
+        }
+
+        // Add last modified date
+        groupCollection.setLastModified(Calendar.getInstance().getTime());
+        // Set list strategy
+        groupCollection.setListStrategy(BuddyListStrategy.USER_GROUPS);
+
+        return groupCollection;
+    }
+
+    /**
+     * Returns user group and their users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param page                  pagination object
+     * @return Group
+     * @throws Exception
+     */
+    private Group readUserGroup(Long userId,
+                                Long groupId,
+                                boolean ignoreDefaultUser,
+                                boolean ignoreDeactivatedUser,
+                                Page page) throws Exception {
+
+        // Get number and size
+        int number = page.getNumber();
+        int size = page.getSize();
+
+        // Calculated start and end
+        int start = number * size;
+        int end = start + size;
+
+        // Get user group
+        List<Object[]> objects = SettingsLocalServiceUtil.readUserGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
 
-        // We are about to build a collection of groups that will contain
-        // users within the groups. However, we only get "flat" object which contains
-        // both group data and user data. Thus we need to create a hash map that will
-        // hold each group under the unique key (groupName). This should improve the
-        // speed of mapping since we can reuse groups that we already mapped.
-        Map<String, Group> groupMap = new HashMap<String, Group>();
+        // Prepare group
+        Group group = null;
 
         // Because all group requests are cached we need to determine what was the latest modified
         // date. If the user modifies his presence we need to change the etag so the client will load
         // it from server.
         Date lastModifiedDate = new Date(0);
 
-        // Build groups and users
-        for (Object[] object : groupObjects) {
+        for (Object[] object : objects) {
 
-            // Deserialize group from object, group starts with 0
-            Group group = Group.fromPlainObject(object, 0);
+            // Parse group if this is the first iteration
+            if (group == null) {
+                // Deserialize group from object, group starts with 0
+                group = Group.fromPlainObject(object, 0);
+                // Count the size of the user groups
+                Integer totalElements = SettingsLocalServiceUtil.countUserGroupUsers(
+                        userId, group.getGroupId(), ignoreDefaultUser, ignoreDeactivatedUser
+                );
 
-            // Check if the group is already cached
-            if (groupMap.get(group.getName()) == null) {
+                // Create page
+                Page groupPage = new Page();
+                groupPage.setNumber(number);
+                groupPage.setSize(size);
+                groupPage.setTotalElements(totalElements);
+                groupPage.setTotalPages((int) Math.ceil(totalElements / (double) size));
 
-                // TODO: Take the real group id
-//                group.setGroupId(group.getName());
+                // Add page and set list strategy
+                group.setPage(groupPage);
                 group.setListStrategy(BuddyListStrategy.USER_GROUPS);
-
-                // Cache it
-                groupMap.put(group.getName(), group);
             }
 
-            group = groupMap.get(group.getName());
-
-            // Deserialize buddy from object, buddy starts at 1
-            Buddy buddy = Buddy.fromPlainObject(object, 1);
+            // Deserialize buddy from object, buddy starts at 2
+            Buddy buddy = Buddy.fromPlainObject(object, 2);
 
             // Add it to group
             group.addBuddy(buddy);
@@ -532,17 +583,6 @@ public class GroupManagerImpl implements GroupManager {
             }
         }
 
-        // Create group collection
-        GroupCollection groupCollection = new GroupCollection();
-        // Add groups to collection
-        for (Group group : groupMap.values()) {
-            groupCollection.addGroup(group);
-        }
-        // Add last modified date
-        groupCollection.setLastModified(lastModifiedDate);
-        // Set list strategy
-        groupCollection.setListStrategy(BuddyListStrategy.USER_GROUPS);
-
-        return groupCollection;
+        return group;
     }
 }
