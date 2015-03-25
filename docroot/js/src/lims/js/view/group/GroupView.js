@@ -19,6 +19,9 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
     // This customizes the HTML used for this view's container node.
     containerTemplate: '<li class="group-item"/>',
 
+    // Template for read more button
+    loadMoreButtonTemplate: '<div class="load-more" />',
+
     // Specify an optional model to associate with the view.
     model: Y.LIMS.Model.GroupModel,
 
@@ -45,6 +48,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         var container = this.get('container'),
             model = this.get('model'),
             socialRelation = model.get('socialRelation'),
+            loadMoreButton = this.get('loadMoreButton'),
             buddiesView,
             name;
 
@@ -76,6 +80,11 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         buddiesView = new Y.LIMS.View.GroupBuddyListView({model: model.get('buddies')});
         buddiesView.render();
         container.append(buddiesView.get("container"));
+
+        // Read more button
+        if (!model.hasReachedBottom()) {
+            container.append(loadMoreButton);
+        }
 
         return this;
     },
@@ -137,8 +146,25 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * Read More Button node
+         *
+         * {Node}
+         */
+        loadMoreButton: {
+            valueFn: function () {
+                // Vars
+                var node = Y.Node.create(this.loadMoreButtonTemplate);
+
+                // TODO: i18n
+                // Set button content
+                node.set('innerHTML', "Load More");
+
+                return node;
+            }
         }
     }
-
 });
 

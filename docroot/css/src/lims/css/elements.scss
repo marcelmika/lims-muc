@@ -69,8 +69,7 @@
     padding: 4px 10px;
     border: 1px solid #ccc;
     cursor: pointer;
-    // Rounded corners
-    @include border-radius(5px);
+    font-size: 12px;
     // Make the button unselectable
     @include no-select();
     @include box-shadow(0 1px 0 rgba(255, 255, 255, 0.75) inset, 0 -1px 0 rgba(0, 0, 0, 0.15) inset);
@@ -114,10 +113,13 @@
     border-color: rgba(178, 217, 241, 0.62);
   }
 
-  .button-secondary:hover {
-    color: #fff;
-    border-color: #629CCE;
-    background: #74B3EB;
+  .button-secondary {
+    &:hover,
+    &:focus {
+      color: #fff;
+      border-color: #629CCE;
+      background: #74B3EB;
+    }
   }
 
   .button-default:hover,

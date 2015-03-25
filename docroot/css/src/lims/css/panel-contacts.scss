@@ -95,6 +95,40 @@
     height: 20px;
   }
 
+  .load-more {
+    position: relative;
+    z-index: 1;
+    width: 230px;
+    padding: 3px 10px 1px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid rgb(229, 229, 229);
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+    outline: 0;
+    @include no-select();
+    @include box-shadow(none);
+  }
+
+  .load-more:before {
+    content: "";
+    position: absolute;
+    background: #f8f8f8;
+    border:none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    z-index: -1;
+    @include transition(bottom 0.2s ease-in);
+  }
+
+  .load-more:hover:before {
+    bottom: 0;
+  }
+
+
   ////////////////////////////////////////////
   // PANEL CONTENT                          //
   ////////////////////////////////////////////
