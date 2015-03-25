@@ -66,7 +66,7 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
         Page page = new Page();
         page.setNumber(0); // We are always starting from the beginning
         // TODO: Take from Environment.getBuddyListMaxBuddies();
-        page.setSize(5);
+        page.setSize(10);
 
         try {
             // Get groups from manager
@@ -109,6 +109,13 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
         // Get group from manager
         try {
             Group group = groupManager.getGroup(buddy.getBuddyId(), event.getGroupId(), event.getListStrategy(), page);
+
+            // Not found
+            if (group == null) {
+                return GetGroupResponseEvent.failure(
+                        GetGroupResponseEvent.Status.ERROR_NOT_FOUND
+                );
+            }
 
             // Success
             return GetGroupResponseEvent.success(group.toGroupDetails());

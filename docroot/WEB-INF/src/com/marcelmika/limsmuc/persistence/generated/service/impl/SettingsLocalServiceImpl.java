@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p/>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p/>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.model.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.base.SettingsLocalServiceBaseImpl;
 
@@ -246,7 +245,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         List<Long> connectedUsers = new LinkedList<Long>();
 
         // Map to list of ids
-        for(Settings settings : results) {
+        for (Settings settings : results) {
             //
             connectedUsers.add(settings.getUserId());
         }
@@ -284,8 +283,8 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      */
     @Override
     public Integer countAllUsers(Long userId,
-                                  boolean ignoreDefaultUser,
-                                  boolean ignoreDeactivatedUser) throws SystemException {
+                                 boolean ignoreDefaultUser,
+                                 boolean ignoreDeactivatedUser) throws SystemException {
         // Count via settings finder
         return settingsFinder.countAllUsers(userId, ignoreDefaultUser, ignoreDeactivatedUser);
     }
@@ -336,24 +335,38 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * Returns all groups where the user participates
      *
      * @param userId                of the user whose groups are we looking for
-     * @param ignoreDefaultUser     true if default users should be ignored
-     * @param ignoreDeactivatedUser true if deactivated users should be ignored
      * @param excludedSites         list of names of sites which should be excluded
-     * @param start                 value of the list
-     * @param end                   value of the list
      * @return List of objects where each object contains group name and user info
      * @throws SystemException
      */
     @Override
-    public List<Object[]> getSitesGroups(Long userId,
+    public List<Object[]> findSitesGroups(Long userId, String[] excludedSites) throws SystemException {
+        // Find via settings finder
+        return settingsFinder.findSitesGroups(userId, excludedSites);
+    }
+
+    /**
+     * Returns group and their users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> readSitesGroup(Long userId,
+                                         Long groupId,
                                          boolean ignoreDefaultUser,
                                          boolean ignoreDeactivatedUser,
-                                         String[] excludedSites,
                                          int start,
                                          int end) throws SystemException {
         // Find via settings finder
-        return settingsFinder.findSitesGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
+        return settingsFinder.readSitesGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
     }
 

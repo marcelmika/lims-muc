@@ -48,13 +48,18 @@ public class SettingsFinderUtil {
 	}
 
 	public static java.util.List<java.lang.Object[]> findSitesGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end)
+		java.lang.Long userId, java.lang.String[] excludedSites)
 		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findSitesGroups(userId, excludedSites);
+	}
+
+	public static java.util.List<java.lang.Object[]> readSitesGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findSitesGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedSites, start, end);
+				   .readSitesGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
 	}
 
 	public static java.util.List<java.lang.Object[]> findSocialGroups(

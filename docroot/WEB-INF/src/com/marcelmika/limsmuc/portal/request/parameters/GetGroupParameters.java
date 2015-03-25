@@ -50,8 +50,9 @@ public class GetGroupParameters {
     @Override
     public String toString() {
         return "GetGroupParameters{" +
-                "listStrategy=" + listStrategy +
-                ", groupId='" + groupId + '\'' +
+                "groupId=" + groupId +
+                ", listStrategy=" + listStrategy +
+                ", number=" + number +
                 '}';
     }
 }

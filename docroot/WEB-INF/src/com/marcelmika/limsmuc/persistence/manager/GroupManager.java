@@ -30,7 +30,7 @@ public interface GroupManager {
      * @return GroupCollection of groups related to the user
      * @throws Exception
      */
-    public GroupCollection getGroups(Long userId, Page page) throws Exception;
+    GroupCollection getGroups(Long userId, Page page) throws Exception;
 
     /**
      * Returns Group
@@ -42,6 +42,6 @@ public interface GroupManager {
      * @return Group
      * @throws Exception
      */
-    public Group getGroup(Long userId, Long groupId, BuddyListStrategy listStrategy, Page page) throws Exception;
+    Group getGroup(Long userId, Long groupId, BuddyListStrategy listStrategy, Page page) throws Exception;
 
 }

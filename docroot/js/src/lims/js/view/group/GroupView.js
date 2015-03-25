@@ -96,11 +96,13 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
      */
     _attachEvents: function () {
         // Vars
-        var model = this.get('model');
+        var model = this.get('model'),
+            loadMoreButton = this.get('loadMoreButton');
 
         // Local events
         model.after('load', this._onGroupReadSuccess, this);
         model.after('error', this._onGroupReadError, this);
+        loadMoreButton.on('click', this._onLoadMoreButtonClick, this);
     },
 
     /**
@@ -120,6 +122,21 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
     _onGroupReadError: function () {
         // TODO: Decide what to do
         console.log('error');
+    },
+
+    /**
+     * Called when user clicks on load more button
+     *
+     * @private
+     */
+    _onLoadMoreButtonClick: function () {
+        // Vars
+        var model = this.get('model');
+
+        // Load the model
+        model.load({
+            readMore: true
+        });
     }
 
 }, {

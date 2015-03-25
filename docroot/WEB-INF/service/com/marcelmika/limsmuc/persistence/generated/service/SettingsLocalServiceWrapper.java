@@ -452,6 +452,16 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 			ignoreDeactivatedUser, start, end);
 	}
 
+	/**
+	* Counts a number of users who belong to the particular site
+	*
+	* @param userId                of excluded user
+	* @param groupId               of the group
+	* @param ignoreDefaultUser     true if default users should be ignored
+	* @param ignoreDeactivatedUser true if deactivated users should be ignored
+	* @return number of users
+	* @throws SystemException
+	*/
 	@Override
 	public java.lang.Integer countSitesGroupUsers(java.lang.Long userId,
 		java.lang.Long groupId, boolean ignoreDefaultUser,
@@ -465,22 +475,36 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* Returns all groups where the user participates
 	*
 	* @param userId                of the user whose groups are we looking for
-	* @param ignoreDefaultUser     true if default users should be ignored
-	* @param ignoreDeactivatedUser true if deactivated users should be ignored
 	* @param excludedSites         list of names of sites which should be excluded
-	* @param start                 value of the list
-	* @param end                   value of the list
 	* @return List of objects where each object contains group name and user info
 	* @throws SystemException
 	*/
 	@Override
-	public java.util.List<java.lang.Object[]> getSitesGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end)
+	public java.util.List<java.lang.Object[]> findSitesGroups(
+		java.lang.Long userId, java.lang.String[] excludedSites)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _settingsLocalService.getSitesGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedSites, start, end);
+		return _settingsLocalService.findSitesGroups(userId, excludedSites);
+	}
+
+	/**
+	* Returns group and their users based on the page parameter
+	*
+	* @param userId                which should be excluded from the list
+	* @param groupId               id of the group
+	* @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+	* @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+	* @param start                 value of the list
+	* @param end                   value of the list
+	* @return Group
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<java.lang.Object[]> readSitesGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.readSitesGroup(userId, groupId,
+			ignoreDefaultUser, ignoreDeactivatedUser, start, end);
 	}
 
 	/**
