@@ -27,6 +27,11 @@ public interface SettingsFinder {
 		boolean ignoreDeactivatedUser, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public java.util.List<java.lang.Object[]> searchAllBuddies(
+		java.lang.Long userId, java.lang.String searchQuery,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.lang.Integer countSitesGroupUsers(java.lang.Long userId,
 		java.lang.Long groupId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser)
@@ -41,33 +46,23 @@ public interface SettingsFinder {
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> findSocialGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public java.util.List<java.lang.Object[]> findUserGroups(
-		java.lang.Long userId, java.lang.String[] excludedGroups)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public java.lang.Integer countUserGroupUsers(java.lang.Long userId,
-		java.lang.Long groupId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public java.util.List<java.lang.Object[]> readUserGroup(
-		java.lang.Long userId, java.lang.Long groupId,
-		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
-
 	public java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		java.lang.String[] excludedSites, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<java.lang.Object[]> searchAllBuddies(
-		java.lang.Long userId, java.lang.String searchQuery,
+	public java.lang.Integer countSocialGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<java.lang.Object[]> findSocialGroups(
+		java.lang.Long userId, int[] relationTypes)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<java.lang.Object[]> readSocialGroup(
+		java.lang.Long userId, java.lang.Long groupId,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -76,6 +71,20 @@ public interface SettingsFinder {
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,
 		int[] relationTypes, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<java.lang.Object[]> findUserGroups(
+		java.lang.Long userId, java.lang.String[] excludedGroups)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,

@@ -22,10 +22,8 @@ import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalService
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ing. Marcel Mika
@@ -63,27 +61,25 @@ public class GroupManagerImpl implements GroupManager {
         // Relation types
         BuddyListSocialRelation[] relationTypes = Environment.getBuddyListSocialRelations();
 
-        // All buddies
+        // All
         if (strategy == BuddyListStrategy.ALL) {
             return findAllGroup(userId, true, ignoreDeactivatedUser, page);
         }
-        // Buddies from sites
+        // Sites
         else if (strategy == BuddyListStrategy.SITES) {
             return findSitesGroups(userId, true, ignoreDeactivatedUser, excludedSites, page);
         }
-        // Socialized buddies
+        // Social
         else if (strategy == BuddyListStrategy.SOCIAL) {
-            return getSocialGroups(
-                    userId, true, ignoreDeactivatedUser, relationTypes, start, end
-            );
+            return findSocialGroups(userId, true, ignoreDeactivatedUser, relationTypes, page);
         }
-        // Socialized and buddies from sites
+        // Sites,Social
         else if (strategy == BuddyListStrategy.SITES_AND_SOCIAL) {
             return getSitesAndSocialGroups(
                     userId, true, ignoreDeactivatedUser, excludedSites, relationTypes, start, end
             );
         }
-        // User Groups
+        // User Group
         else if (strategy == BuddyListStrategy.USER_GROUPS) {
             return findUserGroups(userId, true, ignoreDeactivatedUser, excludedGroups, page);
         }
@@ -109,13 +105,17 @@ public class GroupManagerImpl implements GroupManager {
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
 
-        // All buddies
+        // All
         if (listStrategy == BuddyListStrategy.ALL) {
             return readAllGroup(userId, true, ignoreDeactivatedUser, page);
         }
-        // Sites group
+        // Sites
         else if (listStrategy == BuddyListStrategy.SITES) {
             return readSitesGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+        }
+        // Social
+        else if (listStrategy == BuddyListStrategy.SOCIAL) {
+            return readSocialGroup(userId, groupId, true, ignoreDeactivatedUser, page);
         }
         // User group
         else if (listStrategy == BuddyListStrategy.USER_GROUPS) {
@@ -126,6 +126,11 @@ public class GroupManagerImpl implements GroupManager {
             throw new Exception("Unknown buddy list strategy");
         }
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ALL GROUP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Returns group collection which contains all buddies in the system.
@@ -156,6 +161,16 @@ public class GroupManagerImpl implements GroupManager {
         return groupCollection;
     }
 
+    /**
+     * Returns group and its users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param page                  pagination object
+     * @return Group
+     * @throws Exception
+     */
     private Group readAllGroup(Long userId,
                                boolean ignoreDefaultUser,
                                boolean ignoreDeactivatedUser,
@@ -201,6 +216,11 @@ public class GroupManagerImpl implements GroupManager {
         return group;
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SITES GROUP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns group collection which contains groups that represents sites where the user participates.
      * The groups contain all users that are within except for the user given in param.
@@ -245,7 +265,7 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     /**
-     * Returns group and their users based on the page parameter
+     * Returns group and its users based on the page parameter
      *
      * @param userId                which should be excluded from the list
      * @param groupId               id of the group
@@ -320,6 +340,11 @@ public class GroupManagerImpl implements GroupManager {
         return group;
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SOCIAL GROUP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns group collection which contains groups that represent social relations of the user.
      * The groups contain all users that are within except for the user given in param.
@@ -328,17 +353,15 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param relationTypes         an array of relation type enums
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param page                  pagination object
      * @return GroupCollection
      * @throws Exception
      */
-    private GroupCollection getSocialGroups(Long userId,
-                                            boolean ignoreDefaultUser,
-                                            boolean ignoreDeactivatedUser,
-                                            BuddyListSocialRelation[] relationTypes,
-                                            int start,
-                                            int end) throws Exception {
+    private GroupCollection findSocialGroups(Long userId,
+                                             boolean ignoreDefaultUser,
+                                             boolean ignoreDeactivatedUser,
+                                             BuddyListSocialRelation[] relationTypes,
+                                             Page page) throws Exception {
 
         // Get int codes from relation types since the persistence only consumes an int array.
         int[] relationCodes = new int[relationTypes.length];
@@ -347,50 +370,111 @@ public class GroupManagerImpl implements GroupManager {
         }
 
         // Get social groups
-        List<Object[]> groupObjects = SettingsLocalServiceUtil.getSocialGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationCodes, start, end
+        List<Object[]> groupIds = SettingsLocalServiceUtil.findSocialGroups(userId, relationCodes);
+
+        // Create group collection
+        GroupCollection groupCollection = new GroupCollection();
+
+        for (Object object : groupIds) {
+
+            // Get the group id
+            Long groupId = (Long) object;
+            // Read the group
+            Group group = readSocialGroup(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, page);
+
+            // Add to collection
+            groupCollection.addGroup(group);
+        }
+
+        // Add last modified date
+        groupCollection.setLastModified(Calendar.getInstance().getTime());
+        // Set list strategy
+        groupCollection.setListStrategy(BuddyListStrategy.SOCIAL);
+
+        return groupCollection;
+    }
+
+    /**
+     * Returns social group and its users
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param page                  pagination object
+     * @return Group
+     * @throws Exception
+     */
+    private Group readSocialGroup(Long userId,
+                                  Long groupId,
+                                  boolean ignoreDefaultUser,
+                                  boolean ignoreDeactivatedUser,
+                                  Page page) throws Exception {
+
+        // Get number and size
+        int number = page.getNumber();
+        int size = page.getSize();
+
+        // Calculated start and end
+        int start = number * size;
+        int end = start + size;
+
+        // Get user group
+        List<Object[]> objects = SettingsLocalServiceUtil.readSocialGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
 
-        // We are about to build a collection of groups that will contain
-        // users within the groups. However, we only get "flat" object which contains
-        // both group data and user data. Thus we need to create a hash map that will
-        // hold each group under the unique key (groupName). This should improved the
-        // speed of mapping since we can reuse groups that we already mapped.
-        Map<String, Group> groupMap = new HashMap<String, Group>();
+        // Prepare group
+        Group group = null;
 
         // Because all group requests are cached we need to determine what was the latest modified
         // date. If the user modifies his presence we need to change the etag so the client will load
         // it from server.
         Date lastModifiedDate = new Date(0);
 
-        // Build groups and users
-        for (Object[] object : groupObjects) {
-            // Relation type is first element
-            Integer relationCode = (Integer) object[0];
-            // Map to enum
-            BuddyListSocialRelation relationType = BuddyListSocialRelation.fromCode(relationCode);
-            // Get group name from relation type description
-            String groupName = relationType.getDescription();
+        for (Object[] object : objects) {
 
-            // Get cached group
-            Group group = groupMap.get(groupName);
+            // Parse group if this is the first iteration
+            if (group == null) {
 
-            // Check if the group is already cached
-            if (groupMap.get(groupName) == null) {
+                // Group id is the first element
+                Long parsedGroupId = (Long) object[0];
+
+                // Create group
                 group = new Group();
+                group.setGroupId(parsedGroupId);
 
-                // TODO: Take real group id
-//                group.setGroupId(1);
-                group.setName(groupName);
+                // Count the size of the group
+                Integer totalElements = SettingsLocalServiceUtil.countSocialGroupUsers(
+                        userId, parsedGroupId, ignoreDefaultUser, ignoreDeactivatedUser
+                );
+
+                // Create page
+                Page groupPage = new Page();
+                groupPage.setNumber(number);
+                groupPage.setSize(size);
+                groupPage.setTotalElements(totalElements);
+                groupPage.setTotalPages((int) Math.ceil(totalElements / (double) size));
+
+                // Add page and set list strategy
+                group.setPage(groupPage);
                 group.setListStrategy(BuddyListStrategy.SOCIAL);
+
+                // Relation type is the second element
+                Integer relationCode = (Integer) object[1];
+                // Map to enum
+                BuddyListSocialRelation relationType = BuddyListSocialRelation.fromCode(relationCode);
+
+                // Set relation type
                 group.setSocialRelation(relationType);
 
-                // Cache it
-                groupMap.put(groupName, group);
+                // Get group name from relation type description
+                String groupName = relationType.getDescription();
+                group.setName(groupName);
             }
 
-            // Deserialize buddy from object, buddy start at 1
-            Buddy buddy = Buddy.fromPlainObject(object, 1);
+            // Deserialize buddy from object, buddy starts at 2
+            Buddy buddy = Buddy.fromPlainObject(object, 2);
 
             // Add it to group
             group.addBuddy(buddy);
@@ -401,20 +485,14 @@ public class GroupManagerImpl implements GroupManager {
             }
         }
 
-        // Create group collection
-        GroupCollection groupCollection = new GroupCollection();
-        // Add groups to collection
-        for (Group group : groupMap.values()) {
-            groupCollection.addGroup(group);
-        }
-
-        // Add last modified date
-        groupCollection.setLastModified(lastModifiedDate);
-        // Set list strategy
-        groupCollection.setListStrategy(BuddyListStrategy.SOCIAL);
-
-        return groupCollection;
+        return group;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SITES AND SOCIAL GROUP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Returns group collection which contains groups that represent social relations of the user.
@@ -442,14 +520,16 @@ public class GroupManagerImpl implements GroupManager {
 //                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
 //        );
         // Get social groups
-        GroupCollection socialGroupCollection = getSocialGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
-        );
+//        GroupCollection socialGroupCollection = findSocialGroups(
+//                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
+//        );
+
+//        findSitesGroups()
 
         // Merge site and social groups
         List<Group> mergedGroups = new LinkedList<Group>();
 //        mergedGroups.addAll(sitesGroupCollection.getGroups());
-        mergedGroups.addAll(socialGroupCollection.getGroups());
+//        mergedGroups.addAll(socialGroupCollection.getGroups());
 
         // Merge
         GroupCollection groupCollection = new GroupCollection();
@@ -468,6 +548,11 @@ public class GroupManagerImpl implements GroupManager {
         return groupCollection;
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // USER GROUP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns group collection which contains user groups where the user belongs.
      * The groups contain all users that are within except for the users given in param
@@ -476,6 +561,7 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param excludedGroups        names of groups that should be excluded from the group collection
+     * @param page                  pagination object
      * @return GroupCollection
      * @throws Exception
      */
@@ -511,7 +597,7 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     /**
-     * Returns user group and their users based on the page parameter
+     * Returns user group and their its users
      *
      * @param userId                which should be excluded from the list
      * @param groupId               id of the group
@@ -554,7 +640,7 @@ public class GroupManagerImpl implements GroupManager {
             if (group == null) {
                 // Deserialize group from object, group starts with 0
                 group = Group.fromPlainObject(object, 0);
-                // Count the size of the user groups
+                // Count the size of the group
                 Integer totalElements = SettingsLocalServiceUtil.countUserGroupUsers(
                         userId, group.getGroupId(), ignoreDefaultUser, ignoreDeactivatedUser
                 );

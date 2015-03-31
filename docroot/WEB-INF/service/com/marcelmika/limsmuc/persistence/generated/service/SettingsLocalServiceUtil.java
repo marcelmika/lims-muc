@@ -455,7 +455,7 @@ public class SettingsLocalServiceUtil {
 	/**
 	* Counts a number of users who belong to the particular site
 	*
-	* @param userId                of excluded user
+	* @param userId                id of the excluded user
 	* @param groupId               of the group
 	* @param ignoreDefaultUser     true if default users should be ignored
 	* @param ignoreDeactivatedUser true if deactivated users should be ignored
@@ -472,9 +472,9 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns all groups where the user participates
+	* Returns sites groups ids where the user belongs
 	*
-	* @param userId                of the user whose groups are we looking for
+	* @param userId                id of the user
 	* @param excludedSites         list of names of sites which should be excluded
 	* @return List of objects where each object contains group name and user info
 	* @throws SystemException
@@ -486,7 +486,7 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns group and its users based on the page parameter
+	* Returns sites group and its user
 	*
 	* @param userId                which should be excluded from the list
 	* @param groupId               id of the group
@@ -530,24 +530,57 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns all user's social relations
+	* Counts a number of users who belong to the particular social group
 	*
-	* @param userId                of the user whose social relations are we looking for
+	* @param userId                of excluded user
+	* @param groupId               of the group
 	* @param ignoreDefaultUser     true if default users should be ignored
 	* @param ignoreDeactivatedUser true if deactivated users should be ignored
+	* @return number of users
+	* @throws SystemException
+	*/
+	public static java.lang.Integer countSocialGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countSocialGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	/**
+	* Returns social groups ids where the user belongs
+	*
+	* @param userId                of the user whose social relations are we looking for
 	* @param relationTypes         an array of relation type codes that we are looking for
-	* @param start                 value of the list
-	* @param end                   value of the list
 	* @return List objects where each object contains relation type and user info
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> getSocialGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
+	public static java.util.List<java.lang.Object[]> findSocialGroups(
+		java.lang.Long userId, int[] relationTypes)
 		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findSocialGroups(userId, relationTypes);
+	}
+
+	/**
+	* Returns social group and their users based on the page parameter
+	*
+	* @param userId                which should be excluded from the list
+	* @param groupId               id of the group
+	* @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+	* @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+	* @param start                 value of the list
+	* @param end                   value of the list
+	* @return Group
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> readSocialGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getSocialGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, relationTypes, start, end);
+				   .readSocialGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
 	}
 
 	/**

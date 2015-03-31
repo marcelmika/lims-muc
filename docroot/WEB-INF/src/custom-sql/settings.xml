@@ -11,6 +11,13 @@
 
 <custom-sql>
 
+
+    <!--
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ALL GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+
     <!-- Counts all users in the database and joins them with settings table -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countAllUsers">
         <![CDATA[
@@ -88,6 +95,13 @@
 				User_.lastName ASC
 		]]>
     </sql>
+
+
+    <!--
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SITES GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
 
     <!-- Counts all users in the given sites group -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countSitesGroupUsers">
@@ -221,10 +235,56 @@
 		]]>
     </sql>
 
+
+    <!--
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SOCIAL GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- Count all users in the group -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countSocialGroupUsers">
+        <![CDATA[
+			SELECT DISTINCT
+			  	COUNT(SocialRelation.type_) AS userCount
+			FROM
+				Limsmuc_Settings
+		  	INNER JOIN
+			  	User_ ON (User_.userId = Limsmuc_Settings.userId)
+		 	INNER JOIN
+			  	SocialRelation ON (SocialRelation.userId2 = User_.userId)
+			WHERE
+			  (SocialRelation.userId1 = ?)
+			  AND SocialRelation.type_ = ?
+			  AND (User_.userId != ?)
+			  [$DEFAULT_USER$]
+			  [$DEACTIVATED_USER$]
+		]]>
+    </sql>
+
     <!-- Finds all users and attaches social relation types to them -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.findBySocialGroups">
         <![CDATA[
 			SELECT DISTINCT
+			    SocialRelation.type_ AS groupId
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				SocialRelation ON (SocialRelation.userId2 = User_.userId)
+			WHERE
+				(SocialRelation.userId1 = ?)
+				AND [$SOCIAL_RELATION_TYPES$]
+				AND (User_.userId != ?)
+		]]>
+    </sql>
+
+    <!-- Finds all users and attaches groups to them -->
+    <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.readSocialGroup">
+        <![CDATA[
+			SELECT DISTINCT
+			    SocialRelation.type_ AS groupId,
 			    SocialRelation.type_ AS relationType,
 				User_.userId AS userId,
 				User_.screenName AS screenName,
@@ -243,10 +303,10 @@
 				SocialRelation ON (SocialRelation.userId2 = User_.userId)
 			WHERE
 				(SocialRelation.userId1 = ?)
-				AND [$SOCIAL_RELATION_TYPES$]
-				AND (User_.userId != ?)
-				[$DEFAULT_USER$]
-				[$DEACTIVATED_USER$]
+  				AND SocialRelation.type_ = ?
+  				AND (User_.userId != ?)
+  				[$DEFAULT_USER$]
+			    [$DEACTIVATED_USER$]
 			ORDER BY
 				User_.firstName ASC,
 				User_.middleName ASC,
@@ -291,6 +351,13 @@
 				User_.lastName ASC
 		]]>
     </sql>
+
+
+    <!--
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // USER GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
 
     <!-- Count all users in the group -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.countUserGroupUsers">

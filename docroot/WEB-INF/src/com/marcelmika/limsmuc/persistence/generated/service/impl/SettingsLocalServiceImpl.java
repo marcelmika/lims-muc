@@ -349,7 +349,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     /**
      * Counts a number of users who belong to the particular site
      *
-     * @param userId                of excluded user
+     * @param userId                id of the excluded user
      * @param groupId               of the group
      * @param ignoreDefaultUser     true if default users should be ignored
      * @param ignoreDeactivatedUser true if deactivated users should be ignored
@@ -366,9 +366,9 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
-     * Returns all groups where the user participates
+     * Returns sites groups ids where the user belongs
      *
-     * @param userId                of the user whose groups are we looking for
+     * @param userId                id of the user
      * @param excludedSites         list of names of sites which should be excluded
      * @return List of objects where each object contains group name and user info
      * @throws SystemException
@@ -380,7 +380,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
-     * Returns group and its users based on the page parameter
+     * Returns sites group and its user
      *
      * @param userId                which should be excluded from the list
      * @param groupId               id of the group
@@ -437,32 +437,65 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     // SOCIAL GROUP
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-
     /**
-     * Returns all user's social relations
+     * Counts a number of users who belong to the particular social group
      *
-     * @param userId                of the user whose social relations are we looking for
+     * @param userId                of excluded user
+     * @param groupId               of the group
      * @param ignoreDefaultUser     true if default users should be ignored
      * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countSocialGroupUsers(Long userId,
+                                         Long groupId,
+                                         boolean ignoreDefaultUser,
+                                         boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countSocialGroupUsers(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
+     * Returns social groups ids where the user belongs
+     *
+     * @param userId                of the user whose social relations are we looking for
      * @param relationTypes         an array of relation type codes that we are looking for
-     * @param start                 value of the list
-     * @param end                   value of the list
      * @return List objects where each object contains relation type and user info
      * @throws SystemException
      */
     @Override
-    public List<Object[]> getSocialGroups(Long userId,
-                                          boolean ignoreDefaultUser,
-                                          boolean ignoreDeactivatedUser,
-                                          int[] relationTypes,
-                                          int start,
-                                          int end) throws SystemException {
+    public List<Object[]> findSocialGroups(Long userId,
+                                          int[] relationTypes) throws SystemException {
         // Find via settings finder
-        return settingsFinder.findSocialGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
-        );
+        return settingsFinder.findSocialGroups(userId, relationTypes);
     }
 
+    /**
+     * Returns social group and their users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public List<Object[]> readSocialGroup(Long userId,
+                                          Long groupId,
+                                          boolean ignoreDefaultUser,
+                                          boolean ignoreDeactivatedUser,
+                                          int start,
+                                          int end) throws SystemException {
+        // Read via settings finder
+        return settingsFinder.readSocialGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
+        );
+    }
 
     /**
      * Returns all user's social relations based on the search query
