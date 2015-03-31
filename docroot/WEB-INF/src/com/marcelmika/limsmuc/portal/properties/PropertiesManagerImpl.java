@@ -36,8 +36,8 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
     // Buddy List Max Buddies
     private static final int BUDDY_LIST_MAX_BUDDIES_MIN = 10;
-    private static final int BUDDY_LIST_MAX_BUDDIES_MAX = 500;
-    private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 200;
+    private static final int BUDDY_LIST_MAX_BUDDIES_MAX = 30;
+    private static final int BUDDY_LIST_MAX_BUDDIES_DEFAULT = 10;
 
     // Buddy List Max Search
     private static final int BUDDY_LIST_MAX_SEARCH_MIN = 7;

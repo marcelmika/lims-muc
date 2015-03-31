@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.persistence.service;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
@@ -65,8 +66,7 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
         // Create page
         Page page = new Page();
         page.setNumber(0); // We are always starting from the beginning
-        // TODO: Take from Environment.getBuddyListMaxBuddies();
-        page.setSize(10);
+        page.setSize(Environment.getBuddyListMaxBuddies());
 
         try {
             // Get groups from manager
@@ -103,8 +103,7 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
         // Create page
         Page page = new Page();
         page.setNumber(event.getNumber());
-        // TODO: Take from Environment.getBuddyListMaxBuddies();
-        page.setSize(10);
+        page.setSize(Environment.getBuddyListMaxBuddies());
 
         // Get group from manager
         try {
