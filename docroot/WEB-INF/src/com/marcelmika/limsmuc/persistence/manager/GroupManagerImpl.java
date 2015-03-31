@@ -47,9 +47,6 @@ public class GroupManagerImpl implements GroupManager {
      */
     @Override
     public GroupCollection getGroups(Long userId, Page page) throws Exception {
-        // TODO: REMOVE
-        int start = 0;
-        int end = Environment.getBuddyListMaxBuddies();
 
         // Get selected list strategy
         Environment.BuddyListStrategy strategy = Environment.getBuddyListStrategy();
@@ -75,9 +72,7 @@ public class GroupManagerImpl implements GroupManager {
         }
         // Sites,Social
         else if (strategy == BuddyListStrategy.SITES_AND_SOCIAL) {
-            return getSitesAndSocialGroups(
-                    userId, true, ignoreDeactivatedUser, excludedSites, relationTypes, start, end
-            );
+            return getSitesAndSocialGroups(userId, true, ignoreDeactivatedUser, excludedSites, relationTypes, page);
         }
         // User Group
         else if (strategy == BuddyListStrategy.USER_GROUPS) {
@@ -503,8 +498,7 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param excludedSites         names of sites (groups) that should be excluded from the group collection
      * @param relationTypes         an array of relation type enums
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param page                  pagination object
      * @return GroupCollection
      * @throws Exception
      */
@@ -513,34 +507,33 @@ public class GroupManagerImpl implements GroupManager {
                                                     boolean ignoreDeactivatedUser,
                                                     String[] excludedSites,
                                                     BuddyListSocialRelation[] relationTypes,
-                                                    int start,
-                                                    int end) throws Exception {
-        // Get site groups
-//        GroupCollection sitesGroupCollection = getSitesGroups(
-//                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
-//        );
-        // Get social groups
-//        GroupCollection socialGroupCollection = findSocialGroups(
-//                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
-//        );
+                                                    Page page) throws Exception {
 
-//        findSitesGroups()
+        // Get site groups
+        GroupCollection sitesGroupCollection = findSitesGroups(
+                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, page
+        );
+
+        // Get social groups
+        GroupCollection socialGroupCollection = findSocialGroups(
+                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, page
+        );
 
         // Merge site and social groups
         List<Group> mergedGroups = new LinkedList<Group>();
-//        mergedGroups.addAll(sitesGroupCollection.getGroups());
-//        mergedGroups.addAll(socialGroupCollection.getGroups());
+        mergedGroups.addAll(sitesGroupCollection.getGroups());
+        mergedGroups.addAll(socialGroupCollection.getGroups());
 
         // Merge
         GroupCollection groupCollection = new GroupCollection();
         groupCollection.setGroups(mergedGroups);
 
         // Decide which group is "newer"
-//        if (sitesGroupCollection.getLastModified().after(socialGroupCollection.getLastModified())) {
-//            groupCollection.setLastModified(sitesGroupCollection.getLastModified());
-//        } else {
-//            groupCollection.setLastModified(socialGroupCollection.getLastModified());
-//        }
+        if (sitesGroupCollection.getLastModified().after(socialGroupCollection.getLastModified())) {
+            groupCollection.setLastModified(sitesGroupCollection.getLastModified());
+        } else {
+            groupCollection.setLastModified(socialGroupCollection.getLastModified());
+        }
 
         // Set list strategy
         groupCollection.setListStrategy(BuddyListStrategy.SITES_AND_SOCIAL);
