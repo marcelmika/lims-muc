@@ -82,6 +82,9 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         buddiesView.render();
         container.append(buddiesView.get("container"));
 
+        // Remember the view
+        this.set('buddyListView', buddiesView);
+
         // Load more button
         if (!model.hasReachedBottom() && model.get('listStrategy') !== 'ALL') {
             this._showLoadMoreButton();
@@ -235,6 +238,15 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * List of all group buddy views
+         *
+         * [Y.LIMS.View.GroupBuddyListView]
+         */
+        buddyListView: {
+            value: null // default value
         },
 
         /**

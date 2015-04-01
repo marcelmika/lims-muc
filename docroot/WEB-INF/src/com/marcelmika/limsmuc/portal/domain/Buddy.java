@@ -194,29 +194,39 @@ public class Buddy {
         return buddy;
     }
 
+    /**
+     * Factory method which creates new Buddy object from BuddyDetails
+     *
+     * @param details BuddyDetails
+     * @return Buddy
+     */
+    public static Buddy fromBuddyDetails(BuddyDetails details) {
+        return fromBuddyDetails(details, true);
+    }
 
     /**
      * Factory method which creates new Buddy object from BuddyDetails
      *
-     * @param buddyDetails BuddyDetails
-     * @return User
+     * @param details BuddyDetails
+     * @param addUserData true if data from the portal user should be added to buddy object
+     * @return Buddy
      */
-    public static Buddy fromBuddyDetails(BuddyDetails buddyDetails) {
+    public static Buddy fromBuddyDetails(BuddyDetails details, boolean addUserData) {
         // Create new buddy
         Buddy buddy = new Buddy();
         // Map data to user details
-        buddy.buddyId = buddyDetails.getBuddyId();
-        buddy.companyId = buddyDetails.getCompanyId();
-        buddy.fullName = buddyDetails.getFullName();
-        buddy.screenName = buddyDetails.getScreenName();
-        buddy.password = buddyDetails.getPassword();
-        buddy.connected = buddyDetails.getConnected();
-        buddy.connectedAt = buddyDetails.getConnectedAt();
+        buddy.buddyId = details.getBuddyId();
+        buddy.companyId = details.getCompanyId();
+        buddy.fullName = details.getFullName();
+        buddy.screenName = details.getScreenName();
+        buddy.password = details.getPassword();
+        buddy.connected = details.getConnected();
+        buddy.connectedAt = details.getConnectedAt();
 
-        if (buddyDetails.getBuddyId() != null) {
+        if (addUserData && details.getBuddyId() != null) {
             try {
                 // Add additional info from local service util if it's not set in buddy details
-                User user = UserLocalServiceUtil.fetchUser(buddyDetails.getBuddyId());
+                User user = UserLocalServiceUtil.fetchUser(details.getBuddyId());
 
                 if (user != null) {
                     if (buddy.screenName == null) {
@@ -252,12 +262,12 @@ public class Buddy {
         }
 
         // Relations
-        if (buddyDetails.getPresenceDetails() != null) {
-            buddy.presence = Presence.fromPresenceDetails(buddyDetails.getPresenceDetails());
+        if (details.getPresenceDetails() != null) {
+            buddy.presence = Presence.fromPresenceDetails(details.getPresenceDetails());
         }
 
-        if (buddyDetails.getSettingsDetails() != null) {
-            buddy.settings = Settings.fromSettingsDetails(buddyDetails.getSettingsDetails());
+        if (details.getSettingsDetails() != null) {
+            buddy.settings = Settings.fromSettingsDetails(details.getSettingsDetails());
         }
 
         return buddy;
@@ -270,12 +280,23 @@ public class Buddy {
      * @return List<Buddy> of buddies
      */
     public static List<Buddy> fromBuddyDetailsList(List<BuddyDetails> detailsList) {
+        return fromBuddyDetailsList(detailsList, true);
+    }
+
+    /**
+     * Factory method which creates new list of Buddies from the list of BuddyDetails
+     *
+     * @param detailsList list of buddy details
+     * @param addUserData true if data from the portal user should be added to buddy object
+     * @return List<Buddy> of buddies
+     */
+    public static List<Buddy> fromBuddyDetailsList(List<BuddyDetails> detailsList, boolean addUserData) {
         // Create new list of buddies
         List<Buddy> buddies = new ArrayList<Buddy>();
 
         // Iterate through details and create buddy based on that
         for (BuddyDetails details : detailsList) {
-            buddies.add(Buddy.fromBuddyDetails(details));
+            buddies.add(Buddy.fromBuddyDetails(details, addUserData));
         }
 
         return buddies;

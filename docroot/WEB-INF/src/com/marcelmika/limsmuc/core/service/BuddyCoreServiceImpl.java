@@ -242,4 +242,15 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
             return buddyPersistenceService.readBuddiesPresence(event);
         }
     }
+
+    /**
+     * Reads buddies that have changed their presence since the particular time
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event) {
+        return buddyPersistenceService.readPresenceChange(event);
+    }
 }

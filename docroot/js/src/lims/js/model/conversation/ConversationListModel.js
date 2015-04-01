@@ -64,11 +64,16 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
     updateConversationList: function (response) {
 
         // Vars
-        var index, conversation, conversationModels = [];
+        var index,
+            conversation,
+            conversations = response.conversations || [],
+            changedPresences = response.changedPresences || [],
+            conversationModels = [],
+            presencesModels = [];
 
         // Create model instance from response
-        for (index = 0; index < response.length; index++) {
-            conversation = response[index];
+        for (index = 0; index < conversations.length; index++) {
+            conversation = conversations[index];
             conversationModels.push(new Y.LIMS.Model.ConversationModel(conversation));
         }
         // Repopulate the list
@@ -77,6 +82,18 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
         this.fire('conversationsUpdated', {
             conversationList: this
         });
+
+        // Called when some of the users changed their presence
+        if (changedPresences.length) {
+            // Map models
+            Y.Array.each(changedPresences, function (presence) {
+                presencesModels.push(new Y.LIMS.Model.BuddyModelItem(presence));
+            });
+
+            this.fire('presencesChanged', {
+                buddyList: presencesModels
+            });
+        }
     },
 
     /**
@@ -90,7 +107,9 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
 
         // Vars
         var instance = this,    // Save the instance so we can call its methods in diff context
-            response;           // Response from the server
+            parameters,         // Request parameters
+            response,           // Response from the server
+            lastSuccessTimestamp = this.get('lastSuccessTimestamp'); // Timestamp of the last successful response
 
         switch (action) {
 
@@ -98,11 +117,17 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
             // to server which loads a list of opened conversations
             case 'read':
 
+                // Set parameters
+                parameters = Y.JSON.stringify({
+                    since: lastSuccessTimestamp
+                });
+
                 // Send the request
                 Y.io(this.getServerRequestUrl(), {
                     method: "GET",
                     data: {
-                        query: "ReadOpenedConversations"
+                        query: "ReadOpenedConversations",
+                        parameters: parameters
                     },
                     timeout: 30000, // 30 seconds
                     on: {
@@ -126,6 +151,9 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
                                 // End here
                                 return;
                             }
+
+                            // Update the timestamp
+                            instance._updateLastSuccessTimestamp();
 
                             // Update conversation list
                             instance.updateConversationList(response);
@@ -153,6 +181,58 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
             default:
                 callback('Invalid action');
         }
+    },
+
+    /**
+     * Updates the timestamp of the successful response
+     *
+     * @private
+     */
+    _updateLastSuccessTimestamp: function () {
+        // Vars
+        var offset = this.get('offset'),
+            offsetPadding = this.get('offsetPadding');
+
+        // Save the new timestamp
+        this.set('lastSuccessTimestamp', (new Date().getTime() - offset - offsetPadding));
     }
 
-}, {});
+}, {
+
+    ATTRS: {
+
+        /**
+         * Server time offset (in milliseconds)
+         *
+         * {number}
+         */
+        offset: {
+            value: null // to be set
+        },
+
+        /**
+         * Extra padding added to offset. It's useful since we want be sure
+         * that we get all the presence changes
+         *
+         * {number}
+         */
+        offsetPadding: {
+            value: 1000 // one second
+        },
+
+        /**
+         * Timestamp of the last successful response
+         *
+         * {timestamp}
+         */
+        lastSuccessTimestamp: {
+            valueFn: function () {
+                // Vars
+                var offset = this.get('offset'),
+                    offsetPadding = this.get('offsetPadding');
+
+                return (new Date().getTime() - offset - offsetPadding);
+            }
+        }
+    }
+});

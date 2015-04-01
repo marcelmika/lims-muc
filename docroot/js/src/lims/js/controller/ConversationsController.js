@@ -48,11 +48,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _attachEvents: function () {
             // Vars
-            var conversationList = this.get('conversationList'),
+            var model = this.get('conversationList'),
                 instance = this;
 
             // Local
-            conversationList.on('conversationsUpdated', this._onConversationsUpdated, this);
+            model.on('conversationsUpdated', this._onConversationsUpdated, this);
+            model.on('presencesChanged', this._onPresencesChanged, this);
 
             // Buddy selected in group
             Y.on('buddySelected', this._onBuddySelected, this);
@@ -871,6 +872,18 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         },
 
         /**
+         * Called when any user has changed the presence
+         *
+         * @private
+         */
+        _onPresencesChanged: function (event) {
+            // Call it globally
+            Y.fire('presencesChanged', {
+                buddyList: event.buddyList
+            });
+        },
+
+        /**
          * Called whenever the user session expires
          *
          * @private
@@ -1017,7 +1030,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
              */
             conversationList: {
                 valueFn: function () {
-                    return new Y.LIMS.Model.ConversationListModel();
+                    // Vars
+                    var properties = this.get('properties');
+
+                    return new Y.LIMS.Model.ConversationListModel({
+                        offset: properties.get('offset')
+                    });
                 }
             },
 

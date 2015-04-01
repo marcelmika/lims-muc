@@ -348,6 +348,12 @@ public class SettingsLocalServiceUtil {
 		getService().changePresence(userId, presence);
 	}
 
+	public static java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> findByPresenceUpdatedSince(
+		java.util.Date since)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByPresenceUpdatedSince(since);
+	}
+
 	/**
 	* Updates user's connection
 	*

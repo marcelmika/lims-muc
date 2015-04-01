@@ -76,6 +76,9 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
         var model = this.get('model'),
             container = this.get('container');
 
+        model.after('presenceChange', this._onPresenceChange, this);
+
+        // TODO: Rewrite to onMethod
         // Attach click on panel's item
         container.on('click', function (event) {
             event.preventDefault();
@@ -131,8 +134,28 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
         // Render presence
         presenceView.render();
+
+        this.set('presenceView', presenceView);
+
         // Return the HTML
         return presenceView.get('container');
+    },
+
+    /**
+     * Called when the presence is changed
+     *
+     * @private
+     */
+    _onPresenceChange: function () {
+        // Vars
+        var model = this.get('model'),
+            presenceView = this.get('presenceView');
+
+        // Update the presence
+        if (presenceView) {
+            presenceView.set('presenceType', model.get('presence'));
+            presenceView.render();
+        }
     }
 
 }, {
@@ -158,6 +181,15 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * Holds the presence view
+         *
+         * {Y.LIMS.View.PresenceView}
+         */
+        presenceView: {
+            value: null // default value
         }
     }
 

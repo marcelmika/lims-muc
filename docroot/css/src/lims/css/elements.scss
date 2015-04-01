@@ -395,28 +395,33 @@
 /********************************************************************************/
 
 .lims-muc .status-indicator {
-  width: 10px;
-  height: 10px;
-  opacity: 0.9;
+  width: 8px;
+  height: 8px;
+  @include border-radius(5px);
 
   &.online {
-    background: url(/images/status-online.png) no-repeat center center;
-    @include image-2x('/images/status-online@2x.png', 10px, 10px);
+    background: #6ccc46;
+    border: 1px solid #6ccc46;
   }
 
   &.busy {
-    background: url(/images/status-busy.png) no-repeat center center;
-    @include image-2x('/images/status-busy@2x.png', 10px, 10px);
+    background: #e5df2e;
+    border: 1px solid #e5df2e;
   }
 
   &.unavailable {
-    background: url(/images/status-unavailable.png) no-repeat center center;
-    @include image-2x('/images/status-unavailable@2x.png', 10px, 10px);
+    background: #e5502e;
+    border: 1px solid #e5502e;
   }
 
   &.off {
-    background: url(/images/status-off.png) no-repeat center center;
-    @include image-2x('/images/status-off@2x.png', 10px, 10px);
+    background: #b2b2b2;
+    border: 1px solid #b2b2b2;
+  }
+
+  &.unrecognized {
+    background: #ffffff;
+    border: 1px solid #b2b2b2;
   }
 
 }

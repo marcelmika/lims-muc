@@ -34,7 +34,8 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
     render: function () {
         // Vars
         var model = this.get('model'),
-            groupList = this.get('groupList');
+            groupList = this.get('groupList'),
+            groupViews = [];
 
         if (groupList) {
 
@@ -50,7 +51,12 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
                 groupView.render();
                 // Add it to group list
                 groupList.append(groupView.get('container'));
+
+                groupViews.push(groupView);
             });
+
+            // Set group views
+            this.set('groupViews', groupViews);
         }
     },
 
@@ -334,6 +340,15 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * List of rendered group views
+         *
+         * [Y.LIMS.View.GroupView]
+         */
+        groupViews: {
+            value: [] // default value
         },
 
         /**

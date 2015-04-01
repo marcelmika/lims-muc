@@ -365,6 +365,13 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 		_settingsLocalService.changePresence(userId, presence);
 	}
 
+	@Override
+	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> findByPresenceUpdatedSince(
+		java.util.Date since)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.findByPresenceUpdatedSince(since);
+	}
+
 	/**
 	* Updates user's connection
 	*

@@ -29,35 +29,29 @@ Y.LIMS.View.GroupBuddyListView = Y.Base.create('groupBuddyListView', Y.View, [],
      */
     render: function () {
         // Vars
-        var container, buddies, buddyIndex, buddy, buddyView;
-        // Container and model
-        container = this.getContainer();
-        buddies = this.getModel();
+        var container = this.get('container'),
+            model = this.get('model'),
+            views = [];
 
-        for (buddyIndex = 0; buddyIndex < buddies.size(); buddyIndex++) {
-            // Get buddy from model list
-            buddy = buddies.item(buddyIndex);
+        Y.Array.each(model.toArray(), function (buddy) {
+            // Vars
+            var buddyView;
+
             // Build view from buddy
             buddyView = new Y.LIMS.View.GroupBuddyView({model: buddy});
             // Render view
             buddyView.render();
             // Append to container
             container.append(buddyView.get('container'));
-        }
+
+            // Add buddy view to list
+            views.push(buddyView);
+        });
+
+        // Remember views
+        this.set('views', views);
 
         return this;
-    },
-
-    // ----------------------------------------------------------------------------------------------------------------
-    // Getters/Setters
-    // ----------------------------------------------------------------------------------------------------------------
-
-    getContainer: function () {
-        return this.get('container');
-    },
-
-    getModel: function () {
-        return this.get('model');
     }
 
 }, {
@@ -80,6 +74,15 @@ Y.LIMS.View.GroupBuddyListView = Y.Base.create('groupBuddyListView', Y.View, [],
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * List of rendered views
+         *
+         * [Y.LIMS.View.GroupBuddyView]
+         */
+        views: {
+            value: [] // to be set
         }
     }
 });

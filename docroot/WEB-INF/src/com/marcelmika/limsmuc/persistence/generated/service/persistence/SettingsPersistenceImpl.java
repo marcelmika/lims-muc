@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -48,6 +49,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -825,6 +827,534 @@ public class SettingsPersistenceImpl extends BasePersistenceImpl<Settings>
 	private static final String _FINDER_COLUMN_PRESENCE_PRESENCE_1 = "settings.presence IS NULL";
 	private static final String _FINDER_COLUMN_PRESENCE_PRESENCE_2 = "settings.presence = ?";
 	private static final String _FINDER_COLUMN_PRESENCE_PRESENCE_3 = "(settings.presence IS NULL OR settings.presence = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PRESENCEUPDATEDATGREATERTHAN =
+		new FinderPath(SettingsModelImpl.ENTITY_CACHE_ENABLED,
+			SettingsModelImpl.FINDER_CACHE_ENABLED, SettingsImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBypresenceUpdatedAtGreaterThan",
+			new String[] {
+				Date.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_PRESENCEUPDATEDATGREATERTHAN =
+		new FinderPath(SettingsModelImpl.ENTITY_CACHE_ENABLED,
+			SettingsModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countBypresenceUpdatedAtGreaterThan",
+			new String[] { Date.class.getName() });
+
+	/**
+	 * Returns all the settingses where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @return the matching settingses
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Settings> findBypresenceUpdatedAtGreaterThan(
+		Date presenceUpdatedAt) throws SystemException {
+		return findBypresenceUpdatedAtGreaterThan(presenceUpdatedAt,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the settingses where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param start the lower bound of the range of settingses
+	 * @param end the upper bound of the range of settingses (not inclusive)
+	 * @return the range of matching settingses
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Settings> findBypresenceUpdatedAtGreaterThan(
+		Date presenceUpdatedAt, int start, int end) throws SystemException {
+		return findBypresenceUpdatedAtGreaterThan(presenceUpdatedAt, start,
+			end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the settingses where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.marcelmika.limsmuc.persistence.generated.model.impl.SettingsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param start the lower bound of the range of settingses
+	 * @param end the upper bound of the range of settingses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching settingses
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Settings> findBypresenceUpdatedAtGreaterThan(
+		Date presenceUpdatedAt, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PRESENCEUPDATEDATGREATERTHAN;
+		finderArgs = new Object[] {
+				presenceUpdatedAt,
+				
+				start, end, orderByComparator
+			};
+
+		List<Settings> list = (List<Settings>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Settings settings : list) {
+				if ((presenceUpdatedAt.getTime() >= settings.getPresenceUpdatedAt()
+																.getTime())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_SETTINGS_WHERE);
+
+			boolean bindPresenceUpdatedAt = false;
+
+			if (presenceUpdatedAt == null) {
+				query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_1);
+			}
+			else {
+				bindPresenceUpdatedAt = true;
+
+				query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(SettingsModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPresenceUpdatedAt) {
+					qPos.add(CalendarUtil.getTimestamp(presenceUpdatedAt));
+				}
+
+				if (!pagination) {
+					list = (List<Settings>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Settings>(list);
+				}
+				else {
+					list = (List<Settings>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first settings in the ordered set where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching settings
+	 * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchSettingsException if a matching settings could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Settings findBypresenceUpdatedAtGreaterThan_First(
+		Date presenceUpdatedAt, OrderByComparator orderByComparator)
+		throws NoSuchSettingsException, SystemException {
+		Settings settings = fetchBypresenceUpdatedAtGreaterThan_First(presenceUpdatedAt,
+				orderByComparator);
+
+		if (settings != null) {
+			return settings;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("presenceUpdatedAt=");
+		msg.append(presenceUpdatedAt);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSettingsException(msg.toString());
+	}
+
+	/**
+	 * Returns the first settings in the ordered set where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching settings, or <code>null</code> if a matching settings could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Settings fetchBypresenceUpdatedAtGreaterThan_First(
+		Date presenceUpdatedAt, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<Settings> list = findBypresenceUpdatedAtGreaterThan(presenceUpdatedAt,
+				0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last settings in the ordered set where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching settings
+	 * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchSettingsException if a matching settings could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Settings findBypresenceUpdatedAtGreaterThan_Last(
+		Date presenceUpdatedAt, OrderByComparator orderByComparator)
+		throws NoSuchSettingsException, SystemException {
+		Settings settings = fetchBypresenceUpdatedAtGreaterThan_Last(presenceUpdatedAt,
+				orderByComparator);
+
+		if (settings != null) {
+			return settings;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("presenceUpdatedAt=");
+		msg.append(presenceUpdatedAt);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSettingsException(msg.toString());
+	}
+
+	/**
+	 * Returns the last settings in the ordered set where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching settings, or <code>null</code> if a matching settings could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Settings fetchBypresenceUpdatedAtGreaterThan_Last(
+		Date presenceUpdatedAt, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countBypresenceUpdatedAtGreaterThan(presenceUpdatedAt);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Settings> list = findBypresenceUpdatedAtGreaterThan(presenceUpdatedAt,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the settingses before and after the current settings in the ordered set where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param sid the primary key of the current settings
+	 * @param presenceUpdatedAt the presence updated at
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next settings
+	 * @throws com.marcelmika.limsmuc.persistence.generated.NoSuchSettingsException if a settings with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Settings[] findBypresenceUpdatedAtGreaterThan_PrevAndNext(long sid,
+		Date presenceUpdatedAt, OrderByComparator orderByComparator)
+		throws NoSuchSettingsException, SystemException {
+		Settings settings = findByPrimaryKey(sid);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Settings[] array = new SettingsImpl[3];
+
+			array[0] = getBypresenceUpdatedAtGreaterThan_PrevAndNext(session,
+					settings, presenceUpdatedAt, orderByComparator, true);
+
+			array[1] = settings;
+
+			array[2] = getBypresenceUpdatedAtGreaterThan_PrevAndNext(session,
+					settings, presenceUpdatedAt, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Settings getBypresenceUpdatedAtGreaterThan_PrevAndNext(
+		Session session, Settings settings, Date presenceUpdatedAt,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_SETTINGS_WHERE);
+
+		boolean bindPresenceUpdatedAt = false;
+
+		if (presenceUpdatedAt == null) {
+			query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_1);
+		}
+		else {
+			bindPresenceUpdatedAt = true;
+
+			query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(SettingsModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPresenceUpdatedAt) {
+			qPos.add(CalendarUtil.getTimestamp(presenceUpdatedAt));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(settings);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Settings> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the settingses where presenceUpdatedAt &gt; &#63; from the database.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeBypresenceUpdatedAtGreaterThan(Date presenceUpdatedAt)
+		throws SystemException {
+		for (Settings settings : findBypresenceUpdatedAtGreaterThan(
+				presenceUpdatedAt, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(settings);
+		}
+	}
+
+	/**
+	 * Returns the number of settingses where presenceUpdatedAt &gt; &#63;.
+	 *
+	 * @param presenceUpdatedAt the presence updated at
+	 * @return the number of matching settingses
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countBypresenceUpdatedAtGreaterThan(Date presenceUpdatedAt)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_PRESENCEUPDATEDATGREATERTHAN;
+
+		Object[] finderArgs = new Object[] { presenceUpdatedAt };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_SETTINGS_WHERE);
+
+			boolean bindPresenceUpdatedAt = false;
+
+			if (presenceUpdatedAt == null) {
+				query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_1);
+			}
+			else {
+				bindPresenceUpdatedAt = true;
+
+				query.append(_FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPresenceUpdatedAt) {
+					qPos.add(CalendarUtil.getTimestamp(presenceUpdatedAt));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_1 =
+		"settings.presenceUpdatedAt > NULL";
+	private static final String _FINDER_COLUMN_PRESENCEUPDATEDATGREATERTHAN_PRESENCEUPDATEDAT_2 =
+		"settings.presenceUpdatedAt > ?";
 
 	public SettingsPersistenceImpl() {
 		setModelClass(Settings.class);

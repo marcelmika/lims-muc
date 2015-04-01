@@ -9,27 +9,23 @@
 
 package com.marcelmika.limsmuc.portal.request.parameters;
 
+import java.util.Date;
+
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 25/10/14
- * Time: 16:26
+ * Date: 01/04/15
+ * Time: 13:42
  */
-public class ParameterException extends Exception {
+public class ReadOpenedConversationsParameters {
 
-    public ParameterException() {
-        super();
+    private Date since;
+
+    public Date getSince() {
+        return since;
     }
 
-    public ParameterException(String s) {
-        super(s);
-    }
-
-    public ParameterException(String s, Throwable throwable) {
-        super(s, throwable);
-    }
-
-    public ParameterException(Throwable throwable) {
-        super(throwable);
+    public void setSince(Date since) {
+        this.since = since;
     }
 }

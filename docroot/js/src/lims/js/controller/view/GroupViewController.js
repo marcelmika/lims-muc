@@ -30,16 +30,20 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      * Panel Did Load is called when the panel is attached to the controller
      */
     onPanelDidLoad: function () {
-        // Events
+        // Vars
+        var model = this.get('model');
+
+        // Attach events
         this._attachEvents();
+
+        // Load the model
+        model.load();
     },
 
     /**
      * Panel Did Appear is called when the panel did appear on the screen
      */
     onPanelDidAppear: function () {
-        // Start poller
-        this._startPolling();
         // Subscribe to key up event
         this._subscribeKeyUp();
     },
@@ -48,19 +52,8 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      * Panel Did Disappear is called when the panel disappeared from the screen
      */
     onPanelDidDisappear: function () {
-        // Stop poller
-        this._stopPolling();
         // Detach the key up event
         this._detachKeyUp();
-    },
-
-    /**
-     * Session Expired is called whenever the user session has expired. Provide all necessary cleaning like
-     * invalidation of timer, etc. At the end of the method the controller will be automatically hidden from
-     * the screen.
-     */
-    onSessionExpired: function () {
-        this._stopPolling();
     },
 
     /**
@@ -79,6 +72,7 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         listButton.on('click', this._onSearchClosed, this);
 
         // Global events
+        Y.on('presencesChanged', this._onPresencesChanged, this);
         Y.on('buddySelected', this._onBuddySelected, this);
         Y.on('connectionError', this._onConnectionError, this);
         Y.on('connectionOK', this._onConnectionOK, this);
@@ -112,47 +106,6 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         if (keyUpSubscription) {
             keyUpSubscription.detach();
         }
-    },
-
-    /**
-     * Starts poller that periodically refreshes the group list
-     *
-     * @private
-     */
-    _startPolling: function () {
-
-        this.get('model').load();
-
-        //// Vars
-        //var model = this.get('model'),
-        //    poller = this.get('poller'),
-        //    properties = this.get('properties');
-        //
-        //// Start only if the chat is enabled
-        //if (properties.isChatEnabled()) {
-        //
-
-// TODO: Ask for presence
-            // Register model to the poller
-            //poller.register('groupViewController:model', new Y.LIMS.Core.PollerEntry({
-            //    model: model,        // Model that will be periodically refreshed
-            //    interval: 10000,     // 10 seconds period
-            //    maxInterval: 20000,  // 20 seconds period
-            //    minInterval: 10000   // 10 seconds period
-            //}));
-        //}
-    },
-
-    /**
-     * Stops poller that periodically refreshes the group list
-     *
-     * @private
-     */
-    _stopPolling: function () {
-        // Vars
-        var poller = this.get('poller');
-        // Pause
-        poller.unregister('groupViewController:model');
     },
 
     /**
@@ -259,6 +212,22 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
         var listButton = this.get('listButton');
         // Hide the button
         Y.LIMS.Core.Util.hide(listButton);
+    },
+
+    /**
+     * Called when any user has changed the presence
+     *
+     * @private
+     */
+    _onPresencesChanged: function (event) {
+        // Vars
+        var model = this.get('model'),
+            buddies = event.buddyList || [];
+
+        // Update presence at each group
+        Y.Array.each(model.toArray(), function(groupModel) {
+            groupModel.updatePresences(buddies);
+        });
     },
 
     /**

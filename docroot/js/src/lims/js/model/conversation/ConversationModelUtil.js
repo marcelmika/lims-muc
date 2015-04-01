@@ -29,7 +29,6 @@ var ConversationModelUtil = {
      * @param firstScreenName
      * @param secondScreenName
      * @returns {string} Conversation ID
-     * @private
      */
     generateSUCConversationId: function (firstScreenName, secondScreenName) {
         // Vars

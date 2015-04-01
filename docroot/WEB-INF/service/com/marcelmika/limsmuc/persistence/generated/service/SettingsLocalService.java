@@ -313,6 +313,10 @@ public interface SettingsLocalService extends BaseLocalService,
 	public void changePresence(long userId, java.lang.String presence)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> findByPresenceUpdatedSince(
+		java.util.Date since)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	/**
 	* Updates user's connection
 	*

@@ -25,7 +25,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for login method
      * @return Response event for login method
      */
-    public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
+    LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
 
     /**
      * Logout buddy from System
@@ -33,7 +33,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
+    LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
 
     /**
      * Completely removes buddy from Persistence
@@ -41,7 +41,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
+    DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
 
     /**
      * Reads presence of a single buddy
@@ -49,7 +49,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event);
+    ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event);
 
     /**
      * Reads presence of buddies
@@ -57,7 +57,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+    ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
 
     /**
      * Change buddy's presence
@@ -65,7 +65,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
+    UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
 
     /**
      * Search buddies in the system
@@ -73,7 +73,14 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
+    SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
+    /**
+     * Reads buddies that have changed their presence since the particular time
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event);
 
 }

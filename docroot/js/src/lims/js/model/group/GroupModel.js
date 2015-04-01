@@ -31,6 +31,36 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
         return page.get('number') + 1 === page.get('totalPages');
     },
 
+    findBuddy: function(buddyId) {
+        // Var
+        var buddies = this.get('buddies');
+
+        if (buddies) {
+            return Y.Array.find(buddies.toArray(), function (buddy) {
+                return buddy.get('buddyId') === buddyId;
+            });
+        }
+    },
+
+    /**
+     * Updates presence related to the buddies
+     *
+     * @param updatedBuddies
+     */
+    updatePresences: function (updatedBuddies) {
+        // Vars
+        var instance = this;
+
+        Y.Array.each(updatedBuddies, function(updatedBuddy) {
+            // Search local buddy
+            var buddy = instance.findBuddy(updatedBuddy.get('buddyId'));
+
+            if (buddy) {
+                buddy.set('presence', updatedBuddy.get('presence'));
+            }
+        });
+    },
+
     /**
      * Custom sync action
      *
