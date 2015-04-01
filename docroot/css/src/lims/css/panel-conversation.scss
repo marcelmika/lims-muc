@@ -16,8 +16,16 @@
     margin-top: 0;
   }
 
-  .panel-title-text span {
-    cursor: pointer;
+  .panel-title-text {
+
+    .status-indicator {
+      display: inline-block;
+      margin: 7px 1px 0 2px;
+    }
+
+    span {
+      cursor: pointer;
+    }
   }
 
   .panel-content li {

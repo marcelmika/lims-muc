@@ -70,11 +70,20 @@ public class Settings {
         // Create new settings
         Settings settings = new Settings();
 
+        if (model == null) {
+            return settings;
+        }
+
         settings.buddyId = model.getUserId();
         settings.isMute = model.getMute();
         settings.isChatEnabled = model.getChatEnabled();
         settings.isAdminAreaOpened = model.isAdminAreaOpened();
-        settings.presence = Presence.fromDescription(model.getPresence());
+
+        if (model.isConnected()) {
+            settings.presence = Presence.fromDescription(model.getPresence());
+        } else {
+            settings.presence = Presence.OFFLINE;
+        }
 
         return settings;
     }

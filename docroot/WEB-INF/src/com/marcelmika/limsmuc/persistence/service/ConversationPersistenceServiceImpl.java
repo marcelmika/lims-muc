@@ -24,6 +24,7 @@ import com.marcelmika.limsmuc.persistence.generated.model.Participant;
 import com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.MessageLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.service.ParticipantLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -862,6 +863,11 @@ public class ConversationPersistenceServiceImpl implements ConversationPersisten
             }
 
             Buddy buddy = Buddy.fromUser(user);
+
+            // Add the presence
+            Settings settings = Settings.fromSettingsModel(SettingsLocalServiceUtil.fetchByUserId(user.getUserId()));
+
+            buddy.setPresence(settings.getPresence());
             participants.add(buddy);
         }
 

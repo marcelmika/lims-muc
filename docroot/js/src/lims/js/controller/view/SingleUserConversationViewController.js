@@ -195,6 +195,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsView.on('optionLeaveConversationClick', this._onOptionLeaveConversationClick, this);
 
             // Remote events
+            Y.on('presencesChanged', this._onPresencesChanged, this);
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
             Y.on('jabberConnected', this._onJabberConnected, this);
@@ -304,6 +305,32 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTriggerText.set('innerHTML', conversationTitle);
         },
 
+        /**
+         * Updates panel status indicator
+         * @private
+         */
+        _updateStatusIndicator: function () {
+            // Vars
+            var model = this.get('model'),
+                participants = model.get('participants'),
+                participant,
+                buddyDetails = this.get('buddyDetails'),
+                statusIndicator = this.get('statusIndicator');
+
+            if (model.get('conversationType') === 'SINGLE_USER' && participants) {
+
+                // Participants contain the currently logged user as well.
+                // Thus we need to filter him first.
+                participant = Y.Array.find(participants, function (aParticipant) {
+                    return buddyDetails.get('buddyId') !== aParticipant.get('buddyId');
+                });
+
+                if (participant) {
+                    statusIndicator.set('presenceType', participant.get('presence'));
+                    statusIndicator.render();
+                }
+            }
+        },
 
         /**
          * Shows activity indicator
@@ -404,6 +431,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             listView.showView();
             // Update title
             this._updatePanelTitle();
+            // Update status
+            this._updateStatusIndicator();
         },
 
         /**
@@ -639,6 +668,23 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Called when any user has changed the presence
+         *
+         * @private
+         */
+        _onPresencesChanged: function (event) {
+            // Vars
+            var model = this.get('model'),
+                buddies = event.buddyList || [];
+
+            // Update model
+            model.updatePresences(buddies);
+
+            // Update status indicator
+            this._updateStatusIndicator();
+        },
+
+        /**
          * Called whenever an error with connection occurred
          *
          * @private
@@ -851,6 +897,35 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTitleText: {
                 valueFn: function () {
                     return this.get('panelTitle').one('.panel-title-text span');
+                }
+            },
+
+            /**
+             * User status indicator
+             *
+             * {Node}
+             */
+            statusIndicator: {
+                valueFn: function () {
+                    // Vars
+                    var container = this.get('panelTitle').one('.status-indicator'),
+                        model = this.get('model'),
+                        view;
+
+                    // Create view
+                    view = new Y.LIMS.View.PresenceView({
+                        container: container
+                    });
+
+                    // Render
+                    view.render();
+
+                    // Only single user chat has status indicator
+                    if (model.get('conversationType') !== 'SINGLE_USER') {
+                        Y.LIMS.Core.Util.hide(container);
+                    }
+
+                    return view;
                 }
             },
 

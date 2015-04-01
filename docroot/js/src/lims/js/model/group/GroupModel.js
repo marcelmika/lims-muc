@@ -31,6 +31,12 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
         return page.get('number') + 1 === page.get('totalPages');
     },
 
+    /**
+     * Finds a buddy id in the group model buddies
+     *
+     * @param buddyId
+     * @return {*}
+     */
     findBuddy: function(buddyId) {
         // Var
         var buddies = this.get('buddies');

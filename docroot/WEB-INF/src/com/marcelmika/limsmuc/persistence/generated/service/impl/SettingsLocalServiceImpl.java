@@ -155,7 +155,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     /**
      * Returns all user settings that have changed their presence since the particular timestamp
      *
-     * @param since position in a time from which we count the presence upadates
+     * @param since position in a time from which we count the presence updates
      * @return list of settings
      * @throws SystemException
      */

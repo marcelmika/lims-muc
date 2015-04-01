@@ -582,6 +582,42 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             postStopperId: postStopperId,
             preStopperId: preStopperId
         });
+    },
+
+    /**
+     * Finds a buddy in the group model buddies
+     *
+     * @param buddyId
+     * @return {*}
+     */
+    findBuddy: function(buddyId) {
+        // Var
+        var buddies = this.get('participants');
+
+        if (buddies) {
+            return Y.Array.find(buddies, function (buddy) {
+                return buddy.get('buddyId') === buddyId;
+            });
+        }
+    },
+
+    /**
+     * Updates presence related to the buddies
+     *
+     * @param updatedBuddies
+     */
+    updatePresences: function (updatedBuddies) {
+        // Vars
+        var instance = this;
+
+        Y.Array.each(updatedBuddies, function(updatedBuddy) {
+            // Search local buddy
+            var buddy = instance.findBuddy(updatedBuddy.get('buddyId'));
+
+            if (buddy) {
+                buddy.set('presence', updatedBuddy.get('presence'));
+            }
+        });
     }
 
 

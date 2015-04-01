@@ -13,7 +13,6 @@ import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
 import com.marcelmika.limsmuc.api.events.conversation.AddParticipantsRequestEvent;
@@ -47,7 +46,6 @@ import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.domain.Message;
 import com.marcelmika.limsmuc.portal.domain.MessagePagination;
 import com.marcelmika.limsmuc.portal.domain.MessageType;
-import com.marcelmika.limsmuc.portal.domain.Presence;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.localization.ConversationLocalizationUtil;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
@@ -65,8 +63,6 @@ import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

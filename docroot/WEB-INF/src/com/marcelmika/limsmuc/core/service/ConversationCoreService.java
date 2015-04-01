@@ -27,7 +27,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for  method
      */
-    public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
+    GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
 
     /**
      * Get all opened conversations related to the particular buddy
@@ -35,7 +35,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for  method
      */
-    public GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event);
+    GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event);
 
     /**
      * Creates new conversation
@@ -43,7 +43,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for  method
      */
-    public CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
+    CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
 
     /**
      * Reads messages from conversation
@@ -51,7 +51,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event);
+    ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event);
 
     /**
      * Opens existing conversation
@@ -60,7 +60,7 @@ public interface ConversationCoreService {
      * @return response event for method
      * @deprecated
      */
-    public OpenConversationResponseEvent openConversation(OpenConversationRequestEvent event);
+    OpenConversationResponseEvent openConversation(OpenConversationRequestEvent event);
 
     /**
      * Closes existing conversation. User remains in the conversation though.
@@ -68,7 +68,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public CloseConversationResponseEvent closeConversation(CloseConversationRequestEvent event);
+    CloseConversationResponseEvent closeConversation(CloseConversationRequestEvent event);
 
     /**
      * Reset counter of unread messages (usually displayed in badge) for the particular user and conversation
@@ -76,8 +76,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent
-                                                                                      event);
+    ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent event);
 
     /**
      * Removes buddy from the conversation
@@ -85,7 +84,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
+    LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
 
     /**
      * Switch conversations positions
@@ -93,7 +92,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
+    SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
 
     /**
      * Adds buddies to the conversation
@@ -101,7 +100,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
+    AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
 
     /**
      * Sends message to conversation
@@ -109,7 +108,7 @@ public interface ConversationCoreService {
      * @param event request event for method
      * @return response event for method
      */
-    public SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
+    SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
 
 
 }

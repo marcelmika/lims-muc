@@ -81,7 +81,10 @@
                         class="panel-button minimize"></button>
                 <button title="<liferay-ui:message key="panel-button-options-title"/>"
                         class="panel-button options hide"></button>
-                <div class="panel-title-text"><span>{conversationTitle}</span></div>
+                <div class="panel-title-text">
+                    <div class="status-indicator"></div>
+                    <span>{conversationTitle}</span>
+                </div>
             </div>
             <div class="panel-content">
                 <div class="preloader"></div>

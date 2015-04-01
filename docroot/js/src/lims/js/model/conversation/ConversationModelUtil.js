@@ -89,7 +89,6 @@ var ConversationModelUtil = {
      * Generates title of the conversation
      *
      * @param participants [Y.LIMS.Model.BuddyItemModel]
-     * @private
      */
     generateMUCTitle: function (participants) {
         // Vars

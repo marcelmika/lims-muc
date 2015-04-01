@@ -25,7 +25,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public ExistsConversationResponseEvent existsConversation(ExistsConversationRequestEvent event);
+    ExistsConversationResponseEvent existsConversation(ExistsConversationRequestEvent event);
 
     /**
      * Creates new conversation
@@ -33,7 +33,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for  method
      */
-    public CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
+    CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
 
     /**
      * Reads messages from conversation
@@ -41,7 +41,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event);
+    ReadSingleUserConversationResponseEvent readConversation(ReadSingleUserConversationRequestEvent event);
 
     /**
      * Returns a list of participants related to the conversation
@@ -49,7 +49,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public GetConversationParticipantsResponseEvent getParticipants(GetConversationParticipantsRequestEvent event);
+    GetConversationParticipantsResponseEvent getParticipants(GetConversationParticipantsRequestEvent event);
 
     /**
      * Closes existing conversation. User remains in the conversation though.
@@ -57,7 +57,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public CloseConversationResponseEvent closeConversation(CloseConversationRequestEvent event);
+    CloseConversationResponseEvent closeConversation(CloseConversationRequestEvent event);
 
     /**
      * Reset counter of unread messages (usually displayed in badge) for the particular user and conversation
@@ -65,7 +65,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent event);
+    ResetUnreadMessagesCounterResponseEvent resetUnreadMessagesCounter(ResetUnreadMessagesCounterRequestEvent event);
 
     /**
      * Adds buddies to the conversation
@@ -73,7 +73,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
+    AddParticipantsResponseEvent addParticipants(AddParticipantsRequestEvent event);
 
     /**
      * Removes buddy from the conversation
@@ -81,7 +81,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
+    LeaveConversationResponseEvent leaveConversation(LeaveConversationRequestEvent event);
 
     /**
      * Switch conversations positions
@@ -89,7 +89,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
+    SwitchConversationsResponseEvent switchConversations(SwitchConversationsRequestEvent event);
 
     /**
      * Sends message to conversation
@@ -97,7 +97,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for method
      */
-    public SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
+    SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
 
     /**
      * Get all opened conversations related to the particular buddy
@@ -105,7 +105,7 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for  method
      */
-    public GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event);
+    GetOpenedConversationsResponseEvent getOpenedConversations(GetOpenedConversationsRequestEvent event);
 
     /**
      * Get all conversations related to the particular buddy
@@ -113,6 +113,6 @@ public interface ConversationPersistenceService {
      * @param event request event for method
      * @return response event for  method
      */
-    public GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
+    GetConversationsResponseEvent getConversations(GetConversationsRequestEvent event);
 
 }
