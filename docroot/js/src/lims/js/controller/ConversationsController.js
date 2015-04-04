@@ -79,10 +79,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @param conversationId {string} id of the conversation
          * @param title {string} title of the conversation
          * @param participants [] an array of participants
+         * @param conversationType of the conversation (single/multi)
          * @return {Y.LIMS.Controller.SingleUserConversationViewController}
          * @private
          */
-        _openConversation: function (conversationId, title, participants) {
+        _openConversation: function (conversationId, title, participants, conversationType) {
             // Vars
             var map = this.get('conversationMap'),                  // Map that holds all conversation controllers
                 buddyDetails = this.get('buddyDetails'),            // Currently logged user
@@ -98,6 +99,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Create new model
             conversationModel = new Y.LIMS.Model.ConversationModel({
                 conversationId: conversationId,
+                conversationType: conversationType,
                 creator: buddyDetails,
                 participants: participants,
                 title: title,
@@ -616,7 +618,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             }
             // No such conversation
             else {
-                controller = this._openConversation(conversationId, conversation.get('title'), []);
+                controller = this._openConversation(
+                    conversationId, conversation.get('title'), [], conversation.get('conversationType')
+                );
                 // Save the model, thanks to that the conversation will be created on server too.
                 controller.get('model').save();
             }
@@ -665,7 +669,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             }
             // No such conversation
             else {
-                controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy]);
+                controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy], 'SINGLE_USER');
                 // Save the model, thanks to that the conversation will be created on server too.
                 controller.get('model').save(function (err) {
                     // Success
@@ -715,7 +719,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // Create controller
                 controller = this._openConversation(
-                    conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies
+                    conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies, 'MULTI_USER'
                 );
 
                 // Save the model, thanks to that the conversation will be created on server too.

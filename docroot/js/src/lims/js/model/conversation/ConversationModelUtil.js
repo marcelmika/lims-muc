@@ -50,7 +50,6 @@ var ConversationModelUtil = {
      * @param participants [Y.LIMS.Model.BuddyModelItem]
      * @param creator Y.LIMS.Model.BuddyModelItem
      * @return {*}
-     * @private
      */
     generateMUCConversationId: function (participants, creator) {
         // Vars
@@ -123,7 +122,6 @@ var ConversationModelUtil = {
      *
      * @param buddy
      * @return {string}
-     * @private
      */
     generateBuddyTitleName: function (buddy) {
 
