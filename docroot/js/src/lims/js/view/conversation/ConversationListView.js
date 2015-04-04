@@ -28,6 +28,9 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     // Template for participants list template
     participantsListTemplate: '<div class="participants-list" />',
 
+    // Template for a single participant item
+    participantsItemTemplate: '<div class="participant" />',
+
     /**
      * Initializer
      *
@@ -141,6 +144,14 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Refreshes the list of participants
+     */
+    refreshParticipantsList: function () {
+        // Simply render the list again
+        this._renderParticipantsList();
+    },
+
+    /**
      * Attaches listener to elements
      *
      * @private
@@ -237,10 +248,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             container = this.get('container'),
             model = this.get('model'),
             participants,
-            innerHTML = '',
-            fullName,
-            screenName,
-            index;
+            instance = this;
 
         // If the list is not yet rendered, add it to the container
         if (!participantsList.inDoc()) {
@@ -253,31 +261,45 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Get participants of the conversation
         participants = model.get('participants');
 
-        for (index = 0; index < participants.length; index++) {
-            fullName = participants[index].get('fullName');
-            screenName = participants[index].get('screenName');
+        // Flush the content of the participant list
+        participantsList.set('innerHTML', '');
+
+        // Compose the list from the model
+        Y.Array.each(participants, function (participant) {
+
+            // Vars
+            var fullName = participant.get('fullName'),
+                screenName = participant.get('screenName'),
+                participantItem = Y.Node.create(instance.participantsItemTemplate),
+                presenceView,
+                innerHTML = '';
 
             // Set the full name
-            if (fullName && fullName.length > 0) {
+            if (fullName) {
                 innerHTML += fullName;
             }
             // If no full name use screen name
-            else if (screenName && screenName.length > 0) {
+            else if (screenName) {
                 innerHTML += screenName;
             }
-            // Don't include
-            else {
-                continue;
-            }
 
-            // Add new line at the end of each participant except for the last one
-            if (index < participants.length - 1) {
-                innerHTML += '<br/>';
-            }
-        }
+            // Set name as a content of the participant item
+            participantItem.set('innerHTML', innerHTML);
 
-        // Set the HTML to the list
-        participantsList.set('innerHTML', innerHTML);
+            // Create presence view
+            presenceView = new Y.LIMS.View.PresenceView({
+                presenceType: participant.get('presence')
+            });
+
+            // Render presence view
+            presenceView.render();
+
+            // Prepend it to the user name
+            participantItem.prepend(presenceView.get('container'));
+
+            // Append the item to the list
+            participantsList.append(participantItem);
+        });
     },
 
     /**

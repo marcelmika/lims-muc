@@ -675,6 +675,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         _onPresencesChanged: function (event) {
             // Vars
             var model = this.get('model'),
+                listView = this.get('listView'),
                 buddies = event.buddyList || [];
 
             // Update model
@@ -682,6 +683,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Update status indicator
             this._updateStatusIndicator();
+            // Update list of participants
+            listView.refreshParticipantsList();
         },
 
         /**

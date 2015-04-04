@@ -51,6 +51,13 @@
     font-weight: 500;
     max-height: 225px;
     overflow-y: auto;
+
+    .status-indicator {
+      display: inline-block;
+      margin-right: 5px;
+      width: 6px;
+      height: 6px;
+    }
   }
 
   .conversation-item {
