@@ -68,15 +68,19 @@
             <%-- Content --%>
             <ul class="lfr-component status">
                 <li class="online" data-status="${PRESENCE_ACTIVE}">
+                    <div class="status-indicator online"></div>
                     <liferay-ui:message key="presence-online"/>
                 </li>
                 <li class="busy" data-status="${PRESENCE_BUSY}">
+                    <div class="status-indicator busy"></div>
                     <liferay-ui:message key="presence-busy"/>
                 </li>
                 <li class="unavailable divider" data-status="${PRESENCE_DND}">
+                    <div class="status-indicator unavailable"></div>
                     <liferay-ui:message key="presence-unavailable"/>
                 </li>
                 <li class="off" data-status="${PRESENCE_OFFLINE}">
+                    <div class="status-indicator off"></div>
                     <liferay-ui:message key="presence-offline"/>
                 </li>
             </ul>
