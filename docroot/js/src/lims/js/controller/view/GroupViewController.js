@@ -222,12 +222,16 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
     _onPresencesChanged: function (event) {
         // Vars
         var model = this.get('model'),
+            searchPanelModel = this.get('searchPanelModel'),
             buddies = event.buddyList || [];
 
         // Update presence at each group
         Y.Array.each(model.toArray(), function(groupModel) {
             groupModel.updatePresences(buddies);
         });
+
+        // Update presence in the search panel
+        searchPanelModel.updatePresences(buddies);
     },
 
     /**
