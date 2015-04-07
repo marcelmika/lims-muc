@@ -489,7 +489,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             }
 
             // Tiny screen
-            if (winWidth < tinyScreenThreshold) {
+            if (winWidth < tinyScreenThreshold || conversationToggleController.size() === 0) {
                 this._hideConversationToggle();
             } else if (!shouldHideToggle){
                 this._showConversationToggle();
