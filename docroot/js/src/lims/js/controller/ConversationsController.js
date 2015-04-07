@@ -240,6 +240,10 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),
                 conversationNodes = this.get('openedConversationNodes');
 
+            if (this.getPortletContainer().hasClass('mobile-screen')) {
+                averageConversationNodeSize = 42;
+            }
+
             conversationNodes.each(function (conversationNode) {
                 if (!Y.LIMS.Core.Util.isHidden(conversationNode)) {
                     size += averageConversationNodeSize;
@@ -335,6 +339,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 winWidth = Y.one(Y.config.win).get('winWidth'), // Width of the whole document
                 padding = this.get('barPadding'),               // Extra padding on both left and right side
                 extraWidth = this.get('mandatoryPanelsWidth'),  // Width of other than conversation panels
+                mobileThreshold = this.get('mobileThreshold'),  // Minimal threshold for mobile size class
+                tinyScreenThreshold = this.get('tinyScreenThreshold'), // Threshold for the tiny screen size
                 staticPart,                                     // The part that has a static size (other panels)
                 dynamicPart,                                    // The part that has a dynamic size (conversations)
                 conversationNodeSizes,                          // Size of all rendered conversation nodes
@@ -347,6 +353,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),  // Get the node size
                 conversationToggleController = this.get('conversationToggleController'),
                 properties = this.get('properties'),
+                portletContainer = this.getPortletContainer(),
+                shouldHideToggle,
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
 
@@ -354,6 +362,19 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // whenever the chat is enabled
             if (!properties.isChatEnabled()) {
                 return;
+            }
+
+            // Check the mobile screen size
+            if (winWidth <= mobileThreshold) {
+                // Add mobile screen class so the css can change
+                portletContainer.addClass('mobile-screen');
+                // Padding is smaller since there is no padding on right and left
+                padding = 50;
+                // The size of conversation nodes is smaller
+                averageConversationNodeSize = 42;
+            } else {
+                // No need to add the mobile screen class since the screen is big enough
+                portletContainer.removeClass('mobile-screen');
             }
 
             // This is just a defensive programming check. Since the layoutSubviews method can call itself
@@ -428,7 +449,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         // If there are no hidden conversation the conversation toggle
                         // is not needed anymore
                         if (hiddenConversations.size() === 0) {
-                            this._hideConversationToggle();
+                            shouldHideToggle = true;
                         }
 
                         // Call recursion to check if more conversation should be visible again
@@ -457,12 +478,21 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         conversationToggleController.addConversation(controller.get('model'));
                     }
 
-                    // Since there is at least one conversation hidden show the conversation toggle
-                    this._showConversationToggle();
+                    if (winWidth >= tinyScreenThreshold) {
+                        // Since there is at least one conversation hidden show the conversation toggle
+                        this._showConversationToggle();
+                    }
 
                     // Call recursion to check if more conversation should be hidden
                     this._layoutSubviews(++depth);
                 }
+            }
+
+            // Tiny screen
+            if (winWidth < tinyScreenThreshold) {
+                this._hideConversationToggle();
+            } else if (!shouldHideToggle){
+                this._showConversationToggle();
             }
         },
 
@@ -925,6 +955,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @private
          */
         _onWindowResize: function () {
+            // Layout conversation subviews
             this._layoutSubviews();
         }
 
@@ -1025,6 +1056,20 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
              */
             mandatoryPanelsWidth: {
                 value: 300 // default value
+            },
+
+            /**
+             * Width of the screen when the device is screen considered as tiny
+             */
+            tinyScreenThreshold: {
+                value: 320 // default value
+            },
+
+            /**
+             * Width of the screen when the device is considered as mobile
+             */
+            mobileThreshold: {
+                value: 650 // default value
             },
 
             /**

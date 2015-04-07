@@ -2,6 +2,14 @@
 / SETTINGS PANEL
 /********************************************************************************/
 
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .chat-settings {
+
+  .panel {
+    right: -21px;
+  }
+}
+
 .lims-muc .chat-settings {
 
   label {

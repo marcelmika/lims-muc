@@ -2,6 +2,14 @@
 / CONTACTS PANEL
 /********************************************************************************/
 
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .buddy-list {
+
+  .panel {
+    right: -74px;
+  }
+}
+
 .lims-muc .buddy-list {
 
   // Add icon to trigger

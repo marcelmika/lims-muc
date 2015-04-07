@@ -2,6 +2,14 @@
 / CONVERSATION FEED PANEL
 /********************************************************************************/
 
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .conversation-feed {
+
+  .panel {
+    right: -127px;
+  }
+}
+
 .lims-muc .conversation-feed {
 
   // Add icon to trigger

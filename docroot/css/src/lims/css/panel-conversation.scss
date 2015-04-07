@@ -2,6 +2,26 @@
 / CONVERSATION
 /********************************************************************************/
 
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .conversation {
+
+  .panel {
+    right: -180px;
+  }
+
+  .panel-trigger {
+    width: 42px;
+
+    .trigger-name {
+      padding-right: 2px;
+    }
+
+    .close {
+      display: none;
+    }
+  }
+}
+
 .lims-muc .conversation {
 
   .panel-window {
