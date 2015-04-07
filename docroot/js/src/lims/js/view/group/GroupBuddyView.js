@@ -77,6 +77,7 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
             container = this.get('container');
 
         model.after('presenceChange', this._onPresenceChange, this);
+        model.after('connectedChange', this._onPresenceChange, this);
 
         // TODO: Rewrite to onMethod
         // Attach click on panel's item
@@ -153,7 +154,14 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
         // Update the presence
         if (presenceView) {
-            presenceView.set('presenceType', model.get('presence'));
+
+            if (model.get('connected')) {
+                presenceView.set('presenceType', model.get('presence'));
+            } else {
+                presenceView.set('presenceType', 'OFFLINE');
+            }
+
+            // Render
             presenceView.render();
         }
     }

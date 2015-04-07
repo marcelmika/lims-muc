@@ -79,10 +79,6 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
         // Repopulate the list
         this.reset(conversationModels);
 
-        this.fire('conversationsUpdated', {
-            conversationList: this
-        });
-
         // Called when some of the users changed their presence
         if (changedPresences.length) {
             // Map models
@@ -94,6 +90,10 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
                 buddyList: presencesModels
             });
         }
+
+        this.fire('conversationsUpdated', {
+            conversationList: this
+        });
     },
 
     /**

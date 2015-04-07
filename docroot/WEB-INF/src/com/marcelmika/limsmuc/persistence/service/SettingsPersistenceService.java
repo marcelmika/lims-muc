@@ -25,7 +25,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
+    ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
     /**
      * Update buddy's active panel (panel which is open)
@@ -33,7 +33,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
+    UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
 
     /**
      * Update buddy's settings
@@ -41,7 +41,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
+    UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
 
     /**
      * Update all users connections
@@ -49,7 +49,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
+    UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
 
     /**
      * Returns a list of buddies that are currently connected
@@ -57,7 +57,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event);
+    GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event);
 
     /**
      * Enables chat for buddy
@@ -65,7 +65,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
+    EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
 
     /**
      * Disables chat for buddy
@@ -73,6 +73,6 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
+    DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
 
 }

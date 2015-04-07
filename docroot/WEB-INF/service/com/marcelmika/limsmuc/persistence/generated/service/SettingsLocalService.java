@@ -313,6 +313,13 @@ public interface SettingsLocalService extends BaseLocalService,
 	public void changePresence(long userId, java.lang.String presence)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* Returns all user settings that have changed their presence since the particular timestamp
+	*
+	* @param since position in a time from which we count the presence updates
+	* @return list of settings
+	* @throws SystemException
+	*/
 	public java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> findByPresenceUpdatedSince(
 		java.util.Date since)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -421,8 +428,8 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Returns sites groups ids where the user belongs
 	*
-	* @param userId                id of the user
-	* @param excludedSites         list of names of sites which should be excluded
+	* @param userId        id of the user
+	* @param excludedSites list of names of sites which should be excluded
 	* @return List of objects where each object contains group name and user info
 	* @throws SystemException
 	*/
@@ -485,8 +492,8 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Returns social groups ids where the user belongs
 	*
-	* @param userId                of the user whose social relations are we looking for
-	* @param relationTypes         an array of relation type codes that we are looking for
+	* @param userId        of the user whose social relations are we looking for
+	* @param relationTypes an array of relation type codes that we are looking for
 	* @return List objects where each object contains relation type and user info
 	* @throws SystemException
 	*/
@@ -549,8 +556,8 @@ public interface SettingsLocalService extends BaseLocalService,
 	/**
 	* Returns a list of user's groups
 	*
-	* @param userId                of the user whose groups are we looking for
-	* @param excludedGroups        list of names of groups which should be excluded
+	* @param userId         of the user whose groups are we looking for
+	* @param excludedGroups list of names of groups which should be excluded
 	* @return List of objects where each object contains group name and user info
 	* @throws SystemException
 	*/

@@ -616,6 +616,7 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
 
             if (buddy) {
                 buddy.set('presence', updatedBuddy.get('presence'));
+                buddy.set('connected', updatedBuddy.get('connected'));
             }
         });
     }

@@ -63,6 +63,7 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
 
             if (buddy) {
                 buddy.set('presence', updatedBuddy.get('presence'));
+                buddy.set('connected', updatedBuddy.get('connected'));
             }
         });
     },

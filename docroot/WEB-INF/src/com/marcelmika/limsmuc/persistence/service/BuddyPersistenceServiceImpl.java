@@ -10,6 +10,8 @@
 package com.marcelmika.limsmuc.persistence.service;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
@@ -49,6 +51,10 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
 
     // Dependencies
     SearchManager searchManager;
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(BuddyPersistenceServiceImpl.class);
 
     /**
      * Constructor
@@ -359,6 +365,7 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 // Create new buddy
                 BuddyDetails buddy = new BuddyDetails();
                 buddy.setBuddyId(setting.getUserId());
+                buddy.setConnected(setting.getConnected());
                 buddy.setPresenceDetails(presence.toPresenceDetails());
 
                 details.add(buddy);

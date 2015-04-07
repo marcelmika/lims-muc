@@ -29,7 +29,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
+    ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
     /**
      * Reads buddy's session limit
@@ -37,7 +37,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event);
+    ReadSessionLimitResponseEvent readSessionLimit(ReadSessionLimitRequestEvent event);
 
     /**
      * Update buddy's active panel (panel which is open)
@@ -45,7 +45,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
+    UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
 
     /**
      * Update buddy's settings
@@ -53,7 +53,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
+    UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
 
     /**
      * Update all users connections
@@ -61,7 +61,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
+    UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
 
     /**
      * Enables chat for buddy
@@ -69,7 +69,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
+    EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
 
     /**
      * Disables chat for buddy
@@ -77,7 +77,7 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
+    DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
 
     /**
      * Tests connection with the jabber server
@@ -85,6 +85,6 @@ public interface SettingsCoreService {
      * @param event Request event
      * @return Response event
      */
-    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
+    TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
 
 }
