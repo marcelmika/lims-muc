@@ -179,6 +179,9 @@
   &.close {
     background: url(/images/close-button.png) center center no-repeat;
     @include image-2x('/images/close-button@2x.png', auto, 18px);
+    // This needs to be here because it's overridden by the aui close class
+    width: 20px;
+    height: 14px;
   }
 
   &.search {
