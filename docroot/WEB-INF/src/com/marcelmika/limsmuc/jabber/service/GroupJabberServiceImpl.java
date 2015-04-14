@@ -9,8 +9,13 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
+import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
+import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
+import com.marcelmika.limsmuc.jabber.domain.Group;
+import com.marcelmika.limsmuc.jabber.domain.Page;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
@@ -46,7 +51,7 @@ public class GroupJabberServiceImpl implements GroupJabberService {
      */
     @Override
     public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event) {
-        // Get buddy form details
+        // Get buddy from details
         Buddy buddy = Buddy.fromBuddyDetails(event.getBuddyDetails());
         // We use buddy ID as an identification
         Long buddyId = buddy.getBuddyId();
@@ -62,9 +67,62 @@ public class GroupJabberServiceImpl implements GroupJabberService {
 
         // Get groups manager related to buddy
         GroupManager groupManager = userSession.getGroupManager();
+
+        // Create page
+        Page page = new Page();
+        page.setNumber(0); // We always start from the beginning of the list
+        page.setSize(Environment.getBuddyListMaxBuddies());
+
         // Get a list of groups
-        GroupCollection groupCollection = groupManager.getGroupCollection();
+        GroupCollection groupCollection = groupManager.getGroupCollection(page);
         // Return success
         return GetGroupsResponseEvent.success(groupCollection.toGroupCollectionDetails());
+    }
+
+    /**
+     * Returns a particular group
+     *
+     * @param event RequestEvent
+     * @return ResponseEvent
+     */
+    @Override
+    public GetGroupResponseEvent getGroup(GetGroupRequestEvent event) {
+        // Get buddy from details
+        Buddy buddy = Buddy.fromBuddyDetails(event.getBuddy());
+        // We use buddy ID as an identification
+        Long buddyId = buddy.getBuddyId();
+        // Get the session from store
+        UserSession userSession = userSessionStore.getUserSession(buddyId);
+        // No session
+        if (userSession == null) {
+            return GetGroupResponseEvent.failure(
+                    GetGroupResponseEvent.Status.ERROR_NO_SESSION,
+                    new JabberException(String.format("No session for user %d found", buddyId))
+            );
+        }
+
+        // Get groups manager related to buddy
+        GroupManager groupManager = userSession.getGroupManager();
+
+        // Create page
+        Page page = new Page();
+        page.setNumber(event.getNumber());
+        page.setSize(Environment.getBuddyListMaxBuddies());
+
+        try {
+
+            // Get the group
+            Group group = groupManager.getGroup(event.getGroupId(), event.getListStrategy(), page);
+
+            // Success
+            return GetGroupResponseEvent.success(group.toGroupDetails());
+
+        }
+        // Failure
+        catch (JabberException e) {
+            return GetGroupResponseEvent.failure(
+                    GetGroupResponseEvent.Status.ERROR_JABBER, e
+            );
+        }
     }
 }

@@ -28,7 +28,7 @@ public interface GroupPersistenceService {
      * @param event RequestEvent
      * @return ResponseEvent
      */
-    public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event);
+    GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event);
 
     /**
      * Returns a particular group
@@ -36,5 +36,5 @@ public interface GroupPersistenceService {
      * @param event RequestEvent
      * @return ResponseEvent
      */
-    public GetGroupResponseEvent getGroup(GetGroupRequestEvent event);
+    GetGroupResponseEvent getGroup(GetGroupRequestEvent event);
 }

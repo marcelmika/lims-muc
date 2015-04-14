@@ -65,7 +65,7 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
 
         // Create page
         Page page = new Page();
-        page.setNumber(0); // We are always starting from the beginning
+        page.setNumber(0); // We always start from the beginning of the list
         page.setSize(Environment.getBuddyListMaxBuddies());
 
         try {
