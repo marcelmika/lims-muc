@@ -76,6 +76,8 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         // Add group icon
         this._renderGroupIcon();
 
+        container.one('.group-name').on('click', this._onGroupNameClick, this);
+
         // Hide group name if nothing was set
         if (!model.get('name')) {
             Y.LIMS.Core.Util.hide(container.one('.group-name'));
@@ -90,9 +92,10 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         this.set('buddyListView', buddiesView);
 
         // Load more button
-        if (!model.hasReachedBottom() && model.get('listStrategy') !== 'ALL') {
-            this._showLoadMoreButton();
-        }
+        this._showLoadMoreButton();
+
+        // Remember the height
+        this.set('clientHeight', container.get('clientHeight'));
 
         return this;
     },
@@ -103,7 +106,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
      * @private
      */
     _renderGroupIcon: function () {
-       // Vars
+        // Vars
         var container = this.get('container'),
             listStrategy = this.get('model').get('listStrategy'),
             groupIcon = container.one('.group-icon');
@@ -128,6 +131,23 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
             groupIcon.addClass('group-jabber');
             groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconJabber);
         }
+    },
+
+    /**
+     * Attaches listeners to events
+     *
+     * @private
+     */
+    _attachEvents: function () {
+        // Vars
+        var model = this.get('model'),
+            loadMoreButton = this.get('loadMoreButton');
+
+        // Local events
+        model.on('beforeLoad', this._onBeforeGroupRead, this);
+        model.after('load', this._onGroupReadSuccess, this);
+        model.after('error', this._onGroupReadError, this);
+        loadMoreButton.on('click', this._onLoadMoreButtonClick, this);
     },
 
     /**
@@ -167,10 +187,15 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
     _showLoadMoreButton: function () {
         // Vars
         var loadMoreButton = this.get('loadMoreButton'),
+            model = this.get('model'),
             container = this.get('container');
 
         if (!loadMoreButton.inDoc()) {
-            container.append(loadMoreButton);
+
+            // Show only if the load more button is needed
+            if (!model.hasReachedBottom() && model.get('listStrategy') !== 'ALL') {
+                container.append(loadMoreButton);
+            }
         }
     },
 
@@ -186,23 +211,6 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         if (loadMoreButton.inDoc()) {
             loadMoreButton.remove();
         }
-    },
-
-    /**
-     * Attaches listeners to events
-     *
-     * @private
-     */
-    _attachEvents: function () {
-        // Vars
-        var model = this.get('model'),
-            loadMoreButton = this.get('loadMoreButton');
-
-        // Local events
-        model.on('beforeLoad', this._onBeforeGroupRead, this);
-        model.after('load', this._onGroupReadSuccess, this);
-        model.after('error', this._onGroupReadError, this);
-        loadMoreButton.on('click', this._onLoadMoreButtonClick, this);
     },
 
     /**
@@ -248,6 +256,31 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         // Load the model
         model.load({
             readMore: true
+        });
+    },
+
+    /**
+     * Called when the user clicks on the group name title
+     *
+     * @private
+     */
+    _onGroupNameClick: function () {
+        // Vars
+        var buddyListView = this.get('buddyListView'),
+            instance = this;
+
+        // Closed
+        if (!buddyListView.get('closed')) {
+            instance._hideLoadMoreButton();
+        }
+
+        // Open/Close the buddy list view
+        buddyListView.toggle(function () {
+
+            // Opened
+            if (!buddyListView.get('closed')) {
+                instance._showLoadMoreButton();
+            }
         });
     }
 

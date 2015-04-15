@@ -47,11 +47,14 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
 
                 // Create new group view
                 var groupView = new Y.LIMS.View.GroupView({model: groupModel});
+
                 // Render group
                 groupView.render();
+
                 // Add it to group list
                 groupList.append(groupView.get('container'));
 
+                // Add it to the list of views
                 groupViews.push(groupView);
             });
 
