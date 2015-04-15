@@ -384,9 +384,8 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
                 // Vars
                 var node = Y.Node.create(this.loadMoreButtonTemplate);
 
-                // TODO: i18n
                 // Set button content
-                node.set('innerHTML', "Load More");
+                node.set('innerHTML', Y.LIMS.Core.i18n.values.groupLoadMore);
 
                 return node;
             }

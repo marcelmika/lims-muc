@@ -60,6 +60,7 @@
     "groupIconSites":"<liferay-ui:message key="panel-group-list-icon-sites"/>",
     "groupIconSocial":"<liferay-ui:message key="panel-group-list-icon-social"/>",
     "groupIconUser":"<liferay-ui:message key="panel-group-list-icon-user"/>",
-    "groupIconJabber":"<liferay-ui:message key="panel-group-list-icon-jabber"/>"
+    "groupIconJabber":"<liferay-ui:message key="panel-group-list-icon-jabber"/>",
+    "groupLoadMore":"<liferay-ui:message key="panel-group-list-load-more"/>"
     }
 </script>
