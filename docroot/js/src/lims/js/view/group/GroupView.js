@@ -68,9 +68,13 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.template, {
-                name: name
+                name: name,
+                title: name
             })
         );
+
+        // Add group icon
+        this._renderGroupIcon();
 
         // Hide group name if nothing was set
         if (!model.get('name')) {
@@ -91,6 +95,39 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         }
 
         return this;
+    },
+
+    /**
+     * Adds group icon to container group
+     *
+     * @private
+     */
+    _renderGroupIcon: function () {
+       // Vars
+        var container = this.get('container'),
+            listStrategy = this.get('model').get('listStrategy'),
+            groupIcon = container.one('.group-icon');
+
+        // Sites
+        if (listStrategy === 'SITES') {
+            groupIcon.addClass('group-sites');
+            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSites);
+        }
+        // Social
+        else if (listStrategy === 'SOCIAL') {
+            groupIcon.addClass('group-social');
+            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSocial);
+        }
+        // User
+        else if (listStrategy === 'USER_GROUPS') {
+            groupIcon.addClass('group-user');
+            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconUser);
+        }
+        // User
+        else if (listStrategy === 'JABBER') {
+            groupIcon.addClass('group-jabber');
+            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconJabber);
+        }
     },
 
     /**

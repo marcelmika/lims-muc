@@ -13,7 +13,10 @@
 
 <%-- This template HTML will be used to render each group item. --%>
 <script type="text/x-template" id="limsmuc-group-item-template">
-    <div class="group-name">{name}</div>
+    <div class="group-name">
+        <div class="group-icon"></div>
+        <span title="{title}">{name}</span>
+    </div>
 </script>
 
 <%-- This template HTML will be used to conversation feed regular item --%>

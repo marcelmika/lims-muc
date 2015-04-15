@@ -82,17 +82,51 @@
   }
 
   .group-list .group-item .group-name {
-    height: 25px;
+    height: 29px;
     background: #f8f8f8;
-    padding-left: 5px;
+    padding-left: 6px;
     padding-top: 6px;
+    padding-bottom: 0;
+    margin-bottom: 5px;
     text-transform: uppercase;
     float: none;
     @include box-shadow(inset 0 0 0 0 #f8f8f8, inset 0 -2px 2px -2px rgba(105, 104, 104, 0.25));
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 250px;
+    max-width: 244px;
+
+    span {
+      margin-left: 20px;
+    }
+
+    .group-icon {
+      position: absolute;
+      top: 11px;
+      width: 13px;
+      height: 13px;
+      opacity: 0.6;
+
+      &.group-sites {
+        background: url(/images/icon-group-sites.png) no-repeat center center;
+        @include image-2x('/images/icon-group-sites@2x.png', auto, 13px);
+      }
+
+      &.group-social {
+        background: url(/images/icon-group-social.png) no-repeat center center;
+        @include image-2x('/images/icon-group-social@2x.png', auto, 13px);
+      }
+
+      &.group-user {
+        background: url(/images/icon-group-user.png) no-repeat center center;
+        @include image-2x('/images/icon-group-user@2x.png', auto, 13px);
+      }
+
+      &.group-jabber {
+        background: url(/images/icon-group-jabber.png) no-repeat center center;
+        @include image-2x('/images/icon-group-jabber@2x.png', auto, 13px);
+      }
+    }
   }
 
   .preloader.read-more-preloader {
@@ -123,7 +157,7 @@
     content: "";
     position: absolute;
     background: #f8f8f8;
-    border:none;
+    border: none;
     top: 0;
     left: 0;
     right: 0;
@@ -135,7 +169,6 @@
   .load-more:hover:before {
     bottom: 0;
   }
-
 
   ////////////////////////////////////////////
   // PANEL CONTENT                          //

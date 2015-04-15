@@ -9,8 +9,6 @@
 
 package com.marcelmika.limsmuc.jabber.domain;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.GroupDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 
