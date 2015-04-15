@@ -38,6 +38,7 @@ public class Group {
     private Page page;
     // List strategy
     private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
     // Social relation type
     private Environment.BuddyListSocialRelation socialRelation;
 
@@ -59,6 +60,7 @@ public class Group {
         group.groupId = details.getGroupId();
         group.name = details.getName();
         group.listStrategy = details.getListStrategy();
+        group.listGroup = details.getListGroup();
         group.socialRelation = details.getSocialRelation();
 
         // Relations
@@ -117,6 +119,7 @@ public class Group {
         details.setGroupId(groupId);
         details.setName(name);
         details.setListStrategy(listStrategy);
+        details.setListGroup(listGroup);
         details.setSocialRelation(socialRelation);
 
         // Relations
@@ -175,6 +178,14 @@ public class Group {
 
     public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
         this.listStrategy = listStrategy;
+    }
+
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
+    }
+
+    public void setListGroup(Environment.BuddyListGroup listGroup) {
+        this.listGroup = listGroup;
     }
 
     public Environment.BuddyListSocialRelation getSocialRelation() {

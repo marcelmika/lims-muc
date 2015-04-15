@@ -105,9 +105,12 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
         page.setNumber(event.getNumber());
         page.setSize(Environment.getBuddyListMaxBuddies());
 
-        // Get group from manager
         try {
-            Group group = groupManager.getGroup(buddy.getBuddyId(), event.getGroupId(), event.getListStrategy(), page);
+
+            // Get group from manager
+            Group group = groupManager.getGroup(
+                    buddy.getBuddyId(), event.getGroupId(), event.getListStrategy(), event.getListGroup(), page
+            );
 
             // Not found
             if (group == null) {

@@ -106,24 +106,30 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         // Vars
         var container = this.get('container'),
             listStrategy = this.get('model').get('listStrategy'),
+            listGroup = this.get('model').get('listGroup'),
             groupIcon = container.one('.group-icon');
 
-        // Sites
-        if (listStrategy === 'SITES') {
-            groupIcon.addClass('group-sites');
-            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSites);
+        // Groups
+        if (listStrategy === 'GROUPS') {
+
+            // Sites
+            if (listGroup === 'SITE') {
+                groupIcon.addClass('group-sites');
+                groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSites);
+            }
+            // Social
+            else if (listGroup === 'SOCIAL') {
+                groupIcon.addClass('group-social');
+                groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSocial);
+            }
+            // User
+            else if (listGroup === 'USER') {
+                groupIcon.addClass('group-user');
+                groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconUser);
+            }
         }
-        // Social
-        else if (listStrategy === 'SOCIAL') {
-            groupIcon.addClass('group-social');
-            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconSocial);
-        }
-        // User
-        else if (listStrategy === 'USER_GROUPS') {
-            groupIcon.addClass('group-user');
-            groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconUser);
-        }
-        // User
+
+        // Jabber
         else if (listStrategy === 'JABBER') {
             groupIcon.addClass('group-jabber');
             groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconJabber);

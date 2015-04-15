@@ -24,15 +24,18 @@ public class GetGroupRequestEvent extends RequestEvent {
     private BuddyDetails buddy;
     private Long groupId;
     private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
     private Integer number;
 
     public GetGroupRequestEvent(final BuddyDetails buddy,
                                 final Long groupId,
                                 final Environment.BuddyListStrategy listStrategy,
+                                final Environment.BuddyListGroup listGroup,
                                 final Integer number) {
         this.buddy = buddy;
         this.groupId = groupId;
         this.listStrategy = listStrategy;
+        this.listGroup = listGroup;
         this.number = number;
     }
 
@@ -46,6 +49,10 @@ public class GetGroupRequestEvent extends RequestEvent {
 
     public Environment.BuddyListStrategy getListStrategy() {
         return listStrategy;
+    }
+
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
     }
 
     public Integer getNumber() {

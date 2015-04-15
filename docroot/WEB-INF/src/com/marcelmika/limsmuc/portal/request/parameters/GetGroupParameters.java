@@ -21,6 +21,7 @@ public class GetGroupParameters {
 
     private Long groupId;
     private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
     private Integer number;
 
     public Long getGroupId() {
@@ -39,6 +40,14 @@ public class GetGroupParameters {
         this.listStrategy = listStrategy;
     }
 
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
+    }
+
+    public void setListGroup(Environment.BuddyListGroup listGroup) {
+        this.listGroup = listGroup;
+    }
+
     public Integer getNumber() {
         return number;
     }
@@ -52,6 +61,7 @@ public class GetGroupParameters {
         return "GetGroupParameters{" +
                 "groupId=" + groupId +
                 ", listStrategy=" + listStrategy +
+                ", listGroup=" + listGroup +
                 ", number=" + number +
                 '}';
     }

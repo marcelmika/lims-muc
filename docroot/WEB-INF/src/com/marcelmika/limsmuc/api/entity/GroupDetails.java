@@ -33,6 +33,7 @@ public class GroupDetails {
     private PageDetails page;
     private Date lastModified;
     private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
     private Environment.BuddyListSocialRelation socialRelation;
 
 
@@ -88,6 +89,14 @@ public class GroupDetails {
         this.socialRelation = socialRelation;
     }
 
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
+    }
+
+    public void setListGroup(Environment.BuddyListGroup listGroup) {
+        this.listGroup = listGroup;
+    }
+
     public Environment.BuddyListStrategy getListStrategy() {
         return listStrategy;
     }
@@ -103,13 +112,14 @@ public class GroupDetails {
     @Override
     public String toString() {
         return "GroupDetails{" +
-                "groupId='" + groupId + '\'' +
-                ", name='" + name + '\'' +
-                ", buddies=" + buddies +
-                ", page=" + page +
-                ", lastModified=" + lastModified +
+                "socialRelation=" + socialRelation +
+                ", listGroup=" + listGroup +
                 ", listStrategy=" + listStrategy +
-                ", socialRelation=" + socialRelation +
+                ", lastModified=" + lastModified +
+                ", page=" + page +
+                ", buddies=" + buddies +
+                ", name='" + name + '\'' +
+                ", groupId=" + groupId +
                 '}';
     }
 }

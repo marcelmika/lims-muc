@@ -26,6 +26,9 @@ public class Properties {
     private String[] excludedSites;
     private Environment.BuddyListStrategy buddyListStrategy;
     private Environment.BuddyListSocialRelation[] buddyListSocialRelations;
+    private Boolean buddyListGroupSiteEnabled;
+    private Boolean buddyListGroupSocialEnabled;
+    private Boolean buddyListGroupUserEnabled;
     private Boolean buddyListIgnoreDeactivatedUser;
     private Integer buddyListMaxBuddies;
     private Integer buddyListMaxSearch;
@@ -61,6 +64,9 @@ public class Properties {
         properties.excludedSites = Environment.getExcludedSites();
         properties.buddyListStrategy = Environment.getBuddyListStrategy();
         properties.buddyListSocialRelations = Environment.getBuddyListSocialRelations();
+        properties.buddyListGroupSiteEnabled = Environment.isBuddyListGroupSiteEnabled();
+        properties.buddyListGroupSocialEnabled = Environment.isBuddyListGroupSocialEnabled();
+        properties.buddyListGroupUserEnabled = Environment.isBuddyListGroupUserEnabled();
         properties.buddyListIgnoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
         properties.buddyListMaxBuddies = Environment.getBuddyListMaxBuddies();
         properties.buddyListMaxSearch = Environment.getBuddyListMaxSearch();
@@ -127,6 +133,30 @@ public class Properties {
 
     public void setBuddyListIgnoreDeactivatedUser(Boolean buddyListIgnoreDeactivatedUser) {
         this.buddyListIgnoreDeactivatedUser = buddyListIgnoreDeactivatedUser;
+    }
+
+    public Boolean isBuddyListGroupSiteEnabled() {
+        return buddyListGroupSiteEnabled;
+    }
+
+    public void setBuddyListGroupSiteEnabled(Boolean buddyListGroupSiteEnabled) {
+        this.buddyListGroupSiteEnabled = buddyListGroupSiteEnabled;
+    }
+
+    public Boolean isBuddyListGroupSocialEnabled() {
+        return buddyListGroupSocialEnabled;
+    }
+
+    public void setBuddyListGroupSocialEnabled(Boolean buddyListGroupSocialEnabled) {
+        this.buddyListGroupSocialEnabled = buddyListGroupSocialEnabled;
+    }
+
+    public Boolean isBuddyListGroupUserEnabled() {
+        return buddyListGroupUserEnabled;
+    }
+
+    public void setBuddyListGroupUserEnabled(Boolean buddyListGroupUserEnabled) {
+        this.buddyListGroupUserEnabled = buddyListGroupUserEnabled;
     }
 
     public Integer getBuddyListMaxBuddies() {
@@ -296,6 +326,9 @@ public class Properties {
                 ", excludedSites=" + Arrays.toString(excludedSites) +
                 ", buddyListStrategy=" + buddyListStrategy +
                 ", buddyListSocialRelations=" + Arrays.toString(buddyListSocialRelations) +
+                ", buddyListGroupSiteEnabled=" + buddyListGroupSiteEnabled +
+                ", buddyListGroupSocialEnabled=" + buddyListGroupSocialEnabled +
+                ", buddyListGroupUserEnabled=" + buddyListGroupUserEnabled +
                 ", buddyListIgnoreDeactivatedUser=" + buddyListIgnoreDeactivatedUser +
                 ", buddyListMaxBuddies=" + buddyListMaxBuddies +
                 ", buddyListMaxSearch=" + buddyListMaxSearch +

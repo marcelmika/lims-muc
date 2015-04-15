@@ -83,6 +83,7 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
             readMore = options.readMore || false,
             groupId = this.get('groupId'),
             listStrategy = this.get('listStrategy'),
+            listGroup = this.get('listGroup'),
             page = this.get('page'),
             instance = this;
 
@@ -105,6 +106,7 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
                 parameters = Y.JSON.stringify({
                     groupId: groupId,
                     listStrategy: listStrategy,
+                    listGroup: listGroup,
                     number: number
                 });
 
@@ -274,9 +276,18 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
         /**
          * List strategy related to the group
          *
-         * {string}
+         * {ALL|GROUPS|null}
          */
         listStrategy: {
+            value: null // to be set
+        },
+
+        /**
+         * List group strategy
+         *
+         * {SITE|SOCIAL|USER|null}
+         */
+        listGroup: {
             value: null // to be set
         },
 

@@ -173,6 +173,7 @@ public class GroupController {
                         buddy.toBuddyDetails(),
                         parameters.getGroupId(),
                         parameters.getListStrategy(),
+                        parameters.getListGroup(),
                         parameters.getNumber()
                 )
         );

@@ -123,6 +123,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupExcludedSites(preferences);
             setupBuddyListStrategy(preferences);
             setupBuddyListSocialRelations(preferences);
+            setupBuddyListGroupSiteEnabled(preferences);
+            setupBuddyListGroupSocialEnabled(preferences);
+            setupBuddyListGroupUserEnabled(preferences);
             setupBuddyListIgnoreDeactivatedUser(preferences);
             setupBuddyListMaxBuddies();
             setupBuddyListMaxSearch();
@@ -177,6 +180,21 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Buddy list social relations
         if (properties.getBuddyListSocialRelations() != null) {
             updateBuddyListSocialRelations(preferences, properties);
+        }
+
+        // Buddy list group site enabled
+        if (properties.isBuddyListGroupSiteEnabled() != null) {
+            updateBuddyListGroupSiteEnabled(preferences, properties);
+        }
+
+        // Buddy list group social enabled
+        if (properties.isBuddyListGroupSocialEnabled() != null) {
+            updateBuddyListGroupSocialEnabled(preferences, properties);
+        }
+
+        // Buddy list group user enabled
+        if (properties.isBuddyListGroupUserEnabled() != null) {
+            updateBuddyListGroupUserEnabled(preferences, properties);
         }
 
         // Buddy list ignore deactivated user
@@ -367,25 +385,13 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         BuddyListStrategy buddyListStrategy;
 
-        // All buddies in list
+        // All
         if (value.equals(BuddyListStrategy.ALL.getDescription())) {
             buddyListStrategy = BuddyListStrategy.ALL;
         }
-        // Sites
-        else if (value.equals(BuddyListStrategy.SITES.getDescription())) {
-            buddyListStrategy = BuddyListStrategy.SITES;
-        }
-        // Social
-        else if (value.equals(BuddyListStrategy.SOCIAL.getDescription())) {
-            buddyListStrategy = BuddyListStrategy.SOCIAL;
-        }
-        // Sites and Social
-        else if (value.equals(BuddyListStrategy.SITES_AND_SOCIAL.getDescription())) {
-            buddyListStrategy = BuddyListStrategy.SITES_AND_SOCIAL;
-        }
         // Groups
-        else if (value.equals(BuddyListStrategy.USER_GROUPS.getDescription())) {
-            buddyListStrategy = BuddyListStrategy.USER_GROUPS;
+        else if (value.equals(BuddyListStrategy.GROUPS.getDescription())) {
+            buddyListStrategy = BuddyListStrategy.GROUPS;
         }
         // Jabber
         else if (value.equals(BuddyListStrategy.JABBER.getDescription())) {
@@ -395,8 +401,8 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Unknown value
         else {
             log.error(String.format(
-                    "Unknown buddy list strategy: %s. Valid values are \"all\", \"sites\", \"social\", \"sites," +
-                            "social\". Since no valid property provided \"all\" was chosen as a default. The value " +
+                    "Unknown buddy list strategy: %s. Valid values are \"all\", \"groups\", \"jabber\". " +
+                            "Since no valid property provided \"all\" was chosen as a default. The value " +
                             "can be set in portlet-ext.properties file related to the LIMS portlet.", value
             ));
 
@@ -536,6 +542,156 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save to environment
         Environment.setBuddyListSocialRelations(buddyListSocialRelations);
+    }
+
+    /**
+     * Updates the buddy list groups sites enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateBuddyListGroupSiteEnabled(PortletPreferences preferences,
+                                                 Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.BUDDY_LIST_GROUP_SITE_ENABLED,
+                String.valueOf(properties.isBuddyListGroupSiteEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Save in Environment
+        setupBuddyListGroupSiteEnabled(preferences);
+    }
+
+    /**
+     * Sets the buddy list group site enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupBuddyListGroupSiteEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean buddyListGroupSiteEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            buddyListGroupSiteEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.BUDDY_LIST_GROUP_SITE_ENABLED,
+                    String.valueOf(PortletPropertiesValues.BUDDY_LIST_GROUP_SITE_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            buddyListGroupSiteEnabled = PortletPropertiesValues.BUDDY_LIST_GROUP_SITE_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setBuddyListGroupSiteEnabled(buddyListGroupSiteEnabled);
+    }
+
+    /**
+     * Updates the buddy list groups social enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateBuddyListGroupSocialEnabled(PortletPreferences preferences,
+                                                   Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.BUDDY_LIST_GROUP_SOCIAL_ENABLED,
+                String.valueOf(properties.isBuddyListGroupSocialEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Save in Environment
+        setupBuddyListGroupSocialEnabled(preferences);
+    }
+
+    /**
+     * Sets the buddy list group social enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupBuddyListGroupSocialEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean buddyListGroupSocialEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            buddyListGroupSocialEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.BUDDY_LIST_GROUP_SOCIAL_ENABLED,
+                    String.valueOf(PortletPropertiesValues.BUDDY_LIST_GROUP_SOCIAL_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            buddyListGroupSocialEnabled = PortletPropertiesValues.BUDDY_LIST_GROUP_SOCIAL_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setBuddyListGroupSocialEnabled(buddyListGroupSocialEnabled);
+    }
+
+    /**
+     * Updates the buddy list groups user enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateBuddyListGroupUserEnabled(PortletPreferences preferences,
+                                                 Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.BUDDY_LIST_GROUP_USER_ENABLED,
+                String.valueOf(properties.isBuddyListGroupUserEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Save in Environment
+        setupBuddyListGroupUserEnabled(preferences);
+    }
+
+    /**
+     * Sets the buddy list group user enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupBuddyListGroupUserEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean buddyListGroupUserEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            buddyListGroupUserEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.BUDDY_LIST_GROUP_USER_ENABLED,
+                    String.valueOf(PortletPropertiesValues.BUDDY_LIST_GROUP_USER_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            buddyListGroupUserEnabled = PortletPropertiesValues.BUDDY_LIST_GROUP_USER_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setBuddyListGroupUserEnabled(buddyListGroupUserEnabled);
     }
 
     /**
