@@ -51,7 +51,6 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         var container = this.get('container'),
             model = this.get('model'),
             socialRelation = model.get('socialRelation'),
-            buddiesView,
             name;
 
         // If the group contains social relation we need to localize
@@ -64,7 +63,6 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
             name = model.get('name');
         }
 
-        // Render Group:
         // Fill data from model to template and set it to container
         container.set('innerHTML',
             Y.Lang.sub(this.template, {
@@ -76,26 +74,25 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
         // Add group icon
         this._renderGroupIcon();
 
-        container.one('.group-name').on('click', this._onGroupNameClick, this);
+        // Render counter
+        this._renderGroupCounter();
 
-        // Hide group name if nothing was set
+        // Hide group name if nothing was set. This is used in ALL list strategy.
         if (!model.get('name')) {
             Y.LIMS.Core.Util.hide(container.one('.group-name'));
         }
 
-        // Render Buddies
-        buddiesView = new Y.LIMS.View.GroupBuddyListView({model: model.get('buddies')});
-        buddiesView.render();
-        container.append(buddiesView.get("container"));
-
-        // Remember the view
-        this.set('buddyListView', buddiesView);
-
-        // Load more button
-        this._showLoadMoreButton();
+        // Render buddy list
+        this._renderBuddyList();
 
         // Remember the height
         this.set('clientHeight', container.get('clientHeight'));
+
+        // Show load more button if needed
+        this._showLoadMoreButton();
+
+        // Attach events to rendered container
+        container.one('.group-name').on('click', this._onGroupNameClick, this);
 
         return this;
     },
@@ -131,6 +128,53 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
             groupIcon.addClass('group-jabber');
             groupIcon.set('title', Y.LIMS.Core.i18n.values.groupIconJabber);
         }
+    },
+
+    /**
+     * Renders group counter
+     *
+     * @private
+     */
+    _renderGroupCounter: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            counter;
+
+        // Get the counter
+        counter = container.one('.group-counter');
+
+        if (counter) {
+            counter.set('innerHTML',
+                model.get('buddies').size() + '/' + model.get('page').get('totalElements')
+            );
+        }
+    },
+
+    /**
+     * Renders buddy list
+     *
+     * @private
+     */
+    _renderBuddyList: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            buddiesView;
+
+        // Create view
+        buddiesView = new Y.LIMS.View.GroupBuddyListView({
+            model: model.get('buddies')
+        });
+
+        // Render
+        buddiesView.render();
+
+        // Add to container
+        container.append(buddiesView.get("container"));
+
+        // Remember the view
+        this.set('buddyListView', buddiesView);
     },
 
     /**

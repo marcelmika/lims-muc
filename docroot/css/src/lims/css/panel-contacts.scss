@@ -107,6 +107,18 @@
       margin-left: 20px;
     }
 
+    .group-counter {
+      padding: 3px;
+      margin-top: 5px;
+      margin-right: 4px;
+      font-size: 10px;
+      background: #f8f8f8;
+      color: #555;
+      @include border-radius(10px);
+      line-height: 10px;
+      float: right;
+    }
+
     .group-icon {
       position: absolute;
       top: 11px;

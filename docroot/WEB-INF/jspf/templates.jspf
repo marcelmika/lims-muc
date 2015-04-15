@@ -15,7 +15,8 @@
 <script type="text/x-template" id="limsmuc-group-item-template">
     <div class="group-name">
         <div class="group-icon"></div>
-        <span title="{title}">{name}</span>
+        <div class="group-counter"></div>
+        <span class="group-title" title="{title}">{name}</span>
     </div>
 </script>
 
