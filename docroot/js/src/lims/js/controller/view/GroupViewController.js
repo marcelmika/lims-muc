@@ -30,20 +30,20 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
      * Panel Did Load is called when the panel is attached to the controller
      */
     onPanelDidLoad: function () {
-        // Vars
-        var model = this.get('model');
-
         // Attach events
         this._attachEvents();
-
-        // Load the model
-        model.load();
     },
 
     /**
      * Panel Did Appear is called when the panel did appear on the screen
      */
     onPanelDidAppear: function () {
+        // Vars
+        var model = this.get('model');
+        
+        // Load the model
+        model.load();
+
         // Subscribe to key up event
         this._subscribeKeyUp();
     },
