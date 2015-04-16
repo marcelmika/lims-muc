@@ -12,7 +12,6 @@ package com.marcelmika.limsmuc.portal.controller;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
@@ -112,9 +111,17 @@ public class GroupController {
             else {
                 // Serialize
                 String serialized = JSONFactoryUtil.looseSerialize(groupCollection, "groups", "groups.buddies");
-                // Etags are different which means that groups were modified
-                // Send the whole package to the client
-                ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+
+                // Group collection is still loading -> Return partial content
+                if (groupCollection.isLoading()) {
+                    ResponseUtil.writeResponse(serialized, HttpStatus.PARTIAL_CONTENT, response);
+                }
+                // Full content
+                else {
+                    // Etags are different which means that groups were modified
+                    // Send the whole package to the client
+                    ResponseUtil.writeResponse(serialized, HttpStatus.OK, response);
+                }
             }
         }
         // Failure

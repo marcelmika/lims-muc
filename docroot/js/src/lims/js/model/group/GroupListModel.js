@@ -59,6 +59,34 @@ Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LI
                                 return;
                             }
 
+                            // Server is still processing the request
+                            if (o.status === 206) {
+                                // Add the number of attempts to options
+                                if (!options.attempts) {
+                                    options.attempts = 1;
+                                }
+                                // This is not the first attempt
+                                else {
+                                    // Increase attempt count
+                                    options.attempts = options.attempts + 1;
+                                }
+
+                                // If the number of attempts is more than the limit end with failure
+                                if (options.attempts > 20) {
+                                    callback(new Y.LIMS.Model.ErrorMessage({
+                                        code: 500,
+                                        message: "Too many attempts to read the group list"
+                                    }));
+                                    // End here
+                                    return;
+                                }
+
+                                // Wait a second and call it again
+                                setTimeout(function () {
+                                    instance.sync(action, options, callback);
+                                }, 1000);
+                            }
+
                             // Deserialize
                             try {
                                 // Deserialize response
