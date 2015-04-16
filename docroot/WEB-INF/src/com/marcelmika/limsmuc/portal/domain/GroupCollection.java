@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.portal.domain;
 
 import com.marcelmika.limsmuc.api.entity.GroupCollectionDetails;
 import com.marcelmika.limsmuc.api.entity.GroupDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 
 import java.util.ArrayList;
@@ -45,12 +46,6 @@ public class GroupCollection {
         groupCollection.lastModified = details.getLastModified();
         groupCollection.listStrategy = details.getListStrategy();
         groupCollection.loading = details.isLoading();
-
-        if (details.getLastModified() != null) {
-            // Etag is made of the last modification date and the list strategy type. Thus if the group collection
-            // changes its modification date or its type the client will be forced to download updated version
-            groupCollection.etag = details.getLastModified().hashCode() + groupCollection.listStrategy.hashCode();
-        }
 
         // Relations
         if (details.getGroups() != null) {

@@ -12,6 +12,7 @@ package com.marcelmika.limsmuc.portal.controller;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
@@ -25,6 +26,7 @@ import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.request.parameters.GetGroupListParameters;
 import com.marcelmika.limsmuc.portal.request.parameters.GetGroupParameters;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
+import com.marcelmika.limsmuc.portal.util.EtagUtil;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -96,6 +98,9 @@ public class GroupController {
             GroupCollection groupCollection = GroupCollection.fromGroupCollectionDetails(
                     responseEvent.getGroupCollection()
             );
+
+            // Update etag
+            groupCollection.setEtag(EtagUtil.calculateEtag(groupCollection));
 
             // ... and compare it with group collection etag
             // Cached
