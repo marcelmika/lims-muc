@@ -157,6 +157,10 @@
     }
 
     .button {
+      font-size: 11px;
+      padding-left: 8px;
+      padding-right: 8px;
+      text-transform: uppercase;
       // Rounded corners
       @include border-radius(0);
       @include box-shadow(none);

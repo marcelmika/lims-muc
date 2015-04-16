@@ -69,9 +69,9 @@
 
             <%-- USER SETTINGS --%>
             <div class="user-settings">
-                <ul class="lfr-component settings">
+                <div class="lfr-component settings">
                     <%@ include file="/WEB-INF/jspf/settings/play-sound.jspf" %>
-                </ul>
+                </div>
             </div>
 
             <%-- ADMIN AREA --%>
@@ -90,20 +90,48 @@
 
                     <div class="settings ${adminAreaClass}">
                         <div class="version">${version}</div>
-                        <ul class="lfr-component list">
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
+                        <div class="lfr-component list">
                             <%@ include file="/WEB-INF/jspf/settings/excluded-sites.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
-                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+
+                                <%-- Contact List --%>
+                            <div class="category">
+                                <div class="category-icon contact-list"></div>
+                                <span>Contact List</span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-strategy.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-ignore-deactivated-user.jspf" %>
 
+                                <%-- Site Groups --%>
+                            <div class="category">
+                                <div class="category-icon group-sites"></div>
+                                <span>Site Groups</span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-site-excludes.jspf" %>
+
+                                <%-- Social Connections Groups --%>
+                            <div class="category">
+                                <div class="category-icon group-social"></div>
+                                <span>Social Connections Groups</span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-social-relation.jspf" %>
+
+                                <%-- User Groups --%>
+                            <div class="category">
+                                <div class="category-icon group-user"></div>
+                                <span>User Groups</span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
+
                                 <%-- Jabber --%>
-                            <li class="category">
+                            <div class="category">
+                                <div class="category-icon jabber"></div>
                                 <span><liferay-ui:message key="panel-settings-admin-area-jabber-category-title"/></span>
                                 <a class="help" href="${properties.urlJabberHelp}" target="_blank"
                                    title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
-                            </li>
+                            </div>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-security-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-import-user-enabled.jspf" %>
@@ -114,24 +142,26 @@
                             <%@ include file="/WEB-INF/jspf/settings/jabber-test-connection.jspf" %>
 
                                 <%-- IPC --%>
-                            <li class="category">
+                            <div class="category">
+                                <div class="category-icon ipc"></div>
                                 <span><liferay-ui:message key="panel-settings-admin-area-ipc-category-title"/></span>
                                 <a class="help" href="${properties.urlIpcHelp}" target="_blank"
                                    title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
-                            </li>
+                            </div>
                             <%@ include file="/WEB-INF/jspf/settings/ipc-enabled.jspf" %>
 
                                 <%-- Synchrozniation --%>
-                            <li class="category">
+                            <div class="category">
+                                <div class="category-icon synchronization"></div>
                                 <span>
                                     <liferay-ui:message key="panel-settings-admin-area-synchronization-category-title"/>
                                 </span>
                                 <a class="help" href="${properties.urlSynchronizationHelp}" target="_blank"
                                    title="<liferay-ui:message key="panel-settings-admin-area-help"/>"></a>
-                            </li>
+                            </div>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-suc.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
-                        </ul>
+                        </div>
                     </div>
                     <div class="clear"></div>
                 </div>

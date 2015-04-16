@@ -12,7 +12,7 @@
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Render --%>
-<li class="excluded-sites token-input">
+<div class="excluded-sites token-input">
 
     <div class="settings-category-title">
         <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-excluded-sites-title"/>
@@ -22,4 +22,4 @@
     </div>
     <input type="text" placeholder="" value="${properties.excludedSitesFlatten}"/>
 
-</li>
+</div>

@@ -143,7 +143,14 @@ public class Properties {
         this.buddyListGroupSiteEnabled = buddyListGroupSiteEnabled;
     }
 
+    public Boolean getBuddyListGroupSiteEnabled() {
+        return buddyListGroupSiteEnabled;
+    }
+
     public Boolean isBuddyListGroupSocialEnabled() {
+        return buddyListGroupSocialEnabled;
+    }
+    public Boolean getBuddyListGroupSocialEnabled() {
         return buddyListGroupSocialEnabled;
     }
 
@@ -152,6 +159,10 @@ public class Properties {
     }
 
     public Boolean isBuddyListGroupUserEnabled() {
+        return buddyListGroupUserEnabled;
+    }
+
+    public Boolean getBuddyListGroupUserEnabled() {
         return buddyListGroupUserEnabled;
     }
 

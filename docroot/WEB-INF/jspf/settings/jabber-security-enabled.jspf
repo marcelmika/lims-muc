@@ -20,7 +20,7 @@
 </c:if>
 
 <%-- Render --%>
-<li class="jabber-security-enabled">
+<div class="jabber-security-enabled">
 
     <label class="switch">
         <input ${checked} type="checkbox"/>
@@ -32,4 +32,4 @@
            data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-security-enabled-help"/>">i</i>
     </span>
 
-</li>
+</div>

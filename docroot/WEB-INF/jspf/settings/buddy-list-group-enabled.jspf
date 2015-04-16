@@ -7,7 +7,6 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
-
 <%-- Variables --%>
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
@@ -15,19 +14,24 @@
 <c:set var="checked" value=""/>
 
 <%-- Decide if the swtich should be checked --%>
-<c:if test="${properties.ipcEnabled}">
+<c:if test="${properties.buddyListGroupUserEnabled}">
     <c:set var="checked" value="checked"/>
 </c:if>
 
 <%-- Render --%>
-<div class="ipc-enabled">
+<div class="buddy-list-group-user-enabled">
+
+    <div class="note">
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-user-note"/>
+    </div>
+
     <label class="switch">
         <input ${checked} type="checkbox"/>
         <span></span>
     </label>
     <span class="title-text">
-        <liferay-ui:message key="panel-settings-admin-area-ipc-enabled-title"/>
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-user-enabled-title"/>
         <i class="tooltip-button"
-           data-text="<liferay-ui:message key="panel-settings-admin-area-ipc-enabled-help"/>">i</i>
+           data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-user-excludes-help"/>">i</i>
     </span>
 </div>
