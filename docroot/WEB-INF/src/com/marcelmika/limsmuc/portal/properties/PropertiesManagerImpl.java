@@ -400,6 +400,121 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Unknown value
         else {
+            // Fix the unknown value caused by the deprecation of list strategy values
+            buddyListStrategy = fixDeprecatedBuddyListStrategy(preferences, value);
+        }
+
+        // Save in environment
+        Environment.setBuddyListStrategy(buddyListStrategy);
+    }
+
+    /**
+     * Since v1.3.0 the buddy list strategy no longer provides "sites", "social" and "sites,social" values.
+     * The method takes the value and updates buddy list group value based on that. It also saves the new
+     * value to preferences
+     *
+     * @param preferences PortletPreferences
+     * @param value String
+     * @return BuddyListStrategy
+     */
+    private BuddyListStrategy fixDeprecatedBuddyListStrategy(PortletPreferences preferences, String value) {
+
+        BuddyListStrategy buddyListStrategy;
+
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        // The value is taken from PREFERENCES
+        if (source == PropertiesSource.PREFERENCES) {
+
+            try {
+
+                // SITES
+                if (value.equals("sites")) {
+                    // Create new properties file with updated value
+                    Properties properties = new Properties();
+                    properties.setBuddyListGroupSiteEnabled(true);
+                    properties.setBuddyListStrategy(BuddyListStrategy.GROUPS);
+
+                    // Update in preferences
+                    updateBuddyListGroupSiteEnabled(preferences, properties);
+                    updateBuddyListStrategy(preferences, properties);
+
+                    // Set buddy list strategy
+                    buddyListStrategy = BuddyListStrategy.GROUPS;
+
+                    // Log
+                    log.info("Deprecated buddy list strategy: " + value + " was changed to GROUPS. Furthermore, " +
+                            "buddy list group site was enabled.");
+                }
+
+                // SOCIAL
+                else if (value.equals("social")) {
+                    // Create new properties file with updated value
+                    Properties properties = new Properties();
+                    properties.setBuddyListGroupSocialEnabled(true);
+                    properties.setBuddyListStrategy(BuddyListStrategy.GROUPS);
+
+                    // Update in preferences
+                    updateBuddyListGroupSocialEnabled(preferences, properties);
+                    updateBuddyListStrategy(preferences, properties);
+
+                    // Set buddy list strategy
+                    buddyListStrategy = BuddyListStrategy.GROUPS;
+
+                    // Log
+                    log.info("Deprecated buddy list strategy: " + value + " was changed to GROUPS. Furthermore, " +
+                            "buddy list group social was enabled.");
+                }
+
+                // SITES,SOCIAL
+                else if (value.equals("sites,social")) {
+                    // Create new properties file with updated value
+                    Properties properties = new Properties();
+                    properties.setBuddyListGroupSiteEnabled(true);
+                    properties.setBuddyListGroupSocialEnabled(true);
+                    properties.setBuddyListStrategy(BuddyListStrategy.GROUPS);
+
+                    // Update in preferences
+                    updateBuddyListGroupSiteEnabled(preferences, properties);
+                    updateBuddyListGroupSocialEnabled(preferences, properties);
+                    updateBuddyListStrategy(preferences, properties);
+
+                    // Set buddy list strategy
+                    buddyListStrategy = BuddyListStrategy.GROUPS;
+
+                    // Log
+                    log.info("Deprecated buddy list strategy: " + value + " was changed to GROUPS. Furthermore, " +
+                            "buddy list group site and social was enabled.");
+                }
+
+                // UNKNOWN
+                // This is probably not going to happen, however we should handle this state as well
+                else {
+
+                    // Create new properties file with updated value
+                    Properties properties = new Properties();
+                    properties.setBuddyListStrategy(BuddyListStrategy.GROUPS);
+
+                    // Update in preferences
+                    updateBuddyListStrategy(preferences, properties);
+
+                    // Set buddy list strategy
+                    buddyListStrategy = BuddyListStrategy.ALL;
+                }
+
+            }
+            // Failure
+            catch(Exception exception) {
+                // Log
+                log.error("List strategy deprecation fix failed", exception);
+
+                // Set buddy list strategy
+                buddyListStrategy = BuddyListStrategy.ALL;
+            }
+        }
+        // The value is taken from PROPERTIES
+        else {
             log.error(String.format(
                     "Unknown buddy list strategy: %s. Valid values are \"all\", \"groups\", \"jabber\". " +
                             "Since no valid property provided \"all\" was chosen as a default. The value " +
@@ -409,8 +524,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
             buddyListStrategy = BuddyListStrategy.ALL;
         }
 
-        // Save in environment
-        Environment.setBuddyListStrategy(buddyListStrategy);
+        return buddyListStrategy;
     }
 
     /**
