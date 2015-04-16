@@ -100,6 +100,9 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
             return GetGroupResponseEvent.failure(GetGroupResponseEvent.Status.ERROR_WRONG_PARAMETERS);
         }
 
+        // TODO Add check that such list strategy and list group s available
+
+
         // Create page
         Page page = new Page();
         page.setNumber(event.getNumber());

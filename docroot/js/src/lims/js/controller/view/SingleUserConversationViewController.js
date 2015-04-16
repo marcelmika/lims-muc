@@ -58,12 +58,23 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Always scroll to the last message when user opens the window
             listView.scrollToBottom();
-            // Add focus on textarea
-            listView.setTextFieldFocus();
+
+            // Focus only if the browser is not mobile
+            if (!Y.UA.mobile) {
+                listView.setTextFieldFocus();
+            }
+            // We are on mobile
+            else {
+                // Don't set focus, only reset notifications
+                this._resetNotifications();
+            }
+
             // Hide badge since it's not needed anymore
             panel.hideBadge();
+
             // Start timer that periodically updates timestamps of messages
             this._startTimer();
+
             // Make the badge less noticeable
             panel.dimBadge();
 
@@ -330,6 +341,33 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                     statusIndicator.render();
                 }
             }
+        },
+
+        /**
+         * Resets all incoming message notifications
+         *
+         * @private
+         */
+        _resetNotifications: function() {
+            // Vars
+            var model = this.get('model'),
+                panel = this.getPanel();
+
+            // If the users sets focus to the text field
+            // and there are still some unread messages
+            // reset the counter since we assume that he
+            // reads all unread messages
+            if (model.get('unreadMessagesCount') > 0) {
+                model.resetUnreadMessagesCounter(function (err) {
+                    if (!err) {
+                        // Reset badge
+                        panel.updateBadge(0, true);
+                    }
+                });
+            }
+
+            // Stop the blinking effect
+            panel.stopTitleBlinking();
         },
 
         /**
@@ -625,25 +663,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onMessageTextFieldFocus: function () {
-            // Vars
-            var model = this.get('model'),
-                panel = this.getPanel();
-
-            // If the users sets focus to the text field
-            // and there are still some unread messages
-            // reset the counter since we assume that he
-            // reads all unread messages
-            if (model.get('unreadMessagesCount') > 0) {
-                model.resetUnreadMessagesCounter(function (err) {
-                    if (!err) {
-                        // Reset badge
-                        panel.updateBadge(0, true);
-                    }
-                });
-            }
-
-            // Stop the blinking effect
-            panel.stopTitleBlinking();
+            // Reset incoming message notifications
+            this._resetNotifications();
         },
 
         /**

@@ -422,8 +422,13 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             panelInput.setStyle('opacity', 0);
             // Remove the readonly property if it was set before
             messageTextField.removeAttribute('readonly');
-            // Add a focus to the text field
-            messageTextField.focus();
+
+            // Focus only if the browser is not mobile
+            if (!Y.UA.mobile) {
+                // Add a focus to the text field
+                messageTextField.focus();
+            }
+
 
             // Create animation instance
             animation = new Y.Anim({
