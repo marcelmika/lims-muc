@@ -121,35 +121,7 @@ public class Environment {
         /**
          * Buddies loaded from jabber
          */
-        JABBER("jabber"),
-
-        /**
-         * Buddies related to the sites where the users participates
-         *
-         * @deprecated
-         */
-        SITES("sites"),
-
-        /**
-         * Buddies listed based on the social relations
-         *
-         * @deprecated
-         */
-        SOCIAL("social"),
-
-        /**
-         * Merge of the sites and social list strategies
-         *
-         * @deprecated
-         */
-        SITES_AND_SOCIAL("sites,social"),
-
-        /**
-         * Buddies shown based on the user groups where the user belongs
-         *
-         * @deprecated
-         */
-        USER_GROUPS("groups");
+        JABBER("jabber");
 
 
         // String description of relation type
@@ -697,15 +669,6 @@ public class Environment {
      */
     public static void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
         Environment.jabberImportUserEnabled = jabberImportUserEnabled;
-    }
-
-    /**
-     * Return true if the Inter Portlet Communication is enabled
-     *
-     * @return Boolean
-     */
-    public static Boolean isIpcEnabled() {
-        return ipcEnabled;
     }
 
     /**

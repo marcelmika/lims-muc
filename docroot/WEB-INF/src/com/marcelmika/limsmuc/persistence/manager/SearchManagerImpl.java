@@ -12,7 +12,6 @@ package com.marcelmika.limsmuc.persistence.manager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.persistence.domain.Buddy;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
@@ -47,45 +46,38 @@ public class SearchManagerImpl implements SearchManager {
      */
     @Override
     public List<Buddy> searchBuddies(Long userId, String searchQuery, int start, int end) throws Exception {
+
         // Get selected list strategy
         Environment.BuddyListStrategy strategy = Environment.getBuddyListStrategy();
-        // Get the info if the deactivated user should be ignored
-        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
-        // Some sites or groups may be excluded
-        String[] excludedSites = Environment.getBuddyListSiteExcludes();
-        String[] excludedGroups = Environment.getBuddyListGroupExcludes();
-        // Relation types
-        Environment.BuddyListSocialRelation[] relationTypes = Environment.getBuddyListSocialRelations();
 
-        // All buddies
+        // All
         if (strategy == BuddyListStrategy.ALL) {
-            return searchAllBuddies(
-                    userId, searchQuery, true, ignoreDeactivatedUser, start, end
-            );
+            return searchAllBuddies(userId, searchQuery, start, end);
         }
-        // Buddies from sites
-        else if (strategy == BuddyListStrategy.SITES) {
-            return searchSitesBuddies(
-                    userId, searchQuery, true, ignoreDeactivatedUser, excludedSites, start, end
-            );
-        }
-        // Buddies by social relations
-        else if (strategy == BuddyListStrategy.SOCIAL) {
-            return searchSocialBuddies(
-                    userId, searchQuery, true, ignoreDeactivatedUser, relationTypes, start, end
-            );
-        }
-        // Buddies by social relations together with sites
-        else if (strategy == BuddyListStrategy.SITES_AND_SOCIAL) {
-            return searchSitesAndSocialBuddies(
-                    userId, searchQuery, true, ignoreDeactivatedUser, excludedSites, relationTypes, start, end
-            );
-        }
-        // Buddies by user groups
-        else if (strategy == BuddyListStrategy.USER_GROUPS) {
-            return searchUserGroupsBuddies(
-                    userId, searchQuery, true, ignoreDeactivatedUser, excludedGroups, start, end
-            );
+        // Groups
+        else if (strategy == BuddyListStrategy.GROUPS) {
+
+            Set<Buddy> buddies = new HashSet<Buddy>();
+
+            // Sites
+            if (Environment.isBuddyListGroupSiteEnabled()) {
+                // Add buddies to set
+                buddies.addAll(searchSitesBuddies(userId, searchQuery, start, end));
+            }
+
+            // Social
+            if (Environment.isBuddyListGroupSocialEnabled()) {
+                // Add buddies to set
+                buddies.addAll(searchSocialBuddies(userId, searchQuery, start, end));
+            }
+
+            // User
+            if (Environment.isBuddyListGroupUserEnabled()) {
+                // Add buddies to set
+                buddies.addAll(searchUserGroupsBuddies(userId, searchQuery, start, end));
+            }
+
+            return new LinkedList<Buddy>(buddies);
         }
         // Unknown
         else {
@@ -97,25 +89,24 @@ public class SearchManagerImpl implements SearchManager {
     /**
      * Returns a list of buddies related to the user based on the search query
      *
-     * @param userId                Long
-     * @param searchQuery           String
-     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
-     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param userId      Long
+     * @param searchQuery String
+     * @param start       of the list
+     * @param end         of the list
      * @return List of buddies
      * @throws Exception
      */
     private List<Buddy> searchAllBuddies(Long userId,
                                          String searchQuery,
-                                         boolean ignoreDefaultUser,
-                                         boolean ignoreDeactivatedUser,
                                          int start,
                                          int end) throws Exception {
 
+        // Get the info if the deactivated user should be ignored
+        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
+
         // Get from persistence
         List<Object[]> users = SettingsLocalServiceUtil.searchAllBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, start, end
+                userId, searchQuery, true, ignoreDeactivatedUser, start, end
         );
 
         // Return deserialized result
@@ -126,27 +117,25 @@ public class SearchManagerImpl implements SearchManager {
      * Returns a list of buddies. The list is made of all buddies based on the search query in the sites
      * where the user participates
      *
-     * @param userId                which should be excluded from the list
-     * @param searchQuery           search query string
-     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
-     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param excludedSites         names of sites (groups) that should be excluded from the group collection
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param userId      which should be excluded from the list
+     * @param searchQuery search query string
+     * @param start       of the list
+     * @param end         of the list
      * @return List of buddies
      * @throws Exception
      */
     private List<Buddy> searchSitesBuddies(Long userId,
                                            String searchQuery,
-                                           boolean ignoreDefaultUser,
-                                           boolean ignoreDeactivatedUser,
-                                           String[] excludedSites,
                                            int start,
                                            int end) throws Exception {
 
+        // Get the info if the deactivated user should be ignored
+        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
+        String[] excludedSites = Environment.getBuddyListSiteExcludes();
+
         // Get from persistence
         List<Object[]> users = SettingsLocalServiceUtil.searchSitesBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
+                userId, searchQuery, true, ignoreDeactivatedUser, excludedSites, start, end
         );
 
         // Return deserialized result
@@ -157,23 +146,21 @@ public class SearchManagerImpl implements SearchManager {
      * Returns a list of buddies. This list is made of all buddies based on the search query with whom the user
      * has a social relationships given in the parameter.
      *
-     * @param userId                which should be excluded from the list
-     * @param searchQuery           search query string
-     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
-     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param relationTypes         an array of relation types enums
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param userId      which should be excluded from the list
+     * @param searchQuery search query string
+     * @param start       of the list
+     * @param end         of the list
      * @return List of buddies
      * @throws Exception
      */
     private List<Buddy> searchSocialBuddies(Long userId,
                                             String searchQuery,
-                                            boolean ignoreDefaultUser,
-                                            boolean ignoreDeactivatedUser,
-                                            BuddyListSocialRelation[] relationTypes,
                                             int start,
                                             int end) throws Exception {
+
+        // Get the info if the deactivated user should be ignored
+        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
+        Environment.BuddyListSocialRelation[] relationTypes = Environment.getBuddyListSocialRelations();
 
         // Get int codes from relation types since the persistence consumes an int array only.
         int[] relationCodes = new int[relationTypes.length];
@@ -183,7 +170,7 @@ public class SearchManagerImpl implements SearchManager {
 
         // Get from persistence
         List<Object[]> users = SettingsLocalServiceUtil.searchSocialBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, relationCodes, start, end
+                userId, searchQuery, true, ignoreDeactivatedUser, relationCodes, start, end
         );
 
         // Return deserialized result
@@ -192,71 +179,27 @@ public class SearchManagerImpl implements SearchManager {
 
     /**
      * Returns a list of buddies. This list is made of all buddies based on the search query that are
-     * in the same site and have a social relation given in parameter
-     *
-     * @param userId                which should be excluded from the list
-     * @param searchQuery           search query string
-     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
-     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param excludedSites         names of sites (groups) that should be excluded from the group collection
-     * @param relationTypes         an array of relation types enums
-     * @param start                 of the list
-     * @param end                   of the list
-     * @return a list of buddies
-     * @throws Exception
-     */
-    private List<Buddy> searchSitesAndSocialBuddies(Long userId,
-                                                    String searchQuery,
-                                                    boolean ignoreDefaultUser,
-                                                    boolean ignoreDeactivatedUser,
-                                                    String[] excludedSites,
-                                                    BuddyListSocialRelation[] relationTypes,
-                                                    int start,
-                                                    int end) throws Exception {
-
-        // Get site buddies
-        List<Buddy> siteBuddies = searchSitesBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
-        );
-
-        // Get social buddies
-        List<Buddy> socialBuddies = searchSocialBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
-        );
-
-        // Add it to set since we want to get rid of duplicates
-        Set<Buddy> mergedBuddies = new HashSet<Buddy>();
-        mergedBuddies.addAll(siteBuddies);
-        mergedBuddies.addAll(socialBuddies);
-
-        return new LinkedList<Buddy>(mergedBuddies);
-    }
-
-    /**
-     * Returns a list of buddies. This list is made of all buddies based on the search query that are
      * in the same user group as the user.
      *
-     * @param userId                which should be excluded from the list
-     * @param searchQuery           search query string
-     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
-     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
-     * @param excludedGroups        names of groups that should be excluded from the list of buddies
-     * @param start                 of the list
-     * @param end                   of the list
+     * @param userId      which should be excluded from the list
+     * @param searchQuery search query string
+     * @param start       of the list
+     * @param end         of the list
      * @return a list of buddies
      * @throws Exception
      */
     private List<Buddy> searchUserGroupsBuddies(Long userId,
                                                 String searchQuery,
-                                                boolean ignoreDefaultUser,
-                                                boolean ignoreDeactivatedUser,
-                                                String[] excludedGroups,
                                                 int start,
                                                 int end) throws Exception {
 
+        // Get the info if the deactivated user should be ignored
+        boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
+        String[] excludedGroups = Environment.getBuddyListGroupExcludes();
+
         // Get user groups
         List<Object[]> users = SettingsLocalServiceUtil.searchUserGroupsBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, excludedGroups, start, end
+                userId, searchQuery, true, ignoreDeactivatedUser, excludedGroups, start, end
         );
 
         // Return deserialized result
