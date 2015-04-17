@@ -10,6 +10,14 @@
   }
 }
 
+// Mobile device
+.lims-muc.mobile-device .buddy-list {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+}
+
 .lims-muc .buddy-list {
 
   // Add icon to trigger
@@ -17,15 +25,13 @@
     background: url(/images/icon-people.png) no-repeat center center;
     @include image-2x('/images/icon-people@2x.png', auto, 16px);
     width: 40px;
-    height: 24px;
+    height: $bar-height-desktop-device;
   }
 
   // Switch trigger icon when selected
   &.selected .panel-trigger .trigger-name {
     background: url(/images/icon-people-selected.png) no-repeat center center;
     @include image-2x('/images/icon-people-selected@2x.png', auto, 18px);
-    width: 40px;
-    height: 24px;
   }
 
   .group-list .group-item {

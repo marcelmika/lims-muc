@@ -132,6 +132,8 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
 
         // Don't let the user to zoom on mobile devices
         mobilePatch.disableZoom();
+        // Apply mobile device detection
+        mobilePatch.detectMobileDevice();
     },
 
     /**

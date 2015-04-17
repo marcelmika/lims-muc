@@ -22,7 +22,20 @@
   }
 }
 
+// Mobile device
+.lims-muc.mobile-device .conversation {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+    padding-top: 9px;
+  }
+}
+
 .lims-muc .conversation {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-desktop-device;
+  }
 
   .panel-window {
     max-width: 270px;

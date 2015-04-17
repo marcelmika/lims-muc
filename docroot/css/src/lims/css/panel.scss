@@ -91,13 +91,19 @@
 
 }
 
+
+// Mobile device
+.lims-muc.mobile-device .lims-bar div ul li.selected .panel-trigger {
+    height: $bar-height-mobile-device;
+}
+
 // Selected trigger
 .lims-muc .lims-bar div ul li.selected .panel-trigger {
   background: #fff;
   border-top: none;
   border-bottom: none;
   line-height: 24px;
-  height: 24px;
+  height: $bar-height-desktop-device;
   position: relative;
   z-index: 30;
   @include box-shadow(#bcbcbc 1px 1px 1px);

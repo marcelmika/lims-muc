@@ -77,13 +77,22 @@
   right: 0;
 }
 
+// Mobile device
+.lims-muc.mobile-device .lims-bar {
+  height: $bar-height-mobile-device;
+
+  .panel {
+    bottom: $bar-height-mobile-device;
+  }
+}
+
 .lims-muc .lims-bar {
   background: #fafafa;
   border: 1px solid #ddd;
   border-left: none;
   border-bottom: none;
   bottom: 0;
-  height: 24px;
+  height: $bar-height-desktop-device;
   position: fixed;
   right: 5em;
   z-index: 999;
@@ -98,7 +107,7 @@
   }
 
   .panel {
-    bottom: 24px;
+    bottom: $bar-height-desktop-device;
     display: none;
     position: absolute;
     right: 0;

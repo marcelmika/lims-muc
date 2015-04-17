@@ -80,8 +80,15 @@ Y.LIMS.Core.MobilePatch = Y.Base.create('mobilePatch', Y.Base, [Y.LIMS.Core.Core
 
         // Add the view port with disabled zoom
         head.prepend(disabledZoomViewPort);
+    },
 
-        console.log('zoom disabled');
+    /**
+     * Adds mobile-device class to the root node if the device is mobile
+     */
+    detectMobileDevice: function () {
+        if (Y.UA.mobile) {
+            this.getPortletContainer().addClass('mobile-device');
+        }
     }
 
 }, {

@@ -2,11 +2,23 @@
 **   PRESENCE PANEL
 *************************************************************************************/
 
+// Mobile device
+.lims-muc.mobile-device .status-panel {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+
+  .status-indicator {
+    margin-top: 15px;
+  }
+}
+
 .lims-muc .status-panel {
 
   .panel-trigger .trigger-name {
     width: 20px;
-    height: 24px;
+    height: $bar-height-desktop-device;
   }
 
   .panel-window {
