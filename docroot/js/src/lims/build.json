@@ -9,6 +9,7 @@
         "js/core/ipc/IPCController.js",
         "js/core/ipc/IPCErrorCode.js",
         "js/core/localization/i18n.js",
+        "js/core/mobile/MobilePatch.js",
         "js/core/controller/ViewController.js",
         "js/core/notification/Notification.js",
         "js/core/properties/Properties.js",
