@@ -576,8 +576,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // Get the last conversation's node that is visible before the toggle
                 lastConversationNode = this._lastNotHiddenConversation();
-                // Add the conversation node before the last visible conversation
-                lastConversationNode.insert(controller.get('container'), 'before');
+
+                if (lastConversationNode) {
+                    // Add the conversation node before the last visible conversation
+                    lastConversationNode.insert(controller.get('container'), 'before');
+                }
 
                 // Show the container since it might have been hidden
                 Y.LIMS.Core.Util.show(controller.get('container'));
@@ -589,9 +592,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // a request to server that will switch the position of those two controllers
                 // on a server side as well. Thanks to that if the user refreshes page
                 // the newly positioned controller will remain at its position.
-                lastConversationController = this._getControllerFromMap(
+                lastConversationController = lastConversationNode ? this._getControllerFromMap(
                     lastConversationNode.attr('data-conversationId')
-                );
+                ) : null;
 
                 // Only if the controller exists
                 if (lastConversationController) {
@@ -615,6 +618,10 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         _getControllerFromMap: function (controllerId) {
             // Vars
             var map = this.get('conversationMap');   // Map that holds all conversation controllers
+
+            if (!controllerId) {
+                return null;
+            }
 
             // No such controller was found
             if (!map.hasOwnProperty(controllerId)) {
