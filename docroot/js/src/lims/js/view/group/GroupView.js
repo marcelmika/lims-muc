@@ -290,8 +290,10 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
      * @private
      */
     _onGroupReadError: function () {
-        // TODO: Decide what to do
-        console.log('error');
+        // Hide the activity
+        this._hideActivityIndicator();
+        // Show the load more button again
+        this._showLoadMoreButton();
     },
 
     /**
