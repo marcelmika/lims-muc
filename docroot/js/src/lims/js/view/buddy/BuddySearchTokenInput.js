@@ -34,8 +34,11 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         // Vars
         var tokenInputNode = this.get('tokenInputNode');
 
-        // Set focus to the next token
-        tokenInputNode.focus();
+        // Focus causes issues on mobile
+        if (!Y.UA.mobile) {
+            // Set focus to the next token
+            tokenInputNode.focus();
+        }
     },
 
     /**
