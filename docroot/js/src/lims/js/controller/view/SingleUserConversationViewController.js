@@ -622,7 +622,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          *
          * @private
          */
-        _onListViewTouchStart: function (event) {
+        _onListViewTouchStart: function () {
             // Vars
             var listView = this.get('listView');
 
