@@ -190,6 +190,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Local events
             listView.on('messageSubmitted', this._onMessageSubmitted, this);
             listView.on('messageTextFieldFocus', this._onMessageTextFieldFocus, this);
+            listView.on('touchstart', this._onListViewTouchStart, this);
             model.on('createBegin', this._onConversationCreateBegin, this);
             model.on('createSuccess', this._onConversationCreateSuccess, this);
             model.on('createError', this._onConversationCreateError, this);
@@ -348,7 +349,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          *
          * @private
          */
-        _resetNotifications: function() {
+        _resetNotifications: function () {
             // Vars
             var model = this.get('model'),
                 panel = this.getPanel();
@@ -609,6 +610,19 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onContainerMouseLeave: function () {
+            // Vars
+            var listView = this.get('listView');
+
+            // Hide a list of participants
+            listView.hideParticipantsList();
+        },
+
+        /**
+         * Called when the user taps on the list view
+         *
+         * @private
+         */
+        _onListViewTouchStart: function (event) {
             // Vars
             var listView = this.get('listView');
 

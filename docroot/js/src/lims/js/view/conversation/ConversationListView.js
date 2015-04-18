@@ -178,6 +178,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelContent.on('scroll', this._onPanelContentScroll, this);
         panelContent.after('mouseenter', this._onPanelContentMouseEnter, this);
         panelContent.before('mouseleave', this._onPanelContentMouseLeave, this);
+        panelContent.on('touchstart', this._onPanelContentTouchStart, this);
     },
 
     /**
@@ -723,6 +724,16 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Detach the mouse wheel event since there is no need to track
         // scrolling since the cursor is not above the panel content
         this._detachMouseWheel();
+    },
+
+    /**
+     * Called when user taps on the container
+     *
+     * @private
+     */
+    _onPanelContentTouchStart: function () {
+        // Simply propagate the event
+        this.fire('touchstart');
     },
 
     /**
