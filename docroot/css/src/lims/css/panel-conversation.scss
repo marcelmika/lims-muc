@@ -192,31 +192,44 @@
     opacity: 0; /* panel input is hidden until the message feed is loaded */
     position: relative;
     height: 34px;
-  }
 
-  .panel-input textarea {
-    width: 249px;
-    height: 22px;
-    padding: 9px 10px 1px;
-    background: #f8f8f8;
-    border: 1px solid #dedede;
-    border-left: none;
-    border-right: none;
-    display: block;
-    overflow: hidden;
-    @include box-shadow(none);
-    resize: none;
-    outline: none;
-    font-size: 12px;
-    line-height: 14px;
-    color: #545454;
-    font-weight: 500;
-    @include border-radius(0px);
-  }
+    textarea {
+      width: 249px;
+      height: 22px;
+      padding: 9px 10px 1px;
+      background: #f8f8f8;
+      border: 1px solid #dedede;
+      border-left: none;
+      border-right: none;
+      display: block;
+      overflow: hidden;
+      @include box-shadow(none);
+      resize: none;
+      outline: none;
+      font-size: 12px;
+      line-height: 14px;
+      color: #545454;
+      font-weight: 500;
+      @include border-radius(0px);
+    }
 
-  .panel-input textarea:focus {
-    background: #fff;
-    border-bottom-color: #fff;
+    textarea:focus {
+      background: #fff;
+      border-bottom-color: #fff;
+    }
+
+    .send-button {
+      cursor: pointer;
+      position: absolute;
+      width: 35px;
+      height: 100%;
+      bottom: 0;
+      right: 0;
+      opacity: 0.9;
+      background: transparent url(/images/button-send.png) no-repeat center center;
+      @include image-2x('/images/button-send@2x.png', auto, 18px);
+      @include no-select();
+    }
   }
 
   .preloader.read-more-preloader {
@@ -227,6 +240,7 @@
   }
 
   .chat-height-monitor {
+    // TODO: Add to mixins
     white-space: pre;
     white-space: pre-wrap;
     white-space: pre-line;

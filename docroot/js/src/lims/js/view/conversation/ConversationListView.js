@@ -31,12 +31,19 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     // Template for a single participant item
     participantsItemTemplate: '<div class="participant" />',
 
+    // Template for the send button
+    sendButtonTemplate: '<div class="send-button"/>',
+
     /**
      * Initializer
      *
      * @returns {Y.LIMS.View.ConversationListView}
      */
     initializer: function () {
+
+        // Render send button
+        this._renderSendButton();
+
         // Attach events
         this._attachEvents();
 
@@ -160,6 +167,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Vars
         var messageTextField = this.get('messageTextField'),
             panelContent = this.get('panelContent'),
+            sendButton = this.get('sendButton'),
             model = this.get('model');
 
         // Attach events to text field
@@ -167,6 +175,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             messageTextField.on('keyup', this._onMessageTextFieldKeyUp, this);
             messageTextField.on('focus', this._onMessageTextFieldFocus, this);
             messageTextField.on('blur', this._onMessageTextFieldBlur, this);
+        }
+
+        if (sendButton) {
+            sendButton.on('click', this._onSendButtonClick, this);
         }
 
         // Attach events to model
@@ -236,6 +248,42 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelContentList.append(conversationItemView.get('container'));
 
         return conversationItemView;
+    },
+
+    /**
+     * Renders send button
+     *
+     * @private
+     */
+    _renderSendButton: function () {
+        // Vars
+        var sendButton = this.get('sendButton'),
+            panelInput = this.get('panelInput'),
+            messageTextField = this.get('messageTextField'),
+            heightMonitor = this.get('heightMonitor'),
+            sendButtonWidth,
+            messageTextFieldWidth,
+            messageTextFieldPaddingRight,
+            updatedWidth,
+            updatedPadding;
+
+        // Send button is visible for mobile devices only
+        if (Y.UA.mobile) {
+            panelInput.append(sendButton);
+
+            // Layout subviews
+            sendButtonWidth = parseInt(sendButton.getStyle('width'), 10);
+            messageTextFieldWidth = parseInt(messageTextField.getStyle('width'), 10);
+            messageTextFieldPaddingRight = parseInt(messageTextField.getStyle('paddingRight'), 10);
+
+            updatedWidth = (messageTextFieldWidth - sendButtonWidth) + 'px';
+            messageTextField.setStyle('width', updatedWidth);
+            heightMonitor.setStyle('width', updatedWidth);
+
+            updatedPadding = (messageTextFieldPaddingRight + sendButtonWidth) + 'px';
+            messageTextField.setStyle('padding-right', updatedPadding);
+            heightMonitor.setStyle('padding-right', updatedPadding);
+        }
     },
 
     /**
@@ -642,6 +690,37 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Called when the send button is clicked
+     *
+     * @private
+     */
+    _onSendButtonClick: function (event) {
+        var textField = this.get('messageTextField'),
+            value;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Get rid of new line characters
+        value = textField.get('value').replace(/\n|\r/gim, '');
+        // Get rid of empty spaces
+        value = Y.Lang.trim(value);
+
+        if (value.length) {
+            // Empty text field
+            textField.set('value', '');
+            // Fire an event that message was submitted
+            this.fire('messageSubmitted', {
+                message: value
+
+            });
+        }
+
+        // Resize
+        this._resizeMessageTextField();
+    },
+
+    /**
      * Called when a single message is added to the model
      *
      * @param event
@@ -758,6 +837,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @private
      */
     _onMessageTextFieldUpdated: function (event) {
+        // Vars
         var textField = this.get('messageTextField'),
             value;
 
@@ -932,6 +1012,17 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelInput: {
             valueFn: function () {
                 return this.get('container').one('.panel-input');
+            }
+        },
+
+        /**
+         * Send button node
+         *
+         * {Node}
+         */
+        sendButton: {
+            valueFn: function () {
+                return Y.Node.create(this.sendButtonTemplate);
             }
         },
 
