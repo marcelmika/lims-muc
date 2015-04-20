@@ -262,7 +262,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             messageTextField = this.get('messageTextField'),
             heightMonitor = this.get('heightMonitor'),
             sendButtonWidth,
-            messageTextFieldWidth,
+            messageTextFieldWidth = this.get('messageTextFieldWidth'),
             messageTextFieldPaddingRight,
             updatedWidth,
             updatedPadding;
@@ -273,7 +273,6 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
 
             // Layout subviews
             sendButtonWidth = parseInt(sendButton.getStyle('width'), 10);
-            messageTextFieldWidth = parseInt(messageTextField.getStyle('width'), 10);
             messageTextFieldPaddingRight = parseInt(messageTextField.getStyle('paddingRight'), 10);
 
             updatedWidth = (messageTextFieldWidth - sendButtonWidth) + 'px';
@@ -996,6 +995,13 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         },
 
         /**
+         * Cached width of text field
+         */
+        messageTextFieldWidth: {
+            value: 250
+        },
+
+        /**
          * True if the message text field has focus, false if it's blurred
          *
          * {boolean}
@@ -1089,7 +1095,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             valueFn: function () {
                 var heightMonitorNode = Y.Node.create(this.heightMonitorTemplate);
                 // Set the same width as message text field
-                heightMonitorNode.setStyle('width', 248);
+                heightMonitorNode.setStyle('width', 250);
                 // Add it to container, don't worry css will take it away from the visible window
                 heightMonitorNode.appendTo(this.get('container'));
 

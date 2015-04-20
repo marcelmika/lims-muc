@@ -38,12 +38,12 @@
   }
 
   .panel-window {
-    max-width: 270px;
+    width: 270px;
   }
 
   .panel-content {
     height: 250px;
-    max-width: 270px;
+    width: 270px;
     overflow-y: auto;
     background: #fff;
     margin-top: 0;
@@ -194,7 +194,7 @@
     height: 34px;
 
     textarea {
-      width: 249px;
+      width: 250px;
       height: 22px;
       padding: 9px 10px 1px;
       background: #f8f8f8;
@@ -261,7 +261,7 @@
 
   .conversation-options {
     position: absolute;
-    width: 249px;
+    width: 250px;
     z-index: 3;
     top: 26px;
     padding: 1px 10px 0;
@@ -303,7 +303,7 @@
 
   .leave-conversation-option {
     position: absolute;
-    width: 249px;
+    width: 250px;
     z-index: 3;
     top: 26px;
     padding: 10px 10px 0;
@@ -348,7 +348,7 @@
 
   .add-more-option {
     position: absolute;
-    width: 249px;
+    width: 250px;
     z-index: 3;
     top: 26px;
     padding: 10px 10px 0;
