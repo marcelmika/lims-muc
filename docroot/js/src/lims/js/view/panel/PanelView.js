@@ -383,17 +383,22 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             // Vars
             var className = event.currentTarget.get('className');
 
+            // Class name must be set
+            if (!className) {
+                return;
+            }
+
             // Stop the propagation thus if close button was clicked
             // the event will not trigger the panel-trigger click event
             event.stopPropagation();
 
             // Close button clicked
-            if (className === 'close') {
+            if (className.indexOf('close') > -1) {
                 // Fire event
                 instance._onTriggerCloseClick(event);
             }
             // Trigger name clicked
-            else if (className === 'panel-trigger') {
+            else if (className.indexOf('panel-trigger') > -1) {
                 // Fire event
                 instance._onTriggerClick(event);
             }
