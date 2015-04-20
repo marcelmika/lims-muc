@@ -137,6 +137,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupPollingSlowDownThreshold();
             setupErrorMode();
 
+            // Mobile
+            setupMobileUserScalableDisabled(preferences);
+
             // Set url properties
             setupUrlProperties();
 
@@ -210,6 +213,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Buddy list group excludes
         if (properties.getBuddyListGroupExcludes() != null) {
             updateBuddyListGroupExcludes(preferences, properties);
+        }
+
+        // Mobile user scalable disabled
+        if (properties.getMobileUserScalableDisabled() != null) {
+            updateMobileUserScalableDisabled(preferences, properties);
         }
 
         // Jabber enabled
@@ -414,7 +422,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
      * value to preferences
      *
      * @param preferences PortletPreferences
-     * @param value String
+     * @param value       String
      * @return BuddyListStrategy
      */
     private BuddyListStrategy fixDeprecatedBuddyListStrategy(PortletPreferences preferences, String value) {
@@ -505,7 +513,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
             }
             // Failure
-            catch(Exception exception) {
+            catch (Exception exception) {
                 // Log
                 log.error("List strategy deprecation fix failed", exception);
 
@@ -1065,6 +1073,57 @@ public class PropertiesManagerImpl implements PropertiesManager {
         Environment.setBuddyListGroupExcludes(buddyListGroupExcludes);
     }
 
+
+    /**
+     * Updates mobile user scalable disabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateMobileUserScalableDisabled(PortletPreferences preferences,
+                                                  Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.MOBILE_USER_SCALABLE_DISABLED,
+                String.valueOf(properties.getMobileUserScalableDisabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupMobileUserScalableDisabled(preferences);
+    }
+
+    /**
+     * Sets the mobile user scalable disabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupMobileUserScalableDisabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean mobileUserScalableDisabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            mobileUserScalableDisabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.MOBILE_USER_SCALABLE_DISABLED,
+                    String.valueOf(PortletPropertiesValues.MOBILE_USER_SCALABLE_DISABLED)
+            ));
+        }
+        // Properties
+        else {
+            mobileUserScalableDisabled = PortletPropertiesValues.MOBILE_USER_SCALABLE_DISABLED;
+        }
+
+        // Save in Environment
+        Environment.setMobileUserScalableDisabled(mobileUserScalableDisabled);
+    }
+
     /**
      * Updates jabber enabled property
      *
@@ -1484,7 +1543,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Save in Environment
         Environment.setJabberResourcePriority(value);
     }
-
 
     /**
      * Updates IPC enabled property

@@ -216,6 +216,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
         },
 
         /**
+         * Mobile user scalable disabled
+         *
+         * {boolean}
+         */
+        mobileUserScalableDisabled: {
+            value: null // to be set
+        },
+
+        /**
          * Jabber enabled
          *
          * {boolean}

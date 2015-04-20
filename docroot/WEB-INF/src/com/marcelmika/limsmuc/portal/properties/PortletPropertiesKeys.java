@@ -64,6 +64,9 @@ public interface PortletPropertiesKeys {
     // IPC
     String IPC_ENABLED = "ipc.enabled";
 
+    // Mobile
+    String MOBILE_USER_SCALABLE_DISABLED = "mobile.user.scalable.disabled";
+
     // URLs
     String URL_HELP = "url.help";
     String URL_JABBER_HELP = "url.jabber.help";

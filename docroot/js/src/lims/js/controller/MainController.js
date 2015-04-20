@@ -128,10 +128,15 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
      */
     _applyPatches: function () {
         // Vars
-        var mobilePatch = this.get('mobilePatch');
+        var mobilePatch = this.get('mobilePatch'),
+            properties = this.get('properties');
 
-        // Don't let the user to zoom on mobile devices
-        mobilePatch.disableZoom();
+        // Only if the mobile user scalable property is really disabled
+        if (properties.isMobileUserScalableDisabled()) {
+            console.log('disable zoom');
+            // Don't let the user to zoom on mobile devices
+            mobilePatch.disableZoom();
+        }
         // Apply mobile device detection
         mobilePatch.detectMobileDevice();
     },

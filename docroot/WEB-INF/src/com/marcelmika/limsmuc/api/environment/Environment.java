@@ -45,6 +45,7 @@ public class Environment {
     private static String jabberResource = "";
     private static Integer jabberResourcePriority = 0;
     private static Boolean ipcEnabled = false;
+    private static Boolean mobileUserScalableDisabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static String urlJabberHelp = "";
@@ -687,6 +688,24 @@ public class Environment {
      */
     public static void setIpcEnabled(Boolean ipcEnabled) {
         Environment.ipcEnabled = ipcEnabled;
+    }
+
+    /**
+     * Returns true if the Mobile User Scalable Disabled property is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean getMobileUserScalableDisabled() {
+        return mobileUserScalableDisabled;
+    }
+
+    /**
+     * Sets the Mobile User Scalable Disabled property
+     *
+     * @param mobileUserScalableDisabled Boolean
+     */
+    public static void setMobileUserScalableDisabled(Boolean mobileUserScalableDisabled) {
+        Environment.mobileUserScalableDisabled = mobileUserScalableDisabled;
     }
 
     /**

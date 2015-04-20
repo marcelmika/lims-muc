@@ -125,6 +125,13 @@
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-enabled.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/buddy-list-group-excludes.jspf" %>
 
+                                <%-- Mobile --%>
+                            <div class="category">
+                                <div class="category-icon mobile"></div>
+                                <span><liferay-ui:message key="panel-settings-admin-area-mobile-category-title"/></span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/mobile-user-scalable-disabled.jspf" %>
+
                                 <%-- Jabber --%>
                             <div class="category">
                                 <div class="category-icon jabber"></div>

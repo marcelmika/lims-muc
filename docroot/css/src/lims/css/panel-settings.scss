@@ -284,6 +284,11 @@
           @include image-2x('/images/icon-admin-ipc@2x.png', auto, 13px);
         }
 
+        &.mobile {
+          background: url(/images/icon-group-mobile.png) no-repeat center center;
+          @include image-2x('/images/icon-group-mobile@2x.png', auto, 13px);
+        }
+
         &.synchronization {
           background: url(/images/icon-admin-synchronization.png) no-repeat center center;
           @include image-2x('/images/icon-admin-synchronization@2x.png', auto, 13px);

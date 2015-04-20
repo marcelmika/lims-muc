@@ -9,6 +9,7 @@
 
 <%-- Variables --%>
 <%--@elvariable id="currentUser" type="com.marcelmika.limsmuc.portal.domain.Buddy"--%>
+<%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- This template HTML will be used to render localization messages --%>
 <script type="text/x-template" id="limsmuc-properties">
@@ -27,6 +28,7 @@
     "portletEnabled": ${settings.chatEnabled},
     "activePanelId": "${settings.activePanelId}",
     "contextPath":"<%= request.getContextPath() %>",
-    "currentServerTime":<%= System.currentTimeMillis() %>
+    "currentServerTime":<%= System.currentTimeMillis() %>,
+    "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled}
     }
 </script>

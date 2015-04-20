@@ -49,6 +49,7 @@ public class Properties {
     private String jabberServiceName;
     private String jabberResource;
     private Boolean ipcEnabled;
+    private Boolean mobileUserScalableDisabled;
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -87,6 +88,7 @@ public class Properties {
         properties.jabberServiceName = Environment.getJabberServiceName();
         properties.jabberResource = Environment.getJabberResource();
         properties.ipcEnabled = Environment.getIpcEnabled();
+        properties.mobileUserScalableDisabled = Environment.getMobileUserScalableDisabled();
 
         return properties;
     }
@@ -330,6 +332,14 @@ public class Properties {
         this.ipcEnabled = ipcEnabled;
     }
 
+    public Boolean getMobileUserScalableDisabled() {
+        return mobileUserScalableDisabled;
+    }
+
+    public void setMobileUserScalableDisabled(Boolean mobileUserScalableDisabled) {
+        this.mobileUserScalableDisabled = mobileUserScalableDisabled;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -360,6 +370,7 @@ public class Properties {
                 ", jabberServiceName='" + jabberServiceName + '\'' +
                 ", jabberResource='" + jabberResource + '\'' +
                 ", ipcEnabled=" + ipcEnabled +
+                ", mobileUserScalableDisabled=" + mobileUserScalableDisabled +
                 '}';
     }
 }

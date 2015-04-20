@@ -150,6 +150,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.IPC_ENABLED
     );
 
+    // Mobile - User scalable disabled
+    public static final boolean MOBILE_USER_SCALABLE_DISABLED = getBoolean(
+            PortletPropertiesKeys.MOBILE_USER_SCALABLE_DISABLED
+    );
+
     // URL - Help
     public static final String URL_HELP = getString(
             PortletPropertiesKeys.URL_HELP

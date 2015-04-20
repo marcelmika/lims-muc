@@ -18,18 +18,14 @@ Y.LIMS.Core.MobilePatch = Y.Base.create('mobilePatch', Y.Base, [Y.LIMS.Core.Core
 
     // Viewport with enable scalability
     viewPortZoomEnabled: '<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />',
-    // Viewport with disabled scalability
-    viewPortZoomDisabled: '<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />',
 
     /**
      * The method will update the viewport meta tag to enable user zoom
-     *
-     * @private
      */
     enableZoom: function () {
         // Vars
         var head = Y.one('head'),
-            defaultViewPort = this.get('defaultViewPort'),
+            content,
             viewport;
 
         // Only for mobile devices
@@ -40,29 +36,46 @@ Y.LIMS.Core.MobilePatch = Y.Base.create('mobilePatch', Y.Base, [Y.LIMS.Core.Core
         // Search for the view port
         viewport = head.one('meta[name=viewport]');
 
-        if (viewport) {
-            // Remove the previous view port
-            viewport.remove();
+        if (!viewport) {
+            // We don't need to do anything since there is no view port set
+            // and user-scalable=1 is default
+            return;
         }
 
-        // We are going to enable the zooming right after the user ends the
-        // touch gesture. Because of that we wait another second before
-        // we actually perform this action
-        setTimeout(function () {
-            // Add the default view port
-            head.prepend(defaultViewPort);
-        }, 1000);
+        // Get the content value of the viewport meta tag
+        content = viewport.get('content');
+
+        if (content.indexOf("user-scalable=1") > -1) {
+            // We don't need to do anything because zoom is already enabled
+            return;
+        }
+
+        // If the scalability is disabled
+        if (content && content.indexOf("user-scalable=1") === -1) {
+
+            // User scalability is already set
+            if (content.indexOf("user-scalable=0") > -1) {
+                // Replace value
+                content = content.replace('user-scalable=0', 'user-scalable=1');
+            }
+            // User scalability is not set
+            else {
+                // Add it to content
+                content += ', user-scalable=1';
+            }
+
+            // Update content of the meta tag
+            viewport.set('content', content);
+        }
     },
 
     /**
      * This method will update the viewport meta tag to disable user zoom
-     *
-     * @private
      */
     disableZoom: function () {
         // Vars
         var head = Y.one('head'),
-            disabledZoomViewPort = this.get('disabledZoomViewPort'),
+            content,
             viewport;
 
         // Only for mobile devices
@@ -73,13 +86,38 @@ Y.LIMS.Core.MobilePatch = Y.Base.create('mobilePatch', Y.Base, [Y.LIMS.Core.Core
         // Search for the view port
         viewport = head.one('meta[name=viewport]');
 
-        if (viewport) {
-            // Remove the previous view port
-            viewport.remove();
+        if (!viewport) {
+            // Create new view port met tag
+            viewport = Y.Node.create(this.viewPortZoomEnabled);
+            // Add the view port with disabled zoom
+            head.prepend(viewport);
         }
 
-        // Add the view port with disabled zoom
-        head.prepend(disabledZoomViewPort);
+        // Get the content value of the viewport meta tag
+        content = viewport.get('content');
+
+        if (content.indexOf("user-scalable=0") > -1) {
+            // We don't need to do anything because zoom is already disabled
+            return;
+        }
+
+        // If the scalability is not disabled
+        if (content && content.indexOf("user-scalable=0") === -1) {
+
+            // User scalability is already set
+            if (content.indexOf("user-scalable=1") > -1) {
+                // Replace value
+                content = content.replace('user-scalable=1', 'user-scalable=0');
+            }
+            // User scalability is not set
+            else {
+                // Add it to content
+                content += ', user-scalable=0';
+            }
+
+            // Update content of the meta tag
+            viewport.set('content', content);
+        }
     },
 
     /**
@@ -91,39 +129,4 @@ Y.LIMS.Core.MobilePatch = Y.Base.create('mobilePatch', Y.Base, [Y.LIMS.Core.Core
         }
     }
 
-}, {
-
-    ATTRS: {
-
-        /**
-         * Already rendered view port or view port with enabled zoom
-         *
-         * {Node}
-         */
-        defaultViewPort: {
-            valueFn: function () {
-                // Vars
-                var viewPort = Y.one('head meta[name=viewport]');
-
-                // No view port found
-                if (!viewPort) {
-                    // Create viewport with enabled scalability
-                    viewPort = Y.Node.create(this.viewPortZoomEnabled);
-                }
-
-                return viewPort;
-            }
-        },
-
-        /**
-         * View port with disabled zoom
-         *
-         * {Node}
-         */
-        disabledZoomViewPort: {
-            valueFn: function () {
-                return Y.Node.create(this.viewPortZoomDisabled);
-            }
-        }
-    }
 });

@@ -62,6 +62,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
+            mobileUserScalableDisabled = this.get('mobileUserScalableDisabled'),
             jabberEnabled = this.get('jabberEnabled'),
             jabberSecurityEnabled = this.get('jabberSecurityEnabled'),
             jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
@@ -85,6 +86,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
+        mobileUserScalableDisabled.on('switchClick', this._onMobileUserScalableDisabledClick, this);
         jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
         jabberSecurityEnabled.on('switchClick', this._onJabberSecurityEnabledClick, this);
         jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
@@ -393,6 +395,48 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             // function token input looses it's focus. So if we enable it
             // we need to re-enable the focus again.
             buddyListGroupExcludes.focus();
+        });
+    },
+
+
+    /**
+     * Called when the user clicks on the ipc enabled switch
+     *
+     * @private
+     */
+    _onMobileUserScalableDisabledClick: function () {
+        // Vars
+        var switchView = this.get('mobileUserScalableDisabled'),
+            mobilePatch = new Y.LIMS.Core.MobilePatch(),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            mobileUserScalableDisabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+
+            // Switch was turned on
+            if (switchView.isOn()) {
+                // Disable user scalability
+                mobilePatch.disableZoom();
+            }
+            // Switch was turned off
+            else {
+                // Enable user scalability
+                mobilePatch.enableZoom();
+            }
         });
     },
 
@@ -784,6 +828,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         });
     },
 
+
     /**
      * Called when user confirms synchronization with SUC
      *
@@ -1155,6 +1200,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.buddy-list-group-excludes');
 
                 return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for mobile user scalable disabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        mobileUserScalableDisabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.mobile-user-scalable-disabled');
+
+                return new Y.LIMS.View.SwitchElementView({
                     container: container
                 });
             }
