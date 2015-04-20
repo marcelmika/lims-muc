@@ -357,13 +357,6 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 shouldHideToggle,
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
-
-            // Don't layout subviews if chat is not enabled. The method will be called
-            // whenever the chat is enabled
-            if (!properties.isChatEnabled()) {
-                return;
-            }
-
             // Check the mobile screen size
             if (winWidth <= mobileThreshold) {
                 // Add mobile screen class so the css can change
@@ -375,6 +368,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             } else {
                 // No need to add the mobile screen class since the screen is big enough
                 portletContainer.removeClass('mobile-screen');
+            }
+
+            // Don't layout subviews if chat is not enabled. The method will be called
+            // whenever the chat is enabled
+            if (!properties.isChatEnabled()) {
+                return;
             }
 
             // This is just a defensive programming check. Since the layoutSubviews method can call itself
@@ -491,7 +490,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Tiny screen
             if (winWidth < tinyScreenThreshold || conversationToggleController.size() === 0) {
                 this._hideConversationToggle();
-            } else if (!shouldHideToggle){
+            } else if (!shouldHideToggle) {
                 this._showConversationToggle();
             }
         },
@@ -538,7 +537,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var controller = this.get('conversationToggleController'),
                 container = this.get('container');
 
-            container.append(controller.get('container'));
+            if (!controller.get('container').inDoc()) {
+                container.append(controller.get('container'));
+            }
         },
 
         /**
@@ -940,10 +941,14 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @private
          */
         _onChatEnabled: function () {
+
             // Re-enable polling
             this._startPolling();
+
+            var instance = this;
+
             // Layout subviews
-            this._layoutSubviews();
+            instance._layoutSubviews();
         },
 
         /**

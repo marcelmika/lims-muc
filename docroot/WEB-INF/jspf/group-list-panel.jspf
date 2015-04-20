@@ -23,7 +23,7 @@
         <c:set var="hiddenClass" value=""/>
     </c:when>
     <c:otherwise>
-        <c:set var="hiddenClass" value="hide"/>
+        <c:set var="hiddenClass" value="hide-controller"/>
     </c:otherwise>
 </c:choose>
 
