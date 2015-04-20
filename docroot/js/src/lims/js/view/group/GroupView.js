@@ -152,7 +152,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
 
         if (counter) {
             counter.set('innerHTML',
-                model.get('buddies').size() + '/' + model.get('page').get('totalElements')
+                model.get('buddies').size() + '&thinsp;/&thinsp;' + model.get('page').get('totalElements')
             );
         }
     },

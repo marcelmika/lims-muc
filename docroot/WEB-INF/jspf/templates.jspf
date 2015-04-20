@@ -1,3 +1,4 @@
+
 <%--
   ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
   ~
@@ -7,6 +8,8 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
+<%@ page import="com.marcelmika.limsmuc.portal.properties.InputLimits" %>
+
 <%-- Constants --%>
 <c:set var="MESSAGE_MAX_SIZE" value="<%= InputLimits.MESSAGE_MAX_SIZE %>"/>
 <c:set var="SEARCH_QUERY_MAX_SIZE" value="<%= InputLimits.SEARCH_QUERY_MAX_SIZE %>"/>
@@ -15,8 +18,8 @@
 <script type="text/x-template" id="limsmuc-group-item-template">
     <div class="group-name">
         <div class="group-icon"></div>
+        <div class="group-title" title="{title}">{name}</div>
         <div class="group-counter"></div>
-        <span class="group-title" title="{title}">{name}</span>
     </div>
 </script>
 
