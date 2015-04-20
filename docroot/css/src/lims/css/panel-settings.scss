@@ -184,11 +184,18 @@
       // Token input doesn't have a border
       &.token-input-plugin-input {
         border: none;
+        font-size: 12px;
       }
     }
 
     .token-input .token-input-plugin-remove {
       top: 2px;
+    }
+
+    .token-input .token-input-plugin-token {
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 27px;
     }
 
     .text-input {
