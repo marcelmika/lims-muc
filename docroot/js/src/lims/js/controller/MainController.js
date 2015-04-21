@@ -133,7 +133,6 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
 
         // Only if the mobile user scalable property is really disabled
         if (properties.isMobileUserScalableDisabled()) {
-            console.log('disable zoom');
             // Don't let the user to zoom on mobile devices
             mobilePatch.disableZoom();
         }

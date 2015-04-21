@@ -240,12 +240,7 @@
   }
 
   .chat-height-monitor {
-    // TODO: Add to mixins
-    white-space: pre;
-    white-space: pre-wrap;
-    white-space: pre-line;
-    white-space: -o-pre-wrap;
-    white-space: -moz-pre-wrap;
+    @include pre-wrap();
     word-wrap: break-word;
     left: -10000em;
     top: -10000em;
