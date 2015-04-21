@@ -47,6 +47,13 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 properties.set('offset', new Date().getTime() - serverTime.get('time'));
             }
 
+            // IPC Controller
+            new Y.LIMS.Core.IPCController({
+                publisher: publisher,
+                buddyDetails: buddyDetails,
+                notification: notification
+            });
+
             // Group
             new Y.LIMS.Controller.GroupViewController({
                 container: rootNode.one('.buddy-list'),
@@ -84,12 +91,6 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 container: rootNode.one('.conversation-feed'),
                 properties: properties,
                 poller: poller,
-                buddyDetails: buddyDetails
-            });
-
-            // IPC Controller
-            new Y.LIMS.Core.IPCController({
-                publisher: publisher,
                 buddyDetails: buddyDetails
             });
 

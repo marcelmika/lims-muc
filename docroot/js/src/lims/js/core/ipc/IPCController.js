@@ -19,6 +19,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     createConversationEventId: 'lims:createConversation',
     readPresenceEventId: 'lims:readPresence',
     presenceUpdatedEvent: 'lims:presenceUpdated',
+    unreadMessagesCountUpdated: 'lims:unreadMessagesCountUpdated',
 
     // Max # of buddies for the read presence request
     maxReadPresence: 100,
@@ -30,11 +31,16 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var publisher = this.get('publisher');
 
+        // Fire IPC Ready
+        publisher.fire(this.readyEventId);
+
         // Attach events
         this._attachEvents();
 
-        // Fire IPC Ready
-        publisher.fire(this.readyEventId);
+        // The method needs to be called here because IPCController wasn't
+        // instantiated when notification object called the first event
+        // thus we need to read it now
+        this._onUnreadMessagesUpdate();
     },
 
     /**
@@ -50,6 +56,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
         // Global events
         Y.on('presencesChanged', this._onPresencesChanged, this);
+        Y.on('unreadMessagesUpdate', this._onUnreadMessagesUpdate, this);
     },
 
     /**
@@ -238,7 +245,28 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
             }, this);
 
             // Fire the IPC event
-            publisher.fire(this.presenceUpdatedEvent);
+            publisher.fire(this.presenceUpdatedEvent, {
+                users: users
+            });
+        }
+    },
+
+    /**
+     * Called when unread messages badge changes
+     *
+     * @private
+     */
+    _onUnreadMessagesUpdate: function () {
+
+        // Vars
+        var notification = this.get('notification'),
+            count = notification.get('unreadMessagesCount'),
+            publisher = this.get('publisher');
+
+        if (count !== null) {
+            publisher.fire(this.unreadMessagesCountUpdated, {
+                count: count
+            });
         }
     },
 
@@ -300,6 +328,15 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
          * Currently logged user
          */
         buddyDetails: {
+            value: null // to be set
+        },
+
+        /**
+         * Notification object responsible for the incoming message notification
+         *
+         * {Y.LIMS.Core.Notification}
+         */
+        notification: {
             value: null // to be set
         }
     }
