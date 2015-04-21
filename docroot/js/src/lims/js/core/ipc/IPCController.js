@@ -18,6 +18,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     readyEventId: 'lims:ready',
     createConversationEventId: 'lims:createConversation',
     readPresenceEventId: 'lims:readPresence',
+    presenceUpdatedEvent: 'lims:presenceUpdated',
 
     // Max # of buddies for the read presence request
     maxReadPresence: 100,
@@ -46,6 +47,9 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // IPC events
         publisher.on(this.createConversationEventId, this._onCreateConversation, this);
         publisher.on(this.readPresenceEventId, this._onReadPresence, this);
+
+        // Global events
+        Y.on('presencesChanged', this._onPresencesChanged, this);
     },
 
     /**
@@ -206,6 +210,36 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                 success(response);
             });
         });
+    },
+
+    /**
+     * Called when presences are changed
+     *
+     * @param event
+     * @private
+     */
+    _onPresencesChanged: function (event) {
+        // Vars
+        var buddyList = event.buddyList || null,
+            users = [],
+            publisher = this.get('publisher');
+
+        if (buddyList) {
+
+            // Map local buddies to IPC users
+            Y.Array.each(buddyList, function (buddy) {
+                // Vars
+                var presence = buddy.get('connected') ? buddy.get('presence') : 'OFFLINE';
+
+                users.push({
+                    userId: buddy.get('buddyId'),
+                    presence: presence
+                });
+            }, this);
+
+            // Fire the IPC event
+            publisher.fire(this.presenceUpdatedEvent);
+        }
     },
 
     /**
