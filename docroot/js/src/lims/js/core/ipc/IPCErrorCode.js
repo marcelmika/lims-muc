@@ -22,6 +22,10 @@ Y.LIMS.Core.IPCErrorCode = {
     inputToBig: 4001,
     // Input doesn't match logical assumption (e.g. cannot create conversation with yourself)
     wrongAssumption: 4002,
+    // Forbidden
+    forbidden: 4003,
+    // Not found
+    notFound: 4004,
     // Server returned error
     serverError: 5000
 };

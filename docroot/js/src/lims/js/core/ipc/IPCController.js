@@ -17,6 +17,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     // Event ids
     readyEventId: 'lims:ready',
     createConversationEventId: 'lims:createConversation',
+    openConversationEventId: 'lims:openConversation',
     readPresenceEventId: 'lims:readPresence',
     presenceUpdatedEvent: 'lims:presenceUpdated',
     unreadMessagesCountUpdated: 'lims:unreadMessagesCountUpdated',
@@ -52,6 +53,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
 
         // IPC events
         publisher.on(this.createConversationEventId, this._onCreateConversation, this);
+        publisher.on(this.openConversationEventId, this._onOpenConversation, this);
         publisher.on(this.readPresenceEventId, this._onReadPresence, this);
 
         // Global events
@@ -145,6 +147,77 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                     });
                 }
             });
+        });
+    },
+
+    /**
+     * Called on openConversation IPC event
+     *
+     * @param event
+     * @private
+     */
+    _onOpenConversation: function(event) {
+
+        // Vars
+        var success = Y.LIMS.Core.Util.validateFunction(event.success),
+            failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            model,
+            data = event.data || null;
+
+        // Validate
+        if (!data || !data.conversationId) {
+            // Failure
+            failure(Y.LIMS.Core.IPCErrorCode.wrongInput, 'Pass a data object with conversationId');
+            // End here
+            return;
+        }
+
+        // Create model
+        model = new Y.LIMS.Model.ConversationModel({
+            conversationId: data.conversationId
+        });
+
+        // Read the conversation
+        model.load(function(err) {
+            // Vars
+            var code;
+
+            if (err) {
+
+                // Map the error code
+                if (err.get('code') === 403) {
+                    code = Y.LIMS.Core.IPCErrorCode.forbidden;
+                } else if (err.get('code') === 404) {
+                    code = Y.LIMS.Core.IPCErrorCode.notFound;
+                } else {
+                    code = Y.LIMS.Core.IPCErrorCode.serverError;
+                }
+
+                // Failure
+                failure(code, err.get('message'));
+                // End here
+                return;
+            }
+
+            // Fire event
+            Y.fire('conversationSelected', {
+                conversation: model,
+                // Success
+                success: function(model) {
+                    // Call success
+                    success({
+                        conversationId: model.get('conversationId')
+                    });
+                },
+                // Failure
+                failure: function (err) {
+                    // Call failure
+                    failure(Y.LIMS.Core.IPCErrorCode.serverError, err.get('message'));
+                }
+            });
+
+            // Success
+            success();
         });
     },
 

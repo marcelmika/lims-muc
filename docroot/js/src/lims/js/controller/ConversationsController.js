@@ -644,6 +644,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var conversation = event.conversation,                  // Take conversation from the event
                 map = this.get('conversationMap'),                  // Map that holds all conversation controllers
                 conversationId,                                     // Id of the conversation passed to controller
+                success = Y.LIMS.Core.Util.validateFunction(event.success), // Will be called on success
+                failure = Y.LIMS.Core.Util.validateFunction(event.failure), // Will be called on failure
                 controller;                                         // Controller (selected or newly created)
 
             // Generate conversation id
@@ -653,6 +655,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             if (map.hasOwnProperty(conversationId)) {
                 // Find it, later on we will present it to the user
                 controller = this._getControllerFromMap(conversationId);
+
+                // Call success right the way
+                success(controller.get('model'));
             }
             // No such conversation
             else {
@@ -660,7 +665,16 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                     conversationId, conversation.get('title'), [], conversation.get('conversationType')
                 );
                 // Save the model, thanks to that the conversation will be created on server too.
-                controller.get('model').save();
+                controller.get('model').save(function(err) {
+                    // Success
+                    if (!err) {
+                        success(controller.get('model'));
+                    }
+                    // Failure
+                    else {
+                        failure(err);
+                    }
+                });
             }
 
             // Only if the controller exists

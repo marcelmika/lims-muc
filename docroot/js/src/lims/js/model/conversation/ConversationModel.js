@@ -382,7 +382,10 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             }
                             catch (exception) {
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
-                                callback(exception);
+                                callback(new Y.LIMS.Model.ErrorMessage({
+                                    code: 400,
+                                    message: exception
+                                }));
                                 // Fire failure event
                                 instance.fire('createError');
                                 // End here
@@ -462,7 +465,10 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                                 // Fire failure event
                                 instance.fire('readError');
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
-                                callback(exception);
+                                callback(new Y.LIMS.Model.ErrorMessage({
+                                    code: 400,
+                                    message: exception
+                                }));
                                 // End here
                                 return;
                             }
@@ -486,8 +492,11 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             // Fire failure event
                             instance.fire('readError');
 
-                            // Call failure
-                            callback("Cannot read conversation", o);
+                            // Deserialize
+                            response = Y.JSON.parse(o.responseText);
+
+                            // Callback the error
+                            callback(new Y.LIMS.Model.ErrorMessage(response));
                         }
                     }
                 });
