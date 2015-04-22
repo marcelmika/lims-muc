@@ -711,7 +711,6 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             // Fire an event that message was submitted
             this.fire('messageSubmitted', {
                 message: value
-
             });
         }
 

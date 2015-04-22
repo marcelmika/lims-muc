@@ -18,6 +18,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     readyEventId: 'lims:ready',
     createConversationEventId: 'lims:createConversation',
     openConversationEventId: 'lims:openConversation',
+    sendMessageEventId: 'lims:sendMessage',
     readPresenceEventId: 'lims:readPresence',
     presenceUpdatedEvent: 'lims:presenceUpdated',
     unreadMessagesCountUpdated: 'lims:unreadMessagesCountUpdated',
@@ -54,6 +55,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // IPC events
         publisher.on(this.createConversationEventId, this._onCreateConversation, this);
         publisher.on(this.openConversationEventId, this._onOpenConversation, this);
+        publisher.on(this.sendMessageEventId, this._onSendMessage, this);
         publisher.on(this.readPresenceEventId, this._onReadPresence, this);
 
         // Global events
@@ -156,7 +158,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
      * @param event
      * @private
      */
-    _onOpenConversation: function(event) {
+    _onOpenConversation: function (event) {
 
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
@@ -178,7 +180,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         });
 
         // Read the conversation
-        model.load(function(err) {
+        model.load(function (err) {
             // Vars
             var code;
 
@@ -203,7 +205,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
             Y.fire('conversationSelected', {
                 conversation: model,
                 // Success
-                success: function(model) {
+                success: function (model) {
                     // Call success
                     success({
                         conversationId: model.get('conversationId')
@@ -220,6 +222,98 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
             success();
         });
     },
+
+    /**
+     * Called on sendMessage IPC event
+     *
+     * @param event
+     * @private
+     */
+    _onSendMessage: function (event) {
+
+        // Vars
+        var success = Y.LIMS.Core.Util.validateFunction(event.success),
+            failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            properties = this.get('properties'),
+            buddyDetails = this.get('buddyDetails'),
+            model,
+            data = event.data || null;
+
+        // Validate
+        if (!data || !data.conversationId || !data.message) {
+            // Failure
+            failure(Y.LIMS.Core.IPCErrorCode.wrongInput, 'Pass a data object with conversationId');
+            // End here
+            return;
+        }
+
+        // Create model
+        model = new Y.LIMS.Model.ConversationModel({
+            conversationId: data.conversationId
+        });
+
+        // Read the conversation
+        model.load(function (err) {
+            // Vars
+            var code,
+                message,
+                offset = properties.getServerTimeOffset(),  // Server time offset
+                now = new Date().getTime(),                 // Current client time
+                createdAt;                                  // Created at timestamp
+
+            if (err) {
+
+                // Map the error code
+                if (err.get('code') === 403) {
+                    code = Y.LIMS.Core.IPCErrorCode.forbidden;
+                } else if (err.get('code') === 404) {
+                    code = Y.LIMS.Core.IPCErrorCode.notFound;
+                } else {
+                    code = Y.LIMS.Core.IPCErrorCode.serverError;
+                }
+
+                // Failure
+                failure(code, err.get('message'));
+                // End here
+                return;
+            }
+
+            // Add the offset to the created at timestamp
+            createdAt = now - offset;
+
+            // Create message
+            message = new Y.LIMS.Model.MessageItemModel({
+                messageType: 'REGULAR',
+                from: buddyDetails,
+                body: data.message,
+                createdAt: createdAt
+            });
+
+            // Add new message to the conversation
+            model.addMessage(message, function (err) {
+                // Failure
+                if (err) {
+                    failure(err);
+                }
+                // Success
+                else {
+
+                    // Refresh conversation so the other conversation controllers
+                    // can read the message immediately
+                    Y.fire('refreshConversation', {
+                        conversationId: model.get('conversationId')
+                    });
+
+                    // Call success
+                    success({
+                        conversationId: model.get('conversationId'),
+                        message: data.message
+                    });
+                }
+            });
+        });
+    },
+
 
     /**
      * Called on readPresence IPC event
@@ -410,6 +504,15 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
          * {Y.LIMS.Core.Notification}
          */
         notification: {
+            value: null // to be set
+        },
+
+        /**
+         * An instance of the portlet properties object
+         *
+         * {Y.LIMS.Core.Properties}
+         */
+        properties: {
             value: null // to be set
         }
     }

@@ -28,6 +28,7 @@ Y.LIMS.Model.MessageItemModel = Y.Base.create('messageItemModel', Y.Model, [Y.LI
         // Vars
         var content,            // Content of the request
             parameters,         // Request parameters
+            response,           // Response
             instance = this;    // Save scope
 
         switch (action) {
@@ -67,10 +68,7 @@ Y.LIMS.Model.MessageItemModel = Y.Base.create('messageItemModel', Y.Model, [Y.LI
                             // Notify about success
                             instance.fire('messageSent');
 
-                            if (callback) {
-                                callback(null, instance);
-                            }
-
+                            callback(null, instance);
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -86,9 +84,11 @@ Y.LIMS.Model.MessageItemModel = Y.Base.create('messageItemModel', Y.Model, [Y.LI
                             // Notify about failure
                             instance.fire('messageError');
 
-                            if (callback) {
-                                callback("Cannot send message", o.responseText);
-                            }
+                            // Deserialize response
+                            response = Y.JSON.parse(o.responseText);
+
+                            // Call failure
+                            callback(new Y.LIMS.Model.ErrorMessage(response));
                         }
                     }
                 });

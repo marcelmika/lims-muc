@@ -207,6 +207,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsView.on('optionLeaveConversationClick', this._onOptionLeaveConversationClick, this);
 
             // Remote events
+            Y.on('refreshConversation', this._onRefreshConversation, this);
             Y.on('presencesChanged', this._onPresencesChanged, this);
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
@@ -699,6 +700,26 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 optionsView.hideView();
                 addMoreView.hideView();
                 leaveConversationView.hideView();
+            }
+        },
+
+        /**
+         * Called on refresh conversation event
+         *
+         * @param event
+         * @private
+         */
+        _onRefreshConversation: function (event) {
+            // Vars
+            var model = this.get('model');
+
+            // This is the correct conversation
+            if (model.get('conversationId') === event.conversationId) {
+
+                // Update model
+                model.load({
+                    resetEtag: true
+                });
             }
         },
 

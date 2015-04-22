@@ -21,8 +21,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
      * Adds message to conversation. Sends request to server.
      *
      * @param message
+     * @param callback
      */
-    addMessage: function (message) {
+    addMessage: function (message, callback) {
 
         // Vars
         var messageList = this.get('messageList'),  // List of messages
@@ -38,6 +39,11 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             // Trigger event if the message wasn't sent
             if (err) {
                 instance.fire('messageError');
+            }
+
+            // Pass the callback
+            if (callback) {
+                callback(err, message);
             }
         });
 

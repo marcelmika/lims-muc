@@ -51,7 +51,8 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             new Y.LIMS.Core.IPCController({
                 publisher: publisher,
                 buddyDetails: buddyDetails,
-                notification: notification
+                notification: notification,
+                properties: properties
             });
 
             // Group
