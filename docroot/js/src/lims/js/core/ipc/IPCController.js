@@ -21,6 +21,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
     sendMessageEventId: 'lims:sendMessage',
     readPresenceEventId: 'lims:readPresence',
     presenceUpdatedEvent: 'lims:presenceUpdated',
+    readLastConversationsEventId: 'lims:readLastConversations',
     unreadMessagesCountUpdated: 'lims:unreadMessagesCountUpdated',
 
     // Max # of buddies for the read presence request
@@ -57,6 +58,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         publisher.on(this.openConversationEventId, this._onOpenConversation, this);
         publisher.on(this.sendMessageEventId, this._onSendMessage, this);
         publisher.on(this.readPresenceEventId, this._onReadPresence, this);
+        publisher.on(this.readLastConversationsEventId, this._onReadLastConversations, this);
 
         // Global events
         Y.on('presencesChanged', this._onPresencesChanged, this);
@@ -383,6 +385,75 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                 // Success
                 success(response);
             });
+        });
+    },
+
+    /**
+     * Called on readLastConversations IPC event
+     *
+     * @param event
+     * @private
+     */
+    _onReadLastConversations: function(event) {
+
+        // Vars
+        var success = Y.LIMS.Core.Util.validateFunction(event.success),
+            failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            model;
+
+        // Create model
+        model = new Y.LIMS.Model.ConversationFeedList();
+
+        // Load the model
+        model.load(function(err) {
+
+            // Vars
+            var conversations = [];
+
+            if (err) {
+                // Failure
+                failure(Y.LIMS.Core.IPCErrorCode.serverError, err.get('message'));
+                // End here
+                return;
+            }
+
+            // Map local to IPC model
+            Y.Array.each(model.toArray(), function(conversation) {
+
+                // Vars
+                var lastMessage,
+                    participants = [];
+
+                if (conversation.get('lastMessage')) {
+                    lastMessage = {
+                        type: conversation.get('lastMessage').get('messageType'),
+                        body: conversation.get('lastMessage').get('body')
+                    };
+                }
+
+                if (conversation.get('participants')) {
+                    Y.Array.each(conversation.get('participants'), function(participant) {
+                        participants.push({
+                            userId: participant.get('buddyId'),
+                            screenName: participant.get('screenName'),
+                            fullName: participant.get('fullName')
+                        });
+                    });
+                }
+
+                conversations.push({
+                    conversationId: conversation.get('conversationId'),
+                    conversationType: conversation.get('conversationType'),
+                    title: conversation.get('title'),
+                    unreadMessagesCount: conversation.get('unreadMessagesCount'),
+                    lastMessage: lastMessage,
+                    participants: participants
+                });
+
+            });
+
+            // Success
+            success(conversations);
         });
     },
 
