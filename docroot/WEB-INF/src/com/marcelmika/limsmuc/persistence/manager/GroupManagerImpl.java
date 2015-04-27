@@ -325,7 +325,7 @@ public class GroupManagerImpl implements GroupManager {
 
         // Check if the user is a member of the group thus allowed to read it
         if (!SettingsLocalServiceUtil.isMemberOfSitesGroup(userId, groupId)) {
-            throw new ForbiddenException("User is not allowed to read the group");
+            throw new ForbiddenException("User is not allowed to read the sites group");
         }
 
         // Get number and size
@@ -402,7 +402,7 @@ public class GroupManagerImpl implements GroupManager {
      * @return list of Groups
      * @throws SystemException
      */
-    private List<Group> findSocialGroups(Long userId, Page page) throws SystemException {
+    private List<Group> findSocialGroups(Long userId, Page page) throws SystemException, ForbiddenException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -445,12 +445,18 @@ public class GroupManagerImpl implements GroupManager {
      * @param page                  pagination object
      * @return Group
      * @throws SystemException
+     * @throws ForbiddenException
      */
     private Group readSocialGroup(Long userId,
                                   Long groupId,
                                   boolean ignoreDefaultUser,
                                   boolean ignoreDeactivatedUser,
-                                  Page page) throws SystemException {
+                                  Page page) throws SystemException , ForbiddenException{
+
+        // Check if the user is a member of the group thus allowed to read it
+        if (!SettingsLocalServiceUtil.isMemberOfSocialGroup(userId, groupId)) {
+            throw new ForbiddenException("User is not allowed to read the social group");
+        }
 
         // Get number and size
         int number = page.getNumber();

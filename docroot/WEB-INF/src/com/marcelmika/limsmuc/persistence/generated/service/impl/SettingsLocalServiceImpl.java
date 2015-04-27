@@ -431,6 +431,20 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Returns true if the user is a member of the social group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    public boolean isMemberOfSocialGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfSocialGroup(userId, groupId);
+    }
+
+    /**
      * Returns all buddies in sites where the user participates based on the search query
      *
      * @param userId                of excluded user

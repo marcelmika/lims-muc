@@ -332,6 +332,22 @@
 		]]>
     </sql>
 
+	<!-- Check if the user is a member of a group  -->
+	<sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.isMemberOfSocialGroup">
+		<![CDATA[
+			SELECT DISTINCT
+				User_.userId AS userId
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				SocialRelation ON (SocialRelation.userId2 = User_.userId)
+			WHERE
+  				SocialRelation.type_ = ? AND (User_.userId = ?)
+		]]>
+	</sql>
+
     <!-- Search all users and attaches social relation types to them -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchBySocialGroups">
         <![CDATA[

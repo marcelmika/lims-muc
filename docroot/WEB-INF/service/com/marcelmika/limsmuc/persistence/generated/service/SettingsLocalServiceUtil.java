@@ -534,6 +534,20 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Returns true if the user is a member of the social group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfSocialGroup(userId, groupId);
+	}
+
+	/**
 	* Returns all buddies in sites where the user participates based on the search query
 	*
 	* @param userId                of excluded user
