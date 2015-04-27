@@ -329,20 +329,6 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
-     * Returns true if the user is a member of the sites group
-     *
-     * @param userId  id of the user
-     * @param groupId id of the group
-     * @return boolean
-     * @throws SystemException
-     */
-    @Override
-    public boolean isMemberOfSitesGroup(Long userId, Long groupId) throws SystemException {
-        // Check via the settings finder
-        return settingsFinder.isMemberOfSitesGroup(userId, groupId);
-    }
-
-    /**
      * Returns all buddies in the system based on the search query
      *
      * @param userId                of excluded user
@@ -431,7 +417,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
-     * Returns true if the user is a member of the social group
+     * Returns true if the user is a member of the sites group
      *
      * @param userId  id of the user
      * @param groupId id of the group
@@ -439,9 +425,9 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @throws SystemException
      */
     @Override
-    public boolean isMemberOfSocialGroup(Long userId, Long groupId) throws SystemException {
+    public boolean isMemberOfSitesGroup(Long userId, Long groupId) throws SystemException {
         // Check via the settings finder
-        return settingsFinder.isMemberOfSocialGroup(userId, groupId);
+        return settingsFinder.isMemberOfSitesGroup(userId, groupId);
     }
 
     /**
@@ -538,6 +524,20 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Returns true if the user is a member of the social group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    public boolean isMemberOfSocialGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfSocialGroup(userId, groupId);
+    }
+
+    /**
      * Returns all user's social relations based on the search query
      *
      * @param userId                of the user whose social relations are we looking for
@@ -627,6 +627,20 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         return settingsFinder.readUserGroup(
                 userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
+    }
+
+    /**
+     * Returns true if the user is a member of the user group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    public boolean isMemberOfUserGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfUserGroup(userId, groupId);
     }
 
     /**

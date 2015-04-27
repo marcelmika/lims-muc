@@ -94,6 +94,10 @@ public interface SettingsFinder {
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
+	public boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<java.lang.Object[]> searchUserGroupsBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,

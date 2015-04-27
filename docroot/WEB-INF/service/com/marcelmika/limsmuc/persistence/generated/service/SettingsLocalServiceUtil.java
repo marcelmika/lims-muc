@@ -445,20 +445,6 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns true if the user is a member of the sites group
-	*
-	* @param userId  id of the user
-	* @param groupId id of the group
-	* @return boolean
-	* @throws SystemException
-	*/
-	public static boolean isMemberOfSitesGroup(java.lang.Long userId,
-		java.lang.Long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().isMemberOfSitesGroup(userId, groupId);
-	}
-
-	/**
 	* Returns all buddies in the system based on the search query
 	*
 	* @param userId                of excluded user
@@ -534,17 +520,17 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns true if the user is a member of the social group
+	* Returns true if the user is a member of the sites group
 	*
 	* @param userId  id of the user
 	* @param groupId id of the group
 	* @return boolean
 	* @throws SystemException
 	*/
-	public static boolean isMemberOfSocialGroup(java.lang.Long userId,
+	public static boolean isMemberOfSitesGroup(java.lang.Long userId,
 		java.lang.Long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().isMemberOfSocialGroup(userId, groupId);
+		return getService().isMemberOfSitesGroup(userId, groupId);
 	}
 
 	/**
@@ -625,6 +611,20 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Returns true if the user is a member of the social group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfSocialGroup(userId, groupId);
+	}
+
+	/**
 	* Returns all user's social relations based on the search query
 	*
 	* @param userId                of the user whose social relations are we looking for
@@ -699,6 +699,20 @@ public class SettingsLocalServiceUtil {
 		return getService()
 				   .readUserGroup(userId, groupId, ignoreDefaultUser,
 			ignoreDeactivatedUser, start, end);
+	}
+
+	/**
+	* Returns true if the user is a member of the user group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfUserGroup(userId, groupId);
 	}
 
 	/**

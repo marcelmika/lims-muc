@@ -477,6 +477,24 @@
 		]]>
     </sql>
 
+	<!-- Check if the user is a member of a user group  -->
+	<sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.isMemberOfUserGroup">
+		<![CDATA[
+			SELECT DISTINCT
+				User_.userId AS userId
+			FROM
+				Limsmuc_Settings
+			INNER JOIN
+				User_ ON (User_.userId = Limsmuc_Settings.userId)
+			INNER JOIN
+				Users_UserGroups ON (Users_UserGroups.userId = User_.userId)
+			INNER JOIN
+			    UserGroup ON (Users_UserGroups.userGroupId = UserGroup.userGroupId)
+			WHERE
+				(UserGroup.userGroupId = ?) AND	(User_.userId = ?)
+		]]>
+	</sql>
+
     <!-- Finds all users and attaches groups to them -->
     <sql id="com.marcelmika.limsmuc.persistence.generated.service.persistence.SettingsFinder.searchByUserGroups">
         <![CDATA[

@@ -58,6 +58,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     // Is Member SQL
     private static final String IS_MEMBER_OF_SITES_GROUP = SettingsFinder.class.getName() + ".isMemberOfSitesGroup";
     private static final String IS_MEMBER_OF_SOCIAL_GROUP = SettingsFinder.class.getName() + ".isMemberOfSocialGroup";
+    private static final String IS_MEMBER_OF_USER_GROUP = SettingsFinder.class.getName() + ".isMemberOfUserGroup";
 
     // Search users SQL
     private static final String SEARCH_ALL_USERS = SettingsFinder.class.getName() + ".searchAllUsers";
@@ -960,6 +961,51 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     }
 
     /**
+     * Returns true if the user is a member of the user group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public boolean isMemberOfUserGroup(Long userId, Long groupId) throws SystemException {
+
+        Session session = null;
+
+        try {
+
+            // Open database session
+            session = openSession();
+            // Generate SQL
+            String sql = getIsMemberOfUserGroupSQL();
+
+            // Create query from sql
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now w need to map types to columns
+            query.addScalar("userId", Type.LONG);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(groupId);
+            queryPos.add(userId);
+
+            // Return the result
+            List<Object[]> result = (List<Object[]>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // If there user was found (is the member of the group) the list will contain
+            // one element. Otherwise, it will be empty.
+            return (result.size() > 0);
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
+    /**
      * Returns a list of buddies. This list is made of all buddies based on the search query that are
      * in the same user group as the user.
      *
@@ -1286,6 +1332,17 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
 
         // Get custom query sql (check /src/custom-sql/default.xml)
         return CustomSQLUtil.get(IS_MEMBER_OF_SOCIAL_GROUP);
+    }
+
+    /**
+     * Generates SQL for is member of user group query
+     *
+     * @return SQL string for the query
+     */
+    private String getIsMemberOfUserGroupSQL() {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        return CustomSQLUtil.get(IS_MEMBER_OF_USER_GROUP);
     }
 
     /**

@@ -393,19 +393,6 @@ public interface SettingsLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns true if the user is a member of the sites group
-	*
-	* @param userId  id of the user
-	* @param groupId id of the group
-	* @return boolean
-	* @throws SystemException
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isMemberOfSitesGroup(java.lang.Long userId,
-		java.lang.Long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
 	* Returns all buddies in the system based on the search query
 	*
 	* @param userId                of excluded user
@@ -468,7 +455,7 @@ public interface SettingsLocalService extends BaseLocalService,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns true if the user is a member of the social group
+	* Returns true if the user is a member of the sites group
 	*
 	* @param userId  id of the user
 	* @param groupId id of the group
@@ -476,7 +463,7 @@ public interface SettingsLocalService extends BaseLocalService,
 	* @throws SystemException
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isMemberOfSocialGroup(java.lang.Long userId,
+	public boolean isMemberOfSitesGroup(java.lang.Long userId,
 		java.lang.Long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -545,6 +532,19 @@ public interface SettingsLocalService extends BaseLocalService,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns true if the user is a member of the social group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns all user's social relations based on the search query
 	*
 	* @param userId                of the user whose social relations are we looking for
@@ -607,6 +607,19 @@ public interface SettingsLocalService extends BaseLocalService,
 		java.lang.Long userId, java.lang.Long groupId,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns true if the user is a member of the user group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns a list of buddies. This list is made of all buddies based on the search query that are

@@ -467,21 +467,6 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
-	* Returns true if the user is a member of the sites group
-	*
-	* @param userId  id of the user
-	* @param groupId id of the group
-	* @return boolean
-	* @throws SystemException
-	*/
-	@Override
-	public boolean isMemberOfSitesGroup(java.lang.Long userId,
-		java.lang.Long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _settingsLocalService.isMemberOfSitesGroup(userId, groupId);
-	}
-
-	/**
 	* Returns all buddies in the system based on the search query
 	*
 	* @param userId                of excluded user
@@ -558,7 +543,7 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
-	* Returns true if the user is a member of the social group
+	* Returns true if the user is a member of the sites group
 	*
 	* @param userId  id of the user
 	* @param groupId id of the group
@@ -566,10 +551,10 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	* @throws SystemException
 	*/
 	@Override
-	public boolean isMemberOfSocialGroup(java.lang.Long userId,
+	public boolean isMemberOfSitesGroup(java.lang.Long userId,
 		java.lang.Long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _settingsLocalService.isMemberOfSocialGroup(userId, groupId);
+		return _settingsLocalService.isMemberOfSitesGroup(userId, groupId);
 	}
 
 	/**
@@ -651,6 +636,21 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
+	* Returns true if the user is a member of the social group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Override
+	public boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.isMemberOfSocialGroup(userId, groupId);
+	}
+
+	/**
 	* Returns all user's social relations based on the search query
 	*
 	* @param userId                of the user whose social relations are we looking for
@@ -726,6 +726,21 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return _settingsLocalService.readUserGroup(userId, groupId,
 			ignoreDefaultUser, ignoreDeactivatedUser, start, end);
+	}
+
+	/**
+	* Returns true if the user is a member of the user group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Override
+	public boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.isMemberOfUserGroup(userId, groupId);
 	}
 
 	/**

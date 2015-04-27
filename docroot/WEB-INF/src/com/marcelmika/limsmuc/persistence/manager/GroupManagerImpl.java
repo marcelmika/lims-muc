@@ -451,7 +451,7 @@ public class GroupManagerImpl implements GroupManager {
                                   Long groupId,
                                   boolean ignoreDefaultUser,
                                   boolean ignoreDeactivatedUser,
-                                  Page page) throws SystemException , ForbiddenException{
+                                  Page page) throws SystemException, ForbiddenException {
 
         // Check if the user is a member of the group thus allowed to read it
         if (!SettingsLocalServiceUtil.isMemberOfSocialGroup(userId, groupId)) {
@@ -549,8 +549,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param page   pagination object
      * @return list of Groups
      * @throws SystemException
+     * @throws ForbiddenException
      */
-    private List<Group> findUserGroups(Long userId, Page page) throws SystemException {
+    private List<Group> findUserGroups(Long userId, Page page) throws SystemException, ForbiddenException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -587,12 +588,18 @@ public class GroupManagerImpl implements GroupManager {
      * @param page                  pagination object
      * @return Group
      * @throws SystemException
+     * @throws ForbiddenException
      */
     private Group readUserGroup(Long userId,
                                 Long groupId,
                                 boolean ignoreDefaultUser,
                                 boolean ignoreDeactivatedUser,
-                                Page page) throws SystemException {
+                                Page page) throws SystemException, ForbiddenException {
+
+        // Check if the user is a member of the group thus allowed to read it
+        if (!SettingsLocalServiceUtil.isMemberOfUserGroup(userId, groupId)) {
+            throw new ForbiddenException("User is not allowed to read the user group");
+        }
 
         // Get number and size
         int number = page.getNumber();
