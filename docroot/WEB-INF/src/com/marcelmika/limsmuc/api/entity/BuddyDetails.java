@@ -73,6 +73,10 @@ public class BuddyDetails {
         return presenceDetails;
     }
 
+    public void setPresenceDetails(PresenceDetails presenceDetails) {
+        this.presenceDetails = presenceDetails;
+    }
+
     public Boolean getConnected() {
         return connected;
     }
@@ -87,10 +91,6 @@ public class BuddyDetails {
 
     public void setConnectedAt(Date connectedAt) {
         this.connectedAt = connectedAt;
-    }
-
-    public void setPresenceDetails(PresenceDetails presenceDetails) {
-        this.presenceDetails = presenceDetails;
     }
 
     public SettingsDetails getSettingsDetails() {

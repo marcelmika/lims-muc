@@ -29,7 +29,11 @@ import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ing. Marcel Mika
@@ -207,7 +211,7 @@ public class Buddy {
     /**
      * Factory method which creates new Buddy object from BuddyDetails
      *
-     * @param details BuddyDetails
+     * @param details     BuddyDetails
      * @param addUserData true if data from the portal user should be added to buddy object
      * @return Buddy
      */

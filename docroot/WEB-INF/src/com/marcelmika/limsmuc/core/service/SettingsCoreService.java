@@ -9,7 +9,22 @@
 
 package com.marcelmika.limsmuc.core.service;
 
-import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.TestConnectionRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.TestConnectionResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsResponseEvent;
 
 /**
  * Several settings values are related to each buddy.

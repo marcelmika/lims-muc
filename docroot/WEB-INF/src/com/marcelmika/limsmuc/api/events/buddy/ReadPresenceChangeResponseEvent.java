@@ -94,7 +94,7 @@ public class ReadPresenceChangeResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static ReadPresenceChangeResponseEvent failure(final Status status,
-                                                           final Throwable exception) {
+                                                          final Throwable exception) {
 
         ReadPresenceChangeResponseEvent event = new ReadPresenceChangeResponseEvent();
 

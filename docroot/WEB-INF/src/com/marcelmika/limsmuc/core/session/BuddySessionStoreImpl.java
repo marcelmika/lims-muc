@@ -40,8 +40,8 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     public void addBuddy(Long buddyId) {
 
 //        synchronized (buddySessions) {
-            // Add a single buddy
-            buddySessions.add(buddyId);
+        // Add a single buddy
+        buddySessions.add(buddyId);
 //        }
 
         // Log
@@ -59,10 +59,10 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     public void addBuddies(List<Long> buddies) {
 
 //        synchronized (buddySessions) {
-            // Clear the old values
-            buddySessions.clear();
-            // Add new ones
-            buddySessions.addAll(buddies);
+        // Clear the old values
+        buddySessions.clear();
+        // Add new ones
+        buddySessions.addAll(buddies);
 //        }
 
         // Log
@@ -80,8 +80,8 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     public void removeBuddy(Long buddyId) {
 
 //        synchronized (buddySessions) {
-            // Remove specific buddy
-            buddySessions.remove(buddyId);
+        // Remove specific buddy
+        buddySessions.remove(buddyId);
 //        }
 
         // Log
@@ -101,24 +101,24 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
 
 //        synchronized (buddySessions) {
 
-            // Buddy id is already registered in the buddy session store. It means that
-            // the user was registered in the store thus he has the access.
-            if (buddySessions.contains(buddyId)) {
-                // User in not over the session limit
-                return false;
-            }
+        // Buddy id is already registered in the buddy session store. It means that
+        // the user was registered in the store thus he has the access.
+        if (buddySessions.contains(buddyId)) {
+            // User in not over the session limit
+            return false;
+        }
 
-            // Store is already full. Deny the access.
-            // TODO: Comment to turn off the limit mechanism
+        // Store is already full. Deny the access.
+        // TODO: Comment to turn off the limit mechanism
 //            if (buddySessions.size() >= 10) {
 //                return true;
 //            }
 
-            // Add the user to the session store because the store is not full yet.
-            buddySessions.add(buddyId);
+        // Add the user to the session store because the store is not full yet.
+        buddySessions.add(buddyId);
 
-            // User is allowed to obtain the session
-            return false;
+        // User is allowed to obtain the session
+        return false;
 //        }
     }
 

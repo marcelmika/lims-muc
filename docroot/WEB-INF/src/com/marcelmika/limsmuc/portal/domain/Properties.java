@@ -141,17 +141,18 @@ public class Properties {
         return buddyListGroupSiteEnabled;
     }
 
-    public void setBuddyListGroupSiteEnabled(Boolean buddyListGroupSiteEnabled) {
-        this.buddyListGroupSiteEnabled = buddyListGroupSiteEnabled;
-    }
-
     public Boolean getBuddyListGroupSiteEnabled() {
         return buddyListGroupSiteEnabled;
+    }
+
+    public void setBuddyListGroupSiteEnabled(Boolean buddyListGroupSiteEnabled) {
+        this.buddyListGroupSiteEnabled = buddyListGroupSiteEnabled;
     }
 
     public Boolean isBuddyListGroupSocialEnabled() {
         return buddyListGroupSocialEnabled;
     }
+
     public Boolean getBuddyListGroupSocialEnabled() {
         return buddyListGroupSocialEnabled;
     }

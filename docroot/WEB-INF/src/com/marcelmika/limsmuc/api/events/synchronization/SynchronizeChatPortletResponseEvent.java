@@ -87,7 +87,7 @@ public class SynchronizeChatPortletResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static SynchronizeChatPortletResponseEvent failure(final Status status,
-                                                      final Throwable exception) {
+                                                              final Throwable exception) {
 
         SynchronizeChatPortletResponseEvent event = new SynchronizeChatPortletResponseEvent();
 

@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.persistence.manager;
 
-import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListGroup;
+import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
 import com.marcelmika.limsmuc.persistence.domain.Page;
@@ -45,7 +45,7 @@ public interface GroupManager {
      * @param page         Page pagination object
      * @return Group
      * @throws PersistenceException persistence exception
-     * @throws ForbiddenException not allowed to perform action
+     * @throws ForbiddenException   not allowed to perform action
      */
     Group getGroup(Long userId,
                    Long groupId,

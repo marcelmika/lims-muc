@@ -40,8 +40,8 @@ public enum ConversationType {
     public static ConversationType fromConversationTypeDetails(ConversationTypeDetails details) {
 
         if (details == ConversationTypeDetails.SINGLE_USER) {
-             return ConversationType.SINGLE_USER;
-        } else if(details == ConversationTypeDetails.MULTI_USER) {
+            return ConversationType.SINGLE_USER;
+        } else if (details == ConversationTypeDetails.MULTI_USER) {
             return ConversationType.MULTI_USER;
         } else {
             return ConversationType.UNRECOGNIZED;

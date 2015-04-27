@@ -9,10 +9,10 @@
 
 package com.marcelmika.limsmuc.api.events.conversation;
 
-import com.marcelmika.limsmuc.api.events.RequestEvent;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.entity.ConversationDetails;
 import com.marcelmika.limsmuc.api.entity.MessageDetails;
+import com.marcelmika.limsmuc.api.events.RequestEvent;
 
 /**
  * @author Ing. Marcel Mika

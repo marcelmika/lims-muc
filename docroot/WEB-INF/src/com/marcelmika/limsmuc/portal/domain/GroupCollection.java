@@ -11,7 +11,6 @@ package com.marcelmika.limsmuc.portal.domain;
 
 import com.marcelmika.limsmuc.api.entity.GroupCollectionDetails;
 import com.marcelmika.limsmuc.api.entity.GroupDetails;
-import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 
 import java.util.ArrayList;

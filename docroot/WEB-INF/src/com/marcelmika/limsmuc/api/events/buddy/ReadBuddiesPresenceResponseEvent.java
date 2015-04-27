@@ -94,7 +94,7 @@ public class ReadBuddiesPresenceResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static ReadBuddiesPresenceResponseEvent failure(final Status status,
-                                                   final Throwable exception) {
+                                                           final Throwable exception) {
 
         ReadBuddiesPresenceResponseEvent event = new ReadBuddiesPresenceResponseEvent();
 

@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
  *

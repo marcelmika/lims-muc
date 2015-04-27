@@ -73,7 +73,7 @@ public class CloseConversationResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static CloseConversationResponseEvent failure(final Status status,
-                                                        final Throwable exception) {
+                                                         final Throwable exception) {
         CloseConversationResponseEvent event = new CloseConversationResponseEvent();
 
         event.success = false;

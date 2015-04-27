@@ -9,7 +9,30 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
-import com.marcelmika.limsmuc.api.events.conversation.*;
+import com.marcelmika.limsmuc.api.events.conversation.AddParticipantsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.AddParticipantsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CloseConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CloseConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CreateConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ExistsConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ExistsConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationParticipantsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationParticipantsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.LeaveConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.LeaveConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SendMessageRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SwitchConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SwitchConversationsResponseEvent;
 
 /**
  * @author Ing. Marcel Mika

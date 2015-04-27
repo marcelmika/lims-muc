@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.api.events.buddy;
 
-import com.marcelmika.limsmuc.api.events.ResponseEvent;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.events.ResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -73,7 +73,7 @@ public class DeleteBuddyResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static DeleteBuddyResponseEvent failure(final Status status,
-                                                  final Throwable exception) {
+                                                   final Throwable exception) {
 
         DeleteBuddyResponseEvent event = new DeleteBuddyResponseEvent();
 

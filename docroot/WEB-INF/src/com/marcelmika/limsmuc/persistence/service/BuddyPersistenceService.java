@@ -9,7 +9,22 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
-import com.marcelmika.limsmuc.api.events.buddy.*;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent;
 
 /**
  * @author Ing. Marcel Mika

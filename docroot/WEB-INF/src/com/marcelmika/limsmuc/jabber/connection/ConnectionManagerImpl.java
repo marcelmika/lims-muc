@@ -15,7 +15,13 @@ import com.liferay.portal.kernel.util.Validator;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.exception.JabberException;
-import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.AccountManager;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 

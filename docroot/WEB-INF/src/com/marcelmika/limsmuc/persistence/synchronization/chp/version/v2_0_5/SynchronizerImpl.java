@@ -16,8 +16,17 @@ import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.domain.ConversationType;
 import com.marcelmika.limsmuc.persistence.domain.MessageType;
-import com.marcelmika.limsmuc.persistence.generated.model.*;
-import com.marcelmika.limsmuc.persistence.generated.service.*;
+import com.marcelmika.limsmuc.persistence.generated.model.Conversation;
+import com.marcelmika.limsmuc.persistence.generated.model.Message;
+import com.marcelmika.limsmuc.persistence.generated.model.Panel;
+import com.marcelmika.limsmuc.persistence.generated.model.Participant;
+import com.marcelmika.limsmuc.persistence.generated.model.Settings;
+import com.marcelmika.limsmuc.persistence.generated.service.ConversationLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.MessageLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.PanelLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.ParticipantLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
+import com.marcelmika.limsmuc.persistence.generated.service.SynchronizationLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.synchronization.Synchronizer;
 import com.marcelmika.limsmuc.persistence.synchronization.Version;
 
@@ -355,7 +364,7 @@ public class SynchronizerImpl implements Synchronizer {
                 // Get from db
                 objects = SynchronizationLocalServiceUtil.findMessage(VERSION.getDescription(), start, end);
 
-                for (Object [] object : objects) {
+                for (Object[] object : objects) {
 
                     // Get the message body
                     String body = (String) object[4];

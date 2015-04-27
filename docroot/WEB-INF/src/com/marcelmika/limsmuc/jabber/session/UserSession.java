@@ -71,7 +71,7 @@ public class UserSession {
     /**
      * Creates new group manager
      *
-     * @param companyId Long
+     * @param companyId         Long
      * @param connectionManager used to create group manager
      * @return Group manager
      */
@@ -87,7 +87,7 @@ public class UserSession {
     /**
      * Create new single user conversation manager
      *
-     * @param companyId Long
+     * @param companyId         Long
      * @param connectionManager used to create single user conversation manager
      * @return SingleUserConversationManager
      */
@@ -105,7 +105,7 @@ public class UserSession {
     /**
      * Create new multi user conversation manager
      *
-     * @param companyId Long
+     * @param companyId         Long
      * @param connectionManager used to create multi user conversation manager
      * @return MultiUserConversationManager
      */

@@ -9,10 +9,10 @@
 
 package com.marcelmika.limsmuc.jabber.conversation.single;
 
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Message;
 import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.ChatManager;
 
 /**

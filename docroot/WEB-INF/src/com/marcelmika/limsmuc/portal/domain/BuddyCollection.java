@@ -11,7 +11,11 @@ package com.marcelmika.limsmuc.portal.domain;
 
 import com.marcelmika.limsmuc.api.entity.BuddyCollectionDetails;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Container which holds a collection of buddies

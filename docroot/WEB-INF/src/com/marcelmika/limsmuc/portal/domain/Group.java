@@ -173,16 +173,16 @@ public class Group {
         return listStrategy;
     }
 
+    public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
+        this.listStrategy = listStrategy;
+    }
+
     public Environment.BuddyListGroup getListGroup() {
         return listGroup;
     }
 
     public void setListGroup(Environment.BuddyListGroup listGroup) {
         this.listGroup = listGroup;
-    }
-
-    public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
-        this.listStrategy = listStrategy;
     }
 
     // -------------------------------------------------------------------------------------------

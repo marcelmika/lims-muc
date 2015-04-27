@@ -9,7 +9,20 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
-import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.GetConnectedBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.GetConnectedBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
