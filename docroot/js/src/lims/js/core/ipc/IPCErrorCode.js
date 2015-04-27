@@ -27,5 +27,7 @@ Y.LIMS.Core.IPCErrorCode = {
     // Not found
     notFound: 4004,
     // Server returned error
-    serverError: 5000
+    serverError: 5000,
+    // IPC Not enabled
+    notEnabled: 5001
 };

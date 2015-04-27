@@ -76,7 +76,19 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
             failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            properties = this.get('properties'),
             data = event.data || null;
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.notEnabled,
+                'IPC is not enabled. You can enable it via Admin Area panel or via portlet.properties file.'
+            );
+            // End here
+            return;
+        }
 
         // Validate
         if (!data || data.length === 0) {
@@ -165,8 +177,20 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
             failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            properties = this.get('properties'),
             model,
             data = event.data || null;
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.notEnabled,
+                'IPC is not enabled. You can enable it via Admin Area panel or via portlet.properties file.'
+            );
+            // End here
+            return;
+        }
 
         // Validate
         if (!data || !data.conversationId) {
@@ -240,6 +264,17 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
             buddyDetails = this.get('buddyDetails'),
             model,
             data = event.data || null;
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.notEnabled,
+                'IPC is not enabled. You can enable it via Admin Area panel or via portlet.properties file.'
+            );
+            // End here
+            return;
+        }
 
         // Validate
         if (!data || !data.conversationId || !data.message) {
@@ -327,7 +362,19 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
             failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            properties = this.get('properties'),
             data = event.data || null;
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.notEnabled,
+                'IPC is not enabled. You can enable it via Admin Area panel or via portlet.properties file.'
+            );
+            // End here
+            return;
+        }
 
         // Validate
         if (!data || data.length === 0) {
@@ -394,18 +441,30 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
      * @param event
      * @private
      */
-    _onReadLastConversations: function(event) {
+    _onReadLastConversations: function (event) {
 
         // Vars
         var success = Y.LIMS.Core.Util.validateFunction(event.success),
             failure = Y.LIMS.Core.Util.validateFunction(event.failure),
+            properties = this.get('properties'),
             model;
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // Failure
+            failure(
+                Y.LIMS.Core.IPCErrorCode.notEnabled,
+                'IPC is not enabled. You can enable it via Admin Area panel or via portlet.properties file.'
+            );
+            // End here
+            return;
+        }
 
         // Create model
         model = new Y.LIMS.Model.ConversationFeedList();
 
         // Load the model
-        model.load(function(err) {
+        model.load(function (err) {
 
             // Vars
             var conversations = [];
@@ -418,7 +477,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
             }
 
             // Map local to IPC model
-            Y.Array.each(model.toArray(), function(conversation) {
+            Y.Array.each(model.toArray(), function (conversation) {
 
                 // Vars
                 var lastMessage,
@@ -432,7 +491,7 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
                 }
 
                 if (conversation.get('participants')) {
-                    Y.Array.each(conversation.get('participants'), function(participant) {
+                    Y.Array.each(conversation.get('participants'), function (participant) {
                         participants.push({
                             userId: participant.get('buddyId'),
                             screenName: participant.get('screenName'),
@@ -467,7 +526,14 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var buddyList = event.buddyList || null,
             users = [],
+            properties = this.get('properties'),
             publisher = this.get('publisher');
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // End here
+            return;
+        }
 
         if (buddyList) {
 
@@ -499,7 +565,14 @@ Y.LIMS.Core.IPCController = Y.Base.create('IPCController', Y.Base, [], {
         // Vars
         var notification = this.get('notification'),
             count = notification.get('unreadMessagesCount'),
+            properties = this.get('properties'),
             publisher = this.get('publisher');
+
+        // Check if IPC is enabled
+        if (!properties.isIPCEnabled()) {
+            // End here
+            return;
+        }
 
         if (count !== null) {
             publisher.fire(this.unreadMessagesCountUpdated, {

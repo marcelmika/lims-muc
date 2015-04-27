@@ -172,6 +172,15 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns true if IPC is enabled
+     *
+     * @return {boolean}
+     */
+    isIPCEnabled: function () {
+        return this.get('isIPCEnabled');
+    },
+
+    /**
      * Returns true if the mobile user scalable is disabled
      *
      * @return {boolean}
@@ -402,6 +411,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         isChatEnabled: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.portletEnabled;
+            }
+        },
+
+        /**
+         * Set to true if IPC is enabled
+         *
+         * {boolean}
+         */
+        isIPCEnabled: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.ipcEnabled;
             }
         },
 

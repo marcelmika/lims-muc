@@ -29,6 +29,7 @@
     "activePanelId": "${settings.activePanelId}",
     "contextPath":"<%= request.getContextPath() %>",
     "currentServerTime":<%= System.currentTimeMillis() %>,
-    "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled}
+    "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled},
+    "ipcEnabled":${properties.ipcEnabled}
     }
 </script>

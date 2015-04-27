@@ -807,6 +807,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     _onIpcEnabledClick: function () {
         // Vars
         var switchView = this.get('ipcEnabled'),
+            properties = this.get('properties'),
             model;
 
         // Prepare the model
@@ -823,6 +824,10 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 // Return everything to the previous state
                 switchView.toggle();
             }
+
+            // Update in properties
+            properties.set('isIPCEnabled', switchView.isOn());
+
             // Re-enable the view so the user can interact with it again
             switchView.enable();
         });
