@@ -393,6 +393,19 @@ public interface SettingsLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns true if the user is a member of the sites group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isMemberOfSitesGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns all buddies in the system based on the search query
 	*
 	* @param userId                of excluded user

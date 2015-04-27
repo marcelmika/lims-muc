@@ -214,6 +214,10 @@ public class GroupController {
             else if (status == GetGroupResponseEvent.Status.ERROR_NO_SESSION) {
                 ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
+            // Forbidden
+            else if (status == GetGroupResponseEvent.Status.ERROR_FORBIDDEN) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
             // Everything else is server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);

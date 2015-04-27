@@ -9,6 +9,7 @@
 
 package com.marcelmika.limsmuc.persistence.manager;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
@@ -19,6 +20,8 @@ import com.marcelmika.limsmuc.persistence.domain.Buddy;
 import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
 import com.marcelmika.limsmuc.persistence.domain.Page;
+import com.marcelmika.limsmuc.persistence.exception.ForbiddenException;
+import com.marcelmika.limsmuc.persistence.exception.PersistenceException;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 
 import java.util.Calendar;
@@ -75,47 +78,56 @@ public class GroupManagerImpl implements GroupManager {
      * @param listGroup    List group
      * @param page         Page pagination object
      * @return Group
-     * @throws Exception
+     * @throws PersistenceException persistence exception
+     * @throws ForbiddenException   not allowed to perform action
      */
     @Override
     public Group getGroup(Long userId,
                           Long groupId,
                           BuddyListStrategy listStrategy,
                           BuddyListGroup listGroup,
-                          Page page) throws Exception {
+                          Page page) throws PersistenceException, ForbiddenException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
 
-        // All
-        if (listStrategy == BuddyListStrategy.ALL) {
-            return readAllGroup(userId, true, ignoreDeactivatedUser, page);
-        }
+        try {
 
-        // Groups
-        else if (listStrategy == BuddyListStrategy.GROUPS) {
+            // All
+            if (listStrategy == BuddyListStrategy.ALL) {
+                return readAllGroup(userId, true, ignoreDeactivatedUser, page);
+            }
 
-            // Sites
-            if (listGroup == BuddyListGroup.SITE) {
-                return readSitesGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+            // Groups
+            else if (listStrategy == BuddyListStrategy.GROUPS) {
+
+                // Sites
+                if (listGroup == BuddyListGroup.SITE) {
+                    return readSitesGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+                }
+                // Social
+                else if (listGroup == BuddyListGroup.SOCIAL) {
+                    return readSocialGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+                }
+                // User group
+                else if (listGroup == BuddyListGroup.USER) {
+                    return readUserGroup(userId, groupId, true, ignoreDeactivatedUser, page);
+                }
+                // Unknown
+                else {
+                    throw new PersistenceException("Unknown buddy list group: " + listGroup);
+                }
             }
-            // Social
-            else if (listGroup == BuddyListGroup.SOCIAL) {
-                return readSocialGroup(userId, groupId, true, ignoreDeactivatedUser, page);
-            }
-            // User group
-            else if (listGroup == BuddyListGroup.USER) {
-                return readUserGroup(userId, groupId, true, ignoreDeactivatedUser, page);
-            }
+
             // Unknown
             else {
-                throw new Exception("Unknown buddy list group: " + listGroup);
+                throw new PersistenceException("Unknown buddy list strategy: " + listStrategy);
             }
-        }
 
-        // Unknown
-        else {
-            throw new Exception("Unknown buddy list strategy: " + listStrategy);
+        }
+        // Persistence failure
+        catch (SystemException systemException) {
+            throw new PersistenceException(systemException);
         }
     }
 
@@ -130,9 +142,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param userId which should be excluded from the list
      * @param page   pagination object
      * @return GroupCollection
-     * @throws Exception
+     * @throws SystemException
      */
-    private GroupCollection findAllGroup(Long userId, Page page) throws Exception {
+    private GroupCollection findAllGroup(Long userId, Page page) throws SystemException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -159,12 +171,12 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param page                  pagination object
      * @return Group
-     * @throws Exception
+     * @throws SystemException
      */
     private Group readAllGroup(Long userId,
                                boolean ignoreDefaultUser,
                                boolean ignoreDeactivatedUser,
-                               Page page) throws Exception {
+                               Page page) throws SystemException {
 
         // Count the size of the ALL group
         Integer totalElements = SettingsLocalServiceUtil.countAllUsers(
@@ -217,9 +229,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param userId Long
      * @param page   Page
      * @return GroupCollection
-     * @throws Exception
+     * @throws SystemException
      */
-    public GroupCollection findGroups(Long userId, Page page) throws Exception {
+    public GroupCollection findGroups(Long userId, Page page) throws SystemException, ForbiddenException {
 
         // Prepare groups
         GroupCollection groupCollection = new GroupCollection();
@@ -265,9 +277,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param userId which should be excluded from the list
      * @param page   pagination object
      * @return Groups
-     * @throws Exception
+     * @throws SystemException
      */
-    private List<Group> findSitesGroups(Long userId, Page page) throws Exception {
+    private List<Group> findSitesGroups(Long userId, Page page) throws SystemException, ForbiddenException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -303,13 +315,18 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param page                  pagination object
      * @return Group
-     * @throws Exception
+     * @throws SystemException
      */
     private Group readSitesGroup(Long userId,
                                  Long groupId,
                                  boolean ignoreDefaultUser,
                                  boolean ignoreDeactivatedUser,
-                                 Page page) throws Exception {
+                                 Page page) throws SystemException, ForbiddenException {
+
+        // Check if the user is a member of the group thus allowed to read it
+        if (!SettingsLocalServiceUtil.isMemberOfSitesGroup(userId, groupId)) {
+            throw new ForbiddenException("User is not allowed to read the group");
+        }
 
         // Get number and size
         int number = page.getNumber();
@@ -383,9 +400,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param userId which should be excluded from the list
      * @param page   pagination object
      * @return list of Groups
-     * @throws Exception
+     * @throws SystemException
      */
-    private List<Group> findSocialGroups(Long userId, Page page) throws Exception {
+    private List<Group> findSocialGroups(Long userId, Page page) throws SystemException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -427,13 +444,13 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param page                  pagination object
      * @return Group
-     * @throws Exception
+     * @throws SystemException
      */
     private Group readSocialGroup(Long userId,
                                   Long groupId,
                                   boolean ignoreDefaultUser,
                                   boolean ignoreDeactivatedUser,
-                                  Page page) throws Exception {
+                                  Page page) throws SystemException {
 
         // Get number and size
         int number = page.getNumber();
@@ -525,9 +542,9 @@ public class GroupManagerImpl implements GroupManager {
      * @param userId which should be excluded from the list
      * @param page   pagination object
      * @return list of Groups
-     * @throws Exception
+     * @throws SystemException
      */
-    private List<Group> findUserGroups(Long userId, Page page) throws Exception {
+    private List<Group> findUserGroups(Long userId, Page page) throws SystemException {
 
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
@@ -563,13 +580,13 @@ public class GroupManagerImpl implements GroupManager {
      * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
      * @param page                  pagination object
      * @return Group
-     * @throws Exception
+     * @throws SystemException
      */
     private Group readUserGroup(Long userId,
                                 Long groupId,
                                 boolean ignoreDefaultUser,
                                 boolean ignoreDeactivatedUser,
-                                Page page) throws Exception {
+                                Page page) throws SystemException {
 
         // Get number and size
         int number = page.getNumber();

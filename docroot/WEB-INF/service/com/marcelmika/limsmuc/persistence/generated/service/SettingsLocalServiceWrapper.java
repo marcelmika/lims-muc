@@ -467,6 +467,21 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	}
 
 	/**
+	* Returns true if the user is a member of the sites group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	@Override
+	public boolean isMemberOfSitesGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _settingsLocalService.isMemberOfSitesGroup(userId, groupId);
+	}
+
+	/**
 	* Returns all buddies in the system based on the search query
 	*
 	* @param userId                of excluded user

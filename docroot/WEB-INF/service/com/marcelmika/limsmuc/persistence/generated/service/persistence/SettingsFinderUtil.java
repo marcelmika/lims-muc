@@ -71,6 +71,12 @@ public class SettingsFinderUtil {
 			ignoreDeactivatedUser, start, end);
 	}
 
+	public static boolean isMemberOfSitesGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().isMemberOfSitesGroup(userId, groupId);
+	}
+
 	public static java.util.List<java.lang.Object[]> searchSitesBuddies(
 		java.lang.Long userId, java.lang.String searchQuery,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser,

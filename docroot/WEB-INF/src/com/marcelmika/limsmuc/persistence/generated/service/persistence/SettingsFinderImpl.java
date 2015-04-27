@@ -55,6 +55,9 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
     private static final String FIND_BY_SOCIAL_GROUPS = SettingsFinder.class.getName() + ".findBySocialGroups";
     private static final String FIND_BY_USER_GROUPS = SettingsFinder.class.getName() + ".findByUserGroups";
 
+    // Is Member SQL
+    private static final String IS_MEMBER_OF_SITES_GROUP = SettingsFinder.class.getName() + ".isMemberOfSitesGroup";
+
     // Search users SQL
     private static final String SEARCH_ALL_USERS = SettingsFinder.class.getName() + ".searchAllUsers";
     private static final String SEARCH_BY_SITES_GROUPS = SettingsFinder.class.getName() + ".searchBySitesGroups";
@@ -393,6 +396,51 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
 
             // Return the result
             return (List<Object[]>) QueryUtil.list(query, getDialect(), start, end);
+
+        } finally {
+            // Session needs to be closed if something goes wrong
+            closeSession(session);
+        }
+    }
+
+    /**
+     * Returns true if the user is a member of the sites group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public boolean isMemberOfSitesGroup(Long userId, Long groupId) throws SystemException {
+
+        Session session = null;
+
+        try {
+
+            // Open database session
+            session = openSession();
+            // Generate SQL
+            String sql = getIsMemberOfSitesGroupSQL();
+
+            // Create query from sql
+            SQLQuery query = session.createSQLQuery(sql);
+
+            // Now w need to map types to columns
+            query.addScalar("userId", Type.LONG);
+
+            // Add parameters to query
+            QueryPos queryPos = QueryPos.getInstance(query);
+            queryPos.add(groupId);
+            queryPos.add(userId);
+
+            // Return the result
+            List<Object[]> result = (List<Object[]>) QueryUtil.list(query, getDialect(), 0, 1);
+
+            // If there user was found (is the member of the group) the list will contain
+            // one element. Otherwise, it will be empty.
+            return (result.size() > 0);
 
         } finally {
             // Session needs to be closed if something goes wrong
@@ -1170,6 +1218,17 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
         sql = addIgnoreDeactivatedUserToSql(sql, ignoreDeactivatedUser);
 
         return sql;
+    }
+
+    /**
+     * Generates SQL for is member of sites group query
+     *
+     * @return SQL string for the query
+     */
+    private String getIsMemberOfSitesGroupSQL() {
+
+        // Get custom query sql (check /src/custom-sql/default.xml)
+        return CustomSQLUtil.get(IS_MEMBER_OF_SITES_GROUP);
     }
 
     /**

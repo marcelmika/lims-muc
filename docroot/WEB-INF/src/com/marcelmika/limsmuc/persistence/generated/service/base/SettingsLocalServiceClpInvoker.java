@@ -172,85 +172,91 @@ public class SettingsLocalServiceClpInvoker {
 				"java.lang.Long", "boolean", "boolean", "int", "int"
 			};
 
-		_methodName79 = "searchAllBuddies";
+		_methodName79 = "isMemberOfSitesGroup";
 
 		_methodParameterTypes79 = new String[] {
+				"java.lang.Long", "java.lang.Long"
+			};
+
+		_methodName80 = "searchAllBuddies";
+
+		_methodParameterTypes80 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"int", "int"
 			};
 
-		_methodName80 = "countSitesGroupUsers";
+		_methodName81 = "countSitesGroupUsers";
 
-		_methodParameterTypes80 = new String[] {
+		_methodParameterTypes81 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean"
 			};
 
-		_methodName81 = "findSitesGroups";
+		_methodName82 = "findSitesGroups";
 
-		_methodParameterTypes81 = new String[] {
+		_methodParameterTypes82 = new String[] {
 				"java.lang.Long", "java.lang.String[][]"
 			};
 
-		_methodName82 = "readSitesGroup";
+		_methodName83 = "readSitesGroup";
 
-		_methodParameterTypes82 = new String[] {
+		_methodParameterTypes83 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean", "int",
 				"int"
 			};
 
-		_methodName83 = "searchSitesBuddies";
+		_methodName84 = "searchSitesBuddies";
 
-		_methodParameterTypes83 = new String[] {
+		_methodParameterTypes84 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
 
-		_methodName84 = "countSocialGroupUsers";
+		_methodName85 = "countSocialGroupUsers";
 
-		_methodParameterTypes84 = new String[] {
+		_methodParameterTypes85 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean"
 			};
 
-		_methodName85 = "findSocialGroups";
+		_methodName86 = "findSocialGroups";
 
-		_methodParameterTypes85 = new String[] { "java.lang.Long", "int[][]" };
+		_methodParameterTypes86 = new String[] { "java.lang.Long", "int[][]" };
 
-		_methodName86 = "readSocialGroup";
+		_methodName87 = "readSocialGroup";
 
-		_methodParameterTypes86 = new String[] {
+		_methodParameterTypes87 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean", "int",
 				"int"
 			};
 
-		_methodName87 = "searchSocialBuddies";
+		_methodName88 = "searchSocialBuddies";
 
-		_methodParameterTypes87 = new String[] {
+		_methodParameterTypes88 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"int[][]", "int", "int"
 			};
 
-		_methodName88 = "countUserGroupUsers";
+		_methodName89 = "countUserGroupUsers";
 
-		_methodParameterTypes88 = new String[] {
+		_methodParameterTypes89 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean"
 			};
 
-		_methodName89 = "findUserGroups";
+		_methodName90 = "findUserGroups";
 
-		_methodParameterTypes89 = new String[] {
+		_methodParameterTypes90 = new String[] {
 				"java.lang.Long", "java.lang.String[][]"
 			};
 
-		_methodName90 = "readUserGroup";
+		_methodName91 = "readUserGroup";
 
-		_methodParameterTypes90 = new String[] {
+		_methodParameterTypes91 = new String[] {
 				"java.lang.Long", "java.lang.Long", "boolean", "boolean", "int",
 				"int"
 			};
 
-		_methodName91 = "searchUserGroupsBuddies";
+		_methodName92 = "searchUserGroupsBuddies";
 
-		_methodParameterTypes91 = new String[] {
+		_methodParameterTypes92 = new String[] {
 				"java.lang.Long", "java.lang.String", "boolean", "boolean",
 				"java.lang.String[][]", "int", "int"
 			};
@@ -438,6 +444,12 @@ public class SettingsLocalServiceClpInvoker {
 
 		if (_methodName79.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+			return SettingsLocalServiceUtil.isMemberOfSitesGroup((java.lang.Long)arguments[0],
+				(java.lang.Long)arguments[1]);
+		}
+
+		if (_methodName80.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
 			return SettingsLocalServiceUtil.searchAllBuddies((java.lang.Long)arguments[0],
 				(java.lang.String)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -446,22 +458,22 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[5]).intValue());
 		}
 
-		if (_methodName80.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
+		if (_methodName81.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes81, parameterTypes)) {
 			return SettingsLocalServiceUtil.countSitesGroupUsers((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
 				((Boolean)arguments[3]).booleanValue());
 		}
 
-		if (_methodName81.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes81, parameterTypes)) {
+		if (_methodName82.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
 			return SettingsLocalServiceUtil.findSitesGroups((java.lang.Long)arguments[0],
 				(java.lang.String[])arguments[1]);
 		}
 
-		if (_methodName82.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
+		if (_methodName83.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
 			return SettingsLocalServiceUtil.readSitesGroup((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -470,8 +482,8 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[5]).intValue());
 		}
 
-		if (_methodName83.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+		if (_methodName84.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
 			return SettingsLocalServiceUtil.searchSitesBuddies((java.lang.Long)arguments[0],
 				(java.lang.String)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -481,22 +493,22 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[6]).intValue());
 		}
 
-		if (_methodName84.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
+		if (_methodName85.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
 			return SettingsLocalServiceUtil.countSocialGroupUsers((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
 				((Boolean)arguments[3]).booleanValue());
 		}
 
-		if (_methodName85.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
+		if (_methodName86.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
 			return SettingsLocalServiceUtil.findSocialGroups((java.lang.Long)arguments[0],
 				(int[])arguments[1]);
 		}
 
-		if (_methodName86.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
+		if (_methodName87.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes87, parameterTypes)) {
 			return SettingsLocalServiceUtil.readSocialGroup((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -505,8 +517,8 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[5]).intValue());
 		}
 
-		if (_methodName87.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes87, parameterTypes)) {
+		if (_methodName88.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes88, parameterTypes)) {
 			return SettingsLocalServiceUtil.searchSocialBuddies((java.lang.Long)arguments[0],
 				(java.lang.String)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -515,22 +527,22 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[6]).intValue());
 		}
 
-		if (_methodName88.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes88, parameterTypes)) {
+		if (_methodName89.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes89, parameterTypes)) {
 			return SettingsLocalServiceUtil.countUserGroupUsers((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
 				((Boolean)arguments[3]).booleanValue());
 		}
 
-		if (_methodName89.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes89, parameterTypes)) {
+		if (_methodName90.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes90, parameterTypes)) {
 			return SettingsLocalServiceUtil.findUserGroups((java.lang.Long)arguments[0],
 				(java.lang.String[])arguments[1]);
 		}
 
-		if (_methodName90.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes90, parameterTypes)) {
+		if (_methodName91.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes91, parameterTypes)) {
 			return SettingsLocalServiceUtil.readUserGroup((java.lang.Long)arguments[0],
 				(java.lang.Long)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -539,8 +551,8 @@ public class SettingsLocalServiceClpInvoker {
 				((Integer)arguments[5]).intValue());
 		}
 
-		if (_methodName91.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes91, parameterTypes)) {
+		if (_methodName92.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes92, parameterTypes)) {
 			return SettingsLocalServiceUtil.searchUserGroupsBuddies((java.lang.Long)arguments[0],
 				(java.lang.String)arguments[1],
 				((Boolean)arguments[2]).booleanValue(),
@@ -641,4 +653,6 @@ public class SettingsLocalServiceClpInvoker {
 	private String[] _methodParameterTypes90;
 	private String _methodName91;
 	private String[] _methodParameterTypes91;
+	private String _methodName92;
+	private String[] _methodParameterTypes92;
 }

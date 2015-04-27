@@ -20,6 +20,8 @@ import com.marcelmika.limsmuc.persistence.domain.Buddy;
 import com.marcelmika.limsmuc.persistence.domain.Group;
 import com.marcelmika.limsmuc.persistence.domain.GroupCollection;
 import com.marcelmika.limsmuc.persistence.domain.Page;
+import com.marcelmika.limsmuc.persistence.exception.ForbiddenException;
+import com.marcelmika.limsmuc.persistence.exception.PersistenceException;
 import com.marcelmika.limsmuc.persistence.manager.GroupManager;
 
 /**
@@ -100,9 +102,6 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
             return GetGroupResponseEvent.failure(GetGroupResponseEvent.Status.ERROR_WRONG_PARAMETERS);
         }
 
-        // TODO Add check that such list strategy and list group s available
-
-
         // Create page
         Page page = new Page();
         page.setNumber(event.getNumber());
@@ -125,10 +124,16 @@ public class GroupPersistenceServiceImpl implements GroupPersistenceService {
             // Success
             return GetGroupResponseEvent.success(group.toGroupDetails());
         }
-        // Failure
-        catch (Exception exception) {
+        // Failure persistence
+        catch (PersistenceException exception) {
             return GetGroupResponseEvent.failure(
                     GetGroupResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+        // Failure forbidden
+        catch (ForbiddenException exception) {
+            return GetGroupResponseEvent.failure(
+                    GetGroupResponseEvent.Status.ERROR_FORBIDDEN, exception
             );
         }
     }

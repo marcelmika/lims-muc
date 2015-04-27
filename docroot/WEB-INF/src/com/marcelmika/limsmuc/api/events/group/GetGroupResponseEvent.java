@@ -28,6 +28,7 @@ public class GetGroupResponseEvent extends ResponseEvent {
         ERROR_NOT_FOUND,        // No such group
         ERROR_WRONG_PARAMETERS, // Wrong input parameters
         ERROR_PERSISTENCE,      // Error with persistence occurred
+        ERROR_FORBIDDEN,        // Such group cannot be read
         ERROR_NO_SESSION,       // User doesn't have the jabber session
         ERROR_JABBER,           // Error with jabber occurred
     }
