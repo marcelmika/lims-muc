@@ -28,7 +28,7 @@ public interface SettingsJabberService {
      * @param event Request event
      * @return Response event
      */
-    public TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
+    TestConnectionResponseEvent testConnection(TestConnectionRequestEvent event);
 
     /**
      * Reads buddy's settings
@@ -36,6 +36,6 @@ public interface SettingsJabberService {
      * @param event Request event
      * @return Response event
      */
-    public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
+    ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
 }

@@ -27,7 +27,7 @@ public interface PropertiesManager {
      *
      * @param preferences PortletPreferences
      */
-    public void setup(PortletPreferences preferences);
+    void setup(PortletPreferences preferences);
 
     /**
      * Updates portlet preferences based on the properties. Preferences are stored and updated
@@ -38,6 +38,6 @@ public interface PropertiesManager {
      * @param properties  Properties
      * @throws Exception
      */
-    public void updatePortletPreferences(PortletPreferences preferences, Properties properties) throws Exception;
+    void updatePortletPreferences(PortletPreferences preferences, Properties properties) throws Exception;
 
 }

@@ -25,7 +25,7 @@ public interface BuddyJabberService {
      * @param event Request event for method
      * @return Response event for method
      */
-    public ConnectBuddyResponseEvent connectBuddy(ConnectBuddyRequestEvent event);
+    ConnectBuddyResponseEvent connectBuddy(ConnectBuddyRequestEvent event);
 
     /**
      * Login buddy to Jabber
@@ -33,7 +33,7 @@ public interface BuddyJabberService {
      * @param event Request event for method
      * @return Response event for method
      */
-    public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
+    LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
 
     /**
      * Logout buddy from Jabber
@@ -41,7 +41,7 @@ public interface BuddyJabberService {
      * @param event Request event for method
      * @return Response event for method
      */
-    public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
+    LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
 
     /**
      * Change buddy's status
@@ -49,7 +49,7 @@ public interface BuddyJabberService {
      * @param event Request event for method
      * @return Response event for method
      */
-    public UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
+    UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
 
     /**
      * Updates buddy's password
@@ -57,7 +57,7 @@ public interface BuddyJabberService {
      * @param event Request event
      * @return Response event
      */
-    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
+    UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
 
     /**
      * Search buddies in the system
@@ -65,7 +65,7 @@ public interface BuddyJabberService {
      * @param event Request event
      * @return Response event
      */
-    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
+    SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
     /**
      * Reads presence of buddies
@@ -73,6 +73,6 @@ public interface BuddyJabberService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+    ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
 
 }

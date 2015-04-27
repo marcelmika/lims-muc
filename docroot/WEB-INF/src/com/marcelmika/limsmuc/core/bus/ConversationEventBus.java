@@ -24,12 +24,12 @@ public interface ConversationEventBus {
      *
      * @param listener MessageEventBusListener
      */
-    public void register(ConversationEventBusListener listener);
+    void register(ConversationEventBusListener listener);
 
     /**
      * Publish message received bus event
      *
      * @param event MessageReceivedBusEvent
      */
-    public void publish(MessageReceivedBusEvent event);
+    void publish(MessageReceivedBusEvent event);
 }

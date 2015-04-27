@@ -26,7 +26,7 @@ public interface UserSessionStore {
      *
      * @param listener UserSessionStoreListener
      */
-    public void addUserSessionStoreListener(UserSessionStoreListener listener);
+    void addUserSessionStoreListener(UserSessionStoreListener listener);
 
     /**
      * Returns stored user session
@@ -34,21 +34,21 @@ public interface UserSessionStore {
      * @param id of the user session
      * @return UserSession
      */
-    public UserSession getUserSession(Long id);
+    UserSession getUserSession(Long id);
 
     /**
      * Removes user session from the store
      *
      * @param id of the user session
      */
-    public void removeUserSession(Long id);
+    void removeUserSession(Long id);
 
     /**
      * Adds user session to the store
      *
      * @param userSession UserSession
      */
-    public void addUserSession(UserSession userSession);
+    void addUserSession(UserSession userSession);
 
     /**
      * Returns true if the store contains user session
@@ -56,5 +56,5 @@ public interface UserSessionStore {
      * @param id of the user session
      * @return true if the store contains user session
      */
-    public boolean containsUserSession(Long id);
+    boolean containsUserSession(Long id);
 }

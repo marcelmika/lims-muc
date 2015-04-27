@@ -27,7 +27,7 @@ public interface QueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public SQLQuery createSettingsQuery(Version version, Session session);
+    SQLQuery createSettingsQuery(Version version, Session session);
 
     /**
      * Returns sql query for the panel table based on the given version
@@ -36,7 +36,7 @@ public interface QueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public SQLQuery createPanelQuery(Version version, Session session);
+    SQLQuery createPanelQuery(Version version, Session session);
 
     /**
      * Returns sql query for the conversation table based on the given version
@@ -45,7 +45,7 @@ public interface QueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public SQLQuery createConversationQuery(Version version, Session session);
+    SQLQuery createConversationQuery(Version version, Session session);
 
     /**
      * Returns sql query for the participant table based on the given version
@@ -54,7 +54,7 @@ public interface QueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public SQLQuery createParticipantQuery(Version version, Session session);
+    SQLQuery createParticipantQuery(Version version, Session session);
 
     /**
      * Returns sql query for the message table based on the given version
@@ -63,5 +63,5 @@ public interface QueryFactory {
      * @param session database session
      * @return SQLQuery
      */
-    public SQLQuery createMessageQuery(Version version, Session session);
+    SQLQuery createMessageQuery(Version version, Session session);
 }

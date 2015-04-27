@@ -24,6 +24,6 @@ public interface ConversationEventBusListener {
      *
      * @param event MessageReceivedBusEvent
      */
-    public void messageReceived(MessageReceivedBusEvent event);
+    void messageReceived(MessageReceivedBusEvent event);
 
 }

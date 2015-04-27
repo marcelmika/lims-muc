@@ -24,13 +24,13 @@ public interface MultiUserConversationManager {
      *
      * @param connection Connection
      */
-    public void setConnection(XMPPConnection connection);
+    void setConnection(XMPPConnection connection);
 
     /**
      * Sets company id to the group manager
      *
      * @param companyId Long
      */
-    public void setCompanyId(Long companyId);
+    void setCompanyId(Long companyId);
 
 }
