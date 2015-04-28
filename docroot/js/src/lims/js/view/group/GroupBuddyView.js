@@ -76,18 +76,12 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
         var model = this.get('model'),
             container = this.get('container');
 
+        // Local events
+        container.on('click', this._onContainerClick, this);
+
+        // Model events
         model.after('presenceChange', this._onPresenceChange, this);
         model.after('connectedChange', this._onPresenceChange, this);
-
-        // TODO: Rewrite to onMethod
-        // Attach click on panel's item
-        container.on('click', function (event) {
-            event.preventDefault();
-            // Fire event, add current model (buddy)
-            Y.fire('buddySelected', {
-                buddy: model
-            });
-        });
     },
 
     /**
@@ -140,6 +134,24 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
         // Return the HTML
         return presenceView.get('container');
+    },
+
+    /**
+     * Called when user clicks on the group buddy
+     *
+     * @private
+     */
+    _onContainerClick: function (event) {
+        // Vars
+        var model = this.get('model');
+
+        // Stop propagation of click
+        event.preventDefault();
+
+        // Fire event, add current model (buddy)
+        Y.fire('buddySelected', {
+            buddy: model
+        });
     },
 
     /**
