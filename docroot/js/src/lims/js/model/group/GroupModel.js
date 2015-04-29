@@ -37,7 +37,7 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
      * @param buddyId
      * @return {*}
      */
-    findBuddy: function(buddyId) {
+    findBuddy: function (buddyId) {
         // Var
         var buddies = this.get('buddies');
 
@@ -57,7 +57,7 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
         // Vars
         var instance = this;
 
-        Y.Array.each(updatedBuddies, function(updatedBuddy) {
+        Y.Array.each(updatedBuddies, function (updatedBuddy) {
             // Search local buddy
             var buddy = instance.findBuddy(updatedBuddy.get('buddyId'));
 
@@ -145,6 +145,8 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
                                 if (response.buddies) {
                                     response.buddies = buddies;
                                 }
+
+                                instance.fire('buddiesAdded');
                             }
 
                             // Callback
@@ -219,17 +221,20 @@ Y.LIMS.Model.GroupModel = Y.Base.create('groupModel', Y.Model, [Y.LIMS.Model.Mod
              * @return {Y.LIMS.Model.BuddyModelList}
              */
             setter: function (object) {
+                // Vars
+                var list = new Y.LIMS.Model.BuddyModelList();
 
                 // List cannot be null
                 if (!object) {
-                    return new Y.LIMS.Model.BuddyModelList();
+                    return list;
                 }
 
                 // Create a model instance from object
                 if (object.name !== "buddyModelList") {
-                    return new Y.LIMS.Model.BuddyModelList({
-                        items: object
-                    });
+                    // Add items from the list
+                    list.add(object);
+
+                    return list;
                 }
                 // Object is already an instance of BuddyModelList
                 return object;

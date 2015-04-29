@@ -158,7 +158,7 @@ Y.LIMS.Model.ConversationListModel = Y.Base.create('conversationListModel', Y.Mo
                             // Update conversation list
                             instance.updateConversationList(response);
                             // Call success
-                            callback(null, response);
+                            callback(null);
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired

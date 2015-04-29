@@ -195,7 +195,7 @@ Y.LIMS.View.GroupView = Y.Base.create('groupView', Y.View, [], {
 
         // Local events
         model.on('beforeLoad', this._onBeforeGroupRead, this);
-        model.after('load', this._onGroupReadSuccess, this);
+        model.after('change', this._onGroupReadSuccess, this);
         model.after('error', this._onGroupReadError, this);
         loadMoreButton.on('click', this._onLoadMoreButtonClick, this);
     },

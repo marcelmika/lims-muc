@@ -75,7 +75,7 @@ Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.
             container = this.get('container');
 
         // Local events
-        model.after('load', this._onGroupsReadSuccess, this);
+        model.after(['add', 'reset', 'remove'], this._onGroupsReadSuccess, this);
         model.after('error', this._onGroupsReadError, this);
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
         container.after('mouseenter', this._onContainerContentMouseEnter, this);
