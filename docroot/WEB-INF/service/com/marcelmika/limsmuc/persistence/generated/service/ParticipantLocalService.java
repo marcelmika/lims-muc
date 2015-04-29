@@ -16,6 +16,7 @@ package com.marcelmika.limsmuc.persistence.generated.service;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -52,6 +53,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	* @return the participant that was added
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.marcelmika.limsmuc.persistence.generated.model.Participant addParticipant(
 		com.marcelmika.limsmuc.persistence.generated.model.Participant participant)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -73,6 +75,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	* @throws PortalException if a participant with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.marcelmika.limsmuc.persistence.generated.model.Participant deleteParticipant(
 		long pid)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -85,6 +88,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	* @return the participant that was removed
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.marcelmika.limsmuc.persistence.generated.model.Participant deleteParticipant(
 		com.marcelmika.limsmuc.persistence.generated.model.Participant participant)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -225,6 +229,7 @@ public interface ParticipantLocalService extends BaseLocalService,
 	* @return the participant that was updated
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.marcelmika.limsmuc.persistence.generated.model.Participant updateParticipant(
 		com.marcelmika.limsmuc.persistence.generated.model.Participant participant)
 		throws com.liferay.portal.kernel.exception.SystemException;
