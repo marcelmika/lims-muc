@@ -13,13 +13,52 @@ import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.events.conversation.*;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.AddParticipantsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.AddParticipantsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CloseConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CloseConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CreateConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.CreateConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.LeaveConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.LeaveConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ReadSingleUserConversationResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.ResetUnreadMessagesCounterResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SendMessageRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SendMessageResponseEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SwitchConversationsRequestEvent;
+import com.marcelmika.limsmuc.api.events.conversation.SwitchConversationsResponseEvent;
+import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.core.service.ConversationCoreService;
-import com.marcelmika.limsmuc.portal.domain.*;
+import com.marcelmika.limsmuc.portal.domain.Buddy;
+import com.marcelmika.limsmuc.portal.domain.BuddyCollection;
+import com.marcelmika.limsmuc.portal.domain.Conversation;
+import com.marcelmika.limsmuc.portal.domain.ConversationCollection;
+import com.marcelmika.limsmuc.portal.domain.ConversationType;
+import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
+import com.marcelmika.limsmuc.portal.domain.Message;
+import com.marcelmika.limsmuc.portal.domain.MessagePagination;
+import com.marcelmika.limsmuc.portal.domain.MessageType;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.localization.ConversationLocalizationUtil;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
-import com.marcelmika.limsmuc.portal.request.parameters.*;
+import com.marcelmika.limsmuc.portal.request.parameters.AddParticipantsParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.CloseConversationParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.CreateMessageParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.LeaveConversationParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.ReadConversationParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.ReadConversationsParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.ReadOpenedConversationsParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.ResetUnreadMessagesCounterParameters;
+import com.marcelmika.limsmuc.portal.request.parameters.SwitchConversationsParameters;
+import com.marcelmika.limsmuc.portal.response.ReadOpenedConversationsResponse;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;
@@ -39,14 +78,17 @@ public class ConversationController {
 
     // Dependencies
     ConversationCoreService conversationCoreService;
+    BuddyCoreService buddyCoreService;
 
     /**
      * Constructor
      *
      * @param conversationCoreService ConversationCoreService
      */
-    public ConversationController(final ConversationCoreService conversationCoreService) {
+    public ConversationController(final ConversationCoreService conversationCoreService,
+                                  final BuddyCoreService buddyCoreService) {
         this.conversationCoreService = conversationCoreService;
+        this.buddyCoreService = buddyCoreService;
     }
 
     /**
@@ -406,12 +448,19 @@ public class ConversationController {
      */
     public void readOpenedConversations(ResourceRequest request, ResourceResponse response) {
 
-        Buddy buddy;        // Authorized user
+        Buddy buddy;                                    // Authorized user
+        ReadOpenedConversationsParameters parameters;   // Request parameters
 
         // Deserialize
         try {
             // Create buddy from request
             buddy = Buddy.fromResourceRequest(request);
+
+            // Deserialize parameters
+            parameters = JSONFactoryUtil.looseDeserialize(
+                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS),
+                    ReadOpenedConversationsParameters.class
+            );
         }
         // Failure
         catch (Exception exception) {
@@ -430,14 +479,39 @@ public class ConversationController {
                 new GetOpenedConversationsRequestEvent(buddy.toBuddyDetails())
         );
 
+        // Read statuses
+        ReadPresenceChangeResponseEvent presenceChangeResponseEvent = buddyCoreService.readPresenceChange(
+                new ReadPresenceChangeRequestEvent(buddy.getBuddyId(), parameters.getSince())
+        );
+
         // Success
         if (responseEvent.isSuccess()) {
+
+            // Response is composed thus we need a special response object
+            ReadOpenedConversationsResponse responseObject = new ReadOpenedConversationsResponse();
+
             // Map conversation from details
             List<Conversation> conversationList = Conversation.fromConversationDetailsList(
                     responseEvent.getConversationDetails()
             );
+
+            // Add list of conversations to the response object
+            responseObject.setConversations(conversationList);
+
+            // If presence was changed
+            if (presenceChangeResponseEvent.isSuccess()) {
+                // Map from service response, don't add user data from portal since we only need the presence
+                List<Buddy> buddies = Buddy.fromBuddyDetailsList(presenceChangeResponseEvent.getBuddies(), false);
+
+                // Add to response object
+                responseObject.setChangedPresences(buddies);
+            }
+
             // Serialize
-            String serializedConversations = JSONFactoryUtil.looseSerialize(conversationList);
+            String serializedConversations = JSONFactoryUtil.looseSerialize(
+                    responseObject, "conversations", "changedPresences"
+            );
+
             // Write success to response
             ResponseUtil.writeResponse(serializedConversations, HttpStatus.OK, response);
         }

@@ -11,15 +11,15 @@
  * Group Model List
  *
  * The class extends Y.ModelList and customizes it to hold a list of
- * GroupModelItem instances, and to provide some convenience methods for getting
+ * GroupModel instances, and to provide some convenience methods for getting
  * information about the Group items in the list.
  */
 Y.namespace('LIMS.Model');
 
-Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LIMS.Model.ModelExtension], {
+Y.LIMS.Model.GroupListModel = Y.Base.create('groupListModel', Y.ModelList, [Y.LIMS.Model.ModelExtension], {
 
-    // This tells the list that it will hold instances of the GroupModelItem class.
-    model: Y.LIMS.Model.GroupModelItem,
+    // This tells the list that it will hold instances of the GroupModel class.
+    model: Y.LIMS.Model.GroupModel,
 
     // Custom sync layer.
     sync: function (action, options, callback) {
@@ -52,20 +52,39 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                     on: {
                         success: function (id, o) {
 
-                            // Check if the poller should slow down
-                            if (o.getResponseHeader('X-Slow-Down')) {
-                                instance.fire('slowDown', {slowDown: true});
-                            } else {
-                                instance.fire('slowDown', {slowDown: false});
-                            }
-
                             // If nothing has change the server returns 304 (not modified)
                             // As a result we don't need to refresh anything
                             if (o.status === 304) {
-                                // Return callback
-                                callback(null);
                                 // End here
                                 return;
+                            }
+
+                            // Server is still processing the request
+                            if (o.status === 206) {
+                                // Add the number of attempts to options
+                                if (!options.attempts) {
+                                    options.attempts = 1;
+                                }
+                                // This is not the first attempt
+                                else {
+                                    // Increase attempt count
+                                    options.attempts = options.attempts + 1;
+                                }
+
+                                // If the number of attempts is more than the limit end with failure
+                                if (options.attempts > 20) {
+                                    callback(new Y.LIMS.Model.ErrorMessage({
+                                        code: 500,
+                                        message: "Too many attempts to read the group list"
+                                    }));
+                                    // End here
+                                    return;
+                                }
+
+                                // Wait a second and call it again
+                                setTimeout(function () {
+                                    instance.sync(action, options, callback);
+                                }, 1000);
                             }
 
                             // Deserialize
@@ -77,51 +96,19 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                                 // Clear etag otherwise when we load the data again it
                                 // might still be cached
                                 instance.set('etag', -1);
-                                // Fire error event
-                                instance.fire('groupsReadError');
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
                                 callback(exception);
                                 // End here
                                 return;
                             }
 
-                            var i, groups, group, buddies;
-                            // Parse groups
-                            groups = response.groups;
+                            // We need to set list properties manually
+                            instance.set('etag', response.etag);
+                            instance.set('loading', response.loading);
+                            instance.set('listStrategy', response.listStrategy);
 
-                            if (response.etag && etag.toString() !== response.etag.toString()) {
-
-                                // Empty the list
-                                instance.fire('groupReset');
-
-                                instance.set('etag', response.etag);
-                                instance.set('loading', response.loading);
-
-                                // Add groups to list
-                                for (i = 0; i < groups.length; i++) {
-                                    // Create new group
-                                    group = new Y.LIMS.Model.GroupModelItem(groups[i]);
-
-                                    // List of buddies
-                                    buddies = new Y.LIMS.Model.BuddyModelList();
-                                    buddies.add(groups[i].buddies);
-
-                                    // Add buddies to group
-                                    group.set('buddies', buddies);
-
-                                    // Add group to group list
-                                    instance.add(group);
-                                }
-
-                                // Fire success event
-                                instance.fire('groupsReadSuccess', {
-                                    groupsList: instance
-                                });
-                            }
-
-                            if (callback) {
-                                callback(null);
-                            }
+                            // Callback
+                            callback(null, response);
                         },
                         failure: function (x, o) {
                             // If the attempt is unauthorized session has expired
@@ -135,12 +122,8 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
                             instance.set('etag', -1);
                             instance.set('loading', false);
 
-                            // Fire error event
-                            instance.fire('groupsReadError');
-
-                            if (callback) {
-                                callback("group model error", o.responseText);
-                            }
+                            // Callback
+                            callback("Group List Model Error");
                         }
                     }
                 });
@@ -157,6 +140,17 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
             default:
                 callback('Invalid action');
         }
+    },
+
+    /**
+     * Parse method is called after sync
+     *
+     * @param response
+     * @return {*}
+     */
+    parse: function (response) {
+        // Groups are items for the list
+        return response.groups;
     }
 
 }, {
@@ -177,12 +171,21 @@ Y.LIMS.Model.GroupModelList = Y.Base.create('groupModelList', Y.ModelList, [Y.LI
         },
 
         /**
+         * Buddy list strategy
+         *
+         * {string}
+         */
+        listStrategy: {
+            value: null // to be set
+        },
+
+        /**
          * Set to true if the group model is still being retrieved from jabber on the server
          *
          * {boolean}
          */
         loading: {
-          value: false // default value
+            value: false // default value
         }
     }
 });

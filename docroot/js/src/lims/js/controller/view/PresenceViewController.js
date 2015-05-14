@@ -138,17 +138,22 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
      * @private
      */
     _onPresenceChanged: function (event) {
+
+        // Vars
+        var currentPresence = this.get('buddyDetails').get('presence');
+
         // Update presence indicator and buddy details
         this._updatePresenceIndicator(event.presence);
         this._updateBuddyDetails(event.presence);
 
-        // Disable chat if needed
-        if (event.presence === "OFFLINE") {
+        // User enabled the chat
+        if (currentPresence !== 'OFFLINE' && event.presence === 'OFFLINE') {
             Y.fire("chatDisabled");
-        } else {
+        }
+        // User enabled the chat
+        else if (event.presence !== 'OFFLINE') {
             Y.fire("chatEnabled");
         }
-
         // Dismiss controller
         this.dismissViewController();
     },
@@ -210,7 +215,7 @@ Y.LIMS.Controller.PresenceViewController = Y.Base.create('presenceViewController
         /**
          * Currently logged user
          *
-         * {Y.LIMS.ModelBuddyModelItem}
+         * {Y.LIMS.Model.BuddyModelItem}
          */
         buddyDetails: {
             value: null // to be set

@@ -9,7 +9,22 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
-import com.marcelmika.limsmuc.api.events.buddy.*;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -25,7 +40,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for login method
      * @return Response event for login method
      */
-    public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
+    LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
 
     /**
      * Logout buddy from System
@@ -33,7 +48,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
+    LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
 
     /**
      * Completely removes buddy from Persistence
@@ -41,7 +56,7 @@ public interface BuddyPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
+    DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
 
     /**
      * Reads presence of a single buddy
@@ -49,7 +64,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event);
+    ReadBuddyPresenceResponseEvent readBuddyPresence(ReadBuddyPresenceRequestEvent event);
 
     /**
      * Reads presence of buddies
@@ -57,7 +72,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+    ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
 
     /**
      * Change buddy's presence
@@ -65,7 +80,7 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
+    UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
 
     /**
      * Search buddies in the system
@@ -73,7 +88,14 @@ public interface BuddyPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
+    SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
+    /**
+     * Reads buddies that have changed their presence since the particular time
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event);
 
 }

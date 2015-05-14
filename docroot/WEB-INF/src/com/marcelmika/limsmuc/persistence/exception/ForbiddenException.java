@@ -7,29 +7,29 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.portal.request.parameters;
+package com.marcelmika.limsmuc.persistence.exception;
 
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 25/10/14
- * Time: 16:26
+ * Date: 27/04/15
+ * Time: 15:13
  */
-public class ParameterException extends Exception {
+public class ForbiddenException extends Exception {
 
-    public ParameterException() {
+    public ForbiddenException() {
         super();
     }
 
-    public ParameterException(String s) {
+    public ForbiddenException(String s) {
         super(s);
     }
 
-    public ParameterException(String s, Throwable throwable) {
+    public ForbiddenException(String s, Throwable throwable) {
         super(s, throwable);
     }
 
-    public ParameterException(Throwable throwable) {
+    public ForbiddenException(Throwable throwable) {
         super(throwable);
     }
 }

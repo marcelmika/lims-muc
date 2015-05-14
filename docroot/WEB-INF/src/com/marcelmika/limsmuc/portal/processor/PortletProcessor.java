@@ -32,6 +32,6 @@ public interface PortletProcessor {
      * @param request  ResourceRequest
      * @param response ResourceResponse
      */
-    public void processRequest(ResourceRequest request, ResourceResponse response);
+    void processRequest(ResourceRequest request, ResourceResponse response);
 
 }

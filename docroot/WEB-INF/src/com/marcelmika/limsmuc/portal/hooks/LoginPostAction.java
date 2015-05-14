@@ -65,7 +65,7 @@ public class LoginPostAction extends Action {
     private void loginBuddy(Buddy buddy) {
 
         // Log
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("Login user " + buddy.getScreenName());
         }
 

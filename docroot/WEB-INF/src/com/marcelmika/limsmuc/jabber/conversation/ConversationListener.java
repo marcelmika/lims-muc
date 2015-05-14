@@ -25,5 +25,5 @@ public interface ConversationListener {
      *
      * @param message received message
      */
-    public void messageReceived(Message message);
+    void messageReceived(Message message);
 }

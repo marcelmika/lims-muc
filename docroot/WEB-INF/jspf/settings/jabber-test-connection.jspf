@@ -7,7 +7,7 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
-<li class="jabber-test-connection">
+<div class="jabber-test-connection">
 
     <button class="button button-secondary">
         <liferay-ui:message key="panel-settings-admin-area-jabber-test-connection-button-title"/>
@@ -15,4 +15,4 @@
     <div class="preloader hide"></div>
     <div class="message hide"></div>
 
-</li>
+</div>

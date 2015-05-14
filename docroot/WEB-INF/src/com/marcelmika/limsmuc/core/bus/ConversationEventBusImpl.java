@@ -53,8 +53,8 @@ public class ConversationEventBusImpl implements ConversationEventBus {
     @Override
     public void publish(MessageReceivedBusEvent event) {
         // Publish to all subscribers
-       for (ConversationEventBusListener subscriber : subscribers) {
-           subscriber.messageReceived(event);
-       }
+        for (ConversationEventBusListener subscriber : subscribers) {
+            subscriber.messageReceived(event);
+        }
     }
 }

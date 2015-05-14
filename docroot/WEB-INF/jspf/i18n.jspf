@@ -56,6 +56,11 @@
     "validationIsInteger":"<liferay-ui:message key="panel-settings-admin-area-validation-is-integer"/>",
     "validationInterval":"<liferay-ui:message key="panel-settings-admin-area-validation-interval"/>",
     "sessionExpiredNotificationContent":"<liferay-ui:message key="session-expired-notification-content"/>",
-    "portletNotificationCloseButtonTitle":"<liferay-ui:message key="portlet-notification-close-button-title"/>"
+    "portletNotificationCloseButtonTitle":"<liferay-ui:message key="portlet-notification-close-button-title"/>",
+    "groupIconSites":"<liferay-ui:message key="panel-group-list-icon-sites"/>",
+    "groupIconSocial":"<liferay-ui:message key="panel-group-list-icon-social"/>",
+    "groupIconUser":"<liferay-ui:message key="panel-group-list-icon-user"/>",
+    "groupIconJabber":"<liferay-ui:message key="panel-group-list-icon-jabber"/>",
+    "groupLoadMore":"<liferay-ui:message key="panel-group-list-load-more"/>"
     }
 </script>

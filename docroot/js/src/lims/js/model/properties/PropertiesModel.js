@@ -162,6 +162,33 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
         },
 
         /**
+         * Buddy list group site enabled
+         *
+         * {boolean}
+         */
+        buddyListGroupSiteEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Buddy list group social enabled
+         *
+         * {boolean}
+         */
+        buddyListGroupSocialEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Buddy list group user enabled
+         *
+         * {boolean}
+         */
+        buddyListGroupUserEnabled: {
+            value: null // to be set
+        },
+
+        /**
          * Excluded sites
          *
          * []
@@ -185,6 +212,15 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
          * []
          */
         buddyListGroupExcludes: {
+            value: null // to be set
+        },
+
+        /**
+         * Mobile user scalable disabled
+         *
+         * {boolean}
+         */
+        mobileUserScalableDisabled: {
             value: null // to be set
         },
 

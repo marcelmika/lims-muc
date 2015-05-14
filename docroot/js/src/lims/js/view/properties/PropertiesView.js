@@ -56,9 +56,13 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             buddyListStrategy = this.get('buddyListStrategy'),
             buddyListSocialRelations = this.get('buddyListSocialRelations'),
             buddyListIgnoreDeactivatedUser = this.get('buddyListIgnoreDeactivatedUser'),
+            buddyListGroupSiteEnabled = this.get('buddyListGroupSiteEnabled'),
+            buddyListGroupSocialEnabled = this.get('buddyListGroupSocialEnabled'),
+            buddyListGroupUserEnabled = this.get('buddyListGroupUserEnabled'),
             excludedSites = this.get('excludedSites'),
             buddyListSiteExcludes = this.get('buddyListSiteExcludes'),
             buddyListGroupExcludes = this.get('buddyListGroupExcludes'),
+            mobileUserScalableDisabled = this.get('mobileUserScalableDisabled'),
             jabberEnabled = this.get('jabberEnabled'),
             jabberSecurityEnabled = this.get('jabberSecurityEnabled'),
             jabberImportUserEnabled = this.get('jabberImportUserEnabled'),
@@ -76,9 +80,13 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         buddyListStrategy.on('choiceClick', this._onBuddyListStrategySelected, this);
         buddyListSocialRelations.on('choiceClick', this._onBuddyListSocialRelationsSelected, this);
         buddyListIgnoreDeactivatedUser.on('switchClick', this._onBuddyListIgnoreDeactivatedUserClick, this);
+        buddyListGroupSiteEnabled.on('switchClick', this._onBuddyListGroupSiteEnabledClick, this);
+        buddyListGroupSocialEnabled.on('switchClick', this._onBuddyListGroupSocialEnabledClick, this);
+        buddyListGroupUserEnabled.on('switchClick', this._onBuddyListGroupUserEnabledClick, this);
         excludedSites.on('inputUpdate', this._onExcludedSitesUpdate, this);
         buddyListSiteExcludes.on('inputUpdate', this._onBuddyListSiteExcludesUpdate, this);
         buddyListGroupExcludes.on('inputUpdate', this._onBuddyListGroupExcludesUpdate, this);
+        mobileUserScalableDisabled.on('switchClick', this._onMobileUserScalableDisabledClick, this);
         jabberEnabled.on('switchClick', this._onJabberEnabledClick, this);
         jabberSecurityEnabled.on('switchClick', this._onJabberSecurityEnabledClick, this);
         jabberImportUserEnabled.on('switchClick', this._onJabberImportUserEnabledClick, this);
@@ -112,7 +120,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         // Vars
         var choice = event.choice,                                           // Choice id is passed in event
             buddyListStrategy = this.get('buddyListStrategy'),               // Get the buddy list strategy view
-            buddyListSocialRelations = this.get('buddyListSocialRelations'), // Social relations view
             preSelectedChoices = event.preSelectedChoices,                   // Choices before selection
             model;                                                           // Properties model
 
@@ -129,14 +136,6 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             if (err) {
                 // Return everything to the previous state
                 buddyListStrategy.selectChoices(preSelectedChoices);
-            } else {
-                // If the list strategy has something to do with social relations
-                // enable the social relations view
-                if (choice === 'SOCIAL' || choice === 'SITES_AND_SOCIAL') {
-                    buddyListSocialRelations.enable();
-                } else {
-                    buddyListSocialRelations.disable();
-                }
             }
 
             // Re-enable the view so the user can interact with it again
@@ -190,6 +189,90 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         // Prepare the model
         model = new Y.LIMS.Model.PropertiesModel({
             buddyListIgnoreDeactivatedUser: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the group site enabled switch
+     * @private
+     */
+    _onBuddyListGroupSiteEnabledClick: function () {
+        // Vars
+        var switchView = this.get('buddyListGroupSiteEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            buddyListGroupSiteEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the group social enabled switch
+     * @private
+     */
+    _onBuddyListGroupSocialEnabledClick: function () {
+        // Vars
+        var switchView = this.get('buddyListGroupSocialEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            buddyListGroupSocialEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the user clicks on the group user enabled switch
+     * @private
+     */
+    _onBuddyListGroupUserEnabledClick: function () {
+        // Vars
+        var switchView = this.get('buddyListGroupUserEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            buddyListGroupUserEnabled: switchView.isOn()
         });
 
         // Disable view
@@ -312,6 +395,48 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             // function token input looses it's focus. So if we enable it
             // we need to re-enable the focus again.
             buddyListGroupExcludes.focus();
+        });
+    },
+
+
+    /**
+     * Called when the user clicks on the ipc enabled switch
+     *
+     * @private
+     */
+    _onMobileUserScalableDisabledClick: function () {
+        // Vars
+        var switchView = this.get('mobileUserScalableDisabled'),
+            mobilePatch = new Y.LIMS.Core.MobilePatch(),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            mobileUserScalableDisabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+
+            // Switch was turned on
+            if (switchView.isOn()) {
+                // Disable user scalability
+                mobilePatch.disableZoom();
+            }
+            // Switch was turned off
+            else {
+                // Enable user scalability
+                mobilePatch.enableZoom();
+            }
         });
     },
 
@@ -682,6 +807,7 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     _onIpcEnabledClick: function () {
         // Vars
         var switchView = this.get('ipcEnabled'),
+            properties = this.get('properties'),
             model;
 
         // Prepare the model
@@ -698,10 +824,15 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 // Return everything to the previous state
                 switchView.toggle();
             }
+
+            // Update in properties
+            properties.set('isIPCEnabled', switchView.isOn());
+
             // Re-enable the view so the user can interact with it again
             switchView.enable();
         });
     },
+
 
     /**
      * Called when user confirms synchronization with SUC
@@ -968,6 +1099,54 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         },
 
         /**
+         * View for buddy list group site enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        buddyListGroupSiteEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.buddy-list-group-site-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for buddy list group social enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        buddyListGroupSocialEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.buddy-list-group-social-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for buddy list group user enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        buddyListGroupUserEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.buddy-list-group-user-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
          * View for buddy list ignore deactivated user
          *
          * {Y.LIMS.View.SwitchElementView}
@@ -1026,6 +1205,22 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
                 var container = this.get('container').one('.buddy-list-group-excludes');
 
                 return new Y.LIMS.View.TokenInputElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for mobile user scalable disabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        mobileUserScalableDisabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.mobile-user-scalable-disabled');
+
+                return new Y.LIMS.View.SwitchElementView({
                     container: container
                 });
             }

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p/>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p/>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.generated.model.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.base.SettingsLocalServiceBaseImpl;
 
@@ -154,6 +153,18 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
+     * Returns all user settings that have changed their presence since the particular timestamp
+     *
+     * @param since position in a time from which we count the presence updates
+     * @return list of settings
+     * @throws SystemException
+     */
+    @Override
+    public List<Settings> findByPresenceUpdatedSince(Date since) throws SystemException {
+        return settingsPersistence.findBypresenceUpdatedAtGreaterThan(since, 0, 100);
+    }
+
+    /**
      * Updates user's connection
      *
      * @param userId      id of the user whose connection should be updated
@@ -246,7 +257,7 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         List<Long> connectedUsers = new LinkedList<Long>();
 
         // Map to list of ids
-        for(Settings settings : results) {
+        for (Settings settings : results) {
             //
             connectedUsers.add(settings.getUserId());
         }
@@ -273,6 +284,27 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // ALL GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Counts all buddies in the system who have the settings
+     *
+     * @param userId                of excluded user
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countAllUsers(Long userId,
+                                 boolean ignoreDefaultUser,
+                                 boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countAllUsers(userId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
     /**
      * Returns all buddies in the system
      *
@@ -285,11 +317,11 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      * @throws SystemException
      */
     @Override
-    public List<Object[]> getAllGroups(Long userId,
-                                       boolean ignoreDefaultUser,
-                                       boolean ignoreDeactivatedUser,
-                                       int start,
-                                       int end) throws SystemException {
+    public List<Object[]> findAllGroups(Long userId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser,
+                                        int start,
+                                        int end) throws SystemException {
         // Find via settings finder
         return settingsFinder.findAllGroups(
                 userId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
@@ -297,78 +329,105 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
     }
 
     /**
-     * Returns all groups where the user participates
+     * Returns all buddies in the system based on the search query
      *
-     * @param userId                of the user whose groups are we looking for
+     * @param userId                of excluded user
+     * @param searchQuery           search string
      * @param ignoreDefaultUser     true if default users should be ignored
      * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param excludedSites         list of names of sites which should be excluded
      * @param start                 value of the list
      * @param end                   value of the list
+     * @return List of objects where each object contains user info
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> searchAllBuddies(Long userId,
+                                           String searchQuery,
+                                           boolean ignoreDefaultUser,
+                                           boolean ignoreDeactivatedUser,
+                                           int start,
+                                           int end) throws SystemException {
+        // Search via settings finder
+        return settingsFinder.searchAllBuddies(
+                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, start, end
+        );
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // SITES GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Counts a number of users who belong to the particular site
+     *
+     * @param userId                id of the excluded user
+     * @param groupId               of the group
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countSitesGroupUsers(Long userId,
+                                        Long groupId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countSitesGroupUsers(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
+     * Returns sites groups ids where the user belongs
+     *
+     * @param userId        id of the user
+     * @param excludedSites list of names of sites which should be excluded
      * @return List of objects where each object contains group name and user info
      * @throws SystemException
      */
     @Override
-    public List<Object[]> getSitesGroups(Long userId,
+    public List<Object[]> findSitesGroups(Long userId, String[] excludedSites) throws SystemException {
+        // Find via settings finder
+        return settingsFinder.findSitesGroups(userId, excludedSites);
+    }
+
+    /**
+     * Returns sites group and its user
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> readSitesGroup(Long userId,
+                                         Long groupId,
                                          boolean ignoreDefaultUser,
                                          boolean ignoreDeactivatedUser,
-                                         String[] excludedSites,
                                          int start,
                                          int end) throws SystemException {
         // Find via settings finder
-        return settingsFinder.findSitesGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedSites, start, end
+        return settingsFinder.readSitesGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
     }
 
     /**
-     * Returns all user's social relations
+     * Returns true if the user is a member of the sites group
      *
-     * @param userId                of the user whose social relations are we looking for
-     * @param ignoreDefaultUser     true if default users should be ignored
-     * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param relationTypes         an array of relation type codes that we are looking for
-     * @param start                 value of the list
-     * @param end                   value of the list
-     * @return List objects where each object contains relation type and user info
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
      * @throws SystemException
      */
     @Override
-    public List<Object[]> getSocialGroups(Long userId,
-                                          boolean ignoreDefaultUser,
-                                          boolean ignoreDeactivatedUser,
-                                          int[] relationTypes,
-                                          int start,
-                                          int end) throws SystemException {
-        // Find via settings finder
-        return settingsFinder.findSocialGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
-        );
-    }
-
-    /**
-     * Returns a list of user's groups
-     *
-     * @param userId                of the user whose groups are we looking for
-     * @param ignoreDefaultUser     true if default users should be ignored
-     * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param excludedGroups        list of names of groups which should be excluded
-     * @param start                 value of the list
-     * @param end                   value of the list
-     * @return List of objects where each object contains group name and user info
-     * @throws SystemException
-     */
-    @Override
-    public List<Object[]> getUserGroups(Long userId,
-                                        boolean ignoreDefaultUser,
-                                        boolean ignoreDeactivatedUser,
-                                        String[] excludedGroups,
-                                        int start,
-                                        int end) throws SystemException {
-        // Find via settings finder
-        return settingsFinder.findUserGroups(
-                userId, ignoreDefaultUser, ignoreDeactivatedUser, excludedGroups, start, end
-        );
+    public boolean isMemberOfSitesGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfSitesGroup(userId, groupId);
     }
 
     /**
@@ -399,29 +458,83 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         );
     }
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // SOCIAL GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Returns all buddies in the system based on the search query
+     * Counts a number of users who belong to the particular social group
      *
      * @param userId                of excluded user
-     * @param searchQuery           search string
+     * @param groupId               of the group
      * @param ignoreDefaultUser     true if default users should be ignored
      * @param ignoreDeactivatedUser true if deactivated users should be ignored
-     * @param start                 value of the list
-     * @param end                   value of the list
-     * @return List of objects where each object contains user info
+     * @return number of users
      * @throws SystemException
      */
     @Override
-    public List<Object[]> searchAllBuddies(Long userId,
-                                           String searchQuery,
-                                           boolean ignoreDefaultUser,
-                                           boolean ignoreDeactivatedUser,
-                                           int start,
-                                           int end) throws SystemException {
-        // Search via settings finder
-        return settingsFinder.searchAllBuddies(
-                userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, start, end
+    public Integer countSocialGroupUsers(Long userId,
+                                         Long groupId,
+                                         boolean ignoreDefaultUser,
+                                         boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countSocialGroupUsers(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
+     * Returns social groups ids where the user belongs
+     *
+     * @param userId        of the user whose social relations are we looking for
+     * @param relationTypes an array of relation type codes that we are looking for
+     * @return List objects where each object contains relation type and user info
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> findSocialGroups(Long userId,
+                                           int[] relationTypes) throws SystemException {
+        // Find via settings finder
+        return settingsFinder.findSocialGroups(userId, relationTypes);
+    }
+
+    /**
+     * Returns social group and their users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
+    public List<Object[]> readSocialGroup(Long userId,
+                                          Long groupId,
+                                          boolean ignoreDefaultUser,
+                                          boolean ignoreDeactivatedUser,
+                                          int start,
+                                          int end) throws SystemException {
+        // Read via settings finder
+        return settingsFinder.readSocialGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
         );
+    }
+
+    /**
+     * Returns true if the user is a member of the social group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    public boolean isMemberOfSocialGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfSocialGroup(userId, groupId);
     }
 
     /**
@@ -450,6 +563,84 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
         return settingsFinder.searchSocialBuddies(
                 userId, searchQuery, ignoreDefaultUser, ignoreDeactivatedUser, relationTypes, start, end
         );
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // USER GROUP
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Counts a number of users who belong to the particular user group
+     *
+     * @param userId                of excluded user
+     * @param groupId               of the group
+     * @param ignoreDefaultUser     true if default users should be ignored
+     * @param ignoreDeactivatedUser true if deactivated users should be ignored
+     * @return number of users
+     * @throws SystemException
+     */
+    @Override
+    public Integer countUserGroupUsers(Long userId,
+                                       Long groupId,
+                                       boolean ignoreDefaultUser,
+                                       boolean ignoreDeactivatedUser) throws SystemException {
+        // Count via settings finder
+        return settingsFinder.countUserGroupUsers(userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser);
+    }
+
+    /**
+     * Returns a list of user's groups
+     *
+     * @param userId         of the user whose groups are we looking for
+     * @param excludedGroups list of names of groups which should be excluded
+     * @return List of objects where each object contains group name and user info
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> findUserGroups(Long userId,
+                                         String[] excludedGroups) throws SystemException {
+        // Find via settings finder
+        return settingsFinder.findUserGroups(userId, excludedGroups);
+    }
+
+    /**
+     * Returns user group and its users based on the page parameter
+     *
+     * @param userId                which should be excluded from the list
+     * @param groupId               id of the group
+     * @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+     * @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+     * @param start                 value of the list
+     * @param end                   value of the list
+     * @return Group
+     * @throws SystemException
+     */
+    @Override
+    public List<Object[]> readUserGroup(Long userId,
+                                        Long groupId,
+                                        boolean ignoreDefaultUser,
+                                        boolean ignoreDeactivatedUser,
+                                        int start,
+                                        int end) throws SystemException {
+        // Find via settings finder
+        return settingsFinder.readUserGroup(
+                userId, groupId, ignoreDefaultUser, ignoreDeactivatedUser, start, end
+        );
+    }
+
+    /**
+     * Returns true if the user is a member of the user group
+     *
+     * @param userId  id of the user
+     * @param groupId id of the group
+     * @return boolean
+     * @throws SystemException
+     */
+    @Override
+    public boolean isMemberOfUserGroup(Long userId, Long groupId) throws SystemException {
+        // Check via the settings finder
+        return settingsFinder.isMemberOfUserGroup(userId, groupId);
     }
 
     /**

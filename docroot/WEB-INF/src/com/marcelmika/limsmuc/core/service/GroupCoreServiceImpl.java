@@ -10,6 +10,8 @@
 package com.marcelmika.limsmuc.core.service;
 
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
+import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
 import com.marcelmika.limsmuc.jabber.service.GroupJabberService;
@@ -41,8 +43,8 @@ public class GroupCoreServiceImpl implements GroupCoreService {
     /**
      * Get all groups related to the particular user
      *
-     * @param event request event for method
-     * @return response event for  method
+     * @param event RequestEvent
+     * @return ResponseEvent
      */
     @Override
     public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event) {
@@ -57,6 +59,28 @@ public class GroupCoreServiceImpl implements GroupCoreService {
         // Otherwise, take them from Liferay
         else {
             return groupPersistenceService.getGroups(event);
+        }
+    }
+
+    /**
+     * Returns a particular group
+     *
+     * @param event RequestEvent
+     * @return ResponseEvent
+     */
+    @Override
+    public GetGroupResponseEvent getGroup(GetGroupRequestEvent event) {
+
+        boolean isJabber = Environment.getBuddyListStrategy() == Environment.BuddyListStrategy.JABBER
+                && Environment.isJabberEnabled();
+
+        // Take the group from jabber only if the jabber is enabled
+        if (isJabber) {
+            return groupJabberService.getGroup(event);
+        }
+        // Otherwise, take the from Liferay
+        else {
+            return groupPersistenceService.getGroup(event);
         }
     }
 

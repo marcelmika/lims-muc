@@ -18,11 +18,22 @@ import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
+import com.marcelmika.limsmuc.jabber.domain.Page;
 import com.marcelmika.limsmuc.jabber.domain.Presence;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.utils.Jid;
-import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.SmackException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Group manager is responsible for the synchronization of groups and their entries. It keeps
@@ -112,23 +123,62 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     /**
      * Get buddy's collection of groups.
      *
+     * @param page Page
      * @return Buddy's collection of groups.
      */
     @Override
-    public GroupCollection getGroupCollection() {
+    public GroupCollection getGroupCollection(Page page) {
 
         // Lazy load the roaster
         if (!rosterReloaded) {
             reloadRoster();
         }
 
+        // Map groups only if they were somehow modified
+        if (wasModified) {
+            mapGroupsFromRoster();
+        }
+
+        // Return a duplicate of the collection with the size of buddies based on the page
+        return groupCollection.duplicate(page);
+    }
+
+    /**
+     * Returns a particular group
+     *
+     * @param groupId      Long
+     * @param listStrategy BuddyListStrategy
+     * @param page         Page
+     * @return list of groups
+     */
+    @Override
+    public Group getGroup(Long groupId, Environment.BuddyListStrategy listStrategy, Page page) throws JabberException {
+
+        // Unknown list strategy
+        if (listStrategy != Environment.BuddyListStrategy.JABBER) {
+            throw new JabberException("Unknown list strategy: " + listStrategy);
+        }
+
+        // Unknown group
+        if (groupCollection.getGroups().size() < groupId) {
+            throw new JabberException("Group with id: " + groupId + " is not presented");
+        }
+
+        // Lazy load the roaster
+        if (!rosterReloaded) {
+            reloadRoster();
+        }
 
         // Map groups only if they were somehow modified
         if (wasModified) {
             mapGroupsFromRoster();
         }
 
-        return groupCollection;
+        // Id of the group is a position in the list
+        Group group = groupCollection.getGroups().get(groupId.intValue());
+
+        // Return a duplicate of the group
+        return group.duplicate(page);
     }
 
     /**
@@ -336,15 +386,15 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
         // Create temporary group list
         List<Group> groups = new ArrayList<Group>();
 
+        long groupCounter = 0;
+
         // Go over all groups in roster
         for (RosterGroup rosterGroup : roster.getGroups()) {
             // Create new Group
             Group group = new Group();
+            // Roster group doesn't have an ID so we need to make it by ourselves
+            group.setGroupId(groupCounter++);
             group.setName(rosterGroup.getName());
-
-            // There is a max number of buddies that are going to be displayed
-            int buddiesCount = 0;
-            int buddiesMaxCount = Environment.getBuddyListMaxBuddies();
 
             // Add buddies to Group
             for (RosterEntry entry : rosterGroup.getEntries()) {
@@ -358,14 +408,8 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
                 // Add buddy to the group
                 group.addBuddy(buddy);
-
-                // Increment the buddies count
-                buddiesCount++;
-                // Stop at max buddies per collection
-                if (buddiesCount >= buddiesMaxCount) {
-                    break;
-                }
             }
+
             // Add Group to the collection
             groups.add(group);
         }

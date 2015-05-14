@@ -14,11 +14,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
 import com.marcelmika.limsmuc.jabber.domain.Message;
 import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.utils.Jid;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -127,7 +127,7 @@ public class SingleUserConversationManagerImpl
      */
     @Override
     public void destroy() {
-       chatManager.removeChatListener(this);
+        chatManager.removeChatListener(this);
     }
 
 

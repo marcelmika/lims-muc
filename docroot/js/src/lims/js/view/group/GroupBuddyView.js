@@ -14,7 +14,7 @@
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [], {
+Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
     // This customizes the HTML used for this view's container node.
     containerTemplate: '<li class="group-buddy-item"/>',
@@ -29,7 +29,7 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
     /**
      * Renders the view
      *
-     * @return {Y.LIMS.View.GroupBuddyViewItem}
+     * @return {Y.LIMS.View.GroupBuddyView}
      */
     render: function () {
         // Vars
@@ -76,14 +76,12 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
         var model = this.get('model'),
             container = this.get('container');
 
-        // Attach click on panel's item
-        container.on('click', function (event) {
-            event.preventDefault();
-            // Fire event, add current model (buddy)
-            Y.fire('buddySelected', {
-                buddy: model
-            });
-        });
+        // Local events
+        container.on('click', this._onContainerClick, this);
+
+        // Model events
+        model.after('presenceChange', this._onPresenceChange, this);
+        model.after('connectedChange', this._onPresenceChange, this);
     },
 
     /**
@@ -131,8 +129,53 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
 
         // Render presence
         presenceView.render();
+
+        this.set('presenceView', presenceView);
+
         // Return the HTML
         return presenceView.get('container');
+    },
+
+    /**
+     * Called when user clicks on the group buddy
+     *
+     * @private
+     */
+    _onContainerClick: function (event) {
+        // Vars
+        var model = this.get('model');
+
+        // Stop propagation of click
+        event.preventDefault();
+
+        // Fire event, add current model (buddy)
+        Y.fire('buddySelected', {
+            buddy: model
+        });
+    },
+
+    /**
+     * Called when the presence is changed
+     *
+     * @private
+     */
+    _onPresenceChange: function () {
+        // Vars
+        var model = this.get('model'),
+            presenceView = this.get('presenceView');
+
+        // Update the presence
+        if (presenceView) {
+
+            if (model.get('connected')) {
+                presenceView.set('presenceType', model.get('presence'));
+            } else {
+                presenceView.set('presenceType', 'OFFLINE');
+            }
+
+            // Render
+            presenceView.render();
+        }
     }
 
 }, {
@@ -158,6 +201,15 @@ Y.LIMS.View.GroupBuddyViewItem = Y.Base.create('groupBuddyViewItem', Y.View, [],
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * Holds the presence view
+         *
+         * {Y.LIMS.View.PresenceView}
+         */
+        presenceView: {
+            value: null // default value
         }
     }
 

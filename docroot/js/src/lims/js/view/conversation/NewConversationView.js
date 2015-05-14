@@ -308,8 +308,12 @@ Y.LIMS.View.NewConversationView = Y.Base.create('newConversationView', Y.View, [
                         // Remove focus from participants input
                         participants.blur();
                     } else {
-                        // Add focus to participants input
-                        participants.focus();
+
+                        // Focus in animation causes issues in mobile devices
+                        if (!Y.UA.mobile) {
+                            // Add focus to participants input
+                            participants.focus();
+                        }
                     }
                 }, this);
 

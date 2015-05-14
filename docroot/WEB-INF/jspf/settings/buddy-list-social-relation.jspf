@@ -12,7 +12,6 @@
 
 <%-- Imports --%>
 <%@ page import="com.marcelmika.limsmuc.api.environment.Environment.BuddyListSocialRelation" %>
-<%@ page import="com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy" %>
 
 <%-- Constants --%>
 <c:set var="TYPE_BI_CONNECTION" value="<%= BuddyListSocialRelation.TYPE_BI_CONNECTION %>"/>
@@ -20,21 +19,14 @@
 <c:set var="TYPE_BI_FRIEND" value="<%= BuddyListSocialRelation.TYPE_BI_FRIEND %>"/>
 <c:set var="TYPE_BI_ROMANTIC_PARTNER" value="<%= BuddyListSocialRelation.TYPE_BI_ROMANTIC_PARTNER %>"/>
 <c:set var="TYPE_BI_SIBLING" value="<%= BuddyListSocialRelation.TYPE_BI_SIBLING %>"/>
-<c:set var="SOCIAL" value="<%= BuddyListStrategy.SOCIAL %>"/>
-<c:set var="SITES_AND_SOCIAL" value="<%= BuddyListStrategy.SITES_AND_SOCIAL %>"/>
 
 <%-- Defaults --%>
-<c:set var="disabledClass" value="disabled"/>
 <c:set var="connectionActiveClass" value=""/>
 <c:set var="coworkerActiveClass" value=""/>
 <c:set var="friendActiveClass" value=""/>
 <c:set var="romanticPartnerActiveClass" value=""/>
 <c:set var="siblingActiveClass" value=""/>
 
-<%-- Decide if the whole group should be disabled --%>
-<c:if test="${properties.buddyListStrategy == SOCIAL || properties.buddyListStrategy == SITES_AND_SOCIAL}">
-    <c:set var="disabledClass" value=""/>
-</c:if>
 
 <%-- Decide what should be active --%>
 <c:forEach var="item" items="${properties.buddyListSocialRelations}">
@@ -57,14 +49,14 @@
 
 
 <%-- Rendered --%>
-<li class="buddy-list-social-relations">
+<div class="buddy-list-social-relations">
     <div class="settings-category-title">
         <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-title"/>
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-help"/>">i</i>
         </span>
     </div>
-    <div class="button-group ${disabledClass}">
+    <div class="button-group">
         <label data-choice="${TYPE_BI_CONNECTION}" class="button button-primary ${connectionActiveClass}">
             <span>
                 <liferay-ui:message key="panel-settings-admin-area-buddy-list-social-relation-connection"/>
@@ -93,4 +85,4 @@
 
         <div class="clear"></div>
     </div>
-</li>
+</div>

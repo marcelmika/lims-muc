@@ -16,7 +16,7 @@ package com.marcelmika.limsmuc.api.events;
  * Time: 10:42 PM
  */
 public class ResponseEvent {
-    
+
     protected boolean success;
     protected Throwable exception;
 

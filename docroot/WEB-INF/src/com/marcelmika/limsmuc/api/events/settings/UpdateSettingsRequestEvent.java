@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.api.events.settings;
 
-import com.marcelmika.limsmuc.api.events.RequestEvent;
 import com.marcelmika.limsmuc.api.entity.SettingsDetails;
+import com.marcelmika.limsmuc.api.events.RequestEvent;
 
 /**
  * @author Ing. Marcel Mika

@@ -29,7 +29,6 @@ var ConversationModelUtil = {
      * @param firstScreenName
      * @param secondScreenName
      * @returns {string} Conversation ID
-     * @private
      */
     generateSUCConversationId: function (firstScreenName, secondScreenName) {
         // Vars
@@ -51,7 +50,6 @@ var ConversationModelUtil = {
      * @param participants [Y.LIMS.Model.BuddyModelItem]
      * @param creator Y.LIMS.Model.BuddyModelItem
      * @return {*}
-     * @private
      */
     generateMUCConversationId: function (participants, creator) {
         // Vars
@@ -90,7 +88,6 @@ var ConversationModelUtil = {
      * Generates title of the conversation
      *
      * @param participants [Y.LIMS.Model.BuddyItemModel]
-     * @private
      */
     generateMUCTitle: function (participants) {
         // Vars
@@ -125,7 +122,6 @@ var ConversationModelUtil = {
      *
      * @param buddy
      * @return {string}
-     * @private
      */
     generateBuddyTitleName: function (buddy) {
 

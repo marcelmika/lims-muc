@@ -17,7 +17,7 @@ Y.namespace('LIMS.Model');
 
 Y.LIMS.Model.MessageListModel = Y.Base.create('messageListModel', Y.ModelList, [], {
 
-    // This tells the list that it will hold instances of the GroupModelItem class.
+    // This tells the list what kind of model is using
     model: Y.LIMS.Model.MessageItemModel,
 
     /**

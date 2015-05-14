@@ -28,7 +28,7 @@ public interface SynchronizationCoreService {
      * @param event Request event
      * @return Response event
      */
-    public SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event);
+    SynchronizeSUCResponseEvent synchronizeSUC(SynchronizeSUCRequestEvent event);
 
     /**
      * Synchronizes system with the data from Chat Portlet
@@ -36,6 +36,6 @@ public interface SynchronizationCoreService {
      * @param event Request event
      * @return Response event
      */
-    public SynchronizeChatPortletResponseEvent synchronizeChatPortlet(SynchronizeChatPortletRequestEvent event);
+    SynchronizeChatPortletResponseEvent synchronizeChatPortlet(SynchronizeChatPortletRequestEvent event);
 
 }

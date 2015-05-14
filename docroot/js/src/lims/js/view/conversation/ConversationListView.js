@@ -28,12 +28,22 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     // Template for participants list template
     participantsListTemplate: '<div class="participants-list" />',
 
+    // Template for a single participant item
+    participantsItemTemplate: '<div class="participant" />',
+
+    // Template for the send button
+    sendButtonTemplate: '<div class="send-button"/>',
+
     /**
      * Initializer
      *
      * @returns {Y.LIMS.View.ConversationListView}
      */
     initializer: function () {
+
+        // Render send button
+        this._renderSendButton();
+
         // Attach events
         this._attachEvents();
 
@@ -141,6 +151,14 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Refreshes the list of participants
+     */
+    refreshParticipantsList: function () {
+        // Simply render the list again
+        this._renderParticipantsList();
+    },
+
+    /**
      * Attaches listener to elements
      *
      * @private
@@ -149,6 +167,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Vars
         var messageTextField = this.get('messageTextField'),
             panelContent = this.get('panelContent'),
+            sendButton = this.get('sendButton'),
             model = this.get('model');
 
         // Attach events to text field
@@ -156,6 +175,10 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             messageTextField.on('keyup', this._onMessageTextFieldKeyUp, this);
             messageTextField.on('focus', this._onMessageTextFieldFocus, this);
             messageTextField.on('blur', this._onMessageTextFieldBlur, this);
+        }
+
+        if (sendButton) {
+            sendButton.on('click', this._onSendButtonClick, this);
         }
 
         // Attach events to model
@@ -167,6 +190,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelContent.on('scroll', this._onPanelContentScroll, this);
         panelContent.after('mouseenter', this._onPanelContentMouseEnter, this);
         panelContent.before('mouseleave', this._onPanelContentMouseLeave, this);
+        panelContent.on('touchstart', this._onPanelContentTouchStart, this);
     },
 
     /**
@@ -227,6 +251,41 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Renders send button
+     *
+     * @private
+     */
+    _renderSendButton: function () {
+        // Vars
+        var sendButton = this.get('sendButton'),
+            panelInput = this.get('panelInput'),
+            messageTextField = this.get('messageTextField'),
+            heightMonitor = this.get('heightMonitor'),
+            sendButtonWidth,
+            messageTextFieldWidth = this.get('messageTextFieldWidth'),
+            messageTextFieldPaddingRight,
+            updatedWidth,
+            updatedPadding;
+
+        // Send button is visible for mobile devices only
+        if (Y.UA.mobile) {
+            panelInput.append(sendButton);
+
+            // Layout subviews
+            sendButtonWidth = parseInt(sendButton.getStyle('width'), 10);
+            messageTextFieldPaddingRight = parseInt(messageTextField.getStyle('paddingRight'), 10);
+
+            updatedWidth = (messageTextFieldWidth - sendButtonWidth) + 'px';
+            messageTextField.setStyle('width', updatedWidth);
+            heightMonitor.setStyle('width', updatedWidth);
+
+            updatedPadding = (messageTextFieldPaddingRight + sendButtonWidth) + 'px';
+            messageTextField.setStyle('padding-right', updatedPadding);
+            heightMonitor.setStyle('padding-right', updatedPadding);
+        }
+    },
+
+    /**
      * Renders participants list
      *
      * @private
@@ -237,10 +296,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             container = this.get('container'),
             model = this.get('model'),
             participants,
-            innerHTML = '',
-            fullName,
-            screenName,
-            index;
+            instance = this;
 
         // If the list is not yet rendered, add it to the container
         if (!participantsList.inDoc()) {
@@ -253,31 +309,45 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         // Get participants of the conversation
         participants = model.get('participants');
 
-        for (index = 0; index < participants.length; index++) {
-            fullName = participants[index].get('fullName');
-            screenName = participants[index].get('screenName');
+        // Flush the content of the participant list
+        participantsList.set('innerHTML', '');
+
+        // Compose the list from the model
+        Y.Array.each(participants, function (participant) {
+
+            // Vars
+            var fullName = participant.get('fullName'),
+                screenName = participant.get('screenName'),
+                participantItem = Y.Node.create(instance.participantsItemTemplate),
+                presenceView,
+                innerHTML = '';
 
             // Set the full name
-            if (fullName && fullName.length > 0) {
+            if (fullName) {
                 innerHTML += fullName;
             }
             // If no full name use screen name
-            else if (screenName && screenName.length > 0) {
+            else if (screenName) {
                 innerHTML += screenName;
             }
-            // Don't include
-            else {
-                continue;
-            }
 
-            // Add new line at the end of each participant except for the last one
-            if (index < participants.length - 1) {
-                innerHTML += '<br/>';
-            }
-        }
+            // Set name as a content of the participant item
+            participantItem.set('innerHTML', innerHTML);
 
-        // Set the HTML to the list
-        participantsList.set('innerHTML', innerHTML);
+            // Create presence view
+            presenceView = new Y.LIMS.View.PresenceView({
+                presenceType: participant.get('presence')
+            });
+
+            // Render presence view
+            presenceView.render();
+
+            // Prepend it to the user name
+            participantItem.prepend(presenceView.get('container'));
+
+            // Append the item to the list
+            participantsList.append(participantItem);
+        });
     },
 
     /**
@@ -400,8 +470,13 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             panelInput.setStyle('opacity', 0);
             // Remove the readonly property if it was set before
             messageTextField.removeAttribute('readonly');
-            // Add a focus to the text field
-            messageTextField.focus();
+
+            // Focus only if the browser is not mobile
+            if (!Y.UA.mobile) {
+                // Add a focus to the text field
+                messageTextField.focus();
+            }
+
 
             // Create animation instance
             animation = new Y.Anim({
@@ -614,6 +689,36 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Called when the send button is clicked
+     *
+     * @private
+     */
+    _onSendButtonClick: function (event) {
+        var textField = this.get('messageTextField'),
+            value;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Get rid of new line characters
+        value = textField.get('value').replace(/\n|\r/gim, '');
+        // Get rid of empty spaces
+        value = Y.Lang.trim(value);
+
+        if (value.length) {
+            // Empty text field
+            textField.set('value', '');
+            // Fire an event that message was submitted
+            this.fire('messageSubmitted', {
+                message: value
+            });
+        }
+
+        // Resize
+        this._resizeMessageTextField();
+    },
+
+    /**
      * Called when a single message is added to the model
      *
      * @param event
@@ -699,6 +804,16 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
     },
 
     /**
+     * Called when user taps on the container
+     *
+     * @private
+     */
+    _onPanelContentTouchStart: function () {
+        // Simply propagate the event
+        this.fire('touchstart');
+    },
+
+    /**
      * Called when the user scrolls with mouse wheel over the panel content
      *
      * @param event
@@ -720,6 +835,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
      * @private
      */
     _onMessageTextFieldUpdated: function (event) {
+        // Vars
         var textField = this.get('messageTextField'),
             value;
 
@@ -878,6 +994,13 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         },
 
         /**
+         * Cached width of text field
+         */
+        messageTextFieldWidth: {
+            value: 250
+        },
+
+        /**
          * True if the message text field has focus, false if it's blurred
          *
          * {boolean}
@@ -894,6 +1017,17 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
         panelInput: {
             valueFn: function () {
                 return this.get('container').one('.panel-input');
+            }
+        },
+
+        /**
+         * Send button node
+         *
+         * {Node}
+         */
+        sendButton: {
+            valueFn: function () {
+                return Y.Node.create(this.sendButtonTemplate);
             }
         },
 
@@ -960,7 +1094,7 @@ Y.LIMS.View.ConversationListView = Y.Base.create('conversationListView', Y.View,
             valueFn: function () {
                 var heightMonitorNode = Y.Node.create(this.heightMonitorTemplate);
                 // Set the same width as message text field
-                heightMonitorNode.setStyle('width', 248);
+                heightMonitorNode.setStyle('width', 250);
                 // Add it to container, don't worry css will take it away from the visible window
                 heightMonitorNode.appendTo(this.get('container'));
 

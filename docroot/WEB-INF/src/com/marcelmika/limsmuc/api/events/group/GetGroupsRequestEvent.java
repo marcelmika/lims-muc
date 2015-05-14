@@ -9,8 +9,8 @@
 
 package com.marcelmika.limsmuc.api.events.group;
 
-import com.marcelmika.limsmuc.api.events.RequestEvent;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
+import com.marcelmika.limsmuc.api.events.RequestEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -22,12 +22,11 @@ public class GetGroupsRequestEvent extends RequestEvent {
 
     private BuddyDetails buddyDetails;
 
-    public GetGroupsRequestEvent(BuddyDetails buddyDetails) {
+    public GetGroupsRequestEvent(final BuddyDetails buddyDetails) {
         this.buddyDetails = buddyDetails;
     }
 
     public BuddyDetails getBuddyDetails() {
         return buddyDetails;
     }
-
 }

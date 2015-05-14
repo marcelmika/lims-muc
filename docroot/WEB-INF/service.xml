@@ -36,6 +36,9 @@
         <finder name='Presence' return-type='Collection'>
             <finder-column name='presence'/>
         </finder>
+        <finder name="presenceUpdatedAtGreaterThan" return-type="Collection">
+            <finder-column name="presenceUpdatedAt" comparator="&gt;"/>
+        </finder>
     </entity>
 
     <!-- Conversation -->

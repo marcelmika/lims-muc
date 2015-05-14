@@ -35,7 +35,7 @@ public enum Presence {
      */
     public static Presence fromPresenceDetails(PresenceDetails presenceDetails) {
 
-        if(presenceDetails == PresenceDetails.ACTIVE) {
+        if (presenceDetails == PresenceDetails.ACTIVE) {
             return Presence.STATE_ACTIVE;
         } else if (presenceDetails == PresenceDetails.AWAY) {
             return Presence.STATE_AWAY;
@@ -54,7 +54,7 @@ public enum Presence {
      * @return PresenceDetails
      */
     public PresenceDetails toPresenceDetails() {
-        if(this == Presence.STATE_ACTIVE) {
+        if (this == Presence.STATE_ACTIVE) {
             return PresenceDetails.ACTIVE;
         } else if (this == Presence.STATE_AWAY) {
             return PresenceDetails.AWAY;

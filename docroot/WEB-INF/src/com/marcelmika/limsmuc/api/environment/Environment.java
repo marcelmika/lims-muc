@@ -24,6 +24,9 @@ public class Environment {
     private static String[] excludedSites = new String[]{};
     private static BuddyListStrategy buddyListStrategy = BuddyListStrategy.ALL;
     private static BuddyListSocialRelation[] buddyListSocialRelations = new BuddyListSocialRelation[]{};
+    private static Boolean buddyListGroupSiteEnabled = false;
+    private static Boolean buddyListGroupSocialEnabled = false;
+    private static Boolean buddyListGroupUserEnabled = false;
     private static Boolean buddyListIgnoreDeactivatedUser = false;
     private static Integer buddyListMaxBuddies = 0;
     private static Integer buddyListMaxSearch = 0;
@@ -42,6 +45,7 @@ public class Environment {
     private static String jabberResource = "";
     private static Integer jabberResourcePriority = 0;
     private static Boolean ipcEnabled = false;
+    private static Boolean mobileUserScalableDisabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
     private static String urlJabberHelp = "";
@@ -104,30 +108,16 @@ public class Environment {
      * Enum for buddy list strategy
      */
     public enum BuddyListStrategy {
+
         /**
          * All buddies in the system
          */
         ALL("all"),
 
         /**
-         * Buddies related to the sites where the users participates
+         * Grouped buddies (@see BuddyListGroups)
          */
-        SITES("sites"),
-
-        /**
-         * Buddies listed based on the social relations
-         */
-        SOCIAL("social"),
-
-        /**
-         * Merge of the sites and social list strategies
-         */
-        SITES_AND_SOCIAL("sites,social"),
-
-        /**
-         * Buddies shown based on the user groups where the user belongs
-         */
-        USER_GROUPS("groups"),
+        GROUPS("groups"),
 
         /**
          * Buddies loaded from jabber
@@ -143,7 +133,7 @@ public class Environment {
          *
          * @param description string description of the list strategy
          */
-        private BuddyListStrategy(String description) {
+        BuddyListStrategy(String description) {
             this.description = description;
         }
 
@@ -168,6 +158,97 @@ public class Environment {
      */
     public static void setBuddyListStrategy(BuddyListStrategy buddyListStrategy) {
         Environment.buddyListStrategy = buddyListStrategy;
+    }
+
+    /**
+     * Enum for buddy list groups
+     */
+    public enum BuddyListGroup {
+
+        /**
+         * Buddies related to the sites where the users participates
+         */
+        SITE("site"),
+
+        /**
+         * Buddies listed based on the social relations
+         */
+        SOCIAL("social"),
+
+        /**
+         * Buddies shown based on the user groups where the user belongs
+         */
+        USER("user");
+
+        // String description of enum
+        private String description;
+
+        /**
+         * Private constructor
+         *
+         * @param description string description of enum
+         */
+        BuddyListGroup(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    /**
+     * Returns true if the buddy list site group is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean isBuddyListGroupSiteEnabled() {
+        return buddyListGroupSiteEnabled;
+    }
+
+    /**
+     * Set the buddy list group site enabled property
+     *
+     * @param buddyListGroupSiteEnabled Boolean
+     */
+    public static void setBuddyListGroupSiteEnabled(Boolean buddyListGroupSiteEnabled) {
+        Environment.buddyListGroupSiteEnabled = buddyListGroupSiteEnabled;
+    }
+
+    /**
+     * Returns true if the buddy list social group is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean isBuddyListGroupSocialEnabled() {
+        return buddyListGroupSocialEnabled;
+    }
+
+    /**
+     * Set the buddy list groups social enabled property
+     *
+     * @param buddyListGroupSocialEnabled Boolean
+     */
+    public static void setBuddyListGroupSocialEnabled(Boolean buddyListGroupSocialEnabled) {
+        Environment.buddyListGroupSocialEnabled = buddyListGroupSocialEnabled;
+    }
+
+    /**
+     * Returns true if the buddy list user group is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean isBuddyListGroupUserEnabled() {
+        return buddyListGroupUserEnabled;
+    }
+
+    /**
+     * Set the buddy list user group enabled property
+     *
+     * @param buddyListGroupUserEnabled Boolean
+     */
+    public static void setBuddyListGroupUserEnabled(Boolean buddyListGroupUserEnabled) {
+        Environment.buddyListGroupUserEnabled = buddyListGroupUserEnabled;
     }
 
     /**
@@ -217,7 +298,7 @@ public class Environment {
          * @param code        that uniquely represents relation type
          * @param description string description of relation
          */
-        private BuddyListSocialRelation(final int code, final String description) {
+        BuddyListSocialRelation(final int code, final String description) {
             this.code = code;
             this.description = description;
         }
@@ -596,15 +677,6 @@ public class Environment {
      *
      * @return Boolean
      */
-    public static Boolean isIpcEnabled() {
-        return ipcEnabled;
-    }
-
-    /**
-     * Return true if the Inter Portlet Communication is enabled
-     *
-     * @return Boolean
-     */
     public static Boolean getIpcEnabled() {
         return ipcEnabled;
     }
@@ -616,6 +688,24 @@ public class Environment {
      */
     public static void setIpcEnabled(Boolean ipcEnabled) {
         Environment.ipcEnabled = ipcEnabled;
+    }
+
+    /**
+     * Returns true if the Mobile User Scalable Disabled property is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean getMobileUserScalableDisabled() {
+        return mobileUserScalableDisabled;
+    }
+
+    /**
+     * Sets the Mobile User Scalable Disabled property
+     *
+     * @param mobileUserScalableDisabled Boolean
+     */
+    public static void setMobileUserScalableDisabled(Boolean mobileUserScalableDisabled) {
+        Environment.mobileUserScalableDisabled = mobileUserScalableDisabled;
     }
 
     /**

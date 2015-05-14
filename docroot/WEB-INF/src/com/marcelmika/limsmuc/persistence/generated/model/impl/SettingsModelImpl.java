@@ -88,8 +88,9 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 				"value.object.column.bitmask.enabled.com.marcelmika.limsmuc.persistence.generated.model.Settings"),
 			true);
 	public static long PRESENCE_COLUMN_BITMASK = 1L;
-	public static long USERID_COLUMN_BITMASK = 2L;
-	public static long SID_COLUMN_BITMASK = 4L;
+	public static long PRESENCEUPDATEDAT_COLUMN_BITMASK = 2L;
+	public static long USERID_COLUMN_BITMASK = 4L;
+	public static long SID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.marcelmika.limsmuc.persistence.generated.model.Settings"));
 
@@ -274,7 +275,17 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public void setPresenceUpdatedAt(Date presenceUpdatedAt) {
+		_columnBitmask |= PRESENCEUPDATEDAT_COLUMN_BITMASK;
+
+		if (_originalPresenceUpdatedAt == null) {
+			_originalPresenceUpdatedAt = _presenceUpdatedAt;
+		}
+
 		_presenceUpdatedAt = presenceUpdatedAt;
+	}
+
+	public Date getOriginalPresenceUpdatedAt() {
+		return _originalPresenceUpdatedAt;
 	}
 
 	@Override
@@ -445,6 +456,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		settingsModelImpl._originalPresence = settingsModelImpl._presence;
 
+		settingsModelImpl._originalPresenceUpdatedAt = settingsModelImpl._presenceUpdatedAt;
+
 		settingsModelImpl._columnBitmask = 0;
 	}
 
@@ -582,6 +595,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	private String _presence;
 	private String _originalPresence;
 	private Date _presenceUpdatedAt;
+	private Date _originalPresenceUpdatedAt;
 	private boolean _mute;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;

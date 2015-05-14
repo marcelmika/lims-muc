@@ -36,6 +36,8 @@
     vertical-align: baseline;
     border-spacing: 0;
     float: none;
+    // Remove inner shadow from inputs on mobile iOS
+    -webkit-appearance: none;
   }
 
   ul {

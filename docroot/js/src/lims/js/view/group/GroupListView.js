@@ -8,16 +8,14 @@
  */
 
 /**
- * Group View List
- *
- * The class extends Y.View. It represent a view for a list of groups
+ * Group List View
  */
 Y.namespace('LIMS.View');
 
-Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.ViewExtension], {
+Y.LIMS.View.GroupListView = Y.Base.create('groupListView', Y.View, [Y.LIMS.View.ViewExtension], {
 
     // Specify a model to associate with the view.
-    model: Y.LIMS.Model.GroupModelList,
+    model: Y.LIMS.Model.GroupListModel,
 
     /**
      * The initializer runs when the instance is created, and gives
@@ -29,24 +27,60 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     },
 
     /**
+     * Renders group list
+     *
+     * @private
+     */
+    render: function () {
+        // Vars
+        var model = this.get('model'),
+            groupList = this.get('groupList'),
+            groupViews = [];
+
+        if (groupList) {
+
+            // Empty node
+            groupList.set('innerHTML', '');
+
+            // Create views for groups
+            Y.Array.each(model.toArray(), function (groupModel) {
+
+                // Create new group view
+                var groupView = new Y.LIMS.View.GroupView({model: groupModel});
+
+                // Render group
+                groupView.render();
+
+                // Add it to group list
+                groupList.append(groupView.get('container'));
+
+                // Add it to the list of views
+                groupViews.push(groupView);
+            });
+
+            // Set group views
+            this.set('groupViews', groupViews);
+        }
+    },
+
+    /**
      * Attaches listeners to events
      *
      * @private
      */
     _attachEvents: function () {
+        // Vars
         var model = this.get('model'),
             errorView = this.get('errorView'),
             container = this.get('container');
 
-
         // Local events
-        model.after('add', this._onGroupAdd, this);
-        model.on('groupReset', this._onGroupReset, this);
-        model.after('groupsReadSuccess', this._onGroupsReadSuccess, this);
-        model.after('groupsReadError', this._onGroupsReadError, this);
+        model.after(['add', 'reset', 'remove'], this._onGroupsReadSuccess, this);
+        model.after('error', this._onGroupsReadError, this);
         errorView.on('resendButtonClick', this._onResendButtonClick, this);
         container.after('mouseenter', this._onContainerContentMouseEnter, this);
         container.before('mouseleave', this._onContainerContentMouseLeave, this);
+        container.on('scroll', this._onContentScroll, this);
     },
 
     /**
@@ -150,6 +184,9 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
             infoView = this.get('infoView'),
             model = this.get('model');
 
+        // Render
+        this.render();
+
         // If there was any error, hide it
         errorView.hideErrorMessage(true);
 
@@ -198,41 +235,6 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     },
 
     /**
-     * Called whenever the group model is reset
-     *
-     * @private
-     */
-    _onGroupReset: function () {
-        // Vars
-        var groupList = this.get('groupList');
-
-        if (groupList) {
-            // Empty node
-            groupList.set('innerHTML', '');
-        }
-    },
-
-    /**
-     * Creates a new GroupView instance and renders it into the list whenever a
-     * Group item is added to the list.
-     *
-     * @param e event
-     * @private
-     */
-    _onGroupAdd: function (e) {
-        // Vars
-        var groupView = new Y.LIMS.View.GroupViewItem({model: e.model}),
-            groupList = this.get('groupList');
-
-        if (groupList && groupView) {
-            // Render group
-            groupView.render();
-            // Add it to group list
-            groupList.append(groupView.get('container'));
-        }
-    },
-
-    /**
      * Called when the user click on the resend button within the error message view
      *
      * @private
@@ -240,7 +242,8 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
     _onResendButtonClick: function () {
         // Vars
         var model = this.get('model');
-        // Try to load the model data again
+
+        // Load the model data again
         model.load();
     },
 
@@ -264,6 +267,43 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         // Detach the mouse wheel event since there is no need to track
         // scrolling since the cursor is not above the panel content
         this._detachMouseWheel();
+    },
+
+    /**
+     * Called when user scrolls with the content
+     *
+     * @private
+     */
+    _onContentScroll: function () {
+        // Vars
+        var container = this.get('container'),
+            model = this.get('model'),
+            readMoreScrollOffset = this.get('readMoreScrollOffset'),
+            group,
+            instance = this;
+
+        // Auto loading is only available when the list
+        // strategy is set to ALL
+        if (model.get('listStrategy') === 'ALL') {
+
+            // If the user scrolled to bottom and if we aren't already reading more
+            if (this.hasScrolledToBottom(container, readMoreScrollOffset) && !this.get('isReadingMore')) {
+
+                // Get the 'all' group
+                group = model.item(0);
+
+                // If the group exists and it's not yet reached the bottom
+                if (group && !group.hasReachedBottom()) {
+                    // Set the flag so we are not going to read multiple times
+                    this.set('isReadingMore', true);
+                    // Load more
+                    group.load({readMore: true}, function () {
+                        // We are not reading anymore
+                        instance.set('isReadingMore', false);
+                    });
+                }
+            }
+        }
     },
 
     /**
@@ -299,10 +339,19 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
         /**
          * Group list model
          *
-         * {Y.LIMS.Model.GroupModelList}
+         * {Y.LIMS.Model.GroupListModel}
          */
         model: {
             value: null // to be set
+        },
+
+        /**
+         * List of rendered group views
+         *
+         * [Y.LIMS.View.GroupView]
+         */
+        groupViews: {
+            value: [] // default value
         },
 
         /**
@@ -341,6 +390,26 @@ Y.LIMS.View.GroupViewList = Y.Base.create('groupViewList', Y.View, [Y.LIMS.View.
          */
         mouseWheelSubscription: {
             value: null
+        },
+
+        /**
+         * Set to true if the user scrolled to bottom and more
+         * group buddies are being loaded from server
+         *
+         * {boolean}
+         */
+        isReadingMore: {
+            value: false
+        },
+
+        /**
+         * Offset from the bottom when the
+         * read more loading starts
+         *
+         * {number}
+         */
+        readMoreScrollOffset: {
+            value: 50
         },
 
         /**

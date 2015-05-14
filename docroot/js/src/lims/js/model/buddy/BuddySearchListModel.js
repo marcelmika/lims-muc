@@ -21,6 +21,38 @@ Y.LIMS.Model.BuddySearchListModel = Y.Base.create('buddySearchListModel', Y.Mode
     model: Y.LIMS.Model.BuddyModelItem,
 
     /**
+     * Updates presence related to the buddies
+     *
+     * @param updatedBuddies
+     */
+    updatePresences: function (updatedBuddies) {
+        // Vars
+        var instance = this;
+
+        Y.Array.each(updatedBuddies, function (updatedBuddy) {
+            // Search local buddy
+            var buddy = instance.findBuddy(updatedBuddy.get('buddyId'));
+
+            if (buddy) {
+                buddy.set('presence', updatedBuddy.get('presence'));
+                buddy.set('connected', updatedBuddy.get('connected'));
+            }
+        });
+    },
+
+    /**
+     * Finds a buddy id in the group model buddies
+     *
+     * @param buddyId
+     * @return {*}
+     */
+    findBuddy: function (buddyId) {
+        return Y.Array.find(this.toArray(), function (buddy) {
+            return buddy.get('buddyId') === buddyId;
+        });
+    },
+
+    /**
      * Starts a search for buddies based on the search query
      *
      * @param searchQuery
@@ -32,7 +64,13 @@ Y.LIMS.Model.BuddySearchListModel = Y.Base.create('buddySearchListModel', Y.Mode
         this.load();
     },
 
-    // Custom sync layer.
+    /**
+     * Sync layer
+     *
+     * @param action
+     * @param options
+     * @param callback
+     */
     sync: function (action, options, callback) {
 
         var parameters,

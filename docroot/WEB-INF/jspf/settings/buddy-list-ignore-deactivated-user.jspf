@@ -20,7 +20,7 @@
 </c:if>
 
 <%-- Render --%>
-<li class="buddy-list-ignore-deactivated-user">
+<div class="buddy-list-ignore-deactivated-user">
     <label class="switch">
         <input ${checked} type="checkbox"/>
         <span></span>
@@ -30,4 +30,4 @@
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-ignore-deactivated-user-help"/>">i</i>
     </span>
-</li>
+</div>

@@ -11,7 +11,11 @@ package com.marcelmika.limsmuc.persistence.domain;
 
 import com.marcelmika.limsmuc.api.entity.MessageDetails;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika

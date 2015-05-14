@@ -12,7 +12,14 @@ package com.marcelmika.limsmuc.portal.processor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.portal.controller.*;
+import com.marcelmika.limsmuc.portal.controller.BuddyController;
+import com.marcelmika.limsmuc.portal.controller.ConversationController;
+import com.marcelmika.limsmuc.portal.controller.GroupController;
+import com.marcelmika.limsmuc.portal.controller.IPCController;
+import com.marcelmika.limsmuc.portal.controller.PropertiesController;
+import com.marcelmika.limsmuc.portal.controller.ServerController;
+import com.marcelmika.limsmuc.portal.controller.SettingsController;
+import com.marcelmika.limsmuc.portal.controller.SynchronizationController;
 import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
@@ -68,6 +75,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_LEAVE_CONVERSATION = "LeaveConversation";
     private static final String QUERY_SWITCH_CONVERSATIONS = "SwitchConversations";
     private static final String QUERY_GET_GROUP_LIST = "GetGroupList";
+    private static final String QUERY_GET_GROUP = "GetGroup";
     private static final String QUERY_CREATE_MESSAGE = "CreateMessage";
     private static final String QUERY_UPDATE_BUDDY_PRESENCE = "UpdateBuddyPresence";
     private static final String QUERY_READ_SETTINGS = "ReadSettings";
@@ -232,6 +240,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Get Group List
         else if (query.equals(QUERY_GET_GROUP_LIST)) {
             groupController.getGroupList(request, response);
+        }
+        // Get Group
+        else if (query.equals(QUERY_GET_GROUP)) {
+            groupController.getGroup(request, response);
         }
         // Send message
         else if (query.equals(QUERY_CREATE_MESSAGE)) {

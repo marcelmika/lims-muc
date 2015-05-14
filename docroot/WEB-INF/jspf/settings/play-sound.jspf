@@ -17,7 +17,7 @@
 </c:choose>
 
 
-<li class="play-sound">
+<div class="play-sound">
 
     <label for="limsPlaySoundCheckbox" class="switch">
         <input ${playSoundChecked} id="limsPlaySoundCheckbox"
@@ -26,4 +26,4 @@
         <span></span>
     </label>
     <span class="title-text"><liferay-ui:message key="panel-settings-play-sound-label"/></span>
-</li>
+</div>

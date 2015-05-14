@@ -21,8 +21,9 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
      * Adds message to conversation. Sends request to server.
      *
      * @param message
+     * @param callback
      */
-    addMessage: function (message) {
+    addMessage: function (message, callback) {
 
         // Vars
         var messageList = this.get('messageList'),  // List of messages
@@ -38,6 +39,11 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             // Trigger event if the message wasn't sent
             if (err) {
                 instance.fire('messageError');
+            }
+
+            // Pass the callback
+            if (callback) {
+                callback(err, message);
             }
         });
 
@@ -382,7 +388,10 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             }
                             catch (exception) {
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
-                                callback(exception);
+                                callback(new Y.LIMS.Model.ErrorMessage({
+                                    code: 400,
+                                    message: exception
+                                }));
                                 // Fire failure event
                                 instance.fire('createError');
                                 // End here
@@ -462,7 +471,10 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                                 // Fire failure event
                                 instance.fire('readError');
                                 // JSON.parse throws a SyntaxError when passed invalid JSON
-                                callback(exception);
+                                callback(new Y.LIMS.Model.ErrorMessage({
+                                    code: 400,
+                                    message: exception
+                                }));
                                 // End here
                                 return;
                             }
@@ -486,8 +498,11 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
                             // Fire failure event
                             instance.fire('readError');
 
-                            // Call failure
-                            callback("Cannot read conversation", o);
+                            // Deserialize
+                            response = Y.JSON.parse(o.responseText);
+
+                            // Callback the error
+                            callback(new Y.LIMS.Model.ErrorMessage(response));
                         }
                     }
                 });
@@ -581,6 +596,43 @@ Y.LIMS.Model.ConversationModel = Y.Base.create('conversationModel', Y.Model, [Y.
             readMore: readMore,
             postStopperId: postStopperId,
             preStopperId: preStopperId
+        });
+    },
+
+    /**
+     * Finds a buddy in the group model buddies
+     *
+     * @param buddyId
+     * @return {*}
+     */
+    findBuddy: function(buddyId) {
+        // Var
+        var buddies = this.get('participants');
+
+        if (buddies) {
+            return Y.Array.find(buddies, function (buddy) {
+                return buddy.get('buddyId') === buddyId;
+            });
+        }
+    },
+
+    /**
+     * Updates presence related to the buddies
+     *
+     * @param updatedBuddies
+     */
+    updatePresences: function (updatedBuddies) {
+        // Vars
+        var instance = this;
+
+        Y.Array.each(updatedBuddies, function(updatedBuddy) {
+            // Search local buddy
+            var buddy = instance.findBuddy(updatedBuddy.get('buddyId'));
+
+            if (buddy) {
+                buddy.set('presence', updatedBuddy.get('presence'));
+                buddy.set('connected', updatedBuddy.get('connected'));
+            }
         });
     }
 

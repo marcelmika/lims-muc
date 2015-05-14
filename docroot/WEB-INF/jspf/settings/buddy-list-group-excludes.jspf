@@ -12,13 +12,13 @@
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Render --%>
-<li class="buddy-list-group-excludes token-input">
+<div class="buddy-list-group-excludes token-input">
 
     <div class="settings-category-title">
-        <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-buddy-list-group-excludes-title"/>
+        <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-buddy-list-user-excludes-title"/>
         <i class="tooltip-button"
-           data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-group-excludes-help"/>">i</i></span>
+           data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-user-excludes-help"/>">i</i></span>
     </div>
     <input type="text" placeholder="" value="${properties.buddyListGroupExcludesFlatten}"/>
 
-</li>
+</div>

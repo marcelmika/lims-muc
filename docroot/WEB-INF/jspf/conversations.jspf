@@ -46,7 +46,7 @@
             <c:set var="hiddenClass" value=""/>
         </c:when>
         <c:otherwise>
-            <c:set var="hiddenClass" value="hide"/>
+            <c:set var="hiddenClass" value="hide-controller"/>
         </c:otherwise>
     </c:choose>
 
@@ -84,7 +84,10 @@
                             class="panel-button minimize"></button>
                     <button title="<liferay-ui:message key="panel-button-options-title"/>"
                             class="panel-button options hide"></button>
-                    <div class="panel-title-text"><span>${conversation.title}</span></div>
+                    <div class="panel-title-text">
+                        <div class="status-indicator"></div>
+                        <span>${conversation.title}</span>
+                    </div>
                 </div>
 
                     <%-- Content --%>

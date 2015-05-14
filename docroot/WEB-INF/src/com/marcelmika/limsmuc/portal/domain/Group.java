@@ -23,21 +23,43 @@ import java.util.List;
  */
 public class Group {
 
+    // -------------------------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------------------------
+
+    // Group id
+    private Long groupId;
+    // Name of the group
     private String name;
+    // Buddies related to the group
     private List<Buddy> buddies = new ArrayList<Buddy>();
+    // Pagination related to the buddies
+    private Page page;
+    // List strategy
+    private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
+    // Social relation type
     private Environment.BuddyListSocialRelation socialRelation;
 
+
+    // -------------------------------------------------------------------------------------------
+    // Factory Methods
+    // -------------------------------------------------------------------------------------------
+
     /**
-     * Create new group and maps data from group details
+     * Factory method
      *
      * @param details GroupDetails
      * @return Group
      */
     public static Group fromGroupDetails(GroupDetails details) {
-        // Create new group
         Group group = new Group();
-        // Map data to group details
+
+        // Properties
+        group.groupId = details.getGroupId();
         group.name = details.getName();
+        group.listStrategy = details.getListStrategy();
+        group.listGroup = details.getListGroup();
         group.socialRelation = details.getSocialRelation();
 
         // Relations
@@ -45,11 +67,15 @@ public class Group {
             group.buddies = Buddy.fromBuddyDetailsList(details.getBuddies());
         }
 
+        if (details.getPage() != null) {
+            group.page = Page.fromPageDetails(details.getPage());
+        }
+
         return group;
     }
 
     /**
-     * Create a list of groups from a list of group details
+     * Factory method
      *
      * @param groupDetails list of group details
      * @return list of groups
@@ -67,15 +93,18 @@ public class Group {
 
 
     /**
-     * Maps group to group details
+     * Mapping method
      *
      * @return GroupDetails
      */
     public GroupDetails toGroupDetails() {
-        // Create new group details
         GroupDetails details = new GroupDetails();
-        // Map data from group
+
+        // Properties
+        details.setGroupId(groupId);
         details.setName(name);
+        details.setListStrategy(listStrategy);
+        details.setListGroup(listGroup);
         details.setSocialRelation(socialRelation);
 
         // Relations
@@ -85,16 +114,43 @@ public class Group {
             }
         }
 
+        if (page != null) {
+            details.setPage(page.toPageDetails());
+        }
+
         return details;
     }
 
+    // -------------------------------------------------------------------------------------------
+    // Getters/Setters
+    // -------------------------------------------------------------------------------------------
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
     public List<Buddy> getBuddies() {
         return buddies;
     }
 
+    public void setBuddies(List<Buddy> buddies) {
+        this.buddies = buddies;
+    }
+
     public void addBuddy(Buddy buddy) {
         this.buddies.add(buddy);
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
     }
 
     public String getName() {
@@ -113,15 +169,36 @@ public class Group {
         this.socialRelation = socialRelation;
     }
 
-    /**
-     * String representation of the Group.
-     *
-     * @return A String representation of the Group.
-     */
-    @Override
-    public String toString() {
-        return name;
+    public Environment.BuddyListStrategy getListStrategy() {
+        return listStrategy;
     }
 
+    public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
+        this.listStrategy = listStrategy;
+    }
 
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
+    }
+
+    public void setListGroup(Environment.BuddyListGroup listGroup) {
+        this.listGroup = listGroup;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // Override
+    // -------------------------------------------------------------------------------------------
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "groupId=" + groupId +
+                ", name='" + name + '\'' +
+                ", buddies=" + buddies +
+                ", page=" + page +
+                ", listStrategy=" + listStrategy +
+                ", listGroup=" + listGroup +
+                ", socialRelation=" + socialRelation +
+                '}';
+    }
 }

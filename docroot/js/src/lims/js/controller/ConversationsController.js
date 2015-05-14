@@ -48,11 +48,12 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          */
         _attachEvents: function () {
             // Vars
-            var conversationList = this.get('conversationList'),
+            var model = this.get('conversationList'),
                 instance = this;
 
             // Local
-            conversationList.on('conversationsUpdated', this._onConversationsUpdated, this);
+            model.on('conversationsUpdated', this._onConversationsUpdated, this);
+            model.on('presencesChanged', this._onPresencesChanged, this);
 
             // Buddy selected in group
             Y.on('buddySelected', this._onBuddySelected, this);
@@ -78,10 +79,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @param conversationId {string} id of the conversation
          * @param title {string} title of the conversation
          * @param participants [] an array of participants
+         * @param conversationType of the conversation (single/multi)
          * @return {Y.LIMS.Controller.SingleUserConversationViewController}
          * @private
          */
-        _openConversation: function (conversationId, title, participants) {
+        _openConversation: function (conversationId, title, participants, conversationType) {
             // Vars
             var map = this.get('conversationMap'),                  // Map that holds all conversation controllers
                 buddyDetails = this.get('buddyDetails'),            // Currently logged user
@@ -97,6 +99,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Create new model
             conversationModel = new Y.LIMS.Model.ConversationModel({
                 conversationId: conversationId,
+                conversationType: conversationType,
                 creator: buddyDetails,
                 participants: participants,
                 title: title,
@@ -237,6 +240,10 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),
                 conversationNodes = this.get('openedConversationNodes');
 
+            if (this.getPortletContainer().hasClass('mobile-screen')) {
+                averageConversationNodeSize = 42;
+            }
+
             conversationNodes.each(function (conversationNode) {
                 if (!Y.LIMS.Core.Util.isHidden(conversationNode)) {
                     size += averageConversationNodeSize;
@@ -332,6 +339,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 winWidth = Y.one(Y.config.win).get('winWidth'), // Width of the whole document
                 padding = this.get('barPadding'),               // Extra padding on both left and right side
                 extraWidth = this.get('mandatoryPanelsWidth'),  // Width of other than conversation panels
+                mobileThreshold = this.get('mobileThreshold'),  // Minimal threshold for mobile size class
+                tinyScreenThreshold = this.get('tinyScreenThreshold'), // Threshold for the tiny screen size
                 staticPart,                                     // The part that has a static size (other panels)
                 dynamicPart,                                    // The part that has a dynamic size (conversations)
                 conversationNodeSizes,                          // Size of all rendered conversation nodes
@@ -344,8 +353,22 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 averageConversationNodeSize = this.get('averageConversationNodeSize'),  // Get the node size
                 conversationToggleController = this.get('conversationToggleController'),
                 properties = this.get('properties'),
+                portletContainer = this.getPortletContainer(),
+                shouldHideToggle,
                 willFit;    // True if the conversation will fit into the dynamic part while making the window bigger
 
+            // Check the mobile screen size
+            if (winWidth <= mobileThreshold) {
+                // Add mobile screen class so the css can change
+                portletContainer.addClass('mobile-screen');
+                // Padding is smaller since there is no padding on right and left
+                padding = 50;
+                // The size of conversation nodes is smaller
+                averageConversationNodeSize = 42;
+            } else {
+                // No need to add the mobile screen class since the screen is big enough
+                portletContainer.removeClass('mobile-screen');
+            }
 
             // Don't layout subviews if chat is not enabled. The method will be called
             // whenever the chat is enabled
@@ -425,7 +448,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         // If there are no hidden conversation the conversation toggle
                         // is not needed anymore
                         if (hiddenConversations.size() === 0) {
-                            this._hideConversationToggle();
+                            shouldHideToggle = true;
                         }
 
                         // Call recursion to check if more conversation should be visible again
@@ -454,12 +477,21 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                         conversationToggleController.addConversation(controller.get('model'));
                     }
 
-                    // Since there is at least one conversation hidden show the conversation toggle
-                    this._showConversationToggle();
+                    if (winWidth >= tinyScreenThreshold) {
+                        // Since there is at least one conversation hidden show the conversation toggle
+                        this._showConversationToggle();
+                    }
 
                     // Call recursion to check if more conversation should be hidden
                     this._layoutSubviews(++depth);
                 }
+            }
+
+            // Tiny screen
+            if (winWidth < tinyScreenThreshold || conversationToggleController.size() === 0) {
+                this._hideConversationToggle();
+            } else if (!shouldHideToggle) {
+                this._showConversationToggle();
             }
         },
 
@@ -505,7 +537,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var controller = this.get('conversationToggleController'),
                 container = this.get('container');
 
-            container.append(controller.get('container'));
+            if (!controller.get('container').inDoc()) {
+                container.append(controller.get('container'));
+            }
         },
 
         /**
@@ -543,8 +577,11 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // Get the last conversation's node that is visible before the toggle
                 lastConversationNode = this._lastNotHiddenConversation();
-                // Add the conversation node before the last visible conversation
-                lastConversationNode.insert(controller.get('container'), 'before');
+
+                if (lastConversationNode) {
+                    // Add the conversation node before the last visible conversation
+                    lastConversationNode.insert(controller.get('container'), 'before');
+                }
 
                 // Show the container since it might have been hidden
                 Y.LIMS.Core.Util.show(controller.get('container'));
@@ -556,9 +593,9 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
                 // a request to server that will switch the position of those two controllers
                 // on a server side as well. Thanks to that if the user refreshes page
                 // the newly positioned controller will remain at its position.
-                lastConversationController = this._getControllerFromMap(
+                lastConversationController = lastConversationNode ? this._getControllerFromMap(
                     lastConversationNode.attr('data-conversationId')
-                );
+                ) : null;
 
                 // Only if the controller exists
                 if (lastConversationController) {
@@ -583,6 +620,10 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             // Vars
             var map = this.get('conversationMap');   // Map that holds all conversation controllers
 
+            if (!controllerId) {
+                return null;
+            }
+
             // No such controller was found
             if (!map.hasOwnProperty(controllerId)) {
                 return null;
@@ -603,6 +644,8 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             var conversation = event.conversation,                  // Take conversation from the event
                 map = this.get('conversationMap'),                  // Map that holds all conversation controllers
                 conversationId,                                     // Id of the conversation passed to controller
+                success = Y.LIMS.Core.Util.validateFunction(event.success), // Will be called on success
+                failure = Y.LIMS.Core.Util.validateFunction(event.failure), // Will be called on failure
                 controller;                                         // Controller (selected or newly created)
 
             // Generate conversation id
@@ -612,12 +655,26 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             if (map.hasOwnProperty(conversationId)) {
                 // Find it, later on we will present it to the user
                 controller = this._getControllerFromMap(conversationId);
+
+                // Call success right the way
+                success(controller.get('model'));
             }
             // No such conversation
             else {
-                controller = this._openConversation(conversationId, conversation.get('title'), []);
+                controller = this._openConversation(
+                    conversationId, conversation.get('title'), [], conversation.get('conversationType')
+                );
                 // Save the model, thanks to that the conversation will be created on server too.
-                controller.get('model').save();
+                controller.get('model').save(function(err) {
+                    // Success
+                    if (!err) {
+                        success(controller.get('model'));
+                    }
+                    // Failure
+                    else {
+                        failure(err);
+                    }
+                });
             }
 
             // Only if the controller exists
@@ -664,7 +721,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             }
             // No such conversation
             else {
-                controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy]);
+                controller = this._openConversation(conversationId, buddy.get('fullName'), [buddy], 'SINGLE_USER');
                 // Save the model, thanks to that the conversation will be created on server too.
                 controller.get('model').save(function (err) {
                     // Success
@@ -714,7 +771,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
 
                 // Create controller
                 controller = this._openConversation(
-                    conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies
+                    conversationId, Y.LIMS.Model.ConversationModelUtil.generateMUCTitle(buddies), buddies, 'MULTI_USER'
                 );
 
                 // Save the model, thanks to that the conversation will be created on server too.
@@ -871,6 +928,18 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
         },
 
         /**
+         * Called when any user has changed the presence
+         *
+         * @private
+         */
+        _onPresencesChanged: function (event) {
+            // Call it globally
+            Y.fire('presencesChanged', {
+                buddyList: event.buddyList
+            });
+        },
+
+        /**
          * Called whenever the user session expires
          *
          * @private
@@ -886,10 +955,14 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @private
          */
         _onChatEnabled: function () {
+
             // Re-enable polling
             this._startPolling();
+
+            var instance = this;
+
             // Layout subviews
-            this._layoutSubviews();
+            instance._layoutSubviews();
         },
 
         /**
@@ -908,6 +981,7 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
          * @private
          */
         _onWindowResize: function () {
+            // Layout conversation subviews
             this._layoutSubviews();
         }
 
@@ -1011,13 +1085,32 @@ Y.LIMS.Controller.ConversationsController = Y.Base.create('conversationsControll
             },
 
             /**
+             * Width of the screen when the device is screen considered as tiny
+             */
+            tinyScreenThreshold: {
+                value: 320 // default value
+            },
+
+            /**
+             * Width of the screen when the device is considered as mobile
+             */
+            mobileThreshold: {
+                value: 650 // default value
+            },
+
+            /**
              * Conversation list model
              *
              * {Y.LIMS.Model.ConversationListModel}
              */
             conversationList: {
                 valueFn: function () {
-                    return new Y.LIMS.Model.ConversationListModel();
+                    // Vars
+                    var properties = this.get('properties');
+
+                    return new Y.LIMS.Model.ConversationListModel({
+                        offset: properties.get('offset')
+                    });
                 }
             },
 

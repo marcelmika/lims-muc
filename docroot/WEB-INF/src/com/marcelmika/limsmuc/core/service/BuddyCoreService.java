@@ -9,7 +9,22 @@
 
 package com.marcelmika.limsmuc.core.service;
 
-import com.marcelmika.limsmuc.api.events.buddy.*;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent;
 
 /**
  * Serves as a port to the business logic related to buddy.
@@ -27,7 +42,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
+    LoginBuddyResponseEvent loginBuddy(LoginBuddyRequestEvent event);
 
     /**
      * Logout buddy from System
@@ -35,7 +50,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
+    LogoutBuddyResponseEvent logoutBuddy(LogoutBuddyRequestEvent event);
 
     /**
      * Completely removes buddy from the System
@@ -43,7 +58,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
+    DeleteBuddyResponseEvent removeBuddy(DeleteBuddyRequestEvent event);
 
     /**
      * Update buddy's presence
@@ -51,7 +66,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
+    UpdatePresenceBuddyResponseEvent updatePresence(UpdatePresenceBuddyRequestEvent event);
 
     /**
      * Updates buddy's password
@@ -59,7 +74,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
+    UpdatePasswordResponseEvent updatePassword(UpdatePasswordRequestEvent event);
 
     /**
      * Search buddies in the system
@@ -67,7 +82,7 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
+    SearchBuddiesResponseEvent searchBuddies(SearchBuddiesRequestEvent event);
 
     /**
      * Reads presence of buddies
@@ -75,6 +90,14 @@ public interface BuddyCoreService {
      * @param event Request event
      * @return Response event
      */
-    public ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+    ReadBuddiesPresenceResponseEvent readBuddiesPresence(ReadBuddiesPresenceRequestEvent event);
+
+    /**
+     * Reads buddies that have changed their presence since the particular time
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event);
 
 }

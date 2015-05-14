@@ -9,9 +9,9 @@
 
 package com.marcelmika.limsmuc.api.events.conversation;
 
+import com.marcelmika.limsmuc.api.entity.BuddyCollectionDetails;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.events.RequestEvent;
-import com.marcelmika.limsmuc.api.entity.BuddyCollectionDetails;
 
 
 /**

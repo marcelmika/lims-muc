@@ -9,6 +9,8 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
+import com.marcelmika.limsmuc.api.events.group.GetGroupRequestEvent;
+import com.marcelmika.limsmuc.api.events.group.GetGroupResponseEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsRequestEvent;
 import com.marcelmika.limsmuc.api.events.group.GetGroupsResponseEvent;
 
@@ -23,9 +25,16 @@ public interface GroupPersistenceService {
     /**
      * Get all groups related to the particular user
      *
-     * @param event request event for method
-     * @return response event for  method
+     * @param event RequestEvent
+     * @return ResponseEvent
      */
-    public GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event);
+    GetGroupsResponseEvent getGroups(GetGroupsRequestEvent event);
 
+    /**
+     * Returns a particular group
+     *
+     * @param event RequestEvent
+     * @return ResponseEvent
+     */
+    GetGroupResponseEvent getGroup(GetGroupRequestEvent event);
 }

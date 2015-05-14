@@ -9,8 +9,12 @@
 
 package com.marcelmika.limsmuc.jabber.group;
 
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.jabber.domain.Buddy;
+import com.marcelmika.limsmuc.jabber.domain.Group;
 import com.marcelmika.limsmuc.jabber.domain.GroupCollection;
+import com.marcelmika.limsmuc.jabber.domain.Page;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.Roster;
 
 import java.util.List;
@@ -29,33 +33,44 @@ public interface GroupManager {
      *
      * @param roster Roster
      */
-    public void setRoster(Roster roster);
+    void setRoster(Roster roster);
 
     /**
      * Sets company id to the group manager
      *
      * @param companyId Long
      */
-    public void setCompanyId(Long companyId);
+    void setCompanyId(Long companyId);
 
     /**
      * Returns true if the roster has been loaded
      *
      * @return boolean
      */
-    public boolean isRosterLoaded();
+    boolean isRosterLoaded();
 
     /**
      * Reloads user's roster
      */
-    public void loadRoster();
+    void loadRoster();
 
     /**
      * Get buddy's collection of groups.
      *
+     * @param page Page
      * @return Buddy's collection of groups.
      */
-    public GroupCollection getGroupCollection();
+    GroupCollection getGroupCollection(Page page);
+
+    /**
+     * Returns a particular group
+     *
+     * @param groupId      Long
+     * @param listStrategy BuddyListStrategy
+     * @param page         Page
+     * @return list of groups
+     */
+    Group getGroup(Long groupId, Environment.BuddyListStrategy listStrategy, Page page) throws JabberException;
 
     /**
      * Search buddies from all groups based on the search query
@@ -64,7 +79,7 @@ public interface GroupManager {
      * @param size        size of the result
      * @return list of found buddies
      */
-    public List<Buddy> searchBuddies(String searchQuery, Integer size);
+    List<Buddy> searchBuddies(String searchQuery, Integer size);
 
     /**
      * Reads presences for the given buddies
@@ -72,11 +87,11 @@ public interface GroupManager {
      * @param buddyIds set of buddy ids
      * @return list of buddies with presences
      */
-    public List<Buddy> readPresences(Set<Long> buddyIds);
+    List<Buddy> readPresences(Set<Long> buddyIds);
 
     /**
      * Destroys groups manager
      */
-    public void destroy();
+    void destroy();
 
 }

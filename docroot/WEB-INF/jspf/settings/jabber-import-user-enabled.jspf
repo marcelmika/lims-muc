@@ -20,7 +20,7 @@
 </c:if>
 
 <%-- Render --%>
-<li class="jabber-import-user-enabled">
+<div class="jabber-import-user-enabled">
     <label class="switch">
         <input ${checked} type="checkbox"/>
         <span></span>
@@ -30,4 +30,4 @@
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-import-user-enabled-help"/>">i</i>
     </span>
-</li>
+</div>

@@ -24,5 +24,5 @@ public interface Synchronizer {
      *
      * @throws SystemException
      */
-    public void run() throws SystemException;
+    void run() throws SystemException;
 }

@@ -9,7 +9,20 @@
 
 package com.marcelmika.limsmuc.persistence.service;
 
-import com.marcelmika.limsmuc.api.events.settings.*;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.DisableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.EnableChatResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.GetConnectedBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.GetConnectedBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateActivePanelResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateAllConnectionsResponseEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsRequestEvent;
+import com.marcelmika.limsmuc.api.events.settings.UpdateSettingsResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -25,7 +38,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
+    ReadSettingsResponseEvent readSettings(ReadSettingsRequestEvent event);
 
     /**
      * Update buddy's active panel (panel which is open)
@@ -33,7 +46,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
+    UpdateActivePanelResponseEvent updateActivePanel(UpdateActivePanelRequestEvent event);
 
     /**
      * Update buddy's settings
@@ -41,7 +54,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
+    UpdateSettingsResponseEvent updateSettings(UpdateSettingsRequestEvent event);
 
     /**
      * Update all users connections
@@ -49,7 +62,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
+    UpdateAllConnectionsResponseEvent updateAllConnections(UpdateAllConnectionsRequestEvent event);
 
     /**
      * Returns a list of buddies that are currently connected
@@ -57,7 +70,7 @@ public interface SettingsPersistenceService {
      * @param event Request event
      * @return Response event
      */
-    public GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event);
+    GetConnectedBuddiesResponseEvent getConnectedBuddies(GetConnectedBuddiesRequestEvent event);
 
     /**
      * Enables chat for buddy
@@ -65,7 +78,7 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
+    EnableChatResponseEvent enableChat(EnableChatRequestEvent event);
 
     /**
      * Disables chat for buddy
@@ -73,6 +86,6 @@ public interface SettingsPersistenceService {
      * @param event Request event for logout method
      * @return Response event for logout method
      */
-    public DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
+    DisableChatResponseEvent disableChat(DisableChatRequestEvent event);
 
 }

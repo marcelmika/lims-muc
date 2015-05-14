@@ -12,7 +12,7 @@
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Render --%>
-<li class="jabber-host text-input">
+<div class="jabber-host text-input">
 
     <div class="settings-category-title">
         <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-jabber-host-title"/>
@@ -20,4 +20,4 @@
            data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-host-help"/>">i</i></span>
     </div>
     <input type="text" placeholder="e.g. 127.0.0.1" value="${properties.jabberHost}"/>
-</li>
+</div>

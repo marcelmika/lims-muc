@@ -32,6 +32,6 @@ public interface SearchManager {
      * @return List of buddies
      * @throws Exception
      */
-    public List<Buddy> searchBuddies(Long userId, String searchQuery, int start, int end) throws Exception;
+    List<Buddy> searchBuddies(Long userId, String searchQuery, int start, int end) throws Exception;
 
 }

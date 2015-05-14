@@ -191,6 +191,7 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             unreadMessagesPageTitle,
             portletContainer = this.getPortletContainer(),
             properties = this.get('properties'),
+            unreadMessagesCount = this.get('unreadMessagesCount'),
             unreadBadges,
             unreadSum = 0;
 
@@ -236,6 +237,18 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
         // Update the title only if it's not currently blinking
         if (!this.get('isBlinking')) {
             Y.config.doc.title = unreadMessagesPageTitle;
+        }
+
+        // Globally trigger update of unread messages count
+        if (unreadSum !== unreadMessagesCount) {
+
+            // Remember
+            this.set('unreadMessagesCount', unreadSum);
+
+            // Fire
+            Y.fire('unreadMessagesUpdate', {
+                count: unreadSum
+            });
         }
     },
 
@@ -360,6 +373,15 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             valueFn: function () {
                 return Y.config.doc.title;
             }
+        },
+
+        /**
+         * Contains total number of unread messages
+         *
+         * {number}
+         */
+        unreadMessagesCount: {
+            value: null // to be set
         },
 
         /**

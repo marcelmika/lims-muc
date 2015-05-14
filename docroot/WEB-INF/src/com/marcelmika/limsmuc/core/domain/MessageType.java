@@ -47,7 +47,7 @@ public enum MessageType {
      * @param code        integer code of the message
      * @param description string description of the message
      */
-    private MessageType(int code, String description) {
+    MessageType(int code, String description) {
         this.code = code;
         this.description = description;
     }

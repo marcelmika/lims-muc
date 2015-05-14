@@ -23,10 +23,31 @@ import java.util.List;
  */
 public class GroupDetails {
 
+    // -------------------------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------------------------
+
+    private Long groupId;
     private String name;
     private List<BuddyDetails> buddies = new ArrayList<BuddyDetails>();
+    private PageDetails page;
     private Date lastModified;
+    private Environment.BuddyListStrategy listStrategy;
+    private Environment.BuddyListGroup listGroup;
     private Environment.BuddyListSocialRelation socialRelation;
+
+
+    // -------------------------------------------------------------------------------------------
+    // Getters/Setters
+    // -------------------------------------------------------------------------------------------
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
     public List<BuddyDetails> getBuddies() {
         return buddies;
@@ -34,6 +55,14 @@ public class GroupDetails {
 
     public void addBuddyDetails(BuddyDetails buddy) {
         buddies.add(buddy);
+    }
+
+    public PageDetails getPage() {
+        return page;
+    }
+
+    public void setPage(PageDetails page) {
+        this.page = page;
     }
 
     public String getName() {
@@ -60,13 +89,37 @@ public class GroupDetails {
         this.socialRelation = socialRelation;
     }
 
+    public Environment.BuddyListGroup getListGroup() {
+        return listGroup;
+    }
+
+    public void setListGroup(Environment.BuddyListGroup listGroup) {
+        this.listGroup = listGroup;
+    }
+
+    public Environment.BuddyListStrategy getListStrategy() {
+        return listStrategy;
+    }
+
+    public void setListStrategy(Environment.BuddyListStrategy listStrategy) {
+        this.listStrategy = listStrategy;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // Override
+    // -------------------------------------------------------------------------------------------
+
     @Override
     public String toString() {
         return "GroupDetails{" +
-                "name='" + name + '\'' +
-                ", buddies=" + buddies +
+                "socialRelation=" + socialRelation +
+                ", listGroup=" + listGroup +
+                ", listStrategy=" + listStrategy +
                 ", lastModified=" + lastModified +
-                ", socialRelation=" + socialRelation +
+                ", page=" + page +
+                ", buddies=" + buddies +
+                ", name='" + name + '\'' +
+                ", groupId=" + groupId +
                 '}';
     }
 }

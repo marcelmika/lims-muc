@@ -58,12 +58,23 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
 
             // Always scroll to the last message when user opens the window
             listView.scrollToBottom();
-            // Add focus on textarea
-            listView.setTextFieldFocus();
+
+            // Focus only if the browser is not mobile
+            if (!Y.UA.mobile) {
+                listView.setTextFieldFocus();
+            }
+            // We are on mobile
+            else {
+                // Don't set focus, only reset notifications
+                this._resetNotifications();
+            }
+
             // Hide badge since it's not needed anymore
             panel.hideBadge();
+
             // Start timer that periodically updates timestamps of messages
             this._startTimer();
+
             // Make the badge less noticeable
             panel.dimBadge();
 
@@ -179,6 +190,7 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             // Local events
             listView.on('messageSubmitted', this._onMessageSubmitted, this);
             listView.on('messageTextFieldFocus', this._onMessageTextFieldFocus, this);
+            listView.on('touchstart', this._onListViewTouchStart, this);
             model.on('createBegin', this._onConversationCreateBegin, this);
             model.on('createSuccess', this._onConversationCreateSuccess, this);
             model.on('createError', this._onConversationCreateError, this);
@@ -195,6 +207,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             optionsView.on('optionLeaveConversationClick', this._onOptionLeaveConversationClick, this);
 
             // Remote events
+            Y.on('refreshConversation', this._onRefreshConversation, this);
+            Y.on('presencesChanged', this._onPresencesChanged, this);
             Y.on('connectionError', this._onConnectionError, this);
             Y.on('connectionOK', this._onConnectionOK, this);
             Y.on('jabberConnected', this._onJabberConnected, this);
@@ -304,6 +318,59 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTriggerText.set('innerHTML', conversationTitle);
         },
 
+        /**
+         * Updates panel status indicator
+         * @private
+         */
+        _updateStatusIndicator: function () {
+            // Vars
+            var model = this.get('model'),
+                participants = model.get('participants'),
+                participant,
+                buddyDetails = this.get('buddyDetails'),
+                statusIndicator = this.get('statusIndicator');
+
+            if (model.get('conversationType') === 'SINGLE_USER' && participants) {
+
+                // Participants contain the currently logged user as well.
+                // Thus we need to filter him first.
+                participant = Y.Array.find(participants, function (aParticipant) {
+                    return buddyDetails.get('buddyId') !== aParticipant.get('buddyId');
+                });
+
+                if (participant) {
+                    statusIndicator.set('presenceType', participant.get('presence'));
+                    statusIndicator.render();
+                }
+            }
+        },
+
+        /**
+         * Resets all incoming message notifications
+         *
+         * @private
+         */
+        _resetNotifications: function () {
+            // Vars
+            var model = this.get('model'),
+                panel = this.getPanel();
+
+            // If the users sets focus to the text field
+            // and there are still some unread messages
+            // reset the counter since we assume that he
+            // reads all unread messages
+            if (model.get('unreadMessagesCount') > 0) {
+                model.resetUnreadMessagesCounter(function (err) {
+                    if (!err) {
+                        // Reset badge
+                        panel.updateBadge(0, true);
+                    }
+                });
+            }
+
+            // Stop the blinking effect
+            panel.stopTitleBlinking();
+        },
 
         /**
          * Shows activity indicator
@@ -404,6 +471,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             listView.showView();
             // Update title
             this._updatePanelTitle();
+            // Update status
+            this._updateStatusIndicator();
         },
 
         /**
@@ -550,6 +619,19 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Called when the user taps on the list view
+         *
+         * @private
+         */
+        _onListViewTouchStart: function () {
+            // Vars
+            var listView = this.get('listView');
+
+            // Hide a list of participants
+            listView.hideParticipantsList();
+        },
+
+        /**
          * Called whenever the conversation model is updated
          *
          * @private
@@ -596,25 +678,8 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
          * @private
          */
         _onMessageTextFieldFocus: function () {
-            // Vars
-            var model = this.get('model'),
-                panel = this.getPanel();
-
-            // If the users sets focus to the text field
-            // and there are still some unread messages
-            // reset the counter since we assume that he
-            // reads all unread messages
-            if (model.get('unreadMessagesCount') > 0) {
-                model.resetUnreadMessagesCounter(function (err) {
-                    if (!err) {
-                        // Reset badge
-                        panel.updateBadge(0, true);
-                    }
-                });
-            }
-
-            // Stop the blinking effect
-            panel.stopTitleBlinking();
+            // Reset incoming message notifications
+            this._resetNotifications();
         },
 
         /**
@@ -636,6 +701,46 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
                 addMoreView.hideView();
                 leaveConversationView.hideView();
             }
+        },
+
+        /**
+         * Called on refresh conversation event
+         *
+         * @param event
+         * @private
+         */
+        _onRefreshConversation: function (event) {
+            // Vars
+            var model = this.get('model');
+
+            // This is the correct conversation
+            if (model.get('conversationId') === event.conversationId) {
+
+                // Update model
+                model.load({
+                    resetEtag: true
+                });
+            }
+        },
+
+        /**
+         * Called when any user has changed the presence
+         *
+         * @private
+         */
+        _onPresencesChanged: function (event) {
+            // Vars
+            var model = this.get('model'),
+                listView = this.get('listView'),
+                buddies = event.buddyList || [];
+
+            // Update model
+            model.updatePresences(buddies);
+
+            // Update status indicator
+            this._updateStatusIndicator();
+            // Update list of participants
+            listView.refreshParticipantsList();
         },
 
         /**
@@ -851,6 +956,35 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
             panelTitleText: {
                 valueFn: function () {
                     return this.get('panelTitle').one('.panel-title-text span');
+                }
+            },
+
+            /**
+             * User status indicator
+             *
+             * {Node}
+             */
+            statusIndicator: {
+                valueFn: function () {
+                    // Vars
+                    var container = this.get('panelTitle').one('.status-indicator'),
+                        model = this.get('model'),
+                        view;
+
+                    // Create view
+                    view = new Y.LIMS.View.PresenceView({
+                        container: container
+                    });
+
+                    // Render
+                    view.render();
+
+                    // Only single user chat has status indicator
+                    if (model.get('conversationType') !== 'SINGLE_USER') {
+                        Y.LIMS.Core.Util.hide(container);
+                    }
+
+                    return view;
                 }
             },
 

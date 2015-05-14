@@ -24,13 +24,13 @@ public interface UserSessionStoreListener {
      *
      * @param userSession UserSession
      */
-    public void userSessionAdded(UserSession userSession);
+    void userSessionAdded(UserSession userSession);
 
     /**
      * Called whenever the user session with the particular id is removed from the user session store
      *
      * @param id of the user session
      */
-    public void userSessionRemoved(Long id);
+    void userSessionRemoved(Long id);
 
 }

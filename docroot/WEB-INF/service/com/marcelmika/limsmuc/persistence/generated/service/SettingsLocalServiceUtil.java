@@ -349,6 +349,19 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Returns all user settings that have changed their presence since the particular timestamp
+	*
+	* @param since position in a time from which we count the presence updates
+	* @return list of settings
+	* @throws SystemException
+	*/
+	public static java.util.List<com.marcelmika.limsmuc.persistence.generated.model.Settings> findByPresenceUpdatedSince(
+		java.util.Date since)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByPresenceUpdatedSince(since);
+	}
+
+	/**
 	* Updates user's connection
 	*
 	* @param userId      id of the user whose connection should be updated
@@ -395,6 +408,23 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
+	* Counts all buddies in the system who have the settings
+	*
+	* @param userId                of excluded user
+	* @param ignoreDefaultUser     true if default users should be ignored
+	* @param ignoreDeactivatedUser true if deactivated users should be ignored
+	* @return number of users
+	* @throws SystemException
+	*/
+	public static java.lang.Integer countAllUsers(java.lang.Long userId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countAllUsers(userId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	/**
 	* Returns all buddies in the system
 	*
 	* @param userId                of excluded user
@@ -405,78 +435,102 @@ public class SettingsLocalServiceUtil {
 	* @return List of objects where each object contains user info
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> getAllGroups(
+	public static java.util.List<java.lang.Object[]> findAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getAllGroups(userId, ignoreDefaultUser,
+				   .findAllGroups(userId, ignoreDefaultUser,
 			ignoreDeactivatedUser, start, end);
 	}
 
 	/**
-	* Returns all groups where the user participates
+	* Returns all buddies in the system based on the search query
 	*
-	* @param userId                of the user whose groups are we looking for
+	* @param userId                of excluded user
+	* @param searchQuery           search string
 	* @param ignoreDefaultUser     true if default users should be ignored
 	* @param ignoreDeactivatedUser true if deactivated users should be ignored
-	* @param excludedSites         list of names of sites which should be excluded
 	* @param start                 value of the list
 	* @param end                   value of the list
-	* @return List of objects where each object contains group name and user info
+	* @return List of objects where each object contains user info
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> getSitesGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<java.lang.Object[]> searchAllBuddies(
+		java.lang.Long userId, java.lang.String searchQuery,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getSitesGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedSites, start, end);
+				   .searchAllBuddies(userId, searchQuery, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
 	}
 
 	/**
-	* Returns all user's social relations
+	* Counts a number of users who belong to the particular site
 	*
-	* @param userId                of the user whose social relations are we looking for
+	* @param userId                id of the excluded user
+	* @param groupId               of the group
 	* @param ignoreDefaultUser     true if default users should be ignored
 	* @param ignoreDeactivatedUser true if deactivated users should be ignored
-	* @param relationTypes         an array of relation type codes that we are looking for
-	* @param start                 value of the list
-	* @param end                   value of the list
-	* @return List objects where each object contains relation type and user info
+	* @return number of users
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> getSocialGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
+	public static java.lang.Integer countSitesGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getSocialGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, relationTypes, start, end);
+				   .countSitesGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
 	}
 
 	/**
-	* Returns a list of user's groups
+	* Returns sites groups ids where the user belongs
 	*
-	* @param userId                of the user whose groups are we looking for
-	* @param ignoreDefaultUser     true if default users should be ignored
-	* @param ignoreDeactivatedUser true if deactivated users should be ignored
-	* @param excludedGroups        list of names of groups which should be excluded
-	* @param start                 value of the list
-	* @param end                   value of the list
+	* @param userId        id of the user
+	* @param excludedSites list of names of sites which should be excluded
 	* @return List of objects where each object contains group name and user info
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> getUserGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end)
+	public static java.util.List<java.lang.Object[]> findSitesGroups(
+		java.lang.Long userId, java.lang.String[] excludedSites)
 		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findSitesGroups(userId, excludedSites);
+	}
+
+	/**
+	* Returns sites group and its user
+	*
+	* @param userId                which should be excluded from the list
+	* @param groupId               id of the group
+	* @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+	* @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+	* @param start                 value of the list
+	* @param end                   value of the list
+	* @return Group
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> readSitesGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getUserGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedGroups, start, end);
+				   .readSitesGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
+	}
+
+	/**
+	* Returns true if the user is a member of the sites group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfSitesGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfSitesGroup(userId, groupId);
 	}
 
 	/**
@@ -503,24 +557,71 @@ public class SettingsLocalServiceUtil {
 	}
 
 	/**
-	* Returns all buddies in the system based on the search query
+	* Counts a number of users who belong to the particular social group
 	*
 	* @param userId                of excluded user
-	* @param searchQuery           search string
+	* @param groupId               of the group
 	* @param ignoreDefaultUser     true if default users should be ignored
 	* @param ignoreDeactivatedUser true if deactivated users should be ignored
-	* @param start                 value of the list
-	* @param end                   value of the list
-	* @return List of objects where each object contains user info
+	* @return number of users
 	* @throws SystemException
 	*/
-	public static java.util.List<java.lang.Object[]> searchAllBuddies(
-		java.lang.Long userId, java.lang.String searchQuery,
+	public static java.lang.Integer countSocialGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countSocialGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	/**
+	* Returns social groups ids where the user belongs
+	*
+	* @param userId        of the user whose social relations are we looking for
+	* @param relationTypes an array of relation type codes that we are looking for
+	* @return List objects where each object contains relation type and user info
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findSocialGroups(
+		java.lang.Long userId, int[] relationTypes)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findSocialGroups(userId, relationTypes);
+	}
+
+	/**
+	* Returns social group and their users based on the page parameter
+	*
+	* @param userId                which should be excluded from the list
+	* @param groupId               id of the group
+	* @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+	* @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+	* @param start                 value of the list
+	* @param end                   value of the list
+	* @return Group
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> readSocialGroup(
+		java.lang.Long userId, java.lang.Long groupId,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .searchAllBuddies(userId, searchQuery, ignoreDefaultUser,
+				   .readSocialGroup(userId, groupId, ignoreDefaultUser,
 			ignoreDeactivatedUser, start, end);
+	}
+
+	/**
+	* Returns true if the user is a member of the social group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfSocialGroup(userId, groupId);
 	}
 
 	/**
@@ -544,6 +645,74 @@ public class SettingsLocalServiceUtil {
 		return getService()
 				   .searchSocialBuddies(userId, searchQuery, ignoreDefaultUser,
 			ignoreDeactivatedUser, relationTypes, start, end);
+	}
+
+	/**
+	* Counts a number of users who belong to the particular user group
+	*
+	* @param userId                of excluded user
+	* @param groupId               of the group
+	* @param ignoreDefaultUser     true if default users should be ignored
+	* @param ignoreDeactivatedUser true if deactivated users should be ignored
+	* @return number of users
+	* @throws SystemException
+	*/
+	public static java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countUserGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	/**
+	* Returns a list of user's groups
+	*
+	* @param userId         of the user whose groups are we looking for
+	* @param excludedGroups list of names of groups which should be excluded
+	* @return List of objects where each object contains group name and user info
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> findUserGroups(
+		java.lang.Long userId, java.lang.String[] excludedGroups)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findUserGroups(userId, excludedGroups);
+	}
+
+	/**
+	* Returns user group and its users based on the page parameter
+	*
+	* @param userId                which should be excluded from the list
+	* @param groupId               id of the group
+	* @param ignoreDefaultUser     boolean set to true if the default user should be excluded
+	* @param ignoreDeactivatedUser boolean set to true if the deactivated user should be excluded
+	* @param start                 value of the list
+	* @param end                   value of the list
+	* @return Group
+	* @throws SystemException
+	*/
+	public static java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .readUserGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
+	}
+
+	/**
+	* Returns true if the user is a member of the user group
+	*
+	* @param userId  id of the user
+	* @param groupId id of the group
+	* @return boolean
+	* @throws SystemException
+	*/
+	public static boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().isMemberOfUserGroup(userId, groupId);
 	}
 
 	/**

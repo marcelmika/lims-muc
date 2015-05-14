@@ -75,7 +75,7 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
             // Get buddy from the list
             buddy = model.item(index);
             // Build view
-            buddyView = new Y.LIMS.View.GroupBuddyViewItem({model: buddy});
+            buddyView = new Y.LIMS.View.GroupBuddyView({model: buddy});
             // Render view
             buddyView.render();
             // Append to container
@@ -513,8 +513,12 @@ Y.LIMS.View.GroupSearchView = Y.Base.create('groupSearchView', Y.View, [], {
                     else {
                         // Show the content node
                         Y.LIMS.Core.Util.show(content);
-                        // Add focus to search input
-                        searchInput.focus();
+
+                        // Focus in animation is causing issues on bile
+                        if (!Y.UA.mobile) {
+                            // Add focus to search input
+                            searchInput.focus();
+                        }
                         // Set opacity to 0
                         content.setStyle('opacity', 0);
                     }

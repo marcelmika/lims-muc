@@ -12,7 +12,7 @@
 <%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
 
 <%-- Render --%>
-<li class="jabber-port text-input">
+<div class="jabber-port text-input">
 
     <div class="settings-category-title">
         <span class="title-text">
@@ -22,4 +22,4 @@
         </span>
     </div>
     <input type="text" placeholder="e.g. 5222" maxlength="5" value="${properties.jabberPort}"/>
-</li>
+</div>

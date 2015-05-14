@@ -9,10 +9,10 @@
 
 package com.marcelmika.limsmuc.jabber.conversation.single;
 
-import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import com.marcelmika.limsmuc.jabber.conversation.ConversationListener;
 import com.marcelmika.limsmuc.jabber.domain.Message;
 import com.marcelmika.limsmuc.jabber.domain.SingleUserConversation;
+import com.marcelmika.limsmuc.jabber.exception.JabberException;
 import org.jivesoftware.smack.ChatManager;
 
 /**
@@ -28,21 +28,21 @@ public interface SingleUserConversationManager {
      *
      * @param listener ConversationListener
      */
-    public void addConversationListener(ConversationListener listener);
+    void addConversationListener(ConversationListener listener);
 
     /**
      * Manage conversations from chat manager
      *
      * @param chatManager ChatManager
      */
-    public void setChatManager(ChatManager chatManager);
+    void setChatManager(ChatManager chatManager);
 
     /**
      * Sets company id
      *
      * @param companyId Long
      */
-    public void setCompanyId(Long companyId);
+    void setCompanyId(Long companyId);
 
     /**
      * Sends message to conversation
@@ -50,12 +50,11 @@ public interface SingleUserConversationManager {
      * @param conversation SingleUserConversation
      * @param message      Message
      */
-    public void sendMessage(SingleUserConversation conversation,
-                            Message message) throws JabberException;
+    void sendMessage(SingleUserConversation conversation, Message message) throws JabberException;
 
     /**
      * Destroys manager
      */
-    public void destroy();
+    void destroy();
 
 }

@@ -91,13 +91,19 @@
 
 }
 
+
+// Mobile device
+.lims-muc.mobile-device .lims-bar div ul li.selected .panel-trigger {
+    height: $bar-height-mobile-device;
+}
+
 // Selected trigger
 .lims-muc .lims-bar div ul li.selected .panel-trigger {
   background: #fff;
   border-top: none;
   border-bottom: none;
   line-height: 24px;
-  height: 24px;
+  height: $bar-height-desktop-device;
   position: relative;
   z-index: 30;
   @include box-shadow(#bcbcbc 1px 1px 1px);
@@ -179,6 +185,9 @@
   &.close {
     background: url(/images/close-button.png) center center no-repeat;
     @include image-2x('/images/close-button@2x.png', auto, 18px);
+    // This needs to be here because it's overridden by the aui close class
+    width: 20px;
+    height: 14px;
   }
 
   &.search {

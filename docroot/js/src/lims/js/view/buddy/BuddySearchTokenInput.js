@@ -34,8 +34,11 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
         // Vars
         var tokenInputNode = this.get('tokenInputNode');
 
-        // Set focus to the next token
-        tokenInputNode.focus();
+        // Focus causes issues on mobile
+        if (!Y.UA.mobile) {
+            // Set focus to the next token
+            tokenInputNode.focus();
+        }
     },
 
     /**
@@ -281,7 +284,6 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                 // Vars
                 var container = this.get('container'),
                     instance = this,
-                    autoCompleteContainer,
                     autoComplete = new Y.AutoComplete({
                         inputNode: this.get('tokenInputNode'),
                         resultTextLocator: 'fullName',
@@ -295,7 +297,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                         },
                         requestTemplate: this.get('requestTemplate'),
                         source: this.getServerRequestUrl(),
-                        render: true,
+                        render: false,
                         resultFilters: function (query, results) {
 
                             // Vars
@@ -309,13 +311,8 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                         }
                     });
 
-                // Get the autocomplete container
-                autoCompleteContainer = container.one('.yui3-aclist');
-                // We need to move the container a bit higher in the hierarchy, otherwise it
-                // would be overlapped by the upper elements
-                autoCompleteContainer.remove();
-                // Now we added to the desired container
-                container.append(autoCompleteContainer);
+                // Render it to container
+                autoComplete.render(container);
 
                 return autoComplete;
             }

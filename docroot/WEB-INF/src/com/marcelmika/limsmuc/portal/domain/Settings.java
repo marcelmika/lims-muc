@@ -106,19 +106,15 @@ public class Settings {
         return isMute;
     }
 
-    public boolean isMute() {
-        return isMute;
-    }
-
     public void setIsMute(boolean isMute) {
         this.isMute = isMute;
     }
 
-    public boolean getIsChatEnabled() {
-        return isChatEnabled;
+    public boolean isMute() {
+        return isMute;
     }
 
-    public boolean isChatEnabled() {
+    public boolean getIsChatEnabled() {
         return isChatEnabled;
     }
 
@@ -126,11 +122,11 @@ public class Settings {
         this.isChatEnabled = isChatEnabled;
     }
 
-    public boolean getIsAdminAreaOpened() {
-        return isAdminAreaOpened;
+    public boolean isChatEnabled() {
+        return isChatEnabled;
     }
 
-    public boolean isAdminAreaOpened() {
+    public boolean getIsAdminAreaOpened() {
         return isAdminAreaOpened;
     }
 
@@ -138,16 +134,20 @@ public class Settings {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
 
-    public boolean getIsJabberDisconnected() {
-        return isJabberDisconnected;
+    public boolean isAdminAreaOpened() {
+        return isAdminAreaOpened;
     }
 
-    public boolean isJabberDisconnected() {
+    public boolean getIsJabberDisconnected() {
         return isJabberDisconnected;
     }
 
     public void setIsJabberDisconnected(boolean isJabberDisconnected) {
         this.isJabberDisconnected = isJabberDisconnected;
+    }
+
+    public boolean isJabberDisconnected() {
+        return isJabberDisconnected;
     }
 
     @Override

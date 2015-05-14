@@ -65,6 +65,21 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.BUDDY_LIST_STRATEGY
     );
 
+    // Buddy List - Group Site Enabled
+    public static final Boolean BUDDY_LIST_GROUP_SITE_ENABLED = getBoolean(
+            PortletPropertiesKeys.BUDDY_LIST_GROUP_SITE_ENABLED
+    );
+
+    // Buddy List - Group Social Enabled
+    public static final Boolean BUDDY_LIST_GROUP_SOCIAL_ENABLED = getBoolean(
+            PortletPropertiesKeys.BUDDY_LIST_GROUP_SOCIAL_ENABLED
+    );
+
+    // Buddy List - Group User Enabled
+    public static final Boolean BUDDY_LIST_GROUP_USER_ENABLED = getBoolean(
+            PortletPropertiesKeys.BUDDY_LIST_GROUP_USER_ENABLED
+    );
+
     // Buddy List - Ignore deactivated user
     public static final boolean BUDDY_LIST_IGNORE_DEACTIVATED_USER = getBoolean(
             PortletPropertiesKeys.BUDDY_LIST_IGNORE_DEACTIVATED_USER
@@ -133,6 +148,11 @@ public class PortletPropertiesValues {
     // IPC - Enabled
     public static final boolean IPC_ENABLED = getBoolean(
             PortletPropertiesKeys.IPC_ENABLED
+    );
+
+    // Mobile - User scalable disabled
+    public static final boolean MOBILE_USER_SCALABLE_DISABLED = getBoolean(
+            PortletPropertiesKeys.MOBILE_USER_SCALABLE_DISABLED
     );
 
     // URL - Help

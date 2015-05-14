@@ -28,7 +28,7 @@ public interface ConversationJabberService {
      * @param event request event for method
      * @return response event for  method
      */
-    public CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
+    CreateConversationResponseEvent createConversation(CreateConversationRequestEvent event);
 
     /**
      * Sends message to conversation
@@ -36,6 +36,6 @@ public interface ConversationJabberService {
      * @param event request event for method
      * @return response event for method
      */
-    public SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
+    SendMessageResponseEvent sendMessage(SendMessageRequestEvent event);
 
 }

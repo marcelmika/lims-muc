@@ -16,18 +16,12 @@
 
 <%-- Constants --%>
 <c:set var="ALL" value="<%= BuddyListStrategy.ALL %>"/>
-<c:set var="SITES" value="<%= BuddyListStrategy.SITES %>"/>
-<c:set var="SOCIAL" value="<%= BuddyListStrategy.SOCIAL %>"/>
-<c:set var="SITES_AND_SOCIAL" value="<%= BuddyListStrategy.SITES_AND_SOCIAL %>"/>
-<c:set var="USER_GROUPS" value="<%= BuddyListStrategy.USER_GROUPS %>"/>
+<c:set var="GROUPS" value="<%= BuddyListStrategy.GROUPS %>"/>
 <c:set var="JABBER" value="<%= BuddyListStrategy.JABBER %>"/>
 
 <%-- Defaults --%>
 <c:set var="allActiveClass" value=""/>
-<c:set var="sitesActiveClass" value=""/>
-<c:set var="socialActiveClass" value=""/>
-<c:set var="sitesAndSocialActiveClass" value=""/>
-<c:set var="userGroupsActiveClass" value=""/>
+<c:set var="groupsActiveClass" value=""/>
 <c:set var="jabberDisabledClass" value="disabled"/>
 
 <%-- Decide what should be active --%>
@@ -35,17 +29,8 @@
     <c:when test="${properties.buddyListStrategy == ALL}">
         <c:set var="allActiveClass" value="active"/>
     </c:when>
-    <c:when test="${properties.buddyListStrategy == SITES}">
-        <c:set var="sitesActiveClass" value="active"/>
-    </c:when>
-    <c:when test="${properties.buddyListStrategy == SOCIAL}">
-        <c:set var="socialActiveClass" value="active"/>
-    </c:when>
-    <c:when test="${properties.buddyListStrategy == SITES_AND_SOCIAL}">
-        <c:set var="sitesAndSocialActiveClass" value="active"/>
-    </c:when>
-    <c:when test="${properties.buddyListStrategy == USER_GROUPS}">
-        <c:set var="userGroupsActiveClass" value="active"/>
+    <c:when test="${properties.buddyListStrategy == GROUPS}">
+        <c:set var="groupsActiveClass" value="active"/>
     </c:when>
     <c:when test="${properties.buddyListStrategy == JABBER}">
         <c:set var="jabberActiveClass" value="active"/>
@@ -58,27 +43,18 @@
 </c:if>
 
 <%-- Rendered --%>
-<li class="buddy-list-strategy">
-    <div class="settings-category-title">
-        <span class="title-text"><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-title"/>
-        <i class="tooltip-button"
-           data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-help"/>">i</i></span>
+<div class="buddy-list-strategy">
+
+    <div class="note">
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-note"/>
     </div>
+
     <div class="button-group">
         <label data-choice="${ALL}" class="button button-primary ${allActiveClass}">
             <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-all"/></span>
         </label>
-        <label data-choice="${SITES}" class="button button-primary ${sitesActiveClass}">
-            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-sites"/></span>
-        </label>
-        <label data-choice="${SOCIAL}" class="button button-primary ${socialActiveClass}">
-            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-social"/></span>
-        </label>
-        <label data-choice="${SITES_AND_SOCIAL}" class="button button-primary ${sitesAndSocialActiveClass}">
-            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-sites-and-social"/></span>
-        </label>
-        <label data-choice="${USER_GROUPS}" class="button button-primary ${userGroupsActiveClass}">
-            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-user-groups"/></span>
+        <label data-choice="${GROUPS}" class="button button-primary ${groupsActiveClass}">
+            <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-groups"/></span>
         </label>
         <label data-choice="${JABBER}" class="button button-primary ${jabberActiveClass} ${jabberDisabledClass}">
             <span><liferay-ui:message key="panel-settings-admin-area-buddy-list-strategy-jabber"/></span>
@@ -86,4 +62,4 @@
 
         <div class="clear"></div>
     </div>
-</li>
+</div>

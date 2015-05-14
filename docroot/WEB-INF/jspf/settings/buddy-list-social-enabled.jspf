@@ -1,0 +1,37 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%-- Variables --%>
+<%--@elvariable id="properties" type="com.marcelmika.limsmuc.portal.domain.Properties"--%>
+
+<%-- Defaults --%>
+<c:set var="checked" value=""/>
+
+<%-- Decide if the swtich should be checked --%>
+<c:if test="${properties.buddyListGroupSocialEnabled}">
+    <c:set var="checked" value="checked"/>
+</c:if>
+
+<%-- Render --%>
+<div class="buddy-list-group-social-enabled">
+
+    <div class="note">
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-social-note"/>
+    </div>
+
+    <label class="switch">
+        <input ${checked} type="checkbox"/>
+        <span></span>
+    </label>
+    <span class="title-text">
+        <liferay-ui:message key="panel-settings-admin-area-buddy-list-social-enabled-title"/>
+        <i class="tooltip-button"
+           data-text="<liferay-ui:message key="panel-settings-admin-area-buddy-list-social-enabled-help"/>">i</i>
+    </span>
+</div>

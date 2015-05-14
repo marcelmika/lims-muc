@@ -21,6 +21,14 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * @author Brian Wing Shun Chan
  */
 public class SettingsFinderUtil {
+	public static java.lang.Integer countAllUsers(java.lang.Long userId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .countAllUsers(userId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
 	public static java.util.List<java.lang.Object[]> findAllGroups(
 		java.lang.Long userId, boolean ignoreDefaultUser,
 		boolean ignoreDeactivatedUser, int start, int end)
@@ -30,33 +38,43 @@ public class SettingsFinderUtil {
 			ignoreDeactivatedUser, start, end);
 	}
 
+	public static java.util.List<java.lang.Object[]> searchAllBuddies(
+		java.lang.Long userId, java.lang.String searchQuery,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .searchAllBuddies(userId, searchQuery, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
+	}
+
+	public static java.lang.Integer countSitesGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .countSitesGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
 	public static java.util.List<java.lang.Object[]> findSitesGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedSites,
-		int start, int end)
+		java.lang.Long userId, java.lang.String[] excludedSites)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder()
-				   .findSitesGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedSites, start, end);
+		return getFinder().findSitesGroups(userId, excludedSites);
 	}
 
-	public static java.util.List<java.lang.Object[]> findSocialGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, int[] relationTypes, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static java.util.List<java.lang.Object[]> readSitesGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findSocialGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, relationTypes, start, end);
+				   .readSitesGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> findUserGroups(
-		java.lang.Long userId, boolean ignoreDefaultUser,
-		boolean ignoreDeactivatedUser, java.lang.String[] excludedGroups,
-		int start, int end)
+	public static boolean isMemberOfSitesGroup(java.lang.Long userId,
+		java.lang.Long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder()
-				   .findUserGroups(userId, ignoreDefaultUser,
-			ignoreDeactivatedUser, excludedGroups, start, end);
+		return getFinder().isMemberOfSitesGroup(userId, groupId);
 	}
 
 	public static java.util.List<java.lang.Object[]> searchSitesBuddies(
@@ -69,13 +87,34 @@ public class SettingsFinderUtil {
 			ignoreDeactivatedUser, excludedSites, start, end);
 	}
 
-	public static java.util.List<java.lang.Object[]> searchAllBuddies(
-		java.lang.Long userId, java.lang.String searchQuery,
+	public static java.lang.Integer countSocialGroupUsers(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .countSocialGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	public static java.util.List<java.lang.Object[]> findSocialGroups(
+		java.lang.Long userId, int[] relationTypes)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findSocialGroups(userId, relationTypes);
+	}
+
+	public static java.util.List<java.lang.Object[]> readSocialGroup(
+		java.lang.Long userId, java.lang.Long groupId,
 		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .searchAllBuddies(userId, searchQuery, ignoreDefaultUser,
+				   .readSocialGroup(userId, groupId, ignoreDefaultUser,
 			ignoreDeactivatedUser, start, end);
+	}
+
+	public static boolean isMemberOfSocialGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().isMemberOfSocialGroup(userId, groupId);
 	}
 
 	public static java.util.List<java.lang.Object[]> searchSocialBuddies(
@@ -86,6 +125,36 @@ public class SettingsFinderUtil {
 		return getFinder()
 				   .searchSocialBuddies(userId, searchQuery, ignoreDefaultUser,
 			ignoreDeactivatedUser, relationTypes, start, end);
+	}
+
+	public static java.lang.Integer countUserGroupUsers(java.lang.Long userId,
+		java.lang.Long groupId, boolean ignoreDefaultUser,
+		boolean ignoreDeactivatedUser)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .countUserGroupUsers(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser);
+	}
+
+	public static java.util.List<java.lang.Object[]> findUserGroups(
+		java.lang.Long userId, java.lang.String[] excludedGroups)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().findUserGroups(userId, excludedGroups);
+	}
+
+	public static java.util.List<java.lang.Object[]> readUserGroup(
+		java.lang.Long userId, java.lang.Long groupId,
+		boolean ignoreDefaultUser, boolean ignoreDeactivatedUser, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder()
+				   .readUserGroup(userId, groupId, ignoreDefaultUser,
+			ignoreDeactivatedUser, start, end);
+	}
+
+	public static boolean isMemberOfUserGroup(java.lang.Long userId,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getFinder().isMemberOfUserGroup(userId, groupId);
 	}
 
 	public static java.util.List<java.lang.Object[]> searchUserGroupsBuddies(

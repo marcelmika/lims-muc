@@ -379,21 +379,31 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
 
         // Local events
         trigger.delegate('click', function (event) {
+
             // Vars
             var className = event.currentTarget.get('className');
 
-            // Trigger name clicked
-            if (className === 'trigger-name') {
-                // Fire event
-                instance._onTriggerClick(event);
+            // Class name must be set
+            if (!className) {
+                return;
             }
+
+            // Stop the propagation thus if close button was clicked
+            // the event will not trigger the panel-trigger click event
+            event.stopPropagation();
+
             // Close button clicked
-            else if (className === 'close') {
+            if (className.indexOf('close') > -1) {
                 // Fire event
                 instance._onTriggerCloseClick(event);
             }
+            // Trigger name clicked
+            else if (className.indexOf('panel-trigger') > -1) {
+                // Fire event
+                instance._onTriggerClick(event);
+            }
 
-        }, '.trigger-name, .close');
+        }, '.panel-trigger, .close');
 
         // Attach trigger events
         trigger.on('mouseenter', this._onTriggerMouseEnter, this);

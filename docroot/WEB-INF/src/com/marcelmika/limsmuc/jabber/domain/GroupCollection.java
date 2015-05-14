@@ -11,14 +11,14 @@ package com.marcelmika.limsmuc.jabber.domain;
 
 import com.marcelmika.limsmuc.api.entity.GroupCollectionDetails;
 import com.marcelmika.limsmuc.api.entity.GroupDetails;
-import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.environment.Environment.BuddyListStrategy;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Ing. Marcel Mika
@@ -43,7 +43,7 @@ public class GroupCollection {
         GroupCollectionDetails details = new GroupCollectionDetails();
         // Groups
         List<GroupDetails> groups = new ArrayList<GroupDetails>();
-        for(Group group : this.groups) {
+        for (Group group : this.groups) {
             groups.add(group.toGroupDetails());
         }
         details.setGroups(groups);
@@ -66,12 +66,42 @@ public class GroupCollection {
         this.lastModified = calendar.getTime();
     }
 
+    /**
+     * Creates a duplicate of the group collection
+     *
+     * @param page Page
+     * @return GroupCollection
+     */
+    public GroupCollection duplicate(Page page) {
+        GroupCollection groupCollection = new GroupCollection();
+
+        // Map properties
+        groupCollection.listStrategy = listStrategy;
+        groupCollection.lastModified = lastModified;
+        groupCollection.loading = loading;
+
+        // Duplicate groups
+        List<Group> duplicatedGroups = new LinkedList<Group>();
+        for (Group group : groups) {
+            duplicatedGroups.add(group.duplicate(page));
+        }
+
+        // Set the groups to collection
+        groupCollection.groups = duplicatedGroups;
+
+        return groupCollection;
+    }
+
     public boolean isLoading() {
         return loading;
     }
 
     public void setLoading(boolean loading) {
         this.loading = loading;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
     }
 
     public Date getLastModified() {
@@ -84,5 +114,15 @@ public class GroupCollection {
 
     public void setListStrategy(BuddyListStrategy listStrategy) {
         this.listStrategy = listStrategy;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupCollection{" +
+                "lastModified=" + lastModified +
+                ", groups=" + groups +
+                ", listStrategy=" + listStrategy +
+                ", loading=" + loading +
+                '}';
     }
 }

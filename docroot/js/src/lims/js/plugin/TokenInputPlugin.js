@@ -221,7 +221,7 @@ Y.extend(TokenInputPlugin, Y.Plugin.Base, {
             }, selectors.token, this),
 
             list.delegate(Y.UA.gecko ? 'keypress' : 'keydown', this._onKey,
-                    selectors.input + ',' + selectors.token, this),
+                selectors.input + ',' + selectors.token, this),
 
             list.delegate('click', this._onRemoveClick, selectors.remove, this),
 
@@ -793,9 +793,7 @@ Y.extend(TokenInputPlugin, Y.Plugin.Base, {
         var that = this;
 
         if (!e.target.ancestor(this._selectors.item, true)) {
-            setTimeout(function () {
-                that._inputNode.focus();
-            }, 1);
+            that._inputNode.focus();
         }
     },
 

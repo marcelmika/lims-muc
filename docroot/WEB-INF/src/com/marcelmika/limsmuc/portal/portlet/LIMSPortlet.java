@@ -39,7 +39,12 @@ import com.marcelmika.limsmuc.portal.properties.PortletPropertiesValues;
 import com.marcelmika.limsmuc.portal.properties.PropertiesManager;
 import com.marcelmika.limsmuc.portal.properties.PropertiesManagerUtil;
 
-import javax.portlet.*;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -366,7 +371,7 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(RenderRequest renderRequest) {
         // If the user is not logged he can't be over the limit either
-        if(!isCorrectAttempt(renderRequest)) {
+        if (!isCorrectAttempt(renderRequest)) {
             return false;
         }
 
@@ -390,7 +395,7 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(ResourceRequest resourceRequest) {
         // If the user is not logged he can't be over the limit either
-        if(!isCorrectAttempt(resourceRequest)) {
+        if (!isCorrectAttempt(resourceRequest)) {
             return false;
         }
 

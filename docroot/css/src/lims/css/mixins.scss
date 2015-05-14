@@ -57,7 +57,18 @@
 
 //
 // Makes the font smooth. Needed for webkit
-// See: http://stackoverflow.com/questions/13144061/font-weights-differing-in-webkit-and-firefox
+// @see http://stackoverflow.com/questions/13144061/font-weights-differing-in-webkit-and-firefox
 @mixin font-smoothing() {
   -webkit-font-smoothing: antialiased;
+}
+
+//
+// Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks
+// @see: http://www.w3schools.com/cssref/pr_text_white-space.asp
+@mixin pre-wrap() {
+  white-space: pre;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
 }

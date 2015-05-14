@@ -20,7 +20,7 @@
 </c:if>
 
 <%-- Render --%>
-<li class="jabber-enabled">
+<div class="jabber-enabled">
 
     <div class="note">
         <liferay-ui:message key="panel-settings-admin-area-jabber-note"/>
@@ -35,4 +35,4 @@
         <i class="tooltip-button"
            data-text="<liferay-ui:message key="panel-settings-admin-area-jabber-enabled-help"/>">i</i>
     </span>
-</li>
+</div>

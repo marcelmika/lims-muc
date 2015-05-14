@@ -7,7 +7,7 @@
   ~ Written by Marcel Mika <marcelmika.com>, 2014
   --%>
 
-<li class="synchronization-suc">
+<div class="synchronization-suc">
 
     <div class="note">
         <liferay-ui:message key="panel-settings-admin-area-synchronization-suc-note"/>
@@ -31,4 +31,4 @@
         </div>
     </div>
 
-</li>
+</div>

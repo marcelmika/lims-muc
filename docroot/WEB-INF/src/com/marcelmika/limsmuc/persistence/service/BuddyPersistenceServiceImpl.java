@@ -10,15 +10,33 @@
 package com.marcelmika.limsmuc.persistence.service;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
-import com.marcelmika.limsmuc.api.events.buddy.*;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.DeleteBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.ReadPresenceChangeResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent;
 import com.marcelmika.limsmuc.persistence.domain.Buddy;
 import com.marcelmika.limsmuc.persistence.domain.Presence;
 import com.marcelmika.limsmuc.persistence.generated.model.Settings;
 import com.marcelmika.limsmuc.persistence.generated.service.SettingsLocalServiceUtil;
 import com.marcelmika.limsmuc.persistence.manager.SearchManager;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +51,10 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
 
     // Dependencies
     SearchManager searchManager;
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(BuddyPersistenceServiceImpl.class);
 
     /**
      * Constructor
@@ -298,6 +320,64 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         catch (Exception exception) {
             return SearchBuddiesResponseEvent.failure(
                     SearchBuddiesResponseEvent.Status.ERROR_PERSISTENCE, exception
+            );
+        }
+    }
+
+    /**
+     * Reads buddies that have changed their presence since the particular time
+     *
+     * @param event Request event
+     * @return Response event
+     */
+    @Override
+    public ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event) {
+
+        Date since = event.getSince();
+        List<BuddyDetails> details = new LinkedList<BuddyDetails>();
+
+        // Map parameters
+        if (since == null) {
+            return ReadPresenceChangeResponseEvent.failure(
+                    ReadPresenceChangeResponseEvent.Status.ERROR_WRONG_PARAMETERS
+            );
+        }
+
+        try {
+            // Load the settings
+            List<Settings> settings = SettingsLocalServiceUtil.findByPresenceUpdatedSince(since);
+
+            for (Settings setting : settings) {
+
+                Presence presence;
+
+                // User is connected
+                if (setting.isConnected()) {
+                    // Create Presence from string
+                    presence = Presence.fromDescription(setting.getPresence());
+                }
+                // User is offline
+                else {
+                    presence = Presence.OFFLINE;
+                }
+
+
+                // Create new buddy
+                BuddyDetails buddy = new BuddyDetails();
+                buddy.setBuddyId(setting.getUserId());
+                buddy.setConnected(setting.getConnected());
+                buddy.setPresenceDetails(presence.toPresenceDetails());
+
+                details.add(buddy);
+            }
+
+            // Success
+            return ReadPresenceChangeResponseEvent.success(details);
+        }
+        // Failure
+        catch (SystemException exception) {
+            return ReadPresenceChangeResponseEvent.failure(
+                    ReadPresenceChangeResponseEvent.Status.ERROR_PERSISTENCE, exception
             );
         }
     }

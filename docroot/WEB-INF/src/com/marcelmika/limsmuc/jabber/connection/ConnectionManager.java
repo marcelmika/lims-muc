@@ -29,7 +29,7 @@ public interface ConnectionManager {
      *
      * @throws JabberException if connection creation fails
      */
-    public void createConnection() throws JabberException;
+    void createConnection() throws JabberException;
 
     /**
      * Log user in
@@ -37,45 +37,45 @@ public interface ConnectionManager {
      * @param buddy Buddy
      * @throws JabberException if login fails
      */
-    public void login(Buddy buddy) throws JabberException;
+    void login(Buddy buddy) throws JabberException;
 
     /**
      * Logout buddy
      */
-    public void logout();
+    void logout();
 
     /**
      * Returns connection of the user
      */
-    public XMPPConnection getConnection();
+    XMPPConnection getConnection();
 
     /**
      * Returns true if the connection is connected
      *
      * @return boolean
      */
-    public boolean isConnected();
+    boolean isConnected();
 
     /**
      * Returns true if the connection is authenticated
      *
      * @return boolean
      */
-    public boolean isAuthenticated();
+    boolean isAuthenticated();
 
     /**
      * Returns buddy's roster
      *
      * @return Roster
      */
-    public Roster getRoster();
+    Roster getRoster();
 
     /**
      * Returns buddy's chat manager
      *
      * @return ChatManager
      */
-    public ChatManager getChatManager();
+    ChatManager getChatManager();
 
     /**
      * Updates user's password
@@ -83,7 +83,7 @@ public interface ConnectionManager {
      * @param password String
      * @throws JabberException
      */
-    public void updatePassword(String password) throws JabberException;
+    void updatePassword(String password) throws JabberException;
 
     /**
      * Set or updates buddy's presence
@@ -91,6 +91,6 @@ public interface ConnectionManager {
      * @param presence Presence of the concrete buddy.
      * @throws JabberException
      */
-    public void setPresence(final Presence presence) throws JabberException;
+    void setPresence(final Presence presence) throws JabberException;
 
 }

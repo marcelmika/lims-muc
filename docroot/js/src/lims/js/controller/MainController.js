@@ -34,6 +34,9 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
         // Attach events
         this._attachEvents();
 
+        // Apply patches
+        this._applyPatches();
+
         // Load the most fresh server time to count server time offset
         serverTime.load(function (err) {
 
@@ -43,6 +46,14 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             if (!err) {
                 properties.set('offset', new Date().getTime() - serverTime.get('time'));
             }
+
+            // IPC Controller
+            new Y.LIMS.Core.IPCController({
+                publisher: publisher,
+                buddyDetails: buddyDetails,
+                notification: notification,
+                properties: properties
+            });
 
             // Group
             new Y.LIMS.Controller.GroupViewController({
@@ -84,12 +95,6 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 buddyDetails: buddyDetails
             });
 
-            // IPC Controller
-            new Y.LIMS.Core.IPCController({
-                publisher: publisher,
-                buddyDetails: buddyDetails
-            });
-
             // Render tooltips
             var tooltip = new Y.LIMS.View.Tooltip();
             tooltip.render();
@@ -116,6 +121,25 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
         Y.on('panelShown', this._onPanelShown, this);
         Y.on('panelHidden', this._onPanelHidden, this);
         Y.on('userSessionExpired', this._onSessionExpired, this);
+    },
+
+    /**
+     * Applies patches
+     *
+     * @private
+     */
+    _applyPatches: function () {
+        // Vars
+        var mobilePatch = this.get('mobilePatch'),
+            properties = this.get('properties');
+
+        // Only if the mobile user scalable property is really disabled
+        if (properties.isMobileUserScalableDisabled()) {
+            // Don't let the user to zoom on mobile devices
+            mobilePatch.disableZoom();
+        }
+        // Apply mobile device detection
+        mobilePatch.detectMobileDevice();
     },
 
     /**
@@ -308,6 +332,17 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
          */
         activePanelId: {
             value: null // default value
+        },
+
+        /**
+         * Set of mobile patches
+         *
+         * {Y.LIMS.Core.MobilePatch}
+         */
+        mobilePatch: {
+            valueFn: function () {
+                return new Y.LIMS.Core.MobilePatch();
+            }
         }
     }
 });

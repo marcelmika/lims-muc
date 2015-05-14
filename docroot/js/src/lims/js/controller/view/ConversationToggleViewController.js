@@ -137,6 +137,15 @@ Y.LIMS.Controller.ConversationToggleViewController = Y.Base.create('conversation
         },
 
         /**
+         * Returns number of conversations in the toggle
+         *
+         * @return {*}
+         */
+        size: function () {
+            return this.get('conversationList').length;
+        },
+
+        /**
          * Counts sum of unread messages
          *
          * @return {number}
