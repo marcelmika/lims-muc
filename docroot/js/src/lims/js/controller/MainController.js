@@ -59,7 +59,8 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
             new Y.LIMS.Controller.GroupViewController({
                 container: rootNode.one('.buddy-list'),
                 properties: properties,
-                poller: poller
+                poller: poller,
+                buddyDetails: buddyDetails
             });
 
             // Presence

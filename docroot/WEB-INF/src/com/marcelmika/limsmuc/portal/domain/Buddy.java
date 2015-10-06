@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.DigesterUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ing. Marcel Mika
@@ -45,11 +43,6 @@ public class Buddy {
 
     // Log
     private static Log log = LogFactoryUtil.getLog(Buddy.class);
-
-    // Constants
-    private static final String KEY_FULL_NAME = "fullName";
-    private static final String KEY_SCREEN_NAME = "screenName";
-    private static final String KEY_PASSWORD = "password";
 
     // Properties
     private Long buddyId;
@@ -78,6 +71,27 @@ public class Buddy {
      */
     public static Buddy fromRenderRequest(RenderRequest request) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        return fromThemeDisplay(themeDisplay);
+    }
+
+    /**
+     * Factory method which creates new Buddy object from the PollerRequest
+     *
+     * @param request request
+     * @return Buddy
+     */
+    public static Buddy fromResourceRequest(ResourceRequest request) {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        return fromThemeDisplay(themeDisplay);
+    }
+
+    /**
+     * Creates buddy from themeDisplay
+     *
+     * @param themeDisplay ThemeDisplay
+     * @return Buddy
+     */
+    private static Buddy fromThemeDisplay(ThemeDisplay themeDisplay) {
         Buddy buddy = new Buddy();
         User user = themeDisplay.getUser();
         buddy.buddyId = user.getUserId();
@@ -99,38 +113,6 @@ public class Buddy {
         buddy.firstName = user.getFirstName();
         buddy.middleName = user.getMiddleName();
         buddy.lastName = user.getLastName();
-
-        return buddy;
-    }
-
-    /**
-     * Factory method which creates new Buddy object from the PollerRequest
-     *
-     * @param request request
-     * @return Buddy
-     */
-    public static Buddy fromResourceRequest(ResourceRequest request) {
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-
-        // Map contains all parameters from request
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        // Create new buddy
-        Buddy buddy = new Buddy();
-        // BuddyID
-        buddy.buddyId = themeDisplay.getUserId();
-        buddy.companyId = themeDisplay.getCompanyId();
-        // Full name
-        if (parameterMap.containsKey(KEY_FULL_NAME)) {
-            buddy.fullName = GetterUtil.getString(parameterMap.get(KEY_FULL_NAME));
-        }
-        // Screen name
-        if (parameterMap.containsKey(KEY_SCREEN_NAME)) {
-            buddy.screenName = GetterUtil.getString(parameterMap.get(KEY_SCREEN_NAME));
-        }
-        // Password
-        if (parameterMap.containsKey(KEY_PASSWORD)) {
-            buddy.password = GetterUtil.getString(parameterMap.get(KEY_PASSWORD));
-        }
 
         return buddy;
     }

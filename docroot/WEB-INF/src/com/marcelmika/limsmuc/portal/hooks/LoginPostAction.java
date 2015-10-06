@@ -80,7 +80,7 @@ public class LoginPostAction extends Action {
             // Notify the admin about the error
             if (log.isWarnEnabled()) {
                 log.warn(String.format(
-                        "Login error " + responseEvent.getStatus() + ": " + responseEvent.getExceptionMessage()
+                        "Login error %s: %s", responseEvent.getStatus(), responseEvent.getExceptionMessage()
                 ));
             }
 

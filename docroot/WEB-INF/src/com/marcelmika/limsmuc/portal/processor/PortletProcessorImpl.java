@@ -89,6 +89,7 @@ public class PortletProcessorImpl implements PortletProcessor {
     private static final String QUERY_TEST_CONNECTION = "TestConnection";
     private static final String QUERY_IPC_READ_BUDDIES = PREFIX_IPC + "ReadBuddies";
     private static final String QUERY_IPC_READ_PRESENCES = PREFIX_IPC + "ReadPresences";
+    private static final String QUERY_RELOGIN = "Relogin";
 
     /**
      * Constructor
@@ -252,6 +253,10 @@ public class PortletProcessorImpl implements PortletProcessor {
         // Update buddy presence
         else if (query.equals(QUERY_UPDATE_BUDDY_PRESENCE)) {
             buddyController.updateBuddyPresence(request, response);
+        }
+        // Relogin
+        else if (query.equals(QUERY_RELOGIN)) {
+            buddyController.relogin(request, response);
         }
         // Update active panel
         else if (query.equals(QUERY_UPDATE_ACTIVE_PANEL)) {

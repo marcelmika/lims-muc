@@ -287,6 +287,29 @@
     margin: 3px 7px 0;
     float: left;
   }
+
+  input[type="password"] {
+    border: 1px solid black;
+  }
+
+  button.button {
+    border-color: #629CCE;
+    background: #74B3EB;
+    box-shadow: none;
+    color: white;
+    width: 87px;
+    text-align: center;
+  }
+
+  .relogin-form {
+    text-align: center;
+    margin-top: 7px;
+
+    .error-message {
+      text-align: center;
+      margin: 10px 0 0;
+    }
+  }
 }
 
 .lims-muc .ie-support .panel-error {

@@ -57,6 +57,23 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
     },
 
     /**
+     * Called when user attempts to login to jabber via error container
+     */
+    onReloginClick: function (event) {
+        // Vars
+        var buddyDetails = this.get('buddyDetails'),
+            instance = this;
+
+        buddyDetails.relogin(event.password, function (error) {
+            if (error) {
+                instance.reloginFailure();
+            } else {
+                instance.reloginSuccess();
+            }
+        });
+    },
+
+    /**
      * Attaches events to DOM elements from container
      *
      * @private
@@ -471,6 +488,15 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
          * {Y.LIMS.Core.Properties}
          */
         properties: {
+            value: null // to be set
+        },
+
+        /**
+         * Currently logged user
+         *
+         * {Y.LIMS.ModelBuddyModelItem}
+         */
+        buddyDetails: {
             value: null // to be set
         },
 

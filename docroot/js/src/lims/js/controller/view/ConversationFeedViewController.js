@@ -67,6 +67,23 @@ Y.LIMS.Controller.ConversationFeedViewController = Y.Base.create('conversationFe
         },
 
         /**
+         * Called when user attempts to login to jabber via error container
+         */
+        onReloginClick: function (event) {
+            // Vars
+            var buddyDetails = this.get('buddyDetails'),
+                instance = this;
+
+            buddyDetails.relogin(event.password, function (error) {
+                if (error) {
+                    instance.reloginFailure();
+                } else {
+                    instance.reloginSuccess();
+                }
+            });
+        },
+
+        /**
          * Attaches events to DOM elements from container
          *
          * @private

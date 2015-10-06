@@ -75,7 +75,7 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
         if (buddyId == null || companyId == null) {
             return ConnectBuddyResponseEvent.failure(
                     ConnectBuddyResponseEvent.Status.ERROR_WRONG_PARAMETERS,
-                    new JabberException(String.format("Either buddy or company id wasn't set"))
+                    new JabberException("Either buddy or company id wasn't set")
             );
         }
 
