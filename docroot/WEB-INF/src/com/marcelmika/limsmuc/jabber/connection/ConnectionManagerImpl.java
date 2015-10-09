@@ -68,8 +68,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
                         "User %s was already connected, skipping creation of connection", connection.getUser()
                 ));
             }
-            // End here
-            return;
         }
 
         // Connect to jabber
@@ -295,6 +293,12 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // Failure
         catch (Exception e) {
+
+            // Log the exception
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
+
             // Get message returned from the Jabber server
             String message = e.getMessage();
 

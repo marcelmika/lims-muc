@@ -9,6 +9,8 @@
 
 package com.marcelmika.limsmuc.jabber.service;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.BuddyDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.buddy.ConnectBuddyRequestEvent;
@@ -46,6 +48,10 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
 
     // Dependencies
     private UserSessionStore userSessionStore;
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(BuddyJabberServiceImpl.class);
 
     /**
      * BuddyJabberServiceImpl
@@ -113,6 +119,10 @@ public class BuddyJabberServiceImpl implements BuddyJabberService {
             userSession = UserSession.fromConnectionManager(buddyId, companyId, connectionManager);
             // Add user session to store so it can be queried later
             userSessionStore.addUserSession(userSession);
+        }
+        // If the session was created reset it to get the latest connection
+        else {
+            userSession.reset(connectionManager);
         }
 
         // Success

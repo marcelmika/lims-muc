@@ -64,6 +64,9 @@ public class LoginPostAction extends Action {
      */
     private void loginBuddy(Buddy buddy) {
 
+        // Login to jabber only if the password was set
+        boolean loginToJabber = buddy.getPassword() != null;
+
         // Log
         if (log.isDebugEnabled()) {
             log.debug("Login user " + buddy.getScreenName());
@@ -71,7 +74,7 @@ public class LoginPostAction extends Action {
 
         // Login buddy
         LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(
-                new LoginBuddyRequestEvent(buddy.toBuddyDetails())
+                new LoginBuddyRequestEvent(buddy.toBuddyDetails(), loginToJabber)
         );
 
         // Failure
