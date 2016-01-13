@@ -288,6 +288,24 @@ Y.LIMS.Model.PropertiesModel = Y.Base.create('propertiesModel', Y.Model, [Y.LIMS
         },
 
         /**
+         * Jabber shared secret enabled
+         *
+         * {boolean}
+         */
+        jabberSharedSecretEnabled: {
+            value: null // to be set
+        },
+
+        /**
+         * Jabber shared secret
+         *
+         * {string}
+         */
+        jabberSharedSecret: {
+            value: null // to be set
+        },
+
+        /**
          * IPC enabled
          *
          * {boolean}

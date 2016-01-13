@@ -9,7 +9,7 @@
 
 package com.marcelmika.limsmuc.portal.domain;
 
-import com.liferay.compat.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.marcelmika.limsmuc.api.environment.Environment;
 
 import java.util.Arrays;
@@ -48,6 +48,8 @@ public class Properties {
     private Integer jabberPort;
     private String jabberServiceName;
     private String jabberResource;
+    private Boolean jabberSharedSecretEnabled;
+    private String jabberSharedSecret;
     private Boolean ipcEnabled;
     private Boolean mobileUserScalableDisabled;
 
@@ -87,6 +89,8 @@ public class Properties {
         properties.jabberPort = Environment.getJabberPort();
         properties.jabberServiceName = Environment.getJabberServiceName();
         properties.jabberResource = Environment.getJabberResource();
+        properties.jabberSharedSecretEnabled = Environment.isJabberSharedSecretEnabled();
+        properties.jabberSharedSecret = Environment.getJabberSharedSecret();
         properties.ipcEnabled = Environment.getIpcEnabled();
         properties.mobileUserScalableDisabled = Environment.getMobileUserScalableDisabled();
 
@@ -325,6 +329,22 @@ public class Properties {
         this.jabberResource = jabberResource;
     }
 
+    public Boolean getJabberSharedSecretEnabled() {
+        return jabberSharedSecretEnabled;
+    }
+
+    public void setJabberSharedSecretEnabled(Boolean jabberSharedSecretEnabled) {
+        this.jabberSharedSecretEnabled = jabberSharedSecretEnabled;
+    }
+
+    public String getJabberSharedSecret() {
+        return jabberSharedSecret;
+    }
+
+    public void setJabberSharedSecret(String jabberSharedSecret) {
+        this.jabberSharedSecret = jabberSharedSecret;
+    }
+
     public Boolean getIpcEnabled() {
         return ipcEnabled;
     }
@@ -370,6 +390,8 @@ public class Properties {
                 ", jabberPort=" + jabberPort +
                 ", jabberServiceName='" + jabberServiceName + '\'' +
                 ", jabberResource='" + jabberResource + '\'' +
+                ", jabberSharedSecretEnabled=" + jabberSharedSecretEnabled +
+                ", jabberSharedSecret='" + jabberSharedSecret + '\'' +
                 ", ipcEnabled=" + ipcEnabled +
                 ", mobileUserScalableDisabled=" + mobileUserScalableDisabled +
                 '}';
