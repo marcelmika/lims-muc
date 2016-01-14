@@ -9,7 +9,12 @@
 
 package com.marcelmika.limsmuc.persistence.generated.service.persistence;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.db.DB;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -46,6 +51,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
 
     // Date formatter
     private static final DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final String ORACLE_ISO8601_DATE_FORMAT = "yyyy-MM-dd\"T\"HH24:mi:ss\"Z\"";
 
     /**
      * Finds all messages related to the given conversation.
@@ -254,9 +260,19 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
         if (stopper != null && stopper.getCreatedAt() != null) {
             // Format the date
             String createdAt = dateFormatISO8601.format(stopper.getCreatedAt());
+            String placeholderStopper;
 
-            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
-                    String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt));
+            // Fix for issue #362 with the "not a valid month_ on Oracle" error
+            if (getDB().getType().equals(DB.TYPE_ORACLE)) {
+                placeholderStopper = String.format(
+                        "AND Limsmuc_Message.createdAt >= to_date('%s', '%s')", createdAt, ORACLE_ISO8601_DATE_FORMAT
+                );
+            } else {
+                placeholderStopper = String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt);
+            }
+
+            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, placeholderStopper);
+
         } else {
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
         }
