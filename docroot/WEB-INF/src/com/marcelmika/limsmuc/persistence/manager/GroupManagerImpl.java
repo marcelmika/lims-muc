@@ -149,12 +149,16 @@ public class GroupManagerImpl implements GroupManager {
         // Get the info if the deactivated user should be ignored
         boolean ignoreDeactivatedUser = Environment.getBuddyListIgnoreDeactivatedUser();
 
-        // Read the group
-        Group group = readAllGroup(userId, true, ignoreDeactivatedUser, page);
         // Create group collection which will hold the only group that holds all users
         GroupCollection groupCollection = new GroupCollection();
+
+        // Read the group
+        Group group = readAllGroup(userId, true, ignoreDeactivatedUser, page);
         // Add group to collection only if there are any buddies
-        groupCollection.addGroup(group);
+        if (group.getBuddies().size() > 0) {
+            groupCollection.addGroup(group);
+        }
+
         // Set list strategy
         groupCollection.setListStrategy(BuddyListStrategy.ALL);
         // Add last modified date
