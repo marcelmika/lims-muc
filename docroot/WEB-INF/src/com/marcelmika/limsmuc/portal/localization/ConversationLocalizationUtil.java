@@ -262,7 +262,7 @@ public class ConversationLocalizationUtil {
 
         // Limit the maximal size of the message to 10
         if (name.length() > BUDDY_TITLE_MAX_SIZE) {
-            name = name.substring(BUDDY_TITLE_MAX_SIZE);
+            name = name.substring(0, BUDDY_TITLE_MAX_SIZE);
         }
 
         return name;
