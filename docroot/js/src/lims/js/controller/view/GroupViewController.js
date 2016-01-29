@@ -59,12 +59,12 @@ Y.LIMS.Controller.GroupViewController = Y.Base.create('groupViewController', Y.L
     /**
      * Called when user attempts to login to jabber via error container
      */
-    onReloginClick: function (event) {
+    onReloginClick: function () {
         // Vars
         var buddyDetails = this.get('buddyDetails'),
             instance = this;
 
-        buddyDetails.relogin(event.password, function (error) {
+        buddyDetails.relogin(function (error) {
             if (error) {
                 instance.reloginFailure();
             } else {

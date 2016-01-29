@@ -67,19 +67,13 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
      * @param password
      * @param callback
      */
-    relogin: function (password, callback) {
-
-        // Deserialize
-        var parameters = Y.JSON.stringify({
-            password: password
-        });
+    relogin: function (callback) {
 
         // Do the request
         Y.io(this.getServerRequestUrl(), {
             method: "POST",
             data: {
-                query: "Relogin",
-                parameters: parameters
+                query: "Relogin"
             },
             on: {
                 success: function(id, o) {

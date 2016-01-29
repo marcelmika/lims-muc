@@ -226,9 +226,7 @@ public class ConnectionManagerImpl implements ConnectionManager {
 
         // Connect
         try {
-            log.info("CONNECTING: START");
             connection.connect();
-            log.info("CONNECTING: END");
         }
         // Error occurs somewhere else besides XMPP protocol level.
         catch (SmackException e) {
@@ -295,23 +293,22 @@ public class ConnectionManagerImpl implements ConnectionManager {
         // Take the password from the shared secret if enabled
         if (Environment.isJabberSharedSecretEnabled()) {
             password = Environment.getJabberSharedSecret();
-            log.info("USING SHARED SECRET: " + password);
         }
         // Take password from buddy
         else if (buddy.getPassword() != null) {
             password = buddy.getPassword();
-            log.info("USING PASSWORD: " + password);
         }
         // No password was passed
         else {
+            if (log.isErrorEnabled()) {
+                log.error("No password was passed during login");
+            }
             throw new JabberException("Password was empty during login");
         }
 
         try {
-            log.info("LOGIN: START");
             // Login with username and password
             connection.login(buddy.getScreenName(), password, Environment.getJabberResource());
-            log.info("LOGIN: END");
         }
         // Failure
         catch (Exception e) {

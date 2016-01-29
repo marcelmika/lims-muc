@@ -309,7 +309,6 @@
 <%-- This template HTML will be used as a form that the user can use to relogin --%>
 <script type="text/x-template" id="limsmuc-panel-error-template-relogin">
     <div class="relogin-form">
-        <input type="password" placeholder="<liferay-ui:message key="relogin-password-placeholder" />"/>
         <button class="button button-secondary"><liferay-ui:message key="relogin-button-title" /></button>
         <div class="error-message"><liferay-ui:message key="relogin-error-message" /></div>
     </div>

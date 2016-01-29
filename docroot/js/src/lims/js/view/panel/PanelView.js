@@ -129,7 +129,6 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             if (errorId === 'jabberError') {
                 errorView.append(Y.Node.create(Y.Lang.sub(this.reloginTemplate)));
                 errorView.one('button').on('click', this._onReloginClick, this);
-                errorView.one('input').on('keyup', this._onReloginInputKeyUp, this);
                 Y.LIMS.Core.Util.hide(errorView.one('.relogin-form .error-message'));
             }
 
@@ -386,7 +385,6 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
         // Global events
         Y.on('reloginSuccess', this._onReloginSuccess, this);
         Y.on('reloginFailure', this._onReloginFailure, this);
-        Y.on('reloginPasswordChange', this._onReloginPasswordChange, this);
 
         // Local events
         trigger.delegate('click', function (event) {
@@ -517,43 +515,12 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     _onReloginClick: function () {
         // Vars
         var errorContainer = this.get('errorContainer'),
-            passwordNode = errorContainer.one('.relogin-form input[type="password"]'),
             buttonNode = errorContainer.one('.relogin-form button');
 
-        if (passwordNode && buttonNode) {
+        if (buttonNode) {
             buttonNode.setAttribute('disabled', 'disabled');
             // Fire the event
-            this.fire('reloginClick', {
-                password: passwordNode.get('value')
-            });
-        }
-    },
-
-    /**
-     * Called when user changes relogin password input
-     *
-     * @param event
-     * @private
-     */
-    _onReloginInputKeyUp: function(event) {
-        Y.fire('reloginPasswordChange', {
-            password: event.currentTarget.get('value')
-        });
-    },
-
-    /**
-     * Called whenever the relogin password changes in any of the panel views
-     *
-     * @param event
-     * @private
-     */
-    _onReloginPasswordChange: function(event) {
-        // Vars
-        var errorContainer = this.get('errorContainer'),
-            input = errorContainer.one('.relogin-form input[type="password"]');
-
-        if (input) {
-            input.set('value', event.password);
+            this.fire('reloginClick');
         }
     },
 

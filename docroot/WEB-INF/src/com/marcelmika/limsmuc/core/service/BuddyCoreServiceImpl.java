@@ -84,7 +84,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
         Buddy buddy = Buddy.fromBuddyDetails(event.getDetails());
 
         // Login to Jabber if enabled
-        if (Environment.isJabberEnabled() && event.loginToJabber()) {
+        if (Environment.isJabberEnabled()) {
 
             // [1] Connect buddy with jabber server
             ConnectBuddyResponseEvent connectResponseEvent = buddyJabberService.connectBuddy(

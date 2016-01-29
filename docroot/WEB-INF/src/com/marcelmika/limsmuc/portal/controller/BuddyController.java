@@ -26,7 +26,6 @@ import com.marcelmika.limsmuc.portal.domain.Buddy;
 import com.marcelmika.limsmuc.portal.domain.Presence;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
-import com.marcelmika.limsmuc.portal.request.parameters.ReloginParameters;
 import com.marcelmika.limsmuc.portal.request.parameters.SearchBuddiesParameters;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
@@ -216,17 +215,11 @@ public class BuddyController {
      */
     public void relogin(ResourceRequest request, ResourceResponse response) {
 
-        Buddy buddy;                    // Authorized user
-        ReloginParameters parameters;   // Request parameters
+        Buddy buddy; // Authorized user
 
         // Deserialize
         try {
             buddy = Buddy.fromResourceRequest(request);
-
-            // Parameters
-            parameters = JSONFactoryUtil.looseDeserialize(
-                    request.getParameter(RequestParameterKeys.KEY_PARAMETERS), ReloginParameters.class
-            );
         }
         // Failure
         catch (Exception exception) {
@@ -239,9 +232,6 @@ public class BuddyController {
             // End here
             return;
         }
-
-        // Set password
-        buddy.setPassword(parameters.getPassword());
 
         // Login buddy
         LoginBuddyResponseEvent responseEvent = buddyCoreService.loginBuddy(

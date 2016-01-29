@@ -65,8 +65,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findAllMessages(Long cid,
-                                          Integer pageSize) throws SystemException {
+    public List<Object[]> findAllMessages(Long cid, Integer pageSize) throws SystemException {
 
         Session session = null;
 

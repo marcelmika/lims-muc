@@ -21,23 +21,12 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
 public class LoginBuddyRequestEvent extends RequestEvent {
 
     private final BuddyDetails details;
-    private final boolean loginToJabber;
 
     public LoginBuddyRequestEvent(BuddyDetails details) {
         this.details = details;
-        this.loginToJabber = true;
-    }
-
-    public LoginBuddyRequestEvent(BuddyDetails details, boolean loginToJabber) {
-        this.details = details;
-        this.loginToJabber = loginToJabber;
     }
 
     public BuddyDetails getDetails() {
         return details;
-    }
-
-    public boolean loginToJabber() {
-        return loginToJabber;
     }
 }

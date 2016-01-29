@@ -72,7 +72,7 @@ public class LoginPostAction extends Action {
 
         // Login buddy
         LoginBuddyResponseEvent responseEvent = coreService.loginBuddy(
-                new LoginBuddyRequestEvent(buddy.toBuddyDetails(), true)
+                new LoginBuddyRequestEvent(buddy.toBuddyDetails())
         );
 
         // Failure
