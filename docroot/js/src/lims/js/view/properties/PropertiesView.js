@@ -71,6 +71,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             jabberServiceName = this.get('jabberServiceName'),
             jabberResource = this.get('jabberResource'),
             jabberTestConnectionButton = this.get('jabberTestConnectionButton'),
+            jabberSharedSecretEnabled = this.get('jabberSharedSecretEnabled'),
+            jabberSharedSecret = this.get('jabberSharedSecret'),
             ipcEnabled = this.get('ipcEnabled'),
             synchronizationSUC = this.get('synchronizationSUC'),
             synchronizationChatPortlet = this.get('synchronizationChatPortlet');
@@ -95,6 +97,8 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
         jabberServiceName.on('inputUpdate', this._onJabberServiceNameUpdate, this);
         jabberResource.on('inputUpdate', this._onJabberResourceUpdate, this);
         jabberTestConnectionButton.on('click', this._onJabberTestConnectionButtonClick, this);
+        jabberSharedSecretEnabled.on('switchClick', this._onJabberSharedSecretEnabledClick, this);
+        jabberSharedSecret.on('inputUpdate', this._onJabberSharedSecretUpdate, this);
         ipcEnabled.on('switchClick', this._onIpcEnabledClick, this);
         synchronizationSUC.on('okClick', this._onSynchronizationSucOkClick, this);
         synchronizationChatPortlet.on('okClick', this._onSynchronizationChatPortletOkClick, this);
@@ -800,6 +804,77 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
     },
 
     /**
+     * Called when the user clicks on the jabber shared secret enabled switch
+     *
+     * @private
+     */
+    _onJabberSharedSecretEnabledClick: function () {
+        // Vars
+        var switchView = this.get('jabberSharedSecretEnabled'),
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberSharedSecretEnabled: switchView.isOn()
+        });
+
+        // Disable view
+        switchView.disable();
+
+        // Save the model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                switchView.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            switchView.enable();
+        });
+    },
+
+    /**
+     * Called when the jabber shared secret input is updated
+     *
+     * @private
+     */
+    _onJabberSharedSecretUpdate: function (event) {
+        // Vars
+        var jabberSharedSecret = this.get('jabberSharedSecret'),
+            preValue = event.preValue,      // Previously selected value
+            postValue = event.postValue,    // Currently selected value
+            model;
+
+        // Prepare the model
+        model = new Y.LIMS.Model.PropertiesModel({
+            jabberSharedSecret: postValue
+        });
+
+        // Disable view
+        jabberSharedSecret.disable();
+        // Show activity
+        jabberSharedSecret.showActivityIndicator();
+
+        // Save the model
+        model.save(function (err) {
+            // Hide activity
+            jabberSharedSecret.hideActivityIndicator();
+
+            if (err) {
+                // Return everything to the previous state
+                jabberSharedSecret.setValue(preValue);
+                // Show error
+                jabberSharedSecret.showError(Y.LIMS.Core.i18n.values.valueUpdateError);
+            }
+            // Re-enable the view so the user can interact with it again
+            jabberSharedSecret.enable();
+            // Since if we called the disable()
+            // function token input looses it's focus. So if we enable it
+            // we need to re-enable the focus again.
+            jabberSharedSecret.focus();
+        });
+    },
+
+    /**
      * Called when the user clicks on the ipc enabled switch
      *
      * @private
@@ -1378,6 +1453,39 @@ Y.LIMS.View.PropertiesView = Y.Base.create('propertiesView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 return this.get('container').one('.jabber-test-connection .message');
+            }
+        },
+
+        /**
+         * View for jabber shared secret enabled
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        jabberSharedSecretEnabled: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-shared-secret-enabled');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for jabber host
+         *
+         * {Y.LIMS.View.InputElementView}
+         */
+        jabberSharedSecret: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.jabber-shared-secret');
+
+                return new Y.LIMS.View.InputElementView({
+                    container: container,
+                    notEmpty: true  // Shared secrets cannot be empty
+                });
             }
         },
 

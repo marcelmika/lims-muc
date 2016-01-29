@@ -44,6 +44,8 @@ public class Environment {
     private static String jabberServiceName = "";
     private static String jabberResource = "";
     private static Integer jabberResourcePriority = 0;
+    private static Boolean jabberSharedSecretEnabled = false;
+    private static String jabberSharedSecret = "";
     private static Boolean ipcEnabled = false;
     private static Boolean mobileUserScalableDisabled = false;
     private static String urlHelp = "";
@@ -670,6 +672,42 @@ public class Environment {
      */
     public static void setJabberImportUserEnabled(Boolean jabberImportUserEnabled) {
         Environment.jabberImportUserEnabled = jabberImportUserEnabled;
+    }
+
+    /**
+     * Sets jabber shared secret enabled property
+     *
+     * @param jabberSharedSecretEnabled Boolean
+     */
+    public static void setJabberSharedSecretEnabled(Boolean jabberSharedSecretEnabled) {
+        Environment.jabberSharedSecretEnabled = jabberSharedSecretEnabled;
+    }
+
+    /**
+     * Returns true if the jabber shared secret is enabled
+     *
+     * @return boolean
+     */
+    public static boolean isJabberSharedSecretEnabled() {
+        return jabberSharedSecretEnabled;
+    }
+
+    /**
+     * Sets jabber shared secret property
+     *
+     * @param jabberSharedSecret String
+     */
+    public static void setJabberSharedSecret(String jabberSharedSecret) {
+        Environment.jabberSharedSecret = jabberSharedSecret;
+    }
+
+    /**
+     * Sets jabber shared secret property
+     *
+     * @return String
+     */
+    public static String getJabberSharedSecret() {
+        return jabberSharedSecret;
     }
 
     /**

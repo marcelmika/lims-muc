@@ -83,6 +83,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     private static final int JABBER_RESOURCE_PRIORITY_MAX = 128;
     private static final int JABBER_RESOURCE_PRIORITY_DEFAULT = 0;
 
+
     // Log
     private static Log log = LogFactoryUtil.getLog(PropertiesManagerImpl.class);
 
@@ -152,6 +153,8 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupJabberServiceName(preferences);
             setupJabberResource(preferences);
             setupJabberResourcePriority();
+            setupJabberSharedSecretEnabled(preferences);
+            setupJabberSharedSecret(preferences);
 
             // Set IPC
             setupIPCEnabled(preferences);
@@ -253,6 +256,16 @@ public class PropertiesManagerImpl implements PropertiesManager {
         // Jabber resource
         if (properties.getJabberResource() != null) {
             updateJabberResource(preferences, properties);
+        }
+
+        // Jabber shared secret enabled
+        if (properties.getJabberSharedSecretEnabled() != null) {
+            updateJabberSharedSecretEnabled(preferences, properties);
+        }
+
+        // Jabber shared secret
+        if (properties.getJabberSharedSecret() != null) {
+            updateJabberSharedSecret(preferences, properties);
         }
 
         // IPC enabled
@@ -1545,6 +1558,107 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
+     * Updates jabber shared secret enabled property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberSharedSecretEnabled(PortletPreferences preferences,
+                                                 Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SHARED_SECRET_ENABLED,
+                String.valueOf(properties.getJabberSharedSecretEnabled())
+        );
+        // Persist
+        preferences.store();
+
+        // Setup Environment
+        setupJabberSharedSecretEnabled(preferences);
+    }
+
+    /**
+     * Sets jabber shared secret enabled property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberSharedSecretEnabled(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        Boolean jabberSharedSecretEnabled;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberSharedSecretEnabled = Boolean.parseBoolean(preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SHARED_SECRET_ENABLED,
+                    String.valueOf(PortletPropertiesValues.JABBER_SHARED_SECRET_ENABLED)
+            ));
+        }
+        // Properties
+        else {
+            jabberSharedSecretEnabled = PortletPropertiesValues.JABBER_SHARED_SECRET_ENABLED;
+        }
+
+        // Save in Environment
+        Environment.setJabberSharedSecretEnabled(jabberSharedSecretEnabled);
+    }
+
+    /**
+     * Updates jabber shared secret property
+     *
+     * @param preferences PortletPreferences
+     * @param properties  Properties
+     * @throws Exception
+     */
+    private void updateJabberSharedSecret(PortletPreferences preferences,
+                                          Properties properties) throws Exception {
+
+        // Set the value in portlet preferences
+        preferences.setValue(
+                PortletPropertiesKeys.JABBER_SHARED_SECRET,
+                properties.getJabberSharedSecret()
+        );
+
+        // Persist
+        preferences.store();
+
+        // Save in Environment
+        setupJabberSharedSecret(preferences);
+    }
+
+    /**
+     * Sets the jabber shared secret property
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupJabberSharedSecret(PortletPreferences preferences) {
+        // Get the properties source
+        PropertiesSource source = Environment.getPropertiesSource();
+
+        String jabberSharedSecret;
+
+        // Preferences
+        if (source == PropertiesSource.PREFERENCES) {
+            // Take the value from preferences
+            jabberSharedSecret = preferences.getValue(
+                    PortletPropertiesKeys.JABBER_SHARED_SECRET,
+                    PortletPropertiesValues.JABBER_SHARED_SECRET
+            );
+        }
+        // Properties
+        else {
+            jabberSharedSecret = PortletPropertiesValues.JABBER_SHARED_SECRET;
+        }
+
+        // Save in environment
+        Environment.setJabberSharedSecret(jabberSharedSecret);
+    }
+
+    /**
      * Updates IPC enabled property
      *
      * @param preferences PortletPreferences
@@ -1566,7 +1680,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
     }
 
     /**
-     * Sets the jabber enabled property
+     * Sets the IPC enabled property
      *
      * @param preferences PortletPreferences
      */
