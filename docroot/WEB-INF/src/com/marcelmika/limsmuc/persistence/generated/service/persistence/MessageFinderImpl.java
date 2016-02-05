@@ -49,9 +49,13 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     // Placeholders
     private static final String PLACEHOLDER_STOPPER = "[$STOPPER$]";
 
-    // Date formatter
-    private static final DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    // ISO8601 date formats
+    private static final String ISO8601_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    private static final String HYPERSONIC_ISO8601_DATE_FORMAT = "YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"";
     private static final String ORACLE_ISO8601_DATE_FORMAT = "yyyy-MM-dd\"T\"HH24:mi:ss\"Z\"";
+
+    // Date formatter
+    private static final DateFormat dateFormatISO8601 = new SimpleDateFormat(ISO8601_DATE_FORMAT);
 
     /**
      * Finds all messages related to the given conversation.
@@ -260,13 +264,22 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
             // Format the date
             String createdAt = dateFormatISO8601.format(stopper.getCreatedAt());
             String placeholderStopper;
+            String dbType = getDB().getType();
 
             // Fix for issue #362 with the "not a valid month_ on Oracle" error
-            if (getDB().getType().equals(DB.TYPE_ORACLE)) {
+            if (dbType.equals(DB.TYPE_ORACLE)) {
                 placeholderStopper = String.format(
                         "AND Limsmuc_Message.createdAt >= to_date('%s', '%s')", createdAt, ORACLE_ISO8601_DATE_FORMAT
                 );
-            } else {
+            }
+            // Fix for issue #370 with invalid date format in HSQLDB
+            else if (dbType.equals(DB.TYPE_HYPERSONIC)) {
+                placeholderStopper = String.format(
+                        "AND Limsmuc_Message.createdAt >= to_date('%s', '%s')", createdAt, HYPERSONIC_ISO8601_DATE_FORMAT
+                );
+            }
+            // Other databases
+            else {
                 placeholderStopper = String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt);
             }
 
