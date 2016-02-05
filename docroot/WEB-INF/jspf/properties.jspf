@@ -30,6 +30,7 @@
     "contextPath":"<%= request.getContextPath() %>",
     "currentServerTime":<%= System.currentTimeMillis() %>,
     "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled},
+    "portletResourceUrl":"${portletResourceUrl}",
     "ipcEnabled":${properties.ipcEnabled}
     }
 </script>
