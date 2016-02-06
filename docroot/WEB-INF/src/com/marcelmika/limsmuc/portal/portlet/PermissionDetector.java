@@ -9,10 +9,9 @@
 
 package com.marcelmika.limsmuc.portal.portlet;
 
-import com.liferay.compat.portal.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
@@ -24,7 +23,6 @@ import javax.portlet.ResourceRequest;
  * Time: 12:30
  */
 public class PermissionDetector {
-
 
     /**
      * Check if the user that sent the request is also an admin
@@ -46,24 +44,12 @@ public class PermissionDetector {
      * @return true if the user is admin
      */
     public static boolean isAdmin(PortletRequest request) {
+
         // Get theme display from the request
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
         // Check parameters
-        if (themeDisplay == null) {
-            return false;
-        }
-
-        // Get permission checker
-        PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
-
-        // Check parameters
-        if (permissionChecker == null) {
-            return false;
-        }
-
-        // Returns true if the user is a universal administrator.
-        return permissionChecker.isOmniadmin();
+        return themeDisplay != null && PortalUtil.isOmniadmin(themeDisplay.getUserId());
     }
 
 }
