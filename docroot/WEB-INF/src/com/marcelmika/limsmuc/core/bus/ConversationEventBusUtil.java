@@ -17,22 +17,22 @@ package com.marcelmika.limsmuc.core.bus;
  */
 public class ConversationEventBusUtil {
 
-
+    // Injected event bus
     private static ConversationEventBus conversationEventBus;
 
     /**
-     * Returns ConversationCoreService implementation
+     * Returns ConversationEventBus implementation
      *
-     * @return ConversationCoreService
+     * @return ConversationEventBus
      */
     public static ConversationEventBus getConversationEventBus() {
         return conversationEventBus;
     }
 
     /**
-     * Injects proper ConversationCoreService via Dependency Injection
+     * Injects proper ConversationEventBus via Dependency Injection
      *
-     * @param conversationEventBus ConversationCoreService
+     * @param conversationEventBus ConversationEventBus
      */
     public void setConversationCoreService(ConversationEventBus conversationEventBus) {
         ConversationEventBusUtil.conversationEventBus = conversationEventBus;

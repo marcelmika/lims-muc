@@ -300,9 +300,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
         }
         // No password was passed
         else {
-            if (log.isErrorEnabled()) {
-                log.error("No password was passed during login");
-            }
             throw new JabberException("Password was empty during login");
         }
 
@@ -459,9 +456,9 @@ public class ConnectionManagerImpl implements ConnectionManager {
         // Enable reconnection
         connectionConfiguration.setReconnectionAllowed(true);
         // Is the initial available presence going to be send to the server?
-        connectionConfiguration.setSendPresence(true);
-        // There is no need to load the whole roaster at login. Let's load it whenever it's needed
-        connectionConfiguration.setRosterLoadedAtLogin(false);
+        connectionConfiguration.setSendPresence(false);
+        // We need to load the roaster at login otherwise we don't get the presence updates
+        connectionConfiguration.setRosterLoadedAtLogin(true);
 
         return connectionConfiguration;
     }

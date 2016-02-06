@@ -20,6 +20,7 @@ import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
 import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.LogoutBuddyResponseEvent;
+import com.marcelmika.limsmuc.api.events.buddy.PresenceChangeBusEvent;
 import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.ReadBuddiesPresenceResponseEvent;
 import com.marcelmika.limsmuc.api.events.buddy.ReadBuddyPresenceRequestEvent;
@@ -32,6 +33,8 @@ import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePasswordResponseEvent;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyResponseEvent;
+import com.marcelmika.limsmuc.core.bus.BuddyEventBus;
+import com.marcelmika.limsmuc.core.bus.BuddyEventBusListener;
 import com.marcelmika.limsmuc.core.domain.Buddy;
 import com.marcelmika.limsmuc.core.session.BuddySessionStore;
 import com.marcelmika.limsmuc.jabber.service.BuddyJabberService;
@@ -45,7 +48,7 @@ import com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService;
  * Date: 2/4/14
  * Time: 11:29 PM
  */
-public class BuddyCoreServiceImpl implements BuddyCoreService {
+public class BuddyCoreServiceImpl implements BuddyCoreService, BuddyEventBusListener {
 
     // Log
     @SuppressWarnings("unused")
@@ -55,6 +58,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     BuddyJabberService buddyJabberService;
     BuddyPersistenceService buddyPersistenceService;
     BuddySessionStore buddySessionStore;
+    BuddyEventBus buddyEventBus;
 
     /**
      * Constructor
@@ -64,11 +68,16 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
      */
     public BuddyCoreServiceImpl(final BuddyJabberService buddyJabberService,
                                 final BuddyPersistenceService buddyPersistenceService,
-                                final BuddySessionStore buddySessionStore) {
+                                final BuddySessionStore buddySessionStore,
+                                final BuddyEventBus buddyEventBus) {
 
         this.buddyJabberService = buddyJabberService;
         this.buddyPersistenceService = buddyPersistenceService;
         this.buddySessionStore = buddySessionStore;
+        this.buddyEventBus = buddyEventBus;
+
+        // Register to bus
+        buddyEventBus.register(this);
     }
 
     /**
@@ -271,5 +280,25 @@ public class BuddyCoreServiceImpl implements BuddyCoreService {
     @Override
     public ReadPresenceChangeResponseEvent readPresenceChange(ReadPresenceChangeRequestEvent event) {
         return buddyPersistenceService.readPresenceChange(event);
+    }
+
+
+    // -------------------------------------------------------------------------------------------
+    // Buddy Bus
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * Called when the presence is changed
+     *
+     * @param event PresenceChangeBusEvent
+     */
+    @Override
+    public void presenceChange(PresenceChangeBusEvent event) {
+        // Only if the jabber is enabled
+        if (Environment.isJabberEnabled()) {
+            buddyPersistenceService.updatePresence(
+                    new UpdatePresenceBuddyRequestEvent(event.getBuddy().getBuddyId(), event.getPresence())
+            );
+        }
     }
 }

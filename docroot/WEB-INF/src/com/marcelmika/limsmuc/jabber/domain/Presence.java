@@ -9,8 +9,12 @@
 
 package com.marcelmika.limsmuc.jabber.domain;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.PresenceDetails;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import org.jivesoftware.smack.packet.Presence.Mode;
+import org.jivesoftware.smack.packet.Presence.Type;
 
 /**
  * Presence enum describes user's current presence type
@@ -66,35 +70,45 @@ public enum Presence {
      * @return Presence
      */
     public static Presence fromSmackPresence(org.jivesoftware.smack.packet.Presence smackPresence) {
+
+        // Get type and mode from presence
+        Type type = smackPresence.getType();
+        Mode mode = smackPresence.getMode();
+
         // Offline
-        if (smackPresence.getType().equals(org.jivesoftware.smack.packet.Presence.Type.unavailable)) {
+        if (type.equals(Type.unavailable)) {
             return Presence.STATE_OFFLINE;
         }
 
         // Active
-        if (smackPresence.getType().equals(org.jivesoftware.smack.packet.Presence.Type.available) &&
-                smackPresence.getMode() == null) {
+        if (type.equals(Type.available) && mode == null) {
             return Presence.STATE_ACTIVE;
         }
+
         // Mode == null but Type != available -> unrecognized
-        if (smackPresence.getMode() == null) {
+        if (mode == null) {
             return Presence.STATE_UNRECOGNIZED;
         }
 
-        // Available types:
+        // Decide based on Mode:
+
         // Available
-        if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.available)) {
+        if (mode.equals(Mode.available) || mode.equals(Mode.chat)) {
             return Presence.STATE_ACTIVE;
-            // Away
-        } else if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.away)) {
-            return Presence.STATE_AWAY;
-            // Dnd
-        } else if (smackPresence.getMode().equals(org.jivesoftware.smack.packet.Presence.Mode.dnd)) {
-            return Presence.STATE_DND;
-            // Unrecognized
-        } else {
-            return Presence.STATE_UNRECOGNIZED;
         }
+
+        // Away
+        if (mode.equals(Mode.away) || mode.equals(Mode.xa)) {
+            return Presence.STATE_AWAY;
+        }
+
+        // Dnd
+        if (mode.equals(Mode.dnd)) {
+            return Presence.STATE_DND;
+        }
+
+        // Unrecognized
+        return Presence.STATE_UNRECOGNIZED;
     }
 
     public int getCode() {
@@ -128,9 +142,9 @@ public enum Presence {
     public org.jivesoftware.smack.packet.Presence toSmackPresence() {
 
         // Available is the default presence type
-        org.jivesoftware.smack.packet.Presence.Type type = org.jivesoftware.smack.packet.Presence.Type.available;
+        Type type = Type.available;
         // XA is the default mode
-        org.jivesoftware.smack.packet.Presence.Mode mode = org.jivesoftware.smack.packet.Presence.Mode.xa;
+        Mode mode = Mode.xa;
         // Get the priority from environment
         int priority = Environment.getJabberResourcePriority();
         // We are not using status description
@@ -140,21 +154,21 @@ public enum Presence {
         // returns null, because Presence hasn't state for OFFLINE
         // You have to logout Buddy instead of call getPresence()
         if (this == Presence.STATE_OFFLINE) {
-            type = org.jivesoftware.smack.packet.Presence.Type.unavailable;
+            type = Type.unavailable;
             return new org.jivesoftware.smack.packet.Presence(type, statusDescription, priority, mode);
         }
 
         // Active
         if (this == Presence.STATE_ACTIVE) {
-            mode = org.jivesoftware.smack.packet.Presence.Mode.available;
+            mode = Mode.available;
         }
         // Away
         else if (this == Presence.STATE_AWAY) {
-            mode = org.jivesoftware.smack.packet.Presence.Mode.away;
+            mode = Mode.away;
         }
         // Dnd
         else if (this == Presence.STATE_DND) {
-            mode = org.jivesoftware.smack.packet.Presence.Mode.dnd;
+            mode = Mode.dnd;
         }
 
         return new org.jivesoftware.smack.packet.Presence(type, statusDescription, priority, mode);

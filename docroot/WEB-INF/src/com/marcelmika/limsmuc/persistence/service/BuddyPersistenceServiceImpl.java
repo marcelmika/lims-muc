@@ -269,6 +269,8 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         // Get presence
         Presence presence = Presence.fromPresenceDetails(event.getPresenceDetails());
 
+        log.info("UPDATING PRESENCE: " + presence + " ID: " + event.getBuddyId());
+
         try {
             // Save to settings
             SettingsLocalServiceUtil.changePresence(event.getBuddyId(), presence.getDescription());

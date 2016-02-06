@@ -51,6 +51,10 @@ public class SingleUserConversationManagerImpl
             new ArrayList<ConversationListener>()
     );
 
+    // -------------------------------------------------------------------------------------------
+    // Single User Conversation Manager
+    // -------------------------------------------------------------------------------------------
+
     /**
      * Register conversation listener
      *
@@ -60,10 +64,6 @@ public class SingleUserConversationManagerImpl
     public void addConversationListener(ConversationListener listener) {
         conversationListeners.add(listener);
     }
-
-    // -------------------------------------------------------------------------------------------
-    // Single User Conversation Manager
-    // -------------------------------------------------------------------------------------------
 
     /**
      * Manage conversations from chat manager
@@ -220,6 +220,9 @@ public class SingleUserConversationManagerImpl
         }
     }
 
+    // -------------------------------------------------------------------------------------------
+    // Private methods
+    // -------------------------------------------------------------------------------------------
 
     /**
      * Notifies listeners about incoming message

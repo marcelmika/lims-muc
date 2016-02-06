@@ -9,7 +9,10 @@
 
 package com.marcelmika.limsmuc.persistence.domain;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.marcelmika.limsmuc.api.entity.SettingsDetails;
+import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.persistence.generated.model.Panel;
 
 import java.util.LinkedList;
@@ -29,6 +32,10 @@ public class Settings {
     private boolean isMute;
     private boolean isChatEnabled;
     private boolean isAdminAreaOpened;
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(Settings.class);
 
 
     /**
@@ -79,7 +86,9 @@ public class Settings {
         settings.isChatEnabled = model.getChatEnabled();
         settings.isAdminAreaOpened = model.isAdminAreaOpened();
 
-        if (model.isConnected()) {
+        log.info("buddy: " + settings.buddyId  + " SETTINGS: " + model.isConnected() + " JAbBER enabled: " + Environment.isJabberEnabled());
+
+        if (model.isConnected() || Environment.isJabberEnabled()) {
             settings.presence = Presence.fromDescription(model.getPresence());
         } else {
             settings.presence = Presence.OFFLINE;

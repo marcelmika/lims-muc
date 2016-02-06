@@ -146,6 +146,10 @@
     <bean id="com.marcelmika.limsmuc.core.bus.ConversationEventBus"
           class="com.marcelmika.limsmuc.core.bus.ConversationEventBusImpl"/>
 
+    <!-- Buddy Event Bus -->
+    <bean id="com.marcelmika.limsmuc.core.bus.BuddyEventBus"
+          class="com.marcelmika.limsmuc.core.bus.BuddyEventBusImpl"/>
+
     <!-- Conversation Jabber Service -->
 
     <bean id="com.marcelmika.limsmuc.jabber.service.ConversationJabberService"
@@ -162,6 +166,7 @@
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.service.BuddyJabberService"/>
         <constructor-arg index="1" ref="com.marcelmika.limsmuc.persistence.service.BuddyPersistenceService"/>
         <constructor-arg index="2" ref="com.marcelmika.limsmuc.core.session.BuddySessionStore"/>
+        <constructor-arg index="3" ref="com.marcelmika.limsmuc.core.bus.BuddyEventBus"/>
     </bean>
 
     <bean id="com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil"
@@ -259,6 +264,7 @@
     <bean id="com.marcelmika.limsmuc.jabber.service.GroupJabberService"
           class="com.marcelmika.limsmuc.jabber.service.GroupJabberServiceImpl">
         <constructor-arg index="0" ref="com.marcelmika.limsmuc.jabber.session.UserSessionStore"/>
+        <constructor-arg index="1" ref="com.marcelmika.limsmuc.core.bus.BuddyEventBus"/>
     </bean>
 
     <!-- Group Persistence Service -->

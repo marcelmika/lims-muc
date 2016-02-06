@@ -29,6 +29,13 @@ import java.util.Set;
 public interface GroupManager {
 
     /**
+     * Register group listener
+     *
+     * @param listener GroupListener
+     */
+    void addGroupListener(GroupListener listener);
+
+    /**
      * Sets roster to group manager.
      *
      * @param roster Roster

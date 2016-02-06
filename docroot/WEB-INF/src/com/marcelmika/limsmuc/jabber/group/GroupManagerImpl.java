@@ -31,6 +31,7 @@ import org.jivesoftware.smack.SmackException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -59,6 +60,11 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     // Roaster is lazy loaded. So we need to set a flag that will show us if the roaster was already reloaded.
     private boolean rosterReloaded = false;
 
+    // Group listeners
+    private List<GroupListener> groupListeners = Collections.synchronizedList(
+            new LinkedList<GroupListener>()
+    );
+
     // Log
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(GroupManagerImpl.class);
@@ -78,6 +84,16 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
     // -------------------------------------------------------------------------------------------
     // Override: GroupManager
     // -------------------------------------------------------------------------------------------
+
+    /**
+     * Register group listener
+     *
+     * @param listener GroupListener
+     */
+    @Override
+    public void addGroupListener(GroupListener listener) {
+        groupListeners.add(listener);
+    }
 
     /**
      * Sets roster to group manager.
@@ -362,18 +378,44 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
      */
     @Override
     public void presenceChanged(org.jivesoftware.smack.packet.Presence presence) {
+        // Log
+        if (log.isDebugEnabled()) {
+            log.debug("Smack Presence Changed: " + presence);
+        }
+
         // Set was modified group to true. Thanks to that the groups will be mapped again whenever the
         // getGroups() method is called
         synchronized (this) {
             wasModified = true;
         }
 
-        // Log
-        if (log.isDebugEnabled()) {
-            log.debug("Presence changed");
-            log.debug(presence);
+        // Get the user whose presence has been changed
+        String username = Jid.getName(presence.getFrom());
+
+        try {
+            // Find the user in portal
+            User localUser = UserLocalServiceUtil.fetchUserByScreenName(companyId, username);
+
+            // If the user was found
+            if (localUser != null) {
+
+                // Find the presence in roster and map it to our presence
+                Presence bestPresence = Presence.fromSmackPresence(roster.getPresence(presence.getFrom()));
+
+                // Notify listeners about the change
+                for (GroupListener listener : groupListeners) {
+                    listener.presenceChanged(Buddy.fromPortalUser(localUser), bestPresence);
+                }
+            }
+
+        } catch (Exception exception) {
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
         }
     }
+
 
     // -------------------------------------------------------------------------------------------
     // Private methods
