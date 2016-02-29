@@ -29,5 +29,4 @@ public class LoginBuddyRequestEvent extends RequestEvent {
     public BuddyDetails getDetails() {
         return details;
     }
-
 }

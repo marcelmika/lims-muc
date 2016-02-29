@@ -19,10 +19,9 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
     // Holds all errors
     errorContainerTemplate: '<div class="panel-error"/>',
 
-    // The template property holds the contents of the #lims-conversation-item-error-template
-    // element, which will be used as the HTML template for an error message
-    // Check the templates.jspf to see all templates
+    // Templates
     errorTemplate: Y.one('#limsmuc-panel-error-template').get('innerHTML'),
+    reloginTemplate: Y.one('#limsmuc-panel-error-template-relogin').get('innerHTML'),
 
     /**
      * Constructor
@@ -126,6 +125,12 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
                 errorId: errorId,
                 errorMessage: errorMessage
             }));
+
+            if (errorId === 'jabberError') {
+                errorView.append(Y.Node.create(Y.Lang.sub(this.reloginTemplate)));
+                errorView.one('button').on('click', this._onReloginClick, this);
+                Y.LIMS.Core.Util.hide(errorView.one('.relogin-form .error-message'));
+            }
 
             // If it's not in the error container yet add it
             errorContainer.append(errorView);
@@ -377,6 +382,10 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
             panelButtons = this.get('panelButtons'),
             instance = this;
 
+        // Global events
+        Y.on('reloginSuccess', this._onReloginSuccess, this);
+        Y.on('reloginFailure', this._onReloginFailure, this);
+
         // Local events
         trigger.delegate('click', function (event) {
 
@@ -496,6 +505,50 @@ Y.LIMS.View.PanelView = Y.Base.create('panelView', Y.View, [], {
         else if (target.hasClass('close')) {
             this.close();
             return false; // Just to prevent the default behavior
+        }
+    },
+
+    /**
+     * Called when user
+     * @private
+     */
+    _onReloginClick: function () {
+        // Vars
+        var errorContainer = this.get('errorContainer'),
+            buttonNode = errorContainer.one('.relogin-form button');
+
+        if (buttonNode) {
+            buttonNode.setAttribute('disabled', 'disabled');
+            // Fire the event
+            this.fire('reloginClick');
+        }
+    },
+
+    /**
+     * Called on relogin success
+     *
+     * @private
+     */
+    _onReloginSuccess: function () {
+        this.hideError("jabberError");
+    },
+
+    /**
+     * Called on relogin failure
+     *
+     * @private
+     */
+    _onReloginFailure: function () {
+        // Vars
+        var errorContainer = this.get('errorContainer'),
+            button = errorContainer.one('.relogin-form button'),
+            errorMessage = errorContainer.one('.relogin-form .error-message');
+
+        if (button && errorMessage) {
+            // Enable button
+            button.removeAttribute("disabled");
+            // Show error message
+            Y.LIMS.Core.Util.show(errorMessage);
         }
     }
 

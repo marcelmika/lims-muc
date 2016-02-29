@@ -163,6 +163,14 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns portlet resource url used in ajax calls
+     * @return {string}
+     */
+    getPortletResourceUrl: function () {
+        return this.get('portletResourceUrl');
+    },
+
+    /**
      * Returns true if the whole chat is enabled
      *
      * @returns {boolean}
@@ -400,6 +408,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         contextPath: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.contextPath;
+            }
+        },
+
+        /**
+         * Portlet Resource URL
+         *
+         * {string}
+         */
+        portletResourceUrl: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.portletResourceUrl;
             }
         },
 

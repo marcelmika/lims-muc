@@ -9,7 +9,12 @@
 
 package com.marcelmika.limsmuc.persistence.generated.service.persistence;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.db.DB;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -44,8 +49,13 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
     // Placeholders
     private static final String PLACEHOLDER_STOPPER = "[$STOPPER$]";
 
+    // ISO8601 date formats
+    private static final String ISO8601_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    private static final String HYPERSONIC_ISO8601_DATE_FORMAT = "YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"";
+    private static final String ORACLE_ISO8601_DATE_FORMAT = "yyyy-MM-dd\"T\"HH24:mi:ss\"Z\"";
+
     // Date formatter
-    private static final DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final DateFormat dateFormatISO8601 = new SimpleDateFormat(ISO8601_DATE_FORMAT);
 
     /**
      * Finds all messages related to the given conversation.
@@ -59,8 +69,7 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
      */
     @Override
     @SuppressWarnings("unchecked") // Cast List<Object[]> is unchecked
-    public List<Object[]> findAllMessages(Long cid,
-                                          Integer pageSize) throws SystemException {
+    public List<Object[]> findAllMessages(Long cid, Integer pageSize) throws SystemException {
 
         Session session = null;
 
@@ -254,9 +263,28 @@ public class MessageFinderImpl extends BasePersistenceImpl<Message> implements M
         if (stopper != null && stopper.getCreatedAt() != null) {
             // Format the date
             String createdAt = dateFormatISO8601.format(stopper.getCreatedAt());
+            String placeholderStopper;
+            String dbType = getDB().getType();
 
-            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER,
-                    String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt));
+            // Fix for issue #362 with the "not a valid month_ on Oracle" error
+            if (dbType.equals(DB.TYPE_ORACLE)) {
+                placeholderStopper = String.format(
+                        "AND Limsmuc_Message.createdAt >= to_date('%s', '%s')", createdAt, ORACLE_ISO8601_DATE_FORMAT
+                );
+            }
+            // Fix for issue #370 with invalid date format in HSQLDB
+            else if (dbType.equals(DB.TYPE_HYPERSONIC)) {
+                placeholderStopper = String.format(
+                        "AND Limsmuc_Message.createdAt >= to_date('%s', '%s')", createdAt, HYPERSONIC_ISO8601_DATE_FORMAT
+                );
+            }
+            // Other databases
+            else {
+                placeholderStopper = String.format("AND Limsmuc_Message.createdAt >= '%s'", createdAt);
+            }
+
+            sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, placeholderStopper);
+
         } else {
             sql = StringUtil.replace(sql, PLACEHOLDER_STOPPER, StringPool.BLANK);
         }

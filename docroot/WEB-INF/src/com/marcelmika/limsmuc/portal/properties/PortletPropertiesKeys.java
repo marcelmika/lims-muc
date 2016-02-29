@@ -60,6 +60,8 @@ public interface PortletPropertiesKeys {
     String JABBER_SERVICE_NAME = "jabber.service.name";
     String JABBER_RESOURCE = "jabber.resource";
     String JABBER_RESOURCE_PRIORITY = "jabber.resource.priority";
+    String JABBER_SHARED_SECRET_ENABLED = "jabber.shared.secret.enabled";
+    String JABBER_SHARED_SECRET = "jabber.shared.secret";
 
     // IPC
     String IPC_ENABLED = "ipc.enabled";

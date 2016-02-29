@@ -18,6 +18,7 @@ import com.marcelmika.limsmuc.core.service.BuddyCoreService;
 import com.marcelmika.limsmuc.core.service.BuddyCoreServiceUtil;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -80,7 +81,7 @@ public class LoginPostAction extends Action {
             // Notify the admin about the error
             if (log.isWarnEnabled()) {
                 log.warn(String.format(
-                        "Login error " + responseEvent.getStatus() + ": " + responseEvent.getExceptionMessage()
+                        "Login error %s: %s", responseEvent.getStatus(), responseEvent.getExceptionMessage()
                 ));
             }
 

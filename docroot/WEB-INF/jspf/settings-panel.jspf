@@ -148,6 +148,13 @@
                             <%@ include file="/WEB-INF/jspf/settings/jabber-resource.jspf" %>
                             <%@ include file="/WEB-INF/jspf/settings/jabber-test-connection.jspf" %>
 
+                            <div class="category">
+                                <div class="category-icon jabber"></div>
+                                <span>Jabber (Experimental)</span>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-shared-secret-enabled.jspf" %>
+                            <%@ include file="/WEB-INF/jspf/settings/jabber-shared-secret.jspf" %>
+
                                 <%-- IPC --%>
                             <div class="category">
                                 <div class="category-icon ipc"></div>

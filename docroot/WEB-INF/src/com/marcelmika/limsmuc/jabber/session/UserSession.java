@@ -69,6 +69,18 @@ public class UserSession {
     }
 
     /**
+     * Resets user session by settings new connection manager
+     *
+     * @param connectionManager ConnectionManager
+     */
+    public void reset(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+        groupManager.setRoster(connectionManager.getRoster());
+        singleUserConversationManager.setChatManager(connectionManager.getChatManager());
+        groupManager.loadRoster();
+    }
+
+    /**
      * Creates new group manager
      *
      * @param companyId         Long

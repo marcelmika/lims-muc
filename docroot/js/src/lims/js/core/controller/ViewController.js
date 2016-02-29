@@ -21,19 +21,25 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
      * @param controllerId String (required)
      */
     setup: function (container, controllerId) {
+
+        // Create panel view
+        var panel = new Y.LIMS.View.PanelView({
+            container: container,
+            panelId: controllerId
+        });
+
         // Set required params
         this.set('container', container);
         this.set('controllerId', controllerId);
-        // Set panel
-        this.set('panel', new Y.LIMS.View.PanelView({
-            container: container,
-            panelId: controllerId
-        }));
+        this.set('panel', panel);
 
         // Call that view was loaded
         this.onPanelDidLoad();
 
-        // Attach events
+        // Local events
+        panel.on('reloginClick', this.onReloginClick, this);
+
+        // Global events
         Y.on('panelShown', this._onPanelShown, this);
         Y.on('panelHidden', this._onPanelHidden, this);
         Y.on('panelClosed', this._onPanelClosed, this);
@@ -44,7 +50,7 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
         // Check if panel is already opened. If so we should call onPanelDidAppear.
         // This usually happens when panel was already rendered and opened. Hence it wasn't
         // created by javascript.
-        if (this.get('panel').get('isOpened') === true) {
+        if (panel.get('isOpened') === true) {
             this.onPanelDidAppear();
         }
     },
@@ -88,6 +94,27 @@ Y.LIMS.Core.ViewController = Y.Base.create('viewController', Y.View, [], {
      */
     onSessionExpired: function () {
         // Override the function
+    },
+
+    /**
+     * Called when user attempts to login to jabber via error container
+     */
+    onReloginClick: function () {
+        // Override the function
+    },
+
+    /**
+     * Call when the relogin ends with success
+     */
+    reloginSuccess: function() {
+        Y.fire('reloginSuccess');
+    },
+
+    /**
+     * Call when the relogin ends with error
+     */
+    reloginFailure: function() {
+        Y.fire('reloginFailure');
     },
 
     /**

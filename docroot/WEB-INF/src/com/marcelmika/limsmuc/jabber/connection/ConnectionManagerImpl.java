@@ -68,8 +68,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
                         "User %s was already connected, skipping creation of connection", connection.getUser()
                 ));
             }
-            // End here
-            return;
         }
 
         // Connect to jabber
@@ -289,12 +287,37 @@ public class ConnectionManagerImpl implements ConnectionManager {
             return;
         }
 
+        // Compose the password
+        String password;
+
+        // Take the password from the shared secret if enabled
+        if (Environment.isJabberSharedSecretEnabled()) {
+            password = Environment.getJabberSharedSecret();
+        }
+        // Take password from buddy
+        else if (buddy.getPassword() != null) {
+            password = buddy.getPassword();
+        }
+        // No password was passed
+        else {
+            if (log.isErrorEnabled()) {
+                log.error("No password was passed during login");
+            }
+            throw new JabberException("Password was empty during login");
+        }
+
         try {
             // Login with username and password
-            connection.login(buddy.getScreenName(), buddy.getPassword(), Environment.getJabberResource());
+            connection.login(buddy.getScreenName(), password, Environment.getJabberResource());
         }
         // Failure
         catch (Exception e) {
+
+            // Log the exception
+            if (log.isDebugEnabled()) {
+                log.debug(e);
+            }
+
             // Get message returned from the Jabber server
             String message = e.getMessage();
 
@@ -430,6 +453,9 @@ public class ConnectionManagerImpl implements ConnectionManager {
         if (!Environment.getJabberSecurityEnabled()) {
             connectionConfiguration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
         }
+
+        // connectionConfiguration.setSocketFactory(new DummySSLSocketFactory());
+
         // Enable reconnection
         connectionConfiguration.setReconnectionAllowed(true);
         // Is the initial available presence going to be send to the server?
@@ -439,7 +465,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
 
         return connectionConfiguration;
     }
-
 
     /**
      * Returns a string representation of the object.

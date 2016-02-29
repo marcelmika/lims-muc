@@ -32,6 +32,9 @@
     <%-- LIMS bar --%>
     <div id="limsmuc-container" class="covered ${ieSupportClass}">
 
+            <%-- Get the resource URL used in AJAX calls --%>
+        <portlet:resourceURL var="portletResourceUrl"></portlet:resourceURL>
+
             <%-- Browser is supported --%>
         <c:if test="${isSupportedBrowser}">
 

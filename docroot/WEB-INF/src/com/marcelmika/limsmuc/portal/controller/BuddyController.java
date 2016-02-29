@@ -12,6 +12,8 @@ package com.marcelmika.limsmuc.portal.controller;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyRequestEvent;
+import com.marcelmika.limsmuc.api.events.buddy.LoginBuddyResponseEvent;
 import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesRequestEvent;
 import com.marcelmika.limsmuc.api.events.buddy.SearchBuddiesResponseEvent;
 import com.marcelmika.limsmuc.api.events.buddy.UpdatePresenceBuddyRequestEvent;
@@ -45,7 +47,6 @@ public class BuddyController {
     // Dependencies
     BuddyCoreService buddyCoreService;
     SettingsCoreService settingsCoreService;
-
 
     /**
      * Constructor
@@ -196,6 +197,65 @@ public class BuddyController {
                 ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
             }
             // Everything else is server fault
+            else {
+                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug(responseEvent.getException());
+                }
+            }
+        }
+    }
+
+    /**
+     * Performs relogin
+     *
+     * @param request ResourceRequest
+     * @param response ResourceResponse
+     */
+    public void relogin(ResourceRequest request, ResourceResponse response) {
+
+        Buddy buddy; // Authorized user
+
+        // Deserialize
+        try {
+            buddy = Buddy.fromResourceRequest(request);
+        }
+        // Failure
+        catch (Exception exception) {
+            // Bad request
+            ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            // Log
+            if (log.isDebugEnabled()) {
+                log.debug(exception);
+            }
+            // End here
+            return;
+        }
+
+        // Login buddy
+        LoginBuddyResponseEvent responseEvent = buddyCoreService.loginBuddy(
+                new LoginBuddyRequestEvent(buddy.toBuddyDetails())
+        );
+
+        // Success
+        if (responseEvent.isSuccess()) {
+            // Write success to response
+            ResponseUtil.writeResponse(HttpStatus.NO_CONTENT, response);
+        }
+        // Failure
+        else {
+            LoginBuddyResponseEvent.Status status = responseEvent.getStatus();
+            // Bad request
+            if (status == LoginBuddyResponseEvent.Status.ERROR_WRONG_PARAMETERS) {
+                ResponseUtil.writeResponse(HttpStatus.BAD_REQUEST, response);
+            }
+            // Forbidden
+            else if (status == LoginBuddyResponseEvent.Status.ERROR_JABBER ||
+                    status == LoginBuddyResponseEvent.Status.ERROR_NO_SESSION) {
+                ResponseUtil.writeResponse(HttpStatus.FORBIDDEN, response);
+            }
+            // Everything else is a server fault
             else {
                 ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
                 // Log

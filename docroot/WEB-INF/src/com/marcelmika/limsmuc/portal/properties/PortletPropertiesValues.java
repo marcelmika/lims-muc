@@ -145,6 +145,16 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.JABBER_RESOURCE_PRIORITY
     );
 
+    // Jabber - Shared secret enabled
+    public static final Boolean JABBER_SHARED_SECRET_ENABLED = getBoolean(
+            PortletPropertiesKeys.JABBER_SHARED_SECRET_ENABLED
+    );
+
+    // Jabber - Shared secret
+    public static final String JABBER_SHARED_SECRET = getString(
+            PortletPropertiesKeys.JABBER_SHARED_SECRET
+    );
+
     // IPC - Enabled
     public static final boolean IPC_ENABLED = getBoolean(
             PortletPropertiesKeys.IPC_ENABLED

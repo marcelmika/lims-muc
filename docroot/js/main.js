@@ -57,22 +57,17 @@ AUI().use(
             defaultFn: function () {
 
                 // Vars
-                var mainController,
-                    resourceURL;
-
-                // This will create resource URL used in AJAX
-                resourceURL = Liferay.PortletURL.createResourceURL();
-                // Set the id of the portlet so the resource will point to the correct portlet
-                resourceURL.setPortletId('1_WAR_limsmucportlet');
-
-                // Set global settings
-                A.LIMS.Core.Properties.resourceURL = resourceURL.toString();
-                A.LIMS.Core.Properties.pathImage = Liferay.ThemeDisplay.getPathImage();
-                A.LIMS.Core.Properties.isIE = Liferay.Browser.isIe();
+                var mainController;
 
                 // Parse localization values from template
                 A.LIMS.Core.i18n.values = A.JSON.parse(A.one('#limsmuc-i18n').get('innerHTML'));
                 A.LIMS.Core.Properties.values = A.JSON.parse(A.one('#limsmuc-properties').get('innerHTML'));
+
+                // Set global settings
+                A.LIMS.Core.Properties.resourceURL = A.LIMS.Core.Properties.values.portletResourceUrl;
+                A.LIMS.Core.Properties.pathImage = Liferay.ThemeDisplay.getPathImage();
+                A.LIMS.Core.Properties.isIE = Liferay.Browser.isIe();
+
 
                 // Start the app!
                 mainController = new A.LIMS.Controller.MainController({

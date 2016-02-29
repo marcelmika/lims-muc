@@ -120,6 +120,23 @@ Y.LIMS.Controller.SingleUserConversationViewController = Y.Base.create('singleUs
         },
 
         /**
+         * Called when user attempts to login to jabber via error container
+         */
+        onReloginClick: function () {
+            // Vars
+            var buddyDetails = this.get('buddyDetails'),
+                instance = this;
+
+            buddyDetails.relogin(function (error) {
+                if (error) {
+                    instance.reloginFailure();
+                } else {
+                    instance.reloginSuccess();
+                }
+            });
+        },
+
+        /**
          * Takes new model and updates local model based on it's contents
          *
          * @param model

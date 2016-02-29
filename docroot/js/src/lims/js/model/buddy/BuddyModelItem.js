@@ -62,6 +62,39 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
     },
 
     /**
+     * Performs relogin action
+     *
+     * @param password
+     * @param callback
+     */
+    relogin: function (callback) {
+
+        // Do the request
+        Y.io(this.getServerRequestUrl(), {
+            method: "POST",
+            data: {
+                query: "Relogin"
+            },
+            on: {
+                success: function(id, o) {
+                    console.log(id, o);
+
+                    if (callback) {
+                        callback(null);
+                    }
+                },
+                failure: function (x, o) {
+                    console.log(x, o);
+
+                    if (callback) {
+                        callback("Cannot login to jabber");
+                    }
+                }
+            }
+        });
+    },
+
+    /**
      * Returns printable name of the buddy
      *
      * @return {string}

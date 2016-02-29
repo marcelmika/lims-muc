@@ -80,6 +80,10 @@
       @include box-shadow(none);
       background-color: #eee;
     }
+
+    &:disabled {
+      opacity: 0.6 !important;
+    }
   }
 
   .button-primary {
