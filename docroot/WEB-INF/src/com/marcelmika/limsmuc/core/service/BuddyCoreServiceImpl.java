@@ -297,7 +297,7 @@ public class BuddyCoreServiceImpl implements BuddyCoreService, BuddyEventBusList
         // Only if the jabber is enabled
         if (Environment.isJabberEnabled()) {
             buddyPersistenceService.updatePresence(
-                    new UpdatePresenceBuddyRequestEvent(event.getBuddy().getBuddyId(), event.getPresence())
+                    new UpdatePresenceBuddyRequestEvent(event.getBuddy().getBuddyId(), event.getPresence(), true)
             );
         }
     }

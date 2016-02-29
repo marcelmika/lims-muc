@@ -217,6 +217,27 @@ public interface SettingsModel extends BaseModel<Settings> {
 	public void setConnected(boolean connected);
 
 	/**
+	 * Returns the connected jabber of this settings.
+	 *
+	 * @return the connected jabber of this settings
+	 */
+	public boolean getConnectedJabber();
+
+	/**
+	 * Returns <code>true</code> if this settings is connected jabber.
+	 *
+	 * @return <code>true</code> if this settings is connected jabber; <code>false</code> otherwise
+	 */
+	public boolean isConnectedJabber();
+
+	/**
+	 * Sets whether this settings is connected jabber.
+	 *
+	 * @param connectedJabber the connected jabber of this settings
+	 */
+	public void setConnectedJabber(boolean connectedJabber);
+
+	/**
 	 * Returns the connected at of this settings.
 	 *
 	 * @return the connected at of this settings
@@ -267,19 +288,20 @@ public interface SettingsModel extends BaseModel<Settings> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Settings settings);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Settings settings);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Settings> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Settings> toCacheModel();
 
 	@Override
-	public Settings toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toEscapedModel();
 
 	@Override
-	public Settings toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toUnescapedModel();
 
 	@Override
 	public String toString();

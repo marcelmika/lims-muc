@@ -78,6 +78,7 @@
 			<basic name="chatEnabled" />
 			<basic name="adminAreaOpened" />
 			<basic name="connected" />
+			<basic name="connectedJabber" />
 			<basic name="connectedAt">
 				<temporal>TIMESTAMP</temporal>
 			</basic>

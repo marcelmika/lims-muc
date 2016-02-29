@@ -1673,6 +1673,7 @@ public class SettingsPersistenceImpl extends BasePersistenceImpl<Settings>
 		settingsImpl.setChatEnabled(settings.isChatEnabled());
 		settingsImpl.setAdminAreaOpened(settings.isAdminAreaOpened());
 		settingsImpl.setConnected(settings.isConnected());
+		settingsImpl.setConnectedJabber(settings.isConnectedJabber());
 		settingsImpl.setConnectedAt(settings.getConnectedAt());
 
 		return settingsImpl;

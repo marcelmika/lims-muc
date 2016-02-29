@@ -33,6 +33,7 @@ public class Buddy {
     private Presence presence;
     private Date presenceUpdatedAt;
     private Boolean connected;
+    private Boolean connectedJabber;
     private Date connectedAt;
 
     // -------------------------------------------------------------------------------------------
@@ -54,6 +55,7 @@ public class Buddy {
         buddy.screenName = details.getScreenName();
         buddy.password = details.getPassword();
         buddy.connected = details.getConnected();
+        buddy.connectedJabber = details.getConnectedJabber();
 
         if (details.getConnectedAt() != null) {
             buddy.connectedAt = details.getConnectedAt();
@@ -133,6 +135,7 @@ public class Buddy {
         }
 
         buddy.connected = (Boolean) object[firstElement++];
+        buddy.connectedJabber = (Boolean) object[firstElement++];
 
         Calendar connectedAt = (Calendar) object[firstElement];
         if (connectedAt != null) {
@@ -173,6 +176,7 @@ public class Buddy {
         details.setScreenName(screenName);
         details.setPassword(password);
         details.setConnected(connected);
+        details.setConnectedJabber(connectedJabber);
         details.setConnectedAt(connectedAt);
 
         // Relations
@@ -243,6 +247,14 @@ public class Buddy {
         this.connected = connected;
     }
 
+    public Boolean getConnectedJabber() {
+        return connectedJabber;
+    }
+
+    public void setConnectedJabber(Boolean connectedJabber) {
+        this.connectedJabber = connectedJabber;
+    }
+
     public Date getConnectedAt() {
         return connectedAt;
     }
@@ -276,6 +288,7 @@ public class Buddy {
                 ", presence=" + presence +
                 ", presenceUpdatedAt=" + presenceUpdatedAt +
                 ", connected=" + connected +
+                ", connectedJabber=" + connectedJabber +
                 ", connectedAt=" + connectedAt +
                 '}';
     }

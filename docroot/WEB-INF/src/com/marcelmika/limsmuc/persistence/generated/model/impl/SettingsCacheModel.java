@@ -37,7 +37,7 @@ import java.util.Date;
 public class SettingsCacheModel implements CacheModel<Settings>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(sid);
@@ -55,6 +55,8 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		sb.append(adminAreaOpened);
 		sb.append(", connected=");
 		sb.append(connected);
+		sb.append(", connectedJabber=");
+		sb.append(connectedJabber);
 		sb.append(", connectedAt=");
 		sb.append(connectedAt);
 		sb.append("}");
@@ -87,6 +89,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		settingsImpl.setChatEnabled(chatEnabled);
 		settingsImpl.setAdminAreaOpened(adminAreaOpened);
 		settingsImpl.setConnected(connected);
+		settingsImpl.setConnectedJabber(connectedJabber);
 
 		if (connectedAt == Long.MIN_VALUE) {
 			settingsImpl.setConnectedAt(null);
@@ -110,6 +113,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		chatEnabled = objectInput.readBoolean();
 		adminAreaOpened = objectInput.readBoolean();
 		connected = objectInput.readBoolean();
+		connectedJabber = objectInput.readBoolean();
 		connectedAt = objectInput.readLong();
 	}
 
@@ -131,6 +135,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		objectOutput.writeBoolean(chatEnabled);
 		objectOutput.writeBoolean(adminAreaOpened);
 		objectOutput.writeBoolean(connected);
+		objectOutput.writeBoolean(connectedJabber);
 		objectOutput.writeLong(connectedAt);
 	}
 
@@ -142,5 +147,6 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 	public boolean chatEnabled;
 	public boolean adminAreaOpened;
 	public boolean connected;
+	public boolean connectedJabber;
 	public long connectedAt;
 }

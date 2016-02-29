@@ -164,6 +164,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -221,6 +222,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -389,6 +391,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -493,6 +496,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -666,6 +670,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -773,6 +778,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -944,6 +950,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query
@@ -1051,6 +1058,7 @@ public class SettingsFinderImpl extends BasePersistenceImpl<Settings> implements
             query.addScalar("presence", Type.STRING);
             query.addScalar("presenceUpdatedAt", Type.CALENDAR);
             query.addScalar("connected", Type.BOOLEAN);
+            query.addScalar("connectedJabber", Type.BOOLEAN);
             query.addScalar("connectedAt", Type.CALENDAR);
 
             // Add parameters to query

@@ -269,11 +269,22 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
         // Get presence
         Presence presence = Presence.fromPresenceDetails(event.getPresenceDetails());
 
-        log.info("UPDATING PRESENCE: " + presence + " ID: " + event.getBuddyId());
-
         try {
-            // Save to settings
-            SettingsLocalServiceUtil.changePresence(event.getBuddyId(), presence.getDescription());
+
+            // Update jabber presence
+            if (event.isJabber()) {
+                SettingsLocalServiceUtil.changePresenceJabber(
+                        event.getBuddyId(), presence.getDescription(), presence.isConnected()
+                );
+            }
+            // Update portal presence
+            else {
+                // Save to settings
+                SettingsLocalServiceUtil.changePresence(
+                        event.getBuddyId(), presence.getDescription(), presence.isConnected()
+                );
+            }
+
             // Success
             return UpdatePresenceBuddyResponseEvent.success();
 
@@ -354,7 +365,7 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                 Presence presence;
 
                 // User is connected
-                if (setting.isConnected()) {
+                if (setting.isConnected() || setting.isConnectedJabber()) {
                     // Create Presence from string
                     presence = Presence.fromDescription(setting.getPresence());
                 }
@@ -363,11 +374,11 @@ public class BuddyPersistenceServiceImpl implements BuddyPersistenceService {
                     presence = Presence.OFFLINE;
                 }
 
-
                 // Create new buddy
                 BuddyDetails buddy = new BuddyDetails();
                 buddy.setBuddyId(setting.getUserId());
                 buddy.setConnected(setting.getConnected());
+                buddy.setConnectedJabber(setting.getConnectedJabber());
                 buddy.setPresenceDetails(presence.toPresenceDetails());
 
                 details.add(buddy);

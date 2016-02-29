@@ -43,6 +43,7 @@ create table Limsmuc_Settings (
 	chatEnabled BOOLEAN,
 	adminAreaOpened BOOLEAN,
 	connected BOOLEAN,
+	connectedJabber BOOLEAN,
 	connectedAt DATE null
 );
 

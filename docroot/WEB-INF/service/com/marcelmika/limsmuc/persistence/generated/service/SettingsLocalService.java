@@ -313,9 +313,15 @@ public interface SettingsLocalService extends BaseLocalService,
 	*
 	* @param userId   id of the user whose presence should be updated
 	* @param presence new value of the presence
+	* @param connected true if the user is connected
 	* @throws SystemException
 	*/
-	public void changePresence(long userId, java.lang.String presence)
+	public void changePresence(long userId, java.lang.String presence,
+		boolean connected)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void changePresenceJabber(long userId, java.lang.String presence,
+		boolean connected)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

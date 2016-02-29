@@ -134,19 +134,48 @@ public class SettingsLocalServiceImpl extends SettingsLocalServiceBaseImpl {
      *
      * @param userId   id of the user whose presence should be updated
      * @param presence new value of the presence
+     * @param connected true if the user is connected
      * @throws SystemException
      */
     @Override
-    public void changePresence(long userId, String presence) throws SystemException {
+    public void changePresence(long userId, String presence, boolean connected) throws SystemException {
         // Get user settings
         Settings settings = getSettingsByUser(userId);
         // Change presence
         if (settings != null) {
             // Update presence
             settings.setPresence(presence);
+            settings.setConnected(connected);
+            if (connected) {
+                settings.setConnectedAt(new Date());
+            }
             // Save the time of change
             Calendar calendar = Calendar.getInstance();
             settings.setPresenceUpdatedAt(calendar.getTime());
+
+            log.debug("#### CHANGE PRESENCE: " + settings);
+
+            settingsPersistence.update(settings, true);
+        }
+    }
+
+    @Override
+    public void changePresenceJabber(long userId, String presence, boolean connected) throws SystemException {
+        // Get user settings
+        Settings settings = getSettingsByUser(userId);
+        // Change presence
+        if (settings != null) {
+            // Update presence
+            settings.setPresence(presence);
+            settings.setConnectedJabber(connected);
+            if (connected) {
+                settings.setConnectedAt(new Date());
+            }
+            // Save the time of change
+            Calendar calendar = Calendar.getInstance();
+            settings.setPresenceUpdatedAt(calendar.getTime());
+
+            log.debug("#### CHANGE JABBER PRESENCE: " + settings);
 
             settingsPersistence.update(settings, true);
         }

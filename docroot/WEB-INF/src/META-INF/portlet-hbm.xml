@@ -64,6 +64,7 @@
 		<property name="chatEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="adminAreaOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connected" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="connectedJabber" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connectedAt" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.marcelmika.limsmuc.persistence.generated.model.impl.SynchronizationImpl" table="Limsmuc_Synchronization">

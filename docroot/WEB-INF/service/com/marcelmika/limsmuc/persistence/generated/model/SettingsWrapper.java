@@ -57,6 +57,7 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
+		attributes.put("connectedJabber", getConnectedJabber());
 		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
@@ -110,6 +111,12 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 
 		if (connected != null) {
 			setConnected(connected);
+		}
+
+		Boolean connectedJabber = (Boolean)attributes.get("connectedJabber");
+
+		if (connectedJabber != null) {
+			setConnectedJabber(connectedJabber);
 		}
 
 		Date connectedAt = (Date)attributes.get("connectedAt");
@@ -359,6 +366,36 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	@Override
 	public void setConnected(boolean connected) {
 		_settings.setConnected(connected);
+	}
+
+	/**
+	* Returns the connected jabber of this settings.
+	*
+	* @return the connected jabber of this settings
+	*/
+	@Override
+	public boolean getConnectedJabber() {
+		return _settings.getConnectedJabber();
+	}
+
+	/**
+	* Returns <code>true</code> if this settings is connected jabber.
+	*
+	* @return <code>true</code> if this settings is connected jabber; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isConnectedJabber() {
+		return _settings.isConnectedJabber();
+	}
+
+	/**
+	* Sets whether this settings is connected jabber.
+	*
+	* @param connectedJabber the connected jabber of this settings
+	*/
+	@Override
+	public void setConnectedJabber(boolean connectedJabber) {
+		_settings.setConnectedJabber(connectedJabber);
 	}
 
 	/**

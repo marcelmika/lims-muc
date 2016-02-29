@@ -36,6 +36,7 @@ Y.LIMS.Model.BuddySearchListModel = Y.Base.create('buddySearchListModel', Y.Mode
             if (buddy) {
                 buddy.set('presence', updatedBuddy.get('presence'));
                 buddy.set('connected', updatedBuddy.get('connected'));
+                buddy.set('connectedJabber', updatedBuddy.get('connectedJabber'));
             }
         });
     },

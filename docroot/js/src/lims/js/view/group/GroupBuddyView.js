@@ -55,7 +55,7 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
         // Add presence
         presence = container.one('.group-buddy-item-presence');
-        presence.append(this._getPresence(model.get('presence'), model.get('connected')));
+        presence.append(this._getPresence(model.get('presence'), model.get('connected'), model.get('connectedJabber')));
 
         // Add title
         container.set('title', Y.Lang.trim(model.printableName() + ' ' + model.printableScreenName()));
@@ -82,6 +82,7 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
         // Model events
         model.after('presenceChange', this._onPresenceChange, this);
         model.after('connectedChange', this._onPresenceChange, this);
+        model.after('connectedJabberChange', this._onPresenceChange, this);
     },
 
     /**
@@ -108,16 +109,17 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
      * Renders presence based on the presence type
      *
      * @param presenceType
-     * @param connected
+     * @param connected to portal
+     * @param connectedJabber to jabber
      * @return HTML of the rendered presence
      * @private
      */
-    _getPresence: function (presenceType, connected) {
+    _getPresence: function (presenceType, connected, connectedJabber) {
         // Vars
         var presenceView;
 
         // User is connected
-        if (connected) {
+        if (connected || connectedJabber) {
             // Get the presence
             presenceView = new Y.LIMS.View.PresenceView({presenceType: presenceType});
         }
@@ -166,8 +168,7 @@ Y.LIMS.View.GroupBuddyView = Y.Base.create('groupBuddyView', Y.View, [], {
 
         // Update the presence
         if (presenceView) {
-
-            if (model.get('connected')) {
+            if (model.get('connected') || model.get('connectedJabber')) {
                 presenceView.set('presenceType', model.get('presence'));
             } else {
                 presenceView.set('presenceType', 'OFFLINE');

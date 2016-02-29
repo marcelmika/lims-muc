@@ -22,10 +22,18 @@ public class UpdatePresenceBuddyRequestEvent extends RequestEvent {
 
     private final Long buddyId;
     private final PresenceDetails presenceDetails;
+    private final boolean jabber;
 
     public UpdatePresenceBuddyRequestEvent(Long buddyId, PresenceDetails presenceDetails) {
         this.buddyId = buddyId;
         this.presenceDetails = presenceDetails;
+        this.jabber = false;
+    }
+
+    public UpdatePresenceBuddyRequestEvent(Long buddyId, PresenceDetails presenceDetails, boolean jabber) {
+        this.buddyId = buddyId;
+        this.presenceDetails = presenceDetails;
+        this.jabber = jabber;
     }
 
     public Long getBuddyId() {
@@ -34,5 +42,9 @@ public class UpdatePresenceBuddyRequestEvent extends RequestEvent {
 
     public PresenceDetails getPresenceDetails() {
         return presenceDetails;
+    }
+
+    public boolean isJabber() {
+        return jabber;
     }
 }

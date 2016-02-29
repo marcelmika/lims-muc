@@ -25,6 +25,7 @@ public class BuddyDetails {
     private String screenName;
     private String password;
     private Boolean connected;
+    private Boolean connectedJabber;
     private Date connectedAt;
     private PresenceDetails presenceDetails;
     private SettingsDetails settingsDetails;
@@ -85,6 +86,14 @@ public class BuddyDetails {
         this.connected = connected;
     }
 
+    public Boolean getConnectedJabber() {
+        return connectedJabber;
+    }
+
+    public void setConnectedJabber(Boolean connectedJabber) {
+        this.connectedJabber = connectedJabber;
+    }
+
     public Date getConnectedAt() {
         return connectedAt;
     }
@@ -110,6 +119,7 @@ public class BuddyDetails {
                 ", screenName='" + screenName + '\'' +
                 ", password='" + password + '\'' +
                 ", connected=" + connected +
+                ", connectedJabber=" + connectedJabber +
                 ", connectedAt=" + connectedAt +
                 ", presenceDetails=" + presenceDetails +
                 ", settingsDetails=" + settingsDetails +

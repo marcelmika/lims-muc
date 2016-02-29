@@ -69,9 +69,10 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			{ "chatEnabled", Types.BOOLEAN },
 			{ "adminAreaOpened", Types.BOOLEAN },
 			{ "connected", Types.BOOLEAN },
+			{ "connectedJabber", Types.BOOLEAN },
 			{ "connectedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN,connected BOOLEAN,connectedAt DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN,connected BOOLEAN,connectedJabber BOOLEAN,connectedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Settings";
 	public static final String ORDER_BY_JPQL = " ORDER BY settings.sid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Settings.sid ASC";
@@ -139,6 +140,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
+		attributes.put("connectedJabber", getConnectedJabber());
 		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
@@ -192,6 +194,12 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		if (connected != null) {
 			setConnected(connected);
+		}
+
+		Boolean connectedJabber = (Boolean)attributes.get("connectedJabber");
+
+		if (connectedJabber != null) {
+			setConnectedJabber(connectedJabber);
 		}
 
 		Date connectedAt = (Date)attributes.get("connectedAt");
@@ -349,6 +357,21 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	}
 
 	@Override
+	public boolean getConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	@Override
+	public boolean isConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	@Override
+	public void setConnectedJabber(boolean connectedJabber) {
+		_connectedJabber = connectedJabber;
+	}
+
+	@Override
 	public Date getConnectedAt() {
 		return _connectedAt;
 	}
@@ -397,6 +420,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		settingsImpl.setChatEnabled(getChatEnabled());
 		settingsImpl.setAdminAreaOpened(getAdminAreaOpened());
 		settingsImpl.setConnected(getConnected());
+		settingsImpl.setConnectedJabber(getConnectedJabber());
 		settingsImpl.setConnectedAt(getConnectedAt());
 
 		settingsImpl.resetOriginalValues();
@@ -494,6 +518,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		settingsCacheModel.connected = getConnected();
 
+		settingsCacheModel.connectedJabber = getConnectedJabber();
+
 		Date connectedAt = getConnectedAt();
 
 		if (connectedAt != null) {
@@ -508,7 +534,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -526,6 +552,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		sb.append(getAdminAreaOpened());
 		sb.append(", connected=");
 		sb.append(getConnected());
+		sb.append(", connectedJabber=");
+		sb.append(getConnectedJabber());
 		sb.append(", connectedAt=");
 		sb.append(getConnectedAt());
 		sb.append("}");
@@ -535,7 +563,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.limsmuc.persistence.generated.model.Settings");
@@ -574,6 +602,10 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		sb.append(getConnected());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>connectedJabber</column-name><column-value><![CDATA[");
+		sb.append(getConnectedJabber());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>connectedAt</column-name><column-value><![CDATA[");
 		sb.append(getConnectedAt());
 		sb.append("]]></column-value></column>");
@@ -600,6 +632,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;
+	private boolean _connectedJabber;
 	private Date _connectedAt;
 	private long _columnBitmask;
 	private Settings _escapedModel;

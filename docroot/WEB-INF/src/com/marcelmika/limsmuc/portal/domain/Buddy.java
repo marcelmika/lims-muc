@@ -58,6 +58,7 @@ public class Buddy {
     private String lastName;
     private String password;
     private Boolean connected;
+    private Boolean connectedJabber;
     private Date connectedAt;
     private Presence presence;
     private Settings settings;
@@ -207,6 +208,7 @@ public class Buddy {
         buddy.screenName = details.getScreenName();
         buddy.password = details.getPassword();
         buddy.connected = details.getConnected();
+        buddy.connectedJabber = details.getConnectedJabber();
         buddy.connectedAt = details.getConnectedAt();
 
         if (addUserData && details.getBuddyId() != null) {
@@ -303,6 +305,7 @@ public class Buddy {
         details.setScreenName(screenName);
         details.setPassword(password);
         details.setConnected(connected);
+        details.setConnectedJabber(connectedJabber);
         details.setConnectedAt(connectedAt);
 
         if (presence != null) {
@@ -438,6 +441,14 @@ public class Buddy {
         this.connected = connected;
     }
 
+    public Boolean getConnectedJabber() {
+        return connectedJabber;
+    }
+
+    public void setConnectedJabber(Boolean connectedJabber) {
+        this.connectedJabber = connectedJabber;
+    }
+
     @JSON(include = false)
     public Date getConnectedAt() {
         return connectedAt;
@@ -469,7 +480,9 @@ public class Buddy {
                 "buddyId=" + buddyId +
                 ", companyId=" + companyId +
                 ", portraitId=" + portraitId +
+                ", portraitImageToken='" + portraitImageToken + '\'' +
                 ", portraitToken='" + portraitToken + '\'' +
+                ", male=" + male +
                 ", fullName='" + fullName + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", firstName='" + firstName + '\'' +
@@ -477,6 +490,7 @@ public class Buddy {
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", connected=" + connected +
+                ", connectedJabber=" + connectedJabber +
                 ", connectedAt=" + connectedAt +
                 ", presence=" + presence +
                 ", settings=" + settings +

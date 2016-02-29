@@ -46,6 +46,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -74,6 +75,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -166,6 +168,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -217,6 +220,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -312,6 +316,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -360,6 +365,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -456,6 +462,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings
@@ -507,6 +514,7 @@
 				Limsmuc_Settings.presence AS presence,
 				Limsmuc_Settings.presenceUpdatedAt AS presenceUpdatedAt,
 				Limsmuc_Settings.connected AS connected,
+				Limsmuc_Settings.connectedJabber AS connectedJabber,
 				Limsmuc_Settings.connectedAt AS connectedAt
 			FROM
 				Limsmuc_Settings

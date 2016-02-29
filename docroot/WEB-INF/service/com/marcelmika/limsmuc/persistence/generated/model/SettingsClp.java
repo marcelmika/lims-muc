@@ -82,6 +82,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
+		attributes.put("connectedJabber", getConnectedJabber());
 		attributes.put("connectedAt", getConnectedAt());
 
 		return attributes;
@@ -135,6 +136,12 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 		if (connected != null) {
 			setConnected(connected);
+		}
+
+		Boolean connectedJabber = (Boolean)attributes.get("connectedJabber");
+
+		if (connectedJabber != null) {
+			setConnectedJabber(connectedJabber);
 		}
 
 		Date connectedAt = (Date)attributes.get("connectedAt");
@@ -361,6 +368,35 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	}
 
 	@Override
+	public boolean getConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	@Override
+	public boolean isConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	@Override
+	public void setConnectedJabber(boolean connectedJabber) {
+		_connectedJabber = connectedJabber;
+
+		if (_settingsRemoteModel != null) {
+			try {
+				Class<?> clazz = _settingsRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setConnectedJabber",
+						boolean.class);
+
+				method.invoke(_settingsRemoteModel, connectedJabber);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public Date getConnectedAt() {
 		return _connectedAt;
 	}
@@ -460,6 +496,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		clone.setChatEnabled(getChatEnabled());
 		clone.setAdminAreaOpened(getAdminAreaOpened());
 		clone.setConnected(getConnected());
+		clone.setConnectedJabber(getConnectedJabber());
 		clone.setConnectedAt(getConnectedAt());
 
 		return clone;
@@ -513,7 +550,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -531,6 +568,8 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		sb.append(getAdminAreaOpened());
 		sb.append(", connected=");
 		sb.append(getConnected());
+		sb.append(", connectedJabber=");
+		sb.append(getConnectedJabber());
 		sb.append(", connectedAt=");
 		sb.append(getConnectedAt());
 		sb.append("}");
@@ -540,7 +579,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.limsmuc.persistence.generated.model.Settings");
@@ -579,6 +618,10 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		sb.append(getConnected());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>connectedJabber</column-name><column-value><![CDATA[");
+		sb.append(getConnectedJabber());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>connectedAt</column-name><column-value><![CDATA[");
 		sb.append(getConnectedAt());
 		sb.append("]]></column-value></column>");
@@ -597,6 +640,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;
+	private boolean _connectedJabber;
 	private Date _connectedAt;
 	private BaseModel<?> _settingsRemoteModel;
 	private Class<?> _clpSerializerClass = com.marcelmika.limsmuc.persistence.generated.service.ClpSerializer.class;

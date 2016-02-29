@@ -96,4 +96,15 @@ public class GroupCollection {
     public void setListStrategy(BuddyListStrategy listStrategy) {
         this.listStrategy = listStrategy;
     }
+
+    @Override
+    public String toString() {
+        return "GroupCollection{" +
+                "groups=" + groups +
+                ", lastModified=" + lastModified +
+                ", listStrategy=" + listStrategy +
+                ", loading=" + loading +
+                ", etag=" + etag +
+                '}';
+    }
 }

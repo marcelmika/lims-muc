@@ -86,8 +86,6 @@ public class Settings {
         settings.isChatEnabled = model.getChatEnabled();
         settings.isAdminAreaOpened = model.isAdminAreaOpened();
 
-        log.info("buddy: " + settings.buddyId  + " SETTINGS: " + model.isConnected() + " JAbBER enabled: " + Environment.isJabberEnabled());
-
         if (model.isConnected() || Environment.isJabberEnabled()) {
             settings.presence = Presence.fromDescription(model.getPresence());
         } else {

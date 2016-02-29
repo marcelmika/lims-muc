@@ -48,6 +48,7 @@
 		<field name="chatEnabled" type="boolean" />
 		<field name="adminAreaOpened" type="boolean" />
 		<field name="connected" type="boolean" />
+		<field name="connectedJabber" type="boolean" />
 		<field name="connectedAt" type="Date" />
 	</model>
 	<model name="com.marcelmika.limsmuc.persistence.generated.model.Synchronization">

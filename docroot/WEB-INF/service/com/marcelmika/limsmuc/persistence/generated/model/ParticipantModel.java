@@ -228,19 +228,20 @@ public interface ParticipantModel extends BaseModel<Participant> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Participant participant);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Participant participant);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Participant> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Participant> toCacheModel();
 
 	@Override
-	public Participant toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant toEscapedModel();
 
 	@Override
-	public Participant toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Participant toUnescapedModel();
 
 	@Override
 	public String toString();

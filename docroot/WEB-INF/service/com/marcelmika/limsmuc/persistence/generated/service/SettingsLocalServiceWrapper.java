@@ -357,12 +357,21 @@ public class SettingsLocalServiceWrapper implements SettingsLocalService,
 	*
 	* @param userId   id of the user whose presence should be updated
 	* @param presence new value of the presence
+	* @param connected true if the user is connected
 	* @throws SystemException
 	*/
 	@Override
-	public void changePresence(long userId, java.lang.String presence)
+	public void changePresence(long userId, java.lang.String presence,
+		boolean connected)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_settingsLocalService.changePresence(userId, presence);
+		_settingsLocalService.changePresence(userId, presence, connected);
+	}
+
+	@Override
+	public void changePresenceJabber(long userId, java.lang.String presence,
+		boolean connected)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_settingsLocalService.changePresenceJabber(userId, presence, connected);
 	}
 
 	/**

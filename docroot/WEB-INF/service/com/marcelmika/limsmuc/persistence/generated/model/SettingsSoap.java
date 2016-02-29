@@ -38,6 +38,7 @@ public class SettingsSoap implements Serializable {
 		soapModel.setChatEnabled(model.getChatEnabled());
 		soapModel.setAdminAreaOpened(model.getAdminAreaOpened());
 		soapModel.setConnected(model.getConnected());
+		soapModel.setConnectedJabber(model.getConnectedJabber());
 		soapModel.setConnectedAt(model.getConnectedAt());
 
 		return soapModel;
@@ -171,6 +172,18 @@ public class SettingsSoap implements Serializable {
 		_connected = connected;
 	}
 
+	public boolean getConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	public boolean isConnectedJabber() {
+		return _connectedJabber;
+	}
+
+	public void setConnectedJabber(boolean connectedJabber) {
+		_connectedJabber = connectedJabber;
+	}
+
 	public Date getConnectedAt() {
 		return _connectedAt;
 	}
@@ -187,5 +200,6 @@ public class SettingsSoap implements Serializable {
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;
+	private boolean _connectedJabber;
 	private Date _connectedAt;
 }

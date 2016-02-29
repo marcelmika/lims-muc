@@ -401,7 +401,6 @@ public class GroupManagerImpl implements GroupManager, RosterListener {
 
                 // Find the presence in roster and map it to our presence
                 Presence bestPresence = Presence.fromSmackPresence(roster.getPresence(presence.getFrom()));
-
                 // Notify listeners about the change
                 for (GroupListener listener : groupListeners) {
                     listener.presenceChanged(Buddy.fromPortalUser(localUser), bestPresence);

@@ -136,6 +136,15 @@ public enum Presence {
         }
     }
 
+    /**
+     * Returns true if the user is connected
+     *
+     * @return boolean
+     */
+    public boolean isConnected() {
+        return (this != OFFLINE && this != UNRECOGNIZED);
+    }
+
     public int getCode() {
         return code;
     }
