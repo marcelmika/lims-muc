@@ -128,19 +128,20 @@ public interface SynchronizationModel extends BaseModel<Synchronization> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Synchronization synchronization);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Synchronization synchronization);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Synchronization> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Synchronization> toCacheModel();
 
 	@Override
-	public Synchronization toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization toEscapedModel();
 
 	@Override
-	public Synchronization toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Synchronization toUnescapedModel();
 
 	@Override
 	public String toString();

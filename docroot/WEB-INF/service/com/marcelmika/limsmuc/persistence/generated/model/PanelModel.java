@@ -153,19 +153,20 @@ public interface PanelModel extends BaseModel<Panel> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Panel panel);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Panel panel);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Panel> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Panel> toCacheModel();
 
 	@Override
-	public Panel toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel toEscapedModel();
 
 	@Override
-	public Panel toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Panel toUnescapedModel();
 
 	@Override
 	public String toString();
