@@ -66,12 +66,13 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 			{ "presence", Types.VARCHAR },
 			{ "presenceUpdatedAt", Types.TIMESTAMP },
 			{ "mute", Types.BOOLEAN },
+			{ "notificationsEnabled", Types.BOOLEAN },
 			{ "chatEnabled", Types.BOOLEAN },
 			{ "adminAreaOpened", Types.BOOLEAN },
 			{ "connected", Types.BOOLEAN },
 			{ "connectedAt", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN,connected BOOLEAN,connectedAt DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Limsmuc_Settings (sid LONG not null primary key,userId LONG,presence VARCHAR(75) null,presenceUpdatedAt DATE null,mute BOOLEAN,notificationsEnabled BOOLEAN,chatEnabled BOOLEAN,adminAreaOpened BOOLEAN,connected BOOLEAN,connectedAt DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Limsmuc_Settings";
 	public static final String ORDER_BY_JPQL = " ORDER BY settings.sid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Limsmuc_Settings.sid ASC";
@@ -136,6 +137,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		attributes.put("presence", getPresence());
 		attributes.put("presenceUpdatedAt", getPresenceUpdatedAt());
 		attributes.put("mute", getMute());
+		attributes.put("notificationsEnabled", getNotificationsEnabled());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
@@ -174,6 +176,13 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		if (mute != null) {
 			setMute(mute);
+		}
+
+		Boolean notificationsEnabled = (Boolean)attributes.get(
+				"notificationsEnabled");
+
+		if (notificationsEnabled != null) {
+			setNotificationsEnabled(notificationsEnabled);
 		}
 
 		Boolean chatEnabled = (Boolean)attributes.get("chatEnabled");
@@ -304,6 +313,21 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	}
 
 	@Override
+	public boolean getNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	@Override
+	public boolean isNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	@Override
+	public void setNotificationsEnabled(boolean notificationsEnabled) {
+		_notificationsEnabled = notificationsEnabled;
+	}
+
+	@Override
 	public boolean getChatEnabled() {
 		return _chatEnabled;
 	}
@@ -394,6 +418,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		settingsImpl.setPresence(getPresence());
 		settingsImpl.setPresenceUpdatedAt(getPresenceUpdatedAt());
 		settingsImpl.setMute(getMute());
+		settingsImpl.setNotificationsEnabled(getNotificationsEnabled());
 		settingsImpl.setChatEnabled(getChatEnabled());
 		settingsImpl.setAdminAreaOpened(getAdminAreaOpened());
 		settingsImpl.setConnected(getConnected());
@@ -488,6 +513,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 		settingsCacheModel.mute = getMute();
 
+		settingsCacheModel.notificationsEnabled = getNotificationsEnabled();
+
 		settingsCacheModel.chatEnabled = getChatEnabled();
 
 		settingsCacheModel.adminAreaOpened = getAdminAreaOpened();
@@ -508,7 +535,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -520,6 +547,8 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		sb.append(getPresenceUpdatedAt());
 		sb.append(", mute=");
 		sb.append(getMute());
+		sb.append(", notificationsEnabled=");
+		sb.append(getNotificationsEnabled());
 		sb.append(", chatEnabled=");
 		sb.append(getChatEnabled());
 		sb.append(", adminAreaOpened=");
@@ -535,7 +564,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.limsmuc.persistence.generated.model.Settings");
@@ -560,6 +589,10 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 		sb.append(
 			"<column><column-name>mute</column-name><column-value><![CDATA[");
 		sb.append(getMute());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>notificationsEnabled</column-name><column-value><![CDATA[");
+		sb.append(getNotificationsEnabled());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>chatEnabled</column-name><column-value><![CDATA[");
@@ -597,6 +630,7 @@ public class SettingsModelImpl extends BaseModelImpl<Settings>
 	private Date _presenceUpdatedAt;
 	private Date _originalPresenceUpdatedAt;
 	private boolean _mute;
+	private boolean _notificationsEnabled;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;

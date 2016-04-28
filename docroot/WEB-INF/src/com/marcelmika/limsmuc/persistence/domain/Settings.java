@@ -27,6 +27,7 @@ public class Settings {
     private Presence presence;
     private String activePanel;
     private boolean isMute;
+    private boolean notificationsEnabled;
     private boolean isChatEnabled;
     private boolean isAdminAreaOpened;
 
@@ -51,6 +52,7 @@ public class Settings {
         if (settingsModel != null) {
             settings.buddyId = settingsModel.getUserId();
             settings.isMute = settingsModel.getMute();
+            settings.notificationsEnabled = settingsModel.getNotificationsEnabled();
             settings.isChatEnabled = settingsModel.getChatEnabled();
             settings.isAdminAreaOpened = settingsModel.isAdminAreaOpened();
             // Relations
@@ -78,6 +80,7 @@ public class Settings {
         settings.isMute = model.getMute();
         settings.isChatEnabled = model.getChatEnabled();
         settings.isAdminAreaOpened = model.isAdminAreaOpened();
+        settings.notificationsEnabled = model.isNotificationsEnabled();
 
         if (model.isConnected()) {
             settings.presence = Presence.fromDescription(model.getPresence());
@@ -117,6 +120,7 @@ public class Settings {
         settings.buddyId = settingsDetails.getBuddyId();
         settings.activePanel = settingsDetails.getActivePanelId();
         settings.isMute = settingsDetails.isMute();
+        settings.notificationsEnabled = settingsDetails.isNotificationsEnabled();
         settings.isChatEnabled = settingsDetails.isChatEnabled();
         settings.isAdminAreaOpened = settingsDetails.isAdminAreaOpened();
 
@@ -140,6 +144,7 @@ public class Settings {
         details.setBuddyId(buddyId);
         details.setActivePanelId(activePanel);
         details.setMute(isMute);
+        details.setNotificationsEnabled(notificationsEnabled);
         details.setChatEnabled(isChatEnabled);
         details.setAdminAreaOpened(isAdminAreaOpened);
 
@@ -222,6 +227,7 @@ public class Settings {
                 ", presence=" + presence +
                 ", activePanel='" + activePanel + '\'' +
                 ", isMute=" + isMute +
+                ", notificationsEnabled=" + notificationsEnabled +
                 ", isChatEnabled=" + isChatEnabled +
                 ", isAdminAreaOpened=" + isAdminAreaOpened +
                 '}';

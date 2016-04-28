@@ -54,6 +54,7 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 		attributes.put("presence", getPresence());
 		attributes.put("presenceUpdatedAt", getPresenceUpdatedAt());
 		attributes.put("mute", getMute());
+		attributes.put("notificationsEnabled", getNotificationsEnabled());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
@@ -92,6 +93,13 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 
 		if (mute != null) {
 			setMute(mute);
+		}
+
+		Boolean notificationsEnabled = (Boolean)attributes.get(
+				"notificationsEnabled");
+
+		if (notificationsEnabled != null) {
+			setNotificationsEnabled(notificationsEnabled);
 		}
 
 		Boolean chatEnabled = (Boolean)attributes.get("chatEnabled");
@@ -269,6 +277,36 @@ public class SettingsWrapper implements Settings, ModelWrapper<Settings> {
 	@Override
 	public void setMute(boolean mute) {
 		_settings.setMute(mute);
+	}
+
+	/**
+	* Returns the notifications enabled of this settings.
+	*
+	* @return the notifications enabled of this settings
+	*/
+	@Override
+	public boolean getNotificationsEnabled() {
+		return _settings.getNotificationsEnabled();
+	}
+
+	/**
+	* Returns <code>true</code> if this settings is notifications enabled.
+	*
+	* @return <code>true</code> if this settings is notifications enabled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isNotificationsEnabled() {
+		return _settings.isNotificationsEnabled();
+	}
+
+	/**
+	* Sets whether this settings is notifications enabled.
+	*
+	* @param notificationsEnabled the notifications enabled of this settings
+	*/
+	@Override
+	public void setNotificationsEnabled(boolean notificationsEnabled) {
+		_settings.setNotificationsEnabled(notificationsEnabled);
 	}
 
 	/**

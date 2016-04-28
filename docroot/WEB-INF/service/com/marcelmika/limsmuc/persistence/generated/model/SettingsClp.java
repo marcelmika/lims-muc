@@ -79,6 +79,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		attributes.put("presence", getPresence());
 		attributes.put("presenceUpdatedAt", getPresenceUpdatedAt());
 		attributes.put("mute", getMute());
+		attributes.put("notificationsEnabled", getNotificationsEnabled());
 		attributes.put("chatEnabled", getChatEnabled());
 		attributes.put("adminAreaOpened", getAdminAreaOpened());
 		attributes.put("connected", getConnected());
@@ -117,6 +118,13 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 		if (mute != null) {
 			setMute(mute);
+		}
+
+		Boolean notificationsEnabled = (Boolean)attributes.get(
+				"notificationsEnabled");
+
+		if (notificationsEnabled != null) {
+			setNotificationsEnabled(notificationsEnabled);
 		}
 
 		Boolean chatEnabled = (Boolean)attributes.get("chatEnabled");
@@ -268,6 +276,35 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 				Method method = clazz.getMethod("setMute", boolean.class);
 
 				method.invoke(_settingsRemoteModel, mute);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public boolean getNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	@Override
+	public boolean isNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	@Override
+	public void setNotificationsEnabled(boolean notificationsEnabled) {
+		_notificationsEnabled = notificationsEnabled;
+
+		if (_settingsRemoteModel != null) {
+			try {
+				Class<?> clazz = _settingsRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setNotificationsEnabled",
+						boolean.class);
+
+				method.invoke(_settingsRemoteModel, notificationsEnabled);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -457,6 +494,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		clone.setPresence(getPresence());
 		clone.setPresenceUpdatedAt(getPresenceUpdatedAt());
 		clone.setMute(getMute());
+		clone.setNotificationsEnabled(getNotificationsEnabled());
 		clone.setChatEnabled(getChatEnabled());
 		clone.setAdminAreaOpened(getAdminAreaOpened());
 		clone.setConnected(getConnected());
@@ -513,7 +551,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(getSid());
@@ -525,6 +563,8 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		sb.append(getPresenceUpdatedAt());
 		sb.append(", mute=");
 		sb.append(getMute());
+		sb.append(", notificationsEnabled=");
+		sb.append(getNotificationsEnabled());
 		sb.append(", chatEnabled=");
 		sb.append(getChatEnabled());
 		sb.append(", adminAreaOpened=");
@@ -540,7 +580,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.marcelmika.limsmuc.persistence.generated.model.Settings");
@@ -565,6 +605,10 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 		sb.append(
 			"<column><column-name>mute</column-name><column-value><![CDATA[");
 		sb.append(getMute());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>notificationsEnabled</column-name><column-value><![CDATA[");
+		sb.append(getNotificationsEnabled());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>chatEnabled</column-name><column-value><![CDATA[");
@@ -594,6 +638,7 @@ public class SettingsClp extends BaseModelImpl<Settings> implements Settings {
 	private String _presence;
 	private Date _presenceUpdatedAt;
 	private boolean _mute;
+	private boolean _notificationsEnabled;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;

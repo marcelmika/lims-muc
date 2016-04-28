@@ -51,8 +51,10 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             this._playSound();
         }
 
-        // TODO: If notifications are enabled
-        this._sendBrowserNotification(lastMessage);
+        // If notifications are enabled
+        if (settings.notificationsEnabled()) {
+            this._sendBrowserNotification(lastMessage);
+        }
 
         // Unread messages
         this._updatePageTitleUnreadMessages();
@@ -124,8 +126,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
      */
     _sendBrowserNotification: function (message) {
 
-        // Message must be set
-        if (!message || !message.get('from')) {
+        // Message must be set, it must have a sender and it must be a regular message
+        if (!message || !message.get('from') || message.get('messageType') !== "REGULAR") {
             return;
         }
 

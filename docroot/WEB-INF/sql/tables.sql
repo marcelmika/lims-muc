@@ -40,6 +40,7 @@ create table Limsmuc_Settings (
 	presence VARCHAR(75) null,
 	presenceUpdatedAt DATE null,
 	mute BOOLEAN,
+	notificationsEnabled BOOLEAN,
 	chatEnabled BOOLEAN,
 	adminAreaOpened BOOLEAN,
 	connected BOOLEAN,

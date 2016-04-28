@@ -37,7 +37,7 @@ import java.util.Date;
 public class SettingsCacheModel implements CacheModel<Settings>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{sid=");
 		sb.append(sid);
@@ -49,6 +49,8 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		sb.append(presenceUpdatedAt);
 		sb.append(", mute=");
 		sb.append(mute);
+		sb.append(", notificationsEnabled=");
+		sb.append(notificationsEnabled);
 		sb.append(", chatEnabled=");
 		sb.append(chatEnabled);
 		sb.append(", adminAreaOpened=");
@@ -84,6 +86,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		}
 
 		settingsImpl.setMute(mute);
+		settingsImpl.setNotificationsEnabled(notificationsEnabled);
 		settingsImpl.setChatEnabled(chatEnabled);
 		settingsImpl.setAdminAreaOpened(adminAreaOpened);
 		settingsImpl.setConnected(connected);
@@ -107,6 +110,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 		presence = objectInput.readUTF();
 		presenceUpdatedAt = objectInput.readLong();
 		mute = objectInput.readBoolean();
+		notificationsEnabled = objectInput.readBoolean();
 		chatEnabled = objectInput.readBoolean();
 		adminAreaOpened = objectInput.readBoolean();
 		connected = objectInput.readBoolean();
@@ -128,6 +132,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 
 		objectOutput.writeLong(presenceUpdatedAt);
 		objectOutput.writeBoolean(mute);
+		objectOutput.writeBoolean(notificationsEnabled);
 		objectOutput.writeBoolean(chatEnabled);
 		objectOutput.writeBoolean(adminAreaOpened);
 		objectOutput.writeBoolean(connected);
@@ -139,6 +144,7 @@ public class SettingsCacheModel implements CacheModel<Settings>, Externalizable 
 	public String presence;
 	public long presenceUpdatedAt;
 	public boolean mute;
+	public boolean notificationsEnabled;
 	public boolean chatEnabled;
 	public boolean adminAreaOpened;
 	public boolean connected;

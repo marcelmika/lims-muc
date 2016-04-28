@@ -32,10 +32,12 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
      */
     _attachEvents: function () {
         // Vars
-        var soundSwitch = this.get('soundSwitch');
+        var soundSwitch = this.get('soundSwitch'),
+            notificationsSwitch = this.get('notificationsSwitch');
 
         // Local events
         soundSwitch.on('switchClick', this._onSoundSwitchClick, this);
+        notificationsSwitch.on('switchClick', this._onNotificationsSwitchClick, this);
         // Global events
         Y.on('settingsUpdated', this._onSettingsUpdated, this);
     },
@@ -48,10 +50,12 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
     _bindSettings: function () {
         // Vars
         var model = this.get('model'),
-            soundSwitch = this.get('soundSwitch');
+            soundSwitch = this.get('soundSwitch'),
+            notificationsSwitch = this.get('notificationsSwitch');
 
         // Set settings
         model.set('isMute', !soundSwitch.isOn());
+        model.set('notificationsEnabled', notificationsSwitch.isOn());
     },
 
     /**
@@ -81,6 +85,44 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
     },
 
     /**
+     * Called when the user clicks on the notifications switch
+     *
+     * @private
+     */
+    _onNotificationsSwitchClick: function () {
+        // Vars
+        var notificationsSwitch = this.get('notificationsSwitch'),
+            model = this.get('model');
+
+
+        // Let's check if the browser supports notifications
+        if ("Notification" in window) {
+            if (notificationsSwitch.isOn()) {
+                // Let's check whether notification permissions have already been granted
+                if (window.Notification.permission !== "granted") {
+                    window.Notification.requestPermission();
+                }
+            }
+        }
+
+        // Update model
+        model.set('notificationsEnabled', notificationsSwitch.isOn());
+
+        // Disable view
+        notificationsSwitch.disable();
+
+        // Save model
+        model.save(function (err) {
+            if (err) {
+                // Return everything to the previous state
+                notificationsSwitch.toggle();
+            }
+            // Re-enable the view so the user can interact with it again
+            notificationsSwitch.enable();
+        });
+    },
+
+    /**
      * Called when the settings model is updated
      *
      * @private
@@ -88,12 +130,21 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
     _onSettingsUpdated: function () {
         // Vars
         var model = this.get('model'),
-            soundSwitch = this.get('soundSwitch');
+            soundSwitch = this.get('soundSwitch'),
+            notificationsSwitch = this.get('notificationsSwitch');
 
+        // Mute
         if (model.get('isMute')) {
             soundSwitch.turnOff();
         } else {
             soundSwitch.turnOn();
+        }
+
+        // Notifications
+        if (model.get('notificationsEnabled')) {
+            notificationsSwitch.turnOn();
+        } else {
+            notificationsSwitch.turnOff();
         }
     }
 
@@ -128,6 +179,22 @@ Y.LIMS.View.SettingsView = Y.Base.create('settingsView', Y.View, [], {
             valueFn: function () {
                 // Vars
                 var container = this.get('container').one('.play-sound');
+
+                return new Y.LIMS.View.SwitchElementView({
+                    container: container
+                });
+            }
+        },
+
+        /**
+         * View for notifications switch
+         *
+         * {Y.LIMS.View.SwitchElementView}
+         */
+        notificationsSwitch: {
+            valueFn: function () {
+                // Vars
+                var container = this.get('container').one('.notifications-enabled');
 
                 return new Y.LIMS.View.SwitchElementView({
                     container: container

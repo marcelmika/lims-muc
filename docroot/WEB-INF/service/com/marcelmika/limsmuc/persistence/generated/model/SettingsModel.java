@@ -154,6 +154,27 @@ public interface SettingsModel extends BaseModel<Settings> {
 	public void setMute(boolean mute);
 
 	/**
+	 * Returns the notifications enabled of this settings.
+	 *
+	 * @return the notifications enabled of this settings
+	 */
+	public boolean getNotificationsEnabled();
+
+	/**
+	 * Returns <code>true</code> if this settings is notifications enabled.
+	 *
+	 * @return <code>true</code> if this settings is notifications enabled; <code>false</code> otherwise
+	 */
+	public boolean isNotificationsEnabled();
+
+	/**
+	 * Sets whether this settings is notifications enabled.
+	 *
+	 * @param notificationsEnabled the notifications enabled of this settings
+	 */
+	public void setNotificationsEnabled(boolean notificationsEnabled);
+
+	/**
 	 * Returns the chat enabled of this settings.
 	 *
 	 * @return the chat enabled of this settings

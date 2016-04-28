@@ -24,6 +24,7 @@ public class Settings {
     private Presence presence;
     private String activePanelId;
     private boolean isMute;
+    private boolean notificationsEnabled;
     private boolean isChatEnabled;
     @JSON(include = false)
     private boolean isAdminAreaOpened;
@@ -46,6 +47,7 @@ public class Settings {
         settings.isChatEnabled = details.isChatEnabled();
         settings.isAdminAreaOpened = details.isAdminAreaOpened();
         settings.isJabberDisconnected = details.isJabberDisconnected();
+        settings.notificationsEnabled = details.isNotificationsEnabled();
 
         // Relations
         if (details.getPresenceDetails() != null) {
@@ -69,6 +71,8 @@ public class Settings {
         details.setChatEnabled(isChatEnabled);
         details.setAdminAreaOpened(isAdminAreaOpened);
         details.setJabberDisconnected(isJabberDisconnected);
+        details.setNotificationsEnabled(notificationsEnabled);
+
 
         // Relations
         if (presence != null) {
@@ -116,6 +120,14 @@ public class Settings {
 
     public boolean getIsChatEnabled() {
         return isChatEnabled;
+    }
+
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
     }
 
     public void setIsChatEnabled(boolean isChatEnabled) {

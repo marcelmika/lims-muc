@@ -45,6 +45,7 @@
 		<field name="presence" type="String" />
 		<field name="presenceUpdatedAt" type="Date" />
 		<field name="mute" type="boolean" />
+		<field name="notificationsEnabled" type="boolean" />
 		<field name="chatEnabled" type="boolean" />
 		<field name="adminAreaOpened" type="boolean" />
 		<field name="connected" type="boolean" />

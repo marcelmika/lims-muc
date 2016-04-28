@@ -28,6 +28,15 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
     },
 
     /**
+     * Returns true if the browser notifications are enabled
+     *
+     * @return {boolean}
+     */
+    notificationsEnabled: function () {
+        return this.get('notificationsEnabled');
+    },
+
+    /**
      * Updates active panel id
      *
      * @param activePanelId
@@ -215,6 +224,13 @@ Y.LIMS.Model.SettingsModel = Y.Base.create('settingsModel', Y.Model, [Y.LIMS.Mod
          * {boolean}
          */
         isMute: {
+            value: false // default value
+        },
+
+        /**
+         * True if the browser notifications are turned on
+         */
+        notificationsEnabled: {
             value: false // default value
         },
 

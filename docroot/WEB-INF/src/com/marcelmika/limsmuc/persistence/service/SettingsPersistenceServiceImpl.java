@@ -136,6 +136,7 @@ public class SettingsPersistenceServiceImpl implements SettingsPersistenceServic
             // Set new values
             settings.setMute(details.isMute());
             settings.setAdminAreaOpened(details.isAdminAreaOpened());
+            settings.setNotificationsEnabled(details.isNotificationsEnabled());
             // Save
             SettingsLocalServiceUtil.saveSettings(settings);
 

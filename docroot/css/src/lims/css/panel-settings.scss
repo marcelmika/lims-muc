@@ -40,6 +40,10 @@
     @include image-2x('/images/icon-settings-selected@2x.png', 16px, 16px);
   }
 
+  .user-settings {
+    padding: 10px;
+  }
+
   .settings {
     float: none;
   }
@@ -55,7 +59,7 @@
   .settings > div {
     clear: both;
     float: none;
-    padding: 10px;
+    padding: 0 10px 5px;
     line-height: 26px;
   }
 

@@ -71,6 +71,7 @@
             <div class="user-settings">
                 <div class="lfr-component settings">
                     <%@ include file="/WEB-INF/jspf/settings/play-sound.jspf" %>
+                    <%@ include file="/WEB-INF/jspf/settings/notifications.jspf" %>
                 </div>
             </div>
 

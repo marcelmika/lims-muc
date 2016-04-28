@@ -21,6 +21,7 @@ public class SettingsDetails {
     private PresenceDetails presenceDetails;
     private String activePanelId;
     private boolean isMute;
+    private boolean notificationsEnabled;
     private boolean isChatEnabled;
     private boolean isAdminAreaOpened;
     private boolean isJabberDisconnected;
@@ -57,6 +58,14 @@ public class SettingsDetails {
         this.isMute = isMute;
     }
 
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
+    }
+
     public boolean isChatEnabled() {
         return isChatEnabled;
     }
@@ -89,6 +98,7 @@ public class SettingsDetails {
                 ", presenceDetails=" + presenceDetails +
                 ", activePanelId='" + activePanelId + '\'' +
                 ", isMute=" + isMute +
+                ", notificationsEnabled=" + notificationsEnabled +
                 ", isChatEnabled=" + isChatEnabled +
                 ", isAdminAreaOpened=" + isAdminAreaOpened +
                 ", isJabberDisconnected=" + isJabberDisconnected +

@@ -61,6 +61,7 @@
 		<property name="presence" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="presenceUpdatedAt" type="org.hibernate.type.TimestampType" />
 		<property name="mute" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="notificationsEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="chatEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="adminAreaOpened" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="connected" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />

@@ -35,6 +35,7 @@ public class SettingsSoap implements Serializable {
 		soapModel.setPresence(model.getPresence());
 		soapModel.setPresenceUpdatedAt(model.getPresenceUpdatedAt());
 		soapModel.setMute(model.getMute());
+		soapModel.setNotificationsEnabled(model.getNotificationsEnabled());
 		soapModel.setChatEnabled(model.getChatEnabled());
 		soapModel.setAdminAreaOpened(model.getAdminAreaOpened());
 		soapModel.setConnected(model.getConnected());
@@ -135,6 +136,18 @@ public class SettingsSoap implements Serializable {
 		_mute = mute;
 	}
 
+	public boolean getNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	public boolean isNotificationsEnabled() {
+		return _notificationsEnabled;
+	}
+
+	public void setNotificationsEnabled(boolean notificationsEnabled) {
+		_notificationsEnabled = notificationsEnabled;
+	}
+
 	public boolean getChatEnabled() {
 		return _chatEnabled;
 	}
@@ -184,6 +197,7 @@ public class SettingsSoap implements Serializable {
 	private String _presence;
 	private Date _presenceUpdatedAt;
 	private boolean _mute;
+	private boolean _notificationsEnabled;
 	private boolean _chatEnabled;
 	private boolean _adminAreaOpened;
 	private boolean _connected;

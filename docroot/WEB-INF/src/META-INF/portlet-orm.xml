@@ -75,6 +75,7 @@
 				<temporal>TIMESTAMP</temporal>
 			</basic>
 			<basic name="mute" />
+			<basic name="notificationsEnabled" />
 			<basic name="chatEnabled" />
 			<basic name="adminAreaOpened" />
 			<basic name="connected" />
