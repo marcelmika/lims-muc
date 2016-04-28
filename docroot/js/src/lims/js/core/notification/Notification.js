@@ -51,6 +51,9 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             this._playSound();
         }
 
+        // TODO: If notifications are enabled
+        this._sendBrowserNotification(lastMessage);
+
         // Unread messages
         this._updatePageTitleUnreadMessages();
         // Update title
@@ -111,6 +114,52 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
                 embedSoundPlayer.remove();
             }
             container.set('innerHTML', embedSoundPlayer.get('innerHTML'));
+        }
+    },
+
+    /**
+     * Sends a browser notification
+     *
+     * @private
+     */
+    _sendBrowserNotification: function (message) {
+
+        // Message must be set
+        if (!message || !message.get('from')) {
+            return;
+        }
+
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            return;
+        }
+
+        // Vars
+        var notification = window.Notification,
+            body = message.get('body'),
+            title = message.get('from').printableName(),
+            portrait = new Y.LIMS.View.PortraitView().getPortraitUrl(message.get('from'));
+
+        // Let's check whether notification permissions have already been granted
+        if (notification.permission === "granted") {
+            // If it's okay let's create a notification
+            new window.Notification(title, {
+                body: body,
+                icon: portrait
+            });
+        }
+
+        // Otherwise, we need to ask the user for permission
+        else if (notification.permission !== 'denied') {
+            notification.requestPermission(function (permission) {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    new window.Notification(title, {
+                        body: body,
+                        icon: portrait
+                    });
+                }
+            });
         }
     },
 
