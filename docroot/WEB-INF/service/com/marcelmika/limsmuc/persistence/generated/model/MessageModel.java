@@ -209,19 +209,20 @@ public interface MessageModel extends BaseModel<Message> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Message message);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Message message);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Message> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Message> toCacheModel();
 
 	@Override
-	public Message toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Message toEscapedModel();
 
 	@Override
-	public Message toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Message toUnescapedModel();
 
 	@Override
 	public String toString();

@@ -267,19 +267,20 @@ public interface SettingsModel extends BaseModel<Settings> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Settings settings);
+	public int compareTo(
+		com.marcelmika.limsmuc.persistence.generated.model.Settings settings);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Settings> toCacheModel();
+	public CacheModel<com.marcelmika.limsmuc.persistence.generated.model.Settings> toCacheModel();
 
 	@Override
-	public Settings toEscapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toEscapedModel();
 
 	@Override
-	public Settings toUnescapedModel();
+	public com.marcelmika.limsmuc.persistence.generated.model.Settings toUnescapedModel();
 
 	@Override
 	public String toString();
