@@ -64,7 +64,6 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
     /**
      * Performs relogin action
      *
-     * @param password
      * @param callback
      */
     relogin: function (callback) {
@@ -76,16 +75,12 @@ Y.LIMS.Model.BuddyModelItem = Y.Base.create('buddyModelItem', Y.Model, [Y.LIMS.M
                 query: "Relogin"
             },
             on: {
-                success: function(id, o) {
-                    console.log(id, o);
-
+                success: function() {
                     if (callback) {
                         callback(null);
                     }
                 },
-                failure: function (x, o) {
-                    console.log(x, o);
-
+                failure: function () {
                     if (callback) {
                         callback("Cannot login to jabber");
                     }
