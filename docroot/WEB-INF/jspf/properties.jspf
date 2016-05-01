@@ -31,6 +31,7 @@
     "currentServerTime":<%= System.currentTimeMillis() %>,
     "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled},
     "portletResourceUrl":"${portletResourceUrl}",
-    "ipcEnabled":${properties.ipcEnabled}
+    "ipcEnabled":${properties.ipcEnabled},
+    "browserNotificationsRequireInteraction":${properties.browserNotificationsRequireInteraction}
     }
 </script>

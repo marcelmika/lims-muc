@@ -47,6 +47,7 @@ public class Environment {
     private static Boolean jabberSharedSecretEnabled = false;
     private static String jabberSharedSecret = "";
     private static Boolean ipcEnabled = false;
+    private static Boolean browserNotificationsRequireInteraction = false;
     private static Boolean mobileUserScalableDisabled = false;
     private static String urlHelp = "";
     private static String urlUnsupportedBrowser = "";
@@ -726,6 +727,24 @@ public class Environment {
      */
     public static void setIpcEnabled(Boolean ipcEnabled) {
         Environment.ipcEnabled = ipcEnabled;
+    }
+
+    /**
+     * Returns true if the Browser Notifications Require Interaction is enabled
+     *
+     * @return Boolean
+     */
+    public static Boolean getBrowserNotificationsRequireInteraction() {
+        return browserNotificationsRequireInteraction;
+    }
+
+    /**
+     * Sets the Browser Notifications Require Interaction property
+     *
+     * @param browserNotificationsRequireInteraction Boolean
+     */
+    public static void setBrowserNotificationsRequireInteraction(Boolean browserNotificationsRequireInteraction) {
+        Environment.browserNotificationsRequireInteraction = browserNotificationsRequireInteraction;
     }
 
     /**

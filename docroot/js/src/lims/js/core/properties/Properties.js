@@ -189,6 +189,15 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns true if Browser Notifications Require Interaction is set to true
+     *
+     * @return {boolean}
+     */
+    browserNotificationsRequireInteraction: function () {
+        return this.get('browserNotificationsRequireInteraction');
+    },
+
+    /**
      * Returns true if the mobile user scalable is disabled
      *
      * @return {boolean}
@@ -441,6 +450,17 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         isIPCEnabled: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.ipcEnabled;
+            }
+        },
+
+        /**
+         * Set to true if Browser Notifications Require Interaction is enabled
+         *
+         * {boolean}
+         */
+        browserNotificationsRequireInteraction: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.browserNotificationsRequireInteraction;
             }
         },
 

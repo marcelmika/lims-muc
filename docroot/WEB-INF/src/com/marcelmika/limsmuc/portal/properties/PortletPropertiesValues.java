@@ -160,6 +160,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.IPC_ENABLED
     );
 
+    // Browser Notifications
+    public static final boolean BROWSER_NOTIFICATIONS_REQUEST_INTERACTION = getBoolean(
+            PortletPropertiesKeys.BROWSER_NOTIFICATIONS_REQUEST_INTERACTION
+    );
+
     // Mobile - User scalable disabled
     public static final boolean MOBILE_USER_SCALABLE_DISABLED = getBoolean(
             PortletPropertiesKeys.MOBILE_USER_SCALABLE_DISABLED

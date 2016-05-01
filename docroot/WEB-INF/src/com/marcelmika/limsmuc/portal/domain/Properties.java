@@ -51,6 +51,7 @@ public class Properties {
     private Boolean jabberSharedSecretEnabled;
     private String jabberSharedSecret;
     private Boolean ipcEnabled;
+    private Boolean browserNotificationsRequireInteraction;
     private Boolean mobileUserScalableDisabled;
 
     /**
@@ -93,6 +94,7 @@ public class Properties {
         properties.jabberSharedSecret = Environment.getJabberSharedSecret();
         properties.ipcEnabled = Environment.getIpcEnabled();
         properties.mobileUserScalableDisabled = Environment.getMobileUserScalableDisabled();
+        properties.browserNotificationsRequireInteraction = Environment.getBrowserNotificationsRequireInteraction();
 
         return properties;
     }
@@ -361,6 +363,14 @@ public class Properties {
         this.mobileUserScalableDisabled = mobileUserScalableDisabled;
     }
 
+    public Boolean getBrowserNotificationsRequireInteraction() {
+        return browserNotificationsRequireInteraction;
+    }
+
+    public void setBrowserNotificationsRequireInteraction(Boolean browserNotificationsRequireInteraction) {
+        this.browserNotificationsRequireInteraction = browserNotificationsRequireInteraction;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -393,6 +403,7 @@ public class Properties {
                 ", jabberSharedSecretEnabled=" + jabberSharedSecretEnabled +
                 ", jabberSharedSecret='" + jabberSharedSecret + '\'' +
                 ", ipcEnabled=" + ipcEnabled +
+                ", browserNotificationsRequireInteraction=" + browserNotificationsRequireInteraction +
                 ", mobileUserScalableDisabled=" + mobileUserScalableDisabled +
                 '}';
     }

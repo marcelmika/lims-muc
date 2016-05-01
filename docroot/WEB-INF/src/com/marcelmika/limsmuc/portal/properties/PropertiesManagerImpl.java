@@ -158,6 +158,9 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
             // Set IPC
             setupIPCEnabled(preferences);
+
+            // Set Browser Notifications
+            setupBrowserNotificationsRequireInteraction();
         }
     }
 
@@ -1705,6 +1708,17 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Save in Environment
         Environment.setIpcEnabled(ipcEnabled);
+    }
+
+    /**
+     * Sets Browser Notifications Require Interaction property
+     */
+    private void setupBrowserNotificationsRequireInteraction() {
+
+        // Set url properties
+        Environment.setBrowserNotificationsRequireInteraction(
+                PortletPropertiesValues.BROWSER_NOTIFICATIONS_REQUEST_INTERACTION
+        );
     }
 
     /**

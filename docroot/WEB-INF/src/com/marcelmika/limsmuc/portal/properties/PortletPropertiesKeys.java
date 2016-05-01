@@ -66,6 +66,9 @@ public interface PortletPropertiesKeys {
     // IPC
     String IPC_ENABLED = "ipc.enabled";
 
+    // Browser Notifications
+    String BROWSER_NOTIFICATIONS_REQUEST_INTERACTION = "browser.notifications.require.interaction";
+
     // Mobile
     String MOBILE_USER_SCALABLE_DISABLED = "mobile.user.scalable.disabled";
 

@@ -159,7 +159,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             title = message.get('from').printableName(),
             tag = message.get('from').get('screenName'),
             portrait = new Y.LIMS.View.PortraitView().getPortraitUrl(message.get('from')),
-            notifications = this.get('notifications');
+            notifications = this.get('notifications'),
+            requireInteraction = this.get('properties').browserNotificationsRequireInteraction();
 
         // Let's check whether notification permissions have already been granted
         if (notification.permission === "granted") {
@@ -167,7 +168,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             notifications.push(new window.Notification(title, {
                 body: body,
                 icon: portrait,
-                tag: tag
+                tag: tag,
+                requireInteraction: requireInteraction
             }));
         }
 
@@ -179,7 +181,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
                     notifications.push(new window.Notification(title, {
                         body: body,
                         icon: portrait,
-                        tag: tag
+                        tag: tag,
+                        requireInteraction: requireInteraction
                     }));
                 }
             });
