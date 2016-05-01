@@ -67,7 +67,8 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
      */
     suppress: function () {
         // Vars
-        var timer = this.get('timer');
+        var timer = this.get('timer'),
+            notifications = this.get('notifications');
 
         // Clear refresh timer
         clearTimeout(timer);
@@ -75,6 +76,14 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
         this.set('isBlinking', false);
         // Return to the default page title
         Y.config.doc.title = this.get('unreadMessagesPageTitle');
+
+        // Close all notifications
+        Y.Array.each(notifications, function (notification) {
+            notification.close();
+        });
+
+        // Clear notifications
+        this.set('notifications', []);
     },
 
     /**
@@ -83,10 +92,13 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
      * @private
      */
     _attachEvents: function () {
-
         // Global events
         Y.one(Y.config.win).on('focus', this._onWindowFocus, this);
         Y.one(Y.config.win).on('blur', this._onWindowBlur, this);
+        // Set current focus value
+        this.set('windowHasFocus', Y.config.doc.hasFocus());
+
+        // Local events
         Y.on('badgeUpdated', this._updatePageTitleUnreadMessages, this);
     },
 
@@ -131,6 +143,11 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             return;
         }
 
+        // No need to send a browser notification if the window has focus
+        if (this.get('windowHasFocus')) {
+            return;
+        }
+
         // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
             return;
@@ -140,15 +157,18 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
         var notification = window.Notification,
             body = message.get('body'),
             title = message.get('from').printableName(),
-            portrait = new Y.LIMS.View.PortraitView().getPortraitUrl(message.get('from'));
+            tag = message.get('from').get('screenName'),
+            portrait = new Y.LIMS.View.PortraitView().getPortraitUrl(message.get('from')),
+            notifications = this.get('notifications');
 
         // Let's check whether notification permissions have already been granted
         if (notification.permission === "granted") {
             // If it's okay let's create a notification
-            new window.Notification(title, {
+            notifications.push(new window.Notification(title, {
                 body: body,
-                icon: portrait
-            });
+                icon: portrait,
+                tag: tag
+            }));
         }
 
         // Otherwise, we need to ask the user for permission
@@ -156,10 +176,11 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
             notification.requestPermission(function (permission) {
                 // If the user accepts, let's create a notification
                 if (permission === "granted") {
-                    new window.Notification(title, {
+                    notifications.push(new window.Notification(title, {
                         body: body,
-                        icon: portrait
-                    });
+                        icon: portrait,
+                        tag: tag
+                    }));
                 }
             });
         }
@@ -355,6 +376,15 @@ Y.LIMS.Core.Notification = Y.Base.create('notification', Y.View, [Y.LIMS.Core.Co
          */
         properties: {
             value: null // to be set
+        },
+
+        /**
+         * List of notifications
+         *
+         * {Array}
+         */
+        notifications: {
+            value: []
         },
 
         /**
