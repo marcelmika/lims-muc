@@ -66,11 +66,11 @@
     .timestamp {
       font-size: 9px;
       color: #aaa;
-      margin-top: 0px;
+      margin-top: 0;
     }
 
     .last-message {
-      margin-top: 0px;
+      margin-top: 0;
       max-width: 195px;
       overflow: hidden;
       white-space: nowrap;
@@ -121,7 +121,7 @@
     top: 27px;
     left: 1px;
     width: 250px;
-    min-height: 0px;
+    min-height: 0;
     max-height: 250px;
     padding-bottom: 5px;
     @include transparent(#ffffff, 0.9);
@@ -130,10 +130,11 @@
 
     .content {
       min-height: inherit;
+      margin: 0;
     }
 
     .participants {
-      margin: 10px 0px 5px 10px;
+      margin: 10px 0 5px 10px;
       background: white;
       width: 227px;
     }

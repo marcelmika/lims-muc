@@ -141,6 +141,7 @@
 
   .content {
     min-height: inherit;
+    margin: 0;
   }
 }
 
@@ -167,7 +168,7 @@
   padding: 0;
 
   &:hover,
-  &:focus, {
+  &:focus {
     border: none;
     filter: none;
     padding: 0;

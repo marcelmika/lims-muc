@@ -133,7 +133,7 @@
       @include box-shadow(none);
 
       &:hover,
-      &:focus, {
+      &:focus {
         border: none;
         filter: none;
         padding: 0;
