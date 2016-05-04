@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.core.session;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.marcelmika.limsmuc.core.license.License;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,10 +40,8 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void addBuddy(Long buddyId) {
 
-//        synchronized (buddySessions) {
         // Add a single buddy
         buddySessions.add(buddyId);
-//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -58,12 +57,10 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void addBuddies(List<Long> buddies) {
 
-//        synchronized (buddySessions) {
         // Clear the old values
         buddySessions.clear();
         // Add new ones
         buddySessions.addAll(buddies);
-//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -79,10 +76,8 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public void removeBuddy(Long buddyId) {
 
-//        synchronized (buddySessions) {
         // Remove specific buddy
         buddySessions.remove(buddyId);
-//        }
 
         // Log
         if (log.isDebugEnabled()) {
@@ -99,8 +94,6 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public boolean isOverSessionLimit(Long buddyId) {
 
-//        synchronized (buddySessions) {
-
         // Buddy id is already registered in the buddy session store. It means that
         // the user was registered in the store thus he has the access.
         if (buddySessions.contains(buddyId)) {
@@ -109,17 +102,15 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
         }
 
         // Store is already full. Deny the access.
-        // TODO: Comment to turn off the limit mechanism
-//            if (buddySessions.size() >= 10) {
-//                return true;
-//            }
+        if (License.buddyLimitExceeded(buddySessions.size())) {
+            return true;
+        }
 
         // Add the user to the session store because the store is not full yet.
         buddySessions.add(buddyId);
 
         // User is allowed to obtain the session
         return false;
-//        }
     }
 
     @Override
