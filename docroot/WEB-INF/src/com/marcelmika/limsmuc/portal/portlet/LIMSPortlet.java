@@ -19,12 +19,16 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.marcelmika.limsmuc.api.environment.Environment;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
 import com.marcelmika.limsmuc.core.service.ConversationCoreService;
 import com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil;
+import com.marcelmika.limsmuc.core.service.PermissionCoreService;
+import com.marcelmika.limsmuc.core.service.PermissionCoreServiceUtil;
 import com.marcelmika.limsmuc.core.service.SettingsCoreService;
 import com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
@@ -58,15 +62,12 @@ import java.util.List;
  */
 public class LIMSPortlet extends MVCPortlet {
 
-    // Processor Dependency
-    PortletProcessor processor = PortletProcessorUtil.getPortletProcessor();
-
-    // Service Dependencies
-    SettingsCoreService settingsCoreService = SettingsCoreServiceUtil.getSettingsCoreService();
-    ConversationCoreService conversationCoreService = ConversationCoreServiceUtil.getConversationCoreService();
-
-    // Properties Dependencies
-    PropertiesManager propertiesManager = PropertiesManagerUtil.getPropertiesManager();
+    // Dependencies
+    private PortletProcessor processor = PortletProcessorUtil.getPortletProcessor();
+    private SettingsCoreService settingsCoreService = SettingsCoreServiceUtil.getSettingsCoreService();
+    private PermissionCoreService permissionCoreService = PermissionCoreServiceUtil.getPermissionCoreService();
+    private ConversationCoreService conversationCoreService = ConversationCoreServiceUtil.getConversationCoreService();
+    private PropertiesManager propertiesManager = PropertiesManagerUtil.getPropertiesManager();
 
     // Constants
     private static final String VIEW_JSP_PATH = "/view.jsp"; // Path to the view.jsp
@@ -107,11 +108,13 @@ public class LIMSPortlet extends MVCPortlet {
         // Environment needs to be set up at the beginning of the request
         propertiesManager.setup(renderRequest.getPreferences());
 
-        // Check if the current site is excluded
-        boolean isExcluded = isExcluded(renderRequest);
-
+        // Check if the display of the portlet is permitted
+        if (!isPermitted()) {
+            // Disable portlet
+            renderRequest.setAttribute(VARIABLE_IS_ENABLED, false);
+        }
         // Site is excluded
-        if (isExcluded) {
+        else if (isExcluded(renderRequest)) {
             // Disable portlet
             renderRequest.setAttribute(VARIABLE_IS_ENABLED, false);
         }
@@ -305,6 +308,37 @@ public class LIMSPortlet extends MVCPortlet {
         return themeDisplay.isSignedIn();
     }
 
+    /**
+     * Returns true if the portlet is allowed to be displayed
+     *
+     * @return boolean
+     */
+    private boolean isPermitted() {
+        // Check if the permission is granted
+        GetDisplayPermissionResponseEvent response = permissionCoreService.getDisplayPermission(
+                new GetDisplayPermissionRequestEvent()
+        );
+
+        // Permission is granted
+        if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.GRANTED) {
+            return true;
+        }
+        // Permission is not granted
+        else if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.NOT_GRANTED) {
+            return false;
+        }
+        // Error occurred
+        else if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
+            if (log.isDebugEnabled()) {
+                log.debug(response.getException());
+            }
+            return false;
+        }
+        // On any other occasion return false
+        else {
+            return false;
+        }
+    }
 
     /**
      * Returns true if the current site is excluded. Control panel is excluded by default

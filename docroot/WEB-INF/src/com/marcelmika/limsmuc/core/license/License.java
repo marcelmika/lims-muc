@@ -18,6 +18,7 @@ package com.marcelmika.limsmuc.core.license;
 public class License {
 
     private static final boolean buddyLimitEnabled = false;
+    private static final boolean customLicenseEnabled = true;
     private static final int buddyLimit = 99;
 
     /**
@@ -35,5 +36,14 @@ public class License {
 
         // Limit exceed if the count is greater than the buddy limit
         return count > buddyLimit;
+    }
+
+    /**
+     * Returns true if the custom license is enabled
+     *
+     * @return boolean
+     */
+    public static boolean isCustomLicenseEnabled() {
+        return customLicenseEnabled;
     }
 }

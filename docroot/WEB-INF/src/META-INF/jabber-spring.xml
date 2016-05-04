@@ -123,6 +123,25 @@
                   ref="com.marcelmika.limsmuc.core.service.SynchronizationCoreService"/>
     </bean>
 
+    <!-- Permission Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.PermissionCoreService"
+          class="com.marcelmika.limsmuc.core.service.PermissionCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.portal.service.PermissionPortalService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.PermissionCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.PermissionCoreServiceUtil">
+        <property name="permissionCoreService"
+                  ref="com.marcelmika.limsmuc.core.service.PermissionCoreService"/>
+    </bean>
+
+    <!-- Portal Permission Service -->
+
+    <bean id="com.marcelmika.limsmuc.portal.service.PermissionPortalService"
+          class="com.marcelmika.limsmuc.portal.service.PermissionPortalServiceImpl"/>
+
+
     <!-- Synchronization Persistence Service -->
 
     <bean id="com.marcelmika.limsmuc.persistence.service.SynchronizationPersistenceService"
