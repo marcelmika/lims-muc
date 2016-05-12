@@ -7,7 +7,7 @@
  * Written by Marcel Mika <marcelmika.com>, 2014
  */
 
-package com.marcelmika.limsmuc.core.license;
+package com.marcelmika.limsmuc.api.environment;
 
 /**
  * @author Ing. Marcel Mika
@@ -15,7 +15,7 @@ package com.marcelmika.limsmuc.core.license;
  * Date: 04/05/16
  * Time: 14:49
  */
-public class License {
+public final class License {
 
     private static final boolean buddyLimitEnabled = false;
     private static final boolean customLicenseEnabled = true;

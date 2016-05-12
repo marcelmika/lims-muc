@@ -17,10 +17,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.marcelmika.limsmuc.api.environment.Environment;
+import com.marcelmika.limsmuc.api.environment.License;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsRequestEvent;
 import com.marcelmika.limsmuc.api.events.conversation.GetOpenedConversationsResponseEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyRequestEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
@@ -84,6 +87,10 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_CURRENT_USER = "currentUser";
     private static final String VARIABLE_VERSION = "version";
     private static final String VARIABLE_PRELOADED_IMAGES = "preloadedImages";
+    private static final String VARIABLE_INSTANCE_KEY = "instanceKey";
+    private static final String VARIABLE_PRODUCT_KEY = "productKey";
+    private static final String VARIABLE_CUSTOM_LICENSE_ENABLED = "customLicenseEnabled";
+    private static final String VARIABLE_PERMISSION_GRANTED = "permissionGranted";
 
     // Log
     private static Log log = LogFactoryUtil.getLog(LIMSPortlet.class);
@@ -108,13 +115,13 @@ public class LIMSPortlet extends MVCPortlet {
         // Environment needs to be set up at the beginning of the request
         propertiesManager.setup(renderRequest.getPreferences());
 
-        // Check if the display of the portlet is permitted
-        if (!isPermitted()) {
+        // Site is excluded
+        if (isExcluded(renderRequest)) {
             // Disable portlet
             renderRequest.setAttribute(VARIABLE_IS_ENABLED, false);
         }
-        // Site is excluded
-        else if (isExcluded(renderRequest)) {
+        // Check if the display of the portlet is permitted
+        else if (!isPermitted(renderRequest)) {
             // Disable portlet
             renderRequest.setAttribute(VARIABLE_IS_ENABLED, false);
         }
@@ -166,7 +173,7 @@ public class LIMSPortlet extends MVCPortlet {
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws PortletException, IOException {
         // Do not continue if the user is not signed in
-        if (!isCorrectAttempt(request)) {
+        if (!isSignedIn(request)) {
             // Return unauthorized response code
             response.setProperty(ResourceResponse.HTTP_STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
             // End here
@@ -274,7 +281,7 @@ public class LIMSPortlet extends MVCPortlet {
         // Render properties
         renderRequest.setAttribute(VARIABLE_PROPERTIES, Properties.fromEnvironment());
         // Check if lims is enabled and pass it to jsp as a parameter
-        renderRequest.setAttribute(VARIABLE_IS_ENABLED, isCorrectAttempt(renderRequest));
+        renderRequest.setAttribute(VARIABLE_IS_ENABLED, isSignedIn(renderRequest));
         // Check if the browser is supported
         renderRequest.setAttribute(VARIABLE_IS_SUPPORTED_BROWSER, BrowserDetector.isSupportedBrowser(renderRequest));
         // Check if the browser needs support
@@ -285,15 +292,45 @@ public class LIMSPortlet extends MVCPortlet {
         renderRequest.setAttribute(VARIABLE_VERSION, PortletPropertiesValues.VERSION);
         // Preloaded images
         renderRequest.setAttribute(VARIABLE_PRELOADED_IMAGES, preloadedImages(renderRequest));
+        // Custom license
+        renderRequest.setAttribute(VARIABLE_CUSTOM_LICENSE_ENABLED, License.isCustomLicenseEnabled());
+
+        // Add instance key variable for admin only when the custom license is enabled
+        if (PermissionDetector.isAdmin(renderRequest) && License.isCustomLicenseEnabled()) {
+            // Get the instance key
+            GetInstanceKeyResponseEvent responseEvent = permissionCoreService.getInstanceKey(new GetInstanceKeyRequestEvent(
+                    renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
+            );
+
+            if (responseEvent.isSuccess()) {
+                // Set the variable
+                renderRequest.setAttribute(VARIABLE_INSTANCE_KEY, responseEvent.getInstanceKey());
+            } else {
+                // Log error
+                log.error(responseEvent.getException());
+            }
+
+            // Product Key
+            renderRequest.setAttribute(VARIABLE_PRODUCT_KEY, Environment.getProductKey());
+
+            // Check if the permission is granted
+            GetDisplayPermissionResponseEvent permissionResponse = permissionCoreService.getDisplayPermission(
+                    new GetDisplayPermissionRequestEvent(
+                            renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
+            );
+
+            // Permission granted
+            renderRequest.setAttribute(VARIABLE_PERMISSION_GRANTED, permissionResponse.isSuccess());
+        }
     }
 
     /**
-     * Checks if the server request attempt is correct. In other words checks if the user is signed in.
+     * Checks if the user is signed in.
      *
      * @param request PortletRequest
-     * @return true if the request attempt is correct
+     * @return true if the user is signed in
      */
-    private boolean isCorrectAttempt(PortletRequest request) {
+    private boolean isSignedIn(PortletRequest request) {
         // Check if the user is signed in
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
@@ -313,10 +350,27 @@ public class LIMSPortlet extends MVCPortlet {
      *
      * @return boolean
      */
-    private boolean isPermitted() {
+    private boolean isPermitted(RenderRequest renderRequest) {
+
+        // If the custom license is disabled user is always permitted
+        if (!License.isCustomLicenseEnabled()) {
+            return true;
+        }
+
+        // User that is not signed in is not permitted
+        if (!isSignedIn(renderRequest)) {
+            return false;
+        }
+
+        // Admin is always permitted
+        if (PermissionDetector.isAdmin(renderRequest)) {
+            return true;
+        }
+
         // Check if the permission is granted
         GetDisplayPermissionResponseEvent response = permissionCoreService.getDisplayPermission(
-                new GetDisplayPermissionRequestEvent()
+                new GetDisplayPermissionRequestEvent(
+                        renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
         );
 
         // Permission is granted
@@ -405,7 +459,7 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(RenderRequest renderRequest) {
         // If the user is not logged he can't be over the limit either
-        if (!isCorrectAttempt(renderRequest)) {
+        if (!isSignedIn(renderRequest)) {
             return false;
         }
 
@@ -429,7 +483,7 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(ResourceRequest resourceRequest) {
         // If the user is not logged he can't be over the limit either
-        if (!isCorrectAttempt(resourceRequest)) {
+        if (!isSignedIn(resourceRequest)) {
             return false;
         }
 

@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyRequestEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyResponseEvent;
 
 /**
  * @author Ing. Marcel Mika
@@ -27,5 +29,13 @@ public interface PermissionCoreService {
      * @return Response Event
      */
     GetDisplayPermissionResponseEvent getDisplayPermission(GetDisplayPermissionRequestEvent event);
+
+    /**
+     * Returns instance key
+     *
+     * @param event Request Event
+     * @return Response Event
+     */
+    GetInstanceKeyResponseEvent getInstanceKey(GetInstanceKeyRequestEvent event);
 
 }

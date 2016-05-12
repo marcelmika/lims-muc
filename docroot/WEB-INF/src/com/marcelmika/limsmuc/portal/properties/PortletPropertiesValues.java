@@ -200,6 +200,11 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.ERROR_MODE_ENABLED
     );
 
+    // Product key
+    public static final String PRODUCT_KEY = getString(
+            PortletPropertiesKeys.PRODUCT_KEY
+    );
+
     /**
      * Returns string value from properties related to the key
      *

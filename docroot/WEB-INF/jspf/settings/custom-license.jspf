@@ -1,0 +1,42 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
+<%--@elvariable id="productKey" type="String"--%>
+<%--@elvariable id="permissionGranted" type="boolean"--%>
+
+<div class="custom-license">
+
+    <div class="settings-permission">
+        <c:choose>
+            <c:when test="${permissionGranted}">
+                <span class="granted">Permission is GRANTED</span>
+            </c:when>
+            <c:otherwise>
+                <span class="not-granted">Permission is NOT GRANTED</span>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
+
+    <div class="settings-category-title">
+        <span class="title-text">
+            <liferay-ui:message key="panel-settings-admin-area-instance-key-title"/>
+        </span>
+    </div>
+    <textarea class="instance-key" title="<liferay-ui:message key="panel-settings-admin-area-instance-key-title"/>"
+              readonly>${instanceKey}</textarea>
+
+    <div class="settings-category-title">
+        <span class="title-text">
+            <liferay-ui:message key="panel-settings-admin-area-product-key-title"/>
+        </span>
+    </div>
+    <textarea class="product-key" title="<liferay-ui:message key="panel-settings-admin-area-product-key-title"/>"
+              readonly>${productKey}</textarea>
+</div>

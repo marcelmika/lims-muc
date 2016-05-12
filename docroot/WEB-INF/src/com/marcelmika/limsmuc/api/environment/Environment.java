@@ -55,6 +55,8 @@ public class Environment {
     private static String urlIpcHelp = "";
     private static String urlSynchronizationHelp = "";
     private static Boolean errorModeEnabled = false;
+    private static String instanceSecret = "";
+    private static String productKey = "";
 
     /**
      * Enum for properties source
@@ -871,5 +873,41 @@ public class Environment {
      */
     public static void setErrorModeEnabled(Boolean errorModeEnabled) {
         Environment.errorModeEnabled = errorModeEnabled;
+    }
+
+    /**
+     * Returns instance secret
+     *
+     * @return String
+     */
+    public static String getInstanceSecret() {
+        return instanceSecret;
+    }
+
+    /**
+     * Sets instance secret
+     *
+     * @param instanceSecret String
+     */
+    public static void setInstanceSecret(String instanceSecret) {
+        Environment.instanceSecret = instanceSecret;
+    }
+
+    /**
+     * Returns product key
+     *
+     * @return
+     */
+    public static String getProductKey() {
+        return productKey;
+    }
+
+    /**
+     * Sets product key
+     *
+     * @param productKey
+     */
+    public static void setProductKey(String productKey) {
+        Environment.productKey = productKey;
     }
 }

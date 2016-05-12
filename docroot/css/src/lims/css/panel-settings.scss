@@ -314,6 +314,41 @@
       margin-bottom: -10px;
     }
 
+    .custom-license {
+
+      .settings-permission {
+        span {
+          display: inline-block;
+          padding: 0 10px;
+
+          &.granted {
+            background: #DBEEF5;
+            border: 1px solid #ABD2D6;
+          }
+
+          &.not-granted {
+            background: #FFCDCD;
+            border: 1px solid #F9BFBF;
+          }
+        }
+      }
+
+      textarea {
+        width: 400px;
+        padding: 8px 10px;
+        resize: none;
+        line-height: 17px;
+        border: 1px solid #DADADA;
+        background-color: #eeeeee;
+        @include border-radius(0);
+        @include box-shadow(none);
+
+        &.product-key {
+          min-height: 70px;
+        }
+      }
+    }
+
     .jabber-test-connection {
       margin-top: 20px;
 

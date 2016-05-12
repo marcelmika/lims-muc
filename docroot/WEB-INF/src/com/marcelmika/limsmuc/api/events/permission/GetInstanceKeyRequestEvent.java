@@ -14,18 +14,19 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
- * Date: 04/05/16
- * Time: 15:41
+ * Date: 06/05/16
+ * Time: 15:15
  */
-public class GetDisplayPermissionRequestEvent extends RequestEvent {
+public class GetInstanceKeyRequestEvent extends RequestEvent {
 
     private String securityRealPath;
 
-    public GetDisplayPermissionRequestEvent(String securityRealPath) {
+    public GetInstanceKeyRequestEvent(String securityRealPath) {
         this.securityRealPath = securityRealPath;
     }
 
     public String getSecurityRealPath() {
         return securityRealPath;
     }
+
 }

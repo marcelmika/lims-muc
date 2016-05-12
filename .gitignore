@@ -26,3 +26,6 @@
 
 # css cache
 .sass-cache
+
+# security
+/docroot/security

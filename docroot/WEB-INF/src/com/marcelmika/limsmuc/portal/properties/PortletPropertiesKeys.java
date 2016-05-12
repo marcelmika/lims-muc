@@ -63,6 +63,10 @@ public interface PortletPropertiesKeys {
     String JABBER_SHARED_SECRET_ENABLED = "jabber.shared.secret.enabled";
     String JABBER_SHARED_SECRET = "jabber.shared.secret";
 
+    // Custom license
+    String INSTANCE_SECRET = "instance.secret";
+    String PRODUCT_KEY = "product.key";
+
     // IPC
     String IPC_ENABLED = "ipc.enabled";
 

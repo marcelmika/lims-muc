@@ -18,6 +18,8 @@ import com.marcelmika.limsmuc.api.environment.Environment.PropertiesSource;
 import com.marcelmika.limsmuc.portal.domain.Properties;
 
 import javax.portlet.PortletPreferences;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -114,7 +116,7 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
             // Log
             if (log.isDebugEnabled()) {
-                log.debug("Settings the environment");
+                log.debug("Setting the environment");
             }
 
             // Set properties source
@@ -137,6 +139,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupConnectionLostThreshold();
             setupPollingSlowDownThreshold();
             setupErrorMode();
+
+            // Instance secret
+            setupInstanceSecret(preferences);
+            // Product key
+            setupProductKey();
 
             // Mobile
             setupMobileUserScalableDisabled(preferences);
@@ -1726,6 +1733,45 @@ public class PropertiesManagerImpl implements PropertiesManager {
      */
     private void setupErrorMode() {
         Environment.setErrorModeEnabled(PortletPropertiesValues.ERROR_MODE_ENABLED);
+    }
+
+    /**
+     * Setups the product key
+     */
+    private void setupProductKey() {
+        Environment.setProductKey(PortletPropertiesValues.PRODUCT_KEY);
+    }
+
+    /**
+     * Setups instance secret. Generates a new one if no instance secret was created before
+     *
+     * @param preferences PortletPreferences
+     */
+    private void setupInstanceSecret(PortletPreferences preferences) {
+        // Take the value from preferences
+        String instanceSecret = preferences.getValue(PortletPropertiesKeys.INSTANCE_SECRET, "");
+
+        // No secret set yet
+        if (instanceSecret.isEmpty()) {
+            // Generate new 32 letters instance secret
+            instanceSecret = new BigInteger(130, new SecureRandom()).toString(32);
+
+            try {
+                // Set the value in portlet preferences
+                preferences.setValue(PortletPropertiesKeys.INSTANCE_SECRET, instanceSecret);
+                // Persist
+                preferences.store();
+            }
+            // Value is read only, this shouldn't normally happen
+            catch (Exception e) {
+                log.error(e);
+                // Temporally set to unknown
+                instanceSecret = "unknown";
+            }
+        }
+
+        // Set the instance secret
+        Environment.setInstanceSecret(instanceSecret);
     }
 
     /**

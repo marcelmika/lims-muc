@@ -11,7 +11,7 @@ package com.marcelmika.limsmuc.core.session;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.core.license.License;
+import com.marcelmika.limsmuc.api.environment.License;
 
 import java.util.Collections;
 import java.util.HashSet;

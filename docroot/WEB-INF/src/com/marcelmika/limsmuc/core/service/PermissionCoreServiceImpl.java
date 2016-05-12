@@ -11,7 +11,9 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
-import com.marcelmika.limsmuc.core.license.License;
+import com.marcelmika.limsmuc.api.environment.License;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyRequestEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyResponseEvent;
 import com.marcelmika.limsmuc.portal.service.PermissionPortalService;
 
 /**
@@ -49,5 +51,16 @@ public class PermissionCoreServiceImpl implements PermissionCoreService {
 
         // Ask portal if the permission can be granted
         return permissionPortalService.getDisplayPermission(event);
+    }
+
+    /**
+     * Returns instance key
+     *
+     * @param event Request Event
+     * @return Response Event
+     */
+    @Override
+    public GetInstanceKeyResponseEvent getInstanceKey(GetInstanceKeyRequestEvent event) {
+        return permissionPortalService.getInstanceKey(event);
     }
 }
