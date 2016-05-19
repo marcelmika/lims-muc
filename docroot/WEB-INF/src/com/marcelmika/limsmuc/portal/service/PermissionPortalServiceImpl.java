@@ -26,9 +26,10 @@ import com.marcelmika.limsmuc.portal.util.IPAddressUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.GeneralSecurityException;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Ing. Marcel Mika
@@ -128,7 +129,10 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
      */
     private String getMachineIdentifier() throws IOException {
         // Read IP addresses
-        Set<String> ipAddresses = IPAddressUtil.getIpAddresses();
+        List ipAddresses = new ArrayList<String>(IPAddressUtil.getIpAddresses());
+
+        // Sort ip addresses
+        Collections.sort(ipAddresses);
 
         // There are no IP addresses
         if (ipAddresses.isEmpty()) {
@@ -195,7 +199,7 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
             File file = new File(path);
 
             // Read bytes from the file
-            byte[] bytes = Files.readAllBytes(file.toPath());
+            byte[] bytes = FileUtil.getBytes(file);
 
             // Get the private key
             RSAKeyPair.Private privateKey = new RSAKeyPair.Private(bytes);

@@ -319,8 +319,15 @@ public class LIMSPortlet extends MVCPortlet {
                             renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
             );
 
-            // Permission granted
-            renderRequest.setAttribute(VARIABLE_PERMISSION_GRANTED, permissionResponse.isSuccess());
+            if (permissionResponse.isSuccess()) {
+                // Permission granted
+                renderRequest.setAttribute(VARIABLE_PERMISSION_GRANTED, true);
+            }
+            // Error
+            else if (permissionResponse.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
+                // Log error
+                log.error(permissionResponse.getException());
+            }
         }
     }
 
