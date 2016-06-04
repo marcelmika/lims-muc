@@ -284,6 +284,7 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                 // Vars
                 var container = this.get('container'),
                     instance = this,
+                    serverRequestUrl = this.getServerRequestUrl(),
                     autoComplete = new Y.AutoComplete({
                         inputNode: this.get('tokenInputNode'),
                         resultTextLocator: 'fullName',
@@ -291,15 +292,33 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
                         enableCache: true,
                         maxResults: this.get('maxResults'),
                         zIndex: 10,
+                        render: false,
                         align: {
                             node: this.get('tokenListNode'),
                             points: ['tl', 'bl']
                         },
-                        requestTemplate: this.get('requestTemplate'),
-                        source: this.getServerRequestUrl(),
-                        render: false,
-                        resultFilters: function (query, results) {
+                        source: function (query, callback) {
 
+                            // Set parameters
+                            var parameters = Y.JSON.stringify({
+                                searchQuery: query
+                            });
+
+                            // Read from server
+                            Y.io(serverRequestUrl, {
+                                method: "GET",
+                                data: {
+                                    query: "SearchBuddies",
+                                    parameters: parameters
+                                },
+                                on: {
+                                    success: function (id, o) {
+                                        callback(Y.JSON.parse(o.responseText));
+                                    }
+                                }
+                            });
+                        },
+                        resultFilters: function (query, results) {
                             // Vars
                             var filteredResults;
                             // First, filter duplicates
@@ -367,15 +386,6 @@ Y.LIMS.View.BuddySearchTokenInput = Y.Base.create('buddySearchTokenInput', Y.Vie
             valueFn: function () {
                 return this.get('inputTokenPlugin').get('contentBox');
             }
-        },
-
-        /**
-         * Request template for autocomplete
-         *
-         * {string}
-         */
-        requestTemplate: {
-            value: "&query=SearchBuddies&parameters=%7B%22searchQuery%22%3A%22{query}%22%7D"
         },
 
         /**
