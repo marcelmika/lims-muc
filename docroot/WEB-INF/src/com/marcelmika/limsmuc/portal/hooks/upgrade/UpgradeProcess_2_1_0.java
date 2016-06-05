@@ -41,10 +41,17 @@ public class UpgradeProcess_2_1_0 extends UpgradeProcess {
     protected void doUpgrade() throws Exception {
         log.info("Upgrade Process (2.1.0) Started");
 
-        // Add notifications enabled column if such column does not exist
-        if (!tableHasColumn("Limsmuc_Settings", "notificationsEnabled")) {
-            runSQL("alter table Limsmuc_Settings add column notificationsEnabled BOOLEAN");
+        String table = "Limsmuc_Settings";
+        String[] columns = new String[] {"notificationsEnabled", "notificationsenabled"};
+
+        // No need to perform the upgrade
+        if (tableHasColumn(table, columns[0]) || tableHasColumn(table, columns[1])) {
+            log.info("Upgrade Process (2.1.0) Skipped");
+            return;
         }
+
+        // Add notifications enabled column if such column does not exist
+        runSQL("alter table Limsmuc_Settings add column notificationsEnabled BOOLEAN");
 
         log.info("Upgrade Process (2.1.0) Finished");
     }
