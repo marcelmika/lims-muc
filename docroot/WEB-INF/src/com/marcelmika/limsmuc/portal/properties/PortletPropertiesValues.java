@@ -195,11 +195,6 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.URL_UNSUPPORTED_BROWSER
     );
 
-    // Error Mode
-    public static final Boolean ERROR_MODE_ENABLED = getBoolean(
-            PortletPropertiesKeys.ERROR_MODE_ENABLED
-    );
-
     // Product key
     public static final String PRODUCT_KEY = getString(
             PortletPropertiesKeys.PRODUCT_KEY

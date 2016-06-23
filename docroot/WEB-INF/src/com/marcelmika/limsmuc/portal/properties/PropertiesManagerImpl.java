@@ -138,7 +138,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupBuddyListGroupExcludes(preferences);
             setupConnectionLostThreshold();
             setupPollingSlowDownThreshold();
-            setupErrorMode();
 
             // Instance secret
             setupInstanceSecret(preferences);
@@ -1726,13 +1725,6 @@ public class PropertiesManagerImpl implements PropertiesManager {
         Environment.setBrowserNotificationsRequireInteraction(
                 PortletPropertiesValues.BROWSER_NOTIFICATIONS_REQUEST_INTERACTION
         );
-    }
-
-    /**
-     * Setups the error mode
-     */
-    private void setupErrorMode() {
-        Environment.setErrorModeEnabled(PortletPropertiesValues.ERROR_MODE_ENABLED);
     }
 
     /**

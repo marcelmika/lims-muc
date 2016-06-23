@@ -54,7 +54,6 @@ public class Environment {
     private static String urlJabberHelp = "";
     private static String urlIpcHelp = "";
     private static String urlSynchronizationHelp = "";
-    private static Boolean errorModeEnabled = false;
     private static String instanceSecret = "";
     private static String productKey = "";
 
@@ -855,24 +854,6 @@ public class Environment {
      */
     public static void setUrlSynchronizationHelp(String urlSynchronizationHelp) {
         Environment.urlSynchronizationHelp = urlSynchronizationHelp;
-    }
-
-    /**
-     * Returns true if the error mode is enabled
-     *
-     * @return boolean
-     */
-    public static Boolean isErrorModeEnabled() {
-        return errorModeEnabled;
-    }
-
-    /**
-     * Sets error mode enabled property
-     *
-     * @param errorModeEnabled Boolean
-     */
-    public static void setErrorModeEnabled(Boolean errorModeEnabled) {
-        Environment.errorModeEnabled = errorModeEnabled;
     }
 
     /**

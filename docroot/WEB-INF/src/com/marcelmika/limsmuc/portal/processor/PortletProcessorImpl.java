@@ -139,12 +139,6 @@ public class PortletProcessorImpl implements PortletProcessor {
             logRequest(request);
         }
 
-        // If the error mode is on and a random error was added to the response
-        // don't continue in the request processing
-        if (processErrorMode(request, response)) {
-            return;
-        }
-
         // Get query type from parameter
         String query = request.getParameter(RequestParameterKeys.KEY_QUERY);
 
@@ -311,78 +305,6 @@ public class PortletProcessorImpl implements PortletProcessor {
                     response
             );
         }
-    }
-
-    /**
-     * If the error mode is on randomly adds an error to the response.
-     * Returns true if the error was added to the response
-     *
-     * @param request  ResourceRequest
-     * @param response ResourceResponse
-     * @return true if an error was added to the response
-     */
-    private boolean processErrorMode(ResourceRequest request, ResourceResponse response) {
-
-        // Process error only if the error mode is enabled
-        if (Environment.isErrorModeEnabled() != null && Environment.isErrorModeEnabled()) {
-
-            // Generates random number between 0 and 10
-            int number = random.nextInt(10) + 1;
-
-            // Get query type from parameter
-            String query = request.getParameter(RequestParameterKeys.KEY_QUERY);
-
-            if (query.equals(QUERY_CREATE_SINGLE_USER_CONVERSATION) && number > 5) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_READ_SINGLE_USER_CONVERSATION) && number > 5) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_READ_OPENED_CONVERSATIONS) && number > 9) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_READ_CONVERSATIONS) && number > 5) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_LEAVE_CONVERSATION) && number > 3) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_GET_GROUP_LIST) && number > 8) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_CREATE_MESSAGE) && number > 6) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            if (query.equals(QUERY_SEARCH_BUDDIES) && number > 5) {
-                ResponseUtil.writeResponse(HttpStatus.INTERNAL_SERVER_ERROR, response);
-                return true;
-            }
-
-            // Slow down simulation
-            if (number > 5) {
-                try {
-                    Thread.sleep(Environment.getPollingSlowDownThreshold());
-                } catch (InterruptedException e) {
-                    // Do nothing
-                }
-            }
-        }
-
-        return false;
     }
 
     /**

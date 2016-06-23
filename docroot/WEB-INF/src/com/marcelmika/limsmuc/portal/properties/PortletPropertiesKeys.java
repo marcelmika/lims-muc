@@ -82,7 +82,4 @@ public interface PortletPropertiesKeys {
     String URL_IPC_HELP = "url.ipc.help";
     String URL_SYNCHRONIZATION_HELP = "url.synchronization.help";
     String URL_UNSUPPORTED_BROWSER = "url.unsupported.browser";
-
-    // Error mode
-    String ERROR_MODE_ENABLED = "error.mode.enabled";
 }
