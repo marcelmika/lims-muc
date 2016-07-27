@@ -9,20 +9,33 @@
 
 <%--@elvariable id="productKey" type="String"--%>
 <%--@elvariable id="permissionGranted" type="boolean"--%>
+<%--@elvariable id="validUntil" type="String"--%>
+<%--@elvariable id="userLimit" type="String"--%>
 
 <div class="custom-license">
 
     <div class="settings-permission">
         <c:choose>
             <c:when test="${permissionGranted}">
-                <span class="granted">Permission is GRANTED</span>
+                <span class="granted">License is VALID</span>
             </c:when>
             <c:otherwise>
-                <span class="not-granted">Permission is NOT GRANTED</span>
+                <span class="not-granted">License is INVALID</span>
             </c:otherwise>
         </c:choose>
     </div>
 
+    <c:if test="${not empty validUntil}">
+        <div class="settings-validations">
+            Expiration: <strong>${validUntil}</strong>
+        </div>
+    </c:if>
+
+    <c:if test="${not empty userLimit}">
+        <div class="settings-validations">
+            User Limit: <strong>${userLimit}</strong>
+        </div>
+    </c:if>
 
     <div class="settings-category-title">
         <span class="title-text">

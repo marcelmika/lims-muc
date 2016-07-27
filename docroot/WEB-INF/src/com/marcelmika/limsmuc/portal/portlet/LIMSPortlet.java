@@ -53,6 +53,8 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,9 +91,11 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_PRELOADED_IMAGES = "preloadedImages";
     private static final String VARIABLE_INSTANCE_KEY = "instanceKey";
     private static final String VARIABLE_PRODUCT_KEY = "productKey";
-    private static final String VARIABLE_CUSTOM_LICENSE_ENABLED = "customLicenseEnabled";
     private static final String VARIABLE_PERMISSION_GRANTED = "permissionGranted";
+    private static final String VARIABLE_VALID_UNTIL = "validUntil";
+    private static final String VARIABLE_USER_LIMIT = "userLimit";
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     // Log
     private static Log log = LogFactoryUtil.getLog(LIMSPortlet.class);
 
@@ -105,8 +109,6 @@ public class LIMSPortlet extends MVCPortlet {
      *
      * @param renderRequest  RenderRequest
      * @param renderResponse RenderResponse
-     * @throws PortletException
-     * @throws IOException
      */
     @Override
     public void doView(RenderRequest renderRequest,
@@ -114,6 +116,9 @@ public class LIMSPortlet extends MVCPortlet {
 
         // Environment needs to be set up at the beginning of the request
         propertiesManager.setup(renderRequest.getPreferences());
+
+        // Setup license
+        License.setup(renderRequest.getPortletSession().getPortletContext().getRealPath("/security"));
 
         // Site is excluded
         if (isExcluded(renderRequest)) {
@@ -141,7 +146,6 @@ public class LIMSPortlet extends MVCPortlet {
                     // Notify about over limit reason
                     renderRequest.setAttribute(VARIABLE_IS_OVER_LIMIT, true);
                 }
-
                 // Render the portlet
                 else {
                     // Settings pane
@@ -167,8 +171,6 @@ public class LIMSPortlet extends MVCPortlet {
      *
      * @param request  Asynchronous request from client
      * @param response Response from server
-     * @throws PortletException
-     * @throws IOException
      */
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws PortletException, IOException {
@@ -292,43 +294,60 @@ public class LIMSPortlet extends MVCPortlet {
         renderRequest.setAttribute(VARIABLE_VERSION, PortletPropertiesValues.VERSION);
         // Preloaded images
         renderRequest.setAttribute(VARIABLE_PRELOADED_IMAGES, preloadedImages(renderRequest));
-        // Custom license
-        renderRequest.setAttribute(VARIABLE_CUSTOM_LICENSE_ENABLED, License.isCustomLicenseEnabled());
 
         // Add instance key variable for admin only when the custom license is enabled
-        if (PermissionDetector.isAdmin(renderRequest) && License.isCustomLicenseEnabled()) {
+        if (PermissionDetector.isAdmin(renderRequest)) {
             // Get the instance key
-            GetInstanceKeyResponseEvent responseEvent = permissionCoreService.getInstanceKey(new GetInstanceKeyRequestEvent(
-                    renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
-            );
+            GetInstanceKeyResponseEvent responseEvent = permissionCoreService.getInstanceKey(new GetInstanceKeyRequestEvent());
 
             if (responseEvent.isSuccess()) {
                 // Set the variable
                 renderRequest.setAttribute(VARIABLE_INSTANCE_KEY, responseEvent.getInstanceKey());
             } else {
                 // Log error
-                log.error(responseEvent.getException());
+                log.debug(responseEvent.getException());
             }
 
             // Product Key
             renderRequest.setAttribute(VARIABLE_PRODUCT_KEY, Environment.getProductKey());
 
-            // Check if the permission is granted
-            GetDisplayPermissionResponseEvent permissionResponse = permissionCoreService.getDisplayPermission(
-                    new GetDisplayPermissionRequestEvent(
-                            renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
-            );
+            // Display permission
+                GetDisplayPermissionResponseEvent displayPermission = displayPermission();
 
-            if (permissionResponse.isSuccess()) {
+            if (displayPermission.getStatus() == GetDisplayPermissionResponseEvent.Status.GRANTED) {
                 // Permission granted
                 renderRequest.setAttribute(VARIABLE_PERMISSION_GRANTED, true);
             }
             // Error
-            else if (permissionResponse.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
+            else if (displayPermission.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
                 // Log error
-                log.error(permissionResponse.getException());
+                log.debug(displayPermission.getException());
+            }
+
+            // Show limits
+            if (displayPermission.isSuccess()) {
+                renderRequest.setAttribute(VARIABLE_VALID_UNTIL, displayPermission.isExpirationUnlimited() ?
+                        "Unlimited" : "" + formatDate(displayPermission.getExpirationDate()));
+
+                // User limit
+                renderRequest.setAttribute(VARIABLE_USER_LIMIT, displayPermission.isUserUnlimited() ?
+                        "Unlimited" : "" + displayPermission.getUserLimit());
             }
         }
+    }
+
+    /**
+     * Returns string representation of date.
+     * Returns null if date is null
+     *
+     * @param date Date
+     * @return String
+     */
+    private String formatDate(Date date) {
+        if (date == null) {
+            return "";
+        }
+        return dateFormat.format(date);
     }
 
     /**
@@ -359,11 +378,6 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isPermitted(RenderRequest renderRequest) {
 
-        // If the custom license is disabled user is always permitted
-        if (!License.isCustomLicenseEnabled()) {
-            return true;
-        }
-
         // User that is not signed in is not permitted
         if (!isSignedIn(renderRequest)) {
             return false;
@@ -375,30 +389,7 @@ public class LIMSPortlet extends MVCPortlet {
         }
 
         // Check if the permission is granted
-        GetDisplayPermissionResponseEvent response = permissionCoreService.getDisplayPermission(
-                new GetDisplayPermissionRequestEvent(
-                        renderRequest.getPortletSession().getPortletContext().getRealPath("/security"))
-        );
-
-        // Permission is granted
-        if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.GRANTED) {
-            return true;
-        }
-        // Permission is not granted
-        else if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.NOT_GRANTED) {
-            return false;
-        }
-        // Error occurred
-        else if (response.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
-            if (log.isDebugEnabled()) {
-                log.debug(response.getException());
-            }
-            return false;
-        }
-        // On any other occasion return false
-        else {
-            return false;
-        }
+        return displayPermission().getStatus() == GetDisplayPermissionResponseEvent.Status.GRANTED;
     }
 
     /**
@@ -504,6 +495,15 @@ public class LIMSPortlet extends MVCPortlet {
 
 
         return responseEvent.isOverLimit();
+    }
+
+    /**
+     * Returns display permission
+     *
+     * @return Permission
+     */
+    private GetDisplayPermissionResponseEvent displayPermission() {
+        return permissionCoreService.getDisplayPermission(new GetDisplayPermissionRequestEvent());
     }
 
     /**

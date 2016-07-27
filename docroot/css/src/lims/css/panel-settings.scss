@@ -333,6 +333,18 @@
         }
       }
 
+      .settings-validations {
+        background: #efefef;
+        border: 1px solid #b9c4c5;
+        display: inline-block;
+        margin: 5px 0;
+        padding: 0 10px;
+
+        strong {
+          font-weight: bold;
+        }
+      }
+
       textarea {
         width: 400px;
         padding: 8px 10px;

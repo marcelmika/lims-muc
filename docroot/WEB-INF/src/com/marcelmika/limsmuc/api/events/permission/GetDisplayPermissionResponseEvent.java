@@ -11,6 +11,8 @@ package com.marcelmika.limsmuc.api.events.permission;
 
 import com.marcelmika.limsmuc.api.events.ResponseEvent;
 
+import java.util.Date;
+
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
@@ -19,11 +21,16 @@ import com.marcelmika.limsmuc.api.events.ResponseEvent;
  */
 public class GetDisplayPermissionResponseEvent extends ResponseEvent {
 
+    private boolean isExpirationUnlimited;
+    private Date expirationDate;
+    private boolean isUserUnlimited;
+    private Integer userLimit;
     private Status status;
 
     public enum Status {
         GRANTED,        // Permission was granted
         NOT_GRANTED,    // Permission was not granted
+        NO_PRODUCT_KEY, // Product key is missing
         ERROR,          // Error occurred
     }
 
@@ -39,11 +46,19 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
      *
      * @return ResponseEvent
      */
-    public static GetDisplayPermissionResponseEvent success() {
+    public static GetDisplayPermissionResponseEvent success(final Status status,
+                                                            final boolean expirationUnlimited,
+                                                            final boolean userUnlimited,
+                                                            final Date expirationDate,
+                                                            final Integer userLimit) {
         GetDisplayPermissionResponseEvent event = new GetDisplayPermissionResponseEvent();
 
         event.success = true;
-        event.status = Status.GRANTED;
+        event.status = status;
+        event.isExpirationUnlimited = expirationUnlimited;
+        event.isUserUnlimited = userUnlimited;
+        event.expirationDate = expirationDate;
+        event.userLimit = userLimit;
 
         return event;
     }
@@ -79,6 +94,22 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
         event.exception = exception;
 
         return event;
+    }
+
+    public boolean isExpirationUnlimited() {
+        return isExpirationUnlimited;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public boolean isUserUnlimited() {
+        return isUserUnlimited;
+    }
+
+    public Integer getUserLimit() {
+        return userLimit;
     }
 
     public Status getStatus() {

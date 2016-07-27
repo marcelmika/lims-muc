@@ -18,15 +18,5 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
  * Time: 15:15
  */
 public class GetInstanceKeyRequestEvent extends RequestEvent {
-
-    private String securityRealPath;
-
-    public GetInstanceKeyRequestEvent(String securityRealPath) {
-        this.securityRealPath = securityRealPath;
-    }
-
-    public String getSecurityRealPath() {
-        return securityRealPath;
-    }
-
+    
 }

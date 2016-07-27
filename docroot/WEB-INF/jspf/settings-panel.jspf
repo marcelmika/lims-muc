@@ -14,7 +14,6 @@
 <%--@elvariable id="isAdmin" type="boolean"--%>
 <%--@elvariable id="version" type="String"--%>
 <%--@elvariable id="instanceKey" type="String"--%>
-<%--@elvariable id="customLicenseEnabled" type="boolean"--%>
 <%--@elvariable id="instanceKey" type="String"--%>
 
 <%-- Constants --%>
@@ -181,14 +180,12 @@
                             <%@ include file="/WEB-INF/jspf/settings/synchronization-chat-portlet.jspf" %>
 
                                 <%-- Custom license --%>
-                            <c:if test="${customLicenseEnabled}">
-                                <div class="category">
+                            <div class="category">
                                 <span>
                                     <liferay-ui:message key="panel-settings-admin-area-custom-license-title"/>
                                 </span>
-                                </div>
-                                <%@ include file="/WEB-INF/jspf/settings/custom-license.jspf" %>
-                            </c:if>
+                            </div>
+                            <%@ include file="/WEB-INF/jspf/settings/custom-license.jspf" %>
 
                         </div>
                     </div>

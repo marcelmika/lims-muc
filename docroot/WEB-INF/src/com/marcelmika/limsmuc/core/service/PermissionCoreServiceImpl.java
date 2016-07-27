@@ -11,7 +11,6 @@ package com.marcelmika.limsmuc.core.service;
 
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
-import com.marcelmika.limsmuc.api.environment.License;
 import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyRequestEvent;
 import com.marcelmika.limsmuc.api.events.permission.GetInstanceKeyResponseEvent;
 import com.marcelmika.limsmuc.portal.service.PermissionPortalService;
@@ -44,11 +43,6 @@ public class PermissionCoreServiceImpl implements PermissionCoreService {
      */
     @Override
     public GetDisplayPermissionResponseEvent getDisplayPermission(GetDisplayPermissionRequestEvent event) {
-        // If the custom license is not enabled permission is always granted
-        if (!License.isCustomLicenseEnabled()) {
-            return GetDisplayPermissionResponseEvent.success();
-        }
-
         // Ask portal if the permission can be granted
         return permissionPortalService.getDisplayPermission(event);
     }

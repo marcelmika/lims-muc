@@ -19,13 +19,4 @@ import com.marcelmika.limsmuc.api.events.RequestEvent;
  */
 public class GetDisplayPermissionRequestEvent extends RequestEvent {
 
-    private String securityRealPath;
-
-    public GetDisplayPermissionRequestEvent(String securityRealPath) {
-        this.securityRealPath = securityRealPath;
-    }
-
-    public String getSecurityRealPath() {
-        return securityRealPath;
-    }
 }

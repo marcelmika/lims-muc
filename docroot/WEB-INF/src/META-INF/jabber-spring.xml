@@ -80,7 +80,9 @@
     </bean>
 
     <bean id="com.marcelmika.limsmuc.core.session.BuddySessionStore"
-          class="com.marcelmika.limsmuc.core.session.BuddySessionStoreImpl"/>
+          class="com.marcelmika.limsmuc.core.session.BuddySessionStoreImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.core.service.PermissionCoreService"/>
+    </bean>
 
     <!-- Settings Core Service -->
 

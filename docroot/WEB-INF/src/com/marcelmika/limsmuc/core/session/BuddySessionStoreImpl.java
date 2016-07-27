@@ -11,7 +11,9 @@ package com.marcelmika.limsmuc.core.session;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.marcelmika.limsmuc.api.environment.License;
+import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionRequestEvent;
+import com.marcelmika.limsmuc.api.events.permission.GetDisplayPermissionResponseEvent;
+import com.marcelmika.limsmuc.core.service.PermissionCoreService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,11 +28,28 @@ import java.util.Set;
  */
 public class BuddySessionStoreImpl implements BuddySessionStore {
 
+    // Session set
     private final Set<Long> buddySessions = Collections.synchronizedSet(new HashSet<Long>());
+
+    // Dependencies
+    private final PermissionCoreService permissionCoreService;
+
+    // Limitations
+    private Boolean isUserUnlimited;
+    private Integer userLimit;
 
     // Log
     @SuppressWarnings("unused")
     private static Log log = LogFactoryUtil.getLog(BuddySessionStoreImpl.class);
+
+    /**
+     * Constructor
+     *
+     * @param permissionCoreService PermissionCoreService
+     */
+    public BuddySessionStoreImpl(final PermissionCoreService permissionCoreService) {
+        this.permissionCoreService = permissionCoreService;
+    }
 
     /**
      * Adds a single buddy id to the store
@@ -102,7 +121,7 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
         }
 
         // Store is already full. Deny the access.
-        if (License.buddyLimitExceeded(buddySessions.size())) {
+        if (buddyLimitExceeded(buddySessions.size())) {
             return true;
         }
 
@@ -116,5 +135,50 @@ public class BuddySessionStoreImpl implements BuddySessionStore {
     @Override
     public String toString() {
         return String.format("{%s}", buddySessions);
+    }
+
+    /**
+     * Returns true only if the buddy limit is enabled and the count exceeded the limit
+     *
+     * @param count number of currently connected buddies
+     * @return boolean
+     */
+    private boolean buddyLimitExceeded(Integer count) {
+        // User limit wasn't set yet
+        if (isUserUnlimited == null) {
+            GetDisplayPermissionResponseEvent displayPermission = displayPermission();
+
+            if (displayPermission.isSuccess()) {
+
+                // Remember the limitations
+                isUserUnlimited = displayPermission.isUserUnlimited();
+                userLimit = displayPermission.getUserLimit();
+
+                // Log
+                if (log.isDebugEnabled()) {
+                    log.debug("Buddy session store users unlimited: " + isUserUnlimited + " limit: " + userLimit);
+                }
+            } else {
+                // Limit because of the error
+                return true;
+            }
+        }
+
+        // User limit is never exceeded if the user count is unlimited
+        if (isUserUnlimited) {
+            return false;
+        }
+
+        // Limit exceed if the count is greater than the buddy limit
+        return count > userLimit;
+    }
+
+    /**
+     * Returns display permission
+     *
+     * @return Permission
+     */
+    private GetDisplayPermissionResponseEvent displayPermission() {
+        return permissionCoreService.getDisplayPermission(new GetDisplayPermissionRequestEvent());
     }
 }

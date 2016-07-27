@@ -9,6 +9,9 @@
 
 package com.marcelmika.limsmuc.api.environment;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
 /**
  * @author Ing. Marcel Mika
  * @link http://marcelmika.com
@@ -17,33 +20,37 @@ package com.marcelmika.limsmuc.api.environment;
  */
 public final class License {
 
-    private static final boolean buddyLimitEnabled = false;
-    private static final boolean customLicenseEnabled = true;
-    private static final int buddyLimit = 99;
+    // Set to true if the environment was already set up
+    private static boolean isSetup = false;
+    // Path to the security folder
+    private static String securityPath;
+
+    // Log
+    @SuppressWarnings("unused")
+    private static Log log = LogFactoryUtil.getLog(License.class);
 
     /**
-     * Returns true only if the buddy limit is enabled and the count exceeded the limit
+     * Call to setup license
      *
-     * @param count number of currently connected buddies
-     * @return boolean
+     * @param securityPath Path to the security folder
      */
-    public static boolean buddyLimitExceeded(Integer count) {
-        // If the buddy limit is not enabled return false because
-        // the buddy limit will never be exceeded
-        if (!buddyLimitEnabled) {
-            return false;
+    public static void setup(String securityPath) {
+        // Do just once
+        if (isSetup) {
+            return;
         }
+        isSetup = true;
 
-        // Limit exceed if the count is greater than the buddy limit
-        return count > buddyLimit;
+        // Remember the security path
+        License.securityPath = securityPath;
     }
 
     /**
-     * Returns true if the custom license is enabled
+     * Returns path to the security folder
      *
-     * @return boolean
+     * @return String path
      */
-    public static boolean isCustomLicenseEnabled() {
-        return customLicenseEnabled;
+    public static String getSecurityPath() {
+        return securityPath;
     }
 }
