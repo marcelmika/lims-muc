@@ -9,6 +9,7 @@
 
 <%--@elvariable id="productKey" type="String"--%>
 <%--@elvariable id="permissionGranted" type="boolean"--%>
+<%--@elvariable id="instanceLimit" type="String"--%>
 <%--@elvariable id="validUntil" type="String"--%>
 <%--@elvariable id="userLimit" type="String"--%>
 
@@ -24,6 +25,12 @@
             </c:otherwise>
         </c:choose>
     </div>
+
+    <c:if test="${not empty instanceLimit}">
+        <div class="settings-validations">
+            Instance Limit: <strong>${instanceLimit}</strong>
+        </div>
+    </c:if>
 
     <c:if test="${not empty validUntil}">
         <div class="settings-validations">

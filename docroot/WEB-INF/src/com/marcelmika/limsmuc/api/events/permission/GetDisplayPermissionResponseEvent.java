@@ -21,6 +21,7 @@ import java.util.Date;
  */
 public class GetDisplayPermissionResponseEvent extends ResponseEvent {
 
+    private boolean isInstanceUnlimited;
     private boolean isExpirationUnlimited;
     private Date expirationDate;
     private boolean isUserUnlimited;
@@ -47,6 +48,7 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
      * @return ResponseEvent
      */
     public static GetDisplayPermissionResponseEvent success(final Status status,
+                                                            final boolean instanceUnlimited,
                                                             final boolean expirationUnlimited,
                                                             final boolean userUnlimited,
                                                             final Date expirationDate,
@@ -55,6 +57,7 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
 
         event.success = true;
         event.status = status;
+        event.isInstanceUnlimited = instanceUnlimited;
         event.isExpirationUnlimited = expirationUnlimited;
         event.isUserUnlimited = userUnlimited;
         event.expirationDate = expirationDate;
@@ -94,6 +97,10 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
         event.exception = exception;
 
         return event;
+    }
+
+    public boolean isInstanceUnlimited() {
+        return isInstanceUnlimited;
     }
 
     public boolean isExpirationUnlimited() {

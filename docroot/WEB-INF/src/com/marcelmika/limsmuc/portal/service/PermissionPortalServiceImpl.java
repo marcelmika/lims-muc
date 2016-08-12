@@ -54,6 +54,7 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
     // Properties
     private String decryptedProductKey;
     private String decryptedMachineIdentifierHash;
+    private boolean isInstanceUnlimited;
     private boolean isExpirationUnlimited;
     private Date expirationDate;
     private boolean isUserUnlimited;
@@ -94,9 +95,6 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
             // Decrypt product key
             decryptProductKey(securityPath, productKey);
 
-            // Create hash from the machine identifier
-            String machineIdentifierHash = SHAHash.hash(getMachineIdentifier());
-
             // Permission is granted by default
             GetDisplayPermissionResponseEvent.Status status = GetDisplayPermissionResponseEvent.Status.GRANTED;
 
@@ -105,13 +103,20 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
                 status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
             }
 
-            // Hashes must match
-            if (!machineIdentifierHash.equals(decryptedMachineIdentifierHash)) {
-                status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
+            // Check machine identifier
+            if (!isInstanceUnlimited) {
+                // Create hash from the machine identifier
+                String machineIdentifierHash = SHAHash.hash(getMachineIdentifier());
+
+                // Hashes must match
+                if (!machineIdentifierHash.equals(decryptedMachineIdentifierHash)) {
+                    status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
+                }
             }
 
             return GetDisplayPermissionResponseEvent.success(
                     status,
+                    isInstanceUnlimited,
                     isExpirationUnlimited,
                     isUserUnlimited,
                     expirationDate,
@@ -239,16 +244,16 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
             decryptedProductKey = RSACipher.decrypt(productKey, privateKey.getKey());
 
             // Get indexes
-            int endOfExpiration = decryptedProductKey.indexOf("|");
+            int endOfInstance = decryptedProductKey.indexOf("|");
+            int endOfExpiration = decryptedProductKey.indexOf("|", endOfInstance + 1);
             int endOfUserLimit = decryptedProductKey.indexOf("|", endOfExpiration + 1);
 
-            // Parse machine identifier
-            decryptedMachineIdentifierHash = decryptedProductKey.substring(
-                    endOfUserLimit + 1, decryptedProductKey.length()
-            );
+            // Parse instance
+            String parsedInstance = decryptedProductKey.substring(0, endOfInstance);
+            isInstanceUnlimited = parsedInstance.equals("U");
 
             // Parse expiration
-            String parsedExpiration = decryptedProductKey.substring(0, endOfExpiration);
+            String parsedExpiration = decryptedProductKey.substring(endOfInstance + 1, endOfExpiration);
             // Unlimited
             if (parsedExpiration.equals("U")) {
                 isExpirationUnlimited = true;
@@ -268,6 +273,13 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
             } else {
                 isUserUnlimited = false;
                 userLimit = Integer.parseInt(parsedUserLimit);
+            }
+
+            // Parse machine identifier
+            if (!isInstanceUnlimited) {
+                decryptedMachineIdentifierHash = decryptedProductKey.substring(
+                        endOfUserLimit + 1, decryptedProductKey.length()
+                );
             }
         }
     }
