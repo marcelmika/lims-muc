@@ -94,6 +94,7 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_PERMISSION_GRANTED = "permissionGranted";
     private static final String VARIABLE_VALID_UNTIL = "validUntil";
     private static final String VARIABLE_USER_LIMIT = "userLimit";
+    private static final String VARIABLE_INSTANCE_LIMIT = "instanceLimit";
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     // Log
@@ -295,7 +296,7 @@ public class LIMSPortlet extends MVCPortlet {
         // Preloaded images
         renderRequest.setAttribute(VARIABLE_PRELOADED_IMAGES, preloadedImages(renderRequest));
 
-        // Add instance key variable for admin only when the custom license is enabled
+        // Add instance key variable for admin only
         if (PermissionDetector.isAdmin(renderRequest)) {
             // Get the instance key
             GetInstanceKeyResponseEvent responseEvent = permissionCoreService.getInstanceKey(new GetInstanceKeyRequestEvent());
@@ -312,7 +313,7 @@ public class LIMSPortlet extends MVCPortlet {
             renderRequest.setAttribute(VARIABLE_PRODUCT_KEY, Environment.getProductKey());
 
             // Display permission
-                GetDisplayPermissionResponseEvent displayPermission = displayPermission();
+            GetDisplayPermissionResponseEvent displayPermission = displayPermission();
 
             if (displayPermission.getStatus() == GetDisplayPermissionResponseEvent.Status.GRANTED) {
                 // Permission granted
@@ -326,6 +327,11 @@ public class LIMSPortlet extends MVCPortlet {
 
             // Show limits
             if (displayPermission.isSuccess()) {
+                // Instance limit
+                renderRequest.setAttribute(VARIABLE_INSTANCE_LIMIT, displayPermission.isInstanceUnlimited() ?
+                        "OFF" : "ON");
+
+                // Expiration limit
                 renderRequest.setAttribute(VARIABLE_VALID_UNTIL, displayPermission.isExpirationUnlimited() ?
                         "Unlimited" : "" + formatDate(displayPermission.getExpirationDate()));
 
@@ -457,7 +463,8 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(RenderRequest renderRequest) {
         // If the user is not logged he can't be over the limit either
-        if (!isSignedIn(renderRequest)) {
+        // Admin is never over session limit
+        if (!isSignedIn(renderRequest) || PermissionDetector.isAdmin(renderRequest)) {
             return false;
         }
 
@@ -481,7 +488,8 @@ public class LIMSPortlet extends MVCPortlet {
      */
     private boolean isOverSessionLimit(ResourceRequest resourceRequest) {
         // If the user is not logged he can't be over the limit either
-        if (!isSignedIn(resourceRequest)) {
+        // Admin is never over session limit
+        if (!isSignedIn(resourceRequest) || PermissionDetector.isAdmin(resourceRequest)) {
             return false;
         }
 
