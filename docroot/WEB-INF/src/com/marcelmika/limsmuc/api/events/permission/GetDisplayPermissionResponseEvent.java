@@ -32,8 +32,20 @@ public class GetDisplayPermissionResponseEvent extends ResponseEvent {
         GRANTED,        // Permission was granted
         NOT_GRANTED,    // Permission was not granted
         NO_PRODUCT_KEY, // Product key is missing
-        ERROR,          // Error occurred
+        ERROR;          // Error occurred
+
+        public enum Reason {
+            NO_PRODUCT_KEY,
+            EXPIRED,
+            WRONG_INSTANCE_KEY,
+            CORRUPTED_PRODUCT_KEY,
+            GENERAL_ERROR
+        }
+
+        public Reason reason;
     }
+
+
 
     /**
      * Constructor is private. Use factory methods to create new success or failure instances

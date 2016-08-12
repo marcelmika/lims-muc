@@ -25,6 +25,7 @@ import com.marcelmika.limsmuc.portal.security.RSAKeyPair;
 import com.marcelmika.limsmuc.portal.security.SHAHash;
 import com.marcelmika.limsmuc.portal.util.IPAddressUtil;
 
+import javax.crypto.BadPaddingException;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -78,8 +79,10 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
 
         // Product key is not set
         if (productKey.isEmpty()) {
+            GetDisplayPermissionResponseEvent.Status status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
+            status.reason = GetDisplayPermissionResponseEvent.Status.Reason.NO_PRODUCT_KEY;
             // Failure
-            return GetDisplayPermissionResponseEvent.failure(GetDisplayPermissionResponseEvent.Status.NO_PRODUCT_KEY);
+            return GetDisplayPermissionResponseEvent.failure(status);
         }
 
         try {
@@ -101,6 +104,7 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
             // Check the time limitation if not unlimited
             if (isAfterExpirationDate()) {
                 status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
+                status.reason = GetDisplayPermissionResponseEvent.Status.Reason.EXPIRED;
             }
 
             // Check machine identifier
@@ -111,6 +115,7 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
                 // Hashes must match
                 if (!machineIdentifierHash.equals(decryptedMachineIdentifierHash)) {
                     status = GetDisplayPermissionResponseEvent.Status.NOT_GRANTED;
+                    status.reason = GetDisplayPermissionResponseEvent.Status.Reason.WRONG_INSTANCE_KEY;
                 }
             }
 
@@ -123,11 +128,18 @@ public class PermissionPortalServiceImpl implements PermissionPortalService {
                     userLimit
             );
 
-        } catch (Exception e) {
+        }
+        catch (BadPaddingException e) {
+            GetDisplayPermissionResponseEvent.Status status = GetDisplayPermissionResponseEvent.Status.ERROR;
+            status.reason = GetDisplayPermissionResponseEvent.Status.Reason.CORRUPTED_PRODUCT_KEY;
             // Failure
-            return GetDisplayPermissionResponseEvent.failure(
-                    GetDisplayPermissionResponseEvent.Status.ERROR, e
-            );
+            return GetDisplayPermissionResponseEvent.failure(status, e);
+        }
+        catch (Exception e) {
+            GetDisplayPermissionResponseEvent.Status status = GetDisplayPermissionResponseEvent.Status.ERROR;
+            status.reason = GetDisplayPermissionResponseEvent.Status.Reason.GENERAL_ERROR;
+            // Failure
+            return GetDisplayPermissionResponseEvent.failure(status, e);
         }
     }
 

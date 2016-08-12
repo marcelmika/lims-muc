@@ -12,6 +12,7 @@
 <%--@elvariable id="instanceLimit" type="String"--%>
 <%--@elvariable id="validUntil" type="String"--%>
 <%--@elvariable id="userLimit" type="String"--%>
+<%--@elvariable id="permissionNotGrantedReason" type="String"--%>
 
 <div class="custom-license">
 
@@ -21,7 +22,12 @@
                 <span class="granted">License is VALID</span>
             </c:when>
             <c:otherwise>
-                <span class="not-granted">License is INVALID</span>
+                <span class="not-granted">
+                    License is INVALID
+                    <c:if test="${not empty permissionNotGrantedReason}">
+                            : <strong>${permissionNotGrantedReason}</strong>
+                    </c:if>
+                </span>
             </c:otherwise>
         </c:choose>
     </div>

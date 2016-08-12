@@ -317,6 +317,9 @@
     .custom-license {
 
       .settings-permission {
+        strong {
+          font-weight: bold;
+        }
         span {
           display: inline-block;
           padding: 0 10px;

@@ -92,6 +92,7 @@ public class LIMSPortlet extends MVCPortlet {
     private static final String VARIABLE_INSTANCE_KEY = "instanceKey";
     private static final String VARIABLE_PRODUCT_KEY = "productKey";
     private static final String VARIABLE_PERMISSION_GRANTED = "permissionGranted";
+    private static final String VARIABLE_PERMISSION_REASON = "permissionNotGrantedReason";
     private static final String VARIABLE_VALID_UNTIL = "validUntil";
     private static final String VARIABLE_USER_LIMIT = "userLimit";
     private static final String VARIABLE_INSTANCE_LIMIT = "instanceLimit";
@@ -322,7 +323,23 @@ public class LIMSPortlet extends MVCPortlet {
             // Error
             else if (displayPermission.getStatus() == GetDisplayPermissionResponseEvent.Status.ERROR) {
                 // Log error
-                log.debug(displayPermission.getException());
+                log.error(displayPermission.getException());
+            }
+
+            // Get reason of failure if set
+            GetDisplayPermissionResponseEvent.Status.Reason reason = displayPermission.getStatus().reason;
+            if (reason != null) {
+                if (reason == GetDisplayPermissionResponseEvent.Status.Reason.EXPIRED) {
+                    renderRequest.setAttribute(VARIABLE_PERMISSION_REASON, "Expired");
+                } else if (reason == GetDisplayPermissionResponseEvent.Status.Reason.NO_PRODUCT_KEY) {
+                    renderRequest.setAttribute(VARIABLE_PERMISSION_REASON, "Product key is missing");
+                } else if (reason == GetDisplayPermissionResponseEvent.Status.Reason.WRONG_INSTANCE_KEY) {
+                    renderRequest.setAttribute(VARIABLE_PERMISSION_REASON, "Different instance key");
+                } else if (reason == GetDisplayPermissionResponseEvent.Status.Reason.CORRUPTED_PRODUCT_KEY) {
+                    renderRequest.setAttribute(VARIABLE_PERMISSION_REASON, "Corrupted product key");
+                } else if (reason == GetDisplayPermissionResponseEvent.Status.Reason.GENERAL_ERROR) {
+                    renderRequest.setAttribute(VARIABLE_PERMISSION_REASON, "General error, check log");
+                }
             }
 
             // Show limits
