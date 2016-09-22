@@ -100,6 +100,31 @@ public class PortletPropertiesValues {
             PortletPropertiesKeys.CONVERSATION_FEED_MAX_CONVERSATIONS
     );
 
+    // Websocket - Server Hostname
+    public static final String WEBSOCKET_SERVER_HOSTNAME = getString(
+            PortletPropertiesKeys.WEBSOCKET_SERVER_HOSTNAME
+    );
+
+    // Websocket - Server Port
+    public static final int WEBSOCKET_SERVER_PORT = getInteger(
+            PortletPropertiesKeys.WEBSOCKET_SERVER_PORT
+    );
+
+    // Websocket - Client Port
+    public static final int WEBSOCKET_CLIENT_PORT = getInteger(
+            PortletPropertiesKeys.WEBSOCKET_CLIENT_PORT
+    );
+
+    // Websocket - Secured
+    public static final boolean WEBSOCKET_SECURED = getBoolean(
+            PortletPropertiesKeys.WEBSOCKET_SECURED
+    );
+
+    // Websocket - Endpoint
+    public static final String WEBSOCKET_ENDPOINT = getString(
+            PortletPropertiesKeys.WEBSOCKET_ENDPOINT
+    );
+
     // Polling - Slow down threshold
     public static final int POLLING_SLOW_DOWN_THRESHOLD = getInteger(
             PortletPropertiesKeys.POLLING_SLOW_DOWN_THRESHOLD

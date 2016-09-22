@@ -15,6 +15,7 @@
         "js/core/properties/Properties.js",
         "js/core/poller/Poller.js",
         "js/core/poller/PollerEntry.js",
+        "js/core/websocket/WebSocketClient.js",
         "js/core/util/Util.js"
       ],
       "config": {

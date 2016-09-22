@@ -33,7 +33,6 @@ public class ApplicationStartupAction extends SimpleAction {
     // Dependencies
     SynchronizationCoreService synchronizationService = SynchronizationCoreServiceUtil.getSynchronizationCoreService();
 
-
     /**
      * Application startup event that runs once for every web site instance of the portal that initializes
      *

@@ -56,6 +56,11 @@ public class Environment {
     private static String urlSynchronizationHelp = "";
     private static String instanceSecret = "";
     private static String productKey = "";
+    private static String websocketServerHostname = "";
+    private static Integer websocketServerPort = 0;
+    private static Integer websocketClientPort = 0;
+    private static Boolean websocketSecured = false;
+    private static String websocketEndpoint = "";
 
     /**
      * Enum for properties source
@@ -530,6 +535,46 @@ public class Environment {
      */
     public static void setPollingSlowDownThreshold(Integer pollingSlowDownThreshold) {
         Environment.pollingSlowDownThreshold = pollingSlowDownThreshold;
+    }
+
+    public static String getWebsocketServerHostname() {
+        return websocketServerHostname;
+    }
+
+    public static void setWebsocketServerHostname(String websocketServerHostname) {
+        Environment.websocketServerHostname = websocketServerHostname;
+    }
+
+    public static Integer getWebsocketServerPort() {
+        return websocketServerPort;
+    }
+
+    public static void setWebsocketServerPort(Integer websocketServerPort) {
+        Environment.websocketServerPort = websocketServerPort;
+    }
+
+    public static Integer getWebsocketClientPort() {
+        return websocketClientPort;
+    }
+
+    public static void setWebsocketClientPort(Integer websocketClientPort) {
+        Environment.websocketClientPort = websocketClientPort;
+    }
+
+    public static Boolean getWebsocketSecured() {
+        return websocketSecured;
+    }
+
+    public static void setWebsocketSecured(Boolean websocketSecured) {
+        Environment.websocketSecured = websocketSecured;
+    }
+
+    public static String getWebsocketEndpoint() {
+        return websocketEndpoint;
+    }
+
+    public static void setWebsocketEndpoint(String websocketEndpoint) {
+        Environment.websocketEndpoint = websocketEndpoint;
     }
 
     /**

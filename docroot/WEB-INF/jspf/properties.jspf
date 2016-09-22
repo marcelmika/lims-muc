@@ -32,6 +32,9 @@
     "mobileUserScalableDisabled":${properties.mobileUserScalableDisabled},
     "portletResourceUrl":"${portletResourceUrl}",
     "ipcEnabled":${properties.ipcEnabled},
-    "browserNotificationsRequireInteraction":${properties.browserNotificationsRequireInteraction}
+    "browserNotificationsRequireInteraction":${properties.browserNotificationsRequireInteraction},
+    "websocketSecured": ${properties.websocketSecured},
+    "websocketEndpoint": "${properties.websocketEndpoint}",
+    "websocketPort": ${properties.websocketClientPort}
     }
 </script>

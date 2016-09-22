@@ -143,6 +143,23 @@
     <bean id="com.marcelmika.limsmuc.portal.service.PermissionPortalService"
           class="com.marcelmika.limsmuc.portal.service.PermissionPortalServiceImpl"/>
 
+    <!-- Web Socket Core Service -->
+
+    <bean id="com.marcelmika.limsmuc.core.service.WebSocketCoreService"
+          class="com.marcelmika.limsmuc.core.service.WebSocketCoreServiceImpl">
+        <constructor-arg index="0" ref="com.marcelmika.limsmuc.portal.service.WebSocketPortalService"/>
+    </bean>
+
+    <bean id="com.marcelmika.limsmuc.core.service.WebSocketCoreServiceUtil"
+          class="com.marcelmika.limsmuc.core.service.WebSocketCoreServiceUtil">
+        <property name="webSocketCoreService"
+                  ref="com.marcelmika.limsmuc.core.service.WebSocketCoreService"/>
+    </bean>
+
+    <!-- Portal Web Socket Service -->
+
+    <bean id="com.marcelmika.limsmuc.portal.service.WebSocketPortalService"
+          class="com.marcelmika.limsmuc.portal.service.WebSocketPortalServiceImpl"/>
 
     <!-- Synchronization Persistence Service -->
 

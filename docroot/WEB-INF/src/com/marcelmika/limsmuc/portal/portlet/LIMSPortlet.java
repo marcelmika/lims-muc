@@ -28,12 +28,16 @@ import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSessionLimitResponseEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsRequestEvent;
 import com.marcelmika.limsmuc.api.events.settings.ReadSettingsResponseEvent;
+import com.marcelmika.limsmuc.api.events.websocket.StartServerRequestEvent;
+import com.marcelmika.limsmuc.api.events.websocket.StopServerRequestEvent;
 import com.marcelmika.limsmuc.core.service.ConversationCoreService;
 import com.marcelmika.limsmuc.core.service.ConversationCoreServiceUtil;
 import com.marcelmika.limsmuc.core.service.PermissionCoreService;
 import com.marcelmika.limsmuc.core.service.PermissionCoreServiceUtil;
 import com.marcelmika.limsmuc.core.service.SettingsCoreService;
 import com.marcelmika.limsmuc.core.service.SettingsCoreServiceUtil;
+import com.marcelmika.limsmuc.core.service.WebSocketCoreService;
+import com.marcelmika.limsmuc.core.service.WebSocketCoreServiceUtil;
 import com.marcelmika.limsmuc.portal.domain.Buddy;
 import com.marcelmika.limsmuc.portal.domain.Conversation;
 import com.marcelmika.limsmuc.portal.domain.Properties;
@@ -73,6 +77,7 @@ public class LIMSPortlet extends MVCPortlet {
     private PermissionCoreService permissionCoreService = PermissionCoreServiceUtil.getPermissionCoreService();
     private ConversationCoreService conversationCoreService = ConversationCoreServiceUtil.getConversationCoreService();
     private PropertiesManager propertiesManager = PropertiesManagerUtil.getPropertiesManager();
+    private WebSocketCoreService webSocketCoreService = WebSocketCoreServiceUtil.getWebSocketCoreService();
 
     // Constants
     private static final String VIEW_JSP_PATH = "/view.jsp"; // Path to the view.jsp
@@ -100,6 +105,24 @@ public class LIMSPortlet extends MVCPortlet {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     // Log
     private static Log log = LogFactoryUtil.getLog(LIMSPortlet.class);
+
+    @Override
+    public void init() throws PortletException {
+        super.init();
+
+        // Start the web socket server
+        webSocketCoreService.startServer(new StartServerRequestEvent(
+                "127.0.0.1", 8010 // TODO: Find the way how to get the portlet properties in init()
+        ));
+    }
+
+    @Override
+    public void destroy() {
+        // Stop the web socket server
+        webSocketCoreService.stopServer(new StopServerRequestEvent());
+
+        super.destroy();
+    }
 
     /**
      * This method is called whenever the view is rendered. All data needed to render the main LIMS view (i.e. panels
@@ -517,7 +540,6 @@ public class LIMSPortlet extends MVCPortlet {
         ReadSessionLimitResponseEvent responseEvent = settingsCoreService.readSessionLimit(
                 new ReadSessionLimitRequestEvent(buddy.getBuddyId())
         );
-
 
         return responseEvent.isOverLimit();
     }

@@ -53,6 +53,12 @@ public class Properties {
     private Boolean ipcEnabled;
     private Boolean browserNotificationsRequireInteraction;
     private Boolean mobileUserScalableDisabled;
+    private String websocketServerHostname;
+    private Integer websocketServerPort;
+    private Integer websocketClientPort;
+    private Boolean websocketSecured;
+    private String websocketEndpoint;
+
 
     /**
      * Factory method that creates an instance of properties from the environment properties
@@ -95,6 +101,11 @@ public class Properties {
         properties.ipcEnabled = Environment.getIpcEnabled();
         properties.mobileUserScalableDisabled = Environment.getMobileUserScalableDisabled();
         properties.browserNotificationsRequireInteraction = Environment.getBrowserNotificationsRequireInteraction();
+        properties.websocketServerHostname = Environment.getWebsocketServerHostname();
+        properties.websocketServerPort = Environment.getWebsocketServerPort();
+        properties.websocketClientPort = Environment.getWebsocketClientPort();
+        properties.websocketSecured = Environment.getWebsocketSecured();
+        properties.websocketEndpoint = Environment.getWebsocketEndpoint();
 
         return properties;
     }
@@ -371,6 +382,46 @@ public class Properties {
         this.browserNotificationsRequireInteraction = browserNotificationsRequireInteraction;
     }
 
+    public String getWebsocketServerHostname() {
+        return websocketServerHostname;
+    }
+
+    public void setWebsocketServerHostname(String websocketServerHostname) {
+        this.websocketServerHostname = websocketServerHostname;
+    }
+
+    public Integer getWebsocketServerPort() {
+        return websocketServerPort;
+    }
+
+    public void setWebsocketServerPort(Integer websocketServerPort) {
+        this.websocketServerPort = websocketServerPort;
+    }
+
+    public Integer getWebsocketClientPort() {
+        return websocketClientPort;
+    }
+
+    public void setWebsocketClientPort(Integer websocketClientPort) {
+        this.websocketClientPort = websocketClientPort;
+    }
+
+    public Boolean getWebsocketSecured() {
+        return websocketSecured;
+    }
+
+    public void setWebsocketSecured(Boolean websocketSecured) {
+        this.websocketSecured = websocketSecured;
+    }
+
+    public String getWebsocketEndpoint() {
+        return websocketEndpoint;
+    }
+
+    public void setWebsocketEndpoint(String websocketEndpoint) {
+        this.websocketEndpoint = websocketEndpoint;
+    }
+
     @Override
     public String toString() {
         return "Properties{" +
@@ -405,6 +456,11 @@ public class Properties {
                 ", ipcEnabled=" + ipcEnabled +
                 ", browserNotificationsRequireInteraction=" + browserNotificationsRequireInteraction +
                 ", mobileUserScalableDisabled=" + mobileUserScalableDisabled +
+                ", websocketServerHostname='" + websocketServerHostname + '\'' +
+                ", websocketServerPort=" + websocketServerPort +
+                ", websocketClientPort=" + websocketClientPort +
+                ", websocketSecured=" + websocketSecured +
+                ", websocketEndpoint='" + websocketEndpoint + '\'' +
                 '}';
     }
 }

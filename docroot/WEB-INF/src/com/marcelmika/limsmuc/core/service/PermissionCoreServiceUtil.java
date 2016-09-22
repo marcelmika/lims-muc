@@ -29,7 +29,7 @@ public class PermissionCoreServiceUtil {
     }
 
     /**
-     * Injects implementation of ProjectCoreService
+     * Injects implementation of PermissionCoreService
      *
      * @param permissionCoreService PermissionCoreService
      */

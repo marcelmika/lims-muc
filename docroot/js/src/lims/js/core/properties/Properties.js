@@ -171,6 +171,33 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
     },
 
     /**
+     * Returns true if the websocket should be secured
+     *
+     * @return {boolean}
+     */
+    getWebsocketSecured: function () {
+        return this.get('websocketSecured');
+    },
+
+    /**
+     * Returns websocket endpoint
+     *
+     * @return {string}
+     */
+    getWebsocketEndpoint: function () {
+        return this.get('websocketEndpoint');
+    },
+
+    /**
+     * Returns websocket port
+     *
+     * @return {number}
+     */
+    getWebsocketPort: function () {
+        return this.get('websocketPort');
+    },
+
+    /**
      * Returns true if the whole chat is enabled
      *
      * @returns {boolean}
@@ -428,6 +455,39 @@ Y.LIMS.Core.Properties = Y.Base.create('properties', Y.Base, [], {
         portletResourceUrl: {
             valueFn: function () {
                 return Y.LIMS.Core.Properties.values.portletResourceUrl;
+            }
+        },
+
+        /**
+         * Websocket secured
+         *
+         * {string}
+         */
+        websocketSecured: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.websocketSecured;
+            }
+        },
+
+        /**
+         * Websocket endpoint
+         *
+         * {string}
+         */
+        websocketEndpoint: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.websocketEndpoint;
+            }
+        },
+
+        /**
+         * Websocket port
+         *
+         * {string}
+         */
+        websocketPort: {
+            valueFn: function () {
+                return Y.LIMS.Core.Properties.values.websocketPort;
             }
         },
 

@@ -138,6 +138,11 @@ public class PropertiesManagerImpl implements PropertiesManager {
             setupBuddyListGroupExcludes(preferences);
             setupConnectionLostThreshold();
             setupPollingSlowDownThreshold();
+            setupWebsocketServerHostname();
+            setupWebsocketServerPort();
+            setupWebsocketClientPort();
+            setupWebsocketSecured();
+            setupWebsocketEndpoint();
 
             // Instance secret
             setupInstanceSecret(preferences);
@@ -993,6 +998,57 @@ public class PropertiesManagerImpl implements PropertiesManager {
 
         // Set url properties
         Environment.setPollingSlowDownThreshold(value);
+    }
+
+    /**
+     * Sets websocket server hostname
+     */
+    private void setupWebsocketServerHostname() {
+        // Setup the value
+        Environment.setWebsocketServerHostname(
+                PortletPropertiesValues.WEBSOCKET_SERVER_HOSTNAME
+        );
+    }
+
+
+    /**
+     * Sets websocket server port
+     */
+    private void setupWebsocketServerPort() {
+        // Setup the value
+        Environment.setWebsocketServerPort(
+                PortletPropertiesValues.WEBSOCKET_SERVER_PORT
+        );
+    }
+
+    /**
+     * Sets websocket client port
+     */
+    private void setupWebsocketClientPort() {
+        // Setup the value
+        Environment.setWebsocketClientPort(
+                PortletPropertiesValues.WEBSOCKET_CLIENT_PORT
+        );
+    }
+
+    /**
+     * Sets websocket server port
+     */
+    private void setupWebsocketSecured() {
+        // Setup the value
+        Environment.setWebsocketSecured(
+                PortletPropertiesValues.WEBSOCKET_SECURED
+        );
+    }
+
+    /**
+     * Sets websocket server port
+     */
+    private void setupWebsocketEndpoint() {
+        // Setup the value
+        Environment.setWebsocketEndpoint(
+                PortletPropertiesValues.WEBSOCKET_ENDPOINT
+        );
     }
 
     /**

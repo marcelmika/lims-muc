@@ -96,6 +96,11 @@ Y.LIMS.Controller.MainController = Y.Base.create('mainController', Y.Base, [Y.LI
                 buddyDetails: buddyDetails
             });
 
+            // Websockets
+            new Y.LIMS.Core.WebSocketClient({
+                properties: properties
+            });
+
             // Render tooltips
             var tooltip = new Y.LIMS.View.Tooltip();
             tooltip.render();

@@ -48,6 +48,13 @@ public interface PortletPropertiesKeys {
     // Conversation Feed
     String CONVERSATION_FEED_MAX_CONVERSATIONS = "conversation.feed.max.conversations";
 
+    // Websocket
+    String WEBSOCKET_SERVER_HOSTNAME = "websocket.server.hostname";
+    String WEBSOCKET_SERVER_PORT = "websocket.server.port";
+    String WEBSOCKET_ENDPOINT = "websocket.endpoint";
+    String WEBSOCKET_CLIENT_PORT = "websocket.client.port";
+    String WEBSOCKET_SECURED = "websocket.secured";
+
     // Polling
     String POLLING_SLOW_DOWN_THRESHOLD = "polling.slow.down.threshold";
 
