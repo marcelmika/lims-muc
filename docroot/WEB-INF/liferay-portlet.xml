@@ -65,4 +65,71 @@
         <system>true</system>
 
     </portlet>
+
+    <!--
+    The portlet element contains the declarative data of a portlet.
+    -->
+    <portlet>
+        <!--
+        The portlet-name element contains the unique name of the portlet. This name must
+        match the portlet-name specified in portlet.xml.
+        -->
+        <portlet-name>lims-muc-settings</portlet-name>
+
+        <!--
+       Set the control-panel-entry-category value to "my" to make this portlet
+       available within the My Account administration of the user. Set the value to
+       "apps", "configuration", "sites", or "users" to make it available in the Control
+       Panel under that category. Set the value to "site_administration.configuration",
+       "site_administration.content", "site_administration.pages" or
+       "site_administration.users" to make it available in the Site Administration
+       under that category. Legacy values from previous versions of Liferay will be
+       automatically mapped to the new values: "content" to
+       "site_administration.content", "portal" to "users", and "server" to "apps".
+       -->
+        <control-panel-entry-category>apps</control-panel-entry-category>
+
+        <!--
+        Set the control-panel-entry-weight value to a double number to control the
+        position of the entry within its Control Panel category. Higher values mean
+        that the entry will appear lower in the Control Panel menu.
+        -->
+        <control-panel-entry-weight>1.5</control-panel-entry-weight>
+
+        <!--
+        The control-panel-entry-class value must be a class that implements
+        com.liferay.portlet.ControlPanelEntry and is called by the Control Panel to
+        decide whether the portlet should be shown to a specific user in a specific
+        context. The default value is set in portal.properties.
+
+        See:
+
+        http://docs.liferay.com/portal/6.2/javadocs-all/com/liferay/portlet/ControlPanelEntry.html
+        -->
+        <control-panel-entry-class>com.marcelmika.limsmuc.portal.portlet.SettingsControlPanelEntry
+        </control-panel-entry-class>
+
+        <!-- requires-namespaced-parameters and ajaxable should fix issue with no params via ajax call:
+        https://www.liferay.com/community/forums/-/message_boards/message/33640423 -->
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <ajaxable>true</ajaxable>
+
+        <!--
+        Set the path of CSS that will be referenced in the page's header relative to the
+        portlet's context path.
+        -->
+        <!--<header-portlet-css>/css/main.css</header-portlet-css>-->
+
+        <!--
+        Set the path of JavaScript that will be referenced in the page's footer relative
+        to the portlet's context path.
+        -->
+        <!--<footer-portlet-javascript>/js/licenses/main.js</footer-portlet-javascript>-->
+
+        <!--
+        Set name of the CSS class that will be injected in the DIV that wraps this
+        portlet.
+        -->
+        <css-class-wrapper>lims-muc-settings</css-class-wrapper>
+    </portlet>
 </liferay-portlet-app>
