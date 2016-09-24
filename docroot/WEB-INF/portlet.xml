@@ -99,15 +99,15 @@
         The portlet-class element contains the fully
 		qualified class name of the portlet.
         -->
-        <portlet-class>com.marcelmika.limsmuc.portal.portlet.SettingsPortlet</portlet-class>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 
         <!--
         The init-param element contains the name the attribute.
         This name must be unique within the portlet.
         -->
         <init-param>
-            <name>view-template</name>
-            <value>/html/settings/view.jsp</value>
+            <name>contextConfigLocation</name>
+            <value>/WEB-INF/spring/portlet-context.xml</value>
         </init-param>
 
         <!--

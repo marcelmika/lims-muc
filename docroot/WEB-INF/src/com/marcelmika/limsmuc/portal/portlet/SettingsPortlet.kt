@@ -9,19 +9,26 @@
 
 package com.marcelmika.limsmuc.portal.portlet
 
-import com.liferay.portal.kernel.log.LogFactoryUtil
-import com.liferay.util.bridges.mvc.MVCPortlet
 import com.marcelmika.limsmuc.portal.domain.Properties
+import org.springframework.stereotype.Component
+import org.springframework.ui.ModelMap
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.portlet.bind.annotation.RenderMapping
+
 import javax.portlet.RenderRequest
 import javax.portlet.RenderResponse
 
 /**
  * @author Ing. Marcel Mika
+ * *
  * @link http://marcelmika.com
- * Date: 23/09/16
- * Time: 15:51
+ * * Date: 24/09/16
+ * * Time: 11:45
  */
-class SettingsPortlet : MVCPortlet() {
+@Component
+@Suppress("unused")
+@RequestMapping("view")
+open class SettingsPortlet {
 
     //---------------------------------------------------------------------------------------------
     // Properties
@@ -29,7 +36,7 @@ class SettingsPortlet : MVCPortlet() {
 
     // Holds views related to the portlet
     enum class View(val path: String) {
-        Main("/html/settings/view.jsp")
+        Main("settings/view")
     }
 
     // Holds attributes passed to view
@@ -37,20 +44,15 @@ class SettingsPortlet : MVCPortlet() {
         Properties("properties")
     }
 
-    // Log
-    private val log = LogFactoryUtil.getLog(SettingsPortlet::class.java)
+    @RenderMapping
+    fun handleRenderRequest(request: RenderRequest, response: RenderResponse, model: ModelMap): String {
 
-    
-    //---------------------------------------------------------------------------------------------
-    // Lifecycle
-    //---------------------------------------------------------------------------------------------
-
-    override fun doView(renderRequest: RenderRequest?, renderResponse: RenderResponse?) {
 
         // Pass attributes to view
-        renderRequest?.setAttribute(Attribute.Properties.key, Properties.fromEnvironment())
+        request.setAttribute(Attribute.Properties.key, Properties.fromEnvironment())
 
-        // Set response to view.jsp
-        include(View.Main.path, renderRequest, renderResponse)
+
+        return View.Main.path
     }
+
 }
