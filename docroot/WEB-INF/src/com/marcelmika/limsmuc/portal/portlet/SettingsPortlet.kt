@@ -11,6 +11,7 @@ package com.marcelmika.limsmuc.portal.portlet
 
 import com.liferay.portal.kernel.log.LogFactoryUtil
 import com.liferay.util.bridges.mvc.MVCPortlet
+import com.marcelmika.limsmuc.portal.domain.Properties
 import javax.portlet.RenderRequest
 import javax.portlet.RenderResponse
 
@@ -20,18 +21,36 @@ import javax.portlet.RenderResponse
  * Date: 23/09/16
  * Time: 15:51
  */
-class SettingsPortlet: MVCPortlet() {
+class SettingsPortlet : MVCPortlet() {
 
-    // Views
-    private val VIEW_JSP_PATH = "/html/settings/view.jsp"
+    //---------------------------------------------------------------------------------------------
+    // Properties
+    //---------------------------------------------------------------------------------------------
+
+    // Holds views related to the portlet
+    enum class View(val path: String) {
+        Main("/html/settings/view.jsp")
+    }
+
+    // Holds attributes passed to view
+    enum class Attribute(val key: String) {
+        Properties("properties")
+    }
 
     // Log
     private val log = LogFactoryUtil.getLog(SettingsPortlet::class.java)
 
+    
+    //---------------------------------------------------------------------------------------------
+    // Lifecycle
+    //---------------------------------------------------------------------------------------------
+
     override fun doView(renderRequest: RenderRequest?, renderResponse: RenderResponse?) {
 
+        // Pass attributes to view
+        renderRequest?.setAttribute(Attribute.Properties.key, Properties.fromEnvironment())
 
         // Set response to view.jsp
-        include(VIEW_JSP_PATH, renderRequest, renderResponse)
+        include(View.Main.path, renderRequest, renderResponse)
     }
 }

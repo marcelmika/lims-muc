@@ -17,7 +17,7 @@ import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCRequestEv
 import com.marcelmika.limsmuc.api.events.synchronization.SynchronizeSUCResponseEvent;
 import com.marcelmika.limsmuc.core.service.SynchronizationCoreService;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
-import com.marcelmika.limsmuc.portal.portlet.PermissionDetector;
+import com.marcelmika.limsmuc.portal.util.PermissionDetector;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;
 
 import javax.portlet.ResourceRequest;

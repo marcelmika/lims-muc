@@ -18,7 +18,7 @@ import com.marcelmika.limsmuc.core.service.SettingsCoreService;
 import com.marcelmika.limsmuc.portal.domain.ErrorMessage;
 import com.marcelmika.limsmuc.portal.domain.Properties;
 import com.marcelmika.limsmuc.portal.http.HttpStatus;
-import com.marcelmika.limsmuc.portal.portlet.PermissionDetector;
+import com.marcelmika.limsmuc.portal.util.PermissionDetector;
 import com.marcelmika.limsmuc.portal.properties.PropertiesManager;
 import com.marcelmika.limsmuc.portal.request.RequestParameterKeys;
 import com.marcelmika.limsmuc.portal.response.ResponseUtil;

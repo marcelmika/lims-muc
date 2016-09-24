@@ -49,6 +49,8 @@ import com.marcelmika.limsmuc.portal.processor.PortletProcessorUtil;
 import com.marcelmika.limsmuc.portal.properties.PortletPropertiesValues;
 import com.marcelmika.limsmuc.portal.properties.PropertiesManager;
 import com.marcelmika.limsmuc.portal.properties.PropertiesManagerUtil;
+import com.marcelmika.limsmuc.portal.util.BrowserDetector;
+import com.marcelmika.limsmuc.portal.util.PermissionDetector;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;

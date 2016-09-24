@@ -21,3 +21,6 @@
 <%-- Portlet --%>
 <portlet:defineObjects/>
 <portlet:resourceURL var="resourceURL" />
+
+<%-- Imports --%>
+<%@ page import="com.marcelmika.limsmuc.api.environment.Environment" %>

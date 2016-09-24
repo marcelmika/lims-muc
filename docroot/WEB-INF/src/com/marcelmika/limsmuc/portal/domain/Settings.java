@@ -27,6 +27,7 @@ public class Settings {
     private boolean notificationsEnabled;
     private boolean isChatEnabled;
     @JSON(include = false)
+    @Deprecated
     private boolean isAdminAreaOpened;
     @JSON(include = false)
     private boolean isJabberDisconnected;
@@ -142,10 +143,12 @@ public class Settings {
         return isAdminAreaOpened;
     }
 
+    @Deprecated
     public void setIsAdminAreaOpened(boolean isAdminAreaOpened) {
         this.isAdminAreaOpened = isAdminAreaOpened;
     }
 
+    @Deprecated
     public boolean isAdminAreaOpened() {
         return isAdminAreaOpened;
     }
