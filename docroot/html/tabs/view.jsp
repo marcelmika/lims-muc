@@ -1,3 +1,12 @@
+<%--
+  ~ Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+  ~
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Marcel Mika <marcelmika.com>, 2014
+  --%>
+
 <%-- Variables --%>
 <%--@elvariable id="isEnabled" type="boolean"--%>
 <%--@elvariable id="isOverLimit" type="boolean"--%>
@@ -43,23 +52,23 @@
                 <div class="lims-sound"></div>
                 <div class="lims-tabs-container">
                     <ul class="lims-tabs">
-                        <%@ include file="/WEB-INF/jspf/status-panel.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/settings-panel.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/group-list-panel.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/conversation-feed.jspf" %>
-                        <%@ include file="/WEB-INF/jspf/conversations.jspf" %>
+                        <%@ include file="/html/tabs/fragments/status-panel.jspf" %>
+                        <%@ include file="/html/tabs/fragments/settings-panel.jspf" %>
+                        <%@ include file="/html/tabs/fragments/group-list-panel.jspf" %>
+                        <%@ include file="/html/tabs/fragments/conversation-feed.jspf" %>
+                        <%@ include file="/html/tabs/fragments/conversations.jspf" %>
                     </ul>
                 </div>
             </div>
 
             <%-- Javascript Templates --%>
-            <%@ include file="/WEB-INF/jspf/templates.jspf" %>
+            <%@ include file="/html/tabs/fragments/templates.jspf" %>
 
             <%-- Rendered properties passed to client --%>
-            <%@ include file="/WEB-INF/jspf/properties.jspf" %>
+            <%@ include file="/html/tabs/fragments/properties.jspf" %>
 
             <%-- Rendered i18n string used on client --%>
-            <%@ include file="/WEB-INF/jspf/i18n.jspf" %>
+            <%@ include file="/html/tabs/fragments/i18n.jspf" %>
 
         </c:if>
 
@@ -74,10 +83,10 @@
     </div>
 
     <%-- Preloaded Images --%>
-    <%@ include file="/WEB-INF/jspf/preloaded-images.jspf" %>
+    <%@ include file="/html/tabs/fragments/preloaded-images.jspf" %>
 
     <%-- Conflict notifications --%>
-    <%@ include file="/WEB-INF/jspf/conflict.jspf" %>
+    <%@ include file="/html/tabs/fragments/conflict.jspf" %>
 
 </c:if>
 

@@ -6,24 +6,74 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
              http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
 
+
+    <!--
+    TABS PORTLET
+    -->
     <portlet>
+        <!--
+        The portlet-name element contains the canonical name of the
+        portlet. Each portlet name is unique within the portlet
+        application.
+        -->
         <portlet-name>1</portlet-name>
+
+        <!--
+        The display-name type contains a short name that is intended
+        to be displayed by tools. It is used by display-name
+        elements. The display name need not be unique.
+        -->
         <display-name>Messenger for Liferay</display-name>
+
+        <!--
+        The portlet-class element contains the fully
+		qualified class name of the portlet.
+        -->
         <portlet-class>com.marcelmika.limsmuc.portal.portlet.LIMSPortlet</portlet-class>
+
+        <!--
+        The init-param element contains the name the attribute.
+        This name must be unique within the portlet.
+        -->
         <init-param>
             <name>view-jsp</name>
-            <value>/view.jsp</value>
+            <value>/html/tabs/view.jsp</value>
         </init-param>
+
+        <!--
+        Expiration-time defines the time in seconds after which the portlet output expires.
+		-1 indicates that the output never expires.
+        -->
         <expiration-cache>0</expiration-cache>
+
+        <!--
+        Supports indicates the portlet modes a
+        portlet supports for a specific content type. All portlets must
+        support the view mode.
+        -->
         <supports>
             <mime-type>text/html</mime-type>
         </supports>
+
+        <!--
+        Name of the resource bundle containing the language specific
+		portlet information in different languages (Filename without
+		the language specific part (e.g. _en) and the ending (.properties).
+        -->
         <resource-bundle>content.Language</resource-bundle>
+
         <portlet-info>
             <!-- Title needs to be empty otherwise it will be visible on the screen -->
-            <title></title>
+            <title> </title>
+
+            <!-- Locale specific short version of the static title. -->
             <short-title>Messenger for Liferay</short-title>
-            <keywords>Messenger for Liferay</keywords>
+
+            <!--
+            Locale specific keywords associated with this portlet.
+			The keywords are separated by commas.
+			-->
+            <keywords>LIMS, messenger, chat</keywords>
         </portlet-info>
     </portlet>
 
@@ -93,7 +143,7 @@
             Locale specific keywords associated with this portlet.
 			The keywords are separated by commas.
 			-->
-            <keywords>lims,settings</keywords>
+            <keywords>LIMS, settings</keywords>
         </portlet-info>
     </portlet>
 </portlet-app>
