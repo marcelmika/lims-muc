@@ -55,7 +55,7 @@
         <ajaxable>true</ajaxable>
 
         <!-- CSS -->
-        <header-portlet-css>/css/build/limsmuc/limsmuc.css</header-portlet-css>
+        <header-portlet-css>/styles/build/tabs/tabs.css</header-portlet-css>
         <!-- JS -->
         <footer-portlet-javascript>/js/build/limsmuc/limsmuc-debug.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
@@ -118,7 +118,7 @@
         Set the path of CSS that will be referenced in the page's header relative to the
         portlet's context path.
         -->
-        <!--<header-portlet-css>/css/main.css</header-portlet-css>-->
+        <header-portlet-css>/styles/build/settings/settings.css</header-portlet-css>
 
         <!--
         Set the path of JavaScript that will be referenced in the page's footer relative

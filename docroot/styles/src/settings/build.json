@@ -1,0 +1,22 @@
+{
+    "name": "settings",
+    "builds": {
+
+        "settings": {
+            "cssfiles": [
+                "../../shared/css/mixins.scss",
+                "../../shared/css/theme.scss",
+                "css/settings.scss"
+            ],
+            "replace": {
+                "/images/": "../../../images/"
+            }
+        }
+    },
+
+    "shifter": {
+        "lint": false,
+        "coverage": false
+    }
+
+}

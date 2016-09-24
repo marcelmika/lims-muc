@@ -10,6 +10,6 @@
 <%-- Inits --%>
 <%@ include file="/html/init.jsp" %>
 
-<div>
+<div class="settings-test">
     This is settings
 </div>

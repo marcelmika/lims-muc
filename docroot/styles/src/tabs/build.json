@@ -1,11 +1,11 @@
 {
-    "name": "limsmuc",
+    "name": "tabs",
     "builds": {
 
-        "limsmuc": {
+        "tabs": {
             "cssfiles": [
-                "css/mixins.scss",
-                "css/theme.scss",
+                "../../shared/css/mixins.scss",
+                "../../shared/css/theme.scss",
                 "css/reset.scss",
                 "css/elements.scss",
                 "css/globals.scss",

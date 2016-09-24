@@ -1,0 +1,3123 @@
+/*
+ * Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+ *
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ *
+ * Written by Marcel Mika <marcelmika.com>, 2014
+ */
+//
+// Import compass mixin library
+// http://compass-style.org
+//
+@import "compass";
+
+//
+// Imports high resolution images for high density displays such as retina
+//
+// @param $image name of the image
+// @param $width background size width of the image
+// @param $height background size height of the image
+//
+@mixin image-2x($image, $width, $height) {
+  @media (min--moz-device-pixel-ratio: 1.3),
+  (-o-min-device-pixel-ratio: 2.6/2),
+  (-webkit-min-device-pixel-ratio: 1.3),
+  (min-device-pixel-ratio: 1.3),
+  (min-resolution: 1.3dppx) {
+    /* On retina, use image that's scaled by 2 */
+    background-image: url($image);
+    background-size: $width $height;
+  }
+}
+
+// Prevents user from selecting the element
+@mixin no-select() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+//
+// Makes transparent background color
+//
+// @param $color hex color e.g. #dd9900
+// @param $alpha in percent e.g. 0.6
+//
+@mixin transparent($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  $ie-hex-str: ie-hex-str($rgba);
+  @extend .transparent-background;
+  background-color: $rgba;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
+}
+
+//
+// Makes the font smooth. Needed for webkit
+// @see http://stackoverflow.com/questions/13144061/font-weights-differing-in-webkit-and-firefox
+@mixin font-smoothing() {
+  -webkit-font-smoothing: antialiased;
+}
+
+//
+// Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks
+// @see: http://www.w3schools.com/cssref/pr_text_white-space.asp
+@mixin pre-wrap() {
+  white-space: pre;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+}//////////////////////////////////////////////////////////////////////
+// WHITE THEME
+//////////////////////////////////////////////////////////////////////
+
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+// Height of the bar based on device
+$bar-height-desktop-device: 24px;
+$bar-height-mobile-device: 40px;
+/********************************************************************************
+/* RESET
+/********************************************************************************/
+
+.lims-muc {
+
+  * {
+    @include box-sizing(content-box);
+    background: none repeat scroll 0 0 transparent;
+    font-weight: normal;
+    text-decoration: none;
+    text-indent: 0;
+    text-align: left;
+  }
+
+  div,
+  span,
+  p,
+  a,
+  img,
+  small,
+  strong,
+  b,
+  u,
+  i,
+  ul,
+  li,
+  fieldset,
+  label,
+  textarea {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    border-spacing: 0;
+    float: none;
+    // Remove inner shadow from inputs on mobile iOS
+    -webkit-appearance: none;
+  }
+
+  ul {
+    list-style: none;
+    float: none;
+  }
+
+  input,
+  input[type="text"],
+  input[type="text"]:focus {
+    outline: none;
+    transform: none;
+    @include box-shadow(none);
+  }
+}/********************************************************************************
+/ LISTS
+/********************************************************************************/
+
+/* Divider between list elements */
+.lims-muc li.divider {
+  border-bottom: 1px solid #ddd;
+}
+
+/********************************************************************************
+/ PRELOADER
+/********************************************************************************/
+
+.lims-muc .preloader {
+  position: absolute;
+  margin: 60px auto 0;
+  text-align: center;
+  background: url("../../../images/preloader-light.gif") center center no-repeat;
+  @include image-2x("../../../images/preloader-light@2x.gif", auto, 25px);
+  width: 100%;
+  height: 40px;
+
+}
+
+/********************************************************************************
+/ TOOLTIP
+/********************************************************************************/
+
+.lims-muc {
+
+  .tooltip-container {
+    @include transparent(#000000, 0.77);
+    @include border-radius(15px);
+    color: #ffffff;
+    padding: 10px;
+    max-width: 250px;
+    margin-left: 5px;
+    line-height: 14px;
+    font-weight: 500;
+  }
+
+  .tooltip-button {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0 5px;
+    background: #fff;
+    border: 1px solid #689DCA;
+    @include border-radius(15px);
+    color: #689DCA;
+    line-height: 13px;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: left;
+    opacity: 0.7;
+    text-transform: lowercase;
+    @include no-select();
+  }
+
+}
+
+/********************************************************************************
+/ BUTTON
+/********************************************************************************/
+
+.lims-muc {
+
+  .button {
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 12px;
+    // Make the button unselectable
+    @include no-select();
+    @include box-shadow(0 1px 0 rgba(255, 255, 255, 0.75) inset, 0 -1px 0 rgba(0, 0, 0, 0.15) inset);
+
+    &:hover,
+    &:focus {
+      text-shadow: none;
+      @include box-shadow(none);
+      background-color: #eee;
+    }
+
+    &:disabled {
+      opacity: 0.6 !important;
+    }
+  }
+
+  .button-primary {
+    color: #333333;
+    background-color: #ffffff;
+    border-color: #cccccc;
+  }
+
+  .button-secondary {
+    color: #333333;
+    background: #ffffff;
+    border-color: #ddd;
+  }
+
+  .button-default {
+    color: #333333;
+    background-color: white;
+    border-color: #cccccc;
+  }
+
+  .button-primary.active,
+  .button-primary.active:hover {
+    color: white;
+    background-color: #74B3EB;
+    border-color: #629CCE;
+  }
+
+  .button-primary:hover {
+    color: #333333;
+    background-color: rgba(178, 217, 241, 0.62);
+    border-color: rgba(178, 217, 241, 0.62);
+  }
+
+  .button-secondary {
+    &:hover,
+    &:focus {
+      color: #fff;
+      border-color: #629CCE;
+      background: #74B3EB;
+    }
+  }
+
+  .button-default:hover,
+  .button-default.active {
+    color: #333333;
+    background-color: #ebebeb;
+    border-color: #adadad;
+  }
+
+  //////////////////////////////////////////////////////////////////
+  // Button group                                                 //
+  //////////////////////////////////////////////////////////////////
+
+  .button-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 22px;
+    padding-bottom: 5px;
+
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    &.disabled .button-primary:hover {
+      color: #333333;
+      background-color: #ffffff;
+      border-color: #cccccc;
+    }
+
+    &.disabled .button-primary.active:hover {
+      color: white;
+      background-color: #74B3EB;
+      border-color: #629CCE;
+    }
+
+    .button {
+      font-size: 11px;
+      padding-left: 8px;
+      padding-right: 8px;
+      text-transform: uppercase;
+      // Rounded corners
+      @include border-radius(0);
+      @include box-shadow(none);
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      &.disabled:hover {
+        color: #333333;
+        background-color: #ffffff;
+        border-color: #cccccc;
+      }
+    }
+
+    > .button {
+      position: relative;
+      float: left;
+      margin-left: -1px;
+    }
+
+    .button:first-of-type {
+      // Rounded corners
+      @include border-radius(5px);
+      @include border-top-right-radius(0);
+      @include border-bottom-right-radius(0);
+    }
+
+    .button:last-of-type {
+      // Rounded corners
+      @include border-radius(5px);
+      @include border-top-left-radius(0);
+      @include border-bottom-left-radius(0);
+    }
+  }
+
+}
+
+/********************************************************************************
+/ AUTOCOMPLETE LIST
+/********************************************************************************/
+
+.lims-muc .yui3-aclist {
+
+  &.fix-position {
+    position: absolute !important;
+  }
+
+  .yui3-aclist-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    @include box-shadow(1px 1px 1px rgba(0, 0, 0, 0.13));
+  }
+
+  .yui3-aclist-item {
+    padding: 0 5px;
+    line-height: 27px;
+  }
+
+  .yui3-aclist-item-active {
+    background: #81ABD5;
+  }
+
+  .yui3-aclist-item {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+/************************************************************************************
+/  TOKEN INPUT
+/************************************************************************************/
+
+.lims-muc .token-input {
+
+  li {
+    padding-bottom: 0;
+  }
+
+  .token-input-plugin,
+  .token-input-plugin-content,
+  .token-input-plugin-item,
+  .token-input-plugin-list {
+    display: inline-block;
+    padding: 0;
+    vertical-align: bottom;
+    zoom: 1;
+  }
+
+  .token-input-plugin {
+    width: 360px;
+  }
+
+  .token-input-plugin-content,
+  .token-input-plugin-list {
+    width: 100%;
+  }
+
+  .token-input-plugin-input {
+    position: relative;
+    top: 4px;
+    border: 0;
+    background: none;
+    outline: 0;
+    padding: 0;
+    width: 5ex;
+    @include appearance(none);
+    margin-bottom: 7px;
+    max-height: 21px;
+  }
+
+  .token-input-plugin-input:disabled {
+    background: none;
+  }
+
+  .token-input-plugin-input:focus {
+    @include appearance(none);
+    // Remove shadow
+    @include box-shadow(none);
+  }
+
+  .token-input-plugin-item {
+    margin: 1px 2px;
+    padding-bottom: 0;
+  }
+
+  .token-input-plugin-list {
+    cursor: text;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 1px 0;
+  }
+
+  .token-input-plugin-token {
+    cursor: pointer;
+  }
+
+  .token-input-plugin-hidden,
+  .token-input-plugin-host {
+    display: none;
+  }
+
+  .token-input-plugin {
+    outline: 0;
+  }
+
+  .token-input-plugin-list {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  .token-input-plugin-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #000;
+    padding: 0;
+  }
+
+  .token-input-plugin-fauxinput {
+    border-bottom-color: #dadada;
+    border-top-color: #717171;
+    // Add shadow
+    @include box-shadow(inset 0 1px 2px -1px #717171);
+  }
+
+  .token-input-plugin-token {
+    // Rounded corners
+    @include border-radius(8px);
+    background-color: #74B3EB;
+    border: none;
+    color: white;
+    padding: 1px 11px 2px;
+    position: relative;
+    font-weight: 500;
+  }
+
+  .token-input-plugin-hasremove {
+    padding-right: 21px !important;
+  }
+
+  .token-input-plugin-hover {
+    background-color: #64a3eb;
+    border-color: #4991ce;
+  }
+
+  .token-input-plugin-focus {
+    background-color: #4595eb;
+    border-color: #337ece;
+    color: #fff;
+    outline: 0;
+  }
+
+  .token-input-plugin-remove {
+    color: #fff;
+    line-height: 1;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .token-input-plugin-windows .token-input-plugin-remove {
+    margin-top: 2px;
+  }
+
+  .token-input-plugin-remove:hover {
+    color: #333;
+  }
+
+  .token-input-plugin-focus .token-input-plugin-remove {
+    color: #fff;
+  }
+
+  //  Disabled elements
+
+  &.disabled .token-input-plugin-token {
+    opacity: 0.5;
+  }
+
+  &.disabled .token-input-plugin-hover {
+    background-color: #74B3EB;
+    border: 1px solid #629CCE;
+  }
+
+  &.disabled .token-input-plugin-remove:hover {
+    color: #ffffff;
+  }
+
+}
+
+/********************************************************************************
+/ STATUS INDICATOR
+/********************************************************************************/
+
+.lims-muc .status-indicator {
+  width: 8px;
+  height: 8px;
+  @include border-radius(5px);
+
+  &.online {
+    background: #6ccc46;
+    border: 1px solid #6ccc46;
+  }
+
+  &.busy {
+    background: #e5df2e;
+    border: 1px solid #e5df2e;
+  }
+
+  &.unavailable {
+    background: #e5502e;
+    border: 1px solid #e5502e;
+  }
+
+  &.off {
+    background: #b2b2b2;
+    border: 1px solid #b2b2b2;
+  }
+
+  &.unrecognized {
+    background: #ffffff;
+    border: 1px solid #b2b2b2;
+  }
+
+}
+
+/********************************************************************************
+/ SWITCH
+/********************************************************************************/
+
+.lims-muc {
+
+  .switch {
+    // Make the button unselectable
+    @include no-select();
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    font-size: 20px;
+    margin-right: 10px;
+  }
+
+  .switch input {
+    opacity: 0;
+    position: absolute;
+  }
+
+  .switch input + span {
+    position: relative;
+    display: inline-block;
+    width: 1.65em;
+    height: 1em;
+    background: white;
+    box-shadow: inset 0 0 0 0.0625em #e9e9e9;
+    border-radius: 0.5em;
+    vertical-align: -0.15em;
+    transition: all 0.40s cubic-bezier(.17, .67, .43, .98);
+  }
+
+  .switch:active input + span,
+  .switch input + span:active {
+    box-shadow: inset 0 0 0 0.73em #e9e9e9;
+  }
+
+  .switch input + span:after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 0.875em;
+    height: 0.875em;
+    border-radius: 0.4375em;
+    top: 0.0625em;
+    left: 0.0625em;
+    background: white;
+    box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.1),
+    0 0 0.05em rgba(0, 0, 0, 0.05),
+    0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease-out;
+  }
+
+  .switch:active input + span:after,
+  .switch input + span:active:after {
+    width: 1.15em;
+  }
+
+  .switch input:checked + span {
+    box-shadow: inset 0 0 0 0.73em #4cd964;
+  }
+
+  .switch input:disabled + span {
+    box-shadow: inset 0 0 0 0.73em rgba(0, 0, 0, 0.08);
+  }
+
+  .switch input:checked + span:after {
+    left: 0.7125em;
+  }
+
+  .switch:active input:checked + span:after,
+  .switch input:checked + span:active:after {
+    left: 0.4375em;
+  }
+
+  /* accessibility styles */
+  .switch input:focus + span:after {
+    box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.15),
+    0 0 0.05em rgba(0, 0, 0, 0.08),
+    0 0.1em 0.2em rgba(0, 0, 0, 0.3);
+    background: #fff;
+  }
+
+  .switch input:focus + span {
+    box-shadow: inset 0 0 0 0.0625em #dadada;
+  }
+
+  .switch input:focus:checked + span {
+    box-shadow: inset 0 0 0 0.73em #33be4b;
+  }
+
+  /* reset accessibility style on hover */
+  .switch:hover input:focus + span:after {
+    box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.1),
+    0 0 0.05em rgba(0, 0, 0, 0.05),
+    0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+    background: #fff;
+  }
+
+  .switch:hover input:focus + span {
+    box-shadow: inset 0 0 0 0.0625em #e9e9e9;
+  }
+
+  .switch:hover input:focus:checked + span {
+    box-shadow: inset 0 0 0 0.73em #4cd964;
+  }
+
+}
+
+/************************************************************************************
+/  ERROR NOTIFICATION
+/************************************************************************************/
+
+.lims-muc .error-notification {
+  top: 40%;
+  padding: 10px;
+  width: 90%;
+  position: absolute;
+
+  .warning-icon {
+    background: transparent url(../../../images/icon-warning-red.png) no-repeat center center;
+    @include image-2x('../../../images/icon-warning-red@2x.png', 14px, 16px);
+    width: 14px;
+    height: 16px;
+    margin: 0 7px 0 0;
+    float: left;
+  }
+
+  .error-message {
+    color: #ce1b1b;
+    max-width: 170px;
+    min-height: 16px;
+    float: left;
+    line-height: 13px;
+    font-size: 12px;
+    text-align: justify;
+  }
+
+  .resend-button {
+    background: transparent url(../../../images/icon-resend.png) no-repeat center center;
+    @include image-2x('../../../images/icon-resend@2x.png', auto, 21px);
+    width: 21px;
+    height: 21px;
+    float: right;
+    border: none;
+    filter: none;
+    padding: 0;
+    margin: 0;
+    @include box-shadow(none);
+  }
+
+  .resend-button.activated {
+    position: relative;
+    text-align: center;
+    background: transparent url(../../../images/preloader-button.gif) center center no-repeat;
+    @include image-2x('../../../images/preloader-button@2x.gif', auto, 21px);
+    width: 21px;
+    height: 21px;
+  }
+
+}
+
+/************************************************************************************
+/  INFO NOTIFICATION
+/************************************************************************************/
+
+.lims-muc .info-notification {
+  top: 40%;
+  padding: 10px;
+  width: 90%;
+  position: absolute;
+
+  .info-icon {
+    background: transparent url(../../../images/icon-info-blue.png) no-repeat center center;
+    @include image-2x('../../../images/icon-info-blue@2x.png', auto, 18px);
+    width: 18px;
+    height: 18px;
+    margin: 0 10px 0 5px;
+    float: left;
+  }
+
+  .info-message {
+    color: #7e7e7e;
+    max-width: 190px;
+    min-height: 18px;
+    float: left;
+    line-height: 13px;
+    font-size: 12px;
+    text-align: justify;
+  }
+}
+
+/************************************************************************************
+/  Portrait
+/************************************************************************************/
+
+.lims-muc .portrait-container {
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.9;
+
+  .portrait {
+    display: block;
+    position: absolute;
+    height: 46px;
+    width: 46px;
+    background: #fff;
+    // Circled image
+    @include border-radius(23px);
+  }
+
+  .default-portrait {
+    display: block;
+    position: absolute;
+    height: 46px;
+    width: 46px;
+    background: #c0c0c0;
+    @include border-radius(23px);
+    text-align: center;
+
+    &.red {
+      background: #C06868;
+    }
+
+    &.green {
+      background: #68C0AF;
+    }
+
+    &.blue {
+      background: #689FC0;
+    }
+
+    &.purple {
+      background: #A668C0;
+    }
+
+    &.yellow {
+      background: #C0BF48;
+    }
+
+    &.orange {
+      background: #CD9350;
+    }
+
+    .initials {
+      text-align: center;
+      position: relative;
+      text-transform: uppercase;
+      color: white;
+      top: 16px;
+      font-size: 17px;
+      font-weight: 400;
+    }
+  }
+
+  &.small {
+
+    .portrait {
+      display: block;
+      height: 32px;
+      width: 32px;
+      // Circled image
+      @include border-radius(16px);
+    }
+
+    .default-portrait {
+      height: 32px;
+      width: 32px;
+      @include border-radius(16px);
+
+      .initials {
+        top: 9px;
+        font-size: 12px;
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.multiple {
+
+    .portrait {
+      width: 40px;
+      height: 40px;
+      @include box-shadow(#FFFFFF 0px -1px 2px);
+    }
+
+    .default-portrait {
+      width: 40px;
+      height: 40px;
+      @include border-radius(20px);
+      @include box-shadow(#FFFFFF 0px -1px 2px);
+
+      .initials {
+        font-size: 14px;
+        top: 13px;
+        @include border-radius(20px);
+      }
+    }
+
+  }
+}
+
+/************************************************************************************
+/  Confirmation
+/************************************************************************************/
+
+.lims-muc .confirm {
+  min-height: 60px;
+
+  .confirm-decision {
+
+    .note {
+      max-width: 238px;
+      display: inline-block;
+      line-height: 15px;
+      font-weight: bold;
+      padding-right: 10px;
+
+      &.success {
+        color: #39B87E;
+        font-weight: normal;
+      }
+
+      &.error {
+        color: rgb(210, 103, 103);
+        font-weight: normal;
+      }
+
+      &.info {
+        color: rgb(71, 152, 231);
+        font-weight: normal;
+      }
+    }
+
+    .preloader {
+      position: inherit;
+      width: 20px;
+      height: 20px;
+      background-size: 20px;
+      display: inline-block;
+      margin: 0 0 0 87px;
+    }
+
+  }
+}
+
+
+/********************************************************************************
+/ GLOBALS
+/********************************************************************************/
+
+.lims-muc {
+  // Add the global font-smoothing to avoid issues
+  // with wrong font rendering in Chrome
+  @include font-smoothing;
+
+  li {
+    line-height: 15px;
+    padding: 0;
+    margin: 0;
+    background: #ffffff;
+    text-align: left;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    text-shadow: none;
+    opacity: 1 !important;
+    line-height: 20px;
+  }
+
+  label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.6 !important;
+  }
+
+  a.link {
+    color: #009AE5;
+    font-weight: 400;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+
+}
+
+/********************************************************************************
+/ HELPERS
+/********************************************************************************/
+
+.lims-muc {
+
+  .hide {
+    display: none !important;
+  }
+
+  .hide-controller {
+    display: none !important;
+  }
+
+  .covered {
+    visibility: hidden;
+  }
+
+  .clear {
+    clear: both;
+  }
+
+  .pull-left {
+    float: left;
+  }
+
+  .pull-right {
+    float: right;
+  }
+
+  .overflow-y-scroll {
+    overflow-y: scroll;
+  }
+}/********************************************************************************
+/ PANEL - TRIGGER
+/********************************************************************************/
+
+.lims-muc .lims-bar div ul li .panel-trigger {
+  cursor: pointer;
+  float: left;
+  border-left: 1px solid #dddad8;
+  color: #4c4c4c;
+  text-decoration: none;
+  padding: 0 6px;
+
+  &:hover {
+    background: #fff;
+  }
+
+  &.highlight {
+    background: #569BBE;
+    color: white;
+
+    .unread {
+      background: #fff;
+      color: #bd3131;
+      border-color: #fff;
+      opacity: 1;
+    }
+  }
+
+  // Trigger name
+  span.trigger-name {
+    max-width: 150px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 17px;
+    // Make the button unselectable
+    @include no-select();
+  }
+
+  // Unread messages badge
+  .unread {
+    background: #bd3131;
+    border: 1px solid #bd3131;
+    color: #fff;
+    font-size: 10px;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 3px;
+    top: 4px;
+    text-align: center;
+    line-height: 14px;
+    font-weight: bold;
+    opacity: 0.8;
+    overflow: hidden;
+    // Rounded corners
+    @include border-radius(5px);
+
+    &.dimmed {
+      background-color: #b3b3b3;
+      border-color: #b3b3b3;
+    }
+  }
+
+  .close {
+    background: #bd3131;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 3px;
+    top: 4px;
+    background: url(../../../images/trigger-close-button.png) center center no-repeat;
+    @include image-2x('../../../images/trigger-close-button@2x.png', auto, 9px);
+    background-size: 9px;
+    border: none;
+    filter: none;
+    padding: 0;
+    margin: 0;
+    @include box-shadow(none);
+
+    &:hover,
+    &:focus {
+      border: none;
+      filter: none;
+      padding: 0;
+      margin: 0;
+      @include box-shadow(none);
+    }
+  }
+
+}
+
+
+// Mobile device
+.lims-muc.mobile-device .lims-bar div ul li.selected .panel-trigger {
+    height: $bar-height-mobile-device;
+}
+
+// Selected trigger
+.lims-muc .lims-bar div ul li.selected .panel-trigger {
+  background: #fff;
+  border-top: none;
+  border-bottom: none;
+  line-height: 24px;
+  height: $bar-height-desktop-device;
+  position: relative;
+  z-index: 30;
+  @include box-shadow(#bcbcbc 1px 1px 1px);
+
+  &.highlight {
+    background: #ffffff;
+    color: #111;
+
+    .unread {
+      background: #bd3131;
+      color: #fff;
+      border-color: #bd3131;
+      opacity: 0.8;
+
+      &.dimmed {
+        background-color: #b3b3b3;
+        border-color: #b3b3b3;
+      }
+    }
+  }
+}
+
+/********************************************************************************
+/ PANEL - WINDOW
+/********************************************************************************/
+
+.lims-muc .panel-window {
+  background: #fff;
+  border: 1px solid #dddad8;
+  border-bottom: none;
+  border-right: none;
+  font-size: 12px;
+  min-width: 250px;
+  position: relative;
+
+  .content {
+    min-height: inherit;
+    margin: 0;
+  }
+}
+
+.lims-muc .ie-support .panel-window {
+  border-right: 2px solid #dddad8;
+  border-bottom: 1px solid #dddad8;
+}
+
+/********************************************************************************
+/ PANEL - BUTTONS
+/********************************************************************************/
+
+.lims-muc .panel-button {
+  cursor: pointer;
+  width: 20px;
+  height: 14px;
+  float: right;
+  margin: 5px 7px 0 0;
+  opacity: 0.8;
+  outline: none;
+  filter: none;
+  @include box-shadow(none);
+  border: none;
+  padding: 0;
+
+  &:hover,
+  &:focus {
+    border: none;
+    filter: none;
+    padding: 0;
+    margin: 5px 7px 0 0;
+    @include box-shadow(none);
+    width: 20px;
+    height: 14px;
+  }
+
+  &.minimize {
+    background: url(../../../images/minimize-button.png) left bottom no-repeat;
+    @include image-2x('../../../images/minimize-button@2x.png', auto, 13px);
+  }
+
+  &.close {
+    background: url(../../../images/close-button.png) center center no-repeat;
+    @include image-2x('../../../images/close-button@2x.png', auto, 18px);
+    // This needs to be here because it's overridden by the aui close class
+    width: 20px;
+    height: 14px;
+  }
+
+  &.search {
+    background: url(../../../images/search-button.png) center center no-repeat;
+    @include image-2x('../../../images/search-button@2x.png', auto, 13px);
+  }
+
+  &.list {
+    background: url(../../../images/list-button.png) center center no-repeat;
+    @include image-2x('../../../images/list-button@2x.png', auto, 11px);
+  }
+
+  &.new-conversation {
+    background: url(../../../images/button-new-conversation.png) center center no-repeat;
+    @include image-2x('../../../images/button-new-conversation@2x.png', auto, 17px);
+    height: 17px;
+    margin-top: 3px;
+  }
+
+  &.options {
+    background: url(../../../images/button-options.png) center center no-repeat;
+    @include image-2x('../../../images/button-options@2x.png', auto, 16px);
+    height: 16px;
+    margin-top: 4px;
+  }
+}
+
+/********************************************************************************
+/ PANEL - TITLE
+/********************************************************************************/
+
+.lims-muc {
+
+  .panel-title {
+    background: #ffffff;
+    color: #222;
+    font-weight: normal;
+    height: 25px;
+    line-height: 24px;
+    text-indent: 7px;
+    text-align: left;
+    font-size: 15px;
+    border-bottom: 1px solid #ccc;
+
+    &.highlight {
+      background: #E9F8FF;
+    }
+
+    .panel-title-text {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 178px;
+      text-indent: 5px;
+      cursor: default;
+      @include no-select();
+    }
+  }
+
+  .panel-subtitle {
+    padding: 5px;
+    background: #f8f8f8;
+    color: #222;
+    font-weight: bold;
+    height: 16px;
+  }
+}
+
+/********************************************************************************
+/ PANEL - ERROR
+/********************************************************************************/
+
+.lims-muc .panel-error {
+  position: absolute;
+  @include transparent(#000000, 0.7);
+  top: 26px;
+  z-index: 2;
+  width: 100%;
+
+  .error-content {
+    clear: both;
+    margin: 15px 0 20px;
+  }
+
+  .error-message {
+    padding: 0 5px 5px 5px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #ffffff;
+  }
+
+  .warning-icon {
+    background: transparent url(../../../images/icon-warning-white.png) no-repeat center center;
+    @include image-2x('../../../images/icon-warning-white@2x.png', auto, 21px);
+    width: 21px;
+    height: 21px;
+    margin: 3px 7px 0;
+    float: left;
+  }
+
+  input[type="password"] {
+    border: 1px solid black;
+  }
+
+  button.button {
+    border-color: #629CCE;
+    background: #74B3EB;
+    box-shadow: none;
+    color: white;
+    width: 87px;
+    text-align: center;
+  }
+
+  .relogin-form {
+    text-align: center;
+    margin-top: 7px;
+
+    .error-message {
+      text-align: center;
+      margin: 10px 0 0;
+    }
+  }
+}
+
+.lims-muc .ie-support .panel-error {
+  background: #000;
+}
+
+/********************************************************************************
+/ PANEL - SEARCH INPUT
+/********************************************************************************/
+
+.lims-muc .panel-search {
+  position: absolute;
+  width: 100%;
+  top: 26px;
+  z-index: 3;
+  @include transparent(#ffffff, 0.9);
+  border-bottom: 1px solid #dddad8;
+  @include box-shadow(#bcbcbc 0px 0px 1px);
+
+  .search-input-field-label {
+    padding: 0;
+    border: none;
+    height: 26px;
+    background: none;
+    margin: 5px 0 5px 7px;
+  }
+
+  .search-input-field {
+    border: 1px solid #d4d4d4;
+    width: 180px;
+    min-height: 21px;
+    max-height: 26px;
+    padding: 2px 27px 2px 27px;
+    color: #1A1A1A;
+    font-size: 12px;
+    background-size: 13px;
+    background: #f1f1f1 url(../../../images/search-button.png) 7px center no-repeat;
+    @include image-2x('../../../images/search-button@2x.png', auto, 13px);
+    // Shadow
+    @include box-shadow(none);
+    // Rounded corners
+    @include border-radius(10px);
+  }
+
+  .search-input-field:hover,
+  .search-input-field:focus {
+    border: 1px solid #d4d4d4;
+    outline: none;
+    background-size: 13px;
+    padding: 2px 27px 2px 27px;
+    background: #ffffff url(../../../images/search-button.png) 7px center no-repeat;
+    @include image-2x('../../../images/search-button@2x.png', auto, 13px);
+    // No shadow
+    @include box-shadow(none);
+  }
+
+  .search-content {
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 212px;
+
+    .error-notification,
+    .info-notification {
+      position: inherit; // This needs to be here because of an issue with firefox
+      margin: 15px 0;
+    }
+  }
+
+  .preloader {
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../images/preloader-tiny.gif);
+    @include image-2x('../../../images/preloader-tiny@2x.gif', auto, 17px);
+    background-size: 17px;
+    top: 7px;
+    right: 12px;
+    margin: 0;
+  }
+
+  .error-notification,
+  .info-notification {
+    /* Move the notification views a bit up since there is a search input that takes the place */
+    top: 20%;
+  }
+}
+
+/********************************************************************************
+/ CONTACTS PANEL
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .buddy-list {
+
+  .panel {
+    right: -74px;
+  }
+}
+
+// Mobile device
+.lims-muc.mobile-device .buddy-list {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+}
+
+.lims-muc .buddy-list {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(../../../images/icon-people.png) no-repeat center center;
+    @include image-2x('../../../images/icon-people@2x.png', auto, 16px);
+    width: 40px;
+    height: $bar-height-desktop-device;
+  }
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(../../../images/icon-people-selected.png) no-repeat center center;
+    @include image-2x('../../../images/icon-people-selected@2x.png', auto, 18px);
+  }
+
+  .group-list .group-item {
+    clear: both;
+    list-style-type: none;
+    line-height: 27px;
+  }
+
+  .group-buddy-list {
+    overflow: hidden;
+  }
+
+  .group-buddy-item {
+    padding: 3px 7px;
+    cursor: pointer;
+    height: 35px;
+    clear: both;
+    line-height: 15px;
+    min-height: 35px;
+  }
+
+  .group-buddy-item:last-of-type {
+    padding-bottom: 7px;
+  }
+
+  .group-buddy-item .group-buddy-item-name {
+    margin-top: 6px;
+    max-width: 145px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 23px;
+  }
+
+  .group-buddy-item-presence {
+    float: right;
+    margin-right: 4px;
+    margin-top: -16px;
+  }
+
+  .group-buddy-item-portrait {
+    height: 36px;
+    width: 36px;
+    margin: 2px 6px 2px 0;
+    float: left;
+  }
+
+  .group-buddy-item-divider {
+    clear: both;
+  }
+
+  .group-buddy-item:hover {
+    background: #f8f8f8;
+  }
+
+  .group-list {
+    margin-top: -1px; // Because of the top border in group name
+  }
+
+  .group-list .group-item .group-name {
+    cursor: pointer;
+    height: 29px;
+    background: #f8f8f8;
+    border-top: 1px solid #e9e9e9;
+    padding-left: 6px;
+    padding-top: 6px;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    float: none;
+    @include no-select();
+    @include box-shadow(inset 0 0 0 0 #f8f8f8, inset 0 -2px 2px -2px rgba(105, 104, 104, 0.25));
+    overflow: hidden;
+    max-width: 244px;
+
+    .group-title {
+      float: left;
+      margin-left: 20px;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .group-counter {
+      padding: 3px;
+      margin-top: 5px;
+      margin-right: 4px;
+      font-size: 10px;
+      max-width: 40px;
+      background: #f8f8f8;
+      color: #555;
+      @include border-radius(10px);
+      line-height: 10px;
+      float: right;
+      word-wrap: break-word;
+    }
+
+    .group-icon {
+      position: absolute;
+      top: 11px;
+      width: 13px;
+      height: 13px;
+      opacity: 0.6;
+
+      &.group-sites {
+        background: url(../../../images/icon-group-sites.png) no-repeat center center;
+        @include image-2x('../../../images/icon-group-sites@2x.png', auto, 13px);
+      }
+
+      &.group-social {
+        background: url(../../../images/icon-group-social.png) no-repeat center center;
+        @include image-2x('../../../images/icon-group-social@2x.png', auto, 13px);
+      }
+
+      &.group-user {
+        background: url(../../../images/icon-group-user.png) no-repeat center center;
+        @include image-2x('../../../images/icon-group-user@2x.png', auto, 13px);
+      }
+
+      &.group-jabber {
+        background: url(../../../images/icon-group-jabber.png) no-repeat center center;
+        @include image-2x('../../../images/icon-group-jabber@2x.png', auto, 13px);
+      }
+    }
+  }
+
+  .preloader.read-more-preloader {
+    position: relative;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    background-size: 20px;
+    height: 20px;
+  }
+
+  .load-more {
+    position: relative;
+    z-index: 1;
+    width: 230px;
+    padding: 3px 10px 1px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid rgb(229, 229, 229);
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+    outline: 0;
+    @include no-select();
+    @include box-shadow(none);
+  }
+
+  .load-more:before {
+    content: "";
+    position: absolute;
+    background: #f8f8f8;
+    border: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    z-index: -1;
+    @include transition(bottom 0.2s ease-in);
+  }
+
+  .load-more:hover:before {
+    bottom: 0;
+  }
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+}
+/********************************************************************************
+/ CONVERSATION
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .conversation {
+
+  .panel {
+    right: -180px;
+  }
+
+  .panel-trigger {
+    width: 42px;
+
+    .trigger-name {
+      padding-right: 2px;
+    }
+
+    .close {
+      display: none;
+    }
+  }
+}
+
+// Mobile device
+.lims-muc.mobile-device .conversation {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+    padding-top: 9px;
+  }
+}
+
+.lims-muc .conversation {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-desktop-device;
+  }
+
+  .panel-window {
+    width: 270px;
+  }
+
+  .panel-content {
+    height: 250px;
+    width: 270px;
+    overflow-y: auto;
+    background: #fff;
+    margin-top: 0;
+  }
+
+  .panel-title-text {
+
+    .status-indicator {
+      display: inline-block;
+      margin: 7px 1px 0 2px;
+    }
+
+    span {
+      cursor: pointer;
+    }
+  }
+
+  .panel-content li {
+    line-height: 15px;
+  }
+
+  .ie .panel-content {
+    position: relative;
+  }
+
+  .participants-list {
+    position: absolute;
+    top: 29px;
+    left: 5px;
+    z-index: 3;
+    margin-right: 5px;
+    @include transparent(#000000, 0.77);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    line-height: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    max-height: 225px;
+    overflow-y: auto;
+
+    .status-indicator {
+      display: inline-block;
+      margin-right: 5px;
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  .conversation-item {
+    padding: 5px 7px;
+    min-height: 34px;
+  }
+
+  .conversation-item-portrait .portrait-container {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+  }
+
+  .conversation-item-message {
+    margin-left: 32px;
+    max-width: 220px;
+  }
+
+  .conversation-item-name {
+    float: left;
+    font-size: 11px;
+    display: block;
+    padding: 3px 5px 3px;
+    color: #7e7e7e;
+    line-height: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 130px;
+  }
+
+  .conversation-item-date {
+    float: right;
+    font-size: 9px;
+    font-style: normal;
+    color: #7e7e7e;
+    max-width: 75px;
+    line-height: 10px;
+    padding-top: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: right;
+  }
+
+  .conversation-item-bubble-corner {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: transparent url('../../../images/background-message-bubble.png') center center no-repeat;
+    @include image-2x('../../../images/background-message-bubble@2x.png', 10px, auto);
+    background-size: 10px;
+    top: 20px;
+    left: 3px;
+
+    &.own {
+      background-image: url('../../../images/background-message-bubble-own.png');
+      @include image-2x('../../../images/background-message-bubble-own@2x.png', 10px, auto);
+    }
+  }
+
+  .conversation-item-text {
+    display: inline-block;
+    text-align: left;
+    line-height: 14px;
+    margin-top: 4px;
+    margin-left: 8px;
+    padding: 8px 12px;
+    color: #4c4c4c;
+    clear: left;
+    word-wrap: break-word;
+    opacity: 0.6;
+    font-weight: 400;
+    background: #f2f2f2;
+    border-radius: 14px;
+    max-width: 84%;
+    min-width: 20px;
+    width: auto;
+
+    &.own {
+      background: #e6f3fc;
+    }
+  }
+
+  .conversation-item-left-message,
+  .conversation-item-added-message {
+    text-align: center;
+    padding: 7px 5px 10px;
+    border-bottom: 1px solid #EFEEEE;
+    border-top: 1px solid #EFEEEE;
+    font-size: 11px;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .panel-input {
+    opacity: 0; /* panel input is hidden until the message feed is loaded */
+    position: relative;
+    height: 34px;
+
+    textarea {
+      width: 250px;
+      height: 22px;
+      padding: 9px 10px 1px;
+      background: #f8f8f8;
+      border: 1px solid #dedede;
+      border-left: none;
+      border-right: none;
+      display: block;
+      overflow: hidden;
+      @include box-shadow(none);
+      resize: none;
+      outline: none;
+      font-size: 12px;
+      line-height: 14px;
+      color: #545454;
+      font-weight: 500;
+      @include border-radius(0px);
+    }
+
+    textarea:focus {
+      background: #fff;
+      border-bottom-color: #fff;
+    }
+
+    .send-button {
+      cursor: pointer;
+      position: absolute;
+      width: 35px;
+      height: 100%;
+      bottom: 0;
+      right: 0;
+      opacity: 0.9;
+      background: transparent url(../../../images/button-send.png) no-repeat center center;
+      @include image-2x('../../../images/button-send@2x.png', auto, 18px);
+      @include no-select();
+    }
+  }
+
+  .preloader.read-more-preloader {
+    position: relative;
+    margin-top: 8px;
+    background-size: 20px;
+    height: 20px;
+  }
+
+  .chat-height-monitor {
+    @include pre-wrap();
+    word-wrap: break-word;
+    left: -10000em;
+    top: -10000em;
+    padding: 9px 10px 1px;
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+  }
+
+  ////////////////////////////////////////////////////////////
+  // CONVERSATION OPTIONS                                   //
+  ////////////////////////////////////////////////////////////
+
+  .conversation-options {
+    position: absolute;
+    width: 250px;
+    z-index: 3;
+    top: 26px;
+    padding: 1px 10px 0;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    li {
+      background: transparent;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      padding-left: 30px;
+      line-height: 30px;
+      @include no-select();
+
+      &:hover {
+        color: #aaa;
+      }
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+
+      &.add-more {
+        background: url(../../../images/icon-add-more.png) left 30% no-repeat;
+        @include image-2x('../../../images/icon-add-more@2x.png', auto, 18px);
+      }
+
+      &.leave-conversation {
+        background: url(../../../images/icon-leave-conversation.png) left center no-repeat;
+        @include image-2x('../../../images/icon-leave-conversation@2x.png', 19px, auto);
+      }
+    }
+  }
+
+  ////////////////////////////////////////////////////////////
+  // LEAVE CONVERSATION OPTION                              //
+  ////////////////////////////////////////////////////////////
+
+  .leave-conversation-option {
+    position: absolute;
+    width: 250px;
+    z-index: 3;
+    top: 26px;
+    padding: 10px 10px 0;
+    line-height: 17px;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .buttons {
+      text-align: right;
+      margin-top: 5px;
+      position: relative;
+
+      .button {
+        border-radius: 0;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-right: 5px;
+      }
+
+      .preloader {
+        margin: 0;
+        top: 0;
+        right: 20px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+
+      .error-message {
+        float: left;
+        max-width: 100px;
+        color: #DF6D6D;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////
+  // ADD MORE PARTICIPANTS OPTION                           //
+  ////////////////////////////////////////////////////////////
+
+  .add-more-option {
+    position: absolute;
+    width: 250px;
+    z-index: 3;
+    top: 26px;
+    padding: 10px 10px 0;
+    line-height: 17px;
+    @include transparent(#ffffff, 0.95);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .token-input {
+
+      .token-input-plugin {
+        width: 247px;
+      }
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 77px;
+        overflow-y: auto;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
+      }
+    }
+
+    .buttons {
+      text-align: right;
+      margin: 10px 0;
+      position: relative;
+
+      .button {
+        border-radius: 0;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-left: 5px;
+      }
+
+      .preloader {
+        margin: 0;
+        top: 5px;
+        right: 10px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+
+      .error-message {
+        float: left;
+        max-width: 100px;
+        color: #DF6D6D;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////
+  // CONVERSATION ITEM ERROR                                //
+  ////////////////////////////////////////////////////////////
+
+  .conversation-item-error {
+    padding: 5px 0 5px;
+
+    .warning-icon {
+      background: transparent url(../../../images/icon-warning-red.png) no-repeat center center;
+      @include image-2x('../../../images/icon-warning-red@2x.png', auto, 16px);
+      width: 14px;
+      height: 16px;
+      margin: 7px 7px 0 0;
+      float: left;
+    }
+
+    .error-message {
+      color: #ce1b1b;
+      max-width: 160px;
+      float: left;
+      line-height: 13px;
+      font-size: 11px;
+      text-align: justify;
+    }
+
+    .resend-button {
+      background: transparent url(../../../images/icon-resend.png) no-repeat center center;
+      @include image-2x('../../../images/icon-resend@2x.png', auto, 21px);
+      width: 21px;
+      height: 21px;
+      float: right;
+      @include box-shadow(none);
+      margin: 0;
+      padding: 0 15px 0 0;
+      border: none;
+
+      &:hover,
+      &:focus {
+        border: none;
+        filter: none;
+        padding: 0 15px 0 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 21px;
+        height: 21px;
+      }
+    }
+
+    .resend-button.preloader {
+      position: relative;
+      margin: 0;
+      background: transparent url(../../../images/preloader-button.gif) center center no-repeat;
+      @include image-2x('../../../images/preloader-button@2x.gif', 21px, 21px);
+      background-size: 21px;
+    }
+
+    .delete-button {
+      background: transparent url(../../../images/icon-basket.png) no-repeat center center;
+      @include image-2x('../../../images/icon-basket@2x.png', 16px, 21px);
+      width: 16px;
+      height: 21px;
+      float: right;
+      padding: 0;
+      margin: 0;
+      border: none;
+      @include box-shadow(none);
+
+      &:hover,
+      &:focus {
+        border: none;
+        filter: none;
+        padding: 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 16px;
+        height: 21px;
+      }
+    }
+  }
+}/********************************************************************************
+/ CONVERSATION FEED PANEL
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .conversation-feed {
+
+  .panel {
+    right: -127px;
+  }
+}
+
+// Mobile device
+.lims-muc.mobile-device .conversation-feed {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+}
+
+
+.lims-muc .conversation-feed {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(../../../images/icon-conversation-feed.png) no-repeat center center;
+    @include image-2x('../../../images/icon-conversation-feed@2x.png', auto, 16px);
+    width: 40px;
+    height: $bar-height-desktop-device;
+  }
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(../../../images/icon-conversation-feed-selected.png) no-repeat center center;
+    @include image-2x('../../../images/icon-conversation-feed-selected@2x.png', auto, 16px);
+  }
+
+  .preloader.read-more-preloader {
+    position: relative;
+    margin: 8px 0;
+    background-size: 20px;
+    height: 20px;
+  }
+
+  .conversation-feed-item {
+    padding: 4px 7px 3px;
+    cursor: pointer;
+    clear: both;
+    line-height: 15px;
+    border-bottom: 1px solid #efefef;
+    min-height: 47px;
+
+    &:hover {
+      background: #f8f8f8;
+    }
+
+    .title {
+      margin-top: 2px;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+
+    .timestamp {
+      font-size: 9px;
+      color: #aaa;
+      margin-top: 0;
+    }
+
+    .last-message {
+      margin-top: 0;
+      max-width: 195px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .item-portrait {
+      margin: 0 6px 2px 0;
+      float: left;
+    }
+
+    .item-content {
+      position: absolute;
+      left: 60px;
+      z-index: 1;
+      top: 3px;
+      max-width: 165px;
+    }
+
+  }
+
+  .conversation-feed-item:last-of-type {
+    border-bottom: none;
+  }
+
+  .conversation-feed-item.unread {
+    background: #EDEDED;
+  }
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    list-style-type: none;
+    margin: 0;
+    height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+  ////////////////////////////////////////////
+  // PANEL NEW CONVERSATION                 //
+  ////////////////////////////////////////////
+  .panel-new-conversation {
+    position: absolute;
+    z-index: 2;
+    top: 27px;
+    left: 1px;
+    width: 250px;
+    min-height: 0;
+    max-height: 250px;
+    padding-bottom: 5px;
+    @include transparent(#ffffff, 0.9);
+    border-bottom: 1px solid #dddad8;
+    @include box-shadow(#bcbcbc 0px 0px 1px);
+
+    .content {
+      min-height: inherit;
+      margin: 0;
+    }
+
+    .participants {
+      margin: 10px 0 5px 10px;
+      background: white;
+      width: 227px;
+    }
+
+    .button {
+      float: right;
+      margin: 5px 11px;
+      border-radius: 0;
+      font-size: 12px;
+      padding: 4px 10px;
+    }
+
+    .token-input {
+
+      .token-input-plugin-token {
+        line-height: 17px;
+      }
+
+      .token-input-plugin-remove {
+        top: -1px;
+      }
+
+      .token-input-plugin-editable {
+        height: 24px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-input {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .token-input-plugin-content {
+        max-height: 77px;
+        overflow-y: auto;
+      }
+
+      .yui3-aclist-item {
+        max-width: 215px;
+      }
+    }
+  }
+}
+/*
+ * Copyright (c) 2014 Marcel Mika, marcelmika.com - All Rights Reserved
+ *
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ *
+ * Written by Marcel Mika <marcelmika.com>, 2014
+ */
+
+/********************************************************************************
+/ CONVERSATION FEED PANEL
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .conversation-toggle {
+
+  .panel {
+    right: -179px;
+  }
+}
+
+// Mobile device
+.lims-muc.mobile-device .conversation-toggle {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+}
+
+.lims-muc .conversation-toggle {
+
+  // Add icon to trigger
+  .panel-trigger .trigger-name {
+    background: url(../../../images/icon-conversation-toggle.png) no-repeat left center;
+    @include image-2x('../../../images/icon-conversation-toggle@2x.png', auto, 18px);
+    height: $bar-height-desktop-device;
+    padding: 0 0 0 42px;
+  }
+
+  .panel-trigger.highlight .trigger-name {
+    background-image: none;
+  }
+
+  .panel-trigger .count {
+    background: #fff;
+    color: #000;
+    font-size: 10px;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 23px;
+    top: 4px;
+    text-align: center;
+    line-height: 14px;
+    font-weight: bold;
+    opacity: 0.8;
+    overflow: hidden;
+    border: 1px solid rgb(126, 126, 126);
+    // Rounded corners
+    @include border-radius(5px);
+  }
+
+  .panel-trigger.highlight .count {
+    opacity: 1;
+    border-color: #fff;
+  }
+
+
+  // Switch trigger icon when selected
+  &.selected .panel-trigger .trigger-name {
+    background: url(../../../images/icon-conversation-toggle-selected.png) no-repeat left center;
+    @include image-2x('../../../images/icon-conversation-toggle-selected@2x.png', auto, 18px);
+  }
+
+  .toggle-item {
+    border-bottom: 1px solid #efefef;
+    padding: 0;
+    cursor: pointer;
+    line-height: 27px;
+    @include no-select;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #f8f8f8;
+    }
+
+    .title {
+      padding: 5px 60px 5px 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 178px;
+    }
+
+    // Unread messages badge
+    .unread {
+      background: #bd3131;
+      color: #fff;
+      font-size: 10px;
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      right: 36px;
+      top: 11px;
+      text-align: center;
+      line-height: 14px;
+      font-weight: bold;
+      opacity: 0.8;
+      overflow: hidden;
+      border: 1px solid #bd3131;
+      // Rounded corners
+      @include border-radius(5px);
+    }
+
+    .close {
+      cursor: pointer;
+      width: 20px;
+      height: 14px;
+      position: absolute;
+      top: 12px;
+      right: 6px;
+      opacity: 0.8;
+      outline: none;
+      filter: none;
+      background: url(../../../images/close-button.png) center center no-repeat;
+      @include image-2x('../../../images/close-button@2x.png', auto, 18px);
+      border: none;
+      padding: 0;
+      margin: 0;
+      @include box-shadow(none);
+
+      &:hover,
+      &:focus {
+        border: none;
+        filter: none;
+        padding: 0;
+        margin: 0;
+        @include box-shadow(none);
+        width: 20px;
+        height: 14px;
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////
+  // PANEL CONTENT                          //
+  ////////////////////////////////////////////
+  .panel-content {
+    max-height: 284px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+}/************************************************************************************
+**   PRESENCE PANEL
+*************************************************************************************/
+
+// Mobile device
+.lims-muc.mobile-device .status-panel {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+
+  .status-indicator {
+    margin-top: 15px;
+  }
+}
+
+.lims-muc .status-panel {
+
+  .panel-trigger .trigger-name {
+    width: 20px;
+    height: $bar-height-desktop-device;
+  }
+
+  .panel-window {
+    min-width: 150px;
+  }
+
+  .status-indicator {
+    margin-left: 6px;
+    margin-top: 7px;
+  }
+
+  ////////////////////////////////
+  // STATUS INDICATOR           //
+  ////////////////////////////////
+
+  .panel-window .status {
+
+    li {
+      padding: 10px 5px 10px 3px;
+      cursor: pointer;
+      line-height: 15px;
+      // Make the button unselectable
+      @include no-select();
+    }
+
+    li:hover {
+      background-color: #f3f3f3;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      margin-right: 4px;
+    }
+  }
+}/********************************************************************************
+/ SETTINGS PANEL
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .chat-settings {
+
+  .panel {
+    right: -21px;
+  }
+}
+
+// Mobile device
+.lims-muc.mobile-device .chat-settings {
+
+  .panel-trigger .trigger-name {
+    height: $bar-height-mobile-device;
+  }
+}
+
+.lims-muc .chat-settings {
+
+  label {
+    font-size: 12px;
+  }
+
+  label.switch {
+    font-size: 20px;
+  }
+
+  .panel-trigger .trigger-name {
+    background: url(../../../images/icon-settings.png) no-repeat center center;
+    @include image-2x('../../../images/icon-settings@2x.png', 16px, 16px);
+    width: 40px;
+    height: $bar-height-desktop-device;
+  }
+
+  &.selected .panel-trigger .trigger-name {
+    background: url(../../../images/icon-settings-selected.png) no-repeat center center;
+    @include image-2x('../../../images/icon-settings-selected@2x.png', 16px, 16px);
+  }
+
+  .user-settings {
+    padding: 10px;
+  }
+
+  .settings {
+    float: none;
+  }
+
+  .value {
+    float: left;
+    margin: -4px 8px 11px 9px;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 30px;
+  }
+
+  .settings > div {
+    clear: both;
+    float: none;
+    padding: 0 10px 5px;
+    line-height: 26px;
+  }
+
+  .settings .version {
+    position: absolute;
+    right: 28px;
+    z-index: 2;
+    font-size: 11px;
+    background: #ffffff;
+    padding: 1px 10px;
+    border: 1px solid #f0f0f0;
+    border-top: none;
+  }
+
+  .settings.closed .version {
+    visibility: hidden;
+  }
+
+  .settings > input[type="text"] {
+    width: 300px;
+  }
+
+  .title-text {
+    text-transform: capitalize;
+  }
+
+  .settings-title {
+    height: 25px;
+    background: #f8f8f8;
+    padding-left: 5px;
+    padding-top: 6px;
+    text-transform: uppercase;
+    float: none;
+    @include box-shadow(inset 0 0 0 0 #f8f8f8, inset 0 -2px 2px -2px rgba(105, 104, 104, 0.25));
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    .settings-title-text {
+      float: left;
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /********************************************************************************
+  / SETTINGS PANEL - ADMIN AREA
+  /********************************************************************************/
+
+  .admin-area {
+    position: relative;
+
+    .settings {
+      width: 440px;
+      height: 300px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    .settings.closed {
+      width: 250px;
+      height: 0;
+    }
+
+    .help {
+      display: inline-block;
+      text-decoration: none;
+      background: url(../../../images/button-help.png) center center no-repeat;
+      @include image-2x('../../../images/button-help@2x.png', auto, 20px);
+      width: 20px;
+      height: 20px;
+      float: right;
+      margin-right: 10px;
+    }
+
+    .note {
+      margin: -5px 0 10px;
+      line-height: 16px;
+      color: #A09F9F;
+      text-align: justify;
+    }
+
+    .help:hover {
+      opacity: 0.7;
+    }
+
+    .open-button {
+      float: right;
+      margin-right: 10px;
+      text-decoration: underline;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+
+    .list {
+      padding: 0;
+      padding-bottom: 10px;
+    }
+
+    .list > div {
+      padding: 0 10px;
+    }
+
+    button {
+      font-size: 12px;
+      margin-bottom: 13px;
+      padding: 4px 7px;
+      line-height: 20px;
+      @include border-radius(0);
+    }
+
+    input[type="text"] {
+      border: 1px solid #ddd;
+      @include border-radius(0);
+
+      &:focus {
+        @include box-shadow(none);
+        border-color: #009AE5;
+      }
+
+      &:disabled {
+        background: inherit;
+      }
+
+      // Token input doesn't have a border
+      &.token-input-plugin-input {
+        border: none;
+        font-size: 12px;
+      }
+    }
+
+    .token-input .token-input-plugin-remove {
+      top: 2px;
+    }
+
+    .token-input .token-input-plugin-token {
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 27px;
+      line-height: 27px;
+    }
+
+    .text-input {
+
+      // All text input should have the same size
+      input[type="text"] {
+        width: 240px;
+        margin-bottom: 0;
+        background: #ffffff;
+        padding: 7px;
+
+        &.error {
+          border: 1px solid #d26767;
+        }
+      }
+
+      .error-message {
+        display: inline-block;
+        margin-left: 7px;
+        color: #d26767;
+      }
+
+      .preloader {
+        position: absolute;
+        top: 21px;
+        right: 0;
+        margin: 3px 0 0 25px;
+        width: 17px;
+        background-size: 17px;
+        left: 250px;
+      }
+    }
+
+    .list .category {
+      height: 25px;
+      background: #f8f8f8;
+      border-top: 1px solid #e9e9e9;
+      padding-left: 5px;
+      padding-top: 6px;
+      text-transform: uppercase;
+      float: none;
+      clear: both;
+      @include box-shadow(inset 0 0 0 0 #f8f8f8, inset 0 -2px 2px -2px rgba(105, 104, 104, 0.25));
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 435px;
+      margin: 35px 0 15px;
+
+      .category-icon {
+        width: 13px;
+        height: 13px;
+        opacity: 0.6;
+        float: left;
+        margin-top: 4px;
+        margin-right: 6px;
+        margin-left: 3px;
+
+        &.contact-list {
+          background: url(../../../images/icon-admin-contact-list.png) no-repeat center center;
+          @include image-2x('../../../images/icon-admin-contact-list@2x.png', auto, 13px);
+        }
+
+        &.group-sites {
+          background: url(../../../images/icon-group-sites.png) no-repeat center center;
+          @include image-2x('../../../images/icon-group-sites@2x.png', auto, 13px);
+        }
+
+        &.group-social {
+          background: url(../../../images/icon-group-social.png) no-repeat center center;
+          @include image-2x('../../../images/icon-group-social@2x.png', auto, 13px);
+        }
+
+        &.group-user {
+          background: url(../../../images/icon-group-user.png) no-repeat center center;
+          @include image-2x('../../../images/icon-group-user@2x.png', auto, 13px);
+        }
+
+        &.jabber {
+          background: url(../../../images/icon-group-jabber.png) no-repeat center center;
+          @include image-2x('../../../images/icon-group-jabber@2x.png', auto, 13px);
+        }
+
+        &.ipc {
+          background: url(../../../images/icon-admin-ipc.png) no-repeat center center;
+          @include image-2x('../../../images/icon-admin-ipc@2x.png', auto, 13px);
+        }
+
+        &.mobile {
+          background: url(../../../images/icon-group-mobile.png) no-repeat center center;
+          @include image-2x('../../../images/icon-group-mobile@2x.png', auto, 13px);
+        }
+
+        &.synchronization {
+          background: url(../../../images/icon-admin-synchronization.png) no-repeat center center;
+          @include image-2x('../../../images/icon-admin-synchronization@2x.png', auto, 13px);
+        }
+      }
+    }
+
+    .settings-category-title {
+      margin-top: 10px;
+    }
+
+    .buddy-list-group-excludes {
+      margin-bottom: 20px;
+    }
+
+    .buddy-list-ignore-deactivated-user {
+      margin-top: 10px;
+      margin-bottom: -10px;
+    }
+
+    .custom-license {
+
+      .settings-permission {
+        strong {
+          font-weight: bold;
+        }
+        span {
+          display: inline-block;
+          padding: 0 10px;
+
+          &.granted {
+            background: #DBEEF5;
+            border: 1px solid #ABD2D6;
+          }
+
+          &.not-granted {
+            background: #FFCDCD;
+            border: 1px solid #F9BFBF;
+          }
+        }
+      }
+
+      .settings-validations {
+        background: #efefef;
+        border: 1px solid #b9c4c5;
+        display: inline-block;
+        margin: 5px 0;
+        padding: 0 10px;
+
+        strong {
+          font-weight: bold;
+        }
+      }
+
+      textarea {
+        width: 400px;
+        padding: 8px 10px;
+        resize: none;
+        line-height: 17px;
+        border: 1px solid #DADADA;
+        background-color: #eeeeee;
+        @include border-radius(0);
+        @include box-shadow(none);
+
+        &.product-key {
+          min-height: 70px;
+        }
+      }
+    }
+
+    .jabber-test-connection {
+      margin-top: 20px;
+
+      button {
+        display: inline-block;
+        float: left;
+        margin-bottom: 30px;
+      }
+
+      .preloader {
+        position: relative;
+        width: 20px;
+        display: inline-block;
+        height: 20px;
+        margin: 5px 0 0 10px;
+        background-size: 20px;
+      }
+
+      .message {
+        display: inline-block;
+        float: left;
+        margin-left: 10px;
+        padding-bottom: 9px;
+        max-width: 260px;
+        line-height: 13px;
+
+        &.success {
+          color: #39B87E;
+        }
+
+        &.failure {
+          color: #d26767;
+        }
+      }
+    }
+  }
+}
+
+/************************************************************************************
+/  STATUS PANEL
+/************************************************************************************/
+
+.lims-muc .status-panel {
+
+  .panel-window .status {
+    background: #ffffff;
+    display: block;
+    font-size: 12px;
+  }
+}
+
+/********************************************************************************
+/ PORTLET
+/********************************************************************************/
+
+/* Move container down and on top */
+.lims-muc {
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  font-family: $font-family;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+
+  textarea, pre, input {
+    font-weight: 400;
+    font-family: $font-family;
+  }
+
+  // Hide unnecessary portlet bars
+  .portlet-borderless-bar {
+    display: none !important;
+  }
+
+  // This hides portlet bars that might appear around the chat bar
+  .portlet {
+    border: none !important;
+    background: none !important;
+    // Hide shadow
+    @include box-shadow(none !important);
+  }
+
+  // Preloaded images should be taken as far from the visible area as possible
+  .preloaded-images {
+    position: absolute;
+    overflow: hidden;
+    left: -9999px;
+    top: -9999px;
+    height: 1px;
+    width: 1px;
+  }
+
+  // Message for unsupported browser
+  .unsupported-browser {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    bottom: 0;
+    position: fixed;
+    right: 5em;
+    padding: 3px 10px;
+    z-index: 999;
+  }
+
+  .unsupported-browser a {
+    color: #444;
+    text-decoration: none;
+  }
+
+  // Hide sound element
+  .lims-sound {
+    position: absolute;
+    top: -10000px;
+    bottom: -10000px;
+  }
+
+}
+
+/********************************************************************************
+/ LIMS BAR (Main container)
+/********************************************************************************/
+
+// Mobile phone screen size settings
+.lims-muc.mobile-screen .lims-bar {
+  right: 0;
+}
+
+// Mobile device
+.lims-muc.mobile-device .lims-bar {
+  height: $bar-height-mobile-device;
+
+  .panel {
+    bottom: $bar-height-mobile-device;
+  }
+}
+
+.lims-muc .lims-bar {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-bottom: none;
+  bottom: 0;
+  height: $bar-height-desktop-device;
+  position: fixed;
+  right: 5em;
+  z-index: 999;
+
+  div ul,
+  div ul li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: left;
+  }
+
+  .panel {
+    bottom: $bar-height-desktop-device;
+    display: none;
+    position: absolute;
+    right: 0;
+    z-index: 20;
+    // Shadow
+    @include box-shadow(#bcbcbc 1px 1px 1px);
+  }
+
+  .selected .panel {
+    display: block;
+  }
+
+  .lims-tabs > li {
+    float: right;
+    line-height: 24px;
+  }
+
+  div ul li.closed {
+    display: none;
+  }
+
+}
+
+/********************************************************************************
+/ NOTIFICATION - CONFLICT
+/********************************************************************************/
+
+.lims-muc .conflict-notification {
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid #D7B1B1;
+  border-bottom: none;
+  @include transparent(#f0d1d5, 0.83);
+  @include box-shadow(0 0 1px #D25954);
+  @include text-shadow(1px 1px 1px #ffffff);
+
+  strong {
+    font-weight: bold;
+  }
+
+}
+
+/********************************************************************************
+/ NOTIFICATION - OVER LIMIT
+/********************************************************************************/
+
+.lims-muc .portlet-notification {
+  position: fixed;
+  right: 50px;
+  bottom: 0;
+  @include transparent(#e4f0ff, 0.83);
+  padding: 10px;
+  max-width: 250px;
+  line-height: 15px;
+  border: 1px solid #c0deff;
+  border-bottom: none;
+  font-weight: normal;
+  color: #666;
+  @include box-shadow(0 0 1px #79b7ca);
+  @include text-shadow(1px 1px 1px #ffffff);
+
+  .notification-content {
+    display: block;
+    padding-right: 23px;
+    color: #6793cd;
+  }
+
+  .close-notification {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    float: right;
+    background: url(../../../images/close-button.png) center center no-repeat;
+    @include image-2x('../../../images/close-button@2x.png', auto, 18px);
+    @include box-shadow(none);
+    border: none;
+    filter: none;
+  }
+}
+/* YUI CSS Detection Stamp */
+#yui3-css-stamp.tabs { display: none; }
