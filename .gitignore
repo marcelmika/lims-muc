@@ -7,6 +7,7 @@
 
 # js build folders
 /docroot/js/build
+/docroot/apps/build
 
 # css build folders
 /docroot/css/build

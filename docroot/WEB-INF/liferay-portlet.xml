@@ -118,13 +118,14 @@
         Set the path of CSS that will be referenced in the page's header relative to the
         portlet's context path.
         -->
-        <header-portlet-css>/styles/build/settings/settings.css</header-portlet-css>
+        <!--<header-portlet-css>/styles/build/settings/settings.css</header-portlet-css>-->
+        <header-portlet-css>/apps/build/settings/css/main.css</header-portlet-css>
 
         <!--
         Set the path of JavaScript that will be referenced in the page's footer relative
         to the portlet's context path.
         -->
-        <!--<footer-portlet-javascript>/js/licenses/main.js</footer-portlet-javascript>-->
+        <footer-portlet-javascript>/apps/build/settings/js/main.js</footer-portlet-javascript>
 
         <!--
         Set name of the CSS class that will be injected in the DIV that wraps this
