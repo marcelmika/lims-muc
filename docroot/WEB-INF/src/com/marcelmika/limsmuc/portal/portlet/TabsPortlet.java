@@ -71,7 +71,7 @@ import java.util.List;
  * Date: 11/24/13
  * Time: 11:18 PM
  */
-public class LIMSPortlet extends MVCPortlet {
+public class TabsPortlet extends MVCPortlet {
 
     // Dependencies
     private PortletProcessor processor = PortletProcessorUtil.getPortletProcessor();
@@ -106,7 +106,7 @@ public class LIMSPortlet extends MVCPortlet {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     // Log
-    private static Log log = LogFactoryUtil.getLog(LIMSPortlet.class);
+    private static Log log = LogFactoryUtil.getLog(TabsPortlet.class);
 
     @Override
     public void init() throws PortletException {
